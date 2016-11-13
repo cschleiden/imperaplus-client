@@ -1,0 +1,20 @@
+
+// Colors
+$dark: #3e4753;
+
+// Utils
+@mixin ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Layout
+$spacing: 10px;
+
+// Colors
+$accent: #e6c954;
+
+// Font sizes
+$fontNormal: 14px;
+$fontSmall: 12px;
