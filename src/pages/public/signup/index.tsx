@@ -6,51 +6,61 @@ import { TextField } from "office-ui-fabric-react/lib/TextField";
 import { Button, ButtonType } from "office-ui-fabric-react/lib/Button";
 import { Checkbox } from "office-ui-fabric-react/lib/Checkbox";
 
+import { ProgressButton } from "../../../components/ui/progressButton";
+
 import { Grid, GridRow, GridColumn } from "../../../components/layout";
 
-export default (): JSX.Element => {
-    return <Grid className="signup">
-        <GridRow>
-            <GridColumn className="ms-u-md6 ms-u-sm12 border-right">
-                <p>
-                    {__("Register a new account. It is completely free.")}
-                </p>
+export default class X extends React.Component<{}, { isActive: boolean }> {
+    constructor() {
+        super();
 
-                <div className="form">
-                    <TextField
-                        label={"Username"} placeholder={"Enter username"} />
-                    <TextField
-                        label={"Email"} placeholder={"Enter email"} />
-                    <TextField
-                        label={"Password"} type="password" />
-                    <TextField
-                        label={"Password (repeat)"} type="password" />
-                    <Checkbox
-                        label="I agree to the TOS" />
+        this.state = { isActive: false };
+    }
 
-                    <div className="ms-u-textAlignRight">
-                        <Button buttonType={ButtonType.primary}>Register</Button>
+    public render(): JSX.Element {
+        return <Grid className="signup">
+            <GridRow>
+                <GridColumn className="ms-u-md6 ms-u-sm12 border-right">
+                    <p>
+                        {__("Register a new account. It is completely free.")}
+                    </p>
+
+                    <div className="form">
+                        <TextField
+                            label={__("Username")} placeholder={__("Enter username")} />
+                        <TextField
+                            label={__("Email")} placeholder={__("Enter email")} />
+                        <TextField
+                            label={__("Password")} placeholder={__("Enter password")} type="password" />
+                        <TextField
+                            label={__("Password (repeat)")} placeholder={__("Repeat password")} type="password" />
+                        <Checkbox
+                            label={__("I agree to the TOS")} />
+
+                        <div className="ms-u-textAlignRight">
+                            <ProgressButton buttonType={ButtonType.primary} isActive={this.state.isActive} onClick={() => this.setState({ isActive: true}, () => setTimeout(() => this.setState({isActive: false}), 1000))}>Register</ProgressButton>
+                        </div>
                     </div>
-                </div>
-            </GridColumn>
-            <GridColumn className="ms-u-md6 ms-u-sm12 external">
-                <p>
-                    Or sign in using an existing account.
-                </p>
+                </GridColumn>
+                <GridColumn className="ms-u-md6 ms-u-sm12 external">
+                    <p>
+                        {__("Or sign in using an existing account.")}
+                    </p>
 
-                <ul>
-                    <li>
-                        <Button buttonType={ButtonType.primary}>Facebook</Button>
-                    </li>
-                    <li>
-                        <Button buttonType={ButtonType.primary}>Microsoft</Button>
-                    </li>
-                </ul>
-            </GridColumn>
-        </GridRow>
+                    <ul>
+                        <li>
+                            <Button buttonType={ButtonType.primary}>Facebook</Button>
+                        </li>
+                        <li>
+                            <Button buttonType={ButtonType.primary}>Microsoft</Button>
+                        </li>
+                    </ul>
+                </GridColumn>
+            </GridRow>
 
-        <GridRow className="ms-u-textAlignCenter">
-            Recover your password or create a new account.
-        </GridRow>
-    </Grid>;
-};
+            <GridRow className="ms-u-textAlignCenter">
+                {__("Recover your password or create a new account.")}
+            </GridRow>
+        </Grid>;
+    }
+}

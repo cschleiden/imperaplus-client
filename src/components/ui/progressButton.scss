@@ -1,0 +1,37 @@
+@import '~office-ui-fabric-react/dist/sass/_Fabric.Color.Variables';
+
+$spin-duration: 1.3s;
+$borderSize: 1.5px;
+@keyframes ms-Spinner-spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.progress-button {
+    transition: all cubic-bezier(0.175, 0.885, 0.32, 1.275) .3s;
+
+    &-active {
+        padding-left: 40px;
+        &:before {
+            content: "";
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+
+            position: absolute;
+            left: 10px;
+            top: 25%;            
+
+            box-sizing: border-box;
+            border-radius: 50%;
+
+            border: 2px solid lightgray;
+            border-top-color: #cfac1e;
+            animation: ms-Spinner-spin $spin-duration infinite cubic-bezier(.53,.21,.29,.67);
+        }
+    }
+}

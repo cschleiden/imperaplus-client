@@ -44,5 +44,5 @@ export default function promiseMiddleware({ dispatch }) {
 }
 
 function isPromise(x: any): boolean {
-    return !!x.then && typeof x.then === "function";    
+    return x && x.then && typeof x.then === "function";    
 }

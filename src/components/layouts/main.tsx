@@ -1,6 +1,6 @@
-import * as React from "react";
-
 import "./main.scss";
+
+import * as React from "react";
 
 export default ({ nav, content }): JSX.Element => {
     return <div className="ms-Grid layout">
