@@ -4,7 +4,7 @@ export interface IAction<T> {
 }
 
 export interface IAsyncPayload<TResult, TData> {
-    promise: Q.IPromise<TResult>;
+    promise: Promise<TResult>;
     data?: TData;
 }
 

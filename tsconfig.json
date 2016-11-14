@@ -12,6 +12,9 @@
     "jsx": "react",    
     "typeRoots": [
       "node_modules/@types/"
+    ],
+    "lib": [
+      "es6", "dom", "es5", "scripthost"
     ]
   },
   "filesGlob": [

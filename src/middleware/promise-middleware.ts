@@ -1,11 +1,10 @@
 import objectAssign = require("object-assign");
-import Q = require("q");
 
 import { IAsyncAction, IAsyncPayload, success, pending, failed } from "../actions/action";
 
 export default function promiseMiddleware({ dispatch }) {
     return next => <TResult, TData>(action: IAsyncAction<TResult, TData>) => {
-        if (!action || !action.payload || !Q.isPromise(action.payload.promise)) {
+        if (!action || !action.payload || !isPromise(action.payload.promise)) {
             return next(action);
         }
 
@@ -42,4 +41,8 @@ export default function promiseMiddleware({ dispatch }) {
             }
         );
     };
+}
+
+function isPromise(x: any): boolean {
+    return !!x.then && typeof x.then === "function";    
 }

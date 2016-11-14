@@ -1,4 +1,3 @@
-import * as Q from "q";
 import * as Redux from "redux";
 import { Action, createAction } from "redux-actions";
 

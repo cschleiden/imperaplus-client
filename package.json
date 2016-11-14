@@ -29,7 +29,6 @@
     "@types/knockout": "^3.4.36",
     "@types/mocha": "^2.2.32",
     "@types/object-assign": "^4.0.30",
-    "@types/q": "0.0.32",
     "@types/react": "^0.14.47",
     "@types/react-addons-css-transition-group": "^0.14.17",
     "@types/react-addons-transition-group": "^0.14.17",
@@ -44,6 +43,7 @@
     "@types/requirejs": "^2.1.28",
     "@types/sinon": "^1.16.31",
     "@types/webpack": "^1.12.35",
+    "@types/whatwg-fetch": "0.0.32",
     "autoprefixer": "^6.3.3",
     "autoprefixer-core": "^6.0.1",
     "awesome-typescript-loader": "^2.2.4",
@@ -55,7 +55,7 @@
     "cssnano": "^3.5.2",
     "enzyme": "^2.2.0",
     "es5-shim": "^4.5.6",
-    "es6-promise": "^3.1.2",
+    "es6-promise": "^3.3.1",
     "es6-shim": "^0.35.0",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.8.4",
@@ -72,7 +72,6 @@
     "office-ui-fabric-react": "latest",
     "po2json": "^0.4.5",
     "progress-bar-webpack-plugin": "^1.9.0",
-    "q": "^1.4.1",
     "raw-loader": "^0.5.1",
     "react": "^15.0.1",
     "react-addons-css-transition-group": "^15.3.2",
@@ -94,7 +93,7 @@
     "style-loader": "^0.13.0",
     "stylelint": "^6.2.0",
     "stylelint-webpack-plugin": "^0.2.0",
-    "ts-loader": "^0.8.2",
+    "ts-loader": "^1.2.0",
     "ts-node": "^0.7.2",
     "tslint": "^3.7.4",
     "tslint-loader": "^2.1.0",
@@ -103,7 +102,8 @@
     "vss-web-extension-sdk": "^1.106.0",
     "webpack": "^1.13.0",
     "webpack-dev-server": "^1.14.1",
-    "webpack-hot-middleware": "^2.9.1"
+    "webpack-hot-middleware": "^2.9.1",
+    "whatwg-fetch": "^1.0.0"
   },
   "devDependencies": {
     "i18n-extract": "^0.4.2"
