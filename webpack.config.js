@@ -7,17 +7,18 @@ const loaders = require('./webpack/loaders');
 const styleLintPlugin = require('stylelint-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const I18nPlugin = require("i18n-webpack-plugin");
 
-const baseAppEntries = [
+const languages = {
+  "en": null,
+  "de": require("./loc/de.json")
+};
+
+const defaultLanguage = "en";
+
+const appEntries = [
   './src/index.tsx',
 ];
-
-const devAppEntries = [
-  //'webpack-hot-middleware/client?reload=true',
-];
-
-const appEntries = baseAppEntries
-  .concat(process.env.NODE_ENV === 'development' ? devAppEntries : []);
 
 const sourceMap = process.env.TEST || process.env.NODE_ENV !== 'production'
   ? [new webpack.SourceMapDevToolPlugin({ filename: null, test: /\.tsx?$/ })]
@@ -28,7 +29,6 @@ const basePlugins = [
     __DEV__: process.env.NODE_ENV !== 'production',
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
   }),
-  new webpack.optimize.CommonsChunkPlugin('vendor', '[name].[hash].js'),
   new HtmlWebpackPlugin({
     template: './src/index.html',
     inject: 'body',
@@ -56,58 +56,55 @@ const plugins = basePlugins
   .concat(process.env.NODE_ENV === 'production' ? prodPlugins : [])
   .concat(process.env.NODE_ENV === 'development' ? devPlugins : []);
 
-module.exports = {
-  entry: {
-    app: appEntries,
-    vendor: [
-      'es5-shim',
-      'es6-shim',
-      'es6-promise',
-      'react',
-      'react-dom',
-      'react-router',
-      'redux',
-      'react-redux',
-      'q'
-    ]
-  },
+const config = (lang) => {
+  return {
+    entry: {
+      app: appEntries
+    },
 
-  output: {
-    path: path.join(__dirname, 'dist'),
-    filename: '[name].[hash].js',
-    publicPath: '/',
-    sourceMapFilename: '[name].[hash].js.map',
-    chunkFilename: '[id].chunk.js'
-  },
+    output: {
+      path: path.join(__dirname, 'dist'),
+      filename: (lang !== defaultLanguage ? lang + "." : "") + '[name].[hash].js',
+      publicPath: '/',
+      sourceMapFilename: '[name].[hash].js.map',
+      chunkFilename: '[id].chunk.js'
+    },
 
-  devtool: process.env.NODE_ENV === 'production' ?
-    'source-map' :
-    'inline-source-map',
+    devtool: process.env.NODE_ENV === 'production' ?
+      'source-map' :
+      'inline-source-map',
 
-  resolve: {
-    extensions: ['', '.webpack.js', '.web.js', '.tsx', '.ts', '.js']
-  },
+    resolve: {
+      extensions: ['', '.webpack.js', '.web.js', '.tsx', '.ts', '.js']
+    },
 
-  plugins: plugins,
+    plugins: plugins.concat([new I18nPlugin(languages[lang])]),
 
-  devServer: {
-    historyApiFallback: { index: '/' },
-    contentBase: './src'
-  },
+    devServer: {
+      historyApiFallback: { index: '/' },
+      contentBase: './src'
+    },
 
-  module: {
-    preLoaders: [
-      loaders.tslint,
-    ],
-    loaders: [
-      loaders.tsx,
-      loaders.html,
-      loaders.scss,
-      loaders.svg,
-      loaders.eot,
-      loaders.woff,
-      loaders.woff2,
-      loaders.ttf,
-    ]
-  }
+    module: {
+      preLoaders: [
+        loaders.tslint,
+      ],
+      loaders: [
+        loaders.tsx,
+        loaders.html,
+        loaders.scss,
+        loaders.svg,
+        loaders.eot,
+        loaders.woff,
+        loaders.woff2,
+        loaders.ttf,
+      ]
+    }
+  };
 };
+
+if (process.env.NODE_ENV === "development") {
+  module.exports = config("en");
+} else {
+  module.exports = Object.keys(languages).map(lang => config(lang));
+}

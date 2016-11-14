@@ -11,7 +11,7 @@ export default (): JSX.Element => {
         <GridRow>
             <GridColumn className="ms-u-md6 ms-u-sm12 border-right">
                 <p>
-                    Sign in using your Impera account...
+                    {__("Sign in using your Impera account...")}
                 </p>
 
                 <div className="form">
