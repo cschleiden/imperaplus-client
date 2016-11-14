@@ -1,0 +1,17 @@
+@import '~office-ui-fabric-react/dist/sass/_Fabric.Color.Variables';
+@import '~office-ui-fabric-react/dist/sass/_Fabric.Color.Mixins';
+
+@mixin unstyled-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+        margin-bottom: 5px;
+    }
+}
+
+.border-right {
+    border-right: 1px solid;
+    @include ms-borderColor-neutralTertiaryAlt;
+}

@@ -3,9 +3,7 @@
 
 .slider {
     position: relative;
-    width: 100%;
     height: 400px;
-
 
     .headlines {
         position: absolute;
@@ -13,16 +11,17 @@
         left: 10%;
 
         h2 {
-            i {            
+            margin: 5px 0;
+
+            i {
                 color: white;
-                background: rgba($accent, 0.7);
-                
+                background: rgba($accent, 0.5);
                 @include ms-font-su;
 
                 font-style: normal;
-                padding: 5px;
+                padding: 0 5px;
 
-                text-transform: uppercase;  
+                text-transform: uppercase;
             }
         }
     }
@@ -41,15 +40,14 @@
 
                 font-style: normal;
                 padding: 2px;
-
-                @include ms-font-l;    
+                @include ms-font-l;
             }
         }
     }
 
     .img {
         position: absolute;
-        
+
         top: 50%;
         right: 10%;
 

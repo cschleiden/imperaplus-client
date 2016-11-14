@@ -1,7 +1,14 @@
 @import '~office-ui-fabric-react/dist/sass/Fabric';
 
-$basePadding: 10px;
+@import "./utils";
+@import "./vars";
+
+$basePadding: 15px;
 
 body {
     padding: $basePadding;
+}
+
+.ms-Grid-col {
+    padding: $basePadding !important;
 }

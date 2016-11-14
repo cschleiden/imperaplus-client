@@ -83,12 +83,16 @@ $headerHeight: 120px;
 
           display: inline-block;
                     
-          padding: $spacing;
+          padding: $spacing 2 * $spacing;
           border-bottom: 2px solid transparent;
 
           &.active,
           &:hover {
             border-bottom: 2px solid $accent;
+          }
+
+          &.active {
+            color: $accent;
           }
         }
         
@@ -154,6 +158,10 @@ $headerHeight: 120px;
   background: url('/assets/background.png') repeat-x #fff;
   padding-bottom: 50px;
   min-height: 500px;
+
+  .ms-Grid-row {
+    margin: 15px 0;
+  }
 }
 
 $footerBg: $dark;
