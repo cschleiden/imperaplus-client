@@ -1,0 +1,15 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=utf-8\n"
+"POT-Creation-Date: Sun Nov 13 2016 19:52:50 GMT-0800 (Pacific Standard "
+"Time)\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: temp/src/pages/public/login/index.js:12
+msgid "Sign in using your Impera account..."
+msgstr ""
+
+#: temp/src/pages/public/signup/index.js:13
+msgid "Register a new account. It is completely free."
+msgstr ""

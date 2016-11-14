@@ -13,7 +13,7 @@ export default (): JSX.Element => {
         <GridRow>
             <GridColumn className="ms-u-md6 ms-u-sm12 border-right">
                 <p>
-                    Register a new account. It is completely free.
+                    {__("Register a new account. It is completely free.")}
                 </p>
 
                 <div className="form">
