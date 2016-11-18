@@ -3,7 +3,7 @@
 exports.tslint = {
   test: /\.tsx?$/,
   loader: 'tslint',
-  exclude: /node_modules/
+  exclude: /(node_modules|imperaClients\.ts$)/
 };
 
 exports.tsx = {

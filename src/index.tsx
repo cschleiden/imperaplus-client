@@ -19,6 +19,7 @@ import "./styles/index.scss";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import * as Redux from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
 import { Provider } from "react-redux";
 
 import { Router, Route, IndexRoute, browserHistory } from "react-router";
@@ -39,25 +40,29 @@ import Game from "./components/navigation/game";
 import Create from "./pages/create/create";
 import { Home, Signup, Login } from "./pages/public";
 
+import { resetForm } from "./actions/forms";
 
 // Create main store
+// TODO: CS: generalize
+const compose = composeWithDevTools({
+  serializeState: (key, value) => value && value.data ? value.data : value,
+  deserializeState: (state) => ({
+    routing: state && state.routing,
+    form: makeImmutable(state.form),
+    sessions: makeImmutable(state.session),
+    create: makeImmutable(state.create)
+  }),
+  shouldHotReload: true
+}) || Redux.compose;
+
 const store = Redux.createStore(
   rootReducer,
-  Redux.compose(
+  compose(
     Redux.applyMiddleware(
       routerMiddleware(browserHistory),
       promiseMiddleware as any,
       thunkMiddleware,
-      createLogger()),
-    (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__({
-      serializeState: (key, value) => value && value.data ? value.data : value,
-      deserializeState: (state) => ({
-        routing: state && state.routing,
-        sessions: makeImmutable(state.session),
-        create: makeImmutable(state.create)
-      }),
-      shouldHotReload: false
-    })));
+      createLogger())));
 
 // Work around typings error by casting to any
 const history: any = syncHistoryWithStore(browserHistory as any, store);

@@ -1,4 +1,4 @@
-import { AccountClient } from "external/imperaClients";
+import { AccountClient } from "../external/imperaClients";
 
 // TODO: CS: Retrieve from config
 const baseUri = "http://localhost:57676/";

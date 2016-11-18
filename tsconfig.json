@@ -9,7 +9,7 @@
     "noImplicitAny": false,
     "removeComments": false,
     "sourceMap": true,
-    "jsx": "react",    
+    "jsx": "react",
     "typeRoots": [
       "node_modules/@types/"
     ],

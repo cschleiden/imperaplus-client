@@ -16,10 +16,10 @@ export const success = (type: string) => `${type}-success`;
 export const failed = (type: string) => `${type}-failed`;
 export const pending = (type: string) => `${type}-pending`;
 
-export const makeAsyncAction = <TResult, TData>(action: IAsyncAction<TResult, TData>): () => void => {
-    return () => {
+export const makeAsyncAction = <TInput, TResult>(action: (data: TInput) => IAsyncAction<TResult, TInput>): (data: TInput) => void => {
+    return (data: TInput) => {
         return (dispatch: Function, getState: Function) => {
-            dispatch(action);
+            dispatch(action(data));
         };
     };
 };

@@ -1,20 +1,39 @@
 import "./signup.scss";
 
 import * as React from "react";
+import { connect } from "react-redux";
+import { push } from "react-router-redux";
 
-import { TextField } from "office-ui-fabric-react/lib/TextField";
+import { IImmutable } from "immuts";
+
+import { getClient } from "../../../clients/clientFactory";
+import { AccountClient, LoginResponseModel } from "../../../external/imperaClients";
+
+import { resetForm, changeField } from "../../../actions/forms";
+import { signup } from "../../../actions/session";
+import { IForms, IForm } from "../../../reducers/forms";
+
+import { TextField, ITextFieldProps } from "office-ui-fabric-react/lib/TextField";
 import { Button, ButtonType } from "office-ui-fabric-react/lib/Button";
-import { Checkbox } from "office-ui-fabric-react/lib/Checkbox";
-
+import { Checkbox, ICheckboxProps } from "office-ui-fabric-react/lib/Checkbox";
 import { ProgressButton } from "../../../components/ui/progressButton";
-
 import { Grid, GridRow, GridColumn } from "../../../components/layout";
 
-export default class X extends React.Component<{}, { isActive: boolean }> {
-    constructor() {
-        super();
+import { wrapForm, Form, IFormProps } from "../../../components/ui/form/form";
+import { ControlledCheckBox, ControlledTextField } from "../../../components/ui/form/inputs";
 
-        this.state = { isActive: false };
+interface ISignupFields {
+    username: string;
+    email: string;
+    password: string;
+    passwordconfirm: string;
+
+    accepttos: boolean;
+}
+
+class Signup extends React.PureComponent<IFormProps, void> {
+    public componentDidMount() {
+        this.props.reset();
     }
 
     public render(): JSX.Element {
@@ -26,19 +45,34 @@ export default class X extends React.Component<{}, { isActive: boolean }> {
                     </p>
 
                     <div className="form">
-                        <TextField
-                            label={__("Username")} placeholder={__("Enter username")} />
-                        <TextField
-                            label={__("Email")} placeholder={__("Enter email")} />
-                        <TextField
-                            label={__("Password")} placeholder={__("Enter password")} type="password" />
-                        <TextField
-                            label={__("Password (repeat)")} placeholder={__("Repeat password")} type="password" />
-                        <Checkbox
-                            label={__("I agree to the TOS")} />
+                        <ControlledTextField
+                            label={__("Username")}
+                            placeholder={__("Enter username")}
+                            fieldName="username" />
+                        <ControlledTextField
+                            label={__("Email")}
+                            placeholder={__("Enter email")}
+                            fieldName="email" />
+                        <ControlledTextField
+                            label={__("Password")}
+                            placeholder={__("Enter password")} type="password"
+                            fieldName="password" />
+                        <ControlledTextField
+                            label={__("Password (repeat)")}
+                            placeholder={__("Repeat password")} type="password"
+                            fieldName="passwordconfirm" />
+                        <ControlledCheckBox
+                            label={__("I agree to the TOS")}
+                            fieldName="accepttos" />
 
                         <div className="ms-u-textAlignRight">
-                            <ProgressButton buttonType={ButtonType.primary} isActive={this.state.isActive} onClick={() => this.setState({ isActive: true}, () => setTimeout(() => this.setState({isActive: false}), 1000))}>Register</ProgressButton>
+                            <ProgressButton
+                                buttonType={ButtonType.primary}
+                                disabled={!this._formValid()}
+                                isActive={this.props.isPending}
+                                onClick={this.props.submit}>
+                                Register
+                            </ProgressButton>
                         </div>
                     </div>
                 </GridColumn>
@@ -63,4 +97,30 @@ export default class X extends React.Component<{}, { isActive: boolean }> {
             </GridRow>
         </Grid>;
     }
+
+    private _formValid(): boolean {
+        const fields = this.props.formState.fields;
+
+        return fields
+            && fields["username"] && fields["username"].value !== ""
+            && fields["password"] && fields["passwordconfirm"] && fields["password"].value !== "" && fields["password"].value === fields["passwordconfirm"].value
+            && fields["accepttos"] && fields["accepttos"].value === true;
+    }
 }
+
+export default wrapForm<ISignupFields>({
+    name: "signup",
+    onSubmit: (formState: IForm) => {
+        return getClient(AccountClient).register({
+            userName: formState.fields["username"].value as string,
+            password: formState.fields["password"].value as string,
+            confirmPassword: formState.fields["passwordconfirm"].value as string,
+            email: formState.fields["email"].value as string,
+            language: "en", // TODO: CS
+            callbackUrl: "" // TODO
+        });
+    },
+    onSubmitSuccess: () => {
+        // TODO: Redirect?
+    }
+})(Signup);

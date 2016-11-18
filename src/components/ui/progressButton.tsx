@@ -8,21 +8,13 @@ export interface IProgressButtonProps extends IButtonProps {
     isActive?: boolean;
 }
 
-export class ProgressButton extends Button {
-    public props: IProgressButtonProps;
+export const ProgressButton = (props: IProgressButtonProps) => {
+    let className = props.className || "";
+    className = " progress-button";
 
-    constructor(props: IProgressButtonProps) {
-        super(props);
+    if (props.isActive) {
+        className += " progress-button-active";
     }
 
-    public render(): JSX.Element {
-        let className = this.props.className || "";
-        className = " progress-button";        
-
-        if (this.props.isActive) {
-            className += " progress-button-active";
-        }
-
-        return <Button {...this.props} className={className} disabled={this.props.isActive} />;
-    }
-}
+    return <Button {...props} className={className} disabled={props.disabled || props.isActive} />;
+};

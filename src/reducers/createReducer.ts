@@ -1,4 +1,6 @@
 import { makeImmutable, IImmutable } from "immuts";
+import { reducerMap } from "./shared";
+
 import { ISession, SessionMode } from "../model/session";
 
 import { IAction, success, pending, failed } from "../actions/action";
@@ -32,15 +34,9 @@ export const create = (
     state: IImmutable<ICreateSessionState> = initialState,
     action?: IAction<any>): IImmutable<ICreateSessionState> => {
 
-    const map: { [key: string]: Function } = {
+    return reducerMap(action, state, {
         [SET_NAME]: setName,
         [SET_DESCRIPTION]: setDescription,
         [CHANGE_MODE]: changeMode
-    };
-
-    if (action && map.hasOwnProperty(action.type)) {
-        return map[action.type](state, action);
-    }
-
-    return state;
+    });
 };

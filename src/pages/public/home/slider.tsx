@@ -35,7 +35,7 @@ export class Slider extends React.Component<ISliderProps, ISliderState> {
 
     public render(): JSX.Element {
         return <div className="slider" style={{
-            backgroundPosition: `${ this.state.currentSlide * 50 }% 0%`,
+            backgroundPosition: `${this.state.currentSlide * 50}% 0%`,
             backgroundImage: `url('${this.props.background}')`
         }}>
             <CSSTransitionGroup
@@ -48,17 +48,17 @@ export class Slider extends React.Component<ISliderProps, ISliderState> {
     }
 
     private _renderSlide(slide: ISlide) {
-        return <div>
+        return <div key={slide.img}>
+            <div className="img">
+                <img src={slide.img} />
+            </div>
+
             <div className="headlines">
                 {slide.headLines.map((l, i) => <h2><i key={i}>{l}</i></h2>)}
             </div>
 
             <div className="bodylines">
                 {slide.bodyLines.map((l, i) => <h4><i key={i}>{l}</i></h4>)}
-            </div>
-
-            <div className="img">
-                <img src={slide.img} />
             </div>
         </div>;
     }
