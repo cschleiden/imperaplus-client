@@ -19,7 +19,8 @@ import { Checkbox, ICheckboxProps } from "office-ui-fabric-react/lib/Checkbox";
 import { ProgressButton } from "../../../components/ui/progressButton";
 import { Grid, GridRow, GridColumn } from "../../../components/layout";
 
-import { wrapForm, Form, IFormProps } from "../../../components/ui/form/form";
+//import { Form, IFormProps } from "../../../components/ui/form/form";
+import Form from "../../../components/ui/form/form";
 import { ControlledCheckBox, ControlledTextField } from "../../../components/ui/form/inputs";
 
 interface ISignupFields {
@@ -31,50 +32,59 @@ interface ISignupFields {
     accepttos: boolean;
 }
 
-class Signup extends React.PureComponent<IFormProps, void> {
-    public componentDidMount() {
-        this.props.reset();
-    }
-
+export default class Signup extends React.Component<{}, void> {
     public render(): JSX.Element {
         return <Grid className="signup">
             <GridRow>
                 <GridColumn className="ms-u-md6 ms-u-sm12 border-right">
                     <p>
-                        {__("Register a new account. It is completely free.")}
+                        {__("Register a new account. It is completely free. 1334")}
                     </p>
 
-                    <div className="form">
-                        <ControlledTextField
-                            label={__("Username")}
-                            placeholder={__("Enter username")}
-                            fieldName="username" />
-                        <ControlledTextField
-                            label={__("Email")}
-                            placeholder={__("Enter email")}
-                            fieldName="email" />
-                        <ControlledTextField
-                            label={__("Password")}
-                            placeholder={__("Enter password")} type="password"
-                            fieldName="password" />
-                        <ControlledTextField
-                            label={__("Password (repeat)")}
-                            placeholder={__("Repeat password")} type="password"
-                            fieldName="passwordconfirm" />
-                        <ControlledCheckBox
-                            label={__("I agree to the TOS")}
-                            fieldName="accepttos" />
+                    <Form
+                        name="signup"
+                        onSubmit={(formState: IForm) => {
+                            return getClient(AccountClient).register({
+                                userName: formState.fields["username"].value as string,
+                                password: formState.fields["password"].value as string,
+                                confirmPassword: formState.fields["passwordconfirm"].value as string,
+                                email: formState.fields["email"].value as string,
+                                language: "en", // TODO: CS
+                                callbackUrl: "" // TODO
+                            });
+                        }}
+                        component={({ isPending, submit, formState }) => (
+                        <div className="form">
+                            <ControlledTextField
+                                label={__("Username")}
+                                placeholder={__("Enter username")}
+                                fieldName="username" />
+                            <ControlledTextField
+                                label={__("Email")}
+                                placeholder={__("Enter email")}
+                                fieldName="email" />
+                            <ControlledTextField
+                                label={__("Password")}
+                                placeholder={__("Enter password")} type="password"
+                                fieldName="password" />
+                            <ControlledTextField
+                                label={__("Password (repeat)")}
+                                placeholder={__("Repeat password")} type="password"
+                                fieldName="passwordconfirm" />
+                            <ControlledCheckBox
+                                label={__("I agree to the TOS")}
+                                fieldName="accepttos" />
 
-                        <div className="ms-u-textAlignRight">
-                            <ProgressButton
-                                buttonType={ButtonType.primary}
-                                disabled={!this._formValid()}
-                                isActive={this.props.isPending}
-                                onClick={this.props.submit}>
-                                Register
+                            <div className="ms-u-textAlignRight">
+                                <ProgressButton
+                                    buttonType={ButtonType.primary}
+                                    disabled={!this._formValid(formState)}
+                                    isActive={isPending}
+                                    >
+                                    Register
                             </ProgressButton>
-                        </div>
-                    </div>
+                            </div>
+                        </div>)} />
                 </GridColumn>
                 <GridColumn className="ms-u-md6 ms-u-sm12 external">
                     <p>
@@ -98,8 +108,8 @@ class Signup extends React.PureComponent<IFormProps, void> {
         </Grid>;
     }
 
-    private _formValid(): boolean {
-        const fields = this.props.formState.fields;
+    private _formValid(formState: IForm): boolean {
+        const { fields } = formState;
 
         return fields
             && fields["username"] && fields["username"].value !== ""
@@ -107,20 +117,3 @@ class Signup extends React.PureComponent<IFormProps, void> {
             && fields["accepttos"] && fields["accepttos"].value === true;
     }
 }
-
-export default wrapForm<ISignupFields>({
-    name: "signup",
-    onSubmit: (formState: IForm) => {
-        return getClient(AccountClient).register({
-            userName: formState.fields["username"].value as string,
-            password: formState.fields["password"].value as string,
-            confirmPassword: formState.fields["passwordconfirm"].value as string,
-            email: formState.fields["email"].value as string,
-            language: "en", // TODO: CS
-            callbackUrl: "" // TODO
-        });
-    },
-    onSubmitSuccess: () => {
-        // TODO: Redirect?
-    }
-})(Signup);

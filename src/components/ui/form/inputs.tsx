@@ -6,7 +6,7 @@ import { IForms, IForm } from "../../../reducers/forms";
 import { TextField, ITextFieldProps } from "office-ui-fabric-react/lib/TextField";
 import { Checkbox, ICheckboxProps } from "office-ui-fabric-react/lib/Checkbox";
 
-import { IFormContext, contextTypes } from "./form";
+import { contextTypes, IFormContext } from "./types";
 
 interface IControlledFieldProps {
     fieldName: string;

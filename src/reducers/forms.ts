@@ -14,6 +14,8 @@ export interface IForms {
 const test = 2;
 
 export interface IForm {
+    name: string;
+
     fields: { [key: string]: IField };
 
     /** Is form being submitted */
@@ -42,7 +44,10 @@ const submitForm = (state: IImmutable<IForms>, action: IAction<FormActions.ISubm
 };
 
 const resetForm = (state: IImmutable<IForms>, action: IAction<string>) => {
-    return state.set(x => x.forms[action.payload], {});
+    return state.set(x => x.forms[action.payload], {
+        name: action.payload,
+        fields: {}
+    });
 };
 
 const changeField = (state: IImmutable<IForms>, action: IAction<FormActions.IChangeFieldPayload>) => {

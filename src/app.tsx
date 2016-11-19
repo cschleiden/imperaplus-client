@@ -1,36 +1,10 @@
-// Theming
-import { loadTheme, ITheme } from "@microsoft/load-themed-styles";
-
-// Override theme
-loadTheme({
-  themeDarker: "#cfac1e",
-  themeDark: "#dfbb28",
-  themeDarkAlt: "#e3c23e",
-  themePrimary: "#e6c954",
-  themeSecondary: "#e9d06a",
-  themeTertiary: "#edd780",
-  themeLight: "#f3e5ad",
-  themeLighter: "#faf3d9",
-  themeLighterAlt: "#fdfaf0",
-});
-
 import "./styles/index.scss";
 
 import * as React from "react";
-import * as ReactDOM from "react-dom";
 import * as Redux from "redux";
-import { composeWithDevTools } from "redux-devtools-extension";
 import { Provider } from "react-redux";
 
-import { Router, Route, IndexRoute, browserHistory } from "react-router";
-import { syncHistoryWithStore, routerMiddleware } from "react-router-redux";
-import thunkMiddleware from "redux-thunk";
-import * as createLogger from "redux-logger";
-import promiseMiddleware from "./middleware/promise-middleware";
-
-// Reducers
-import { makeImmutable, IImmutable } from "immuts";
-import rootReducer from "./reducers/index";
+import { Router, Route, IndexRoute } from "react-router";
 
 // Components
 import MainLayout from "./components/layouts/main";
@@ -42,49 +16,26 @@ import { Home, Signup, Login } from "./pages/public";
 
 import { resetForm } from "./actions/forms";
 
-// Create main store
-// TODO: CS: generalize
-const compose = composeWithDevTools({
-  serializeState: (key, value) => value && value.data ? value.data : value,
-  deserializeState: (state) => ({
-    routing: state && state.routing,
-    form: makeImmutable(state.form),
-    sessions: makeImmutable(state.session),
-    create: makeImmutable(state.create)
-  }),
-  shouldHotReload: true
-}) || Redux.compose;
+export default class App extends React.Component<{ store, history }, void> {
+    public render() {
+        return <Provider store={this.props.store}>
+            <Router history={this.props.history}>
+                {/* main layout */}
+                <Route component={MainLayout}>
+                    {/* public */}
+                    <Route path="/" components={{ nav: PublicNav, content: PublicLayout }}>
+                        <IndexRoute component={Home} />
 
-const store = Redux.createStore(
-  rootReducer,
-  compose(
-    Redux.applyMiddleware(
-      routerMiddleware(browserHistory),
-      promiseMiddleware as any,
-      thunkMiddleware,
-      createLogger())));
+                        <Route path="signup" component={Signup} />
+                        <Route path="login" component={Login} />
+                    </Route>
 
-// Work around typings error by casting to any
-const history: any = syncHistoryWithStore(browserHistory as any, store);
+                    {/* in game */}
+                    <Route path="game" components={{ nav: Game, content: Home }}>
 
-export default () => {
-  return <Provider store={store}>
-    <Router history={history}>
-      { /* main layout */}
-      <Route component={MainLayout}>
-        {/* public */}
-        <Route path="/" components={{ nav: PublicNav, content: PublicLayout }}>
-          <IndexRoute component={Home} />
-
-          <Route path="signup" component={Signup} />
-          <Route path="login" component={Login} />
-        </Route>
-
-        {/* in game */}
-        <Route path="game" components={{ nav: Game, content: Home }}>
-
-        </Route>
-      </Route>
-    </Router>
-  </Provider>;
+                    </Route>
+                </Route>
+            </Router>
+        </Provider>;
+    }
 };

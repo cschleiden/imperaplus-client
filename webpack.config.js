@@ -72,7 +72,7 @@ const config = (lang) => {
 
         devtool: process.env.NODE_ENV === 'production' ?
             'source-map' :
-            'inline-source-map',
+            'eval',
 
         resolve: {
             extensions: ['', '.webpack.js', '.web.js', '.tsx', '.ts', '.js']
