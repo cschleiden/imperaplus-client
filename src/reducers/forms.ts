@@ -11,6 +11,8 @@ export interface IForms {
     };
 }
 
+const test = 2;
+
 export interface IForm {
     fields: { [key: string]: IField };
 

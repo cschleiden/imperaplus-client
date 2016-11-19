@@ -8,7 +8,10 @@ exports.tslint = {
 
 exports.tsx = {
   test: /\.tsx?$/,
-  loader: 'ts',
+  loaders: [
+    "react-hot-loader/webpack",
+    "awesome-typescript-loader"
+  ],
   exclude: /(node_modules|test-utils|\.test\.ts$)/
 };
 

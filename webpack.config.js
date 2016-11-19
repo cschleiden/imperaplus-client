@@ -17,7 +17,7 @@ const languages = {
 const defaultLanguage = "en";
 
 const appEntries = [
-    'whatwg-fetch', './src/index.tsx',
+    'react-hot-loader/patch', 'whatwg-fetch', './src/index.tsx',
 ];
 
 const sourceMap = process.env.TEST || process.env.NODE_ENV !== 'production'
