@@ -14,7 +14,7 @@ loadTheme({
   themeTertiary: "#edd780",
   themeLight: "#f3e5ad",
   themeLighter: "#faf3d9",
-  themeLighterAlt: "#fdfaf0",
+  themeLighterAlt: "#fdfaf0"  
 });
 
 import * as React from "react";

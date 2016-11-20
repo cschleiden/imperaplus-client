@@ -12,7 +12,8 @@ import PublicLayout from "./components/layouts/public";
 import PublicNav from "./components/navigation/public";
 import Game from "./components/navigation/game";
 import Create from "./pages/create/create";
-import { Home, Signup, Login } from "./pages/public";
+import { Home, SignupConfirmation, Login } from "./pages/public";
+import Signup from "./pages/public/signup";
 
 import { resetForm } from "./actions/forms";
 
@@ -26,7 +27,9 @@ export default class App extends React.Component<{ store, history }, void> {
                     <Route path="/" components={{ nav: PublicNav, content: PublicLayout }}>
                         <IndexRoute component={Home} />
 
-                        <Route path="signup" component={Signup} />
+                        <Route path="/signup" component={Signup} />
+                        <Route path="/signup/confirmation" component={SignupConfirmation} />
+
                         <Route path="login" component={Login} />
                     </Route>
 

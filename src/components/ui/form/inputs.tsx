@@ -10,6 +10,8 @@ import { contextTypes, IFormContext } from "./types";
 
 interface IControlledFieldProps {
     fieldName: string;
+
+    validate?: (value: string, formState: IForm) => string;
 }
 
 export const ControlledTextField = (props: ITextFieldProps & IControlledFieldProps, context: IFormContext) => {
@@ -21,13 +23,14 @@ export const ControlledTextField = (props: ITextFieldProps & IControlledFieldPro
 
     return <TextField
         {...props as any}
-        onChanged={(value) => {
+        onBeforeChange={(value) => {
             if (value !== currentValue()) {
                 if (context.changeField) {
                     context.changeField(props.fieldName, value);
                 }
             }
         } }
+        onGetErrorMessage={props.validate && ((value: string) => props.validate(value, context.formState))}
         value={currentValue()} />;
 };
 

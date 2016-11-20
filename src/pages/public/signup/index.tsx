@@ -7,21 +7,21 @@ import { push } from "react-router-redux";
 import { IImmutable } from "immuts";
 
 import { getClient } from "../../../clients/clientFactory";
-import { AccountClient, LoginResponseModel } from "../../../external/imperaClients";
+import { AccountClient, ErrorResponse } from "../../../external/imperaClients";
 
 import { resetForm, changeField } from "../../../actions/forms";
 import { signup } from "../../../actions/session";
 import { IForms, IForm } from "../../../reducers/forms";
 
-import { TextField, ITextFieldProps } from "office-ui-fabric-react/lib/TextField";
+import { MessageBar, MessageBarType } from "office-ui-fabric-react/lib/MessageBar";
 import { Button, ButtonType } from "office-ui-fabric-react/lib/Button";
-import { Checkbox, ICheckboxProps } from "office-ui-fabric-react/lib/Checkbox";
 import { ProgressButton } from "../../../components/ui/progressButton";
 import { Grid, GridRow, GridColumn } from "../../../components/layout";
 
-//import { Form, IFormProps } from "../../../components/ui/form/form";
 import Form from "../../../components/ui/form/form";
 import { ControlledCheckBox, ControlledTextField } from "../../../components/ui/form/inputs";
+
+import { Test } from "./test";
 
 interface ISignupFields {
     username: string;
@@ -32,13 +32,54 @@ interface ISignupFields {
     accepttos: boolean;
 }
 
-export default class Signup extends React.Component<{}, void> {
+interface ISignupProps {
+    dispatch: Function;
+}
+
+interface ISignupState {
+    error: string;
+}
+
+export class SignupComponent extends React.Component<ISignupProps, ISignupState> {
+    constructor(props, context) {
+        super(props, context);
+
+        console.log("ctor");
+
+        this.state = {
+            error: null
+        };
+    }
+
+    private _clearError = () => {
+        this.setState({
+            error: null
+        });
+    }
+
+    public componentDidMount() {
+        console.log("mount");
+    }
+
     public render(): JSX.Element {
+        let error: JSX.Element;
+        if (!!this.state.error) {
+            error = <MessageBar messageBarType={MessageBarType.error} onDismiss={this._clearError}>
+                {this.state.error}
+            </MessageBar>;
+        }
+
         return <Grid className="signup">
             <GridRow>
+                {error}
+            </GridRow>
+
+            <GridRow>
                 <GridColumn className="ms-u-md6 ms-u-sm12 border-right">
+                    <Test />
+
                     <p>
-                        {__("Register a new account. It is completely free. 1334")}
+                        {__("Register a new account. It is completely free.1")}
                     </p>
 
                     <Form
@@ -52,39 +93,49 @@ export default class Signup extends React.Component<{}, void> {
                                 language: "en", // TODO: CS
                                 callbackUrl: "" // TODO
                             });
-                        }}
+                        } }
+                        onSubmitSuccess={this._onSubmitSucess}
+                        onSubmitFailed={this._onSubmitFail}
                         component={({ isPending, submit, formState }) => (
-                        <div className="form">
-                            <ControlledTextField
-                                label={__("Username")}
-                                placeholder={__("Enter username")}
-                                fieldName="username" />
-                            <ControlledTextField
-                                label={__("Email")}
-                                placeholder={__("Enter email")}
-                                fieldName="email" />
-                            <ControlledTextField
-                                label={__("Password")}
-                                placeholder={__("Enter password")} type="password"
-                                fieldName="password" />
-                            <ControlledTextField
-                                label={__("Password (repeat)")}
-                                placeholder={__("Repeat password")} type="password"
-                                fieldName="passwordconfirm" />
-                            <ControlledCheckBox
-                                label={__("I agree to the TOS")}
-                                fieldName="accepttos" />
+                            <div className="form">
+                                <ControlledTextField
+                                    label={__("Username")}
+                                    placeholder={__("Enter username")}
+                                    fieldName="username"
+                                    required={true} />
+                                <ControlledTextField
+                                    label={__("Email")}
+                                    placeholder={__("Enter email")}
+                                    fieldName="email"
+                                    required={true} />
+                                <ControlledTextField
+                                    label={__("Password")}
+                                    placeholder={__("Enter password")} type="password"
+                                    fieldName="password"
+                                    required={true} />
+                                <ControlledTextField
+                                    label={__("Password (repeat)")}
+                                    placeholder={__("Repeat password")} type="password"
+                                    fieldName="passwordconfirm"
+                                    validate={(value: string, formState: IForm) => {
+                                        if (formState.fields["password"] && formState.fields["password"].value !== value) {
+                                            return __("Passwords do not match");
+                                        }
+                                    } }
+                                    required={true} />
+                                <ControlledCheckBox
+                                    label={__("I agree to the TOS")}
+                                    fieldName="accepttos" />
 
-                            <div className="ms-u-textAlignRight">
-                                <ProgressButton
-                                    buttonType={ButtonType.primary}
-                                    disabled={!this._formValid(formState)}
-                                    isActive={isPending}
-                                    >
-                                    Register
-                            </ProgressButton>
-                            </div>
-                        </div>)} />
+                                <div className="ms-u-textAlignRight">
+                                    <ProgressButton
+                                        buttonType={ButtonType.primary}
+                                        disabled={!this._formValid(formState)}
+                                        isActive={isPending}>
+                                        {__("Register")}
+                                    </ProgressButton>
+                                </div>
+                            </div>)} />
                 </GridColumn>
                 <GridColumn className="ms-u-md6 ms-u-sm12 external">
                     <p>
@@ -116,4 +167,16 @@ export default class Signup extends React.Component<{}, void> {
             && fields["password"] && fields["passwordconfirm"] && fields["password"].value !== "" && fields["password"].value === fields["passwordconfirm"].value
             && fields["accepttos"] && fields["accepttos"].value === true;
     }
+
+    private _onSubmitSucess = () => {
+        this.props.dispatch(push("signup/confirmation"));
+    }
+
+    private _onSubmitFail = (error: ErrorResponse) => {
+        this.setState({
+            error: error.error
+        });
+    }
 }
+
+export default connect(state => ({}), {})(SignupComponent);

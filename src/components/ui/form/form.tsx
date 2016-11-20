@@ -19,7 +19,7 @@ interface IFormProps {
 
     onSubmit?: <TResult>(formState: IForm) => Promise<TResult>;
     onSubmitSuccess?: <TResult>(result: TResult) => void;
-    onSubmitFailed?: () => void;
+    onSubmitFailed?: <TError>(error: TError) => void;
 }
 
 interface IInternalFormProps {
@@ -42,6 +42,7 @@ class Form extends React.Component<IFormProps & IInternalFormProps, void> {
     }
 
     public componentDidMount() {
+        // Initialize the form
         this.props.reset();
     }
 
@@ -63,16 +64,7 @@ class Form extends React.Component<IFormProps & IInternalFormProps, void> {
     }
 }
 
-interface IOptions {
-    name: string;
-
-    onSubmit: <TResult>(formState: IForm) => Promise<TResult>;
-    onSubmitSuccess?: <TResult>(result: TResult) => void;
-    onSubmitFailed?: () => void;
-}
-
 export default connect((state: { forms: IImmutable<IForms> }, ownProps: IFormProps) => {
-    console.log(ownProps.name + "own");
     return {
         formState: state.forms.data.forms[ownProps.name] || {
             name: ownProps.name,
@@ -91,11 +83,11 @@ export default connect((state: { forms: IImmutable<IForms> }, ownProps: IFormPro
             if (ownProps.onSubmitSuccess) {
                 ownProps.onSubmitSuccess(result);
             }
-        }, () => {
+        }, (error) => {
             dispatch(submitForm(ownProps.name, FormMode.Failed));
 
             if (ownProps.onSubmitFailed) {
-                ownProps.onSubmitFailed();
+                ownProps.onSubmitFailed(error);
             }
         });
     },
