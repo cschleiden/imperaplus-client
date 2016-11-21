@@ -1,7 +1,7 @@
 export namespace ErrorCodes {
     export const errorMessage: { [errorCode: string]: string } = {
         // Account
-        "UsernameOrPasswordNotCorrect": __("Username or password is not correct, did you <a ui-sref=\"public.account.recoverPassword\">forget your password</a>?"),
+        "UsernameOrPasswordNotCorrect": __("Username or password is not correct, did you [forget your password](public.account.recoverPassword)?"),
         "AccountIsLocked": __("This account is locked, please try to <a ui-sref=\"public.account.unlockAccount\">unlock</a> it."),
         "AccountNotConfirmed": __("This account has not been confirmed yet, please click the link in the confirmation email to activate, or request a new <a ui-sref=\"public.account.resendConfirmation\">confirmation code</a>."),
 

@@ -48,7 +48,12 @@ export default function promiseMiddleware({ dispatch }) {
 
                 if (options && options.useMessage) {
                     // Dispatch generic message action
-                    dispatch(show(ErrorCodes.errorMessage[error.error_Description], MessageBarType.error));
+                    let message = ErrorCodes.errorMessage[error.error];
+                    if (!message) {
+                        message = error.error_Description || error.error;
+                    }
+
+                    dispatch(show(message, MessageBarType.error));
                 } else {
                     dispatch({
                         type: failed(type),

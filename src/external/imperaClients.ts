@@ -15,31 +15,41 @@ export class AccountClient {
         this.http = http ? http : window;
     }
 
+    /**
+    * @return Success
+    */
     exchange(grant_type: string, username: string, password: string): Promise<LoginResponseModel> {
-        let url_ = this.baseUrl + "/api/Account/token?"; 
+        let url_ = this.baseUrl + "/api/Account/token";
 
+        let content_ = "";
         if (grant_type !== undefined)
-            url_ += "grant_type=" + encodeURIComponent("" + grant_type) + "&"; 
+            content_ += "grant_type=" + encodeURIComponent("" + grant_type) + "&";
         if (username !== undefined)
-            url_ += "username=" + encodeURIComponent("" + username) + "&"; 
+            content_ += "username=" + encodeURIComponent("" + username) + "&";
         if (password !== undefined)
-            url_ += "password=" + encodeURIComponent("" + password) + "&"; 
-        const content_ = "";
+            content_ += "password=" + encodeURIComponent("" + password) + "&";
+
         return this.http.fetch(url_, {
-			body: content_,
+            body: content_,
             method: "POST",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8"
+                'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then((response) => {
             return this.processExchange(response);
         });
     }
-
+    
     private processExchange(response: Response) {
         return response.text().then((data) => {
             const status = response.status.toString(); 
 
+            if (status === "400") {
+                let result400: ErrorResponse = null; 
+                result400 = data === "" ? null : <ErrorResponse>JSON.parse(data, this.jsonParseReviver);
+                throw result400; 
+            }
+            else
             if (status === "200") {
                 let result200: LoginResponseModel = null; 
                 result200 = data === "" ? null : <LoginResponseModel>JSON.parse(data, this.jsonParseReviver);
@@ -55,14 +65,12 @@ export class AccountClient {
     /**
      * Checks if a username is available
      * @userName Username to check
-     * @return True if username is available
+     * @return Success
      */
-    getUserNameAvailable(userName: string): Promise<any> {
+    getUserNameAvailable(userName: string): Promise<void> {
         let url_ = this.baseUrl + "/api/Account/UserNameAvailable?"; 
 
-        if (userName === undefined)
-            throw new Error("The parameter 'userName' must be defined.");
-        else
+        if (userName !== undefined)
             url_ += "userName=" + encodeURIComponent("" + userName) + "&"; 
         return this.http.fetch(url_, {
             method: "GET",
@@ -78,10 +86,13 @@ export class AccountClient {
         return response.text().then((data) => {
             const status = response.status.toString(); 
 
+            if (status === "400") {
+                let result400: ErrorResponse = null; 
+                result400 = data === "" ? null : <ErrorResponse>JSON.parse(data, this.jsonParseReviver);
+                throw result400; 
+            }
+            else
             if (status === "200") {
-                let result200: any = null; 
-                result200 = data === "" ? null : <any>JSON.parse(data, this.jsonParseReviver);
-                return result200; 
             }
             else
             {
@@ -92,6 +103,7 @@ export class AccountClient {
 
     /**
      * Get user information
+     * @return Success
      */
     getUserInfo(): Promise<UserInfo> {
         let url_ = this.baseUrl + "/api/Account/UserInfo"; 
@@ -110,6 +122,12 @@ export class AccountClient {
         return response.text().then((data) => {
             const status = response.status.toString(); 
 
+            if (status === "400") {
+                let result400: ErrorResponse = null; 
+                result400 = data === "" ? null : <ErrorResponse>JSON.parse(data, this.jsonParseReviver);
+                throw result400; 
+            }
+            else
             if (status === "200") {
                 let result200: UserInfo = null; 
                 result200 = data === "" ? null : <UserInfo>JSON.parse(data, this.jsonParseReviver);
@@ -124,6 +142,7 @@ export class AccountClient {
 
     /**
      * Get user information for an external user (i.e., just logged in using an external provider)
+     * @return Success
      */
     getExternalUserInfo(): Promise<UserInfo> {
         let url_ = this.baseUrl + "/api/Account/ExternalUserInfo"; 
@@ -142,6 +161,12 @@ export class AccountClient {
         return response.text().then((data) => {
             const status = response.status.toString(); 
 
+            if (status === "400") {
+                let result400: ErrorResponse = null; 
+                result400 = data === "" ? null : <ErrorResponse>JSON.parse(data, this.jsonParseReviver);
+                throw result400; 
+            }
+            else
             if (status === "200") {
                 let result200: UserInfo = null; 
                 result200 = data === "" ? null : <UserInfo>JSON.parse(data, this.jsonParseReviver);
@@ -154,7 +179,10 @@ export class AccountClient {
         });
     }
 
-    logout(): Promise<any> {
+    /**
+     * @return Success
+     */
+    logout(): Promise<void> {
         let url_ = this.baseUrl + "/api/Account/Logout"; 
 
         const content_ = "";
@@ -173,10 +201,13 @@ export class AccountClient {
         return response.text().then((data) => {
             const status = response.status.toString(); 
 
+            if (status === "400") {
+                let result400: ErrorResponse = null; 
+                result400 = data === "" ? null : <ErrorResponse>JSON.parse(data, this.jsonParseReviver);
+                throw result400; 
+            }
+            else
             if (status === "200") {
-                let result200: any = null; 
-                result200 = data === "" ? null : <any>JSON.parse(data, this.jsonParseReviver);
-                return result200; 
             }
             else
             {
@@ -185,16 +216,15 @@ export class AccountClient {
         });
     }
 
+    /**
+     * @return Success
+     */
     getManageInfo(returnUrl: string, generateState: boolean): Promise<ManageInfoViewModel> {
         let url_ = this.baseUrl + "/api/Account/ManageInfo?"; 
 
-        if (returnUrl === undefined)
-            throw new Error("The parameter 'returnUrl' must be defined.");
-        else
+        if (returnUrl !== undefined)
             url_ += "returnUrl=" + encodeURIComponent("" + returnUrl) + "&"; 
-        if (generateState === null)
-            throw new Error("The parameter 'generateState' cannot be null.");
-        else if (generateState !== undefined)
+        if (generateState !== undefined)
             url_ += "generateState=" + encodeURIComponent("" + generateState) + "&"; 
         return this.http.fetch(url_, {
             method: "GET",
@@ -210,6 +240,12 @@ export class AccountClient {
         return response.text().then((data) => {
             const status = response.status.toString(); 
 
+            if (status === "400") {
+                let result400: ErrorResponse = null; 
+                result400 = data === "" ? null : <ErrorResponse>JSON.parse(data, this.jsonParseReviver);
+                throw result400; 
+            }
+            else
             if (status === "200") {
                 let result200: ManageInfoViewModel = null; 
                 result200 = data === "" ? null : <ManageInfoViewModel>JSON.parse(data, this.jsonParseReviver);
@@ -222,7 +258,10 @@ export class AccountClient {
         });
     }
 
-    changePassword(model: ChangePasswordBindingModel): Promise<any> {
+    /**
+     * @return Success
+     */
+    changePassword(model: ChangePasswordBindingModel): Promise<void> {
         let url_ = this.baseUrl + "/api/Account/ChangePassword"; 
 
         const content_ = JSON.stringify(model);
@@ -241,10 +280,13 @@ export class AccountClient {
         return response.text().then((data) => {
             const status = response.status.toString(); 
 
+            if (status === "400") {
+                let result400: ErrorResponse = null; 
+                result400 = data === "" ? null : <ErrorResponse>JSON.parse(data, this.jsonParseReviver);
+                throw result400; 
+            }
+            else
             if (status === "200") {
-                let result200: any = null; 
-                result200 = data === "" ? null : <any>JSON.parse(data, this.jsonParseReviver);
-                return result200; 
             }
             else
             {
@@ -253,7 +295,10 @@ export class AccountClient {
         });
     }
 
-    setPassword(model: SetPasswordBindingModel): Promise<any> {
+    /**
+     * @return Success
+     */
+    setPassword(model: SetPasswordBindingModel): Promise<void> {
         let url_ = this.baseUrl + "/api/Account/SetPassword"; 
 
         const content_ = JSON.stringify(model);
@@ -272,10 +317,13 @@ export class AccountClient {
         return response.text().then((data) => {
             const status = response.status.toString(); 
 
+            if (status === "400") {
+                let result400: ErrorResponse = null; 
+                result400 = data === "" ? null : <ErrorResponse>JSON.parse(data, this.jsonParseReviver);
+                throw result400; 
+            }
+            else
             if (status === "200") {
-                let result200: any = null; 
-                result200 = data === "" ? null : <any>JSON.parse(data, this.jsonParseReviver);
-                return result200; 
             }
             else
             {
@@ -284,7 +332,10 @@ export class AccountClient {
         });
     }
 
-    removeLogin(model: RemoveLoginBindingModel): Promise<any> {
+    /**
+     * @return Success
+     */
+    removeLogin(model: RemoveLoginBindingModel): Promise<void> {
         let url_ = this.baseUrl + "/api/Account/RemoveLogin"; 
 
         const content_ = JSON.stringify(model);
@@ -303,10 +354,13 @@ export class AccountClient {
         return response.text().then((data) => {
             const status = response.status.toString(); 
 
+            if (status === "400") {
+                let result400: ErrorResponse = null; 
+                result400 = data === "" ? null : <ErrorResponse>JSON.parse(data, this.jsonParseReviver);
+                throw result400; 
+            }
+            else
             if (status === "200") {
-                let result200: any = null; 
-                result200 = data === "" ? null : <any>JSON.parse(data, this.jsonParseReviver);
-                return result200; 
             }
             else
             {
@@ -315,16 +369,15 @@ export class AccountClient {
         });
     }
 
+    /**
+     * @return Success
+     */
     getExternalLogins(returnUrl: string, generateState: boolean): Promise<ExternalLoginViewModel[]> {
         let url_ = this.baseUrl + "/api/Account/ExternalLogins?"; 
 
-        if (returnUrl === undefined)
-            throw new Error("The parameter 'returnUrl' must be defined.");
-        else
+        if (returnUrl !== undefined)
             url_ += "returnUrl=" + encodeURIComponent("" + returnUrl) + "&"; 
-        if (generateState === null)
-            throw new Error("The parameter 'generateState' cannot be null.");
-        else if (generateState !== undefined)
+        if (generateState !== undefined)
             url_ += "generateState=" + encodeURIComponent("" + generateState) + "&"; 
         return this.http.fetch(url_, {
             method: "GET",
@@ -340,6 +393,12 @@ export class AccountClient {
         return response.text().then((data) => {
             const status = response.status.toString(); 
 
+            if (status === "400") {
+                let result400: ErrorResponse = null; 
+                result400 = data === "" ? null : <ErrorResponse>JSON.parse(data, this.jsonParseReviver);
+                throw result400; 
+            }
+            else
             if (status === "200") {
                 let result200: ExternalLoginViewModel[] = null; 
                 result200 = data === "" ? null : <ExternalLoginViewModel[]>JSON.parse(data, this.jsonParseReviver);
@@ -352,6 +411,9 @@ export class AccountClient {
         });
     }
 
+    /**
+     * @return Success
+     */
     register(model: RegisterBindingModel): Promise<void> {
         let url_ = this.baseUrl + "/api/Account/Register"; 
 
@@ -371,13 +433,13 @@ export class AccountClient {
         return response.text().then((data) => {
             const status = response.status.toString(); 
 
-            if (status === "200") {
-            }
-            else
             if (status === "400") {
                 let result400: ErrorResponse = null; 
                 result400 = data === "" ? null : <ErrorResponse>JSON.parse(data, this.jsonParseReviver);
                 throw result400; 
+            }
+            else
+            if (status === "200") {
             }
             else
             {
@@ -388,8 +450,9 @@ export class AccountClient {
 
     /**
      * Resend the email confirmation account to the given user account
+     * @return Success
      */
-    resendConfirmationCode(model: ResendConfirmationModel): Promise<any> {
+    resendConfirmationCode(model: ResendConfirmationModel): Promise<void> {
         let url_ = this.baseUrl + "/api/Account/ResendConfirmation"; 
 
         const content_ = JSON.stringify(model);
@@ -408,10 +471,13 @@ export class AccountClient {
         return response.text().then((data) => {
             const status = response.status.toString(); 
 
+            if (status === "400") {
+                let result400: ErrorResponse = null; 
+                result400 = data === "" ? null : <ErrorResponse>JSON.parse(data, this.jsonParseReviver);
+                throw result400; 
+            }
+            else
             if (status === "200") {
-                let result200: any = null; 
-                result200 = data === "" ? null : <any>JSON.parse(data, this.jsonParseReviver);
-                return result200; 
             }
             else
             {
@@ -423,9 +489,9 @@ export class AccountClient {
     /**
      * Confirm user account using code provided in mail
      * @model Model containing id and code
-     * @return Success if successfully activated
+     * @return Success
      */
-    confirmEmail(model: ConfirmationModel): Promise<any> {
+    confirmEmail(model: ConfirmationModel): Promise<void> {
         let url_ = this.baseUrl + "/api/Account/ConfirmEmail"; 
 
         const content_ = JSON.stringify(model);
@@ -444,10 +510,13 @@ export class AccountClient {
         return response.text().then((data) => {
             const status = response.status.toString(); 
 
+            if (status === "400") {
+                let result400: ErrorResponse = null; 
+                result400 = data === "" ? null : <ErrorResponse>JSON.parse(data, this.jsonParseReviver);
+                throw result400; 
+            }
+            else
             if (status === "200") {
-                let result200: any = null; 
-                result200 = data === "" ? null : <any>JSON.parse(data, this.jsonParseReviver);
-                return result200; 
             }
             else
             {
@@ -458,8 +527,9 @@ export class AccountClient {
 
     /**
      * Request password reset link
+     * @return Success
      */
-    forgotPassword(model: ForgotPasswordViewModel): Promise<any> {
+    forgotPassword(model: ForgotPasswordViewModel): Promise<void> {
         let url_ = this.baseUrl + "/api/Account/ForgotPassword"; 
 
         const content_ = JSON.stringify(model);
@@ -478,10 +548,13 @@ export class AccountClient {
         return response.text().then((data) => {
             const status = response.status.toString(); 
 
+            if (status === "400") {
+                let result400: ErrorResponse = null; 
+                result400 = data === "" ? null : <ErrorResponse>JSON.parse(data, this.jsonParseReviver);
+                throw result400; 
+            }
+            else
             if (status === "200") {
-                let result200: any = null; 
-                result200 = data === "" ? null : <any>JSON.parse(data, this.jsonParseReviver);
-                return result200; 
             }
             else
             {
@@ -492,8 +565,9 @@ export class AccountClient {
 
     /**
      * Reset password confirmation
+     * @return Success
      */
-    resetPassword(model: ResetPasswordViewModel): Promise<any> {
+    resetPassword(model: ResetPasswordViewModel): Promise<void> {
         let url_ = this.baseUrl + "/api/Account/ResetPassword"; 
 
         const content_ = JSON.stringify(model);
@@ -512,10 +586,13 @@ export class AccountClient {
         return response.text().then((data) => {
             const status = response.status.toString(); 
 
+            if (status === "400") {
+                let result400: ErrorResponse = null; 
+                result400 = data === "" ? null : <ErrorResponse>JSON.parse(data, this.jsonParseReviver);
+                throw result400; 
+            }
+            else
             if (status === "200") {
-                let result200: any = null; 
-                result200 = data === "" ? null : <any>JSON.parse(data, this.jsonParseReviver);
-                return result200; 
             }
             else
             {
@@ -526,8 +603,9 @@ export class AccountClient {
 
     /**
      * Create user accout for an external login
+     * @return Success
      */
-    registerExternal(model: RegisterExternalBindingModel): Promise<any> {
+    registerExternal(model: RegisterExternalBindingModel): Promise<void> {
         let url_ = this.baseUrl + "/api/Account/RegisterExternal"; 
 
         const content_ = JSON.stringify(model);
@@ -546,10 +624,13 @@ export class AccountClient {
         return response.text().then((data) => {
             const status = response.status.toString(); 
 
+            if (status === "400") {
+                let result400: ErrorResponse = null; 
+                result400 = data === "" ? null : <ErrorResponse>JSON.parse(data, this.jsonParseReviver);
+                throw result400; 
+            }
+            else
             if (status === "200") {
-                let result200: any = null; 
-                result200 = data === "" ? null : <any>JSON.parse(data, this.jsonParseReviver);
-                return result200; 
             }
             else
             {
@@ -571,7 +652,7 @@ export class GameClient {
 
     /**
      * Get a list of open games, excluding games by the current player
-     * @return List of games
+     * @return Success
      */
     getAll(): Promise<GameSummary[]> {
         let url_ = this.baseUrl + "/api/games/open"; 
@@ -604,7 +685,7 @@ export class GameClient {
 
     /**
      * Get a list of the games for the current player
-     * @return List of games for the current user
+     * @return Success
      */
     getMy(): Promise<GameSummary[]> {
         let url_ = this.baseUrl + "/api/games/my"; 
@@ -637,7 +718,7 @@ export class GameClient {
 
     /**
      * Get list of games where it's the current player's team
-     * @return List of games where it's the current user's team
+     * @return Success
      */
     getMyTurn(): Promise<GameSummary[]> {
         let url_ = this.baseUrl + "/api/games/myturn"; 
@@ -671,7 +752,7 @@ export class GameClient {
     /**
      * Create a new game
      * @creationOptions Creation options
-     * @return Summary of newly created game
+     * @return Success
      */
     post(creationOptions: GameCreationOptions): Promise<GameSummary> {
         let url_ = this.baseUrl + "/api/games"; 
@@ -707,7 +788,7 @@ export class GameClient {
     /**
      * Get detailed information about a single game
      * @gameId Id of the requested game
-     * @return Information about the requested game
+     * @return Success
      */
     get(gameId: number): Promise<Game> {
         let url_ = this.baseUrl + "/api/games/{gameId}"; 
@@ -745,9 +826,9 @@ export class GameClient {
     /**
      * Cancel/delete the requested game, if possible.
      * @gameId Id of the game to delete
-     * @return Status
+     * @return Success
      */
-    delete(gameId: number): Promise<any> {
+    delete(gameId: number): Promise<void> {
         let url_ = this.baseUrl + "/api/games/{gameId}"; 
 
         if (gameId === undefined || gameId === null)
@@ -771,9 +852,6 @@ export class GameClient {
             const status = response.status.toString(); 
 
             if (status === "200") {
-                let result200: any = null; 
-                result200 = data === "" ? null : <any>JSON.parse(data, this.jsonParseReviver);
-                return result200; 
             }
             else
             {
@@ -786,7 +864,7 @@ export class GameClient {
      * Get messages for a single game
      * @gameId Id of the requested game
      * @isPublic Value indicating whether to return only public messages, default is true
-     * @return Messages posted in the requested game
+     * @return Success
      */
     getMessages(gameId: number, isPublic: boolean): Promise<Game> {
         let url_ = this.baseUrl + "/api/games/{gameId}/messages?"; 
@@ -795,9 +873,7 @@ export class GameClient {
             throw new Error("The parameter 'gameId' must be defined.");
         url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId)); 
 
-        if (isPublic === null)
-            throw new Error("The parameter 'isPublic' cannot be null.");
-        else if (isPublic !== undefined)
+        if (isPublic !== undefined)
             url_ += "isPublic=" + encodeURIComponent("" + isPublic) + "&"; 
         return this.http.fetch(url_, {
             method: "GET",
@@ -828,8 +904,9 @@ export class GameClient {
     /**
      * Join the given game
      * @gameId Id of game to join
+     * @return Success
      */
-    postJoin(gameId: number): Promise<any> {
+    postJoin(gameId: number): Promise<void> {
         let url_ = this.baseUrl + "/api/games/{gameId}/join"; 
 
         if (gameId === undefined || gameId === null)
@@ -853,9 +930,6 @@ export class GameClient {
             const status = response.status.toString(); 
 
             if (status === "200") {
-                let result200: any = null; 
-                result200 = data === "" ? null : <any>JSON.parse(data, this.jsonParseReviver);
-                return result200; 
             }
             else
             {
@@ -868,8 +942,9 @@ export class GameClient {
      * Leave the given game, only possible if game hasn't started yet, and current player
 is not the creator.
      * @gameId Id of game to leave
+     * @return Success
      */
-    postLeave(gameId: number): Promise<any> {
+    postLeave(gameId: number): Promise<void> {
         let url_ = this.baseUrl + "/api/games/{gameId}/leave"; 
 
         if (gameId === undefined || gameId === null)
@@ -893,9 +968,6 @@ is not the creator.
             const status = response.status.toString(); 
 
             if (status === "200") {
-                let result200: any = null; 
-                result200 = data === "" ? null : <any>JSON.parse(data, this.jsonParseReviver);
-                return result200; 
             }
             else
             {
@@ -908,6 +980,7 @@ is not the creator.
      * Surrender in the given game, only possible if current player
 and game are still active.
      * @gameId Id of game to surrender in
+     * @return Success
      */
     postSurrender(gameId: number): Promise<GameSummary> {
         let url_ = this.baseUrl + "/api/games/{gameId}/surrender"; 
@@ -947,8 +1020,9 @@ and game are still active.
     /**
      * Hides the given game for the current player
      * @gameId Id of game to hide
+     * @return Success
      */
-    patchHide(gameId: number): Promise<any> {
+    patchHide(gameId: number): Promise<void> {
         let url_ = this.baseUrl + "/api/games/{gameId}/hide"; 
 
         if (gameId === undefined || gameId === null)
@@ -972,9 +1046,6 @@ and game are still active.
             const status = response.status.toString(); 
 
             if (status === "200") {
-                let result200: any = null; 
-                result200 = data === "" ? null : <any>JSON.parse(data, this.jsonParseReviver);
-                return result200; 
             }
             else
             {
@@ -985,8 +1056,9 @@ and game are still active.
 
     /**
      * Hide all games which can be hidden for the current player
+     * @return Success
      */
-    patchHideAll(): Promise<any> {
+    patchHideAll(): Promise<void> {
         let url_ = this.baseUrl + "/api/games/hide"; 
 
         const content_ = "";
@@ -1006,9 +1078,6 @@ and game are still active.
             const status = response.status.toString(); 
 
             if (status === "200") {
-                let result200: any = null; 
-                result200 = data === "" ? null : <any>JSON.parse(data, this.jsonParseReviver);
-                return result200; 
             }
             else
             {
@@ -1030,6 +1099,7 @@ export class HistoryClient {
 
     /**
      * Gets the specified turn including the actions and current state of the map
+     * @return Success
      */
     getTurn(gameId: number, turnId: number): Promise<HistoryTurn> {
         let url_ = this.baseUrl + "/api/games/{gameId}/history/{turnId}"; 
@@ -1080,7 +1150,7 @@ export class LadderClient {
 
     /**
      * Returns active ladders
-     * @return List of ladders
+     * @return Success
      */
     getAll(): Promise<LadderSummary[]> {
         let url_ = this.baseUrl + "/api/ladder"; 
@@ -1114,6 +1184,7 @@ export class LadderClient {
     /**
      * Gets ladder identified by given id
      * @ladderId Id of ladder
+     * @return Success
      */
     get(ladderId: string): Promise<Ladder> {
         let url_ = this.baseUrl + "/api/ladder/{ladderId}"; 
@@ -1151,9 +1222,9 @@ export class LadderClient {
     /**
      * Queue up for a new game in the given ladder
      * @ladderId Ladder id
-     * @return Status
+     * @return Success
      */
-    postJoin(ladderId: string): Promise<any> {
+    postJoin(ladderId: string): Promise<void> {
         let url_ = this.baseUrl + "/api/ladder/{ladderId}/queue"; 
 
         if (ladderId === undefined || ladderId === null)
@@ -1177,9 +1248,6 @@ export class LadderClient {
             const status = response.status.toString(); 
 
             if (status === "200") {
-                let result200: any = null; 
-                result200 = data === "" ? null : <any>JSON.parse(data, this.jsonParseReviver);
-                return result200; 
             }
             else
             {
@@ -1193,6 +1261,7 @@ export class LadderClient {
      * @ladderId Id of ladder
      * @start Items to skip before returning
      * @count Count of standings to return
+     * @return Success
      */
     getStandings(ladderId: string, start: number, count: number): Promise<LadderStanding[]> {
         let url_ = this.baseUrl + "/api/ladder/{ladderId}/standings?"; 
@@ -1201,13 +1270,9 @@ export class LadderClient {
             throw new Error("The parameter 'ladderId' must be defined.");
         url_ = url_.replace("{ladderId}", encodeURIComponent("" + ladderId)); 
 
-        if (start === null)
-            throw new Error("The parameter 'start' cannot be null.");
-        else if (start !== undefined)
+        if (start !== undefined)
             url_ += "start=" + encodeURIComponent("" + start) + "&"; 
-        if (count === null)
-            throw new Error("The parameter 'count' cannot be null.");
-        else if (count !== undefined)
+        if (count !== undefined)
             url_ += "count=" + encodeURIComponent("" + count) + "&"; 
         return this.http.fetch(url_, {
             method: "GET",
@@ -1246,6 +1311,9 @@ export class MapClient {
         this.http = http ? http : window;
     }
 
+    /**
+     * @return Success
+     */
     getAllSummary(): Promise<MapTemplateDescriptor[]> {
         let url_ = this.baseUrl + "/api/map"; 
 
@@ -1277,6 +1345,7 @@ export class MapClient {
 
     /**
      * Get map template identified by name
+     * @return Success
      */
     getMapTemplate(name: string): Promise<MapTemplate> {
         let url_ = this.baseUrl + "/api/map/{name}"; 
@@ -1322,6 +1391,9 @@ export class MessageClient {
         this.http = http ? http : window;
     }
 
+    /**
+     * @return Success
+     */
     getAll(messageFolder: MessageFolder, folder: string): Promise<Message[]> {
         let url_ = this.baseUrl + "/api/messages/folder/{folder}?"; 
 
@@ -1329,9 +1401,7 @@ export class MessageClient {
             throw new Error("The parameter 'folder' must be defined.");
         url_ = url_.replace("{folder}", encodeURIComponent("" + folder)); 
 
-        if (messageFolder === null)
-            throw new Error("The parameter 'messageFolder' cannot be null.");
-        else if (messageFolder !== undefined)
+        if (messageFolder !== undefined)
             url_ += "messageFolder=" + encodeURIComponent("" + messageFolder) + "&"; 
         return this.http.fetch(url_, {
             method: "GET",
@@ -1359,6 +1429,9 @@ export class MessageClient {
         });
     }
 
+    /**
+     * @return Success
+     */
     get(messageId: string): Promise<Message> {
         let url_ = this.baseUrl + "/api/messages/{messageId}"; 
 
@@ -1392,42 +1465,10 @@ export class MessageClient {
         });
     }
 
-    patchMarkRead(messageId: string): Promise<any> {
-        let url_ = this.baseUrl + "/api/messages/{messageId}"; 
-
-        if (messageId === undefined || messageId === null)
-            throw new Error("The parameter 'messageId' must be defined.");
-        url_ = url_.replace("{messageId}", encodeURIComponent("" + messageId)); 
-
-        const content_ = "";
-        return this.http.fetch(url_, {
-			body: content_,
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json; charset=UTF-8"
-            }
-        }).then((response) => {
-            return this.processPatchMarkRead(response);
-        });
-    }
-
-    private processPatchMarkRead(response: Response) {
-        return response.text().then((data) => {
-            const status = response.status.toString(); 
-
-            if (status === "200") {
-                let result200: any = null; 
-                result200 = data === "" ? null : <any>JSON.parse(data, this.jsonParseReviver);
-                return result200; 
-            }
-            else
-            {
-                throw new Error("error_no_callback_for_the_received_http_status"); 
-            }
-        });
-    }
-
-    delete(messageId: string): Promise<any> {
+    /**
+     * @return Success
+     */
+    delete(messageId: string): Promise<void> {
         let url_ = this.baseUrl + "/api/messages/{messageId}"; 
 
         if (messageId === undefined || messageId === null)
@@ -1451,9 +1492,6 @@ export class MessageClient {
             const status = response.status.toString(); 
 
             if (status === "200") {
-                let result200: any = null; 
-                result200 = data === "" ? null : <any>JSON.parse(data, this.jsonParseReviver);
-                return result200; 
             }
             else
             {
@@ -1462,6 +1500,44 @@ export class MessageClient {
         });
     }
 
+    /**
+     * @return Success
+     */
+    patchMarkRead(messageId: string): Promise<void> {
+        let url_ = this.baseUrl + "/api/messages/{messageId}"; 
+
+        if (messageId === undefined || messageId === null)
+            throw new Error("The parameter 'messageId' must be defined.");
+        url_ = url_.replace("{messageId}", encodeURIComponent("" + messageId)); 
+
+        const content_ = "";
+        return this.http.fetch(url_, {
+			body: content_,
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8"
+            }
+        }).then((response) => {
+            return this.processPatchMarkRead(response);
+        });
+    }
+
+    private processPatchMarkRead(response: Response) {
+        return response.text().then((data) => {
+            const status = response.status.toString(); 
+
+            if (status === "200") {
+            }
+            else
+            {
+                throw new Error("error_no_callback_for_the_received_http_status"); 
+            }
+        });
+    }
+
+    /**
+     * @return Success
+     */
     getFolderInformation(): Promise<FolderInformation> {
         let url_ = this.baseUrl + "/api/messages/folders"; 
 
@@ -1491,7 +1567,10 @@ export class MessageClient {
         });
     }
 
-    postSend(message: SendMessage): Promise<any> {
+    /**
+     * @return Success
+     */
+    postSend(message: SendMessage): Promise<void> {
         let url_ = this.baseUrl + "/api/messages"; 
 
         const content_ = JSON.stringify(message);
@@ -1511,9 +1590,6 @@ export class MessageClient {
             const status = response.status.toString(); 
 
             if (status === "200") {
-                let result200: any = null; 
-                result200 = data === "" ? null : <any>JSON.parse(data, this.jsonParseReviver);
-                return result200; 
             }
             else
             {
@@ -1535,7 +1611,7 @@ export class NewsClient {
 
     /**
      * Returns the last 10 news items for all languages
-     * @return List of news items
+     * @return Success
      */
     getAll(): Promise<NewsItem[]> {
         let url_ = this.baseUrl + "/api/news"; 
@@ -1579,8 +1655,9 @@ export class NotificationClient {
 
     /**
      * Get notification summary for current user
+     * @return Success
      */
-    getSummary(): Promise<any> {
+    getSummary(): Promise<void> {
         let url_ = this.baseUrl + "/api/notifications/summary"; 
 
         return this.http.fetch(url_, {
@@ -1598,9 +1675,6 @@ export class NotificationClient {
             const status = response.status.toString(); 
 
             if (status === "200") {
-                let result200: any = null; 
-                result200 = data === "" ? null : <any>JSON.parse(data, this.jsonParseReviver);
-                return result200; 
             }
             else
             {
@@ -1624,7 +1698,7 @@ export class PlayClient {
      * Place units to countries.
      * @gameId Id of the game
      * @placeUnitsOptions List of country/unit count pairs
-     * @return GameActionResult of action
+     * @return Success
      */
     postPlace(gameId: number, placeUnitsOptions: PlaceUnitsOptions[]): Promise<GameActionResult> {
         let url_ = this.baseUrl + "/api/games/{gameId}/play/place"; 
@@ -1664,7 +1738,7 @@ export class PlayClient {
     /**
      * Exchange cards for the current player. Which cards to exchange is automatically chosen to gain the most bonus for the player.
      * @gameId Id of the game
-     * @return GameActionResult of action
+     * @return Success
      */
     postExchange(gameId: number): Promise<GameActionResult> {
         let url_ = this.baseUrl + "/api/games/{gameId}/play/exchange"; 
@@ -1705,7 +1779,7 @@ export class PlayClient {
      * Attack from one to another country.
      * @gameId Id of the game
      * @options Options for the command
-     * @return GameActionResult of action
+     * @return Success
      */
     postAttack(gameId: number, options: AttackOptions): Promise<GameActionResult> {
         let url_ = this.baseUrl + "/api/games/{gameId}/play/attack"; 
@@ -1745,7 +1819,7 @@ export class PlayClient {
     /**
      * Switch to moving.
      * @gameId Id of the game
-     * @return GameActionResult of action
+     * @return Success
      */
     postEndAttack(gameId: number): Promise<GameActionResult> {
         let url_ = this.baseUrl + "/api/games/{gameId}/play/endattack"; 
@@ -1787,7 +1861,7 @@ export class PlayClient {
 possible anymore after moving.
      * @gameId Id of the game
      * @options Options for the command
-     * @return GameActionResult of action
+     * @return Success
      */
     postMove(gameId: number, options: MoveOptions): Promise<GameActionResult> {
         let url_ = this.baseUrl + "/api/games/{gameId}/play/move"; 
@@ -1827,7 +1901,7 @@ possible anymore after moving.
     /**
      * End the current turn
      * @gameId Id of the game
-     * @return GameActionResult of action
+     * @return Success
      */
     postEndTurn(gameId: number): Promise<Game> {
         let url_ = this.baseUrl + "/api/games/{gameId}/play/endturn"; 
@@ -1877,7 +1951,7 @@ export class TournamentClient {
 
     /**
      * Returns tournaments
-     * @return List of tournaments
+     * @return Success
      */
     getAll(): Promise<Tournament[]> {
         let url_ = this.baseUrl + "/api/tournaments"; 
@@ -1911,6 +1985,7 @@ export class TournamentClient {
     /**
      * Get tournament identified by Id
      * @tournamentId Id of tournament
+     * @return Success
      */
     getById(tournamentId: string): Promise<Tournament> {
         let url_ = this.baseUrl + "/api/tournaments/{tournamentId}"; 
@@ -1948,6 +2023,7 @@ export class TournamentClient {
     /**
      * Join tournament
      * @tournamentId Id of tournament
+     * @return Success
      */
     postJoin(tournamentId: string): Promise<TournamentTeam> {
         let url_ = this.baseUrl + "/api/tournaments/{tournamentId}"; 
@@ -1987,6 +2063,7 @@ export class TournamentClient {
     /**
      * Get teams for tournament
      * @tournamentId Id of tournament
+     * @return Success
      */
     getTeams(tournamentId: string): Promise<TournamentTeam[]> {
         let url_ = this.baseUrl + "/api/tournaments/{tournamentId}/teams"; 
@@ -2026,7 +2103,7 @@ export class TournamentClient {
      * @tournamentId Id of tournament
      * @name Name of team
      * @password Optional password for team
-     * @return Summary of newly created team
+     * @return Success
      */
     postCreateTeam(tournamentId: string, name: string, password: string): Promise<TournamentTeamSummary> {
         let url_ = this.baseUrl + "/api/tournaments/{tournamentId}/teams?"; 
@@ -2035,9 +2112,7 @@ export class TournamentClient {
             throw new Error("The parameter 'tournamentId' must be defined.");
         url_ = url_.replace("{tournamentId}", encodeURIComponent("" + tournamentId)); 
 
-        if (name === undefined)
-            throw new Error("The parameter 'name' must be defined.");
-        else
+        if (name !== undefined)
             url_ += "name=" + encodeURIComponent("" + name) + "&"; 
         if (password !== undefined)
             url_ += "password=" + encodeURIComponent("" + password) + "&"; 
@@ -2074,8 +2149,9 @@ export class TournamentClient {
      * @tournamentId Id of tournament
      * @teamId Id of team
      * @password Optional password for team to join
+     * @return Success
      */
-    postJoinTeam(tournamentId: string, teamId: string, password: string): Promise<any> {
+    postJoinTeam(tournamentId: string, teamId: string, password: string): Promise<void> {
         let url_ = this.baseUrl + "/api/tournaments/{tournamentId}/teams/{teamId}?"; 
 
         if (tournamentId === undefined || tournamentId === null)
@@ -2104,9 +2180,6 @@ export class TournamentClient {
             const status = response.status.toString(); 
 
             if (status === "200") {
-                let result200: any = null; 
-                result200 = data === "" ? null : <any>JSON.parse(data, this.jsonParseReviver);
-                return result200; 
             }
             else
             {
@@ -2119,8 +2192,9 @@ export class TournamentClient {
      * Delete a team. Only allowed if user created it
      * @tournamentId Id of tournament
      * @teamId Id of team to delete
+     * @return Success
      */
-    deleteTeam(tournamentId: string, teamId: string): Promise<any> {
+    deleteTeam(tournamentId: string, teamId: string): Promise<void> {
         let url_ = this.baseUrl + "/api/tournaments/{tournamentId}/teams/{teamId}"; 
 
         if (tournamentId === undefined || tournamentId === null)
@@ -2147,9 +2221,6 @@ export class TournamentClient {
             const status = response.status.toString(); 
 
             if (status === "200") {
-                let result200: any = null; 
-                result200 = data === "" ? null : <any>JSON.parse(data, this.jsonParseReviver);
-                return result200; 
             }
             else
             {
@@ -2161,8 +2232,9 @@ export class TournamentClient {
     /**
      * Leave a team and tournament
      * @tournamentId Id of tournament
+     * @return Success
      */
-    leaveTournament(tournamentId: string): Promise<any> {
+    leaveTournament(tournamentId: string): Promise<void> {
         let url_ = this.baseUrl + "/api/tournaments/{tournamentId}/teams/me"; 
 
         if (tournamentId === undefined || tournamentId === null)
@@ -2186,9 +2258,6 @@ export class TournamentClient {
             const status = response.status.toString(); 
 
             if (status === "200") {
-                let result200: any = null; 
-                result200 = data === "" ? null : <any>JSON.parse(data, this.jsonParseReviver);
-                return result200; 
             }
             else
             {
@@ -2211,6 +2280,7 @@ export class UserClient {
     /**
      * Find users starting with the given query
      * @query Query to search for
+     * @return Success
      */
     findUsers(query: string): Promise<UserReference[]> {
         let url_ = this.baseUrl + "/api/users/find/{query}"; 
@@ -2244,6 +2314,12 @@ export class UserClient {
             }
         });
     }
+}
+
+export interface ErrorResponse {
+    readonly error: string;
+    readonly error_Description: string;
+    parameter_Errors: { [key: string] : string[]; };
 }
 
 export interface LoginResponseModel {
@@ -2306,12 +2382,6 @@ export interface RegisterBindingModel {
     callbackUrl: string;
 }
 
-export interface ErrorResponse {
-    error: string;
-    error_Description: string;
-    parameter_Errors: { [key: string] : string[]; };
-}
-
 export interface ResendConfirmationModel {
     callbackUrl: string;
     userName: string;
@@ -2345,7 +2415,7 @@ export interface RegisterExternalBindingModel {
 
 export interface GameSummary {
     id: number;
-    type: GameType;
+    type: GameSummaryType;
     name: string;
     ladderId: string;
     ladderName: string;
@@ -2356,15 +2426,9 @@ export interface GameSummary {
     lastActionAt: Date;
     timeoutSecondsLeft: number;
     mapTemplate: string;
-    state: GameState;
+    state: GameSummaryState;
     currentPlayer: PlayerSummary;
     teams: TeamSummary[];
-}
-
-export enum GameType {
-    Fun = <any>"Fun", 
-    Ranking = <any>"Ranking", 
-    Tournament = <any>"Tournament", 
 }
 
 export interface GameOptions {
@@ -2375,60 +2439,23 @@ export interface GameOptions {
     attacksPerTurn: number;
     movesPerTurn: number;
     initialCountryUnits: number;
-    mapDistribution: MapDistribution;
+    mapDistribution: GameOptionsMapDistribution;
     timeoutInSeconds: number;
     maximumTimeoutsPerPlayer: number;
     maximumNumberOfCards: number;
-    victoryConditions: VictoryConditionType2[];
-    visibilityModifier: VisibilityModifierType2[];
-}
-
-export enum MapDistribution {
-    Default = <any>"Default", 
-    Malibu = <any>"Malibu", 
-    TeamCluster = <any>"TeamCluster", 
-}
-
-export enum VictoryConditionType {
-    Survival = <any>"Survival", 
-    ControlContinent = <any>"ControlContinent", 
-}
-
-export enum VisibilityModifierType {
-    None = <any>"None", 
-    Fog = <any>"Fog", 
-}
-
-export enum GameState {
-    None = <any>"None", 
-    Open = <any>"Open", 
-    Active = <any>"Active", 
-    Ended = <any>"Ended", 
+    victoryConditions: VictoryConditions[];
+    visibilityModifier: VisibilityModifier[];
 }
 
 export interface PlayerSummary {
     id: string;
     userId: string;
     name: string;
-    state: PlayerState;
-    outcome: PlayerOutcome;
+    state: PlayerSummaryState;
+    outcome: PlayerSummaryOutcome;
     teamId: string;
     playOrder: number;
     timeouts: number;
-}
-
-export enum PlayerState {
-    None = <any>"None", 
-    Active = <any>"Active", 
-    InActive = <any>"InActive", 
-}
-
-export enum PlayerOutcome {
-    None = <any>"None", 
-    Won = <any>"Won", 
-    Defeated = <any>"Defeated", 
-    Surrendered = <any>"Surrendered", 
-    Timeout = <any>"Timeout", 
 }
 
 export interface TeamSummary {
@@ -2437,10 +2464,23 @@ export interface TeamSummary {
     players: PlayerSummary[];
 }
 
-export interface GameCreationOptions extends GameOptions {
+export interface GameCreationOptions {
     name: string;
     addBot: boolean;
     mapTemplate: string;
+    numberOfPlayersPerTeam: number;
+    numberOfTeams: number;
+    minUnitsPerCountry: number;
+    newUnitsPerTurn: number;
+    attacksPerTurn: number;
+    movesPerTurn: number;
+    initialCountryUnits: number;
+    mapDistribution: GameCreationOptionsMapDistribution;
+    timeoutInSeconds: number;
+    maximumTimeoutsPerPlayer: number;
+    maximumNumberOfCards: number;
+    victoryConditions: VictoryConditions[];
+    visibilityModifier: VisibilityModifier[];
 }
 
 export interface Game {
@@ -2450,7 +2490,7 @@ export interface Game {
     mapTemplate: string;
     teams: Team[];
     state: GameState;
-    playState: PlayState;
+    playState: GamePlayState;
     currentPlayer: PlayerSummary;
     map: Map;
     options: GameOptions;
@@ -2468,29 +2508,23 @@ export interface Team {
     players: Player[];
 }
 
-export interface Player extends PlayerSummary {
-    cards: BonusCard2[];
+export interface Map {
+    countries: Country[];
+}
+
+export interface Player {
+    cards: Cards[];
     placedInitialUnits: boolean;
     numberOfUnits: number;
     numberOfCountries: number;
-}
-
-export enum BonusCard {
-    A = <any>"A", 
-    B = <any>"B", 
-    C = <any>"C", 
-}
-
-export enum PlayState {
-    None = <any>"None", 
-    PlaceUnits = <any>"PlaceUnits", 
-    Attack = <any>"Attack", 
-    Move = <any>"Move", 
-    Done = <any>"Done", 
-}
-
-export interface Map {
-    countries: Country[];
+    id: string;
+    userId: string;
+    name: string;
+    state: PlayerState;
+    outcome: PlayerOutcome;
+    teamId: string;
+    playOrder: number;
+    timeouts: number;
 }
 
 export interface Country {
@@ -2513,28 +2547,13 @@ export interface HistoryEntry {
     dateTime: Date;
     actorId: string;
     otherPlayerId: string;
-    action: HistoryAction;
+    readonly action: HistoryEntryAction;
     originIdentifier: string;
     destinationIdentifier: string;
     units: number;
     unitsLost: number;
     unitsLostOther: number;
     result: boolean;
-}
-
-export enum HistoryAction {
-    None = <any>"None", 
-    StartGame = <any>"StartGame", 
-    EndGame = <any>"EndGame", 
-    PlaceUnits = <any>"PlaceUnits", 
-    Attack = <any>"Attack", 
-    Move = <any>"Move", 
-    ExchangeCards = <any>"ExchangeCards", 
-    PlayerLost = <any>"PlayerLost", 
-    PlayerWon = <any>"PlayerWon", 
-    PlayerTimeout = <any>"PlayerTimeout", 
-    OwnerChange = <any>"OwnerChange", 
-    EndTurn = <any>"EndTurn", 
 }
 
 export interface LadderSummary {
@@ -2558,9 +2577,16 @@ export interface LadderStanding {
     lastGame: Date;
 }
 
-export interface Ladder extends LadderSummary {
+export interface Ladder {
     standings: LadderStanding[];
     isActive: boolean;
+    id: string;
+    name: string;
+    options: GameOptions;
+    standing: LadderStanding;
+    isQueued: boolean;
+    queueCount: number;
+    mapTemplates: string[];
 }
 
 export interface MapTemplateDescriptor {
@@ -2594,24 +2620,15 @@ export interface Continent {
     countries: string[];
 }
 
-export enum MessageFolder {
-    None = <any>"None", 
-    Inbox = <any>"Inbox", 
-    Sent = <any>"Sent", 
-}
-
-export interface SendMessage {
+export interface Message {
+    id: string;
+    from: UserReference;
+    folder: MessageFolder2;
+    sentAt: Date;
+    isRead: boolean;
     to: UserReference;
     subject: string;
     text: string;
-}
-
-export interface Message extends SendMessage {
-    id: string;
-    from: UserReference;
-    folder: MessageFolder;
-    sentAt: Date;
-    isRead: boolean;
 }
 
 export interface UserReference {
@@ -2620,9 +2637,15 @@ export interface UserReference {
 }
 
 export interface FolderInformation {
-    folder: MessageFolder;
+    folder: FolderInformationFolder;
     count: number;
     unreadCount: number;
+}
+
+export interface SendMessage {
+    to: UserReference;
+    subject: string;
+    text: string;
 }
 
 export interface NewsItem {
@@ -2645,20 +2668,14 @@ export interface PlaceUnitsOptions {
 export interface GameActionResult {
     id: number;
     teams: Team[];
-    state: GameState;
-    playState: PlayState;
+    state: GameActionResultState;
+    playState: GameActionResultPlayState;
     countryUpdates: Country[];
-    actionResult: ActionResult;
+    actionResult: GameActionResultActionResult;
     attacksInCurrentTurn: number;
     movesInCurrentTurn: number;
-    cards: BonusCard2[];
+    cards: Cards[];
     currentPlayer: Player;
-}
-
-export enum ActionResult {
-    None = <any>"None", 
-    Successful = <any>"Successful", 
-    NotSuccessful = <any>"NotSuccessful", 
 }
 
 export interface AttackOptions {
@@ -2673,7 +2690,13 @@ export interface MoveOptions {
     numberOfUnits: number;
 }
 
-export interface TournamentSummary {
+export interface Tournament {
+    teams: TournamentTeam[];
+    groups: TournamentGroup[];
+    pairings: TournamentPairing[];
+    mapTemplates: string[];
+    winner: TournamentTeam;
+    phase: number;
     id: string;
     name: string;
     state: TournamentState;
@@ -2688,30 +2711,12 @@ export interface TournamentSummary {
     completion: number;
 }
 
-export interface Tournament extends TournamentSummary {
-    teams: TournamentTeam[];
-    groups: TournamentGroup[];
-    pairings: TournamentPairing[];
-    mapTemplates: string[];
-    winner: TournamentTeam;
-    phase: number;
-}
-
-export interface TournamentTeamSummary {
+export interface TournamentTeam {
+    participants: UserReference[];
     id: string;
     name: string;
     groupOrder: number;
     state: TournamentTeamState;
-}
-
-export interface TournamentTeam extends TournamentTeamSummary {
-    participants: UserReference[];
-}
-
-export enum TournamentTeamState {
-    Open = <any>"Open", 
-    Active = <any>"Active", 
-    InActive = <any>"InActive", 
 }
 
 export interface TournamentGroup {
@@ -2729,25 +2734,172 @@ export interface TournamentPairing {
     order: number;
 }
 
+export interface TournamentTeamSummary {
+    id: string;
+    name: string;
+    groupOrder: number;
+    state: TournamentTeamSummaryState;
+}
+
+export enum MessageFolder {
+    None = <any>"none", 
+    Inbox = <any>"inbox", 
+    Sent = <any>"sent", 
+}
+
+export enum GameSummaryType {
+    Fun = <any>"fun", 
+    Ranking = <any>"ranking", 
+    Tournament = <any>"tournament", 
+}
+
+export enum GameSummaryState {
+    None = <any>"none", 
+    Open = <any>"open", 
+    Active = <any>"active", 
+    Ended = <any>"ended", 
+}
+
+export enum GameOptionsMapDistribution {
+    Default = <any>"default", 
+    Malibu = <any>"malibu", 
+    TeamCluster = <any>"teamCluster", 
+}
+
+export enum VictoryConditions {
+    Survival = <any>"survival", 
+    ControlContinent = <any>"controlContinent", 
+}
+
+export enum VisibilityModifier {
+    None = <any>"none", 
+    Fog = <any>"fog", 
+}
+
+export enum PlayerSummaryState {
+    None = <any>"none", 
+    Active = <any>"active", 
+    InActive = <any>"inActive", 
+}
+
+export enum PlayerSummaryOutcome {
+    None = <any>"none", 
+    Won = <any>"won", 
+    Defeated = <any>"defeated", 
+    Surrendered = <any>"surrendered", 
+    Timeout = <any>"timeout", 
+}
+
+export enum GameCreationOptionsMapDistribution {
+    Default = <any>"default", 
+    Malibu = <any>"malibu", 
+    TeamCluster = <any>"teamCluster", 
+}
+
+export enum GameType {
+    Fun = <any>"fun", 
+    Ranking = <any>"ranking", 
+    Tournament = <any>"tournament", 
+}
+
+export enum GameState {
+    None = <any>"none", 
+    Open = <any>"open", 
+    Active = <any>"active", 
+    Ended = <any>"ended", 
+}
+
+export enum GamePlayState {
+    None = <any>"none", 
+    PlaceUnits = <any>"placeUnits", 
+    Attack = <any>"attack", 
+    Move = <any>"move", 
+    Done = <any>"done", 
+}
+
+export enum Cards {
+    A = <any>"a", 
+    B = <any>"b", 
+    C = <any>"c", 
+}
+
+export enum PlayerState {
+    None = <any>"none", 
+    Active = <any>"active", 
+    InActive = <any>"inActive", 
+}
+
+export enum PlayerOutcome {
+    None = <any>"none", 
+    Won = <any>"won", 
+    Defeated = <any>"defeated", 
+    Surrendered = <any>"surrendered", 
+    Timeout = <any>"timeout", 
+}
+
+export enum HistoryEntryAction {
+    None = <any>"none", 
+    StartGame = <any>"startGame", 
+    EndGame = <any>"endGame", 
+    PlaceUnits = <any>"placeUnits", 
+    Attack = <any>"attack", 
+    Move = <any>"move", 
+    ExchangeCards = <any>"exchangeCards", 
+    PlayerLost = <any>"playerLost", 
+    PlayerWon = <any>"playerWon", 
+    PlayerTimeout = <any>"playerTimeout", 
+    OwnerChange = <any>"ownerChange", 
+    EndTurn = <any>"endTurn", 
+}
+
+export enum MessageFolder2 {
+    None = <any>"none", 
+    Inbox = <any>"inbox", 
+    Sent = <any>"sent", 
+}
+
+export enum FolderInformationFolder {
+    None = <any>"none", 
+    Inbox = <any>"inbox", 
+    Sent = <any>"sent", 
+}
+
+export enum GameActionResultState {
+    None = <any>"none", 
+    Open = <any>"open", 
+    Active = <any>"active", 
+    Ended = <any>"ended", 
+}
+
+export enum GameActionResultPlayState {
+    None = <any>"none", 
+    PlaceUnits = <any>"placeUnits", 
+    Attack = <any>"attack", 
+    Move = <any>"move", 
+    Done = <any>"done", 
+}
+
+export enum GameActionResultActionResult {
+    None = <any>"none", 
+    Successful = <any>"successful", 
+    NotSuccessful = <any>"notSuccessful", 
+}
+
 export enum TournamentState {
-    Open = <any>"Open", 
-    Groups = <any>"Groups", 
-    Knockout = <any>"Knockout", 
-    Closed = <any>"Closed", 
+    Open = <any>"open", 
+    Groups = <any>"groups", 
+    Knockout = <any>"knockout", 
+    Closed = <any>"closed", 
 }
 
-export enum VictoryConditionType2 {
-    Survival = <any>"Survival", 
-    ControlContinent = <any>"ControlContinent", 
+export enum TournamentTeamState {
+    Open = <any>"open", 
+    Active = <any>"active", 
+    InActive = <any>"inActive", 
 }
 
-export enum VisibilityModifierType2 {
-    None = <any>"None", 
-    Fog = <any>"Fog", 
-}
-
-export enum BonusCard2 {
-    A = <any>"A", 
-    B = <any>"B", 
-    C = <any>"C", 
+export enum TournamentTeamSummaryState {
+    Open = <any>"open", 
+    Active = <any>"active", 
+    InActive = <any>"inActive", 
 }

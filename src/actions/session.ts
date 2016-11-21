@@ -15,8 +15,13 @@ export const login = makeAsyncAction<ILoginInput, LoginResponseModel>(input =>
         type: LOGIN,
         payload: {
             promise: getClient(AccountClient).exchange("password", input.username, input.password)
+        },
+        options: {
+            useMessage: true
         }
     }));
+
+
 
 export interface ISignupInput {
     username: string;

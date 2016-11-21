@@ -8,13 +8,16 @@ import { clear } from "../../actions/message";
 import { TState } from "../../reducers/message";
 
 import { MessageBar, MessageBarType } from "office-ui-fabric-react/lib/MessageBar";
+import LinkString from "../../components/ui/strLink";
 
 export const Layout = ({ message, clear, nav, content }): JSX.Element => {
     let m: JSX.Element;
     if (!!message) {
         m = <MessageBar
             messageBarType={message.type}
-            onDismiss={clear}>{message.message}</MessageBar>;
+            onDismiss={clear}>
+            <LinkString link={message.message} />
+        </MessageBar>;
     }
 
     return <Grid className="layout">

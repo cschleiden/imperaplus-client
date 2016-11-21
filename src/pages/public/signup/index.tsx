@@ -12,7 +12,7 @@ import { ErrorCodes } from "../../../i18n/errorCodes";
 
 import { resetForm, changeField } from "../../../actions/forms";
 import { signup } from "../../../actions/session";
-import { IForms, IForm } from "../../../reducers/forms";
+import { IForm } from "../../../reducers/forms";
 
 import { Button, ButtonType } from "office-ui-fabric-react/lib/Button";
 import { ProgressButton } from "../../../components/ui/progressButton";
