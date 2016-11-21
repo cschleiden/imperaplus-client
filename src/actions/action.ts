@@ -22,7 +22,10 @@ export interface IAsyncActionOptions {
     useMessage?: boolean;
 
     beforeSuccess?: (dispatch) => void;
+    afterSuccess?: (dispatch) => void;
+
     beforeError?: (dispatch) => void;
+    afterError?: (dispatch) => void;
 }
 
 export const makeAsyncAction = <TInput, TResult>(

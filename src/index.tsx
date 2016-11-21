@@ -23,8 +23,19 @@ import { render, unmountComponentAtNode } from "react-dom";
 import { Router, Route, IndexRoute, browserHistory } from "react-router";
 import { syncHistoryWithStore, routerMiddleware } from "react-router-redux";
 
+import { TokenProvider } from "./services/tokenProvider";
+
 import App from "./app";
 import { store } from "./store";
+
+// Set token retriever for http clients from global state.
+TokenProvider.tokenRetriever = () => {
+  let state = store && store.getState();
+  if (state) {
+    const session = state.session.data;
+    return session.access_token;
+  }
+};
 
 const rootElement = document.getElementById("root");
 

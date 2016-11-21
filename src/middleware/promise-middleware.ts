@@ -40,6 +40,10 @@ export default function promiseMiddleware({ dispatch }) {
                     payload: result,
                     meta,
                 });
+
+                if (options && options.afterSuccess) {
+                    options.afterSuccess(dispatch);
+                }
             },
             (error: ErrorResponse) => {
                 if (options && options.beforeError) {

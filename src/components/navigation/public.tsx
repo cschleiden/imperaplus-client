@@ -1,8 +1,6 @@
 import * as React from "react";
 
 import { Link, IndexLink } from "react-router";
-import { connect } from "react-redux";
-import { push } from "react-router-redux";
 
 export default (): JSX.Element => {
     return <ul className="nav">

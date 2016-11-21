@@ -1,26 +1,44 @@
 import { push, replace } from "react-router-redux";
 import { IAction, makeAsyncAction } from "./action";
 
-import { getClient } from "../clients/clientFactory";
-import { AccountClient, LoginResponseModel } from "../external/imperaClients";
+import { getCachedClient, createClientWithToken } from "../clients/clientFactory";
+import { AccountClient, UserInfo } from "../external/imperaClients";
+
+import { TokenProvider } from "../services/tokenProvider";
 
 export interface ILoginInput {
     username: string;
     password: string;
 }
 
+export interface ILoginPayload {
+    access_token: string;
+    userInfo: UserInfo;
+}
+
 export const LOGIN = "login";
-export const login = makeAsyncAction<ILoginInput, LoginResponseModel>(input =>
+export const login = makeAsyncAction<ILoginInput, ILoginPayload>((input, dispatch) =>
     ({
         type: LOGIN,
         payload: {
-            promise: getClient(AccountClient).exchange("password", input.username, input.password)
+            promise: getCachedClient(AccountClient)
+                .exchange("password", input.username, input.password)
+                .then(result => {
+                    let authenticatedClient = createClientWithToken(AccountClient, result.access_token);
+                    return authenticatedClient.getUserInfo().then(userInfo => ({
+                        access_token: result.access_token,
+                        userInfo: userInfo
+                    }));
+                })
         },
         options: {
-            useMessage: true
+            useMessage: true,
+            afterSuccess: dispatch => dispatch(push("game/start"))
         }
     }));
 
+
+export const LOGOUT = "logout";
 
 
 export interface ISignupInput {
@@ -35,19 +53,17 @@ export const signup = makeAsyncAction<ISignupInput, void>((input, dispatch) =>
     ({
         type: SIGNUP,
         payload: {
-            promise: getClient(AccountClient).register({
+            promise: getCachedClient(AccountClient).register({
                 userName: input.username,
                 password: input.password,
                 confirmPassword: input.passwordConfirm,
                 email: input.email,
                 language: "en", // TODO: CS
                 callbackUrl: "" // TODO
-            }).then(result => {
-                // Success
-                dispatch(replace("signup/confirmation"));
             })
         },
         options: {
-            useMessage: true
+            useMessage: true,
+            afterSuccess: dispatch => dispatch(replace("signup/confirmation"))
         }
     }));

@@ -11,11 +11,24 @@ import MainLayout from "./components/layouts/main";
 import PublicLayout from "./components/layouts/public";
 import PublicNav from "./components/navigation/public";
 import Game from "./components/navigation/game";
-import Create from "./pages/create/create";
+
+// Public
 import { Home, SignupConfirmation, Login } from "./pages/public";
 import Signup from "./pages/public/signup";
 
-import { resetForm } from "./actions/forms";
+// Game
+import GameLayout from "./components/layouts/game";
+import GameNav from "./components/navigation/game";
+import Start from "./pages/start";
+
+function checkLoggedIn(store, nextState, replace) {
+    const state = store.getState();
+    const session = state.session.data;
+
+    if (!session.isLoggedIn) {
+        replace("/login");
+    }
+}
 
 export default class App extends React.Component<{ store, history }, void> {
     public render() {
@@ -28,14 +41,14 @@ export default class App extends React.Component<{ store, history }, void> {
                         <IndexRoute component={Home} />
 
                         <Route path="/signup" component={Signup} />
-                        <Route path="/signup/confirmation" component={SignupConfirmation} />
+                        <Route path="signup/confirmation" component={SignupConfirmation} />
 
                         <Route path="login" component={Login} />
                     </Route>
 
-                    {/* in game */}
-                    <Route path="game" components={{ nav: Game, content: Home }}>
-
+                    {/* in game */}                    
+                    <Route path="/game" components={{ nav: Game, content: GameLayout }} onEnter={checkLoggedIn.bind(this, this.props.store)}>
+                        <Route path="start" component={Start} />
                     </Route>
                 </Route>
             </Router>

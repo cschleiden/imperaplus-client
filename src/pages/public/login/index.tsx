@@ -18,7 +18,7 @@ export const LoginComponent = (props) => {
         <GridRow>
             <GridColumn className="ms-u-md6 ms-u-sm12 border-right">
                 <p>
-                    {__("Sign in using your Impera account... 2")}
+                    {__("Sign in using your Impera account...")}
                 </p>
 
                 <Form
@@ -46,7 +46,7 @@ export const LoginComponent = (props) => {
                                 <ProgressButton
                                     buttonType={ButtonType.primary}
                                     isActive={isPending}>
-                                    {__("Register")}
+                                    {__("Login")}
                                 </ProgressButton>
                             </div>
                         </div>

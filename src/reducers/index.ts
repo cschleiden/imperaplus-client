@@ -2,17 +2,17 @@ import { combineReducers } from "redux";
 
 import { routerReducer } from "react-router-redux";
 
-import { create } from "./createReducer";
+import { session } from "./session";
 import { forms } from "./forms";
 import { message } from "./message";
 
 const rootReducer = combineReducers({
-    create,
 
     // General reducers
+    session,
     routing: routerReducer,
-    forms: forms,
-    message: message
+    forms,
+    message
 });
 
 export default rootReducer;

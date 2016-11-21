@@ -1,34 +1,25 @@
 import * as React from "react";
 
+import { Link, IndexLink } from "react-router";
+
 export default (): JSX.Element => {
     return <ul className="nav">
         <li>
-            <a href="#">Home</a>
+            <IndexLink to="/game/start" activeClassName="active">Start</IndexLink>
         </li>
         <li>
-            <a href="#">Signup</a>
-        </li>
-        <li>
-            <a href="#">Login</a>
+            <Link to="/signup" activeClassName="active">Games</Link>
             <ul className="nav-dropdown">
                 <li>
-                    <a href="#">Home</a>
+                    <Link to="/signup" activeClassName="active">My</Link>
                 </li>
                 <li>
-                    <a href="#">Home</a>
+                    <Link to="/signup" activeClassName="active">Create</Link>
                 </li>
             </ul>
         </li>
         <li>
-            <a href="#">Login</a>
-            <ul className="nav-dropdown">
-                <li>
-                    <a href="#">Home</a>
-                </li>
-                <li>
-                    <a href="#">Home</a>
-                </li>
-            </ul>
+            <Link to="/login" activeClassName="active">Logout</Link>
         </li>
     </ul>;
 };
