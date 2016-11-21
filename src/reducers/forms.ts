@@ -1,5 +1,5 @@
 import { makeImmutable, IImmutable } from "immuts";
-import { reducerMap } from "./shared";
+import { reducerMap } from "./lib/shared";
 
 import { IAction, success, pending, failed } from "../actions/action";
 import * as FormActions from "../actions/forms";

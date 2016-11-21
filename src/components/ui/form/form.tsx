@@ -3,6 +3,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { IImmutable } from "immuts";
 
+import { IAsyncAction } from "../../../actions/action";
 import { submitForm, FormMode, resetForm, changeField } from "../../../actions/forms";
 import { signup } from "../../../actions/session";
 import { IForms, IForm } from "../../../reducers/forms";
@@ -10,14 +11,15 @@ import { contextTypes, IFormContext } from "./types";
 
 /** User provided input */
 interface IFormProps {
-    component: (props: { 
+    component: (props: {
         isPending: boolean;
-        formState: IForm; 
-        submit: () => void; }) => JSX.Element;
+        formState: IForm;
+        submit: () => void;
+    }) => JSX.Element;
 
     name: string;
 
-    onSubmit?: <TResult>(formState: IForm) => Promise<TResult>;
+    onSubmit?: <TResult, TData>(formState: IForm, options) => any; // Should be thunk action
     onSubmitSuccess?: <TResult>(result: TResult) => void;
     onSubmitFailed?: <TError>(error: TError) => void;
 }
@@ -77,19 +79,10 @@ export default connect((state: { forms: IImmutable<IForms> }, ownProps: IFormPro
         // Mark form as pending
         dispatch(submitForm(ownProps.name, FormMode.Pending));
 
-        ownProps.onSubmit(formState).then((result) => {
-            dispatch(submitForm(ownProps.name, FormMode.Success));
-
-            if (ownProps.onSubmitSuccess) {
-                ownProps.onSubmitSuccess(result);
-            }
-        }, (error) => {
-            dispatch(submitForm(ownProps.name, FormMode.Failed));
-
-            if (ownProps.onSubmitFailed) {
-                ownProps.onSubmitFailed(error);
-            }
-        });
+        dispatch(ownProps.onSubmit(formState, {
+            beforeSuccess: dispatch => dispatch(submitForm(ownProps.name, FormMode.Success)),
+            beforeError: dispatch => dispatch(submitForm(ownProps.name, FormMode.Failed))
+        }));
     },
     reset: () => dispatch(resetForm(ownProps.name)),
     changeField: (fieldName: string, value: string | boolean | number) => dispatch(changeField(ownProps.name, fieldName, value))

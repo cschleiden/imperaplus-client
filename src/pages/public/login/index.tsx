@@ -11,10 +11,6 @@ export default class extends React.Component<{}, void> {
         super(props);
     }
 
-    public componentDidMount() {
-        console.log("mounted3");
-    }
-
     public render() {
         return <Grid className="login">
             <GridRow>

@@ -8,20 +8,18 @@ import { IImmutable } from "immuts";
 
 import { getClient } from "../../../clients/clientFactory";
 import { AccountClient, ErrorResponse } from "../../../external/imperaClients";
+import { ErrorCodes } from "../../../i18n/errorCodes";
 
 import { resetForm, changeField } from "../../../actions/forms";
 import { signup } from "../../../actions/session";
 import { IForms, IForm } from "../../../reducers/forms";
 
-import { MessageBar, MessageBarType } from "office-ui-fabric-react/lib/MessageBar";
 import { Button, ButtonType } from "office-ui-fabric-react/lib/Button";
 import { ProgressButton } from "../../../components/ui/progressButton";
 import { Grid, GridRow, GridColumn } from "../../../components/layout";
 
 import Form from "../../../components/ui/form/form";
 import { ControlledCheckBox, ControlledTextField } from "../../../components/ui/form/inputs";
-
-import { Test } from "./test";
 
 interface ISignupFields {
     username: string;
@@ -36,66 +34,25 @@ interface ISignupProps {
     dispatch: Function;
 }
 
-interface ISignupState {
-    error: string;
-}
-
-export class SignupComponent extends React.Component<ISignupProps, ISignupState> {
-    constructor(props, context) {
-        super(props, context);
-
-        console.log("ctor");
-
-        this.state = {
-            error: null
-        };
-    }
-
-    private _clearError = () => {
-        this.setState({
-            error: null
-        });
-    }
-
-    public componentDidMount() {
-        console.log("mount");
-    }
-
+export class SignupComponent extends React.Component<ISignupProps, void> {
     public render(): JSX.Element {
-        let error: JSX.Element;
-        if (!!this.state.error) {
-            error = <MessageBar messageBarType={MessageBarType.error} onDismiss={this._clearError}>
-                {this.state.error}
-            </MessageBar>;
-        }
-
         return <Grid className="signup">
             <GridRow>
-                {error}
-            </GridRow>
-
-            <GridRow>
                 <GridColumn className="ms-u-md6 ms-u-sm12 border-right">
-                    <Test />
-
                     <p>
-                        {__("Register a new account. It is completely free.1")}
+                        {__("Register a new account. It is completely free.")}
                     </p>
 
                     <Form
                         name="signup"
-                        onSubmit={(formState: IForm) => {
-                            return getClient(AccountClient).register({
-                                userName: formState.fields["username"].value as string,
+                        onSubmit={((formState: IForm, options) => {
+                            return signup({
+                                username: formState.fields["username"].value as string,
                                 password: formState.fields["password"].value as string,
-                                confirmPassword: formState.fields["passwordconfirm"].value as string,
-                                email: formState.fields["email"].value as string,
-                                language: "en", // TODO: CS
-                                callbackUrl: "" // TODO
-                            });
-                        } }
-                        onSubmitSuccess={this._onSubmitSucess}
-                        onSubmitFailed={this._onSubmitFail}
+                                passwordConfirm: formState.fields["passwordconfirm"].value as string,
+                                email: formState.fields["email"].value as string
+                            }, options);
+                        })}
                         component={({ isPending, submit, formState }) => (
                             <div className="form">
                                 <ControlledTextField
@@ -170,12 +127,6 @@ export class SignupComponent extends React.Component<ISignupProps, ISignupState>
 
     private _onSubmitSucess = () => {
         this.props.dispatch(push("signup/confirmation"));
-    }
-
-    private _onSubmitFail = (error: ErrorResponse) => {
-        this.setState({
-            error: error.error
-        });
     }
 }
 

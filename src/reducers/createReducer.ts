@@ -1,5 +1,5 @@
 import { makeImmutable, IImmutable } from "immuts";
-import { reducerMap } from "./shared";
+import { reducerMap } from "./lib/shared";
 
 import { ISession, SessionMode } from "../model/session";
 

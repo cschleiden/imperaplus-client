@@ -4,11 +4,15 @@ import { routerReducer } from "react-router-redux";
 
 import { create } from "./createReducer";
 import { forms } from "./forms";
+import { message } from "./message";
 
 const rootReducer = combineReducers({
-    routing: routerReducer,
     create,
-    forms: forms
+
+    // General reducers
+    routing: routerReducer,
+    forms: forms,
+    message: message
 });
 
 export default rootReducer;
