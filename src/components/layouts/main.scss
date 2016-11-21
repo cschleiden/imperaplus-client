@@ -77,7 +77,7 @@ $headerHeight: 120px;
         text-transform: uppercase;
         
         
-        a {
+        & > a {
           @include ms-font-m-plus;
           color: $ms-color-neutralSecondary;
 

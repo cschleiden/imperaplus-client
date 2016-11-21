@@ -1,8 +1,10 @@
 import * as React from "react";
-
+import { connect } from "react-redux";
 import { Link, IndexLink } from "react-router";
 
-export default (): JSX.Element => {
+import { logout } from "../../actions/session";
+
+export const GameNavigation = ({ dispatch }): JSX.Element => {
     return <ul className="nav">
         <li>
             <IndexLink to="/game/start" activeClassName="active">Start</IndexLink>
@@ -19,7 +21,14 @@ export default (): JSX.Element => {
             </ul>
         </li>
         <li>
-            <Link to="/login" activeClassName="active">Logout</Link>
+            <a href="#" onClick={((e) => {
+                dispatch(logout(null));
+
+                e.preventDefault();
+                return false;
+            })}>Logout</a>
         </li>
     </ul>;
 };
+
+export default connect()(GameNavigation);

@@ -39,7 +39,15 @@ export const login = makeAsyncAction<ILoginInput, ILoginPayload>((input, dispatc
 
 
 export const LOGOUT = "logout";
-
+export const logout = makeAsyncAction<void, void>(() => ({
+    type: LOGOUT,
+    payload: {
+        promise: getCachedClient(AccountClient).logout()
+    },
+    options: {
+        afterSuccess: dispatch => dispatch(push("/"))
+    }
+}));
 
 export interface ISignupInput {
     username: string;

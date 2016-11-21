@@ -26,17 +26,18 @@ const login = (state: State, action: IAction<ILoginPayload>) => {
         userInfo: action.payload.userInfo
     });
 };
+
 const logout = (state: State, action: IAction<void>) => {
-    return state.set(x => x, {
+    return makeImmutable<ISessionState>({
         access_token: null,
         userInfo: null,
         isLoggedIn: false
     });
 };
 
-export const session = (
+export const session = <TPayload>(
     state: IImmutable<ISessionState> = initialState,
-    action?: IAction<any>): IImmutable<ISessionState> => {
+    action?: IAction<TPayload>): IImmutable<ISessionState> => {
 
     return reducerMap(action, state, {
         [success(LOGIN)]: login,
