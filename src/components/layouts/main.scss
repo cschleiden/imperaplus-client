@@ -4,184 +4,179 @@
 html {
     font-family: sans-serif;
     -ms-text-size-adjust: 100%;
-    -webkit-text-size-adjust: 100%
+    -webkit-text-size-adjust: 100%;
 }
 
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
+body,
+html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-  background: repeat url('/assets/pattern.png');
+    background: repeat url('/assets/pattern.png');
 }
 
 // General styles
 a {
-  color: $accent;
-  text-decoration: none;
-  
-  &:hover {
-    text-decoration: underline;
-  }
+    color: $accent;
+    text-decoration: none;
+    &:hover {
+        text-decoration: underline;
+    }
 }
 
 .layout {
-  position: relative;
-  
-  max-width: 970px;
-  min-height: 100%;
-  
-  margin: 0 auto;
-  
-  background: white;
-  box-shadow: 0 0 5px #ccc;
+    position: relative;
+
+    max-width: 970px;
+    min-height: 100%;
+
+    margin: 0 auto;
+
+    background: white;
+    box-shadow: 0 0 5px #ccc;
 }
 
 $headerHeight: 120px;
 .header {
-  .logo {
-    padding: $spacing * 2;
-    height: $headerHeight;
-    
-    img {
-      height: 100%;
-    }
-  }
-  
-  .navigation {
-    height: $headerHeight;
-    
-    text-align: right;
-    position: relative;
-    
-    a {
-      color: black;
-      text-decoration: none;
-    }  
-    
-    ul.nav {
-      position: absolute;
-      bottom: 0;
-      right: 0;      
-      
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      
-      & > li {           
-        display: inline-block;
-        position: relative;
-        
-        text-transform: uppercase;
-        
-        
-        & > a {
-          @include ms-font-m-plus;
-          color: $ms-color-neutralSecondary;
+    .logo {
+        padding: $spacing * 2;
+        height: $headerHeight;
 
-          display: inline-block;
-                    
-          padding: $spacing 2 * $spacing;
-          border-bottom: 2px solid transparent;
-
-          &.active,
-          &:hover {
-            border-bottom: 2px solid $accent;
-          }
-
-          &.active {
-            color: $accent;
-          }
+        img {
+            height: 100%;
         }
-        
-        // Show dropdown         
-        &:hover { 
-          ul.nav-dropdown {
-            display: block;
-          }
-        }                
-      }
-      
-      ul.nav-dropdown {
-        display: none;        
-        
-        border-top: 2px solid $accent;
-        background: white;
-        box-shadow: 0 6px 12px rgba(0,0,0,0.175);
-
-        min-width: 100px;
-        z-index: 9999 !important;
-
-        position: absolute;
-        top: calc(100% - 2px);
-        left: 0;
-        right: 0;
-
-        list-style: none;
-        padding: 0;
-        margin: 0;
-
-        text-align: left;
-
-        li {
-          margin: 0;
-          padding: 0;
-
-          cursor: pointer;
-          padding: $spacing;
-
-          a {
-            display: block;
-          }
-          
-          &:hover {
-            a {
-              color: white;
-            }
-            
-            background: $dark;
-          }
-        }        
-      }
-      
-      // Fix alignment for right-most nav element
-      & > li:last-child ul.nav-dropdown {
-        left: inherit;
-      }
     }
-  }
+
+    .navigation {
+        height: $headerHeight;
+
+        text-align: right;
+        position: relative;
+
+        a {
+            color: black;
+            text-decoration: none;
+        }
+
+        ul.nav {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+
+            list-style: none;
+            padding: 0;
+            margin: 0;
+
+            & > li {
+                display: inline-block;
+                position: relative;
+
+                & > a {
+                    text-transform: uppercase;
+                    @include ms-font-m-plus;
+                    color: $ms-color-neutralSecondary;
+
+                    display: inline-block;
+
+                    padding: $spacing #{2 * $spacing / 2};
+                    border-bottom: 2px solid transparent;
+                    &.active,
+                    &:hover {
+                        border-bottom: 2px solid $accent;
+                    }
+
+                    &.active {
+                        color: $accent;
+                    }
+                }
+
+                // Show dropdown         
+                &:hover {
+                    ul.nav-dropdown {
+                        display: block;
+                    }
+                }
+            }
+
+            ul.nav-dropdown {
+                display: none;
+
+                border-top: 2px solid $accent;
+                background: white;
+                box-shadow: 0 6px 12px rgba(0,0,0,0.175);
+
+                min-width: 150px;
+                z-index: 9999 !important;
+
+                position: absolute;
+                top: calc(100% - 2px);
+                left: 0;
+                right: 0;
+
+                list-style: none;
+                padding: 0;
+                margin: 0;
+
+                text-align: left;
+
+                li {
+                    margin: 0;
+                    padding: 0;
+
+                    cursor: pointer;
+                    padding: $spacing;
+
+                    a {
+                        display: block;
+                    }
+                    &:hover {
+                        a {
+                            color: white;
+                        }
+
+                        background: $dark;
+                    }
+                }
+            }
+
+            // Fix alignment for right-most nav element
+            & > li:last-child ul.nav-dropdown {
+                left: inherit;
+            }
+        }
+    }
 }
 
 .content {
-  background: url('/assets/background.png') repeat-x #fff;
-  padding-bottom: 50px;
-  min-height: 500px;
+    background: url('/assets/background.png') repeat-x #fff;
+    padding-bottom: 50px;
+    min-height: 500px;
 
-  .ms-Grid-row {
-    margin: 15px 0;
-  }
+    .ms-Grid-row {
+        margin: 15px 0;
+    }
 }
 
 $footerBg: $dark;
 $footerHeight: 40px;
 .footer {
-  position: absolute;
-  bottom: 0;
-  left: 0; 
-  right: 0;
-  
-  margin: 0px;
-  
-  background: $footerBg;
-  color: white;
-  font-size: $fontSmall;
-  
-  height: $footerHeight;
-  line-height: $footerHeight;
-  
-  padding: 0 $spacing;
-  
-  @include ellipsis;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    margin: 0;
+
+    background: $footerBg;
+    color: white;
+    font-size: $fontSmall;
+
+    height: $footerHeight;
+    line-height: $footerHeight;
+
+    padding: 0 $spacing;
+    @include ellipsis;
 }

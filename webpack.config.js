@@ -90,6 +90,7 @@ const config = (lang) => {
                 loaders.tslint,
             ],
             loaders: [
+                loaders.json,
                 loaders.tsx,
                 loaders.html,
                 loaders.scss,

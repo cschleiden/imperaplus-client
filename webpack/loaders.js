@@ -1,5 +1,10 @@
 'use strict';
 
+exports.json = {
+  test: /\.json$/,
+  loader: 'json'
+};
+
 exports.tslint = {
   test: /\.tsx?$/,
   loader: 'tslint',

@@ -11,9 +11,9 @@ import { MessageBar, MessageBarType } from "office-ui-fabric-react/lib/MessageBa
 import LinkString from "../../components/ui/strLink";
 
 export const Layout = ({ message, clear, nav, content }): JSX.Element => {
-    let m: JSX.Element;
+    let msg: JSX.Element;
     if (!!message) {
-        m = <MessageBar
+        msg = <MessageBar
             messageBarType={message.type}
             onDismiss={clear}>
             <LinkString link={message.message} />
@@ -31,7 +31,7 @@ export const Layout = ({ message, clear, nav, content }): JSX.Element => {
         </GridRow>
 
         <GridRow>
-            {m}
+            {msg}
         </GridRow>
 
         <GridRow className="content">
