@@ -33,7 +33,7 @@ export const login = makeAsyncAction<ILoginInput, ILoginPayload>((input, dispatc
         },
         options: {
             useMessage: true,
-            afterSuccess: dispatch => dispatch(push("game/start"))
+            afterSuccess: d => d(push("game/start"))
         }
     }));
 
@@ -72,6 +72,6 @@ export const signup = makeAsyncAction<ISignupInput, void>((input, dispatch) =>
         },
         options: {
             useMessage: true,
-            afterSuccess: dispatch => dispatch(replace("signup/confirmation"))
+            afterSuccess: d => d(replace("signup/confirmation"))
         }
     }));

@@ -1,5 +1,5 @@
 export default (date: Date): string => {
-    var calculateDelta, day, hour, minute, month, week, year;
+    let calculateDelta, day, hour, minute, month, week, year;
     minute = 60;
     hour = minute * 60;
     day = hour * 24;
@@ -7,10 +7,10 @@ export default (date: Date): string => {
     month = day * 30;
     year = day * 365;
 
-    var now = new Date();
+    const now = new Date();
     calculateDelta = () => Math.round((now.getTime() - date.getTime()) / 1000);
 
-    var delta = calculateDelta();
+    let delta = calculateDelta();
     if (delta > day && delta < week) {
         date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0);
         delta = calculateDelta();

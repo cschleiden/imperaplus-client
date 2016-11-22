@@ -80,8 +80,8 @@ export default connect((state: { forms: IImmutable<IForms> }, ownProps: IFormPro
         dispatch(submitForm(ownProps.name, FormMode.Pending));
 
         dispatch(ownProps.onSubmit(formState, {
-            beforeSuccess: dispatch => dispatch(submitForm(ownProps.name, FormMode.Success)),
-            beforeError: dispatch => dispatch(submitForm(ownProps.name, FormMode.Failed))
+            beforeSuccess: d => d(submitForm(ownProps.name, FormMode.Success)),
+            beforeError: d => d(submitForm(ownProps.name, FormMode.Failed))
         }));
     },
     reset: () => dispatch(resetForm(ownProps.name)),

@@ -74,8 +74,8 @@ export class SignupComponent extends React.Component<ISignupProps, void> {
                                     label={__("Password (repeat)")}
                                     placeholder={__("Repeat password")} type="password"
                                     fieldName="passwordconfirm"
-                                    validate={(value: string, formState: IForm) => {
-                                        if (formState.fields["password"] && formState.fields["password"].value !== value) {
+                                    validate={(value: string, form: IForm) => {
+                                        if (form.fields["password"] && form.fields["password"].value !== value) {
                                             return __("Passwords do not match");
                                         }
                                     } }
