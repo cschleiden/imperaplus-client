@@ -2,7 +2,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { Link, IndexLink } from "react-router";
 
-import { logout } from "../../actions/session";
+import { logout } from "../../common/session/session.actions";
 
 export const GameNavigation = ({ dispatch }): JSX.Element => {
     return <ul className="nav">

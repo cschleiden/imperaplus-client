@@ -1,19 +1,21 @@
 import { makeImmutable, IImmutable } from "immuts";
-import { reducerMap } from "./lib/shared";
-import { NewsClient, NewsItem } from "../external/imperaClients";
-import { IAction, success, pending, failed } from "../actions/action";
-import { REFRESH } from "../actions/news";
+import reducerMap from "../../lib/reducerMap";
+import { NewsClient, NewsItem } from "../../external/imperaClients";
+import { IAction, success, pending, failed } from "../../lib/action";
+import { REFRESH } from "./news.actions";
 
 const initialState = makeImmutable({
     isLoading: false,
     news: [] as NewsItem[]
 });
 
-const refresh = (state: typeof initialState, action: IAction<NewsItem[]>) => {
+export type INewsState = typeof initialState;
+
+const refresh = (state: INewsState, action: IAction<NewsItem[]>) => {
     return state.set(x => x.news, action.payload).set(x => x.isLoading, false);
 };
 
-const loading = (state: typeof initialState, action: IAction<NewsItem[]>) => {
+const loading = (state: INewsState, action: IAction<NewsItem[]>) => {
     return state.set(x => x.isLoading, true);
 };
 

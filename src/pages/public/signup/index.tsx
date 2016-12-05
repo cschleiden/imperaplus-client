@@ -10,16 +10,16 @@ import { getCachedClient } from "../../../clients/clientFactory";
 import { AccountClient, ErrorResponse } from "../../../external/imperaClients";
 import { ErrorCodes } from "../../../i18n/errorCodes";
 
-import { resetForm, changeField } from "../../../actions/forms";
-import { signup } from "../../../actions/session";
-import { IForm } from "../../../reducers/forms";
+import { resetForm, changeField } from "../../../common/forms/forms.actions";
+import { IForm } from "../../../common/forms/forms.reducer";
+import { signup } from "../../../common/session/session.actions";
 
 import { Button, ButtonType } from "office-ui-fabric-react/lib/Button";
 import { ProgressButton } from "../../../components/ui/progressButton";
 import { Grid, GridRow, GridColumn } from "../../../components/layout";
 
-import Form from "../../../components/ui/form/form";
-import { ControlledCheckBox, ControlledTextField } from "../../../components/ui/form/inputs";
+import Form from "../../../common/forms/form";
+import { ControlledCheckBox, ControlledTextField } from "../../../common/forms/inputs";
 
 interface ISignupFields {
     username: string;

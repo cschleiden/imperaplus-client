@@ -1,7 +1,7 @@
 import * as Redux from "redux";
 import { Action, createAction } from "redux-actions";
 
-import { IAction, makeAsyncAction } from "./action";
+import { IAction } from "../../lib/action";
 
 export const RESET_FORM = "reset-form";
 export const resetForm = (form: string): IAction<string> => ({

@@ -6,7 +6,7 @@ import { UserInfo, NewsItem, NewsContent } from "../../external/imperaClients";
 import { Grid, GridRow, GridColumn } from "../../components/layout";
 import HumanDate from "../../components/ui/humanDate";
 
-import { refresh } from "../../actions/news";
+import { refresh } from "./news.actions";
 
 export interface IStartProps {
     userInfo: UserInfo;

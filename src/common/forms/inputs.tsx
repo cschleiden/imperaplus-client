@@ -1,7 +1,7 @@
 import * as React from "react";
 
-import { resetForm, changeField } from "../../../actions/forms";
-import { IForms, IForm } from "../../../reducers/forms";
+import { resetForm, changeField } from "./forms.actions";
+import { IForms, IForm } from "./forms.reducer";
 
 import { TextField, ITextFieldProps } from "office-ui-fabric-react/lib/TextField";
 import { Checkbox, ICheckboxProps } from "office-ui-fabric-react/lib/Checkbox";

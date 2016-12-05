@@ -1,9 +1,9 @@
 import { makeImmutable, IImmutable } from "immuts";
-import { reducerMap } from "./lib/shared";
+import reducerMap from "../../lib/reducerMap";
 
-import { IAction, success, pending, failed } from "../actions/action";
-import * as FormActions from "../actions/forms";
-import { ISession, SessionMode } from "../model/session";
+import { IAction, success, pending, failed } from "../../lib/action";
+import * as FormActions from "./forms.actions";
+import { ISession, SessionMode } from "../../model/session";
 
 export interface IForms {
     forms: {

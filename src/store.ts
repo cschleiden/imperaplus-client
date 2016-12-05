@@ -8,9 +8,13 @@ import thunkMiddleware from "redux-thunk";
 import * as createLogger from "redux-logger";
 import promiseMiddleware from "./middleware/promise-middleware";
 
+import { IAsyncActionDependencies } from "./lib/action";
+import { getCachedClient, createClientWithToken } from "./clients/clientFactory";
+import { getSignalRClient, ISignalRClient } from "./clients/signalrFactory";
+
 // Reducers
 import { makeImmutable, IImmutable } from "immuts";
-import rootReducer from "./reducers/index";
+import rootReducer, { IState } from "./reducers";
 
 // Create main store
 // TODO: CS: generalize
@@ -25,11 +29,21 @@ const compose = composeWithDevTools({
   shouldHotReload: true
 }) || Redux.compose;
 
-export const store = Redux.createStore(
+// TODO: CS: Retrieve from config
+const baseUri = "http://localhost:57676/";
+
+export const store = Redux.createStore<IState>(
   rootReducer,
   compose(
     Redux.applyMiddleware(
       routerMiddleware(browserHistory),
       promiseMiddleware as any,
-      thunkMiddleware,
+      thunkMiddleware.withExtraArgument({
+        getCachedClient: getCachedClient.bind(null, baseUri),
+        createClientWithToken: createClientWithToken.bind(null, baseUri),
+        getSignalRClient: (hubName: string, options): ISignalRClient => {
+          const token = store.getState().session.data.access_token;
+          return getSignalRClient(baseUri, token, hubName, options);
+        }
+      } as IAsyncActionDependencies),
       createLogger())));

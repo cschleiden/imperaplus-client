@@ -29,6 +29,10 @@ const basePlugins = [
         __DEV__: process.env.NODE_ENV !== 'production',
         'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
     }),
+    new webpack.ProvidePlugin({
+        $: "jquery",
+        jQuery: "jquery"
+    }),
     new HtmlWebpackPlugin({
         template: './src/index.html',
         inject: 'body',
@@ -99,6 +103,7 @@ const config = (lang) => {
                 loaders.woff,
                 loaders.woff2,
                 loaders.ttf,
+                { test: /jquery\.js$/, loader: 'expose?jQuery!expose?$' }
             ]
         }
     };

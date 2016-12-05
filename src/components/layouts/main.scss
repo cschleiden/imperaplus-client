@@ -34,9 +34,14 @@ a {
     min-height: 100%;
 
     margin: 0 auto;
+    padding: 0;
 
     background: white;
     box-shadow: 0 0 5px #ccc;
+
+    .ms-Grid-row {
+        margin: 0;
+    }
 }
 
 $headerHeight: 120px;

@@ -2,13 +2,13 @@ import objectAssign = require("object-assign");
 
 import { MessageBarType } from "office-ui-fabric-react/lib/MessageBar";
 import { ErrorResponse } from "../external/imperaClients";
-import { IAsyncAction, IAsyncPayload, success, pending, failed } from "../actions/action";
-import { show } from "../actions/message";
+import { IPromiseAction, IAsyncPayload, success, pending, failed } from "../lib/action";
+import { show } from "../common/message/message.actions";
 import { ErrorCodes } from "../i18n/errorCodes";
 
 export default function promiseMiddleware({ dispatch }) {
-    return next => <TResult, TData>(action: IAsyncAction<TResult, TData>) => {
-        // Check whether it's an async action
+    return next => <TResult, TData>(action: IPromiseAction<TResult, TData>) => {
+        // Check whether it's an async action with a promise
         if (!action || !action.payload || !isPromise(action.payload.promise)) {
             return next(action);
         }

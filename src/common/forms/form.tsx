@@ -3,10 +3,9 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { IImmutable } from "immuts";
 
-import { IAsyncAction } from "../../../actions/action";
-import { submitForm, FormMode, resetForm, changeField } from "../../../actions/forms";
-import { signup } from "../../../actions/session";
-import { IForms, IForm } from "../../../reducers/forms";
+import { IPromiseAction } from "../../lib/action";
+import { submitForm, FormMode, resetForm, changeField } from "./forms.actions";
+import { IForms, IForm } from "./forms.reducer";
 import { contextTypes, IFormContext } from "./types";
 
 /** User provided input */

@@ -3,12 +3,12 @@ import "./login.scss";
 import * as React from "react";
 import { connect } from "react-redux";
 
-import { login } from "../../../actions/session";
+import { login } from "../../../common/session/session.actions";
 
-import Form from "../../../components/ui/form/form";
-import { IForm } from "../../../reducers/forms";
+import Form from "../../../common/forms/form";
+import { IForm } from "../../../common/forms/forms.reducer";
 
-import { ControlledCheckBox, ControlledTextField } from "../../../components/ui/form/inputs";
+import { ControlledCheckBox, ControlledTextField } from "../../../common/forms/inputs";
 import { Button, ButtonType } from "office-ui-fabric-react/lib/Button";
 import { ProgressButton } from "../../../components/ui/progressButton";
 import { Grid, GridRow, GridColumn } from "../../../components/layout";

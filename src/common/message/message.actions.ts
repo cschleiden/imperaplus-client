@@ -1,4 +1,4 @@
-import { IAction, makeAsyncAction } from "./action";
+import { IAction, makePromiseAction } from "../../lib/action";
 
 import { MessageBarType } from "office-ui-fabric-react/lib/MessageBar";
 

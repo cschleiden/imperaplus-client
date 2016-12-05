@@ -1,24 +1,35 @@
 import { TokenProvider } from "../services/tokenProvider";
 
-// TODO: CS: Retrieve from config
-const baseUri = "http://localhost:57676/";
 const clientCache: [any, any][] = [];
+export interface IClient<TClient> {
+    new (baseUri: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }): TClient;
+}
 
 export function getCachedClient<TClient>(
-    clientType: new (baseUri: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) => TClient): TClient {
-    for (let [cacheClientType, cachedInstance] of clientCache) {
-        if (cacheClientType === clientType) {
+    baseUri: string,
+    clientType: IClient<TClient>): TClient {
+    for (let [cachedClientType, cachedInstance] of clientCache) {
+        if (cachedClientType === clientType) {
             return cachedInstance;
         }
     }
 
-    let instance = createClient(clientType, () => TokenProvider.getToken());
+    let instance = createClient(baseUri, clientType, () => TokenProvider.getToken());
     clientCache.push([clientType, instance]);
     return instance;
 }
 
+export function createClientWithToken<TClient>(
+    baseUri: string,
+    clientType: IClient<TClient>,
+    access_token: string): TClient {
+
+    return createClient(baseUri, clientType, () => access_token);
+}
+
 function createClient<TClient>(
-    clientType: new (baseUri: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) => TClient,
+    baseUri: string,
+    clientType: IClient<TClient>,
     tokenRetriever: () => string): TClient {
     let client = new clientType(baseUri, {
         fetch: (url, init) => {
@@ -33,7 +44,7 @@ function createClient<TClient>(
             return fetch(url, init);
         }
     });
-    
+
     // Recreate dates.
     (<any>client).jsonParseReviver = (key: string, value: string): any => {
         if (typeof value === "string") {
@@ -47,11 +58,4 @@ function createClient<TClient>(
     };
 
     return client;
-}
-
-export function createClientWithToken<TClient>(
-    clientType: new (baseUri: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) => TClient,
-    access_token: string): TClient {
-
-    return createClient(clientType, () => access_token);
 }

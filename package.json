@@ -63,7 +63,7 @@
     "html-webpack-plugin": "^2.24.1",
     "i18n-webpack-plugin": "^0.3.0",
     "immutable": "^3.8.1",
-    "immuts": "0.1.0",
+    "immuts": "0.2.3",
     "istanbul": "^1.0.0-alpha.2",
     "json-loader": "^0.5.4",
     "load-themed-styles": "^1.2.0",
@@ -106,9 +106,15 @@
     "webpack": "^1.13.3",
     "webpack-dev-server": "^1.16.2",
     "webpack-hot-middleware": "^2.13.2",
-    "whatwg-fetch": "^2.0.0"
+    "whatwg-fetch": "^2.0.0",
+    "@types/q": "0.0.32",
+    "@types/signalr": "^2.2.32",
+    "i18n-extract": "^0.4.2",
+    "jquery": "^3.1.1",
+    "ms-signalr-client": "^2.2.5",
+    "q": "^1.4.1"
   },
   "devDependencies": {
-    "i18n-extract": "^0.4.2"
+    "expose-loader": "^0.7.1"
   }
 }
