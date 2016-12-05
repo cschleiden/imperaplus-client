@@ -12,7 +12,8 @@
     z-index: 100;
 }
 
-$windowHeightFull: 250px;
+$windowHeightFull: 350px;
+$windowWidthFull: 550px;
 $buttonWidth: 100px;
 
 $headerHeight: 32px;
@@ -28,7 +29,7 @@ $usersWidth: 100px;
     right: 50px;
     bottom: 0;
     z-index: 100;
-    width: 500px;
+    width: $windowWidthFull;
     height: $windowHeightFull;
     background: white;
 

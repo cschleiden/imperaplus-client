@@ -20,6 +20,7 @@ import Signup from "./pages/public/signup";
 import GameLayout from "./components/layouts/game";
 import GameNav from "./components/navigation/game";
 import Start from "./pages/start";
+import My from "./pages/games/games";
 import Chat from "./common/chat/chat";
 
 function checkLoggedIn(store, nextState, replace) {
@@ -41,7 +42,7 @@ export default class App extends React.Component<{ store, history }, void> {
                     <Route path="/" components={{ nav: PublicNav, content: PublicLayout }}>
                         <IndexRoute component={Home} />
 
-                        <Route path="/signup" component={Signup} />
+                        <Route path="signup" component={Signup} />
                         <Route path="signup/confirmation" component={SignupConfirmation} />
 
                         <Route path="login" component={Login} />
@@ -50,6 +51,8 @@ export default class App extends React.Component<{ store, history }, void> {
                     {/* in game */}                    
                     <Route path="/game" components={{ nav: Game, content: GameLayout, pageContent: Chat }} onEnter={checkLoggedIn.bind(this, this.props.store)}>
                         <Route path="start" component={Start} />
+
+                        <Route path="games/my" component={My} />
                     </Route>
                 </Route>
             </Router>

@@ -152,6 +152,10 @@ $headerHeight: 120px;
 
                     a {
                         display: block;
+
+                        &.active {
+                            color: $accent;
+                        }
                     }
                     &:hover {
                         a {
