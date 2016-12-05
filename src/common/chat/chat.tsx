@@ -58,14 +58,12 @@ export class Chat extends React.Component<IChatProps, IChatState> {
                 return <div className="chat-window">
                     <div className="chat-header">
                         <div>
-                            <Pivot linkFormat={PivotLinkFormat.links} linkSize={PivotLinkSize.normal} onLinkClick={this._switchChannel} initialSelectedKey={this.props.activeChannel}>
+                            <ul>
                                 {this.props.channels && this.props.channels.map(c =>
-                                    <PivotItem
-                                        key={c.identifier}
-                                        itemKey={c.identifier}
-                                        linkText={c.title}
-                                        />) || []}
-                            </Pivot>
+                                    <li key={c.identifier} className={this.props.activeChannel === c.identifier ? "selected" : ""}>
+                                        <a href="#" onClick={() => this._switchChannel(c.identifier)}>{c.title}</a>
+                                    </li>) || []}
+                            </ul>
                         </div>
 
                         <div className="chat-actions">
@@ -146,8 +144,7 @@ export class Chat extends React.Component<IChatProps, IChatState> {
         this.props.close();
     }
 
-    private _switchChannel = (item: PivotItem) => {
-        const channelId = item.props.itemKey;
+    private _switchChannel = (channelId: string) => {
         this.props.switchChannel(channelId);
     };
 

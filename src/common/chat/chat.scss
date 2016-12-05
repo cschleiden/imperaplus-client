@@ -1,6 +1,9 @@
+@import "~office-ui-fabric-react/dist/sass/Fabric";
+@import "../../styles/vars";
+
 .chat-button {
     -webkit-backface-visibility: hidden;
-    backface-visibility:  hidden;
+    backface-visibility: hidden;
     border: 1px solid gray;
     border-bottom: none;
     position: fixed;
@@ -12,14 +15,14 @@
 $windowHeightFull: 250px;
 $buttonWidth: 100px;
 
-$headerHeight: 45px;
+$headerHeight: 32px;
 $inputHeight: 30px;
 
 $usersWidth: 100px;
 
 .chat-window {
     -webkit-backface-visibility: hidden;
-    border: 1px solid gray;
+    border: 1px solid grey;
     border-bottom: none;
     position: fixed;
     right: 50px;
@@ -31,6 +34,36 @@ $usersWidth: 100px;
 
     .chat-header {
         height: $headerHeight;
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            display: inline-block;
+            height: $headerHeight;
+            line-height: $headerHeight;
+            padding: 0 10px;
+
+            &.selected {
+                a {
+                    color: white;
+                }
+
+                background: $accent;
+            }
+            &:hover {
+                background: $accent;
+
+                a {
+                    color: white;
+                    text-decoration: none;
+                }
+            }
+
+        }
     }
 
     .chat-input {
@@ -81,7 +114,7 @@ $usersWidth: 100px;
 
             overflow-x: hidden;
             overflow-y: auto;
-            
+
             width: calc(100% - #{$usersWidth});
             max-height: 100%;
         }
