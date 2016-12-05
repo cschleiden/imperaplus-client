@@ -1,7 +1,10 @@
 import { makeImmutable, IImmutable } from "immuts";
 import reducerMap from "../../lib/reducerMap";
 import { IAction, success, pending, failed } from "../../lib/action";
-import { START, IStartPayload, SHOW_HIDE, SWITCH_CHANNEL, MESSAGE, RECEIVE_MESSAGE, CLOSE } from "./chat.actions";
+import {
+    START, IStartPayload, SHOW_HIDE, SWITCH_CHANNEL, MESSAGE, RECEIVE_MESSAGE, CLOSE, JOIN, LEAVE,
+    IUserChangePayload
+} from "./chat.actions";
 import { ChannelInformation, Message } from "../../external/chatModel";
 
 const initialState = makeImmutable({
@@ -44,7 +47,6 @@ const receiveMessage = (state: IChatState, action: IAction<Message>) => {
     const channels = state.data.channels;
     let matchingChannels = channels.filter((c: ChannelInformation) => c.identifier === message.channelIdentifier);
     if (!matchingChannels.length) {
-        console.error("[chat] message for unknown channel received, ignored");
         return;
     }
 
@@ -53,7 +55,28 @@ const receiveMessage = (state: IChatState, action: IAction<Message>) => {
 
     return state.merge(x => x.channels[idx], {
         messages: matchingChannel.messages.concat([message])
-    }).set(x => x.unreadCount, !state.data.isVisible ? (state.data.unreadCount || 0) + 1 : null );
+    }).set(x => x.unreadCount, !state.data.isVisible ? (state.data.unreadCount || 0) + 1 : null);
+};
+
+const join = (state: IChatState, action: IAction<IUserChangePayload>) => {
+    const channelIdx = getChannelIdxById(state.data.channels, action.payload.channelId);
+    const channel = state.data.channels[channelIdx];
+
+    return state.merge(x => x.channels[channelIdx], {
+        users: channel.users.concat([{
+            name: action.payload.userName,
+            type: 0
+        }])
+    });
+};
+
+const leave = (state: IChatState, action: IAction<IUserChangePayload>) => {
+    const channelIdx = getChannelIdxById(state.data.channels, action.payload.channelId);
+    const channel = state.data.channels[channelIdx];
+
+    return state.merge(x => x.channels[channelIdx], {
+        users: channel.users.filter(u => u.name !== action.payload.userName)
+    });
 };
 
 export const chat = <TPayload>(
@@ -65,6 +88,18 @@ export const chat = <TPayload>(
         [CLOSE]: close,
         [SWITCH_CHANNEL]: switchChannel,
         [START]: start,
-        [RECEIVE_MESSAGE]: receiveMessage
+        [RECEIVE_MESSAGE]: receiveMessage,
+        [JOIN]: join,
+        [LEAVE]: leave
     });
 };
+
+function getChannelIdxById(channels: ChannelInformation[], channelId: string): number {    
+    let matchingChannels = channels.filter((c: ChannelInformation) => c.identifier === channelId);
+    if (!matchingChannels.length) {
+        throw new Error("No matching channel found");
+    }
+
+    const matchingChannel = matchingChannels[0];
+    return channels.indexOf(matchingChannel);
+}

@@ -43,9 +43,14 @@ $usersWidth: 100px;
 
         li {
             display: inline-block;
-            height: $headerHeight;
-            line-height: $headerHeight;
-            padding: 0 10px;
+
+            a {
+                display: inline-block;
+                height: $headerHeight;
+                line-height: $headerHeight;
+
+                padding: 0 10px;
+            }
 
             &.selected {
                 a {

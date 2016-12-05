@@ -1,6 +1,6 @@
 import { IAction, IAsyncAction, makePromiseAction } from "../../lib/action";
 import { getSignalRClient } from "../../clients/signalrFactory";
-import { ChatInformation, ChannelInformation, Message } from "../../external/chatModel";
+import { ChatInformation, ChannelInformation, Message, UserChangeEvent } from "../../external/chatModel";
 
 export const START = "chat-start";
 export interface IStartPayload {
@@ -21,8 +21,15 @@ export const showHide: IAsyncAction<boolean> = (show) =>
             let client = deps.getSignalRClient("chat", {});
             if (!client.isConnected()) {
                 client.on("broadcastMessage", (message: Message) => {
-                    console.debug("[chat] message received");
                     dispatch(receiveMessage(message));
+                });
+
+                client.on("join", (user: UserChangeEvent) => {
+                    dispatch(join(user.channelIdentifier, user.userName));
+                });
+
+                client.on("leave", (user: UserChangeEvent) => {
+                    dispatch(leave(user.channelIdentifier, user.userName));
                 });
 
                 client.start().then(() => {
@@ -42,7 +49,8 @@ export const showHide: IAsyncAction<boolean> = (show) =>
 export const CLOSE = "chat-close";
 export const close: IAsyncAction<void> = () =>
     (dispatch, getState, deps) => {
-        deps.getSignalRClient("chat", {}).stop();
+        let client = deps.getSignalRClient("chat", {});
+        client.stop();
 
         dispatch(<IAction<void>>{
             type: CLOSE
@@ -75,4 +83,28 @@ export const RECEIVE_MESSAGE = "chat-receive-message";
 export const receiveMessage = (msg: Message): IAction<Message> => ({
     type: RECEIVE_MESSAGE,
     payload: msg
+});
+
+export interface IUserChangePayload {
+    channelId: string;
+    userName: string;
+}
+
+export const JOIN = "chat-join";
+export const join = (channelId: string, userName: string): IAction<IUserChangePayload> => ({
+    type: JOIN,
+    payload: {
+        channelId,
+        userName
+    }
+});
+
+
+export const LEAVE = "chat-leave";
+export const leave = (channelId: string, userName: string): IAction<IUserChangePayload> => ({
+    type: LEAVE,
+    payload: {
+        channelId,
+        userName
+    }
 });

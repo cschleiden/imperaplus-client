@@ -20,7 +20,12 @@ export interface ISignalRClient {
 
 export function getSignalRClient(baseUri: string, access_token: string, hubName: string, startOptions: SignalR.ConnectionOptions): ISignalRClient {
     if (cachedClients[hubName]) {
-        return cachedClients[hubName];
+        let cachedClient = cachedClients[hubName];
+
+        // Only use cached client if disconnected
+        if (cachedClient.connection.state !== $.signalR.connectionState.disconnected) {
+            return cachedClients[hubName];
+        }
     }
 
     startOptions = startOptions || {};

@@ -61,7 +61,11 @@ export class Chat extends React.Component<IChatProps, IChatState> {
                             <ul>
                                 {this.props.channels && this.props.channels.map(c =>
                                     <li key={c.identifier} className={this.props.activeChannel === c.identifier ? "selected" : ""}>
-                                        <a href="#" onClick={() => this._switchChannel(c.identifier)}>{c.title}</a>
+                                        <a href="#" onClick={(e) => {
+                                            e.preventDefault();
+                                            this._switchChannel(c.identifier);
+                                            return false;
+                                        } }>{c.title}</a>
                                     </li>) || []}
                             </ul>
                         </div>
@@ -101,11 +105,13 @@ export class Chat extends React.Component<IChatProps, IChatState> {
                     </div>
 
                     <div className="chat-input">
-                        <TextField autoComplete="off" placeholder={__("Enter your message...")} value={this.state.msg} />
-                        <Button
-                            disabled={this._isValid()}
-                            buttonType={ButtonType.primary}
-                            onClick={this._onSend}>{__("Send")}</Button>
+                        <form onSubmit={this._onSend}>
+                            <TextField autoComplete="off" placeholder={__("Enter your message...")} value={this.state.msg} onBeforeChange={this._onChange} />
+                            <Button
+                                disabled={!this._isValid()}
+                                buttonType={ButtonType.primary}
+                                onClick={this._onSend}>{__("Send")}</Button>
+                        </form>
                     </div>
                 </div>;
             } else {
@@ -128,6 +134,12 @@ export class Chat extends React.Component<IChatProps, IChatState> {
         }
     }
 
+    private _onChange = (value: string) => {
+        this.setState({
+            msg: value
+        });
+    };
+
     private _isValid() {
         return this.state.msg !== "";
     }
@@ -149,7 +161,11 @@ export class Chat extends React.Component<IChatProps, IChatState> {
     };
 
     private _onSend = () => {
-        this.props.send("Hello world");
+        this.props.send(this.state.msg);
+
+        this.setState({
+            msg: ""
+        });
     };
 }
 
