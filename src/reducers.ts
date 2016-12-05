@@ -5,6 +5,7 @@ import { routerReducer,  } from "react-router-redux";
 import { forms } from "./common/forms/forms.reducer";
 import { message, IMessageState } from "./common/message/message.reducer";
 import { session, ISessionState } from "./common/session/session.reducer";
+import { general, IGeneralState } from "./common/general/general.reducer";
 
 // Game
 import { chat, IChatState } from "./common/chat/chat.reducer";
@@ -18,6 +19,7 @@ export interface IState {
     session: ISessionState;
     forms: any;
     message: IMessageState;
+    general: IGeneralState;
 }
 
 const rootReducer = combineReducers<IState>({
@@ -29,7 +31,8 @@ const rootReducer = combineReducers<IState>({
     routing: routerReducer,
     session,
     forms,
-    message
+    message,
+    general
 });
 
 export default rootReducer;

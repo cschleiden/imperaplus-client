@@ -47,6 +47,13 @@ a {
     }
 }
 
+.nav-host {
+    .ms-LayerHost-overlay,
+    .ms-Panel {
+        background: transparent;
+    }
+}
+
 $headerHeight: 120px;
 .header {
     .logo {
@@ -56,6 +63,12 @@ $headerHeight: 120px;
         img {
             height: 100%;
         }
+    }
+
+    .mobile-navigation {
+        text-align: right;
+
+        .content {}
     }
 
     .navigation {
@@ -154,6 +167,36 @@ $headerHeight: 120px;
             & > li:last-child ul.nav-dropdown {
                 left: inherit;
             }
+        }
+    }
+}
+
+.mobile-nav {
+    .ms-Panel-main {
+        box-shadow: 0 6px 12px rgba(0,0,0,0.175);
+    }
+
+    ul {
+        list-style: none;
+        padding: 0 0 0 20px;
+        margin: 0;
+
+        li {
+            margin: 10px;
+        }
+    }
+
+    // First level
+    .ms-Panel-content > ul > li > a {
+        text-transform: uppercase;
+    }
+
+    // All levels
+    a {
+        color: black;
+
+        &.active {
+            color: $accent;
         }
     }
 }

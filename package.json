@@ -70,7 +70,7 @@
     "mocha": "^3.1.2",
     "node-sass": "^3.12.5",
     "object-assign": "^4.1.0",
-    "office-ui-fabric-react": "latest",
+    "office-ui-fabric-react": "0.81.0",
     "po2json": "^0.4.5",
     "progress-bar-webpack-plugin": "^1.9.0",
     "raw-loader": "^0.5.1",
