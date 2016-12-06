@@ -2,6 +2,9 @@ import * as React from "react";
 
 import { Link } from "react-router";
 
+/**
+ * Supports links in the form of [text](target) 
+ */
 export default (props: { link: string }): JSX.Element => {
     const splitRegex = /(\[[^\]]+\]\([^\)]+\))/g;
     const segmentRegex = /\[([^\]]+)\]\(([^\)]+)\)/g;

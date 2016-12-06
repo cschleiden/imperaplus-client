@@ -39,7 +39,7 @@ const sessionData = sessionDataStringified && JSON.parse(sessionDataStringified)
 export const store = Redux.createStore<IState>(
   rootReducer,
   {    
-    session: sessionData && makeImmutable(sessionData)
+    session: sessionData && makeImmutable(sessionData) || undefined
   } as IState,
   compose(
     Redux.applyMiddleware(

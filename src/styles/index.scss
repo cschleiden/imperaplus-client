@@ -12,7 +12,8 @@ body {
     padding: $basePadding !important;
 }
 
-h2.headline {
+h2.headline,
+h3.headline {
     border-bottom: 1px dotted #e4e9f0;
 
     span {
