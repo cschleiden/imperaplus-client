@@ -1,5 +1,4 @@
 @import '~office-ui-fabric-react/dist/sass/Fabric';
-
 @import "./utils";
 @import "./vars";
 
@@ -11,4 +10,14 @@ body {
 
 .ms-Grid-col {
     padding: $basePadding !important;
+}
+
+h2.headline {
+    border-bottom: 1px dotted #e4e9f0;
+
+    span {
+        display: inline-block;
+        padding-bottom: 10px;
+        border-bottom: 2px solid $accent;
+    }
 }
