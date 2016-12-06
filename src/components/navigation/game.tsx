@@ -10,7 +10,7 @@ export const GameNavigation = ({ dispatch }): JSX.Element => {
             <IndexLink to="/game/start" activeClassName="active">{__("Start")}</IndexLink>
         </li>
         <li>
-            <Link to="/game/games/my" activeClassName="active">{__("Games")}</Link>
+            <Link to="/game/games" activeClassName="active">{__("Games")}</Link>
             <ul className="nav-dropdown">
                 <li>
                     <Link to="/game/games/my" activeClassName="active">{__("My Games")}</Link>
@@ -50,12 +50,12 @@ export const GameNavigation = ({ dispatch }): JSX.Element => {
             </ul>
         </li>
         <li>
-            <Link to="/game/games" activeClassName="active">
+            <Link to="/game/messages" activeClassName="active">
                 <i className="ms-Icon ms-Icon--Mail" aria-hidden="true"></i>
             </Link>
         </li>
         <li>
-            <Link to="/game/games" activeClassName="active">
+            <Link to="/game/profile" activeClassName="active">
                 <i className="ms-Icon ms-Icon--Contact" aria-hidden="true"></i>
             </Link>
             <ul className="nav-dropdown">
