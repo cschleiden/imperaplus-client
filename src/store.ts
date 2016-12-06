@@ -1,5 +1,6 @@
 import * as Redux from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
+import * as _ from "lodash";
 
 import { Router, Route, IndexRoute, browserHistory } from "react-router";
 import { syncHistoryWithStore, routerMiddleware } from "react-router-redux";
@@ -32,8 +33,14 @@ const compose = composeWithDevTools({
 // TODO: CS: Retrieve from config
 const baseUri = "http://localhost:57676/";
 
+const sessionDataStringified = sessionStorage.getItem("impera");
+const sessionData = sessionDataStringified && JSON.parse(sessionDataStringified);
+
 export const store = Redux.createStore<IState>(
   rootReducer,
+  {    
+    session: sessionData && makeImmutable(sessionData)
+  } as IState,
   compose(
     Redux.applyMiddleware(
       routerMiddleware(browserHistory),
@@ -47,3 +54,13 @@ export const store = Redux.createStore<IState>(
         }
       } as IAsyncActionDependencies),
       createLogger())));
+
+// Persist session settings
+store.subscribe(_.debounce(() => {
+  const state = store.getState();
+  const sessionState = state && state.session && state.session.toJS();
+
+  if (sessionState) {
+    sessionStorage.setItem("impera", JSON.stringify(sessionState));
+  }
+}, 1000));
