@@ -1,4 +1,5 @@
 import { TokenProvider } from "../services/tokenProvider";
+import { baseUri } from "../configuration";
 
 const clientCache: [any, any][] = [];
 export interface IClient<TClient> {
@@ -6,7 +7,6 @@ export interface IClient<TClient> {
 }
 
 export function getCachedClient<TClient>(
-    baseUri: string,
     clientType: IClient<TClient>): TClient {
     for (let [cachedClientType, cachedInstance] of clientCache) {
         if (cachedClientType === clientType) {
@@ -14,21 +14,19 @@ export function getCachedClient<TClient>(
         }
     }
 
-    let instance = createClient(baseUri, clientType, () => TokenProvider.getToken());
+    let instance = createClient(clientType, () => TokenProvider.getToken());
     clientCache.push([clientType, instance]);
     return instance;
 }
 
 export function createClientWithToken<TClient>(
-    baseUri: string,
     clientType: IClient<TClient>,
     access_token: string): TClient {
 
-    return createClient(baseUri, clientType, () => access_token);
+    return createClient(clientType, () => access_token);
 }
 
 function createClient<TClient>(
-    baseUri: string,
     clientType: IClient<TClient>,
     tokenRetriever: () => string): TClient {
     let client = new clientType(baseUri, {

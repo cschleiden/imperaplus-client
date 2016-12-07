@@ -2,11 +2,13 @@ import { makeImmutable, IImmutable } from "immuts";
 import reducerMap from "../../lib/reducerMap";
 
 import { IAction } from "../../lib/action";
-import { OPEN_CLOSE } from "./general.actions";
+import { OPEN_CLOSE, LOOKUP_SET, ILookupSetPayload } from "./general.actions";
 import { LOCATION_CHANGE } from "react-router-redux";
 
 const initialState = makeImmutable({
-    isNavOpen: false
+    isNavOpen: false,
+
+    lookup: {} as { [key: string]: any[] }
 });
 
 export type IGeneralState = typeof initialState;
@@ -19,12 +21,18 @@ const openClose = (state: IGeneralState, action: IAction<boolean>) => {
     return state.set(x => x.isNavOpen, action.payload);
 };
 
+const setLookupData = <T>(state: IGeneralState, action: IAction<ILookupSetPayload<T>>) => {
+    return state.set(x => x.lookup[action.payload.key], action.payload.data);
+};
+
 export const general = <TPayload>(
     state = initialState,
     action?: IAction<TPayload>): IGeneralState => {
 
     return reducerMap(action, state, {
         [LOCATION_CHANGE]: locationChange,
-        [OPEN_CLOSE]: openClose
+        [OPEN_CLOSE]: openClose,
+
+        [LOOKUP_SET]: setLookupData
     });
 };

@@ -1,6 +1,9 @@
 import * as React from "react";
 
 import { connect } from "react-redux";
+import { IState } from "../../reducers";
+import { lookupSet } from "../../common/general/general.actions";
+
 import { Grid, GridRow, GridColumn } from "../../components/layout";
 import { Title, Section, SubSection } from "../../components/ui/typography";
 import { ProgressButton } from "../../components/ui/progressButton";
@@ -14,13 +17,27 @@ import Form from "../../common/forms/form";
 import { IForm } from "../../common/forms/forms.reducer";
 import { ControlledCheckBox, ControlledTextField } from "../../common/forms/inputs";
 
-export interface IMyGamesProps {
+import { getCachedClient } from "../../clients/clientFactory";
+import { MapTemplateDescriptor, MapClient } from "../../external/imperaClients";
+
+interface ICreateGameProps {
     refresh: () => void;
+    lookupSet: (key: string, data: any[]) => void;
+
+    maps: MapTemplateDescriptor[];
 }
 
-export class CreateGameComponent extends React.Component<IMyGamesProps, void> {
+interface ICreateGameState {
+    maps: MapTemplateDescriptor[];
+}
+
+export class CreateGameComponent extends React.Component<ICreateGameProps, void> {
     public componentDidMount() {
-        this.props.refresh();
+        if (!this.props.maps) {
+            getCachedClient(MapClient).getAllSummary().then(maps => {
+                this.props.lookupSet("maps", maps);
+            });
+        }
     }
 
     public render(): JSX.Element {
@@ -55,6 +72,10 @@ export class CreateGameComponent extends React.Component<IMyGamesProps, void> {
 
                                     <Dropdown
                                         label={__("Map")}
+                                        options={this.props.maps && this.props.maps.map(m => ({
+                                            key: m.name,
+                                            text: m.name
+                                        }))}
                                         />
 
                                     <Dropdown
@@ -62,11 +83,12 @@ export class CreateGameComponent extends React.Component<IMyGamesProps, void> {
                                         />
 
                                     <Dropdown
-                                        label={__("Playes & Teams")}
+                                        label={__("Players & Teams")}
                                         />
                                 </PivotItem>
 
                                 <PivotItem linkText={__("Advanced")}>
+
                                 </PivotItem>
                             </Pivot>
                         ))} />
@@ -96,6 +118,8 @@ export class CreateGameComponent extends React.Component<IMyGamesProps, void> {
     }
 }
 
-export default connect(state => ({
+export default connect((state: IState) => ({
+    maps: state.general.data.lookup["maps"]
 }), (dispatch) => ({
+    lookupSet: (key: string, data: any[]) => { dispatch(lookupSet(key, data)); }
 }))(CreateGameComponent);

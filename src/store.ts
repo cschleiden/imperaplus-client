@@ -17,6 +17,8 @@ import { getSignalRClient, ISignalRClient } from "./clients/signalrFactory";
 import { makeImmutable, IImmutable } from "immuts";
 import rootReducer, { IState } from "./reducers";
 
+import { baseUri } from "./configuration";
+
 // Create main store
 // TODO: CS: generalize
 const compose = composeWithDevTools({
@@ -29,9 +31,6 @@ const compose = composeWithDevTools({
   }),
   shouldHotReload: true
 }) || Redux.compose;
-
-// TODO: CS: Retrieve from config
-const baseUri = "http://localhost:57676/";
 
 const sessionDataStringified = sessionStorage.getItem("impera");
 const sessionData = sessionDataStringified && JSON.parse(sessionDataStringified);
@@ -46,8 +45,8 @@ export const store = Redux.createStore<IState>(
       routerMiddleware(browserHistory),
       promiseMiddleware as any,
       thunkMiddleware.withExtraArgument({
-        getCachedClient: getCachedClient.bind(null, baseUri),
-        createClientWithToken: createClientWithToken.bind(null, baseUri),
+        getCachedClient: getCachedClient,
+        createClientWithToken: createClientWithToken,
         getSignalRClient: (hubName: string, options): ISignalRClient => {
           const token = store.getState().session.data.access_token;
           return getSignalRClient(baseUri, token, hubName, options);
