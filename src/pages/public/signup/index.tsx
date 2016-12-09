@@ -10,8 +10,6 @@ import { getCachedClient } from "../../../clients/clientFactory";
 import { AccountClient, ErrorResponse } from "../../../external/imperaClients";
 import { ErrorCodes } from "../../../i18n/errorCodes";
 
-import { resetForm, changeField } from "../../../common/forms/forms.actions";
-import { IForm } from "../../../common/forms/forms.reducer";
 import { signup } from "../../../common/session/session.actions";
 
 import { Button, ButtonType } from "office-ui-fabric-react/lib/Button";
@@ -45,12 +43,12 @@ export class SignupComponent extends React.Component<ISignupProps, void> {
 
                     <Form
                         name="signup"
-                        onSubmit={((formState: IForm, options) => {
+                        onSubmit={((formState, options) => {
                             return signup({
-                                username: formState.fields["username"].value as string,
-                                password: formState.fields["password"].value as string,
-                                passwordConfirm: formState.fields["passwordconfirm"].value as string,
-                                email: formState.fields["email"].value as string
+                                username: formState.getFieldValue("username"),
+                                password: formState.getFieldValue("password"),
+                                passwordConfirm: formState.getFieldValue("passwordconfirm"),
+                                email: formState.getFieldValue("email")
                             }, options);
                         })}
                         component={({ isPending, submit, formState }) => (
@@ -74,8 +72,8 @@ export class SignupComponent extends React.Component<ISignupProps, void> {
                                     label={__("Password (repeat)")}
                                     placeholder={__("Repeat password")} type="password"
                                     fieldName="passwordconfirm"
-                                    validate={(value: string, form: IForm) => {
-                                        if (form.fields["password"] && form.fields["password"].value !== value) {
+                                    validate={(value: string, form) => {
+                                        if (form.getFieldValue("password") !== value) {
                                             return __("Passwords do not match");
                                         }
                                     } }
@@ -116,13 +114,10 @@ export class SignupComponent extends React.Component<ISignupProps, void> {
         </Grid>;
     }
 
-    private _formValid(formState: IForm): boolean {
-        const { fields } = formState;
-
-        return fields
-            && fields["username"] && fields["username"].value !== ""
-            && fields["password"] && fields["passwordconfirm"] && fields["password"].value !== "" && fields["password"].value === fields["passwordconfirm"].value
-            && fields["accepttos"] && fields["accepttos"].value === true;
+    private _formValid(formState): boolean {
+        return formState.getFieldValue("username")
+            && formState.getFieldValue("password") && formState.getFieldValue("passwordconfirm") && formState.getFieldValue("password") !== "" && formState.getFieldValue("password") === formState.getFieldValue("passwordconfirm")
+            && formState.getFieldValue("accepttos", false);
     }
 
     private _onSubmitSucess = () => {

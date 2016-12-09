@@ -5,8 +5,7 @@ import { connect } from "react-redux";
 
 import { login } from "../../../common/session/session.actions";
 
-import Form from "../../../common/forms/form";
-import { IForm } from "../../../common/forms/forms.reducer";
+import Form, { IFormState }  from "../../../common/forms/form";
 
 import { ControlledCheckBox, ControlledTextField } from "../../../common/forms/inputs";
 import { Button, ButtonType } from "office-ui-fabric-react/lib/Button";
@@ -23,10 +22,10 @@ export const LoginComponent = (props) => {
 
                 <Form
                     name="login"
-                    onSubmit={((formState: IForm, options) => {
+                    onSubmit={((formState: IFormState, options) => {
                         return login({
-                            username: formState.fields["username"].value as string,
-                            password: formState.fields["password"].value as string
+                            username: formState.getFieldValue("username"),
+                            password: formState.getFieldValue("password")
                         }, options);
                     })}
                     component={(({ isPending, submit, formState }) => (

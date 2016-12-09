@@ -2,6 +2,9 @@ import { IAction, makePromiseAction } from "../../lib/action";
 
 import { MessageBarType } from "office-ui-fabric-react/lib/MessageBar";
 
+// Reexport
+export { MessageBarType };
+
 export interface IMessage {
     message: string;
     type: MessageBarType;
