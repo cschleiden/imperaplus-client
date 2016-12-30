@@ -8,6 +8,7 @@ import { Router, Route, IndexRoute } from "react-router";
 
 // Components
 import MainLayout from "./components/layouts/main";
+import PlayLayout from "./components/layouts/play";
 import PublicLayout from "./components/layouts/public";
 import PublicNav from "./components/navigation/public";
 import Game from "./components/navigation/game";
@@ -61,6 +62,10 @@ export default class App extends React.Component<{ store, history }, void> {
                             <Route path="/game/games/join" component={Join} />
                         </Route>
                     </Route>
+                </Route>
+
+                <Route component={PlayLayout}>
+                    <Route path="/game/play" />
                 </Route>
             </Router>
         </Provider>;
