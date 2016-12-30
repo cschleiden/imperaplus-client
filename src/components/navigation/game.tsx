@@ -13,7 +13,7 @@ export const GameNavigation = ({ dispatch }): JSX.Element => {
             <Link to="/game/games" activeClassName="active">{__("Games")}</Link>
             <ul className="nav-dropdown">
                 <li>
-                    <Link to="/game/games" activeClassName="active">{__("My Games")}</Link>
+                    <IndexLink to="/game/games" activeClassName="active">{__("My Games")}</IndexLink>
                 </li>
                 <li>
                     <Link to="/game/games/create" activeClassName="active">{__("Create Fun Game")}</Link>
