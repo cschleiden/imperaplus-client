@@ -90,6 +90,6 @@ export default connect((state: IState) => ({
     message: state.message.data.message,
     isNavOpen: state.general.data.isNavOpen
 }), (dispatch) => ({
-    clear: () => { dispatch(clear()); },
+    clear: () => { dispatch(clear(null)); },
     openCloseNav: (state: boolean) => { dispatch(openCloseNav(state)); }
 }))(Layout);

@@ -3,6 +3,7 @@ import "./styles/index.scss";
 import * as React from "react";
 import * as Redux from "redux";
 import { Provider } from "react-redux";
+import { IState } from "./reducers";
 
 import { Router, Route, IndexRoute } from "react-router";
 
@@ -28,7 +29,7 @@ import My from "./pages/games/games";
 import Create from "./pages/create/create";
 import Join from "./pages/join/join";
 
-function checkLoggedIn(store, nextState, replace) {
+function checkLoggedIn(store: Redux.Store<IState>, nextState, replace) {
     const state = store.getState();
     const session = state.session.data;
 
@@ -37,7 +38,7 @@ function checkLoggedIn(store, nextState, replace) {
     }
 }
 
-export default class App extends React.Component<{ store, history }, void> {
+export default class App extends React.Component<{ store: Redux.Store<IState>, history }, void> {
     public render() {
         return <Provider store={this.props.store}>
             <Router history={this.props.history} onUpdate={this._onRouteUpdate}>
@@ -77,7 +78,7 @@ export default class App extends React.Component<{ store, history }, void> {
         this._clearMessage();
     };
 
-    private _clearMessage() {
-        this.props.store.dispatch(clear());
+    private _clearMessage() {    
+        this.props.store.dispatch(clear(null));
     }
 };

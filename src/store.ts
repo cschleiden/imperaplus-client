@@ -20,6 +20,10 @@ import rootReducer, { IState } from "./reducers";
 
 import { baseUri } from "./configuration";
 
+import { AccountClient } from "./external/imperaClients";
+import { SessionService } from "./common/session/session.service";
+import { refresh, expire } from "./common/session/session.actions";
+
 // Create main store
 // TODO: CS: generalize
 const compose = composeWithDevTools({
@@ -36,11 +40,27 @@ const compose = composeWithDevTools({
 const sessionDataStringified = sessionStorage.getItem("impera");
 const sessionData = sessionDataStringified && JSON.parse(sessionDataStringified);
 
-const navigate = path => store.dispatch(push(path));
+// TODO: CS: Move?!
+const onUnauthorized = (): Promise<void> => {
+  // Try to refresh
+  let service = new SessionService(getCachedClientWrapper(AccountClient));
+
+  return service.refresh(store.getState().session.data.refresh_token).then((result) => {
+    store.dispatch(refresh(result.access_token, result.refresh_token));
+  }, () => {
+    // Clear all tokens
+    store.dispatch(expire());
+    
+    store.dispatch(push("/login"));
+    throw new Error(__("Your session expired. Please login again."));
+  });
+};
+var getCachedClientWrapper = getCachedClient.bind(null, onUnauthorized);
 
 export var store = Redux.createStore<IState>(
   rootReducer,
-  {    
+  {
+    // Pre-populate stored session data
     session: sessionData && makeImmutable(sessionData) || undefined
   } as IState,
   compose(
@@ -48,8 +68,8 @@ export var store = Redux.createStore<IState>(
       routerMiddleware(browserHistory),
       promiseMiddleware as any,
       thunkMiddleware.withExtraArgument({
-        getCachedClient: getCachedClient.bind(null, navigate),
-        createClientWithToken: createClientWithToken.bind(null, navigate),
+        getCachedClient: getCachedClientWrapper,
+        createClientWithToken: createClientWithToken.bind(null, onUnauthorized),
         getSignalRClient: (hubName: string, options): ISignalRClient => {
           const token = store.getState().session.data.access_token;
           return getSignalRClient(baseUri, token, hubName, options);

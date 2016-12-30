@@ -43,7 +43,9 @@ export class StartComponent extends React.Component<IStartProps, void> {
     };
 
     private _getLanguageContent(content: NewsContent[]): NewsContent {
-        let matches = content.filter(x => x.language === this.props.userInfo.language);
+        const userLanguage = this.props && this.props.userInfo && this.props.userInfo.language || "en";
+
+        let matches = content.filter(x => x.language === userLanguage);
         return matches && matches.length > 0 && matches[0];
     }
 }

@@ -1,5 +1,4 @@
 import { IAction, makePromiseAction } from "../../lib/action";
-import { getCachedClient } from "../../clients/clientFactory";
 import { NewsClient, NewsItem } from "../../external/imperaClients";
 
 export const REFRESH = "news-refresh";

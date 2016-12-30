@@ -6,7 +6,6 @@ import { push } from "react-router-redux";
 
 import { IImmutable } from "immuts";
 
-import { getCachedClient } from "../../../clients/clientFactory";
 import { AccountClient, ErrorResponse } from "../../../external/imperaClients";
 import { ErrorCodes } from "../../../i18n/errorCodes";
 

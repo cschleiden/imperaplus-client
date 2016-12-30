@@ -1,4 +1,4 @@
-import { IAction, makePromiseAction } from "../../lib/action";
+import { IAction, IAsyncAction, makePromiseAction } from "../../lib/action";
 
 import { MessageBarType } from "office-ui-fabric-react/lib/MessageBar";
 
@@ -20,6 +20,14 @@ export const show = (message: string, type: MessageBarType = MessageBarType.info
 });
 
 export const MESSAGE_CLEAR = "message-clear";
-export const clear = (): IAction<void> => ({
-    type: MESSAGE_CLEAR
-});
+export const clear: IAsyncAction<void> = () =>
+    (dispatch, getState, deps) => {
+        if (!getState().message.data.message) {
+            // No message, nothing to clear
+            return;
+        }
+
+        dispatch({
+            type: MESSAGE_CLEAR
+        });
+    };

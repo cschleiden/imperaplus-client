@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 
 import { IImmutable } from "immuts";
 
-import { getCachedClient } from "../../../clients/clientFactory";
 import { AccountClient, ErrorResponse } from "../../../external/imperaClients";
 
 import { signup } from "../../../common/session/session.actions";

@@ -2,31 +2,44 @@ import { makeImmutable, IImmutable } from "immuts";
 import reducerMap from "../../lib/reducerMap";
 
 import { IAction, success, pending, failed } from "../../lib/action";
-import { LOGIN, LOGOUT, SIGNUP, ILoginPayload } from "./session.actions";
+import { LOGIN, LOGOUT, REFRESH, EXPIRE, ILoginPayload, IRefreshPayload } from "./session.actions";
 import { UserInfo } from "../../external/imperaClients";
 
-const initialState = makeImmutable({
-    access_token: null,
-    userInfo: null,
+const buildInitialState = () => makeImmutable({
+    access_token: null as string,
+    refresh_token: null as string,
+    userInfo: null as UserInfo,
     isLoggedIn: false
 });
 
+const initialState = buildInitialState();
 export type ISessionState = typeof initialState;
 
 const login = (state: ISessionState, action: IAction<ILoginPayload>) => {
     return state.merge(x => x, {
         access_token: action.payload.access_token,
+        refresh_token: action.payload.refresh_token,
         isLoggedIn: true,
         userInfo: action.payload.userInfo
     });
 };
 
-const logout = (state: ISessionState, action: IAction<void>) => {
+/** Store updated tokens */
+const refresh = (state: ISessionState, action: IAction<IRefreshPayload>) => {
     return state.merge(x => x, {
-        access_token: null,
-        userInfo: null,
-        isLoggedIn: false
+        access_token: action.payload.access_token,
+        refresh_token: action.payload.refresh_token
     });
+};
+
+/** Reset state */
+const expire = (state: ISessionState, action: IAction<void>) => {
+    return initialState;
+};
+
+/** Reset state */
+const logout = (state: ISessionState, action: IAction<void>) => {
+    return initialState;
 };
 
 export const session = <TPayload>(
@@ -35,6 +48,8 @@ export const session = <TPayload>(
 
     return reducerMap(action, state, {
         [success(LOGIN)]: login,
+        [REFRESH]: refresh,
+        [EXPIRE]: expire,
         [success(LOGOUT)]: logout
     });
 };

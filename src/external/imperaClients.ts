@@ -18,7 +18,7 @@ export class AccountClient {
     /**
     * @return Success
     */
-    exchange(grant_type: string, username: string, password: string): Promise<LoginResponseModel> {
+    exchange(grant_type: string, username: string, password: string, scope: string, refresh_token: string): Promise<LoginResponseModel> {
         let url_ = this.baseUrl + "/api/Account/token";
 
         let content_ = "";
@@ -28,6 +28,10 @@ export class AccountClient {
             content_ += "username=" + encodeURIComponent("" + username) + "&";
         if (password !== undefined)
             content_ += "password=" + encodeURIComponent("" + password) + "&";
+        if (scope !== undefined)
+            content_ += "scope=" + encodeURIComponent("" + scope) + "&";
+        if (refresh_token !== undefined)
+            content_ += "refresh_token=" + encodeURIComponent("" + refresh_token) + "&";
 
         return this.http.fetch(url_, {
             body: content_,
@@ -2324,6 +2328,7 @@ export interface ErrorResponse {
 
 export interface LoginResponseModel {
     access_token: string;
+    refresh_token: string;
     userId: string;
     userName: string;
     language: string;

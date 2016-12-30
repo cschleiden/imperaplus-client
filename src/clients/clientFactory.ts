@@ -1,13 +1,16 @@
 import { TokenProvider } from "../services/tokenProvider";
 import { baseUri } from "../configuration";
 
-const clientCache: [any, any][] = [];
+import { refresh } from "../common/session/session.actions";
+
 export interface IClient<TClient> {
     new (baseUri: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }): TClient;
 }
 
+const clientCache: [IClient<any>, any][] = [];
+
 export function getCachedClient<TClient>(
-    navigate: (path: string) => void,
+    onUnauthorized: () => Promise<void>,
     clientType: IClient<TClient>): TClient {
     for (let [cachedClientType, cachedInstance] of clientCache) {
         if (cachedClientType === clientType) {
@@ -15,44 +18,48 @@ export function getCachedClient<TClient>(
         }
     }
 
-    let instance = createClient(navigate, clientType, () => TokenProvider.getToken());
+    let instance = createClient(onUnauthorized, clientType, () => TokenProvider.getToken());
     clientCache.push([clientType, instance]);
     return instance;
 }
 
 export function createClientWithToken<TClient>(
-    navigate: (path: string) => void,
+    onUnauthorized: () => Promise<void>,
     clientType: IClient<TClient>,
     access_token: string): TClient {
 
-    return createClient(navigate, clientType, () => access_token);
+    return createClient(onUnauthorized, clientType, () => access_token);
 }
 
+const fetchWrapper = (tokenRetriever, onUnauthorized: () => Promise<void>, url: string, init) => {
+    const token = tokenRetriever();
+
+    if (token) {
+        init.headers = Object.assign({}, init.headers, {
+            "Authorization": "Bearer " + token
+        });
+    }
+
+    return fetch(url, init).then((response) => {
+        // Intercept 401 responses, to redirect to login or refresh token
+        const status = response.status.toString();
+        if (status === "401") {
+            return onUnauthorized().then(() => {
+                // Retry request
+                return fetchWrapper(tokenRetriever, onUnauthorized, url, init);
+            });
+        }
+
+        return response;
+    });
+};
+
 function createClient<TClient>(
-    navigate: (path: string) => void,
+    onUnauthorized: () => Promise<void>,
     clientType: IClient<TClient>,
     tokenRetriever: () => string): TClient {
     let client = new clientType(baseUri, {
-        fetch: (url, init) => {
-            const token = tokenRetriever();
-
-            if (token) {
-                init.headers = Object.assign({}, init.headers, {
-                    "Authorization": "Bearer " + token
-                });
-            }
-
-            return fetch(url, init).then((response) => {
-                // Intercept 401 responses, to redirect to login
-                const status = response.status.toString();
-                if (status === "401") {
-                    navigate("/login");
-                    throw new Error(__("Your session has expired. Please login."));
-                }
-
-                return response;
-            });
-        }
+        fetch: fetchWrapper.bind(null, tokenRetriever, onUnauthorized)
     });
 
     // Recreate dates.

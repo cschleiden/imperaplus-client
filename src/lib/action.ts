@@ -1,5 +1,5 @@
-import { getCachedClient, IClient } from "../clients/clientFactory";
-import { getSignalRClient, ISignalRClient } from "../clients/signalrFactory";
+import { IClient } from "../clients/clientFactory";
+import { ISignalRClient } from "../clients/signalrFactory";
 import { IState } from "../reducers";
 
 export interface IAction<T> {
