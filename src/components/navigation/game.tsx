@@ -7,13 +7,13 @@ import { logout } from "../../common/session/session.actions";
 export const GameNavigation = ({ dispatch }): JSX.Element => {
     return <ul className="nav">
         <li>
-            <IndexLink to="/game/start" activeClassName="active">{__("Start")}</IndexLink>
+            <IndexLink to="/game" activeClassName="active">{__("Start")}</IndexLink>
         </li>
         <li>
             <Link to="/game/games" activeClassName="active">{__("Games")}</Link>
             <ul className="nav-dropdown">
                 <li>
-                    <Link to="/game/games/my" activeClassName="active">{__("My Games")}</Link>
+                    <Link to="/game/games" activeClassName="active">{__("My Games")}</Link>
                 </li>
                 <li>
                     <Link to="/game/games/create" activeClassName="active">{__("Create Fun Game")}</Link>

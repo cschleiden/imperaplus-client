@@ -37,6 +37,9 @@ TokenProvider.tokenRetriever = () => {
   }
 };
 
+// Hot Module Replacement API
+declare var module: any;
+
 const rootElement = document.getElementById("root");
 
 render(
@@ -44,9 +47,6 @@ render(
     <App store={store} history={syncHistoryWithStore(browserHistory as any, store)} />
   </AppContainer>,
   rootElement);
-
-// Hot Module Replacement API
-declare var module: any;
 
 if (module.hot) {
   module.hot.accept(["./app"], () => {

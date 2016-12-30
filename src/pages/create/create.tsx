@@ -74,7 +74,7 @@ export class CreateGameComponent extends React.Component<ICreateGameProps, void>
 
             <GridRow>
                 <GridColumn className="ms-u-lg9">
-                    <LinkString link={__("Here you can create a new fun game. If you want to start playing sooner, you might want to [join](games/games/join) an existing game. Fun games do not count for the ladder.")} />
+                    <LinkString link={__("Here you can create a new fun game. If you want to start playing sooner, you might want to [join](game/games/join) an existing game. Fun games do not count for the ladder.")} />
 
                     <Form
                         name="game-create"

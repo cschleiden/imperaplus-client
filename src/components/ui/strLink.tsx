@@ -9,6 +9,10 @@ export default (props: { link: string }): JSX.Element => {
     const splitRegex = /(\[[^\]]+\]\([^\)]+\))/g;
     const segmentRegex = /\[([^\]]+)\]\(([^\)]+)\)/g;
 
+    if (!props.link) {
+        return null;
+    }
+
     let segments = props.link.split(splitRegex);
 
     let children: JSX.Element[] = segments.map((segment, idx) => {

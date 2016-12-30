@@ -65,6 +65,10 @@ export default function promiseMiddleware({ dispatch }) {
                         meta,
                     });
                 }
+
+                if (options.afterError) {
+                    options.afterError(dispatch);
+                }
             }
         );
     };

@@ -9,15 +9,15 @@ const initialState = makeImmutable({
     games: [] as GameSummary[]
 });
 
-export type INewsState = typeof initialState;
+export type IMyGamesState = typeof initialState;
 
-const refresh = (state: INewsState, action: IAction<GameSummary[]>) => {
+const refresh = (state: IMyGamesState, action: IAction<GameSummary[]>) => {
     return state
         .set(x => x.games, action.payload)
         .set(x => x.isLoading, false);
 };
 
-const loading = (state: INewsState, action: IAction<void>) => {
+const loading = (state: IMyGamesState, action: IAction<void>) => {
     return state.set(x => x.isLoading, true);
 };
 

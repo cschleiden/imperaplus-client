@@ -33,7 +33,7 @@ export const login = makePromiseAction<ILoginInput, ILoginPayload>((input, dispa
         },
         options: {
             useMessage: true,
-            afterSuccess: d => d(push("game/start"))
+            afterSuccess: d => d(push("game"))
         }
     }));
 

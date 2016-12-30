@@ -3,6 +3,7 @@
   "buildOnSave": false,
   "compilerOptions": {
     "moduleResolution": "node",
+    "module": "commonjs",
     "target": "es5",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -15,7 +16,7 @@
     ],
     "lib": [
       "es6", "dom", "es5", "scripthost"
-    ]
+    ]    
   },
   "filesGlob": [
     "src/**/*.ts",
