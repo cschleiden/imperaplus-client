@@ -7,6 +7,7 @@ export interface IClient<TClient> {
 }
 
 export function getCachedClient<TClient>(
+    navigate: (path: string) => void,
     clientType: IClient<TClient>): TClient {
     for (let [cachedClientType, cachedInstance] of clientCache) {
         if (cachedClientType === clientType) {
@@ -14,19 +15,21 @@ export function getCachedClient<TClient>(
         }
     }
 
-    let instance = createClient(clientType, () => TokenProvider.getToken());
+    let instance = createClient(navigate, clientType, () => TokenProvider.getToken());
     clientCache.push([clientType, instance]);
     return instance;
 }
 
 export function createClientWithToken<TClient>(
+    navigate: (path: string) => void,
     clientType: IClient<TClient>,
     access_token: string): TClient {
 
-    return createClient(clientType, () => access_token);
+    return createClient(navigate, clientType, () => access_token);
 }
 
 function createClient<TClient>(
+    navigate: (path: string) => void,
     clientType: IClient<TClient>,
     tokenRetriever: () => string): TClient {
     let client = new clientType(baseUri, {
@@ -39,7 +42,16 @@ function createClient<TClient>(
                 });
             }
 
-            return fetch(url, init);
+            return fetch(url, init).then((response) => {
+                // Intercept 401 responses, to redirect to login
+                const status = response.status.toString();
+                if (status === "401") {
+                    navigate("/login");
+                    throw new Error("Not authorized");
+                }
+
+                return response;
+            });
         }
     });
 

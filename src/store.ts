@@ -1,6 +1,7 @@
 import * as Redux from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
-import * as _ from "lodash";
+import * as debounce from "lodash/debounce";
+import { push } from "react-router-redux";
 
 import { Router, Route, IndexRoute, browserHistory } from "react-router";
 import { syncHistoryWithStore, routerMiddleware } from "react-router-redux";
@@ -35,7 +36,9 @@ const compose = composeWithDevTools({
 const sessionDataStringified = sessionStorage.getItem("impera");
 const sessionData = sessionDataStringified && JSON.parse(sessionDataStringified);
 
-export const store = Redux.createStore<IState>(
+const navigate = path => store.dispatch(push(path));
+
+export var store = Redux.createStore<IState>(
   rootReducer,
   {    
     session: sessionData && makeImmutable(sessionData) || undefined
@@ -45,8 +48,8 @@ export const store = Redux.createStore<IState>(
       routerMiddleware(browserHistory),
       promiseMiddleware as any,
       thunkMiddleware.withExtraArgument({
-        getCachedClient: getCachedClient,
-        createClientWithToken: createClientWithToken,
+        getCachedClient: getCachedClient.bind(null, navigate),
+        createClientWithToken: createClientWithToken.bind(null, navigate),
         getSignalRClient: (hubName: string, options): ISignalRClient => {
           const token = store.getState().session.data.access_token;
           return getSignalRClient(baseUri, token, hubName, options);
@@ -55,7 +58,7 @@ export const store = Redux.createStore<IState>(
       createLogger())));
 
 // Persist session settings
-store.subscribe(_.debounce(() => {
+store.subscribe(debounce(() => {
   const state = store.getState();
   const sessionState = state && state.session && state.session.toJS();
 

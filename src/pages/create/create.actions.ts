@@ -1,5 +1,4 @@
 import { IAction, makePromiseAction } from "../../lib/action";
-import { getCachedClient } from "../../clients/clientFactory";
 import { GameClient, GameCreationOptions, MapClient } from "../../external/imperaClients";
 import { show, MessageBarType } from "../../common/message/message.actions";
 import { lookupSet } from "../../common/general/general.actions";
@@ -22,7 +21,7 @@ export const getMaps = makePromiseAction<void, void>((input, dispatch, getState,
     ({
         type: "MAPS_GET",
         payload: {
-            promise: getCachedClient(MapClient).getAllSummary().then(mapTemplates => {
+            promise: deps.getCachedClient(MapClient).getAllSummary().then(mapTemplates => {
                 dispatch(lookupSet("maps", mapTemplates));
             })
         }

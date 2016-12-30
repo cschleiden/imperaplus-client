@@ -45,7 +45,7 @@ export default function promiseMiddleware({ dispatch }) {
                     options.afterSuccess(dispatch);
                 }
             },
-            (error: ErrorResponse) => {
+            (error: ErrorResponse & Error) => {
                 if (options && options.beforeError) {
                     options.beforeError(dispatch);
                 }
@@ -54,7 +54,7 @@ export default function promiseMiddleware({ dispatch }) {
                     // Dispatch generic message action
                     let message = ErrorCodes.errorMessage[error.error];
                     if (!message) {
-                        message = error.error_Description || error.error;
+                        message = error.error_Description || error.error || error.message;
                     }
 
                     dispatch(show(message, MessageBarType.error));
