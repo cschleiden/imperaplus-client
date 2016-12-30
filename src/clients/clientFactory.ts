@@ -47,7 +47,7 @@ function createClient<TClient>(
                 const status = response.status.toString();
                 if (status === "401") {
                     navigate("/login");
-                    throw new Error("Not authorized");
+                    throw new Error(__("Your session has expired. Please login."));
                 }
 
                 return response;

@@ -6,6 +6,8 @@ import { Provider } from "react-redux";
 
 import { Router, Route, IndexRoute } from "react-router";
 
+import { clear } from "./common/message/message.actions";
+
 // Components
 import MainLayout from "./components/layouts/main";
 import PlayLayout from "./components/layouts/play";
@@ -38,7 +40,7 @@ function checkLoggedIn(store, nextState, replace) {
 export default class App extends React.Component<{ store, history }, void> {
     public render() {
         return <Provider store={this.props.store}>
-            <Router history={this.props.history}>
+            <Router history={this.props.history} onUpdate={this._onRouteUpdate}>
                 {/* main layout */}
                 <Route component={MainLayout}>
                     {/* public */}
@@ -69,5 +71,13 @@ export default class App extends React.Component<{ store, history }, void> {
                 </Route>
             </Router>
         </Provider>;
+    }
+
+    private _onRouteUpdate = () => {
+        this._clearMessage();
+    };
+
+    private _clearMessage() {
+        this.props.store.dispatch(clear());
     }
 };

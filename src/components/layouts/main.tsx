@@ -16,7 +16,7 @@ import LinkString from "../../components/ui/strLink";
 
 interface ILayoutProps {
     message;
-    clear;
+    clear: () => void;
     nav;
     content;
     pageContent;
@@ -32,7 +32,7 @@ export class Layout extends React.Component<ILayoutProps, void> {
         if (!!this.props.message) {
             msg = <MessageBar
                 messageBarType={this.props.message.type}
-                onDismiss={clear}>
+                onDismiss={this._onClear}>
                 <LinkString link={this.props.message.message} />
             </MessageBar>;
         }
@@ -80,12 +80,16 @@ export class Layout extends React.Component<ILayoutProps, void> {
             </div>
         </LayerHost>;
     }
+
+    private _onClear = () => {
+        this.props.clear();
+    }
 }
 
 export default connect((state: IState) => ({
     message: state.message.data.message,
     isNavOpen: state.general.data.isNavOpen
 }), (dispatch) => ({
-    clear: () => dispatch(clear()),
+    clear: () => { dispatch(clear()); },
     openCloseNav: (state: boolean) => { dispatch(openCloseNav(state)); }
 }))(Layout);
