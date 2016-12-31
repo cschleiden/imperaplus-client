@@ -1,4 +1,4 @@
-import { IAction, IAsyncAction, makePromiseAction } from "../../lib/action";
+import { IAction, IAsyncAction, IAsyncActionVoid, makePromiseAction } from "../../lib/action";
 import { ChatInformation, ChannelInformation, Message, UserChangeEvent } from "../../external/chatModel";
 
 export const START = "chat-start";
@@ -19,6 +19,8 @@ export const showHide: IAsyncAction<boolean> = (show) =>
             // get client
             let client = deps.getSignalRClient("chat");
             if (!client.isConnected()) {
+                client.detachAllHandlers();
+
                 client.on("broadcastMessage", (message: Message) => {
                     dispatch(receiveMessage(message));
                 });
@@ -31,8 +33,8 @@ export const showHide: IAsyncAction<boolean> = (show) =>
                     dispatch(leave(user.channelIdentifier, user.userName));
                 });
 
-                client.start().then(() => {
-                    client.invoke("init").then((result: ChatInformation) => {
+                client.onInit(() => {
+                    return client.invoke("init").then((result: ChatInformation) => {
                         dispatch(<IAction<IStartPayload>>{
                             type: START,
                             payload: {
@@ -40,20 +42,15 @@ export const showHide: IAsyncAction<boolean> = (show) =>
                             }
                         });
                     });
-                }, (error) => {
-                    if (error.context.status === 401) {
-                        // Re-authorize
-                        return 
-
-                        // Re-try
-                    }
                 });
+
+                client.start();
             }
         }
     };
 
 export const CLOSE = "chat-close";
-export const close: IAsyncAction<void> = () =>
+export const close: IAsyncActionVoid = () =>
     (dispatch, getState, deps) => {
         let client = deps.getSignalRClient("chat");
         client.stop();

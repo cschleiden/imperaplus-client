@@ -2,7 +2,9 @@ import { AccountClient, UserInfo } from "../../external/imperaClients";
 import { getCachedClient, createClientWithToken } from "../../clients/clientFactory";
 
 import { push } from "react-router-redux";
+import { stopAllConnections } from "../../clients/signalrFactory";
 import { refresh, expire } from "./session.actions";
+import { close } from "../chat/chat.actions";
 import { store } from "../../store";
 
 const scope = "openid offline_access";
@@ -32,6 +34,12 @@ export class SessionService {
         }, () => {
             // Unsuccessful, clear all tokens and redirect to login
             store.dispatch(expire());
+
+            // Close chat and close all other signalr connections
+            store.dispatch(close());
+            stopAllConnections();
+
+            // Navigate to login
             store.dispatch(push("/login"));
 
             throw new Error(__("Your session expired. Please login again."));

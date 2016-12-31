@@ -2,6 +2,7 @@ import * as Q from "q";
 import * as $ from "jquery";
 import "ms-signalr-client";
 
+import { SessionService } from "../common/session/session.service";
 import { TokenProvider } from "../services/tokenProvider";
 import { baseUri } from "../configuration";
 import jsonParseReviver from "../lib/jsonReviver";
@@ -9,10 +10,12 @@ import jsonParseReviver from "../lib/jsonReviver";
 const cachedClients: { [hubName: string]: ISignalRClient } = {};
 
 export interface ISignalRClient {
-    start(startOptions?: SignalR.ConnectionOptions): Promise<void>;
+    start(): Promise<void>;
     stop(): void;
+    detachAllHandlers(): void;
 
     on(eventName: string, callback: Function);
+    onInit(callback: () => void);
     off(eventName: string, callback: Function);
 
     invoke<TResult>(methodName: string, ...args): Promise<TResult>;
@@ -28,14 +31,27 @@ export function getSignalRClient(hubName: string, onUnauthorized: () => Promise<
 
         // Only use cached client if disconnected
         // TODO: CS: Why?
-        if (cachedClient.connection.state !== $.signalR.connectionState.disconnected) {
+        /*if (cachedClient.connection.state !== $.signalR.connectionState.disconnected) {
             return cachedClients[hubName];
-        }
+        }*/
+
+        return cachedClient;
     }
 
     let client = new SignalRClient(hubName);
     cachedClients[hubName] = client;
     return client;
+}
+
+/** Close all open SignalR connections */
+export function stopAllConnections() {
+    const clientKeys = Object.keys(cachedClients);
+
+    for (let clientKey of clientKeys) {
+        let client = cachedClients[clientKey];
+
+        client.stop();
+    }
 }
 
 class SignalRClient implements ISignalRClient {
@@ -44,41 +60,27 @@ class SignalRClient implements ISignalRClient {
 
     public connection: SignalR.Hub.Connection;
 
+    private _reconnect: Promise<void>;
+
+    private _onInit: () => Promise<void>;
+
     constructor(hubName: string) {
         this.connection = $.hubConnection(baseUri);
-        
-        this._setToken();
+
         this.connection.json = <any>{
             parse: (text: string, reviver?: (key: any, value: any) => any): any => JSON.parse(text, jsonParseReviver),
             stringify: (value: any, replacer?: any, space?: any): string => JSON.stringify(value, replacer, space)
         };
 
-        this._proxy = this.connection.createHubProxy(hubName);
-    }
-
-    private _setToken() {
-        // WebSockets does not allow sending custom headers, so we send the token in the query string
-        this.connection.qs = { "bearer_token": TokenProvider.getToken() };
-    }
-
-    public start(startOptions?: SignalR.ConnectionOptions) {
-        startOptions = startOptions || {};
-        startOptions["withCredentials"] = false;
-
         this.connection.logging = true;
 
         this.connection.error(error => {
-            /*if (error.context && error.context.status === 401) {
-                if (onUnauthorized) {
-                    onUnauthorized().then<void>(() => {
-                        if (continuation) {
-                            return continuation();
-                        }
-
-                        return null;
-                    });
+            if (error.context && error.context.status === 401) {
+                // Try to reconnect
+                if (!this._reconnect) {
+                    this._reconnect = this._reconnectWithAuth();
                 }
-            }*/
+            }
 
             console.error("!!! SignalR error: " + error);
         });
@@ -98,7 +100,30 @@ class SignalRClient implements ISignalRClient {
             console.debug("!!! SignalR connectionSlow");
         });
 
-        return Q<void>(this.connection.start(startOptions)) as any;
+        this._proxy = this.connection.createHubProxy(hubName);
+    }
+
+    private _setToken() {
+        // WebSockets does not allow sending custom headers, so we send the token in the query string
+        this.connection.qs = { "bearer_token": TokenProvider.getToken() };
+    }
+
+    public start(): Promise<void> {
+        let startOptions: SignalR.ConnectionOptions = {};
+
+        startOptions["withCredentials"] = false;
+        startOptions["transport"] = "longPolling";
+
+        this._setToken();
+
+        return this.connection.start(startOptions).then(() => {
+            if (this._onInit) {
+                return this._onInit();
+            }
+        }, () => {
+            // Retry in case of invalid auth
+            return this._reconnectWithAuth();
+        }) as any;
     }
 
     public isActive() {
@@ -108,6 +133,19 @@ class SignalRClient implements ISignalRClient {
     public stop() {
         this.connection.stop(false, true);
 
+        this._detachListeners();
+    }
+
+    public onInit(callback: () => Promise<void>) {
+        this._onInit = callback;
+    }
+
+    public detachAllHandlers() {
+        this._detachListeners();
+    }
+
+    private _detachListeners() {
+        // Detach all event handlers
         for (let event of this._eventCallbacks) {
             this._proxy.off(event[0], event[1]);
         }
@@ -116,7 +154,7 @@ class SignalRClient implements ISignalRClient {
     }
 
     public on(eventName, callback) {
-        this._proxy.on(eventName, (...result) => {
+        const wrappedCallback = (...result) => {
             if (callback) {
                 if (result.length === 1) {
                     callback(result[0]);
@@ -124,9 +162,10 @@ class SignalRClient implements ISignalRClient {
                     callback(result);
                 }
             }
-        });
+        };
 
-        this._eventCallbacks.push([eventName, callback]);
+        this._proxy.on(eventName, wrappedCallback);
+        this._eventCallbacks.push([eventName, wrappedCallback]);
     }
 
     public off(eventName, callback) {
@@ -149,10 +188,40 @@ class SignalRClient implements ISignalRClient {
     }
 
     public invoke<TResult>(methodName, ...args): Promise<TResult> {
-        return this._proxy.invoke.apply(this._proxy, [methodName].concat(args));
+        // Create copy in case we need to retry, signalR api modifies arguments in place
+        const originalArgs = args.slice(0);
+
+        return this._proxy.invoke.apply(this._proxy, [methodName].concat(args)).then(null, (error) => {
+            return this._reconnectWithAuth().then(() => {
+                return this.invoke(methodName, ...originalArgs);
+            });
+        });
     }
 
     public isConnected(): boolean {
         return this.connection.state === $.signalR.connectionState.connected;
+    }
+
+    private _reconnectWithAuth(): Promise<void> {
+        if (this._reconnect) {
+            return this._reconnect;
+        }
+
+        return SessionService.getInstance().reAuthorize().then(() => {
+            // Reconnect before retrying
+            this.connection.stop(false, false);
+
+            /*for (let callback of this._eventCallbacks) {
+                this._proxy.on(callback[0], callback[1]);
+            }*/
+
+            return this.start().then(() => {
+                this._reconnect = null;
+            }, () => {
+                this._reconnect = null;
+            });
+        }, () => {
+            this._reconnect = null;
+        });
     }
 }

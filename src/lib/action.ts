@@ -51,6 +51,10 @@ export const makePromiseAction = <TInput, TResult>(
     };
 };
 
+export interface IAsyncActionVoid {
+    (): (dispatch?: Redux.Dispatch<IState>, getState?: () => IState, deps?: IAsyncActionDependencies) => void;
+}
+
 export interface IAsyncAction<TInput> {
-    (data: TInput): (dispatch?, getState?: () => IState, deps?: IAsyncActionDependencies) => void;
+    (data: TInput): (dispatch?: Redux.Dispatch<IState>, getState?: () => IState, deps?: IAsyncActionDependencies) => void;
 }

@@ -181,7 +181,7 @@ export default connect((state: IState) => {
     };
 }, (dispatch) => ({
     showHide: (show: boolean) => dispatch(showHide(show)),
-    close: () => dispatch(close(null)),
+    close: () => dispatch(close()),
     send: (msg: string) => dispatch(message(msg)),
     switchChannel: (id: string): void => { dispatch(switchChannel(id)); }
 }))(Chat);
