@@ -35,7 +35,7 @@ export interface IApiActionOptions {
 export interface IAsyncActionDependencies {
     getCachedClient: <TClient>(clientType: IClient<TClient>) => TClient;
     createClientWithToken: <TClient>(clientType: IClient<TClient>, token: string) => TClient;
-    getSignalRClient: (hubName: string, options) => ISignalRClient; 
+    getSignalRClient: (hubName: string, options?) => ISignalRClient; 
 }
 
 export const makePromiseAction = <TInput, TResult>(

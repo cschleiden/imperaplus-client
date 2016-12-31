@@ -1,5 +1,4 @@
 import { IAction, IAsyncAction, makePromiseAction } from "../../lib/action";
-import { getSignalRClient } from "../../clients/signalrFactory";
 import { ChatInformation, ChannelInformation, Message, UserChangeEvent } from "../../external/chatModel";
 
 export const START = "chat-start";
@@ -18,7 +17,7 @@ export const showHide: IAsyncAction<boolean> = (show) =>
         // Transition to start
         if (show) {
             // get client
-            let client = deps.getSignalRClient("chat", {});
+            let client = deps.getSignalRClient("chat");
             if (!client.isConnected()) {
                 client.on("broadcastMessage", (message: Message) => {
                     dispatch(receiveMessage(message));
@@ -41,6 +40,13 @@ export const showHide: IAsyncAction<boolean> = (show) =>
                             }
                         });
                     });
+                }, (error) => {
+                    if (error.context.status === 401) {
+                        // Re-authorize
+                        return 
+
+                        // Re-try
+                    }
                 });
             }
         }
@@ -49,7 +55,7 @@ export const showHide: IAsyncAction<boolean> = (show) =>
 export const CLOSE = "chat-close";
 export const close: IAsyncAction<void> = () =>
     (dispatch, getState, deps) => {
-        let client = deps.getSignalRClient("chat", {});
+        let client = deps.getSignalRClient("chat");
         client.stop();
 
         dispatch(<IAction<void>>{
@@ -74,7 +80,13 @@ export const message = makePromiseAction<string, IMessagePayload>((msg: string, 
     return {
         type: MESSAGE,
         payload: {
-            promise: deps.getSignalRClient("chat", {}).invoke("sendMessage", currentChannelId, msg)
+            promise: deps.getSignalRClient("chat").invoke("sendMessage", currentChannelId, msg).then(null, (error) => {
+                if (error.context && error.context.status === 401) {
+                    // Re-authorize
+
+                    // Re-try? 
+                }
+            })
         }
     };
 });
@@ -85,13 +97,14 @@ export const receiveMessage = (msg: Message): IAction<Message> => ({
     payload: msg
 });
 
-export interface IUserChangePayload {
+export interface IUserEventPayload {
     channelId: string;
     userName: string;
 }
 
 export const JOIN = "chat-join";
-export const join = (channelId: string, userName: string): IAction<IUserChangePayload> => ({
+/** User has joined a channel */
+export const join = (channelId: string, userName: string): IAction<IUserEventPayload> => ({
     type: JOIN,
     payload: {
         channelId,
@@ -99,9 +112,9 @@ export const join = (channelId: string, userName: string): IAction<IUserChangePa
     }
 });
 
-
 export const LEAVE = "chat-leave";
-export const leave = (channelId: string, userName: string): IAction<IUserChangePayload> => ({
+/** User has left a channel */
+export const leave = (channelId: string, userName: string): IAction<IUserEventPayload> => ({
     type: LEAVE,
     payload: {
         channelId,

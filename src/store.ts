@@ -25,37 +25,20 @@ import { SessionService } from "./common/session/session.service";
 import { refresh, expire } from "./common/session/session.actions";
 
 // Create main store
-// TODO: CS: generalize
 const compose = composeWithDevTools({
   serializeState: (key, value) => value && value.data ? value.data : value,
   deserializeState: (state) => ({
     routing: state && state.routing,
     form: makeImmutable(state.form),
-    sessions: makeImmutable(state.session),
+    session: makeImmutable(state.session),
     create: makeImmutable(state.create)
   }),
   shouldHotReload: true
 }) || Redux.compose;
 
+// Get initial session data from sessionStorage
 const sessionDataStringified = sessionStorage.getItem("impera");
 const sessionData = sessionDataStringified && JSON.parse(sessionDataStringified);
-
-// TODO: CS: Move?!
-const onUnauthorized = (): Promise<void> => {
-  // Try to refresh
-  let service = new SessionService(getCachedClientWrapper(AccountClient));
-
-  return service.refresh(store.getState().session.data.refresh_token).then((result) => {
-    store.dispatch(refresh(result.access_token, result.refresh_token));
-  }, () => {
-    // Clear all tokens
-    store.dispatch(expire());
-    
-    store.dispatch(push("/login"));
-    throw new Error(__("Your session expired. Please login again."));
-  });
-};
-var getCachedClientWrapper = getCachedClient.bind(null, onUnauthorized);
 
 export var store = Redux.createStore<IState>(
   rootReducer,
@@ -68,16 +51,13 @@ export var store = Redux.createStore<IState>(
       routerMiddleware(browserHistory),
       promiseMiddleware as any,
       thunkMiddleware.withExtraArgument({
-        getCachedClient: getCachedClientWrapper,
-        createClientWithToken: createClientWithToken.bind(null, onUnauthorized),
-        getSignalRClient: (hubName: string, options): ISignalRClient => {
-          const token = store.getState().session.data.access_token;
-          return getSignalRClient(baseUri, token, hubName, options);
-        }
+        getCachedClient: getCachedClient,
+        createClientWithToken: createClientWithToken,
+        getSignalRClient: getSignalRClient
       } as IAsyncActionDependencies),
       createLogger())));
 
-// Persist session settings
+// Persist session settings to sesson storage
 store.subscribe(debounce(() => {
   const state = store.getState();
   const sessionState = state && state.session && state.session.toJS();

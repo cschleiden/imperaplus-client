@@ -1,7 +1,8 @@
 import { TokenProvider } from "../services/tokenProvider";
 import { baseUri } from "../configuration";
 
-import { refresh } from "../common/session/session.actions";
+import { SessionService } from "../common/session/session.service";
+import jsonParseReviver from "../lib/jsonReviver";
 
 export interface IClient<TClient> {
     new (baseUri: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }): TClient;
@@ -10,7 +11,6 @@ export interface IClient<TClient> {
 const clientCache: [IClient<any>, any][] = [];
 
 export function getCachedClient<TClient>(
-    onUnauthorized: () => Promise<void>,
     clientType: IClient<TClient>): TClient {
     for (let [cachedClientType, cachedInstance] of clientCache) {
         if (cachedClientType === clientType) {
@@ -18,25 +18,24 @@ export function getCachedClient<TClient>(
         }
     }
 
-    let instance = createClient(onUnauthorized, clientType, () => TokenProvider.getToken());
+    let instance = createClient(clientType, () => TokenProvider.getToken());
     clientCache.push([clientType, instance]);
     return instance;
 }
 
 export function createClientWithToken<TClient>(
-    onUnauthorized: () => Promise<void>,
     clientType: IClient<TClient>,
     access_token: string): TClient {
 
-    return createClient(onUnauthorized, clientType, () => access_token);
+    return createClient(clientType, () => access_token);
 }
 
-const fetchWrapper = (tokenRetriever, onUnauthorized: () => Promise<void>, url: string, init) => {
-    const token = tokenRetriever();
+const fetchWrapper = (tokenProvider: () => string, url: string, init) => {
+    const access_token = tokenProvider();
 
-    if (token) {
+    if (access_token) {
         init.headers = Object.assign({}, init.headers, {
-            "Authorization": "Bearer " + token
+            "Authorization": "Bearer " + access_token
         });
     }
 
@@ -44,9 +43,11 @@ const fetchWrapper = (tokenRetriever, onUnauthorized: () => Promise<void>, url: 
         // Intercept 401 responses, to redirect to login or refresh token
         const status = response.status.toString();
         if (status === "401") {
-            return onUnauthorized().then(() => {
-                // Retry request
-                return fetchWrapper(tokenRetriever, onUnauthorized, url, init);
+            return SessionService.getInstance().reAuthorize().then(() => {
+                // Successful, retry request
+                return fetchWrapper(tokenProvider, url, init);
+            }, (error) => {
+                throw error;
             });
         }
 
@@ -55,24 +56,14 @@ const fetchWrapper = (tokenRetriever, onUnauthorized: () => Promise<void>, url: 
 };
 
 function createClient<TClient>(
-    onUnauthorized: () => Promise<void>,
-    clientType: IClient<TClient>,
-    tokenRetriever: () => string): TClient {
+    clientType: IClient<TClient>, tokenProvider: () => string): TClient {
+
     let client = new clientType(baseUri, {
-        fetch: fetchWrapper.bind(null, tokenRetriever, onUnauthorized)
+        fetch: fetchWrapper.bind(null, tokenProvider)
     });
 
-    // Recreate dates.
-    (<any>client).jsonParseReviver = (key: string, value: string): any => {
-        if (typeof value === "string") {
-            let a = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)Z$/.exec(value);
-            if (a) {
-                return new Date(Date.UTC(+a[1], +a[2] - 1, +a[3], +a[4], +a[5], +a[6]));
-            }
-        }
-
-        return value;
-    };
+    // Hack: jsonParseReviver is protected, force set for now
+    (<any>client).jsonParseReviver = jsonParseReviver;
 
     return client;
 }

@@ -3,7 +3,7 @@ import reducerMap from "../../lib/reducerMap";
 import { IAction, success, pending, failed } from "../../lib/action";
 import {
     START, IStartPayload, SHOW_HIDE, SWITCH_CHANNEL, MESSAGE, RECEIVE_MESSAGE, CLOSE, JOIN, LEAVE,
-    IUserChangePayload
+    IUserEventPayload
 } from "./chat.actions";
 import { ChannelInformation, Message } from "../../external/chatModel";
 
@@ -58,7 +58,7 @@ const receiveMessage = (state: IChatState, action: IAction<Message>) => {
     }).set(x => x.unreadCount, !state.data.isVisible ? (state.data.unreadCount || 0) + 1 : null);
 };
 
-const join = (state: IChatState, action: IAction<IUserChangePayload>) => {
+const join = (state: IChatState, action: IAction<IUserEventPayload>) => {
     const channelIdx = getChannelIdxById(state.data.channels, action.payload.channelId);
     const channel = state.data.channels[channelIdx];
 
@@ -70,7 +70,7 @@ const join = (state: IChatState, action: IAction<IUserChangePayload>) => {
     });
 };
 
-const leave = (state: IChatState, action: IAction<IUserChangePayload>) => {
+const leave = (state: IChatState, action: IAction<IUserEventPayload>) => {
     const channelIdx = getChannelIdxById(state.data.channels, action.payload.channelId);
     const channel = state.data.channels[channelIdx];
 
