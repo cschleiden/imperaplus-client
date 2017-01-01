@@ -112,7 +112,6 @@ class SignalRClient implements ISignalRClient {
         let startOptions: SignalR.ConnectionOptions = {};
 
         startOptions["withCredentials"] = false;
-        startOptions["transport"] = "longPolling";
 
         this._setToken();
 
