@@ -1,15 +1,501 @@
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
-"POT-Creation-Date: Sun Nov 13 2016 19:52:50 GMT-0800 (Pacific Standard "
+"POT-Creation-Date: Sun Jan 01 2017 12:28:21 GMT-0800 (Pacific Standard "
 "Time)\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: temp/src/pages/public/login/index.js:12
+#: temp/src/common/chat/chat.js:50
+msgid "Open chat"
+msgstr ""
+
+#: temp/src/common/chat/chat.js:69
+msgid "Hide"
+msgstr ""
+
+#: temp/src/common/chat/chat.js:70
+msgid "Close"
+msgstr ""
+
+#: temp/src/common/chat/chat.js:86
+msgid "Enter your message..."
+msgstr ""
+
+#: temp/src/common/chat/chat.js:87
+msgid "Send"
+msgstr ""
+
+#: temp/src/common/session/session.service.js:31
+msgid "Your session expired. Please login again."
+msgstr ""
+
+#: temp/src/components/navigation/game.js:10
+msgid "Start"
+msgstr ""
+
+#: temp/src/components/navigation/game.js:12
+msgid "Games"
+msgstr ""
+
+#: temp/src/components/navigation/game.js:15
+#: temp/src/pages/games/games.js:32
+msgid "My Games"
+msgstr ""
+
+#: temp/src/components/navigation/game.js:17
+msgid "Create Fun Game"
+msgstr ""
+
+#: temp/src/components/navigation/game.js:19
+msgid "Join Fun Game"
+msgstr ""
+
+#: temp/src/components/navigation/game.js:21
+msgid "Ladders"
+msgstr ""
+
+#: temp/src/components/navigation/game.js:23
+msgid "Tournaments"
+msgstr ""
+
+#: temp/src/components/navigation/game.js:25
+msgid "Alliance"
+msgstr ""
+
+#: temp/src/components/navigation/game.js:28
+#: temp/src/pages/create/create.js:170
+msgid "Create"
+msgstr ""
+
+#: temp/src/components/navigation/game.js:30
+msgid "Join"
+msgstr ""
+
+#: temp/src/components/navigation/game.js:32
+msgid "Admin"
+msgstr ""
+
+#: temp/src/components/navigation/game.js:34
+msgid "Information"
+msgstr ""
+
+#: temp/src/components/navigation/game.js:36
+msgid "Forum"
+msgstr ""
+
+#: temp/src/components/navigation/game.js:45
+msgid "Profile"
+msgstr ""
+
+#: temp/src/components/navigation/game.js:51
+msgid "Logout"
+msgstr ""
+
+#: temp/src/components/ui/humanDate.js:20
+msgid "just now"
+msgstr ""
+
+#: temp/src/components/ui/humanDate.js:22
+msgid "{0} seconds ago"
+msgstr ""
+
+#: temp/src/components/ui/humanDate.js:24
+msgid "a minute ago"
+msgstr ""
+
+#: temp/src/components/ui/humanDate.js:26
+msgid "{0} minutes ago"
+msgstr ""
+
+#: temp/src/components/ui/humanDate.js:28
+msgid "an hour ago"
+msgstr ""
+
+#: temp/src/components/ui/humanDate.js:30
+msgid "{0} hours ago"
+msgstr ""
+
+#: temp/src/components/ui/humanDate.js:32
+msgid "yesterday"
+msgstr ""
+
+#: temp/src/components/ui/humanDate.js:34
+msgid "{0} days ago"
+msgstr ""
+
+#: temp/src/components/ui/humanDate.js:36
+msgid "a week ago"
+msgstr ""
+
+#: temp/src/components/ui/humanDate.js:38
+msgid "{0} weeks ago"
+msgstr ""
+
+#: temp/src/components/ui/humanDate.js:40
+msgid "a month ago"
+msgstr ""
+
+#: temp/src/components/ui/humanDate.js:42
+msgid "{0} months ago"
+msgstr ""
+
+#: temp/src/components/ui/humanDate.js:44
+msgid "a year ago"
+msgstr ""
+
+#: temp/src/components/ui/humanDate.js:46
+msgid "over a year ago"
+msgstr ""
+
+#: temp/src/i18n/errorCodes.js:6
+msgid ""
+"Username or password is not correct, did you [forget your "
+"password](public.account.recoverPassword)?"
+msgstr ""
+
+#: temp/src/i18n/errorCodes.js:7
+msgid ""
+"This account is locked, please try to <a "
+"ui-sref=\"public.account.unlockAccount\">unlock</a> it."
+msgstr ""
+
+#: temp/src/i18n/errorCodes.js:8
+msgid ""
+"This account has not been confirmed yet, please click the link in the "
+"confirmation email to activate, or request a new <a "
+"ui-sref=\"public.account.resendConfirmation\">confirmation code</a>."
+msgstr ""
+
+#: temp/src/i18n/errorCodes.js:9
+msgid "This email address is already linked to an account."
+msgstr ""
+
+#: temp/src/i18n/errorCodes.js:10
+msgid "This login is already linked to an account."
+msgstr ""
+
+#: temp/src/i18n/errorCodes.js:11
+msgid "The user id cannot be found."
+msgstr ""
+
+#: temp/src/i18n/errorCodes.js:12
+msgid "Username is invalid, it may only contain characters and numbers."
+msgstr ""
+
+#: temp/src/i18n/errorCodes.js:13
+msgid "Email address is invalid."
+msgstr ""
+
+#: temp/src/i18n/errorCodes.js:14
+msgid "Password is invalid, it has to be at least 8 characters long."
+msgstr ""
+
+#: temp/src/i18n/errorCodes.js:15
+msgid "Passwords do not match."
+msgstr ""
+
+#: temp/src/i18n/errorCodes.js:16
+msgid "User is already in this role."
+msgstr ""
+
+#: temp/src/i18n/errorCodes.js:17
+msgid "User is not in role."
+msgstr ""
+
+#: temp/src/i18n/errorCodes.js:18
+msgid "User does not exist."
+msgstr ""
+
+#: temp/src/i18n/errorCodes.js:19
+msgid "Invalid token."
+msgstr ""
+
+#: temp/src/i18n/errorCodes.js:20
+msgid "Username is already linked to an account."
+msgstr ""
+
+#: temp/src/i18n/errorCodes.js:21
+msgid "Cannot login with this login."
+msgstr ""
+
+#: temp/src/i18n/errorCodes.js:23
+msgid "An error has occured."
+msgstr ""
+
+#: temp/src/i18n/errorCodes.js:25
+msgid "Cannot start the game."
+msgstr ""
+
+#: temp/src/i18n/errorCodes.js:26
+msgid "This name is already in use."
+msgstr ""
+
+#: temp/src/i18n/errorCodes.js:27
+msgid "Team is already full."
+msgstr ""
+
+#: temp/src/pages/create/create.actions.js:12
+msgid "Game created, you can find it now in [My Games](game/games/my)."
+msgstr ""
+
+#: temp/src/pages/create/create.js:21
+msgid "1 vs Bot"
+msgstr ""
+
+#: temp/src/pages/create/create.js:31
+msgid "Players"
+msgstr ""
+
+#: temp/src/pages/create/create.js:38
+msgid "vs"
+msgstr ""
+
+#: temp/src/pages/create/create.js:60
+msgid "Create Game"
+msgstr ""
+
+#: temp/src/pages/create/create.js:63
+msgid ""
+"Here you can create a new fun game. If you want to start playing sooner, "
+"you might want to [join](game/games/join) an existing game. Fun games do "
+"not count for the ladder."
+msgstr ""
+
+#: temp/src/pages/create/create.js:105
+#: temp/src/pages/create/create.js:176
+msgid "Simple"
+msgstr ""
+
+#: temp/src/pages/create/create.js:106
+#: temp/src/pages/games/games.js:68
+msgid "Name"
+msgstr ""
+
+#: temp/src/pages/create/create.js:107
+#: temp/src/pages/public/login/index.js:25
+#: temp/src/pages/public/signup/index.js:44
+msgid "Password"
+msgstr ""
+
+#: temp/src/pages/create/create.js:107
+msgid "Optional: Password"
+msgstr ""
+
+#: temp/src/pages/create/create.js:108
+#: temp/src/pages/games/games.js:73
+msgid "Map"
+msgstr ""
+
+#: temp/src/pages/create/create.js:112
+msgid "Timeout"
+msgstr ""
+
+#: temp/src/pages/create/create.js:115
+msgid "5 Minutes"
+msgstr ""
+
+#: temp/src/pages/create/create.js:119
+msgid "10 Minutes"
+msgstr ""
+
+#: temp/src/pages/create/create.js:123
+msgid "5 Hours"
+msgstr ""
+
+#: temp/src/pages/create/create.js:127
+msgid "10 Hours"
+msgstr ""
+
+#: temp/src/pages/create/create.js:131
+msgid "1 Day"
+msgstr ""
+
+#: temp/src/pages/create/create.js:135
+msgid "2 Days"
+msgstr ""
+
+#: temp/src/pages/create/create.js:138
+msgid "Players & Teams"
+msgstr ""
+
+#: temp/src/pages/create/create.js:139
+#: temp/src/pages/create/create.js:178
+msgid "Advanced"
+msgstr ""
+
+#: temp/src/pages/create/create.js:140
+msgid "Attacks"
+msgstr ""
+
+#: temp/src/pages/create/create.js:141
+msgid "Moves"
+msgstr ""
+
+#: temp/src/pages/create/create.js:142
+msgid "Units per turn"
+msgstr ""
+
+#: temp/src/pages/create/create.js:143
+msgid "Victory Condition"
+msgstr ""
+
+#: temp/src/pages/create/create.js:146
+msgid "Survival"
+msgstr ""
+
+#: temp/src/pages/create/create.js:150
+msgid "Visibility modifier"
+msgstr ""
+
+#: temp/src/pages/create/create.js:153
+msgid "Everything visible"
+msgstr ""
+
+#: temp/src/pages/create/create.js:157
+msgid "Fog of War"
+msgstr ""
+
+#: temp/src/pages/create/create.js:160
+msgid "Distribution"
+msgstr ""
+
+#: temp/src/pages/create/create.js:163
+msgid "Default"
+msgstr ""
+
+#: temp/src/pages/create/create.js:167
+msgid "Malibu"
+msgstr ""
+
+#: temp/src/pages/create/create.js:173
+msgid "Help"
+msgstr ""
+
+#: temp/src/pages/create/create.js:175
+msgid ""
+"Here you can create a new game. You can also [join](games/games/join) an "
+"existing game, which might be faster."
+msgstr ""
+
+#: temp/src/pages/create/create.js:177
+msgid ""
+"Simple game settings group the most common settings, if you are not "
+"familiar with the other settings, just use the default values."
+msgstr ""
+
+#: temp/src/pages/create/create.js:179
+msgid ""
+"These settings allow you to customize nearly every aspect of the created "
+"game."
+msgstr ""
+
+#: temp/src/pages/games/games.js:34
+msgid "Fun"
+msgstr ""
+
+#: temp/src/pages/games/games.js:36
+msgid "Ranking"
+msgstr ""
+
+#: temp/src/pages/games/games.js:37
+msgid "Tournament"
+msgstr ""
+
+#: temp/src/pages/games/games.js:62
+msgid "#"
+msgstr ""
+
+#: temp/src/pages/games/games.js:79
+msgid "Mode"
+msgstr ""
+
+#: temp/src/pages/games/games.js:86
+msgid "Active"
+msgstr ""
+
+#: temp/src/pages/games/games.js:92
+msgid "Teams/Players"
+msgstr ""
+
+#: temp/src/pages/games/games.js:98
+msgid "Time"
+msgstr ""
+
+#: temp/src/pages/games/games.js:103
+msgid "State"
+msgstr ""
+
+#: temp/src/pages/public/login/index.js:15
 msgid "Sign in using your Impera account..."
 msgstr ""
 
-#: temp/src/pages/public/signup/index.js:13
+#: temp/src/pages/public/login/index.js:24
+#: temp/src/pages/public/signup/index.js:42
+msgid "Username"
+msgstr ""
+
+#: temp/src/pages/public/login/index.js:24
+#: temp/src/pages/public/signup/index.js:42
+msgid "Enter username"
+msgstr ""
+
+#: temp/src/pages/public/login/index.js:25
+#: temp/src/pages/public/signup/index.js:44
+msgid "Enter password"
+msgstr ""
+
+#: temp/src/pages/public/login/index.js:27
+msgid "Login"
+msgstr ""
+
+#: temp/src/pages/public/login/index.js:36
+#: temp/src/pages/public/signup/index.js:61
+msgid "Recover your password or create a new account."
+msgstr ""
+
+#: temp/src/pages/public/signup/confirmation.js:19
+msgid ""
+"Your account has been successfully registered. You will receive an email "
+"with a confirmation code, please follow the instructions in there."
+msgstr ""
+
+#: temp/src/pages/public/signup/index.js:31
 msgid "Register a new account. It is completely free."
+msgstr ""
+
+#: temp/src/pages/public/signup/index.js:43
+msgid "Email"
+msgstr ""
+
+#: temp/src/pages/public/signup/index.js:43
+msgid "Enter email"
+msgstr ""
+
+#: temp/src/pages/public/signup/index.js:45
+msgid "Password (repeat)"
+msgstr ""
+
+#: temp/src/pages/public/signup/index.js:45
+msgid "Repeat password"
+msgstr ""
+
+#: temp/src/pages/public/signup/index.js:47
+msgid "Passwords do not match"
+msgstr ""
+
+#: temp/src/pages/public/signup/index.js:50
+msgid "I agree to the TOS"
+msgstr ""
+
+#: temp/src/pages/public/signup/index.js:52
+msgid "Register"
+msgstr ""
+
+#: temp/src/pages/public/signup/index.js:55
+msgid "Or sign in using an existing account."
+msgstr ""
+
+#: temp/src/pages/start/index.js:25
+msgid "News"
 msgstr ""

@@ -5,6 +5,8 @@ const webpack = require("webpack");
 const loaders = require("./webpack/loaders");
 const plugins = require("./webpack/plugins");
 
+// Prod plugins
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const I18nPlugin = require("i18n-webpack-plugin");
 
 const languages = {
@@ -28,10 +30,9 @@ const config = (lang) => {
 
         output: {
             path: path.join(__dirname, "dist"),
-            filename: (lang !== defaultLanguage ? lang + "." : "") + "[name]" + (process.env.NODE_ENV === "production" ? ".[hash]" : "") + ".js",
+            filename: (lang || defaultLanguage) + ".[name]" + (process.env.NODE_ENV === "production" ? ".[githash]" : "") + ".js",
             publicPath: "/",
-            sourceMapFilename: "[name].[hash].js.map",
-            chunkFilename: "[id].chunk.js"
+            sourceMapFilename: "[name].[hash].js.map"
         },
 
         devtool: process.env.NODE_ENV === "production" ?
@@ -42,7 +43,8 @@ const config = (lang) => {
             extensions: ["", ".webpack.js", ".web.js", ".tsx", ".ts", ".js"]
         },
 
-        plugins: plugins.concat([new I18nPlugin(languages[lang])]),
+        plugins: plugins.concat([
+            new I18nPlugin(languages[lang])]),
 
         devServer: {
             historyApiFallback: { index: "/" },

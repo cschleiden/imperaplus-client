@@ -10,6 +10,27 @@
 
 <body class="ms-Fabric">
 	<div id="root" class="ms-Fabric ms-font-m ms-App"></div>
+
+	<script type="text/javascript">
+		var hash = "[hash]";
+
+		var language = "en";
+
+		var fallback = (window.navigator.userLanguage || window.navigator.language).substr(0, 2);
+		if (fallback) {
+			language = fallback;
+		}
+
+		var storedLanguage = window.localStorage.getItem("impera-lang");
+		if (storedLanguage) {
+			language = storedLanguage;
+		}
+
+		var script = document.createElement("script");
+		script.type = "text/javascript";
+		script.src = "/" + language + ".app." + (hash !== "[hash]" ? hash + "." : "") + "js";
+		document.body.appendChild(script);
+	</script>
 </body>
 
 </html>

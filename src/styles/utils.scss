@@ -1,6 +1,6 @@
 @import '~office-ui-fabric-react/dist/sass/_Fabric.Color.Variables';
 @import '~office-ui-fabric-react/dist/sass/_Fabric.Color.Mixins';
-
+@import '~office-ui-fabric-react/dist/sass/_Fabric.Responsive.Variables';
 @mixin unstyled-list {
     list-style: none;
     padding: 0;
@@ -10,8 +10,9 @@
         margin-bottom: 5px;
     }
 }
-
-.border-right {
-    border-right: 1px solid;
-    @include ms-borderColor-neutralTertiaryAlt;
+@media(min-width: $ms-screen-md-min) {
+    .border-right {
+        border-right: 1px solid;
+        @include ms-borderColor-neutralTertiaryAlt;
+    }
 }

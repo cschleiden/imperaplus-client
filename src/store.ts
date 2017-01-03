@@ -21,6 +21,7 @@ import rootReducer, { IState } from "./reducers";
 import { baseUri } from "./configuration";
 
 import { AccountClient } from "./external/imperaClients";
+import { ISessionState } from "./common/session/session.reducer";
 import { SessionService } from "./common/session/session.service";
 import { refresh, expire } from "./common/session/session.actions";
 
@@ -38,13 +39,19 @@ const compose = composeWithDevTools({
 
 // Get initial session data from sessionStorage
 const sessionDataStringified = sessionStorage.getItem("impera");
-const sessionData = sessionDataStringified && JSON.parse(sessionDataStringified);
+const sessionData: any = sessionDataStringified && JSON.parse(sessionDataStringified);
+
+// Get language preference from localStorage
+const language = localStorage.getItem("impera-lang") || "en";
+
+const state = Object.assign(sessionData, { language: language });
+const sessionState = sessionData && makeImmutable(state) as ISessionState || undefined;
 
 export var store = Redux.createStore<IState>(
   rootReducer,
   {
     // Pre-populate stored session data
-    session: sessionData && makeImmutable(sessionData) || undefined
+    session: sessionState
   } as IState,
   compose(
     Redux.applyMiddleware(

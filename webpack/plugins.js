@@ -1,10 +1,12 @@
 const path = require('path');
+const fs = require('fs');
 const webpack = require('webpack');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const styleLintPlugin = require('stylelint-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const WebpackGitHash = require('webpack-git-hash');
 
 const sourceMap = process.env.TEST || process.env.NODE_ENV !== "production"
     ? [new webpack.SourceMapDevToolPlugin({ filename: null, test: /\.tsx?$/ })]
@@ -19,10 +21,6 @@ const basePlugins = [
         $: "jquery",
         jQuery: "jquery"
     }),
-    new HtmlWebpackPlugin({
-        template: './src/index.html',
-        inject: 'body',
-    }),
     new ProgressBarPlugin(),
     new CopyWebpackPlugin([
         { from: './src/assets', to: './assets' },
@@ -31,13 +29,21 @@ const basePlugins = [
 ].concat(sourceMap);
 
 const devPlugins = [
-    new webpack.NoErrorsPlugin()
+    new webpack.NoErrorsPlugin(),    
+    new WebpackGitHash()
 ];
 
 const prodPlugins = [
     new webpack.optimize.UglifyJsPlugin({
         compress: {
             warnings: false
+        }
+    }),
+    new WebpackGitHash({
+        callback: function(hash) {
+            var indexHtml = fs.readFileSync('./src/index.html', 'utf8');
+            indexHtml = indexHtml.replace(/\[hash\]/, hash);
+            fs.writeFileSync('./dist/index.html', indexHtml);
         }
     })
 ];

@@ -1,11 +1,27 @@
 import { push, replace } from "react-router-redux";
-import { IAction, makePromiseAction } from "../../lib/action";
+import { IAction, IAsyncAction, makePromiseAction } from "../../lib/action";
 
 import { AccountClient, UserInfo } from "../../external/imperaClients";
 
 import { TokenProvider } from "../../services/tokenProvider";
 
 const scope = "openid offline_access";
+
+export const SET_LANGUAGE = "set-language";
+export const setLanguage: IAsyncAction<string> = (language: string) =>
+    (dispatch, getState, deps) => {
+        localStorage.setItem("impera-lang", language);
+
+        // TODO: Set server side..
+        // then() ... once saved:
+        dispatch({
+            type: SET_LANGUAGE,
+            payload: language
+        });
+
+        // Reload, so new language bundle can be loaded
+        window.location.reload();
+    };
 
 export interface ILoginInput {
     username: string;

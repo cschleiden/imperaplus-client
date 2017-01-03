@@ -69,11 +69,20 @@ $headerHeight: 120px;
         text-align: right;
     }
 
-    .navigation {
+    .navigation-container {
         height: $headerHeight;
+        padding: 0 !important; // Override ms grid style
 
         text-align: right;
+    }
+
+    .lang {
+        height: $headerHeight / 2;
+    }
+
+    .navigation {
         position: relative;
+        height: $headerHeight / 2;
 
         a {
             color: black;

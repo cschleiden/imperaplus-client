@@ -2,14 +2,15 @@ import { makeImmutable, IImmutable } from "immuts";
 import reducerMap from "../../lib/reducerMap";
 
 import { IAction, success, pending, failed } from "../../lib/action";
-import { LOGIN, LOGOUT, REFRESH, EXPIRE, ILoginPayload, IRefreshPayload } from "./session.actions";
+import { LOGIN, LOGOUT, REFRESH, EXPIRE, SET_LANGUAGE, ILoginPayload, IRefreshPayload } from "./session.actions";
 import { UserInfo } from "../../external/imperaClients";
 
 const buildInitialState = () => makeImmutable({
     access_token: null as string,
     refresh_token: null as string,
     userInfo: null as UserInfo,
-    isLoggedIn: false
+    isLoggedIn: false,
+    language: null as string
 });
 
 const initialState = buildInitialState();
@@ -42,6 +43,10 @@ const logout = (state: ISessionState, action: IAction<void>) => {
     return initialState;
 };
 
+const setLanguage = (state: ISessionState, action: IAction<string>) => {
+    return state.set(x => x.language, action.payload);
+};
+
 export const session = <TPayload>(
     state = initialState,
     action?: IAction<TPayload>): ISessionState => {
@@ -50,6 +55,7 @@ export const session = <TPayload>(
         [success(LOGIN)]: login,
         [REFRESH]: refresh,
         [EXPIRE]: expire,
-        [success(LOGOUT)]: logout
+        [success(LOGOUT)]: logout,
+        [SET_LANGUAGE]: setLanguage
     });
 };
