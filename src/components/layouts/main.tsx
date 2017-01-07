@@ -154,7 +154,7 @@ export class Layout extends React.Component<ILayoutProps, void> {
                         {msg}
                     </GridRow>
 
-                    <GridRow className="content">                        
+                    <GridRow className="content">
                         {this.props.content}
                     </GridRow>
 
