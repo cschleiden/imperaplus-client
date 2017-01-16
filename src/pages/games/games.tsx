@@ -5,6 +5,7 @@ import { GameSummary } from "../../external/imperaClients";
 import { Grid, GridRow, GridColumn } from "../../components/layout";
 import HumanDate from "../../components/ui/humanDate";
 import { Title, Section } from "../../components/ui/typography";
+import { GameDetails } from "../../components/ui/games/gameDetail";
 
 import { Button, ButtonType } from "office-ui-fabric-react/lib/Button";
 import { DetailsList, SelectionMode, ConstrainMode, DetailsListLayoutMode, DetailsRow } from "office-ui-fabric-react/lib/DetailsList";
@@ -38,6 +39,7 @@ export class MyGamesComponent extends React.Component<IMyGamesProps, void> {
     }
 }
 
+
 interface IGameListProps {
     games: GameSummary[];
 }
@@ -61,11 +63,15 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
             constrainMode={ConstrainMode.horizontalConstrained}
             selectionMode={SelectionMode.none}
             onRenderRow={((props, defaultRender) => {
+                let details: JSX.Element;
                 if (props.item.id === this.state.expandedGame) {
-                    return <div style={{background: "red", height: "400px"}}>Details</div>;
+                    details = <GameDetails game={props.item} />;
                 }
 
-                return <DetailsRow {...props} />;
+                return <div>
+                    {defaultRender(props)}
+                    {details}
+                </div>;
             })}
             columns={[
                 {
@@ -89,7 +95,7 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
                     key: "mode",
                     fieldName: "options.mapDistribution",
                     name: __("Mode"),
-                    minWidth: 100,                    
+                    minWidth: 100,
                     onRender: (item) => item.options.mapDistribution,
                     isCollapsable: true
                 }, {
@@ -121,7 +127,11 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
                     name: "",
                     minWidth: 50,
                     onRender: (item: GameSummary) => {
-                        return <Button onClick={() => this._expand(item.id)}></Button>;
+                        return <Button
+                            buttonType={ButtonType.icon}
+                            icon="Info"
+                            title={__("Show details")}
+                            onClick={() => this._expand(item.id)}></Button>;
                     }
                 }
             ]}
@@ -131,7 +141,7 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
 
     private _expand(id: number) {
         this.setState({
-            expandedGame: id 
+            expandedGame: id
         });
     }
 }

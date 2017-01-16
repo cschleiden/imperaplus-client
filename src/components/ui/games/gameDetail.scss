@@ -1,0 +1,25 @@
+.game-details {
+    dt {
+        font-weight: bold;
+
+        float: left;
+        width: 160px;
+        clear: left;
+        text-align: right;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    dd {
+        margin-left: 180px;
+    }
+}
+
+.game-details-name {
+    text-align: center;
+}
+
+.game-details-map {
+    // max-width: 400px;
+}

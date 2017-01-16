@@ -22,3 +22,8 @@ h3.headline {
         border-bottom: 2px solid $accent;
     }
 }
+
+.list-unstyled {
+    padding-left: 0;
+    list-style: none;
+}

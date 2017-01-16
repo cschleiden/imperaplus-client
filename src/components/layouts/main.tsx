@@ -59,7 +59,7 @@ class LanguageSelector extends React.Component<ILanguageSelectorProps, ILanguage
                             key: "en",
                             name: __("English"),
                             canCheck: true,
-                            isChecked: this.props.selectedLanguage === "en",                            
+                            isChecked: this.props.selectedLanguage === "en",
                             onClick: () => this.props.onLanguageSelect("en")
                         },
                         {
@@ -114,57 +114,57 @@ export class Layout extends React.Component<ILayoutProps, void> {
             </MessageBar>;
         }
 
-        return <LayerHost className="nav-host">
-            <div>
-                <Grid className="layout">
-                    <GridRow className="header">
-                        <GridColumn className="ms-u-sm12 ms-u-lg5 logo">
-                            <img src="/assets/logo_150.png" />
-                        </GridColumn>
+        return <div>
+            <Grid className="layout">
+                <GridRow className="header">
+                    <GridColumn className="ms-u-sm12 ms-u-lg5 logo">
+                        <img src="/assets/logo_150.png" />
+                    </GridColumn>
 
-                        <GridColumn className="ms-u-sm12 ms-u-lg7 navigation-container ms-u-hiddenMdDown">
-                            <div className="lang">
-                                <LanguageSelector selectedLanguage={this.props.language} onLanguageSelect={this._onLanguageSelect} />
-                            </div>
+                    <GridColumn className="ms-u-sm12 ms-u-lg7 navigation-container ms-u-hiddenMdDown">
+                        <div className="lang">
+                            <LanguageSelector selectedLanguage={this.props.language} onLanguageSelect={this._onLanguageSelect} />
+                        </div>
 
-                            <div className="navigation">
-                                {this.props.nav}
-                            </div>
-                        </GridColumn>
+                        <div className="navigation">
+                            {this.props.nav}
+                        </div>
+                    </GridColumn>
 
-                        {/* Responsive Navigation */}
-                        <GridColumn className="ms-u-sm12 ms-u-lg7 mobile-navigation ms-u-hiddenLgUp">
-                            <Panel
-                                isOpen={this.props.isNavOpen}
-                                type={PanelType.smallFixedNear}
-                                isBlocking={false}
-                                onDismiss={() => this.props.openCloseNav(false)}
-                                isLightDismiss={true}
-                                className="mobile-nav">
-                                <LanguageSelector selectedLanguage={this.props.language} onLanguageSelect={this._onLanguageSelect} />
+                    {/* Responsive Navigation */}
+                    <GridColumn className="ms-u-sm12 ms-u-lg7 mobile-navigation ms-u-hiddenLgUp">
+                        <Panel
+                            isOpen={this.props.isNavOpen}
+                            type={PanelType.smallFixedNear}
+                            isBlocking={false}
+                            onDismiss={() => this.props.openCloseNav(false)}
+                            isLightDismiss={true}
+                            className="mobile-nav">
+                            <LanguageSelector selectedLanguage={this.props.language} onLanguageSelect={this._onLanguageSelect} />
 
-                                {this.props.nav}
-                            </Panel>
+                            {this.props.nav}
+                        </Panel>
 
-                            <Button buttonType={ButtonType.icon} icon="GlobalNavButton" onClick={() => this.props.openCloseNav(true)} />
-                        </GridColumn>
-                    </GridRow>
+                        <Button buttonType={ButtonType.icon} icon="GlobalNavButton" onClick={() => this.props.openCloseNav(true)} />
+                    </GridColumn>
+                </GridRow>
 
-                    <GridRow>
-                        {msg}
-                    </GridRow>
+                <GridRow>
+                    {msg}
+                </GridRow>
 
-                    <GridRow className="content">
-                        {this.props.content}
-                    </GridRow>
+                <GridRow className="content">
+                    {this.props.content}
+                </GridRow>
 
-                    <GridRow className="footer">
-                        2003-2016 &copy; Christopher Schleiden and the Impera team. All Rights Reserved. <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> | <a href="#">User Voice</a>
-                    </GridRow>
-                </Grid>
-                {this.props.pageContent}
-            </div>
-        </LayerHost>;
+                <GridRow className="footer">
+                    2003-2016 &copy; Christopher Schleiden and the Impera team. All Rights Reserved. <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> | <a href="#">User Voice</a>
+                </GridRow>
+            </Grid>
+            {this.props.pageContent}
+
+            <LayerHost className="nav-host" />
+        </div>;
     }
 
     private _onLanguageSelect = (language: string) => {
