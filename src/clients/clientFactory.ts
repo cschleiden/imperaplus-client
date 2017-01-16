@@ -1,6 +1,7 @@
 import { TokenProvider } from "../services/tokenProvider";
 import { baseUri } from "../configuration";
 
+import { AccountClient } from "../external/imperaClients";
 import { SessionService } from "../common/session/session.service";
 import jsonParseReviver from "../lib/jsonReviver";
 
@@ -30,6 +31,12 @@ export function createClientWithToken<TClient>(
     return createClient(clientType, () => access_token);
 }
 
+let onUnauthorized: () => Promise<any>;
+
+export const setOnUnauthorized = (callback: () => Promise<any>) => {
+    onUnauthorized = callback;
+};
+
 const fetchWrapper = (tokenProvider: () => string, url: string, init) => {
     const access_token = tokenProvider();
 
@@ -43,12 +50,16 @@ const fetchWrapper = (tokenProvider: () => string, url: string, init) => {
         // Intercept 401 responses, to redirect to login or refresh token
         const status = response.status.toString();
         if (status === "401") {
-            return SessionService.getInstance().reAuthorize().then(() => {
-                // Successful, retry request
-                return fetchWrapper(tokenProvider, url, init);
-            }, (error) => {
-                throw error;
-            });
+            if (onUnauthorized) {
+                return onUnauthorized().then(() => {
+                    // Successful, retry request
+                    return fetchWrapper(tokenProvider, url, init);
+                }, (error) => {
+                    throw error;
+                });
+            } else {
+                throw new Error("Not authorized");
+            }
         }
 
         return response;

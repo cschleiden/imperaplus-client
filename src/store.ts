@@ -11,7 +11,7 @@ import * as createLogger from "redux-logger";
 import promiseMiddleware from "./middleware/promise-middleware";
 
 import { IAsyncActionDependencies } from "./lib/action";
-import { getCachedClient, createClientWithToken } from "./clients/clientFactory";
+import { getCachedClient, createClientWithToken, setOnUnauthorized } from "./clients/clientFactory";
 import { getSignalRClient, ISignalRClient } from "./clients/signalrFactory";
 
 // Reducers
@@ -73,3 +73,8 @@ store.subscribe(debounce(() => {
     sessionStorage.setItem("impera", JSON.stringify(sessionState));
   }
 }, 1000));
+
+// Setup handler for 401 resposes
+setOnUnauthorized(() => {
+  return SessionService.getInstance().reAuthorize();
+});
