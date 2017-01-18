@@ -1,6 +1,7 @@
 @import '~office-ui-fabric-react/dist/sass/Fabric';
 @import "./utils";
 @import "./vars";
+@import "./colors";
 
 $basePadding: 15px;
 
@@ -26,4 +27,31 @@ h3.headline {
 .list-unstyled {
     padding-left: 0;
     list-style: none;
+}
+
+.label {
+    padding: 4px 7px;
+
+    display: inline;
+    font-weight: bold;
+    line-height: 1;
+    color: #ffffff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+}
+
+@mixin clearfix {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+// Positioning
+.pull-right {
+    float: right;
+
+    @include clearfix;
 }

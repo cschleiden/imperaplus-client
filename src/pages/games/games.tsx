@@ -3,12 +3,9 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { GameSummary } from "../../external/imperaClients";
 import { Grid, GridRow, GridColumn } from "../../components/layout";
-import HumanDate from "../../components/ui/humanDate";
 import { Title, Section } from "../../components/ui/typography";
-import { GameDetails } from "../../components/ui/games/gameDetail";
-
+import { GameList } from "../../components/ui/games/gameList";
 import { Button, ButtonType } from "office-ui-fabric-react/lib/Button";
-import { DetailsList, SelectionMode, ConstrainMode, DetailsListLayoutMode, DetailsRow } from "office-ui-fabric-react/lib/DetailsList";
 
 import { IState } from "../../reducers";
 import { refresh } from "./games.actions";
@@ -28,6 +25,11 @@ export class MyGamesComponent extends React.Component<IMyGamesProps, void> {
         return <GridColumn className="ms-u-sm12">
             <Title>{__("My Games")}</Title>
             <div>
+                <div className="pull-right">
+                    <Button buttonType={ButtonType.primary} title={__("Refresh")}><i className="ms-Icon ms-Icon--Refresh" /></Button>
+                    <Button buttonType={ButtonType.primary} title={__("Hide completed games")}><i className="ms-Icon ms-Icon--Hide2" /></Button>
+                </div>
+
                 <Section>{__("Fun")}</Section>
                 <GameList games={this.props.games} />
 
@@ -36,113 +38,6 @@ export class MyGamesComponent extends React.Component<IMyGamesProps, void> {
                 <Section>{__("Tournament")}</Section>
             </div>
         </GridColumn>;
-    }
-}
-
-
-interface IGameListProps {
-    games: GameSummary[];
-}
-
-interface IGameListState {
-    expandedGame?: number;
-}
-
-export class GameList extends React.Component<IGameListProps, IGameListState> {
-    constructor(props, context) {
-        super(props, context);
-
-        this.state = {
-            expandedGame: null
-        };
-    }
-
-    public render() {
-        return <DetailsList
-            layoutMode={DetailsListLayoutMode.justified}
-            constrainMode={ConstrainMode.horizontalConstrained}
-            selectionMode={SelectionMode.none}
-            onRenderRow={((props, defaultRender) => {
-                let details: JSX.Element;
-                if (props.item.id === this.state.expandedGame) {
-                    details = <GameDetails game={props.item} />;
-                }
-
-                return <div>
-                    {defaultRender(props)}
-                    {details}
-                </div>;
-            })}
-            columns={[
-                {
-                    key: "id",
-                    fieldName: "id",
-                    name: __("#"),
-                    minWidth: 40,
-                    isCollapsable: true
-                }, {
-                    key: "name",
-                    fieldName: "name",
-                    name: __("Name"),
-                    minWidth: 100
-                }, {
-                    key: "map",
-                    fieldName: "mapTemplate",
-                    name: __("Map"),
-                    minWidth: 100,
-                    isCollapsable: true
-                }, {
-                    key: "mode",
-                    fieldName: "options.mapDistribution",
-                    name: __("Mode"),
-                    minWidth: 100,
-                    onRender: (item) => item.options.mapDistribution,
-                    isCollapsable: true
-                }, {
-                    key: "active",
-                    fieldName: "active",
-                    name: __("Active"),
-                    minWidth: 50,
-                    onRender: (item: GameSummary) => item.currentPlayer && item.currentPlayer.name
-                }, {
-                    key: "tp",
-                    fieldName: null,
-                    name: __("Teams/Players"),
-                    minWidth: 100,
-                    onRender: (item: GameSummary) => (`${item.options.numberOfTeams}/${item.options.numberOfPlayersPerTeam}`)
-                }, {
-                    key: "time",
-                    fieldName: "time",
-                    name: __("Time"),
-                    minWidth: 75
-                }, {
-                    key: "state",
-                    fieldName: "state",
-                    name: __("State"),
-                    minWidth: 50,
-                    isCollapsable: true
-                }, {
-                    key: "actions",
-                    fieldName: "actions",
-                    name: "",
-                    minWidth: 50,
-                    onRender: (item: GameSummary) => {
-                        return <Button
-                            buttonType={ButtonType.icon}
-                            icon="Info"
-                            title={__("Show details")}
-                            onClick={() => this._expand(item.id)}></Button>;
-                    }
-                }
-            ]}
-            items={this.props.games || []}
-            />;
-    }
-
-    private _expand(id: number) {
-        this.setState({
-            expandedGame: id
-        });
     }
 }
 

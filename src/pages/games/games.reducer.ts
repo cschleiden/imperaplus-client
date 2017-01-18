@@ -1,6 +1,6 @@
 import { makeImmutable, IImmutable } from "immuts";
 import reducerMap from "../../lib/reducerMap";
-import { GameSummary, GameType, GameSummaryType, GameSummaryState } from "../../external/imperaClients";
+import { GameSummary, GameType, GameState } from "../../external/imperaClients";
 import { IAction, success, pending, failed } from "../../lib/action";
 import { REFRESH } from "./games.actions";
 

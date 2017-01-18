@@ -3,7 +3,7 @@ import * as React from "react";
 import "./gameDetail.scss";
 
 import { store } from "../../../store";
-import { GameSummary, GameSummaryState, PlayerSummaryState, PlayerSummary, PlayerSummaryOutcome, PlayerOutcome } from "../../../external/imperaClients";
+import { GameSummary, GameState, PlayerSummary, PlayerState } from "../../../external/imperaClients";
 import { Grid, GridRow, GridColumn } from "../../../components/layout";
 import HumanDate from "../../../components/ui/humanDate";
 import { MapClient } from "../../../external/imperaClients";
@@ -146,7 +146,7 @@ export class GameDetails extends React.Component<IGameDetailsProps, IGameDetails
             result.push(<dd key={`dd-${team.id}`}>
                 <ul className="list-unstyled">
                     {team.players.map(player => <li key={player.id}>
-                        <PlayerOutcomeDisplay outcome={player.outcome} />&nbsp;<span className={`player-${player.playOrder + 1}`}>{player.name}</span>&nbsp;-&nbsp;<span>{__("Timeouts")}: {player.timeouts}</span>
+                        <PlayerOutcomeDisplay outcome={player.outcome} />&nbsp;<span className={`label player-${player.playOrder + 1}`}>{player.name}</span>&nbsp;-&nbsp;<span>{__("Timeouts")}: {player.timeouts}</span>
                     </li>)}
                 </ul>
             </dd>);
@@ -159,7 +159,7 @@ export class GameDetails extends React.Component<IGameDetailsProps, IGameDetails
         const { game } = this.props;
         const player = this._player();
 
-        return game.state === GameSummaryState.Active && player.state === PlayerSummaryState.Active;
+        return game.state === GameState.Active && player.state === PlayerState.Active;
     }
 
     private _player(): PlayerSummary {
