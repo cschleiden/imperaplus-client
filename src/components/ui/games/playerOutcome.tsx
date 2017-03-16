@@ -14,37 +14,37 @@ export const PlayerOutcomeDisplay: React.StatelessComponent<{ outcome: PlayerOut
 
     switch (outcome) {
         case PlayerOutcome.None:
-            icon = "CircleFill";
+            icon = "circle-o";
             className = "player-outcome-none";
             label = __("Active");
             break;
 
         case PlayerOutcome.Won:
-            icon = "SkypeCircleCheck";
+            icon = "check-circle";
             className = "player-outcome-won";
             label = __("Won");
             break;
 
         case PlayerOutcome.Defeated:
-            icon = "SkypeCircleMinus";
+            icon = "minus-circle";
             className = "player-outcome-defeated";
             label = __("Defeated");
             break;
 
         case PlayerOutcome.Surrendered:
-            icon = "SkypeCircleMinus";
+            icon = "times-circle";
             className = "player-outcome-surrendered";
             label = __("Surrendered");
             break;
 
         case PlayerOutcome.Timeout:
-            icon = "SkypeCircleClock";
+            icon = "times-circle";
             className = "player-outcome-timeout";
             label = __("Timeout");
             break;
     }
 
     return <span title={label} className={css("player-outcome", className)}>
-        <i className={css("ms-Icon", "ms-Icon--" + icon)} aria-hidden={true} />
+        <i className={css("fa", "fa-" + icon)} aria-hidden={true} />
     </span>;
 };

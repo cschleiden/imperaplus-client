@@ -39,11 +39,11 @@ exports.scss = {
   loaders: ["style", "css", "sass"]
 };
 
-exports.svg = makeUrlLoader(/\.svg$/);
-exports.eot = makeUrlLoader(/\.eot$/);
-exports.woff = makeUrlLoader(/\.woff$/);
-exports.woff2 = makeUrlLoader(/\.woff2$/);
-exports.ttf = makeUrlLoader(/\.ttf$/);
+exports.svg = makeUrlLoader(/\.svg(\?.*$|$)/);
+exports.eot = makeUrlLoader(/\.eot(\?.*$|$)/);
+exports.woff = makeUrlLoader(/\.woff(\?.*$|$)/);
+exports.woff2 = makeUrlLoader(/\.woff2(\?.*$|$)/);
+exports.ttf = makeUrlLoader(/\.ttf(\?.*$|$)/);
 
 function makeUrlLoader(pattern) {
   return {

@@ -28,6 +28,10 @@ h3.headline {
     }
 }
 
+// font-awesome
+$fa-font-path: "~font-awesome/fonts";
+@import "~font-awesome/scss/font-awesome";
+
 // Bootstrap customization
 $brand-primary: $accent;
 
@@ -42,10 +46,21 @@ button.btn {
     transition: background linear .2s;
 }
 
+button.btn-default {
+    background: $accent;
+}
+
 @media (min-width: $screen-md-min) {
     .col-border-right {
         border-right: 1pt solid lightgray;
     }
+}
+
+// Vertical spacing for stacked columns
+@media (max-width: 768px) {
+  [class*="col-"]{
+      margin-bottom: $spacing;
+  }
 }
 
 .tab-content {

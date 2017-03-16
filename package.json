@@ -129,5 +129,7 @@
     "webpack-hot-middleware": "^2.13.2",
     "whatwg-fetch": "^2.0.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "font-awesome": "^4.7.0"
+  }
 }

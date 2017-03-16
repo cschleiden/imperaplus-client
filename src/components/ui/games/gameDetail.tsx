@@ -11,7 +11,7 @@ import { getCachedClient } from "../../../clients/clientFactory";
 import { imageBaseUri } from "../../../configuration";
 import { PlayerOutcomeDisplay } from "./playerOutcome";
 import { autobind } from "../../../lib/autobind";
-import { Button } from "react-bootstrap";
+import { Button, Glyphicon, Image } from "react-bootstrap";
 
 interface IGameDetailsProps {
     game: GameSummary;
@@ -39,98 +39,79 @@ export class GameDetails extends React.Component<IGameDetailsProps, IGameDetails
     }
 
     public render() {
-        return <Grid>
-            <GridRow>
-                <GridColumn className="col-md-6">
-                    <h2 className="game-details-name">{this.props.game.name}</h2>
+        return <GridRow>
+            <GridColumn className="col-md-6">
+                <h2 className="game-details-name">{this.props.game.name}</h2>
 
-                    <dl className="game-details">
-                        <dt>{__("Started")}</dt>
-                        <dd>
-                            {HumanDate(this.props.game.startedAt)}
-                        </dd>
+                <dl className="game-details">
+                    <dt>{__("Started")}</dt>
+                    <dd>
+                        {HumanDate(this.props.game.startedAt)}
+                    </dd>
 
-                        <dt>{__("Started By")}</dt>
-                        <dd>{this.props.game.createdByName}</dd>
+                    <dt>{__("Started By")}</dt>
+                    <dd>{this.props.game.createdByName}</dd>
 
-                        <dt>{__("Last action")}</dt>
-                        <dd>{HumanDate(this.props.game.lastActionAt)}</dd>
+                    <dt>{__("Last action")}</dt>
+                    <dd>{HumanDate(this.props.game.lastActionAt)}</dd>
 
-                        <dt>{__("Timeout")}</dt>
-                        <dd>
-                            {this.props.game.options.timeoutInSeconds}
-                        </dd>
+                    <dt>{__("Timeout")}</dt>
+                    <dd>
+                        {this.props.game.options.timeoutInSeconds}
+                    </dd>
 
-                        <dt>{__("Mode")}</dt>
-                        <dd>{this.props.game.options.mapDistribution}</dd>
+                    <dt>{__("Mode")}</dt>
+                    <dd>{this.props.game.options.mapDistribution}</dd>
 
-                        <dt><span>{__("Attacks")}</span>/<span>{__("Moves")}</span></dt>
-                        <dd>{this.props.game.options.attacksPerTurn} / {this.props.game.options.movesPerTurn}</dd>
+                    <dt><span>{__("Attacks")}</span>/<span>{__("Moves")}</span></dt>
+                    <dd>{this.props.game.options.attacksPerTurn} / {this.props.game.options.movesPerTurn}</dd>
 
-                        <dt>{__("Victory Conditions")}</dt>
-                        <dd>
-                            {this.props.game.options.victoryConditions}
-                        </dd>
+                    <dt>{__("Victory Conditions")}</dt>
+                    <dd>
+                        {this.props.game.options.victoryConditions}
+                    </dd>
 
-                        <dt>{__("Visibility Modifier")}</dt>
-                        <dd>
-                            {this.props.game.options.visibilityModifier}
-                        </dd>
+                    <dt>{__("Visibility Modifier")}</dt>
+                    <dd>
+                        {this.props.game.options.visibilityModifier}
+                    </dd>
 
-                        <br />
+                    <br />
 
-                        {this._renderPlayer()}
+                    {this._renderPlayer()}
 
-                        <br />
+                    <br />
 
-                        <dt>{__("Actions")}</dt>
-                        <dd>
-                            {this._canSurrender() && <Button onClick={this._onSurrender}>{__("Surrender")}</Button>}
+                    <dt>{__("Actions")}</dt>
+                    <dd>
+                        {this._canSurrender() && <Button onClick={this._onSurrender} bsStyle="warning">
+                            <Glyphicon glyph="flag" />&nbsp;{__("Surrender")}
+                        </Button>}
 
-                            {/*                            <button ng-show="game.canSurrender"
-                                class="btn-u btn-u-red btn-u-xs"
-                                ng-click="game.surrender()"
-                                title="{ 'Surrender' | translate }"><i class="fa fa-flag-o"></i>&nbsp;<span>Surrender</span></button>
+                        {this._canLeave() && <Button onClick={this._onLeave} bsStyle="warning">
+                            <Glyphicon glyph="flag" />&nbsp;{__("Leave game")}
+                        </Button>}
 
-                            <!-- Leave game (if state is Open) -->
-                <button ng-click="game.leave()"
-                                ng-show="game.canLeave"
-                                class="btn-u btn-u-orange btn-u-xs"
-                                title="{ 'Leave Game' | translate }">
-                                <i class="fa fa-flag-o"></i>&nbsp;<span>Leave</span>
-                            </button>
+                        {this._canDelete() && <Button onClick={this._onDelete} bsStyle="danger">
+                            <Glyphicon glyph="remove" />&nbsp;{__("Delete game")}
+                        </Button>}
 
-                            <!-- Delete game (if state is Open and player is creator) -->
-                <button ng-click="game.delete()"
-                                ng-show="game.canDelete"
-                                class="btn-u btn-u-red btn-u-xs" title="{ 'Delete Game' | translate }">
-                                <i class="fa fa-flag-o"></i>&nbsp;<span>Delete</span>
-                            </button>
+                        {this._canHide() && <Button onClick={this._onHide} bsStyle="info">
+                            <Glyphicon glyph="eye-close" />&nbsp;{__("Hide finished game")}
+                        </Button>}
 
-                            <!-- Hide game -->
-                <button ng-show="game.canHide"
-                                class="btn-u btn-u-light-grey btn-u-xs"
-                                title="{ 'Hide finished game' | translate }"
-                                ng-click="game.hide()">
-                                <i class="fa fa-eye-slash"></i>&nbsp;<span>Hide</span>
-                            </button>
+                        {this._canJoin() && <Button onClick={this._onJoin} bsStyle="primary">
+                            <Glyphicon glyph="plus-sign" />&nbsp;{__("Join game")}
+                        </Button>}
+                    </dd>
+                </dl>
+            </GridColumn>
 
-                            <!-- Join game -->
-                <button ng-hide="game.hasJoined"
-                                class="btn-u btn-u-blue btn-u-xs"
-                                title="{ 'Join game' | translate }"
-                                ng-click="game.join()">
-                                <i class="fa fa-plus-square"></i>&nbsp;<span>Join</span>
-                            </button>*/}
-                        </dd>
-                    </dl>
-                </GridColumn>
-
-                <GridColumn className="col-md-6">
-                    {/*this.state.imageSrc && <Image className="game-details-map" height={400} src={`${imageBaseUri}${this.state.imageSrc}`} imageFit={ImageFit.contain} />*/}
-                </GridColumn>
-            </GridRow>
-        </Grid >;
+            <GridColumn className="col-md-6">
+                {this.state.imageSrc
+                    && <Image className="game-details-map" src={`${imageBaseUri}${this.state.imageSrc}`} responsive />}
+            </GridColumn>
+        </GridRow>;
     }
 
     private _renderPlayer(): JSX.Element[] {
@@ -160,7 +141,38 @@ export class GameDetails extends React.Component<IGameDetailsProps, IGameDetails
         return game.state === GameState.Active && player.state === PlayerState.Active;
     }
 
-    private _player(): PlayerSummary {
+    private _canLeave(): boolean {
+        const { game } = this.props;
+        const player = this._player();
+
+        return game.state === GameState.Open && !!player;
+    }
+
+    private _canDelete(): boolean {
+        const { game } = this.props;
+        const player = this._player();
+
+        return game.state === GameState.Open && game.createdByUserId === player.userId;
+    }
+
+    private _canHide(): boolean {
+        const { game } = this.props;
+        const player = this._player();
+
+        return (game.state === GameState.Active || game.state === GameState.Ended)
+            && player && player.state === PlayerState.InActive;
+    }
+
+    private _canJoin(): boolean {
+        const { game } = this.props;
+        const player = this._player();
+
+        return game.state === GameState.Open
+            && !!player
+            && game.teams.reduce((playerCount, team) => playerCount + team.players.length, 0) < (game.options.numberOfPlayersPerTeam * game.options.numberOfTeams);
+    }
+
+    private _player(): PlayerSummary | null {
         for (let team of this.props.game.teams) {
             for (let player of team.players) {
                 if (player.userId === store.getState().session.data.userInfo.userId) {
@@ -169,11 +181,31 @@ export class GameDetails extends React.Component<IGameDetailsProps, IGameDetails
             }
         }
 
-        throw new Error("Logged in user not found in game");
+        return null;
     }
 
     @autobind
     private _onSurrender() {
+
+    }
+
+    @autobind
+    private _onLeave() {
+
+    }
+
+    @autobind
+    private _onHide() {
+
+    }
+
+    @autobind
+    private _onDelete() {
+
+    }
+
+    @autobind
+    private _onJoin() {
 
     }
 }

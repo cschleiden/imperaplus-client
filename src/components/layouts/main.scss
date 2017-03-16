@@ -215,6 +215,8 @@ $headerHeight: 120px;
 
     // All levels
     a {
+        display: block;
+
         color: black;
 
         &.active {
@@ -228,7 +230,7 @@ $headerHeight: 120px;
     padding-bottom: 50px;
     min-height: 500px;
 
-    .ms-Grid-row {
+    .row {
         margin: 15px 0;
     }
 }

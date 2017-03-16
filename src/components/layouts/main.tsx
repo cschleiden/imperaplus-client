@@ -5,7 +5,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { Grid, GridRow, GridColumn } from "../layout";
 
-import { clear } from "../../common/message/message.actions";
+import { clear, MessageType } from "../../common/message/message.actions";
 import { openCloseNav } from "../../common/general/general.actions";
 import { setLanguage } from "../../common/session/session.actions";
 import { IState } from "../../reducers";
@@ -55,7 +55,7 @@ export class Layout extends React.Component<ILayoutProps, void> {
         let msg: JSX.Element;
         if (!!this.props.message) {
             msg = <Alert
-                bsStyle={this.props.message.type}
+                bsStyle={this._getStyleForMessage(this.props.message.type)}
                 onDismiss={this._onClear}>
                 <LinkString link={this.props.message.message} />
             </Alert>;
@@ -122,6 +122,19 @@ export class Layout extends React.Component<ILayoutProps, void> {
             </Grid>
             {this.props.pageContent}
         </div >;
+    }
+
+    private _getStyleForMessage(messageType: MessageType): string {
+        switch (messageType) {
+            case MessageType.error:
+                return "danger";
+
+            case MessageType.warning:
+                return "warning";
+
+            default:
+                return "info";
+        }
     }
 
     private _onLanguageSelect = (language: string) => {

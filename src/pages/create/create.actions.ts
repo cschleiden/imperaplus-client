@@ -9,7 +9,7 @@ export const create = makePromiseAction<GameCreationOptions, void>((input, dispa
         type: CREATE,
         payload: {
             promise: deps.getCachedClient(GameClient).post(input).then<void>((game) => {
-                dispatch(show(__("Game created, you can find it now in [My Games](game/games/my)."), MessageType.success));
+                dispatch(show(__("Game created, you can find it now in [My Games](/game/games)."), MessageType.success));
             })
         },
         options: {

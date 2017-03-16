@@ -51,12 +51,14 @@ export const GameNavigation = ({ dispatch }): JSX.Element => {
         </li>
         <li>
             <Link to="/game/messages" activeClassName="active">
-                <i className="ms-Icon ms-Icon--Mail" aria-hidden="true"></i>
+                <i className="fa fa-envelope" aria-hidden="true"></i>
+                <span className="visible-xs-inline">&nbsp;{__("Messages")}</span>
             </Link>
         </li>
         <li>
             <Link to="/game/profile" activeClassName="active">
-                <i className="ms-Icon ms-Icon--Contact" aria-hidden="true"></i>
+                <i className="fa fa-user" aria-hidden="true"></i>
+                <span className="visible-xs-inline">&nbsp;{__("Account")}</span>
             </Link>
             <ul className="nav-dropdown">
                 <li>

@@ -2,14 +2,17 @@ import * as React from "react";
 
 import "./gameList.scss";
 
-import { GameSummary } from "../../../external/imperaClients";
+import { GameSummary, PlayerSummary, Game } from "../../../external/imperaClients";
 import { Grid, GridRow, GridColumn } from "../../../components/layout";
 import HumanDate from "../humanDate";
 import { Title, Section } from "../typography";
 import { GameDetails } from "./gameDetail";
 
 import { Button } from "react-bootstrap";
-import { Table } from "react-bootstrap";
+import { Table, Glyphicon } from "react-bootstrap";
+import { GameStateDisplay } from "./gameState";
+import { PlayerOutcomeDisplay } from "./playerOutcome";
+import { store } from "../../../store";
 
 interface IGameListProps {
     games: GameSummary[];
@@ -32,7 +35,7 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
         const header = this._renderHeader();
         const rows = this.props.games.map(game => this._renderGameRow(game));
 
-        return <Table>
+        return <Table className="game-list">
             <thead>
                 {header}
             </thead>
@@ -46,32 +49,67 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
         return <tr>
             <th>{__("Id")}</th>
             <th>{__("Name")}</th>
-            <th>{__("Map")}</th>
-            <th>{__("Mode")}</th>
-            <th>{__("Active")}</th>
-            <th>{__("Teams/Players")}</th>
+            <th className="hidden-xs">{__("Map")}</th>
+            <th className="hidden-xs">{__("Mode")}</th>
+            <th className="hidden-xs">{__("Active")}</th>
+            <th className="hidden-xs">{__("Teams/Players")}</th>
             <th>{__("Time")}</th>
             <th>{__("State")}</th>
             <th>&nbsp;</th>
         </tr>;
     }
 
-    private _renderGameRow(game: GameSummary): JSX.Element {
-        return <tr>
+    private _renderGameRow(game: GameSummary): JSX.Element[] {
+        const player = this._playerForGame(game);
+        let playerState: JSX.Element = null;
+
+        if (!!player) {
+            playerState = <span>&nbsp;-&nbsp;<PlayerOutcomeDisplay outcome={player.outcome} /></span>;
+        }
+
+        const rows = [<tr key={`game-${game.id}`}>
             <td>{game.id}</td>
             <td>{game.name}</td>
-            <td>{game.mapTemplate}</td>
-            <td>{game.options.mapDistribution}</td>
-            <td>{game.currentPlayer && game.currentPlayer.name}</td>
-            <td>{`${game.options.numberOfTeams}/${game.options.numberOfPlayersPerTeam}`}</td>
+            <td className="hidden-xs">{game.mapTemplate}</td>
+            <td className="hidden-xs">{game.options.mapDistribution}</td>
+            <td className="hidden-xs">{game.currentPlayer && game.currentPlayer.name}</td>
+            <td className="hidden-xs">{`${game.options.numberOfTeams}/${game.options.numberOfPlayersPerTeam}`}</td>
             <td>{game.timeoutSecondsLeft}</td>
-            <td>{game.state}</td>
+            <td>
+                <GameStateDisplay gameState={game.state} />{playerState}
+            </td>
             <td>
                 <Button
+                    bsSize="xsmall" bsStyle="info"
                     title={__("Show details")}
-                    onClick={() => this._toggle(game.id)}></Button>
+                    onClick={() => this._toggle(game.id)}>
+                    <Glyphicon glyph="info-sign" />
+                </Button>
             </td>
-        </tr>;
+        </tr>];
+
+        if (this.state.expandedGames[game.id]) {
+            rows.push(<tr>
+                <td colSpan={9}>
+                    <GameDetails
+                        game={game} />
+                </td>
+            </tr>);
+        }
+
+        return rows;
+    }
+
+    private _playerForGame(game: GameSummary): PlayerSummary | null {
+        for (let team of game.teams) {
+            for (let player of team.players) {
+                if (player.userId === store.getState().session.data.userInfo.userId) {
+                    return player;
+                }
+            }
+        }
+
+        return null;
     }
 
     private _toggle(id: number) {

@@ -50,7 +50,7 @@ class Form extends React.Component<IFormProps & IInternalFormProps, void> {
     public render() {
         let formState = new FormState(this.props.formState);
 
-        return <form onSubmit={this._onSubmit}>
+        return <form onSubmit={this._onSubmit} action="#">
             {this.props.component({
                 isPending: this.props.isPending,
                 formState: formState,
