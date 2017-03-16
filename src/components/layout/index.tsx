@@ -1,13 +1,15 @@
 import * as React from "react";
 
+import { css } from "../../lib/css";
+
 export const Grid = (props): JSX.Element => {
-    return <div className={`ms-Grid ${props.className || ""}`}>{props.children}</div>;
+    return <div className={css("container", props.className)}>{props.children}</div>;
 };
 
 export const GridRow = (props): JSX.Element => {
-    return <div className={`ms-Grid-row ${props.className || ""}`}>{props.children}</div>;
+    return <div className={css("row", props.className)}>{props.children}</div>;
 };
 
 export const GridColumn = (props): JSX.Element => {
-    return <div className={`ms-Grid-col ${props.className || ""}`}>{props.children}</div>;
+    return <div className={css("col", props.className)}>{props.children}</div>;
 };

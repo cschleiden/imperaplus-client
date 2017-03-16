@@ -3,10 +3,8 @@
 .signup {
     .external {
         ul {
-            @include unstyled-list;
-
-            button {
-                width: 100%;
+            li {
+                margin-bottom: 5px;
             }
         }
     }

@@ -1,9 +1,8 @@
 import objectAssign = require("object-assign");
 
-import { MessageBarType } from "office-ui-fabric-react/lib/MessageBar";
 import { ErrorResponse } from "../external/imperaClients";
 import { IPromiseAction, IAsyncPayload, success, pending, failed } from "../lib/action";
-import { show } from "../common/message/message.actions";
+import { show, MessageType } from "../common/message/message.actions";
 import { ErrorCodes } from "../i18n/errorCodes";
 
 export default function promiseMiddleware({ dispatch }) {
@@ -57,7 +56,7 @@ export default function promiseMiddleware({ dispatch }) {
                         message = error.error_Description || error.error || error.message;
                     }
 
-                    dispatch(show(message, MessageBarType.error));
+                    dispatch(show(message, MessageType.error));
                 } else {
                     dispatch({
                         type: failed(type),

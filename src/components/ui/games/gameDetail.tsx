@@ -9,11 +9,9 @@ import HumanDate from "../../../components/ui/humanDate";
 import { MapClient } from "../../../external/imperaClients";
 import { getCachedClient } from "../../../clients/clientFactory";
 import { imageBaseUri } from "../../../configuration";
-import { Image, ImageFit } from "office-ui-fabric-react/lib/Image";
-import { Icon } from "office-ui-fabric-react/lib/Icon";
-import { Button, ButtonType } from "office-ui-fabric-react/lib/Button";
-import { autobind, css } from "office-ui-fabric-react/lib/utilities";
 import { PlayerOutcomeDisplay } from "./playerOutcome";
+import { autobind } from "../../../lib/autobind";
+import { Button } from "react-bootstrap";
 
 interface IGameDetailsProps {
     game: GameSummary;
@@ -43,7 +41,7 @@ export class GameDetails extends React.Component<IGameDetailsProps, IGameDetails
     public render() {
         return <Grid>
             <GridRow>
-                <GridColumn className="ms-u-md6">
+                <GridColumn className="col-md-6">
                     <h2 className="game-details-name">{this.props.game.name}</h2>
 
                     <dl className="game-details">
@@ -128,8 +126,8 @@ export class GameDetails extends React.Component<IGameDetailsProps, IGameDetails
                     </dl>
                 </GridColumn>
 
-                <GridColumn className="ms-u-md6">
-                    {this.state.imageSrc && <Image className="game-details-map" height={400} src={`${imageBaseUri}${this.state.imageSrc}`} imageFit={ImageFit.contain} />}
+                <GridColumn className="col-md-6">
+                    {/*this.state.imageSrc && <Image className="game-details-map" height={400} src={`${imageBaseUri}${this.state.imageSrc}`} imageFit={ImageFit.contain} />*/}
                 </GridColumn>
             </GridRow>
         </Grid >;

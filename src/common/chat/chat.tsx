@@ -9,9 +9,7 @@ import { showHide, close, message, switchChannel } from "./chat.actions";
 
 
 import { Grid, GridRow, GridColumn } from "../../components/layout";
-import { TextField } from "office-ui-fabric-react/lib/TextField";
-import { Pivot, PivotItem, PivotLinkSize, PivotLinkFormat } from "office-ui-fabric-react/lib/Pivot";
-import { Button, ButtonType } from "office-ui-fabric-react/lib/Button";
+import { Button, FormControl } from "react-bootstrap";
 
 interface IChatProps {
     isVisible: boolean;
@@ -45,7 +43,7 @@ export class Chat extends React.Component<IChatProps, IChatState> {
     public render(): JSX.Element {
         if (!this.props.isActive) {
             return <div className="chat-button">
-                <Button buttonType={ButtonType.primary} onClick={this._onShow}>
+                <Button onClick={this._onShow}>
                     {__("Open chat")}
                 </Button>
             </div>;
@@ -73,16 +71,10 @@ export class Chat extends React.Component<IChatProps, IChatState> {
                         <div className="chat-actions">
                             <Button
                                 onClick={this._onHide}
-                                buttonType={ButtonType.icon}
-                                icon="ChromeMinimize"
-                                title={__("Hide")}
-                                ariaLabel={__("Hide")} />
+                                title={__("Hide")}><span className="glyphicon glyphicon-menu-down" /></Button>
                             <Button
                                 onClick={this._onClose}
-                                buttonType={ButtonType.icon}
-                                icon="ChromeClose"
-                                title={__("Close")}
-                                ariaLabel={__("Close")} />
+                                title={__("Close")}><span className="glyphicon glyphicon-remove" /></Button>
                         </div>
                     </div>
 
@@ -106,10 +98,9 @@ export class Chat extends React.Component<IChatProps, IChatState> {
 
                     <div className="chat-input">
                         <form onSubmit={this._onSend}>
-                            <TextField autoComplete="off" placeholder={__("Enter your message...")} value={this.state.msg} onBeforeChange={this._onChange} />
+                            <FormControl autoComplete="off" placeholder={__("Enter your message...")} value={this.state.msg} onChange={this._onChange} />
                             <Button
                                 disabled={!this._isValid()}
-                                buttonType={ButtonType.primary}
                                 onClick={this._onSend}>{__("Send")}</Button>
                         </form>
                     </div>
@@ -118,7 +109,7 @@ export class Chat extends React.Component<IChatProps, IChatState> {
                 const unreadCount = this.props.unreadCount;
 
                 return <div className="chat-button">
-                    <Button buttonType={ButtonType.primary} onClick={this._onShow}>
+                    <Button onClick={this._onShow}>
                         {unreadCount > 0 ? unreadCount :
                             <i className="ms-Icon ms-Icon--Mail" aria-hidden="true"></i>
                         }
@@ -134,9 +125,9 @@ export class Chat extends React.Component<IChatProps, IChatState> {
         }
     }
 
-    private _onChange = (value: string) => {
+    private _onChange = (event) => {
         this.setState({
-            msg: value
+            msg: event.target.value
         });
     };
 

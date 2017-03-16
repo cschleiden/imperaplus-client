@@ -2,7 +2,7 @@ import * as React from "react";
 import * as ReactMarkdown from "react-markdown";
 import { connect } from "react-redux";
 
-import { ProgressIndicator } from "office-ui-fabric-react/lib/ProgressIndicator";
+import { ProgressBar } from "react-bootstrap";
 import { UserInfo, NewsItem, NewsContent } from "../../external/imperaClients";
 import { Grid, GridRow, GridColumn } from "../../components/layout";
 import { Title, Section } from "../../components/ui/typography";
@@ -25,7 +25,7 @@ export class StartComponent extends React.Component<IStartProps, void> {
     public render(): JSX.Element {
         return <Grid>
             <GridRow>
-                <GridColumn className="ms-u-lg9">
+                <GridColumn className="col-md-9">
                     <Title>{__("News")}</Title>
                     <div>
                         {this.props.news.map((n, i) => {
@@ -44,16 +44,16 @@ export class StartComponent extends React.Component<IStartProps, void> {
                     </div>
                 </GridColumn>
 
-                <GridColumn className="ms-u-lg3">
+                <GridColumn className="col-md-3">
                     <Section>{__("Tournaments")}</Section>
 
-                    <ProgressIndicator
+                    <ProgressBar
                         label={__("Champion's Cup")}
-                        percentComplete={0.8} />
+                        now={80} />
 
-                    <ProgressIndicator
+                    <ProgressBar
                         label={__("Champion's Cup March")}
-                        percentComplete={0.8} />
+                        now={80} />
                 </GridColumn>
             </GridRow>
         </Grid>;

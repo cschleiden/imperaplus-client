@@ -1,4 +1,3 @@
-@import "~office-ui-fabric-react/dist/sass/Fabric";
 @import "../../styles/vars";
 
 html {
@@ -56,6 +55,8 @@ a {
 
 $headerHeight: 120px;
 .header {
+    margin-top: $spacing;
+
     .logo {
         padding: $spacing * 2;
         height: $headerHeight;
@@ -71,7 +72,6 @@ $headerHeight: 120px;
 
     .navigation-container {
         height: $headerHeight;
-        padding: 0 !important; // Override ms grid style
 
         text-align: right;
     }
@@ -104,8 +104,8 @@ $headerHeight: 120px;
 
                 & > a {
                     text-transform: uppercase;
-                    @include ms-font-m-plus;
-                    color: $ms-color-neutralSecondary;
+                    //@include ms-font-m-plus;
+                    //color: $ms-color-neutralSecondary;
 
                     display: inline-block;
 
@@ -183,22 +183,33 @@ $headerHeight: 120px;
 }
 
 .mobile-nav {
-    .ms-Panel-main {
-        box-shadow: 0 6px 12px rgba(0,0,0,0.175);
-    }
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    background: white;
+    z-index: 500;
+    text-align: left;
+
+    padding: $spacing;
 
     ul {
         list-style: none;
-        padding: 0 0 0 20px;
+        padding: 0;
         margin: 0;
 
         li {
             margin: 10px;
+
+            ul {
+                margin-left: 20px;
+            }
         }
     }
 
     // First level
-    .ms-Panel-content > ul > li > a {
+    .row > ul > li > a {
         text-transform: uppercase;
     }
 
@@ -241,4 +252,8 @@ $footerHeight: 40px;
 
     padding: 0 $spacing;
     @include ellipsis;
+}
+
+.main-content {
+    padding: 20px 0;
 }

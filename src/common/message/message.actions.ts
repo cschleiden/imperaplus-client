@@ -1,17 +1,19 @@
 import { IAction, IAsyncAction, makePromiseAction } from "../../lib/action";
 
-import { MessageBarType } from "office-ui-fabric-react/lib/MessageBar";
-
-// Reexport
-export { MessageBarType };
+export enum MessageType {
+    info,
+    success,
+    warning,
+    error
+}
 
 export interface IMessage {
     message: string;
-    type: MessageBarType;
+    type: MessageType;
 }
 
 export const MESSAGE_SHOW = "message-show";
-export const show = (message: string, type: MessageBarType = MessageBarType.info): IAction<IMessage> => ({
+export const show = (message: string, type: MessageType = MessageType.info): IAction<IMessage> => ({
     type: MESSAGE_SHOW,
     payload: {
         message,

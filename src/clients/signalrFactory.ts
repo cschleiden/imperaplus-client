@@ -6,6 +6,7 @@ import { SessionService } from "../common/session/session.service";
 import { TokenProvider } from "../services/tokenProvider";
 import { baseUri } from "../configuration";
 import jsonParseReviver from "../lib/jsonReviver";
+import { log } from "../lib/log";
 
 const cachedClients: { [hubName: string]: ISignalRClient } = {};
 
@@ -85,19 +86,19 @@ class SignalRClient implements ISignalRClient {
             console.error("!!! SignalR error: " + error);
         });
         this.connection.disconnected(() => {
-            console.debug("!!! SignalR disconnected");
+            log("!!! SignalR disconnected");
         });
         this.connection.reconnected(() => {
-            console.debug("!!! SignalR reconnected");
+            log("!!! SignalR reconnected");
         });
         this.connection.reconnecting(() => {
-            console.debug("!!! SignalR reconnecting");
+            log("!!! SignalR reconnecting");
         });
         this.connection.stateChanged(change => {
-            console.debug("!!! SignalR stateChanged: " + change.newState + "(0-conn-ng,1=conn-ed,2=reconn,4=disconn)");
+            log("!!! SignalR stateChanged: " + change.newState + "(0-conn-ng,1=conn-ed,2=reconn,4=disconn)");
         });
         this.connection.connectionSlow(() => {
-            console.debug("!!! SignalR connectionSlow");
+            log("!!! SignalR connectionSlow");
         });
 
         this._proxy = this.connection.createHubProxy(hubName);

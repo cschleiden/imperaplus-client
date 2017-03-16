@@ -8,8 +8,8 @@ import HumanDate from "../humanDate";
 import { Title, Section } from "../typography";
 import { GameDetails } from "./gameDetail";
 
-import { Button, ButtonType } from "office-ui-fabric-react/lib/Button";
-import { DetailsList, SelectionMode, ConstrainMode, DetailsListLayoutMode, DetailsRow } from "office-ui-fabric-react/lib/DetailsList";
+import { Button } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 
 interface IGameListProps {
     games: GameSummary[];
@@ -29,85 +29,49 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
     }
 
     public render() {
-        return <DetailsList
-            layoutMode={DetailsListLayoutMode.justified}
-            constrainMode={ConstrainMode.horizontalConstrained}
-            selectionMode={SelectionMode.none}
-            onRenderRow={((props, defaultRender) => {
-                let details: JSX.Element;
-                if (this.state.expandedGames[props.item.id]) {
-                    details = <GameDetails game={props.item} />;
-                }
+        const header = this._renderHeader();
+        const rows = this.props.games.map(game => this._renderGameRow(game));
 
-                return <div>
-                    {defaultRender(props)}
-                    {details}
-                </div>;
-            })}
-            columns={[
-                {
-                    key: "id",
-                    fieldName: "id",
-                    name: __("#"),
-                    minWidth: 40,
-                    isCollapsable: true
-                }, {
-                    key: "name",
-                    fieldName: "name",
-                    name: __("Name"),
-                    minWidth: 100
-                }, {
-                    key: "map",
-                    fieldName: "mapTemplate",
-                    name: __("Map"),
-                    minWidth: 100,
-                    isCollapsable: true
-                }, {
-                    key: "mode",
-                    fieldName: "options.mapDistribution",
-                    name: __("Mode"),
-                    minWidth: 100,
-                    onRender: (item) => item.options.mapDistribution,
-                    isCollapsable: true
-                }, {
-                    key: "active",
-                    fieldName: "active",
-                    name: __("Active"),
-                    minWidth: 50,
-                    onRender: (item: GameSummary) => item.currentPlayer && item.currentPlayer.name
-                }, {
-                    key: "tp",
-                    fieldName: null,
-                    name: __("Teams/Players"),
-                    minWidth: 100,
-                    onRender: (item: GameSummary) => (`${item.options.numberOfTeams}/${item.options.numberOfPlayersPerTeam}`)
-                }, {
-                    key: "time",
-                    fieldName: "time",
-                    name: __("Time"),
-                    minWidth: 75
-                }, {
-                    key: "state",
-                    fieldName: "state",
-                    name: __("State"),
-                    minWidth: 50,
-                    isCollapsable: true
-                }, {
-                    key: "actions",
-                    fieldName: "actions",
-                    name: "",
-                    minWidth: 50,
-                    onRender: (item: GameSummary) => {
-                        return <Button
-                            buttonType={ButtonType.icon}
-                            icon="Info"
-                            title={__("Show details")}
-                            onClick={() => this._toggle(item.id)}></Button>;
-                    }
-                }
-            ]}
-            items={this.props.games || []}
-            />;
+        return <Table>
+            <thead>
+                {header}
+            </thead>
+            <tbody>
+                {rows}
+            </tbody>
+        </Table>;
+    }
+
+    private _renderHeader() {
+        return <tr>
+            <th>{__("Id")}</th>
+            <th>{__("Name")}</th>
+            <th>{__("Map")}</th>
+            <th>{__("Mode")}</th>
+            <th>{__("Active")}</th>
+            <th>{__("Teams/Players")}</th>
+            <th>{__("Time")}</th>
+            <th>{__("State")}</th>
+            <th>&nbsp;</th>
+        </tr>;
+    }
+
+    private _renderGameRow(game: GameSummary): JSX.Element {
+        return <tr>
+            <td>{game.id}</td>
+            <td>{game.name}</td>
+            <td>{game.mapTemplate}</td>
+            <td>{game.options.mapDistribution}</td>
+            <td>{game.currentPlayer && game.currentPlayer.name}</td>
+            <td>{`${game.options.numberOfTeams}/${game.options.numberOfPlayersPerTeam}`}</td>
+            <td>{game.timeoutSecondsLeft}</td>
+            <td>{game.state}</td>
+            <td>
+                <Button
+                    title={__("Show details")}
+                    onClick={() => this._toggle(game.id)}></Button>
+            </td>
+        </tr>;
     }
 
     private _toggle(id: number) {

@@ -1,4 +1,4 @@
-@import '~office-ui-fabric-react/dist/sass/Fabric';
+// TODO: Include bootstrap
 @import "./utils";
 @import "./vars";
 @import "./colors";
@@ -7,10 +7,6 @@ $basePadding: 15px;
 
 body {
     padding: $basePadding;
-}
-
-.ms-Grid-col {
-    padding: $basePadding !important;
 }
 
 h2.headline,
@@ -24,34 +20,34 @@ h3.headline {
     }
 }
 
-.list-unstyled {
-    padding-left: 0;
-    list-style: none;
-}
-
-.label {
-    padding: 4px 7px;
-
-    display: inline;
-    font-weight: bold;
-    line-height: 1;
-    color: #ffffff;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: baseline;
-}
-
 @mixin clearfix {
-  &:after {
-    content: "";
-    display: table;
-    clear: both;
-  }
+    &:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
 }
 
-// Positioning
-.pull-right {
-    float: right;
+// Bootstrap customization
+$brand-primary: $accent;
 
-    @include clearfix;
+$icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
+@import "~bootstrap-sass/assets/stylesheets/bootstrap";
+
+// Main button style
+button.btn {
+    border-radius: 0;
+
+    border: none;
+    transition: background linear .2s;
+}
+
+@media (min-width: $screen-md-min) {
+    .col-border-right {
+        border-right: 1pt solid lightgray;
+    }
+}
+
+.tab-content {
+    padding: 10px;
 }

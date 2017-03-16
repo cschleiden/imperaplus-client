@@ -3,7 +3,6 @@ import reducerMap from "../../lib/reducerMap";
 
 import { IAction, success, pending, failed } from "../../lib/action";
 import * as FormActions from "./forms.actions";
-import { ISession, SessionMode } from "../../model/session";
 
 export interface IForms {
     forms: {

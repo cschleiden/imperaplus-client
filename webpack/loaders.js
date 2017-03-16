@@ -48,7 +48,6 @@ exports.ttf = makeUrlLoader(/\.ttf$/);
 function makeUrlLoader(pattern) {
   return {
     test: pattern,
-    loader: 'url',
-    exclude: /node_modules/
+    loader: 'url'
   };
 }

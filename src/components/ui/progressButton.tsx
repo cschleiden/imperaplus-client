@@ -2,9 +2,9 @@ import "./progressButton.scss";
 
 import * as React from "react";
 
-import { Button, ButtonType, IButtonProps, IButtonState } from "office-ui-fabric-react/lib/Button";
+import { Button, ButtonProps } from "react-bootstrap";
 
-export interface IProgressButtonProps extends IButtonProps {
+export interface IProgressButtonProps extends ButtonProps {
     isActive?: boolean;
 }
 

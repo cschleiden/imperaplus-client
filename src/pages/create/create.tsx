@@ -8,9 +8,7 @@ import { Title, Section, SubSection } from "../../components/ui/typography";
 import { ProgressButton } from "../../components/ui/progressButton";
 import LinkString from "../../components/ui/strLink";
 
-import { Button, ButtonType } from "office-ui-fabric-react/lib/Button";
-import { Pivot, PivotLinkSize, PivotItem } from "office-ui-fabric-react/lib/Pivot";
-import { Dropdown } from "office-ui-fabric-react/lib/Dropdown";
+import { Tabs, Tab } from "react-bootstrap";
 
 import Form, { IFormState } from "../../common/forms/form";
 import { IForm } from "../../common/forms/forms.reducer";
@@ -73,7 +71,7 @@ export class CreateGameComponent extends React.Component<ICreateGameProps, void>
             </GridRow>
 
             <GridRow>
-                <GridColumn className="ms-u-lg9">
+                <GridColumn className="col-lg-9">
                     <LinkString link={__("Here you can create a new fun game. If you want to start playing sooner, you might want to [join](game/games/join) an existing game. Fun games do not count for the ladder.")} />
 
                     <Form
@@ -119,8 +117,8 @@ export class CreateGameComponent extends React.Component<ICreateGameProps, void>
                         } }
                         component={(({ isPending, submit, formState }) => (
                             <div>
-                                <Pivot linkSize={PivotLinkSize.large}>
-                                    <PivotItem linkText={__("Simple")}>
+                                <Tabs defaultActiveKey={1}>
+                                    <Tab eventKey={1} title={__("Simple")}>
                                         <ControlledTextField
                                             label={__("Name")}
                                             placeholder={__("Name")}
@@ -137,54 +135,28 @@ export class CreateGameComponent extends React.Component<ICreateGameProps, void>
 
                                         <ControlledDropdown
                                             label={__("Map")}
-                                            fieldName="map"
-                                            options={this.props.maps && this.props.maps.map(m => ({
-                                                key: m.name,
-                                                text: m.name
-                                            }))}
-                                            />
+                                            fieldName="map">
+                                            {this.props.maps && this.props.maps.map(m => <option value={m.name}>{m.name}</option>)}
+                                        </ControlledDropdown>
 
                                         <ControlledDropdown
                                             label={__("Timeout")}
-                                            fieldName="timeout"
-                                            options={
-                                                [
-                                                    {
-                                                        key: "300",
-                                                        text: __("5 Minutes")
-                                                    },
-                                                    {
-                                                        key: "600",
-                                                        text: __("10 Minutes")
-                                                    },
-                                                    {
-                                                        key: "18000",
-                                                        text: __("5 Hours")
-                                                    },
-                                                    {
-                                                        key: "36000",
-                                                        text: __("10 Hours")
-                                                    },
-                                                    {
-                                                        key: "86400",
-                                                        text: __("1 Day")
-                                                    },
-                                                    {
-                                                        key: "172800",
-                                                        text: __("2 Days")
-                                                    }
-                                                ]
-                                            }
-                                            />
+                                            fieldName="timeout">
+                                            <option value="300">{__("5 Minutes")}</option>
+                                            <option value="600">{__("10 Minutes")}</option>
+                                            <option value="18000">{__("10 Hours")}</option>
+                                            <option value="86400">{__("1 Day")}</option>
+                                            <option value="172800">{__("2 Days")}</option>
+                                        </ControlledDropdown>
 
                                         <ControlledDropdown
                                             label={__("Players & Teams")}
-                                            fieldName="players"
-                                            options={getPlayerAndTeams()}
-                                            />
-                                    </PivotItem>
+                                            fieldName="players">
+                                            {getPlayerAndTeams().map(x => <option value={x.key}>{x.text}</option>)}
+                                        </ControlledDropdown>
+                                    </Tab>
 
-                                    <PivotItem linkText={__("Advanced")}>
+                                    <Tab eventKey={2} title={__("Advanced")}>
                                         <ControlledTextField
                                             label={__("Attacks")}
                                             placeholder={__("Attacks")}
@@ -211,50 +183,29 @@ export class CreateGameComponent extends React.Component<ICreateGameProps, void>
 
                                         <ControlledDropdown
                                             label={__("Victory Condition")}
-                                            fieldName="victoryCondition"
-                                            options={[
-                                                {
-                                                    key: 0,
-                                                    text: __("Survival"),
-                                                    selected: true
-                                                }
-                                            ]}
-                                            />
+                                            fieldName="victoryCondition">
+                                            <option value="0" selected>{__("Survival")}</option>
+                                        </ControlledDropdown>
 
                                         <ControlledDropdown
                                             label={__("Visibility modifier")}
-                                            fieldName="visibilityModifier"
-                                            options={[
-                                                {
-                                                    key: 0,
-                                                    text: __("Everything visible"),
-                                                    selected: true
-                                                }, {
-                                                    key: 1,
-                                                    text: __("Fog of War")
-                                                }
-                                            ]}
-                                            />
+                                            fieldName="visibilityModifier">
+                                            <option value="0" selected>{__("Everything visible")}</option>
+                                            <option value="1">{__("Fog of War")}</option>
+                                        </ControlledDropdown>
 
                                         <ControlledDropdown
                                             label={__("Distribution")}
-                                            fieldName="distribution"
-                                            options={[
-                                                {
-                                                    key: 0,
-                                                    text: __("Default"),
-                                                    selected: true
-                                                }, {
-                                                    key: 1,
-                                                    text: __("Malibu")
-                                                }
-                                            ]}
-                                            />
-                                    </PivotItem>
-                                </Pivot>
+                                            fieldName="distribution">
+                                            <option value="0" selected>{__("Default")}</option>
+                                            <option value="1">{__("Malibu")}</option>
+                                        </ControlledDropdown>
+                                    </Tab>
+                                </Tabs>
 
                                 <ProgressButton
-                                    buttonType={ButtonType.primary}
+                                    type="submit"
+                                    bsStyle="primary"
                                     disabled={!this._formValid(formState)}
                                     isActive={isPending}>
                                     {__("Create")}
@@ -263,7 +214,7 @@ export class CreateGameComponent extends React.Component<ICreateGameProps, void>
                         ))} />
                 </GridColumn>
 
-                <GridColumn className="ms-u-lg3">
+                <GridColumn className="col-lg-3">
                     <Section>{__("Help")}</Section>
                     <p>
                         <LinkString link={__("Here you can create a new game. You can also [join](games/games/join) an existing game, which might be faster.")} />

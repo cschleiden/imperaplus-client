@@ -179,3 +179,46 @@
         background-color: #6F0DBF;
     }
 }
+
+/* Player Outcome */
+.player-outcome-none {
+    color: lightgray;
+}
+
+.player-outcome-defeated {
+    color: darkred;
+}
+
+.player-outcome-surrendered {
+    color: darkorange;
+}
+
+.player-outcome-timeout {
+    color: gray;
+}
+
+.player-outcome-won {
+    color: green;
+}
+
+/* Game State */
+.game-state-active {
+    color: black;
+}
+
+.game-state-open {
+    color: gray;
+}
+
+.game-state-ended {
+    color: gray;
+}
+
+/* Player State */
+.player-state-active {
+    color: gray;
+}
+
+.player-state-inactive {
+    color: gray;
+}

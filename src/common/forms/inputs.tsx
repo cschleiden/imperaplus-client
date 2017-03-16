@@ -4,9 +4,7 @@ import { IFormState, FormState } from "./form";
 import { resetForm, changeField } from "./forms.actions";
 import { IForms, IForm } from "./forms.reducer";
 
-import { TextField, ITextFieldProps } from "office-ui-fabric-react/lib/TextField";
-import { Checkbox, ICheckboxProps } from "office-ui-fabric-react/lib/Checkbox";
-import { Dropdown, IDropdownOption, IDropdownProps } from "office-ui-fabric-react/lib/Dropdown";
+import { FormGroup, ControlLabel, FormControl, FormControlProps, Checkbox, CheckboxProps } from "react-bootstrap";
 
 import { contextTypes, IFormContext } from "./types";
 
@@ -16,8 +14,21 @@ interface IControlledFieldProps {
     validate?: (value: string, formState: IFormState) => string;
 }
 
-export class ControlledTextField extends React.Component<ITextFieldProps & IControlledFieldProps & { initialValue?: string }, void> {
+let id = 0;
+const getId = () => {
+    return `field-${++id}`;
+};
+
+export class ControlledTextField extends React.Component<FormControlProps & IControlledFieldProps & { initialValue?: string }, void> {
+    private _id: string;
+
     public context: IFormContext;
+
+    constructor(props, context) {
+        super(props, context);
+
+        this._id = getId();
+    }
 
     public componentDidMount() {
         // Handle initial selection
@@ -27,17 +38,24 @@ export class ControlledTextField extends React.Component<ITextFieldProps & ICont
     }
 
     public render() {
-        return <TextField
-            {...this.props as any}
-            onBeforeChange={(value) => {
-                if (value !== this._currentValue()) {
-                    if (this.context.changeField) {
-                        this.context.changeField(this.props.fieldName, value);
+        return <FormGroup controlId={this._id}>
+            <ControlLabel>{this.props.label}</ControlLabel>
+            <FormControl
+                {...this.props as any}
+                id={this._id}
+                onChange={(ev) => {
+                    const inputElement = ev.target as HTMLInputElement;
+                    const value = inputElement.value;
+
+                    if (value !== this._currentValue()) {
+                        if (this.context.changeField) {
+                            this.context.changeField(this.props.fieldName, value);
+                        }
                     }
-                }
-            } }
-            onGetErrorMessage={this.props.validate && ((value: string) => this.props.validate(value, new FormState(this.context.formState)))}
-            value={this._currentValue()} />;
+                } }
+                value={this._currentValue()} />
+        </FormGroup>;
+        // onGetErrorMessage={this.props.validate && ((value: string) => this.props.validate(value, new FormState(this.context.formState)))}
     }
 
     private _currentValue(): string {
@@ -51,7 +69,7 @@ export class ControlledTextField extends React.Component<ITextFieldProps & ICont
 }
 
 
-export const ControlledCheckBox = (props: ICheckboxProps & IControlledFieldProps, context: IFormContext) => {
+export const ControlledCheckBox = (props: CheckboxProps & IControlledFieldProps, context: IFormContext) => {
     const currentValue = (): boolean =>
         context.formState
         && context.formState.fields
@@ -60,43 +78,58 @@ export const ControlledCheckBox = (props: ICheckboxProps & IControlledFieldProps
 
     return <Checkbox
         {...props}
-        onChange={(ev) => {
-            const updatedValue = ev.currentTarget.checked;
+        onChange={(ev: React.FormEvent<Checkbox>) => {
+            const inputElement = ev.target as HTMLInputElement;
+            const updatedValue = inputElement.value === "on";
             if (updatedValue !== currentValue()) {
                 context.changeField(props.fieldName, updatedValue);
             }
         } }
-        checked={currentValue()}
-        />;
+        checked={currentValue()}>
+        {props.label}
+    </Checkbox>;
 };
 
 ControlledCheckBox["contextTypes"] = contextTypes;
 
-export class ControlledDropdown extends React.Component<IDropdownProps & IControlledFieldProps, void> {
+export class ControlledDropdown extends React.Component<FormControlProps & IControlledFieldProps, void> {
+    private _id: string;
+
     public context: IFormContext;
+
+    constructor(props, context) {
+        super(props, context);
+
+        this._id = getId();
+    }
 
     public componentDidMount() {
         // Handle initial selection
-        if (!this._currentKey() && this.props.options) {
+        /*if (!this._currentKey() && this.props.) {
             let selectedElement = this.props.options.filter(x => x.selected);
             if (selectedElement && selectedElement.length > 0) {
                 if (this._currentKey() !== selectedElement[0].key) {
                     this.context.changeField(this.props.fieldName, selectedElement[0].key);
                 }
             }
-        }
+        }*/
     }
 
     public render() {
-        return <Dropdown
-            {...this.props}
-            onChanged={(option) => {
-                if (option.key !== this._currentKey()) {
-                    this.context.changeField(this.props.fieldName, option.key);
-                }
-            } }
-            selectedKey={this._currentKey()}
-            />;
+        return <FormGroup controlId={this._id}>
+            <ControlLabel>{this.props.label}</ControlLabel>
+            <FormControl componentClass="select"
+                {...this.props}
+                onChange={(ev) => {
+                    const inputElement = ev.target as HTMLSelectElement;
+                    const value = inputElement.value;
+
+                    this.context.changeField(this.props.fieldName, value);
+                } }
+                >
+                {this.props.children}
+            </FormControl>
+        </FormGroup>;
     }
 
     private _currentKey(): string {

@@ -5,17 +5,23 @@ import { connect } from "react-redux";
 
 import { login } from "../../../common/session/session.actions";
 
-import Form, { IFormState }  from "../../../common/forms/form";
+import Form, { IFormState } from "../../../common/forms/form";
 
 import { ControlledCheckBox, ControlledTextField } from "../../../common/forms/inputs";
-import { Button, ButtonType } from "office-ui-fabric-react/lib/Button";
+import { Button } from "react-bootstrap";
 import { ProgressButton } from "../../../components/ui/progressButton";
 import { Grid, GridRow, GridColumn } from "../../../components/layout";
+import LinkString from "../../../components/ui/strLink";
+
+const _formValid = (formState): boolean => {
+    return formState.getFieldValue("username")
+        && formState.getFieldValue("password");
+};
 
 export const LoginComponent = (props) => {
     return <Grid className="login">
         <GridRow>
-            <GridColumn className="ms-u-md6 ms-u-sm12 border-right">
+            <GridColumn className="col-md-6 col-xs-12 col-border-right">
                 <p>
                     {__("Sign in using your Impera account...")}
                 </p>
@@ -43,32 +49,38 @@ export const LoginComponent = (props) => {
 
                             <div className="ms-u-textAlignRight">
                                 <ProgressButton
-                                    buttonType={ButtonType.primary}
-                                    isActive={isPending}>
+                                    type="submit"
+                                    disabled={!_formValid(formState)}
+                                    isActive={isPending}
+                                    bsStyle="primary">
                                     {__("Login")}
                                 </ProgressButton>
                             </div>
                         </div>
                     ))} />
             </GridColumn>
-            <GridColumn className="ms-u-md6 ms-u-sm12 external">
+            <GridColumn className="col-md-6 col-xs-12 external">
                 <p>
                     ...or with an external account.
                 </p>
 
-                <ul>
+                <ul className="list-unstyled">
                     <li>
-                        <Button buttonType={ButtonType.primary}>Facebook</Button>
+                        <Button block bsStyle="primary">Facebook</Button>
                     </li>
                     <li>
-                        <Button buttonType={ButtonType.primary}>Microsoft</Button>
+                        <Button block bsStyle="primary">Microsoft</Button>
                     </li>
                 </ul>
             </GridColumn>
         </GridRow>
 
-        <GridRow className="ms-u-textAlignCenter">
-            {__("Recover your password or create a new account.")}
+        <GridRow className="text-center">
+            <GridColumn className="col-xs-12">
+                {LinkString({
+                    link: __("[Recover](/recover) your password or [create](/signup) a new account.")
+                })}
+            </GridColumn>
         </GridRow>
     </Grid>;
 };

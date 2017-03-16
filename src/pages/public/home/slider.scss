@@ -1,7 +1,8 @@
-@import "~office-ui-fabric-react/dist/sass/Fabric";
 @import "../../../styles/vars";
 
 .slider {
+    margin: -#{2 * $spacing} 0;
+
     position: relative;
     height: 400px;
 
@@ -16,7 +17,7 @@
             i {
                 color: white;
                 background: rgba($accent, 0.5);
-                @include ms-font-su;
+                //@include ms-font-su;
 
                 font-style: normal;
                 padding: 0 5px;
@@ -40,7 +41,7 @@
 
                 font-style: normal;
                 padding: 2px;
-                @include ms-font-l;
+                //@include ms-font-l;
             }
         }
     }

@@ -1,6 +1,6 @@
 import { IAction, makePromiseAction } from "../../lib/action";
 import { GameClient, GameCreationOptions, MapClient } from "../../external/imperaClients";
-import { show, MessageBarType } from "../../common/message/message.actions";
+import { show, MessageType } from "../../common/message/message.actions";
 import { lookupSet } from "../../common/general/general.actions";
 
 export const CREATE = "games-create";
@@ -9,7 +9,7 @@ export const create = makePromiseAction<GameCreationOptions, void>((input, dispa
         type: CREATE,
         payload: {
             promise: deps.getCachedClient(GameClient).post(input).then<void>((game) => {
-                dispatch(show(__("Game created, you can find it now in [My Games](game/games/my)."), MessageBarType.success));
+                dispatch(show(__("Game created, you can find it now in [My Games](game/games/my)."), MessageType.success));
             })
         },
         options: {

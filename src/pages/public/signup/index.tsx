@@ -11,12 +11,13 @@ import { ErrorCodes } from "../../../i18n/errorCodes";
 
 import { signup } from "../../../common/session/session.actions";
 
-import { Button, ButtonType } from "office-ui-fabric-react/lib/Button";
+import { Button } from "react-bootstrap";
 import { ProgressButton } from "../../../components/ui/progressButton";
 import { Grid, GridRow, GridColumn } from "../../../components/layout";
 
 import Form from "../../../common/forms/form";
 import { ControlledCheckBox, ControlledTextField } from "../../../common/forms/inputs";
+import LinkString from "../../../components/ui/strLink";
 
 interface ISignupFields {
     username: string;
@@ -35,7 +36,7 @@ export class SignupComponent extends React.Component<ISignupProps, void> {
     public render(): JSX.Element {
         return <Grid className="signup">
             <GridRow>
-                <GridColumn className="ms-u-md6 ms-u-sm12 border-right">
+                <GridColumn className="col-md-6 col-xs-12 col-border-right">
                     <p>
                         {__("Register a new account. It is completely free.")}
                     </p>
@@ -83,32 +84,36 @@ export class SignupComponent extends React.Component<ISignupProps, void> {
 
                                 <div className="ms-u-textAlignRight">
                                     <ProgressButton
-                                        buttonType={ButtonType.primary}
                                         disabled={!this._formValid(formState)}
-                                        isActive={isPending}>
+                                        isActive={isPending}
+                                        bsStyle="primary">
                                         {__("Register")}
                                     </ProgressButton>
                                 </div>
                             </div>)} />
                 </GridColumn>
-                <GridColumn className="ms-u-md6 ms-u-sm12 external">
+                <GridColumn className="col-md-6 col-xs-12 external">
                     <p>
                         {__("Or sign in using an existing account.")}
                     </p>
 
-                    <ul>
+                    <ul className="list-unstyled">
                         <li>
-                            <Button buttonType={ButtonType.primary}>Facebook</Button>
+                            <Button block bsStyle="primary">Facebook</Button>
                         </li>
                         <li>
-                            <Button buttonType={ButtonType.primary}>Microsoft</Button>
+                            <Button block bsStyle="primary">Microsoft</Button>
                         </li>
                     </ul>
                 </GridColumn>
             </GridRow>
 
-            <GridRow className="ms-u-textAlignCenter">
-                {__("Recover your password or create a new account.")}
+            <GridRow className="text-center">
+                <GridColumn className="col-xs-12">
+                    {LinkString({
+                        link: __("[Recover](/recover) your password or [create](/signup) a new account.")
+                    })}
+                </GridColumn>
             </GridRow>
         </Grid>;
     }

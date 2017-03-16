@@ -10,11 +10,8 @@ import { openCloseNav } from "../../common/general/general.actions";
 import { setLanguage } from "../../common/session/session.actions";
 import { IState } from "../../reducers";
 
-import { MessageBar, MessageBarType } from "office-ui-fabric-react/lib/MessageBar";
-import { LayerHost } from "office-ui-fabric-react/lib/Layer";
-import { Button, ButtonType } from "office-ui-fabric-react/lib/Button";
-import { Panel, PanelType } from "office-ui-fabric-react/lib/Panel";
-import { ContextualMenu, DirectionalHint } from "office-ui-fabric-react/lib/ContextualMenu";
+import { Button, ButtonProps, DropdownButton, MenuItem, Alert, Modal, Glyphicon } from "react-bootstrap";
+
 import LinkString from "../../components/ui/strLink";
 
 interface ILanguageSelectorProps {
@@ -22,70 +19,20 @@ interface ILanguageSelectorProps {
     onLanguageSelect: (language: string) => void;
 }
 
-interface ILanguageSelectorState {
-    languageMenuVisible: boolean;
-    languageMenuTarget: EventTarget;
-}
-
-class LanguageSelector extends React.Component<ILanguageSelectorProps, ILanguageSelectorState> {
-    private _element: HTMLElement;
-    private _resolveButton = (element: HTMLElement) => this._element = element;
-
-    constructor(props, context) {
-        super(props, context);
-
-        this.state = {
-            languageMenuVisible: false,
-            languageMenuTarget: null
-        };
-    }
-
+class LanguageSelector extends React.Component<ILanguageSelectorProps, void> {
     public render() {
-        return <div ref={this._resolveButton}>
-            <Button
-                onClick={this._onLanguageMenu}
-                buttonType={ButtonType.command}
-                icon="Globe">
-                {__("LANGUAGE")}
-            </Button>
-
-            {
-                this.state.languageMenuVisible ? <ContextualMenu
-                    shouldFocusOnMount={true}
-                    onDismiss={this._onLanguageMenuDismiss}
-                    target={this._element as any}
-                    items={[
-                        {
-                            key: "en",
-                            name: __("English"),
-                            canCheck: true,
-                            isChecked: this.props.selectedLanguage === "en",
-                            onClick: () => this.props.onLanguageSelect("en")
-                        },
-                        {
-                            key: "de",
-                            name: __("German"),
-                            canCheck: true,
-                            isChecked: this.props.selectedLanguage === "de",
-                            onClick: () => this.props.onLanguageSelect("de")
-                        }
-                    ]}
-                    /> : null
-            }
-        </div>;
-    }
-
-    private _onLanguageMenu = (event: React.MouseEvent<Button>) => {
-        this.setState({
-            languageMenuVisible: true,
-            languageMenuTarget: event.target
-        });
-    }
-
-    private _onLanguageMenuDismiss = () => {
-        this.setState({
-            languageMenuVisible: false
-        } as ILanguageSelectorState);
+        return <DropdownButton id="language" title={__("LANGUAGE")} >
+            <MenuItem
+                onClick={() => this.props.onLanguageSelect("en")}
+                active={this.props.selectedLanguage === "en"}>
+                {__("English")}
+            </MenuItem>
+            <MenuItem
+                onClick={() => this.props.onLanguageSelect("de")}
+                active={this.props.selectedLanguage === "de"}>
+                {__("German")}
+            </MenuItem>
+        </DropdownButton>;
     }
 }
 
@@ -107,45 +54,55 @@ export class Layout extends React.Component<ILayoutProps, void> {
     public render(): JSX.Element {
         let msg: JSX.Element;
         if (!!this.props.message) {
-            msg = <MessageBar
-                messageBarType={this.props.message.type}
+            msg = <Alert
+                bsStyle={this.props.message.type}
                 onDismiss={this._onClear}>
                 <LinkString link={this.props.message.message} />
-            </MessageBar>;
+            </Alert>;
         }
 
         return <div>
             <Grid className="layout">
                 <GridRow className="header">
-                    <GridColumn className="ms-u-sm12 ms-u-lg5 logo">
+                    <GridColumn className="col-xs-10 col-sm-5 logo">
                         <img src="/assets/logo_150.png" />
                     </GridColumn>
 
-                    <GridColumn className="ms-u-sm12 ms-u-lg7 navigation-container ms-u-hiddenMdDown">
+                    {/* Responsive Navigation */}
+                    <GridColumn className="col-xs-2 col-sm-7 mobile-navigation visible-xs-block">
+                        {this.props.isNavOpen && <div className="mobile-nav">
+                            <Grid>
+                                <GridRow className="text-right">
+                                    <LanguageSelector
+                                        selectedLanguage={this.props.language}
+                                        onLanguageSelect={this._onLanguageSelect} />
+
+                                    <Button onClick={() => this.props.openCloseNav(false)}>
+                                        <Glyphicon glyph="menu-hamburger" />
+                                    </Button>
+                                </GridRow>
+
+                                <GridRow>
+                                    {this.props.nav}
+                                </GridRow>
+                            </Grid>
+                        </div>}
+
+                        <Button onClick={() => this.props.openCloseNav(true)}>
+                            <Glyphicon glyph="menu-hamburger" />
+                        </Button>
+                    </GridColumn>
+
+                    <GridColumn className="col-xs-7 col-lg-7 navigation-container hidden-xs">
                         <div className="lang">
-                            <LanguageSelector selectedLanguage={this.props.language} onLanguageSelect={this._onLanguageSelect} />
+                            <LanguageSelector
+                                selectedLanguage={this.props.language}
+                                onLanguageSelect={this._onLanguageSelect} />
                         </div>
 
                         <div className="navigation">
                             {this.props.nav}
                         </div>
-                    </GridColumn>
-
-                    {/* Responsive Navigation */}
-                    <GridColumn className="ms-u-sm12 ms-u-lg7 mobile-navigation ms-u-hiddenLgUp">
-                        <Panel
-                            isOpen={this.props.isNavOpen}
-                            type={PanelType.smallFixedNear}
-                            isBlocking={false}
-                            onDismiss={() => this.props.openCloseNav(false)}
-                            isLightDismiss={true}
-                            className="mobile-nav">
-                            <LanguageSelector selectedLanguage={this.props.language} onLanguageSelect={this._onLanguageSelect} />
-
-                            {this.props.nav}
-                        </Panel>
-
-                        <Button buttonType={ButtonType.icon} icon="GlobalNavButton" onClick={() => this.props.openCloseNav(true)} />
                     </GridColumn>
                 </GridRow>
 
@@ -154,17 +111,17 @@ export class Layout extends React.Component<ILayoutProps, void> {
                 </GridRow>
 
                 <GridRow className="content">
-                    {this.props.content}
+                    <GridColumn className="col-xs-12 main-content">
+                        {this.props.content}
+                    </GridColumn>
                 </GridRow>
 
                 <GridRow className="footer">
-                    2003-2016 &copy; Christopher Schleiden and the Impera team. All Rights Reserved. <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> | <a href="#">User Voice</a>
+                    2003-2017 &copy; Christopher Schleiden and the Impera team. All Rights Reserved. <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> | <a href="#">User Voice</a>
                 </GridRow>
             </Grid>
             {this.props.pageContent}
-
-            <LayerHost className="nav-host" />
-        </div>;
+        </div >;
     }
 
     private _onLanguageSelect = (language: string) => {

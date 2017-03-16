@@ -5,7 +5,7 @@ import { GameSummary } from "../../external/imperaClients";
 import { Grid, GridRow, GridColumn } from "../../components/layout";
 import { Title, Section } from "../../components/ui/typography";
 import { GameList } from "../../components/ui/games/gameList";
-import { Button, ButtonType } from "office-ui-fabric-react/lib/Button";
+import { Button } from "react-bootstrap";
 
 import { IState } from "../../reducers";
 import { refresh } from "./games.actions";
@@ -22,12 +22,12 @@ export class MyGamesComponent extends React.Component<IMyGamesProps, void> {
     }
 
     public render(): JSX.Element {
-        return <GridColumn className="ms-u-sm12">
+        return <GridColumn className="col-xs-12">
             <Title>{__("My Games")}</Title>
             <div>
                 <div className="pull-right">
-                    <Button buttonType={ButtonType.primary} title={__("Refresh")}><i className="ms-Icon ms-Icon--Refresh" /></Button>
-                    <Button buttonType={ButtonType.primary} title={__("Hide completed games")}><i className="ms-Icon ms-Icon--Hide2" /></Button>
+                    <Button title={__("Refresh")}><span className="glyphicon glyphicon-refresh" /></Button>
+                    <Button title={__("Hide completed games")}><span className="glyphicon glyphicon-eye-close" /></Button>
                 </div>
 
                 <Section>{__("Fun")}</Section>

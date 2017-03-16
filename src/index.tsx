@@ -1,11 +1,8 @@
 // Hot reloading
 import { AppContainer } from "react-hot-loader";
 
-// Theming
-import { loadTheme, ITheme } from "@microsoft/load-themed-styles";
-
-// Override theme
-loadTheme({
+// TODO: Move to scss
+/*loadTheme({
   themeDarker: "#cfac1e",
   themeDark: "#dfbb28",
   themeDarkAlt: "#e3c23e",
@@ -15,7 +12,7 @@ loadTheme({
   themeLight: "#f3e5ad",
   themeLighter: "#faf3d9",
   themeLighterAlt: "#fdfaf0"
-});
+});*/
 
 import * as React from "react";
 import { render, unmountComponentAtNode } from "react-dom";
