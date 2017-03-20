@@ -2,26 +2,37 @@ import * as React from "react";
 
 import "./gameDetail.scss";
 
+import { connect } from "react-redux";
 import { store } from "../../../store";
 import { GameSummary, GameState, PlayerSummary, PlayerState } from "../../../external/imperaClients";
 import { Grid, GridRow, GridColumn } from "../../../components/layout";
 import HumanDate from "../../../components/ui/humanDate";
-import { MapClient } from "../../../external/imperaClients";
+import { MapClient, GameType } from "../../../external/imperaClients";
 import { getCachedClient } from "../../../clients/clientFactory";
 import { imageBaseUri } from "../../../configuration";
 import { PlayerOutcomeDisplay } from "./playerOutcome";
 import { autobind } from "../../../lib/autobind";
 import { Button, Glyphicon, Image } from "react-bootstrap";
+import { IState } from "../../../reducers";
+import { remove, surrender, hide, leave, join } from "../../../pages/games/games.actions";
 
-interface IGameDetailsProps {
+export interface IGameDetailsProps {
     game: GameSummary;
 }
 
-interface IGameDetailsState {
+export interface IGameDetailsDispatchProps {
+    hide: (gameId: number) => void;
+    remove: (gameId: number) => void;
+    surrender: (gameId: number) => void;
+    leave: (gameId: number) => void;
+    join: (gameId: number) => void;
+}
+
+export interface IGameDetailsState {
     imageSrc: string;
 }
 
-export class GameDetails extends React.Component<IGameDetailsProps, IGameDetailsState> {
+class GameDetails extends React.Component<IGameDetailsProps & IGameDetailsDispatchProps, IGameDetailsState> {
     constructor(props, context) {
         super(props, context);
 
@@ -84,23 +95,23 @@ export class GameDetails extends React.Component<IGameDetailsProps, IGameDetails
 
                     <dt>{__("Actions")}</dt>
                     <dd>
-                        {this._canSurrender() && <Button onClick={this._onSurrender} bsStyle="warning">
+                        {this._canSurrender() && <Button onClick={this._onSurrender} bsStyle="warning" bsSize="small">
                             <Glyphicon glyph="flag" />&nbsp;{__("Surrender")}
                         </Button>}
 
-                        {this._canLeave() && <Button onClick={this._onLeave} bsStyle="warning">
+                        {this._canLeave() && <Button onClick={this._onLeave} bsStyle="warning" bsSize="small">
                             <Glyphicon glyph="flag" />&nbsp;{__("Leave game")}
                         </Button>}
 
-                        {this._canDelete() && <Button onClick={this._onDelete} bsStyle="danger">
+                        {this._canDelete() && <Button onClick={this._onRemove} bsStyle="danger" bsSize="small">
                             <Glyphicon glyph="remove" />&nbsp;{__("Delete game")}
                         </Button>}
 
-                        {this._canHide() && <Button onClick={this._onHide} bsStyle="info">
+                        {this._canHide() && <Button onClick={this._onHide} bsStyle="info" bsSize="small">
                             <Glyphicon glyph="eye-close" />&nbsp;{__("Hide finished game")}
                         </Button>}
 
-                        {this._canJoin() && <Button onClick={this._onJoin} bsStyle="primary">
+                        {this._canJoin() && <Button onClick={this._onJoin} bsStyle="primary" bsSize="small">
                             <Glyphicon glyph="plus-sign" />&nbsp;{__("Join game")}
                         </Button>}
                     </dd>
@@ -186,26 +197,34 @@ export class GameDetails extends React.Component<IGameDetailsProps, IGameDetails
 
     @autobind
     private _onSurrender() {
-
+        this.props.surrender(this.props.game.id);
     }
 
     @autobind
     private _onLeave() {
-
+        this.props.leave(this.props.game.id);
     }
 
     @autobind
     private _onHide() {
-
+        this.props.hide(this.props.game.id);
     }
 
     @autobind
-    private _onDelete() {
-
+    private _onRemove() {
+        this.props.remove(this.props.game.id);
     }
 
     @autobind
     private _onJoin() {
-
+        this.props.join(this.props.game.id);
     }
 }
+
+export default connect((state: IState, ownProps: IGameDetailsProps) => ownProps, (dispatch) => ({
+    hide: (gameId: number) => dispatch(hide(gameId)),
+    remove: (gameId: number) => dispatch(remove(gameId)),
+    surrender: (gameId: number) => dispatch(surrender(gameId)),
+    leave: (gameId: number) => dispatch(leave(gameId)),
+    join: (gameId: number) => dispatch(join(gameId)),
+}))(GameDetails);

@@ -42,7 +42,7 @@ class Form extends React.Component<IFormProps & IInternalFormProps, void> {
         };
     }
 
-    public componentDidMount() {
+    public componentWillMount() {
         // Initialize the form
         this.props.reset();
     }

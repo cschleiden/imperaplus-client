@@ -1,6 +1,5 @@
 import * as Redux from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
-import * as debounce from "lodash/debounce";
 import { push } from "react-router-redux";
 
 import { Router, Route, IndexRoute, browserHistory } from "react-router";
@@ -24,6 +23,7 @@ import { AccountClient } from "./external/imperaClients";
 import { ISessionState } from "./common/session/session.reducer";
 import { SessionService } from "./common/session/session.service";
 import { refresh, expire } from "./common/session/session.actions";
+import { debounce } from "./lib/debounce";
 
 // Create main store
 const compose = composeWithDevTools({
@@ -64,7 +64,7 @@ export var store = Redux.createStore<IState>(
       } as IAsyncActionDependencies),
       createLogger())));
 
-// Persist session settings to sesson storage
+// Persist session settings to session storage
 store.subscribe(debounce(() => {
   const state = store.getState();
   const sessionState = state && state.session && state.session.toJS();

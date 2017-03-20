@@ -32,25 +32,10 @@ a {
     max-width: 970px;
     min-height: 100%;
 
-    margin: 0 auto;
-
-    &.ms-Grid {
-        padding: 0;
-    }
+    margin: 0 auto;    
 
     background: white;
     box-shadow: 0 0 5px #ccc;
-
-    .ms-Grid-row {
-        margin: 0;
-    }
-}
-
-.nav-host {
-    .ms-LayerHost-overlay,
-    .ms-Panel {
-        background: transparent;
-    }
 }
 
 $headerHeight: 120px;
@@ -258,4 +243,8 @@ $footerHeight: 40px;
 
 .main-content {
     padding: 20px 0;
+}
+
+.message .alert {
+    margin-bottom: 0;
 }

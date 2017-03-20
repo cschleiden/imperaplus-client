@@ -33,12 +33,12 @@ export class MyGamesComponent extends React.Component<IMyGamesProps, void> {
             fun = [<Section>{__("Fun")}</Section>,
             <GameList games={this.props.funGames} />];
         }
-        
+
         if (this.props.rankingGames.length > 0) {
             fun = [<Section>{__("Ranking")}</Section>,
             <GameList games={this.props.rankingGames} />];
         }
-        
+
         if (this.props.tournamentGames.length > 0) {
             fun = [<Section>{__("Tournaments")}</Section>,
             <GameList games={this.props.tournamentGames} />];
@@ -62,11 +62,16 @@ export class MyGamesComponent extends React.Component<IMyGamesProps, void> {
     }
 }
 
-export default connect((state: IState) => ({
-    funGames: state.games.data.games.filter(g => g.type === GameType.Fun),
-    rankingGames: state.games.data.games.filter(g => g.type === GameType.Ranking),
-    tournamentGames: state.games.data.games.filter(g => g.type === GameType.Tournament)
-}), (dispatch) => ({
+export default connect((state: IState) => {
+    const gamesMap = state.games.data.games;
+    const games = Object.keys(gamesMap).map(id => gamesMap[id]);
+
+    return {
+        funGames: games.filter(g => g.type === GameType.Fun),
+        rankingGames: games.filter(g => g.type === GameType.Ranking),
+        tournamentGames: games.filter(g => g.type === GameType.Tournament)
+    };
+}, (dispatch) => ({
     refresh: () => dispatch(refresh(null)),
     hideAll: () => dispatch(hideAll(null))
 }))(MyGamesComponent);

@@ -3,4 +3,4 @@ export const log = (msg: string): void => {
         // tslint:disable-next-line:no-console
         window.console.log(msg);
     }
-}
+};

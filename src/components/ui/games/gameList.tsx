@@ -6,13 +6,14 @@ import { GameSummary, PlayerSummary, Game } from "../../../external/imperaClient
 import { Grid, GridRow, GridColumn } from "../../../components/layout";
 import HumanDate from "../humanDate";
 import { Title, Section } from "../typography";
-import { GameDetails } from "./gameDetail";
+import GameDetails from "./gameDetail";
 
 import { Button } from "react-bootstrap";
 import { Table, Glyphicon } from "react-bootstrap";
 import { GameStateDisplay } from "./gameState";
 import { PlayerOutcomeDisplay } from "./playerOutcome";
 import { store } from "../../../store";
+
 
 interface IGameListProps {
     games: GameSummary[];

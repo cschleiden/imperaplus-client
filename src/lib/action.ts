@@ -24,6 +24,7 @@ export const pending = (type: string) => `${type}-pending`;
 
 export interface IApiActionOptions {
     useMessage?: boolean;
+    clearMessage?: boolean;
 
     beforeSuccess?: (dispatch) => void;
     afterSuccess?: (dispatch) => void;

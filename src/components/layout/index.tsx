@@ -2,8 +2,12 @@ import * as React from "react";
 
 import { css } from "../../lib/css";
 
-export const Grid = (props): JSX.Element => {
+export const GridContainer = (props): JSX.Element => {
     return <div className={css("container", props.className)}>{props.children}</div>;
+};
+
+export const Grid = (props): JSX.Element => {
+    return <div className={css(props.className)}>{props.children}</div>;
 };
 
 export const GridRow = (props): JSX.Element => {

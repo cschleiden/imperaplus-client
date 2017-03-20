@@ -1,7 +1,7 @@
 import { TokenProvider } from "../services/tokenProvider";
 import { baseUri } from "../configuration";
 
-import { AccountClient } from "../external/imperaClients";
+import { AccountClient, ErrorResponse } from "../external/imperaClients";
 import { SessionService } from "../common/session/session.service";
 import jsonParseReviver from "../lib/jsonReviver";
 
@@ -60,6 +60,12 @@ const fetchWrapper = (tokenProvider: () => string, url: string, init) => {
             } else {
                 throw new Error("Not authorized");
             }
+        } else if (status === "400") {
+            return response.text().then((responseText) => {
+                let result400: ErrorResponse | null = null;
+                result400 = responseText === "" ? null : <ErrorResponse>JSON.parse(responseText, this.jsonParseReviver);
+                throw result400;
+            });
         }
 
         return response;

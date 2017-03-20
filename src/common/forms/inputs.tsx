@@ -52,7 +52,7 @@ export class ControlledTextField extends React.Component<FormControlProps & ICon
                             this.context.changeField(this.props.fieldName, value);
                         }
                     }
-                } }
+                }}
                 value={this._currentValue()} />
         </FormGroup>;
         // onGetErrorMessage={this.props.validate && ((value: string) => this.props.validate(value, new FormState(this.context.formState)))}
@@ -84,7 +84,7 @@ export const ControlledCheckBox = (props: CheckboxProps & IControlledFieldProps,
             if (updatedValue !== currentValue()) {
                 context.changeField(props.fieldName, updatedValue);
             }
-        } }
+        }}
         checked={currentValue()}>
         {props.label}
     </Checkbox>;
@@ -105,14 +105,9 @@ export class ControlledDropdown extends React.Component<FormControlProps & ICont
 
     public componentDidMount() {
         // Handle initial selection
-        /*if (!this._currentKey() && this.props.) {
-            let selectedElement = this.props.options.filter(x => x.selected);
-            if (selectedElement && selectedElement.length > 0) {
-                if (this._currentKey() !== selectedElement[0].key) {
-                    this.context.changeField(this.props.fieldName, selectedElement[0].key);
-                }
-            }
-        }*/
+        if (this.props.value !== undefined) {
+            this.context.changeField(this.props.fieldName, this.props.value as string | number);
+        }
     }
 
     public render() {
@@ -125,14 +120,14 @@ export class ControlledDropdown extends React.Component<FormControlProps & ICont
                     const value = inputElement.value;
 
                     this.context.changeField(this.props.fieldName, value);
-                } }
-                >
+                }}
+                value={this._currentValue()}>
                 {this.props.children}
             </FormControl>
         </FormGroup>;
     }
 
-    private _currentKey(): string {
+    private _currentValue(): string {
         return this.context.formState
             && this.context.formState.fields
             && this.context.formState.fields[this.props.fieldName]

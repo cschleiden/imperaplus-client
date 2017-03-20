@@ -132,23 +132,25 @@ export class CreateGameComponent extends React.Component<ICreateGameProps, void>
 
                                     <ControlledDropdown
                                         label={__("Map")}
-                                        fieldName="map">
+                                        fieldName="map" value={""}>
+                                        <option value=""></option>
                                         {this.props.maps && this.props.maps.map(m => <option value={m.name}>{m.name}</option>)}
                                     </ControlledDropdown>
 
                                     <ControlledDropdown
                                         label={__("Timeout")}
-                                        fieldName="timeout">
+                                        fieldName="timeout"
+                                        value="86400">
                                         <option value="300">{__("5 Minutes")}</option>
                                         <option value="600">{__("10 Minutes")}</option>
                                         <option value="18000">{__("10 Hours")}</option>
                                         <option value="86400">{__("1 Day")}</option>
                                         <option value="172800">{__("2 Days")}</option>
                                     </ControlledDropdown>
-
+                                    
                                     <ControlledDropdown
                                         label={__("Players & Teams")}
-                                        fieldName="players">
+                                        fieldName="players" value="1bot">
                                         {getPlayerAndTeams().map(x => <option value={x.key}>{x.text}</option>)}
                                     </ControlledDropdown>
                                 </Tab>
@@ -180,21 +182,22 @@ export class CreateGameComponent extends React.Component<ICreateGameProps, void>
 
                                     <ControlledDropdown
                                         label={__("Victory Condition")}
-                                        fieldName="victoryCondition">
-                                        <option value="0" selected>{__("Survival")}</option>
+                                        fieldName="victoryCondition" value={0}>
+                                        <option value="0">{__("Survival")}</option>
                                     </ControlledDropdown>
 
                                     <ControlledDropdown
                                         label={__("Visibility modifier")}
-                                        fieldName="visibilityModifier">
-                                        <option value="0" selected>{__("Everything visible")}</option>
+                                        fieldName="visibilityModifier" value={0}>
+                                        <option value="0">{__("Everything visible")}</option>
                                         <option value="1">{__("Fog of War")}</option>
                                     </ControlledDropdown>
 
                                     <ControlledDropdown
                                         label={__("Distribution")}
-                                        fieldName="distribution">
-                                        <option value="0" selected>{__("Default")}</option>
+                                        fieldName="distribution"
+                                        value={0}>
+                                        <option value="0">{__("Default")}</option>
                                         <option value="1">{__("Malibu")}</option>
                                     </ControlledDropdown>
                                 </Tab>

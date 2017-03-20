@@ -3,7 +3,7 @@ import "./main.scss";
 
 import * as React from "react";
 import { connect } from "react-redux";
-import { Grid, GridRow, GridColumn } from "../layout";
+import { Grid, GridRow, GridColumn, GridContainer } from "../layout";
 
 import { clear, MessageType } from "../../common/message/message.actions";
 import { openCloseNav } from "../../common/general/general.actions";
@@ -21,7 +21,7 @@ interface ILanguageSelectorProps {
 
 class LanguageSelector extends React.Component<ILanguageSelectorProps, void> {
     public render() {
-        return <DropdownButton id="language" title={__("LANGUAGE")} >
+        return <DropdownButton id="language" title={__("LANGUAGE")} bsStyle="link">
             <MenuItem
                 onClick={() => this.props.onLanguageSelect("en")}
                 active={this.props.selectedLanguage === "en"}>
@@ -62,7 +62,7 @@ export class Layout extends React.Component<ILayoutProps, void> {
         }
 
         return <div>
-            <Grid className="layout">
+            <GridContainer className="layout">
                 <GridRow className="header">
                     <GridColumn className="col-xs-10 col-sm-5 logo">
                         <img src="/assets/logo_150.png" />
@@ -106,7 +106,7 @@ export class Layout extends React.Component<ILayoutProps, void> {
                     </GridColumn>
                 </GridRow>
 
-                <GridRow>
+                <GridRow className="message">
                     {msg}
                 </GridRow>
 
@@ -119,7 +119,8 @@ export class Layout extends React.Component<ILayoutProps, void> {
                 <GridRow className="footer">
                     2003-2017 &copy; Christopher Schleiden and the Impera team. All Rights Reserved. <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> | <a href="#">User Voice</a>
                 </GridRow>
-            </Grid>
+            </GridContainer>
+
             {this.props.pageContent}
         </div >;
     }

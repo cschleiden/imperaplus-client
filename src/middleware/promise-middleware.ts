@@ -2,7 +2,7 @@ import objectAssign = require("object-assign");
 
 import { ErrorResponse } from "../external/imperaClients";
 import { IPromiseAction, IAsyncPayload, success, pending, failed } from "../lib/action";
-import { show, MessageType } from "../common/message/message.actions";
+import { show, MessageType, clear } from "../common/message/message.actions";
 import { ErrorCodes } from "../i18n/errorCodes";
 
 export default function promiseMiddleware({ dispatch }) {
@@ -14,6 +14,10 @@ export default function promiseMiddleware({ dispatch }) {
 
         const { type, payload, meta, options } = action;
         const { promise, data } = payload;
+
+        if (options.clearMessage) {
+            dispatch(clear(null));
+        }
 
         /**
          * Dispatch the pending action

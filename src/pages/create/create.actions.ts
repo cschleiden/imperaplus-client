@@ -13,7 +13,8 @@ export const create = makePromiseAction<GameCreationOptions, void>((input, dispa
             })
         },
         options: {
-            useMessage: true
+            useMessage: true,
+            clearMessage: true
         }
     }));
 
