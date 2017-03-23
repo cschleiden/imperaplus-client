@@ -2,17 +2,17 @@ import * as React from "react";
 
 import "./gameList.scss";
 
-import { GameSummary, PlayerSummary, Game } from "../../../external/imperaClients";
+import { GameSummary, PlayerSummary, Game, GameState } from "../../../external/imperaClients";
 import { Grid, GridRow, GridColumn } from "../../../components/layout";
 import HumanDate from "../humanDate";
 import { Title, Section } from "../typography";
 import GameDetails from "./gameDetail";
 
-import { Button } from "react-bootstrap";
-import { Table, Glyphicon } from "react-bootstrap";
+import { Table, Glyphicon, Button } from "react-bootstrap";
 import { GameStateDisplay } from "./gameState";
 import { PlayerOutcomeDisplay } from "./playerOutcome";
 import { store } from "../../../store";
+import { Link } from "react-router";
 
 
 interface IGameListProps {
@@ -68,9 +68,18 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
             playerState = <span>&nbsp;-&nbsp;<PlayerOutcomeDisplay outcome={player.outcome} /></span>;
         }
 
+        let name: JSX.Element;
+        if (game.state !== GameState.Open) {
+            name = <Link to={`/play/${game.id}`}>{game.name}</Link>;
+        } else {
+            name = <span>{game.name}</span>;
+        }
+
         const rows = [<tr key={`game-${game.id}`}>
             <td>{game.id}</td>
-            <td>{game.name}</td>
+            <td>
+                {name}
+            </td>
             <td className="hidden-xs">{game.mapTemplate}</td>
             <td className="hidden-xs">{game.options.mapDistribution}</td>
             <td className="hidden-xs">{game.currentPlayer && game.currentPlayer.name}</td>
@@ -90,7 +99,7 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
         </tr>];
 
         if (this.state.expandedGames[game.id]) {
-            rows.push(<tr>
+            rows.push(<tr key={`game-${game.id}-detail`}>
                 <td colSpan={9}>
                     <GameDetails
                         game={game} />

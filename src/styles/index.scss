@@ -5,26 +5,49 @@
 
 $basePadding: 15px;
 
+// 
+// Fonts
+// 
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+* {
+    font-family: 'Open Sans', sans-serif;
+
+    // no rounded corners
+    border-radius: 0 !important;
+}
+
+html {
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+}
+
+body,
+html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 body {
+    background: repeat url('/assets/pattern.png');
     padding: $basePadding;
 }
 
-h2.headline,
-h3.headline {
-    border-bottom: 1px dotted #e4e9f0;
-
-    span {
-        display: inline-block;
-        padding-bottom: 10px;
-        border-bottom: 2px solid $accent;
+// General styles
+a {
+    color: $accent;
+    text-decoration: none;
+    &:hover {
+        text-decoration: underline;
     }
 }
 
-@mixin clearfix {
-    &:after {
-        content: "";
-        display: table;
-        clear: both;
+#root {
+    &,
+    & > div {
+        width: 100%;
+        height: 100%;
     }
 }
 
@@ -32,9 +55,10 @@ h3.headline {
 $fa-font-path: "~font-awesome/fonts";
 @import "~font-awesome/scss/font-awesome";
 
+//
 // Bootstrap customization
+//
 $brand-primary: $accent;
-
 $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
 @import "~bootstrap-sass/assets/stylesheets/bootstrap";
 
@@ -50,6 +74,49 @@ button.btn-default {
     background: $accent;
 }
 
+// Impera button style
+.btn-default {
+    background: $accent;
+
+    border: none;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: 400;
+    padding: 6px 13px;
+    position: relative;
+    display: inline-block;
+    text-decoration: none;
+    
+    &:active,
+    &:focus {
+        background: lighten($accent, 10%);
+    }
+    &[disabled],
+    &[disabled]:hover {
+        background: fadeout($accent, 20%);
+    }
+    &:hover {
+        background: $accent-highlight !important;
+        color: #fff;
+        text-decoration: none;
+        -webkit-transition: all .3s ease-in-out;
+        -moz-transition: all .3s ease-in-out;
+        -o-transition: all .3s ease-in-out;
+        transition: all .3s ease-in-out;
+    }
+
+    &.active {
+        &,
+        &:active,
+        &:focus,
+        &:hover {
+            background: $accent;
+        }
+    }
+}
+
+// Two column layout divider
 @media (min-width: $screen-md-min) {
     .col-border-right {
         border-right: 1pt solid lightgray;
@@ -58,11 +125,74 @@ button.btn-default {
 
 // Vertical spacing for stacked columns
 @media (max-width: 768px) {
-  [class*="col-"]{
-      margin-bottom: $spacing;
-  }
+    [class*="col-"] {
+        margin-bottom: $spacing;
+    }
 }
 
 .tab-content {
     padding: 10px;
+}
+
+//
+// Headings
+//
+
+h1 {
+    color: #666;
+    font-size: 22px;
+    margin-top: 8px;
+}
+
+h2.headline,
+h3.headline {
+    color: #585f69;
+    border-bottom: 1px dotted #e4e9f0;
+
+    span {
+        display: inline-block;
+        padding-bottom: 5px;
+        border-bottom: 2px solid $accent;
+        margin-bottom: -2px;
+    }
+}
+
+h2.headline {
+    font-size: 22px;
+    line-height: 33px;
+}
+
+h3.headline {
+    font-size: 18px;
+    line-height: 25px;
+}
+
+//
+// Tabs
+//
+.nav-tabs {
+    border-bottom: none;
+
+    li a {
+        padding: 9px 16px;
+        background: none;
+        border: none;
+        cursor: pointer;
+    }
+
+    li.active a {
+        &, 
+        &:active {
+            background: #fff;
+            padding: 7px 15px 9px;
+            border: solid 1px #eee;
+            border-top: solid 2px $accent;
+            border-bottom: none !important;
+        }
+    }
+}
+
+.tab-content {
+    padding: 10px 16px;
+    border: solid 1px #eee;
 }

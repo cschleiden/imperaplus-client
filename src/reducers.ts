@@ -11,11 +11,13 @@ import { general, IGeneralState } from "./common/general/general.reducer";
 import { chat, IChatState } from "./common/chat/chat.reducer";
 import { news, INewsState } from "./pages/start/news.reducer";
 import { games, IMyGamesState } from "./pages/games/games.reducer";
+import { play, IPlayState } from "./pages/play/play.reducer";
 
 export interface IState {
     news: INewsState;
     chat: IChatState;
     games: IMyGamesState;
+    play: IPlayState;
 
     routing: any;
     session: ISessionState;
@@ -29,6 +31,7 @@ const rootReducer = combineReducers<IState>({
     news,
     chat,
     games,
+    play,
 
     // General reducers
     routing: routerReducer,

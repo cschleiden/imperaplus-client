@@ -21,18 +21,20 @@ interface ILanguageSelectorProps {
 
 class LanguageSelector extends React.Component<ILanguageSelectorProps, void> {
     public render() {
-        return <DropdownButton id="language" title={__("LANGUAGE")} bsStyle="link">
-            <MenuItem
-                onClick={() => this.props.onLanguageSelect("en")}
-                active={this.props.selectedLanguage === "en"}>
-                {__("English")}
-            </MenuItem>
-            <MenuItem
-                onClick={() => this.props.onLanguageSelect("de")}
-                active={this.props.selectedLanguage === "de"}>
-                {__("German")}
-            </MenuItem>
-        </DropdownButton>;
+        return <div className="language">
+            <DropdownButton id="language" title={__("LANGUAGE")} bsStyle="link">
+                <MenuItem
+                    onClick={() => this.props.onLanguageSelect("en")}
+                    active={this.props.selectedLanguage === "en"}>
+                    {__("English")}
+                </MenuItem>
+                <MenuItem
+                    onClick={() => this.props.onLanguageSelect("de")}
+                    active={this.props.selectedLanguage === "de"}>
+                    {__("German")}
+                </MenuItem>
+            </DropdownButton>
+        </div>;
     }
 }
 

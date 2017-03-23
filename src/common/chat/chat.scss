@@ -34,6 +34,7 @@ $usersWidth: 100px;
 
     .chat-header {
         height: $headerHeight;
+        border-bottom: 2px solid $accent;
 
         ul {
             list-style: none;
@@ -98,8 +99,8 @@ $usersWidth: 100px;
 
     .chat-actions {
         position: absolute;
-        top: 2px;
-        right: 2px;
+        top: 0;
+        right: 0;
 
         button span {
             margin: 0 3px;

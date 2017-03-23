@@ -10,8 +10,34 @@ $spacing: 10px;
 
 // Colors
 $accent: #e6c954;
+$accent-highlight: lighten($accent, 20%);
 $dark: #3e4753;
 
 // Font sizes
 $fontNormal: 14px;
 $fontSmall: 12px;
+
+//
+// Responsive breakpoints
+//
+
+// Extra small screen / phone
+$screen-xs: 480px;
+$screen-phone: $screen-xs;
+
+// Small screen / tablet
+$screen-sm: 768px;
+$screen-tablet: $screen-sm;
+
+// Medium screen / desktop
+$screen-md: 992px;
+$screen-desktop: $screen-md;
+
+// Large screen / wide desktop
+$screen-lg: 1200px;
+$screen-lg-desktop: $screen-lg;
+
+// So media queries don't overlap when required, provide a maximum
+$screen-xs-max: ($screen-sm - 1);
+$screen-sm-max: ($screen-md - 1);
+$screen-md-max: ($screen-lg - 1);

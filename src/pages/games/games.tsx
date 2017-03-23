@@ -9,6 +9,7 @@ import { Button, ButtonGroup } from "react-bootstrap";
 
 import { IState } from "../../reducers";
 import { refresh, hideAll } from "./games.actions";
+import { setDocumentTitle } from "../../lib/title";
 
 export interface IMyGamesProps {
     refresh: () => void;
@@ -22,6 +23,8 @@ export interface IMyGamesProps {
 export class MyGamesComponent extends React.Component<IMyGamesProps, void> {
     public componentDidMount() {
         this.props.refresh();
+
+        setDocumentTitle(__("My Games"));
     }
 
     public render(): JSX.Element {
@@ -30,18 +33,18 @@ export class MyGamesComponent extends React.Component<IMyGamesProps, void> {
         let tournament: JSX.Element[];
 
         if (this.props.funGames.length > 0) {
-            fun = [<Section>{__("Fun")}</Section>,
-            <GameList games={this.props.funGames} />];
+            fun = [<Section key="fun-title">{__("Fun")}</Section>,
+            <GameList games={this.props.funGames} key="fun" />];
         }
 
         if (this.props.rankingGames.length > 0) {
-            fun = [<Section>{__("Ranking")}</Section>,
-            <GameList games={this.props.rankingGames} />];
+            ranking = [<Section key="ranking-title">{__("Ranking")}</Section>,
+            <GameList games={this.props.rankingGames} key="ranking" />];
         }
 
         if (this.props.tournamentGames.length > 0) {
-            fun = [<Section>{__("Tournaments")}</Section>,
-            <GameList games={this.props.tournamentGames} />];
+            tournament = [<Section key="tournaments-title">{__("Tournaments")}</Section>,
+            <GameList games={this.props.tournamentGames} key="tournaments" />];
         }
 
         return <GridColumn className="col-xs-12">
@@ -49,8 +52,8 @@ export class MyGamesComponent extends React.Component<IMyGamesProps, void> {
             <div>
                 <div className="pull-right">
                     <ButtonGroup>
-                        <Button onClick={this.props.refresh} title={__("Refresh")}><span className="glyphicon glyphicon-refresh" /></Button>
-                        <Button onClick={this.props.hideAll} title={__("Hide completed games")}><span className="glyphicon glyphicon-eye-close" /></Button>
+                        <Button key="refresh" onClick={this.props.refresh} title={__("Refresh")}><span className="glyphicon glyphicon-refresh" /></Button>
+                        <Button key="hideAll" onClick={this.props.hideAll} title={__("Hide completed games")}><span className="glyphicon glyphicon-eye-close" /></Button>
                     </ButtonGroup>
                 </div>
 

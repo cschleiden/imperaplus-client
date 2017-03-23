@@ -18,6 +18,7 @@ import { Grid, GridRow, GridColumn } from "../../../components/layout";
 import Form from "../../../common/forms/form";
 import { ControlledCheckBox, ControlledTextField } from "../../../common/forms/inputs";
 import LinkString from "../../../components/ui/strLink";
+import { setDocumentTitle } from "../../../lib/title";
 
 interface ISignupFields {
     username: string;
@@ -33,6 +34,10 @@ interface ISignupProps {
 }
 
 export class SignupComponent extends React.Component<ISignupProps, void> {
+    public componentDidMount() {
+        setDocumentTitle(__("Signup"));
+    }
+
     public render(): JSX.Element {
         return <Grid className="signup">
             <GridRow>

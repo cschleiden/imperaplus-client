@@ -1,31 +1,5 @@
 @import "../../styles/vars";
 
-html {
-    font-family: sans-serif;
-    -ms-text-size-adjust: 100%;
-    -webkit-text-size-adjust: 100%;
-}
-
-body,
-html {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    background: repeat url('/assets/pattern.png');
-}
-
-// General styles
-a {
-    color: $accent;
-    text-decoration: none;
-    &:hover {
-        text-decoration: underline;
-    }
-}
-
 .layout {
     position: relative;
 
@@ -36,6 +10,17 @@ a {
 
     background: white;
     box-shadow: 0 0 5px #ccc;
+}
+
+.language {
+    button, ul {
+        font-size: 11px !important;
+        text-transform: uppercase;
+    }
+
+    ul {
+        min-width: 100px;
+    }
 }
 
 $headerHeight: 120px;
