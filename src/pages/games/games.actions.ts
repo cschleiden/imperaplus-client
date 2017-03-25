@@ -13,6 +13,19 @@ export const refresh = makePromiseAction<void, GameSummary[]>((input, dispatch, 
         }
     }));
 
+export const REFRESH_FUN = "games-refresh";
+export const refreshFun = makePromiseAction<void, GameSummary[]>((input, dispatch, getState, deps) =>
+    ({
+        type: REFRESH_FUN,
+        payload: {
+            promise: deps.getCachedClient(GameClient).getAll()
+        },
+        options: {
+            useMessage: true
+        }
+
+    }));
+
 export const HIDE = "games-hide";
 export const hide = makePromiseAction<number, void>((gameId, dispatch, getState, deps) =>
     ({
@@ -31,7 +44,7 @@ export const hide = makePromiseAction<number, void>((gameId, dispatch, getState,
 export const HIDE_ALL = "games-hide-all";
 export const hideAll = makePromiseAction<void, void>((input, dispatch, getState, deps) =>
     ({
-        type: REFRESH,
+        type: HIDE_ALL,
         payload: {
             promise: deps.getCachedClient(GameClient).patchHideAll().then<void>(() => {
                 // Refresh games after hiding
@@ -58,9 +71,12 @@ export const surrender = makePromiseAction<number, GameSummary>((gameId, dispatc
 export const LEAVE = "game-leave";
 export const leave = makePromiseAction<number, GameSummary>((gameId, dispatch, getState, deps) =>
     ({
-        type: SURRENDER,
+        type: LEAVE,
         payload: {
-            promise: deps.getCachedClient(GameClient).postLeave(gameId)
+            promise: deps.getCachedClient(GameClient).postLeave(gameId).then(() => {
+                // Refresh games after hiding
+                dispatch(hideAll(null));
+            })
         },
         options: {
             useMessage: true
@@ -70,9 +86,12 @@ export const leave = makePromiseAction<number, GameSummary>((gameId, dispatch, g
 export const REMOVE = "game-remove";
 export const remove = makePromiseAction<number, GameSummary>((gameId, dispatch, getState, deps) =>
     ({
-        type: SURRENDER,
+        type: REMOVE,
         payload: {
-            promise: deps.getCachedClient(GameClient).delete(gameId)
+            promise: deps.getCachedClient(GameClient).delete(gameId).then(() => {
+                // Refresh games after hiding
+                dispatch(refresh(null));
+            })
         },
         options: {
             useMessage: true
@@ -83,9 +102,12 @@ export const remove = makePromiseAction<number, GameSummary>((gameId, dispatch, 
 export const JOIN = "game-join";
 export const join = makePromiseAction<number, GameSummary>((gameId, dispatch, getState, deps) =>
     ({
-        type: SURRENDER,
+        type: JOIN,
         payload: {
-            promise: deps.getCachedClient(GameClient).postJoin(gameId)
+            promise: deps.getCachedClient(GameClient).postJoin(gameId).then(() => {
+                // Refresh games after hiding
+                dispatch(refreshFun(null));
+            })
         },
         options: {
             useMessage: true
