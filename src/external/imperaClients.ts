@@ -17,7 +17,7 @@ export class AccountClient {
     }
 
     exchange(grant_type: string, username: string, password: string, scope: string, refresh_token: string): Promise<LoginResponseModel> {
-        let url_ = this.baseUrl + "/api/Account/token?";
+        let url_ = this.baseUrl + "/Token?";
         let content_ = "";
         if (grant_type !== undefined)
             content_ += "grant_type=" + encodeURIComponent("" + grant_type) + "&"; 
