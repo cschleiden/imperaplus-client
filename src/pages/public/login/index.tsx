@@ -67,7 +67,7 @@ class LoginComponent extends React.Component<{}, void> {
                 </GridColumn>
                 <GridColumn className="col-md-6 col-xs-12 external">
                     <p>
-                        ...or with an external account.
+                        {__("...or with an external account.")}
                 </p>
 
                     <ul className="list-unstyled">
