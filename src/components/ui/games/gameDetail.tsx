@@ -57,7 +57,7 @@ class GameDetails extends React.Component<IGameDetailsProps & IGameDetailsDispat
                 <dl className="game-details">
                     <dt>{__("Started")}</dt>
                     <dd>
-                        {HumanDate(this.props.game.startedAt)}
+                        {HumanDate(this.props.game.startedAt || new Date())}
                     </dd>
 
                     <dt>{__("Started By")}</dt>
@@ -163,7 +163,7 @@ class GameDetails extends React.Component<IGameDetailsProps & IGameDetailsDispat
         const { game } = this.props;
         const player = this._player();
 
-        return game.state === GameState.Open && game.createdByUserId === player.userId;
+        return game.state === GameState.Open && !!player && game.createdByUserId === player.userId;
     }
 
     private _canHide(): boolean {
@@ -179,7 +179,7 @@ class GameDetails extends React.Component<IGameDetailsProps & IGameDetailsDispat
         const player = this._player();
 
         return game.state === GameState.Open
-            && !!player
+            && !player
             && game.teams.reduce((playerCount, team) => playerCount + team.players.length, 0) < (game.options.numberOfPlayersPerTeam * game.options.numberOfTeams);
     }
 
@@ -226,5 +226,5 @@ export default connect((state: IState, ownProps: IGameDetailsProps) => ownProps,
     remove: (gameId: number) => dispatch(remove(gameId)),
     surrender: (gameId: number) => dispatch(surrender(gameId)),
     leave: (gameId: number) => dispatch(leave(gameId)),
-    join: (gameId: number) => dispatch(join(gameId)),
+    join: (gameId: number) => dispatch(join(gameId))
 }))(GameDetails);
