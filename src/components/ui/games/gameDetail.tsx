@@ -7,6 +7,7 @@ import { store } from "../../../store";
 import { GameSummary, GameState, PlayerSummary, PlayerState } from "../../../external/imperaClients";
 import { Grid, GridRow, GridColumn } from "../../../components/layout";
 import HumanDate from "../../../components/ui/humanDate";
+import HumanTime from "../../../components/ui/humanTime";
 import { MapClient, GameType } from "../../../external/imperaClients";
 import { getCachedClient } from "../../../clients/clientFactory";
 import { imageBaseUri } from "../../../configuration";
@@ -57,7 +58,7 @@ class GameDetails extends React.Component<IGameDetailsProps & IGameDetailsDispat
                 <dl className="game-details">
                     <dt>{__("Started")}</dt>
                     <dd>
-                        {HumanDate(this.props.game.startedAt || new Date())}
+                        {HumanDate(this.props.game.startedAt || this.props.game.lastActionAt)}
                     </dd>
 
                     <dt>{__("Started By")}</dt>
@@ -68,7 +69,7 @@ class GameDetails extends React.Component<IGameDetailsProps & IGameDetailsDispat
 
                     <dt>{__("Timeout")}</dt>
                     <dd>
-                        {this.props.game.options.timeoutInSeconds}
+                        {HumanTime(this.props.game.options.timeoutInSeconds)}
                     </dd>
 
                     <dt>{__("Mode")}</dt>
