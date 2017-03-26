@@ -31,7 +31,7 @@ html {
 
 body {
     background: repeat url('/assets/pattern.png');
-    padding: $basePadding;
+    padding: 0px;
 }
 
 // General styles
@@ -46,6 +46,10 @@ a {
 #root {
     &,
     & > div {
+        width: 100%;
+        height: 100%;
+    },
+    & > div > div.mainWrapper {
         width: 100%;
         height: 100%;
     }
