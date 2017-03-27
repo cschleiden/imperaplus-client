@@ -1,102 +1,102 @@
 .player {
     &-0 {
-        background-color: #DEB284;
+        background-color: #DEB284 !important;
     }
 
     &-1 {
-        background-color: #FF0000;
+        background-color: #FF0000 !important;
     }
 
     &-2 {
-        background-color: #0000CC;
+        background-color: #0000CC !important;
     }
 
     &-3 {
-        background-color: #FF8C00;
+        background-color: #FF8C00 !important;
     }
 
     &-4 {
-        background-color: #00FF33;
+        background-color: #00FF33 !important;
     }
 
     &-5 {
-        background-color: #8B0A50;
+        background-color: #8B0A50 !important;
     }
 
     &-6 {
-        background-color: #FFEE66;
+        background-color: #FFEE66 !important;
     }
 
     &-7 {
-        background-color: #FF99FF;
+        background-color: #FF99FF !important;
     }
 
     &-8 {
-        background-color: #000000;
+        background-color: #000000 !important;
     }
 
     &-9 {
-        background-color: #528B8B;
+        background-color: #528B8B !important;
     }
 
     &-10 {
-        background-color: #00FFCC;
-        color: grey;
+        background-color: #00FFCC !important;
+        color: grey !important;
     }
 
     &-11 {
-        background-color: #006600;
+        background-color: #006600 !important;
     }
 
     &-12 {
-        background-color: #FFFFFF;
-        color: grey;
+        background-color: #FFFFFF !important;
+        color: grey !important;
     }
 
     &-13 {
-        background-color: #191970;
-        color: yellow;
+        background-color: #191970 !important;
+        color: yellow !important;
     }
 
     &-14 {
-        background-color: #8B4513;
-        color: yellow;
+        background-color: #8B4513 !important;
+        color: yellow !important;
     }
 
     &-15 {
-        background-color: #63B8FF;
-        color: yellow;
+        background-color: #63B8FF !important;
+        color: yellow !important;
     }
 
     &-16 {
-        background-color: #AAAA44;
-        color: yellow;
+        background-color: #AAAA44 !important;
+        color: yellow !important;
     }
 
     &-17 {
-        background-color: #00ff00;
+        background-color: #00ff00 !important;
     }
 
     &-18 {
-        background-color: #CD8C95;
+        background-color: #CD8C95 !important;
     }
 }
 
 .team {
     &-1 {
-        background-color: blue;
+        background-color: blue !important;
     }
 
     &-2 {
-        background-color: red;
+        background-color: red !important;
     }
 
     &-3 {
-        background-color: green;
+        background-color: green !important;
     }
 
     &-4 {
-        background-color: orange;
+        background-color: orange !important;
     }
 }
 
@@ -104,121 +104,121 @@
 
 .continent {
     &-0 {
-        background-color: #DEB284;
+        background-color: #DEB284 !important;
     }
 
     &-1 {
-        background-color: #009846;
+        background-color: #009846 !important;
     }
 
     &-2 {
-        background-color: #E42130;
+        background-color: #E42130 !important;
     }
 
     &-3 {
-        background-color: #0000FF;
+        background-color: #0000FF !important;
     }
 
     &-4 {
-        background-color: #FF00FF;
+        background-color: #FF00FF !important;
     }
 
     &-5 {
-        background-color: #000000;
+        background-color: #000000 !important;
     }
 
     &-6 {
-        background-color: #676767;
+        background-color: #676767 !important;
     }
 
     &-7 {
-        background-color: #407194;
+        background-color: #407194 !important;
     }
 
     &-8 {
-        background-color: #FF6600;
+        background-color: #FF6600 !important;
     }
 
     &-9 {
-        background-color: #800080;
+        background-color: #800080 !important;
     }
 
     &-10 {
-        background-color: #BEC137;
+        background-color: #BEC137 !important;
     }
 
     &-11 {
-        background-color: #AD3805;
+        background-color: #AD3805 !important;
     }
 
     &-12 {
-        background-color: #90ee90;
+        background-color: #90ee90 !important;
     }
 
     &-13 {
-        background-color: #ffd700;
+        background-color: #ffd700 !important;
     }
 
     &-14 {
-        background-color: #AAAAAA;
+        background-color: #AAAAAA !important;
     }
 
     &-15 {
-        background-color: #01C0D6;
+        background-color: #01C0D6 !important;
     }
 
     &-16 {
-        background-color: #8a57ac;
+        background-color: #8a57ac !important;
     }
 
     &-17 {
-        background-color: #00ff00;
+        background-color: #00ff00 !important;
     }
 
     &-18 {
-        background-color: #6F0DBF;
+        background-color: #6F0DBF !important;
     }
 }
 
 /* Player Outcome */
 .player-outcome-none {
-    color: lightgray;
+    color: lightgray !important;
 }
 
 .player-outcome-defeated {
-    color: darkred;
+    color: darkred !important;
 }
 
 .player-outcome-surrendered {
-    color: darkorange;
+    color: darkorange !important;
 }
 
 .player-outcome-timeout {
-    color: gray;
+    color: gray !important;
 }
 
 .player-outcome-won {
-    color: green;
+    color: green !important;
 }
 
 /* Game State */
 .game-state-active {
-    color: black;
+    color: black !important;
 }
 
 .game-state-open {
-    color: gray;
+    color: gray !important;
 }
 
 .game-state-ended {
-    color: gray;
+    color: gray !important;
 }
 
 /* Player State */
 .player-state-active {
-    color: gray;
+    color: gray !important;
 }
 
 .player-state-inactive {
-    color: gray;
+    color: gray !important;
 }

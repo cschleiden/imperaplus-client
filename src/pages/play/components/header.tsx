@@ -56,14 +56,16 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps, void> 
             </div>
 
             <div className="play-header-block full-text hidden-xs">
-                <span className="text-highlights ng-binding player-2" ng-className="'player-' + (playCtrl.game.currentPlayer.playOrder + 1)">digitald</span>
+                <span className={css("current-player", "player-" + (game.currentPlayer.playOrder + 1))}>
+                    {game.currentPlayer.name}
+                </span>
             </div>
             <div className="play-header-block full-text hidden-xs">
                 <span>{/*<timer interval="1000" countdown="true" autostart="false" className="ng-binding ng-isolate-scope"><span className="ng-binding ng-scope">0:3:45:49</span></timer>*/}</span>
             </div>
 
-            { /*<!-- Cards --> */}
-            <div ng-show="playCtrl.player.cards &amp;&amp; playCtrl.player.cards.length > 0" className="play-header-block hidden-xs">
+            {/*<!-- Cards --> */}
+            <div className="play-header-block hidden-xs">
                 <Button className="btn btn-u" title={__("Exchange cards")} onClick={this._onExchangeCards}>
                     <Cards />
                 </Button>
@@ -71,45 +73,44 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps, void> 
 
             {/*<!-- Actions -->*/}
             {inputActive && <div className="play-header-block" ng-show="playCtrl.inputActive">
-                <Button
+                {game.playState === PlayState.PlaceUnits && <Button
                     title={__("Place")}
                     className={css({
                         "current": game.playState === PlayState.PlaceUnits,
                         "enabled": false,
                         "hidden-xs": game.playState !== PlayState.PlaceUnits
                     })}
-                    disabled={false}
-                    ng-disabled="!playCtrl.placeActive"
-                    ng-show="playCtrl.game.playState === 1"
                     onClick={this._onPlace}>
-                    <span className="fa fa-dot-circle-o"></span>
-                    <span>0/4</span>
-                </Button>
+                    <span className="fa fa-dot-circle-o"></span>&nbsp;<span>0/{game.unitsToPlace}</span>
+                </Button>}
 
-                <ButtonGroup>
+                {game.playState === PlayState.Attack && <ButtonGroup>
                     {/*<div className="btn-group hidden-xs" ng-className="{ 'hidden-xs': playCtrl.game.playState !== 2 }">*/}
                     {this.props.game.playState <= 2 && <Button title={__("Attack")} className={css("btn-u", {
                         "current": game.playState === PlayState.Attack
                     })}>
                         {/*<button className="btn btn-u ng-binding" ng-show="playCtrl.game.playState <= 2 &amp;&amp; !playCtrl.placeOnlyTurn" ng-className="{ current: playCtrl.game.playState === 2, enabled: playCtrl.attackActive }" ng-disabled="!playCtrl.attackActive" ng-click="playCtrl.attack()" disabled={true}>*/}
                         <span className="fa fa-crosshairs"></span>
-                        <span>0/5</span>
+                        <span>
+                            {game.attacksInCurrentTurn}/{game.options.attacksPerTurn}
+                        </span>
                     </Button>}
                     <Button title={__("Change to move")} className="btn-u">
                         <span className="fa fa-mail-forward"></span>
                     </Button>
-                </ButtonGroup>
+                </ButtonGroup>}
 
-                {game.playState <= PlayState.Move && placeOnlyTurn && <Button title={__("Move")} className={css("btn-u", "hidden-xs", {
+                {game.playState === PlayState.Move && !placeOnlyTurn && <Button title={__("Move")} className={css("btn-u", "hidden-xs", {
                     "current": game.playState === 3,
                     "enabled": /*moveActive*/ true,
                     "hidden-xs": game.playState !== 3
                 })}
                     onClick={this._onMove}
-                    ng-disabled="!playCtrl.moveActive"
                     disabled={true}>
                     <span className="fa fa-mail-forward"></span>
-                    <span>0/4</span>
+                    <span>
+                        {game.movesInCurrentTurn}/{game.options.movesPerTurn}
+                    </span>
                 </Button>}
             </div>}
 

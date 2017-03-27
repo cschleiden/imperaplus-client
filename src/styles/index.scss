@@ -182,7 +182,9 @@ h3.headline {
 
     li.active a {
         &, 
-        &:active {
+        &:active,
+        &:hover,
+        &:focus {
             background: #fff;
             padding: 7px 15px 9px;
             border: solid 1px #eee;
@@ -195,4 +197,82 @@ h3.headline {
 .tab-content {
     padding: 10px 16px;
     border: solid 1px #eee;
+    background: #fff;
+}
+
+
+//
+// Progress Bars
+//
+
+/*Progress Bar
+------------------------------------*/
+
+.progress-bar {
+  box-shadow: none;
+}
+
+/*progress-bar (sizes)*/
+.progress-lg {
+  height: 25px;
+}
+.progress-lg p {
+  padding-top: 3px;
+}
+
+.progress-sm {
+  height: 12px;
+}
+
+.progress-xs {
+  height: 7px;
+}
+
+.progress-xxs {
+  height: 3px;
+}
+
+/*progress-bar (colors)*/
+.progress {
+  background: #e5e5e5;
+}
+
+.progress-bar-u {
+  background: #72c02c;
+}
+
+.progress-bar-blue {
+  background: #3498db;
+}
+
+.progress-bar-orange {
+  background: #e67e22;
+}
+
+.progress-bar-red {
+  background: #e74c3c;
+}
+
+.progress-bar-purple {
+  background: #9b6bcc;
+}
+
+.progress-bar-aqua {
+  background: #27d7e7;
+}
+
+.progress-bar-brown {
+  background: #9c8061;
+}
+
+.progress-bar-dark-blue {
+  background: #4765a0;
+}
+
+.progress-bar-light-green {
+  background: #79d5b3;
+}
+
+.progress-bar-dark {
+  background: #555;
 }

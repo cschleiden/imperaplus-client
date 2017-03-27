@@ -179,7 +179,7 @@ class GameDetails extends React.Component<IGameDetailsProps & IGameDetailsDispat
         const player = this._player();
 
         return game.state === GameState.Open
-            && !!player
+            && !player
             && game.teams.reduce((playerCount, team) => playerCount + team.players.length, 0) < (game.options.numberOfPlayersPerTeam * game.options.numberOfTeams);
     }
 

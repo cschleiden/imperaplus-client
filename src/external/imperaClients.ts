@@ -68,7 +68,7 @@ export class AccountClient {
      * @userName Username to check
      * @return True if username is available
      */
-    getUserNameAvailable(userName: string): Promise<any> {
+    getUserNameAvailable(userName: string): Promise<void> {
         let url_ = this.baseUrl + "/api/Account/UserNameAvailable?";
         if (userName === undefined)
             throw new Error("The parameter 'userName' must be defined.");
@@ -89,14 +89,12 @@ export class AccountClient {
         });
     }
 
-    protected processGetUserNameAvailable(response: Response): Promise<any> {
+    protected processGetUserNameAvailable(response: Response): Promise<void> {
         return response.text().then((responseText) => {
             const status = response.status; 
 
             if (status === 200) {
-                let result200: any | null = null;
-                result200 = responseText === "" ? null : <any>JSON.parse(responseText, this.jsonParseReviver);
-                return result200;
+                return null;
             } else if (status !== 200 && status !== 204) {
                 this.throwException("An unexpected server error occurred.", status, responseText);
             }
@@ -1475,11 +1473,8 @@ export class MessageClient {
         this.http = http ? http : <any>window;;
     }
 
-    getAll(messageFolder: MessageFolder, folder: string): Promise<Message[]> {
-        let url_ = this.baseUrl + "/api/messages/folder/{folder}?";
-        if (folder === undefined || folder === null)
-            throw new Error("The parameter 'folder' must be defined.");
-        url_ = url_.replace("{folder}", encodeURIComponent("" + folder)); 
+    getAll(messageFolder: MessageFolder): Promise<Message[]> {
+        let url_ = this.baseUrl + "/api/messages/folder?";
         if (messageFolder === null)
             throw new Error("The parameter 'messageFolder' cannot be null.");
         else if (messageFolder !== undefined)
@@ -1767,7 +1762,7 @@ export class NotificationClient {
     /**
      * Get notification summary for current user
      */
-    getSummary(): Promise<any> {
+    getSummary(): Promise<NotificationSummary> {
         let url_ = this.baseUrl + "/api/notifications/summary";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1784,13 +1779,13 @@ export class NotificationClient {
         });
     }
 
-    protected processGetSummary(response: Response): Promise<any> {
+    protected processGetSummary(response: Response): Promise<NotificationSummary> {
         return response.text().then((responseText) => {
             const status = response.status; 
 
             if (status === 200) {
-                let result200: any | null = null;
-                result200 = responseText === "" ? null : <any>JSON.parse(responseText, this.jsonParseReviver);
+                let result200: NotificationSummary | null = null;
+                result200 = responseText === "" ? null : <NotificationSummary>JSON.parse(responseText, this.jsonParseReviver);
                 return result200;
             } else if (status !== 200 && status !== 204) {
                 this.throwException("An unexpected server error occurred.", status, responseText);
@@ -2892,6 +2887,11 @@ export interface NewsContent {
     language?: string | null | undefined;
     title?: string | null | undefined;
     text?: string | null | undefined;
+}
+
+export interface NotificationSummary {
+    numberOfGames: number | undefined;
+    numberOfMessages: number | undefined;
 }
 
 export interface PlaceUnitsOptions {

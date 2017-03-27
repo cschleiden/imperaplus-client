@@ -47,13 +47,15 @@ export class StartComponent extends React.Component<IStartProps, void> {
                 <GridColumn className="col-md-3">
                     <Section>{__("Tournaments")}</Section>
 
-                    <ProgressBar
-                        label={__("Champion's Cup")}
-                        now={80} />
+                    {__("Champion's Cup March")}
+                    <div className="progress progress-xxs">
+                        <ProgressBar now={80} />
+                    </div>
 
-                    <ProgressBar
-                        label={__("Champion's Cup March")}
-                        now={80} />
+                    {__("Champion's Cup March")}
+                    <div className="progress progress-xxs">
+                        <ProgressBar now={80} />
+                    </div>
                 </GridColumn>
             </GridRow>
         </Grid>;
