@@ -24,6 +24,7 @@ import { ISessionState } from "./common/session/session.reducer";
 import { SessionService } from "./common/session/session.service";
 import { refresh, expire } from "./common/session/session.actions";
 import { debounce } from "./lib/debounce";
+import { UserProvider } from "./services/userProvider";
 
 // Create main store
 const compose = composeWithDevTools({
@@ -78,3 +79,8 @@ store.subscribe(debounce(() => {
 setOnUnauthorized(() => {
   return SessionService.getInstance().reAuthorize();
 });
+
+UserProvider.userProvider = () => { 
+  const userInfo = store.getState().session.data.userInfo;
+  return userInfo && userInfo.userId;
+};

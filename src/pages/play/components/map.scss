@@ -61,6 +61,7 @@ $country-height: 25px;
 .connections {
     path {
         stroke-width: 3px;
+        cursor: pointer;
     }
 
     &-attack {
@@ -110,4 +111,73 @@ $country-height: 25px;
     &-move path {
         stroke: blue;
     }
+}
+
+//
+// Input 
+//
+
+.input-country {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 5px !important;
+    background: white;
+    border: 2px solid black;
+    text-align: center;
+    line-height: 18px;
+
+    z-index: 50;
+}
+
+@mixin width-animation($from, $to) {
+    from {
+        width: 30px;
+    }
+
+    to {
+        width: $to;
+    }
+}
+
+$input-country-animation-speed: 0.3s;
+.input-country-active {    
+    -webkit-animation: country-input-on $input-country-animation-speed;
+    -moz-animation: country-input-on $input-country-animation-speed;
+    -o-animation: country-input-on $input-country-animation-speed;
+    animation: country-input-on $input-country-animation-speed;
+    -moz-animation-timing-function: ease-out;
+    -o-animation-timing-function: ease-out;
+    -webkit-animation-timing-function: ease-out;
+    animation-timing-function: ease-out;
+    width: 40px;
+
+    input {
+        width: 30px;
+        border: none;
+        text-align: center;
+        height: 16px;
+        border-radius: 5px !important;
+        font-size: 12px;
+        float: right;
+        line-height: 16px;
+        
+        &[type=number] {
+            -moz-appearance:textfield;
+        }
+        
+        &[type=number]::-webkit-outer-spin-button,
+        &[type=number]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    }
+}
+
+@-webkit-keyframes country-input-on {
+    @include width-animation(30, 50);
+}
+
+@keyframes country-input-on {
+    @include width-animation(30, 50);
 }

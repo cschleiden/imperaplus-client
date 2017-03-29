@@ -9,7 +9,7 @@ module.exports = (config) => {
     ],
 
     files: [
-      "test/i18n.ts",
+      "test/i18n.js",
       "node_modules/jquery/dist/jquery.js",
       { pattern: "src/**/*.ts" }
     ],
