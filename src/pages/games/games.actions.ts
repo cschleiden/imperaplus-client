@@ -31,7 +31,7 @@ export const hide = makePromiseAction<number, void>((gameId, dispatch, getState,
 export const HIDE_ALL = "games-hide-all";
 export const hideAll = makePromiseAction<void, void>((input, dispatch, getState, deps) =>
     ({
-        type: REFRESH,
+        type: HIDE_ALL,
         payload: {
             promise: deps.getCachedClient(GameClient).patchHideAll().then<void>(() => {
                 // Refresh games after hiding
@@ -58,7 +58,7 @@ export const surrender = makePromiseAction<number, GameSummary>((gameId, dispatc
 export const LEAVE = "game-leave";
 export const leave = makePromiseAction<number, GameSummary>((gameId, dispatch, getState, deps) =>
     ({
-        type: SURRENDER,
+        type: LEAVE,
         payload: {
             promise: deps.getCachedClient(GameClient).postLeave(gameId)
         },

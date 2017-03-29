@@ -5,15 +5,13 @@ import { IAction, success, pending, failed } from "../../lib/action";
 import { LOGIN, LOGOUT, REFRESH, EXPIRE, SET_LANGUAGE, ILoginPayload, IRefreshPayload } from "./session.actions";
 import { UserInfo } from "../../external/imperaClients";
 
-const buildInitialState = () => makeImmutable({
+const initialState = makeImmutable({
     access_token: null as string,
     refresh_token: null as string,
     userInfo: null as UserInfo,
     isLoggedIn: false,
     language: null as string
 });
-
-const initialState = buildInitialState();
 export type ISessionState = typeof initialState;
 
 const login = (state: ISessionState, action: IAction<ILoginPayload>) => {
@@ -34,12 +32,7 @@ const refresh = (state: ISessionState, action: IAction<IRefreshPayload>) => {
 };
 
 /** Reset state */
-const expire = (state: ISessionState, action: IAction<void>) => {
-    return initialState;
-};
-
-/** Reset state */
-const logout = (state: ISessionState, action: IAction<void>) => {
+const reset = (state: ISessionState, action: IAction<void>) => {
     return initialState;
 };
 
@@ -54,8 +47,8 @@ export const session = <TPayload>(
     return reducerMap(action, state, {
         [success(LOGIN)]: login,
         [REFRESH]: refresh,
-        [EXPIRE]: expire,
-        [success(LOGOUT)]: logout,
+        [EXPIRE]: reset,
+        [success(LOGOUT)]: reset,
         [SET_LANGUAGE]: setLanguage
     });
 };

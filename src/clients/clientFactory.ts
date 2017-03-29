@@ -38,11 +38,11 @@ export const setOnUnauthorized = (callback: () => Promise<any>) => {
 };
 
 const fetchWrapper = (tokenProvider: () => string, url: string, init) => {
-    const access_token = tokenProvider();
+    const accessToken = tokenProvider();
 
-    if (access_token) {
+    if (accessToken) {
         init.headers = Object.assign({}, init.headers, {
-            "Authorization": "Bearer " + access_token
+            "Authorization": "Bearer " + accessToken
         });
     }
 
