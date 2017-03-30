@@ -14,7 +14,7 @@ import { Game, PlayState, Player } from "../../../external/imperaClients";
 import { css } from "../../../lib/css";
 import { ToggleButton } from "../../../components/ui/toggleButton";
 import { store } from "../../../store";
-import { canPlace, inputActive } from "../play.selectors";
+import { canPlace, inputActive, canMoveOrAttack } from "../play.selectors";
 
 interface IHeaderProps {
 }
@@ -26,8 +26,7 @@ interface IHeaderDispatchProps {
 
     inputActive: boolean;
     canPlace: boolean;
-    canAttack: boolean;
-    canMove: boolean;
+    canMoveOrAttack: boolean;
 
     place: () => void;
     exchangeCards: () => void;
@@ -42,7 +41,7 @@ interface IHeaderDispatchProps {
 
 class Header extends React.Component<IHeaderProps & IHeaderDispatchProps, void> {
     render() {
-        const { game, remainingPlaceUnits, player, inputActive, canPlace, canAttack, canMove } = this.props;
+        const { game, remainingPlaceUnits, player, inputActive, canPlace, canMoveOrAttack } = this.props;
 
         if (!game) {
             return null;
@@ -60,7 +59,9 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps, void> 
             </div>
 
             <div className="play-header-block stacked visible-xs">
-                <span className="text-highlights ng-binding player-2" ng-className="'player-' + (playCtrl.game.currentPlayer.playOrder + 1)">digitald</span>
+                <span className={css("current-player", "player-" + (game.currentPlayer.playOrder + 1))}>
+                    {game.currentPlayer.name}
+                </span>
                 <span>{/*<timer interval="1000" countdown="true" autostart="false" className="ng-binding ng-isolate-scope"><span className="ng-binding ng-scope">0:3:45:49</span></timer>*/}</span>
             </div>
 
@@ -81,7 +82,7 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps, void> 
             </div>
 
             {/*<!-- Actions -->*/}
-            {inputActive && <div className="play-header-block" ng-show="playCtrl.inputActive">
+            {inputActive && <div className="play-header-block">
                 {game.playState === PlayState.PlaceUnits && <Button
                     title={__("Place")}
                     className={css({
@@ -95,23 +96,23 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps, void> 
                 </Button>}
 
                 {game.playState === PlayState.Attack && <ButtonGroup>
-                    <Button title={__("Attack")} className={css("btn-u")} disabled={!canAttack}>
+                    <Button title={__("Attack")} className={css("btn-u")} disabled={!canMoveOrAttack} onClick={this._onAttack}>
                         <span className="fa fa-crosshairs" />&nbsp;<span>
                             {game.attacksInCurrentTurn}/{game.options.attacksPerTurn}
                         </span>
                     </Button>
-                    <Button title={__("Change to move")} className="btn-u">
+                    <Button title={__("Change to move")} className="btn-u" onClick={this._onEndAttack}>
                         <span className="fa fa-mail-forward"></span>
                     </Button>
                 </ButtonGroup>}
 
                 {game.playState === PlayState.Move && <Button title={__("Move")} className={css("btn-u", "hidden-xs", {
                     "current": game.playState === 3,
-                    "enabled": canMove,
+                    "enabled": canMoveOrAttack,
                     "hidden-xs": game.playState !== 3
                 })}
                     onClick={this._onMove}
-                    disabled={!canMove}>
+                    disabled={!canMoveOrAttack}>
                     <span className="fa fa-mail-forward"></span>&nbsp;<span>
                         {game.movesInCurrentTurn}/{game.options.movesPerTurn}
                     </span>
@@ -151,6 +152,16 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps, void> 
     }
 
     @autobind
+    private _onAttack() {
+        this.props.attack();
+    }
+
+    @autobind
+    private _onEndAttack() {
+        this.props.endAttack();
+    }
+
+    @autobind
     private _onMove() {
         this.props.move();
     }
@@ -172,7 +183,7 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps, void> 
 }
 
 export default connect((state: IState, ownProps: IHeaderProps) => {
-    const { game, canMove, canAttack, placeCountries, player } = state.play.data;
+    const { game, placeCountries, player } = state.play.data;
     const remainingPlaceUnits = Object.keys(placeCountries).reduce((sum, ci) => sum + placeCountries[ci], 0);
 
     return {
@@ -181,8 +192,7 @@ export default connect((state: IState, ownProps: IHeaderProps) => {
         player,
         inputActive: inputActive(state.play),
         canPlace: canPlace(state.play),
-        canMove,
-        canAttack
+        canMoveOrAttack: canMoveOrAttack(state.play)
     };
 }, (dispatch) => ({
     place: () => dispatch(place(null)),

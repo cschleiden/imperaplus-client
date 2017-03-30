@@ -75,6 +75,12 @@ export const setPlaceUnits = (countryIdentifier: string, units: number): IAction
     }
 });
 
+export const SET_ACTION_UNITS = "play-action-set-units";
+export const setActionUnits = (units: number): IAction<number> => ({
+    type: SET_ACTION_UNITS,
+    payload: units
+});
+
 export const ATTACK = "play-attack";
 export const attack = makePromiseAction<void, GameActionResult>((input, dispatch, getState, deps) => {
     const playState = getState().play.data;
