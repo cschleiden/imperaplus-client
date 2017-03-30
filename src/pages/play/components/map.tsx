@@ -10,10 +10,11 @@ import { imageBaseUri } from "../../../configuration";
 import { css } from "../../../lib/css";
 import { autobind } from "../../../lib/autobind";
 import { log } from "../../../lib/log";
-import { selectCountry, setPlaceUnits } from "../play.actions";
+import { selectCountry, setPlaceUnits, setActionUnits } from "../play.actions";
 import { ITwoCountry } from "../play.reducer";
 
 import "jsplumb";
+import { debounce } from "../../../lib/debounce";
 
 enum MapState {
     DisplayOnly,
@@ -163,6 +164,7 @@ interface IMapProps {
 
     selectCountry: (countryIdentifier: string) => void;
     setUnits: (countryIdentifier: string, units: number) => void;
+    setActionUnits: (units: number) => void;
 }
 
 interface IMapState {
@@ -175,6 +177,8 @@ interface IMapState {
 
 class Map extends React.Component<IMapProps, IMapState> {
     private _jsPlumb: jsPlumbInstance;
+    private _connection: Connection;
+    private _inputElement: HTMLDivElement;
 
     constructor(props: IMapProps, context) {
         super(props, context);
@@ -211,16 +215,27 @@ class Map extends React.Component<IMapProps, IMapState> {
     }
 
     render(): JSX.Element {
+        const { twoCountry } = this.props;
         const { mapTemplate } = this.state;
 
         return <div className="map" onClick={this._onClick} onMouseMove={this._onMouseMove}>
             {mapTemplate && <img src={mapTemplate.image} />}
             {mapTemplate && this._renderCountries()}
+
+            {this._renderUnitInput()}
         </div>;
     }
 
     componentDidUpdate() {
         this._renderConnections();
+        this._renderConnection();
+
+        const { twoCountry } = this.props;
+        const showConnection = !!twoCountry.originCountryIdentifier && !!twoCountry.destinationCountryIdentifier;
+
+        if (showConnection) {
+            this._inputElement.focus();
+        }
     }
 
     private _renderCountries() {
@@ -266,6 +281,8 @@ class Map extends React.Component<IMapProps, IMapState> {
         const { twoCountry } = this.props;
         const showConnections = !!twoCountry.originCountryIdentifier && !twoCountry.destinationCountryIdentifier;
         if (!showConnections) {
+            // Remove any arrows
+            this._jsPlumb.unbind("click");
             this._jsPlumb.detachEveryConnection();
             (this._jsPlumb as any).deleteEveryEndpoint();
             return;
@@ -299,19 +316,78 @@ class Map extends React.Component<IMapProps, IMapState> {
                     ]
                 } as any);
 
-                // this._jsPlumb.bind("click", () => {
-                //     alert(42);
-                // });
+                this._jsPlumb.bind("click", (connection) => {
+                    const targetId: string = connection.targetId;
+                    this.props.selectCountry(targetId);
+                });
             }
         });
     }
 
-    private _renderInputArrow() {
+    private _renderConnection() {
         const { twoCountry } = this.props;
-
-        if (twoCountry.originCountryIdentifier && twoCountry.destinationCountryIdentifier) {
-            //jsPlumb.
+        const showConnections = !!twoCountry.originCountryIdentifier && !!twoCountry.destinationCountryIdentifier;
+        if (!showConnections) {
+            this._connection = null;
+            return;
         }
+
+        this._connection = this._jsPlumb.connect({
+            source: twoCountry.originCountryIdentifier,
+            target: twoCountry.destinationCountryIdentifier,
+            anchors: [
+                ["Perimeter", { shape: "Circle" }],
+                ["Perimeter", { shape: "Circle" }]
+            ],
+            endpoint: "Blank",
+            paintStyle: {
+                outlineWidth: 15,
+                outlineColor: "transparent",
+                outlineStroke: "black"
+            },
+            connector: ["StateMachine"],
+            cssClass: "connections connections-attack",
+            overlays: [
+                ["Custom", {
+                    create: (component) => {
+                        return $(this._inputElement);
+                    },
+                    location: 0.5,
+                    id: "unit-input"
+                }],
+                ["PlainArrow", { location: 1, width: 20, length: 12 }]
+            ]
+        } as any);
+    }
+
+    private _renderUnitInput(): JSX.Element {
+        const { destinationCountryIdentifier, numberOfUnits, minUnits, maxUnits } = this.props.twoCountry;
+
+        return <div className="action-overlay-wrapper" ref={this._resolveInput}>
+            <input
+                className="action-overlay-input"
+                type="number"
+                min={minUnits}
+                max={maxUnits}
+                value={numberOfUnits}
+                onChange={this._changeUnits}
+                style={{
+                    display: !destinationCountryIdentifier ? "none" : "block"
+                }} />
+        </div>;
+    }
+
+    @autobind
+    private _resolveInput(element: HTMLDivElement) {
+        this._inputElement = element;
+    }
+
+    @autobind
+    private _changeUnits(ev: React.FormEvent<HTMLInputElement>) {
+        const value = (ev.target as HTMLInputElement).value;
+        const units = parseInt(value, 10);
+
+        this.props.setActionUnits(units);
     }
 
     @autobind
@@ -359,5 +435,6 @@ export default connect((state: IState) => {
     };
 }, (dispatch) => ({
     selectCountry: (countryIdentifier: string) => { dispatch(selectCountry(countryIdentifier)); },
-    setUnits: (countryIdentifier: string, units: number) => { dispatch(setPlaceUnits(countryIdentifier, units)); }
+    setUnits: (countryIdentifier: string, units: number) => { dispatch(setPlaceUnits(countryIdentifier, units)); },
+    setActionUnits: (units: number) => { dispatch(setActionUnits(units)); }
 }))(Map);
