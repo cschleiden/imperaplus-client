@@ -28,9 +28,17 @@ import Start from "./pages/start";
 import My from "./pages/games/games";
 import Create from "./pages/create/create";
 import Join from "./pages/join/join";
+import Ladders from "./pages/join/ladders";
+import Tournaments from "./pages/join/tournaments";
 
 // Play
 import Play from "./pages/play/play";
+
+// Alliances
+import CreateAlliance from "./pages/alliance/create";
+import AllianceAdmin from "./pages/alliance/admin";
+import JoinAlliance from "./pages/alliance/join";
+import AllianceInfo from "./pages/alliance/info";
 
 function checkLoggedIn(store: Redux.Store<IState>, nextState, replace) {
     const state = store.getState();
@@ -69,6 +77,15 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
 
                                 <Route path="/game/games/create" component={Create} />
                                 <Route path="/game/games/join" component={Join} />
+                                <Route path="/game/games/ladders" component={Ladders} />
+                                <Route path="/game/games/tournaments" component={Tournaments} />
+                            </Route>
+
+                            <Route path="/game/alliance">
+                                <Route path="/game/alliance/create" component={CreateAlliance} />
+                                <Route path="/game/alliance/admin" component={AllianceAdmin} />
+                                <Route path="/game/alliance/info" component={AllianceInfo} />
+                                <Route path="/game/alliance/join" component={JoinAlliance} />
                             </Route>
 
                         </Route>

@@ -108,7 +108,7 @@ export class CreateGameComponent extends React.Component<ICreateGameProps, void>
                             initialCountryUnits: 1,
                             maximumNumberOfCards: 5,
                             minUnitsPerCountry: 1,
-                            maximumTimeoutsPerPlayer: 3,
+                            maximumTimeoutsPerPlayer: 2,
                             addBot: addBot
                         }, options);
                     }}
@@ -141,11 +141,24 @@ export class CreateGameComponent extends React.Component<ICreateGameProps, void>
                                         label={__("Timeout")}
                                         fieldName="timeout"
                                         value="86400">
+                                        <option value="120">{__("2 Minutes")}</option>
+                                        <option value="180">{__("3 Minutes")}</option>
                                         <option value="300">{__("5 Minutes")}</option>
                                         <option value="600">{__("10 Minutes")}</option>
-                                        <option value="18000">{__("10 Hours")}</option>
+                                        <option value="900">{__("15 Minutes")}</option>
+                                        <option value="1800">{__("30 Minutes")}</option>
+                                        <option value="2700">{__("45 Minutes")}</option>
+                                        <option value="3600">{__("1 Hours")}</option>
+                                        <option value="7200">{__("2 Hours")}</option>
+                                        <option value="14400">{__("4 Hours")}</option>
+                                        <option value="36000">{__("10 Hours")}</option>
+                                        <option value="43200">{__("12 Hours")}</option>
+                                        <option value="54000">{__("15 Hours")}</option>
                                         <option value="86400">{__("1 Day")}</option>
                                         <option value="172800">{__("2 Days")}</option>
+                                        <option value="259200">{__("3 Days")}</option>
+                                        <option value="432000">{__("5 Days")}</option>
+                                        <option value="604800">{__("7 Days")}</option>
                                     </ControlledDropdown>
                                     
                                     <ControlledDropdown
@@ -161,7 +174,7 @@ export class CreateGameComponent extends React.Component<ICreateGameProps, void>
                                         placeholder={__("Attacks")}
                                         type="number"
                                         fieldName="attacks"
-                                        initialValue={"3"}
+                                        initialValue={"5"}
                                         required={false} />
 
                                     <ControlledTextField
@@ -169,7 +182,7 @@ export class CreateGameComponent extends React.Component<ICreateGameProps, void>
                                         placeholder={__("Moves")}
                                         type="number"
                                         fieldName="moves"
-                                        initialValue={"3"}
+                                        initialValue={"7"}
                                         required={false} />
 
                                     <ControlledTextField
@@ -184,11 +197,12 @@ export class CreateGameComponent extends React.Component<ICreateGameProps, void>
                                         label={__("Victory Condition")}
                                         fieldName="victoryCondition" value={0}>
                                         <option value="0">{__("Survival")}</option>
+                                        <option value="1">{__("Mission")}</option>
                                     </ControlledDropdown>
 
                                     <ControlledDropdown
                                         label={__("Visibility modifier")}
-                                        fieldName="visibilityModifier" value={0}>
+                                        fieldName="visibilityModifier" value={1}>
                                         <option value="0">{__("Everything visible")}</option>
                                         <option value="1">{__("Fog of War")}</option>
                                     </ControlledDropdown>
@@ -196,10 +210,52 @@ export class CreateGameComponent extends React.Component<ICreateGameProps, void>
                                     <ControlledDropdown
                                         label={__("Distribution")}
                                         fieldName="distribution"
-                                        value={0}>
+                                        value={1}>
                                         <option value="0">{__("Default")}</option>
                                         <option value="1">{__("Malibu")}</option>
                                     </ControlledDropdown>
+
+                                    <ControlledTextField
+                                        label={__("initial country units")}
+                                        placeholder={__("initial country units")}
+                                        type="number"
+                                        fieldName="initialCountryUnits"
+                                        initialValue={"1"}
+                                        required={false} />
+
+
+                                    <ControlledTextField
+                                        label={__("maximum mumber of cards")}
+                                        placeholder={__("maximum mumber of cards")}
+                                        type="number"
+                                        fieldName="maximumNumberOfCards"
+                                        initialValue={"5"}
+                                        required={false} />
+
+
+                                    <ControlledTextField
+                                        label={__("minimium units per country")}
+                                        placeholder={__("minimium units per country")}
+                                        type="number"
+                                        fieldName="minUnitsPerCountry"
+                                        initialValue={"1"}
+                                        required={false} />
+
+
+                                    <ControlledTextField
+                                        label={__("maximum timeouts per player")}
+                                        placeholder={__("maximum timeouts per player")}
+                                        type="number"
+                                        fieldName="maximumTimeoutsPerPlayer"
+                                        initialValue={"2"}
+                                        required={false} />
+
+
+                                    <ControlledCheckBox
+                                        label={__("add Bot")}
+                                        placeholder={__("add Bot")}
+                                        fieldName="addBot" />
+
                                 </Tab>
                             </Tabs>
 
