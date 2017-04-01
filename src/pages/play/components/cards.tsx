@@ -21,7 +21,7 @@ export default (props: ICardsProps): JSX.Element => {
 
 
         let addCardElement = (idx, count) => {
-            cardElements.push(<span className={css("badge", "badge" + colors[idx])}>
+            cardElements.push(<span key={colors[idx]} className={css("badge", "badge-" + colors[idx])}>
                 {count}
             </span>);
         };

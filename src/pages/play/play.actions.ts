@@ -1,12 +1,22 @@
 import { IAction, makePromiseAction } from "../../lib/action";
 import { PlayClient, GameActionResult, MoveOptions, AttackOptions, Game, GameClient, PlaceUnitsOptions } from "../../external/imperaClients";
+import { getMapTemplate, MapTemplateCacheEntry } from "./mapTemplateCache";
 
 export const SWITCH_GAME = "play-switch-game";
-export const switchGame = makePromiseAction<number, Game>((gameId, dispatch, getState, deps) =>
+export interface ISwitchGamePayload {
+    game: Game;
+    mapTemplate: MapTemplateCacheEntry;
+}
+export const switchGame = makePromiseAction<number, ISwitchGamePayload>((gameId, dispatch, getState, deps) =>
     ({
         type: SWITCH_GAME,
         payload: {
-            promise: deps.getCachedClient(GameClient).get(gameId)
+            promise: deps.getCachedClient(GameClient).get(gameId).then(game => {
+                return getMapTemplate(game.mapTemplate).then(mapTemplate => ({
+                    game,
+                    mapTemplate
+                }));
+            })
         }
     }));
 

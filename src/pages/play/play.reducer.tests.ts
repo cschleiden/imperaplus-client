@@ -62,5 +62,9 @@ describe("Play:reducer", () => {
             expect(s.data.twoCountry.originCountryIdentifier).toBe(null);
             expect(s.data.twoCountry.destinationCountryIdentifier).toBe(null);
         });
+
+        it("selects countries only when allowed", () => {
+            
+        });
     });
 });

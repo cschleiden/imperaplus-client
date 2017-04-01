@@ -33,15 +33,15 @@ class Play extends React.Component<IPlayProps & IPlayDispatchProps, void> {
 
         this.props.switchGame(gameId);
 
-        this._setGameTitle();
+        this._setGameTitle(this.props);
     }
 
     componentWillReceiveProps(props: IPlayProps & IPlayDispatchProps) {
-        this._setGameTitle();
+        this._setGameTitle(props);
     }
 
-    private _setGameTitle() {
-        const { game } = this.props;
+    private _setGameTitle(props: IPlayProps) {
+        const { game } = props;
 
         let title = __("Play");
         if (game) {

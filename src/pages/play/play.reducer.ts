@@ -2,8 +2,9 @@ import { makeImmutable, IImmutable } from "immuts";
 import reducerMap from "../../lib/reducerMap";
 import { GameSummary, GameType, GameState, AttackOptions, MoveOptions, GameActionResult, ActionResult, Game, Country, PlayState, Player, Team } from "../../external/imperaClients";
 import { IAction, success, pending, failed } from "../../lib/action";
-import { EXCHANGE, ATTACK, SWITCH_GAME, TOGGLE_SIDEBAR, SELECT_COUNTRY, ISetPlaceUnitsPayload, SET_PLACE_UNITS, INPROGRESS, PLACE, END_TURN, SET_ACTION_UNITS } from "./play.actions";
+import { EXCHANGE, ATTACK, SWITCH_GAME, TOGGLE_SIDEBAR, SELECT_COUNTRY, ISetPlaceUnitsPayload, SET_PLACE_UNITS, INPROGRESS, PLACE, END_TURN, SET_ACTION_UNITS, ISwitchGamePayload, END_ATTACK, MOVE } from "./play.actions";
 import { UserProvider } from "../../services/userProvider";
+import { MapTemplateCacheEntry } from "./mapTemplateCache";
 
 export interface ITwoCountry {
     originCountryIdentifier: string;
@@ -11,12 +12,14 @@ export interface ITwoCountry {
     numberOfUnits: number;
     minUnits: number;
     maxUnits: number;
+    allowedDestinations: string[];
 }
 
 const initialState = makeImmutable({
     gameId: 0,
     game: null as Game,
     player: null as Player,
+    mapTemplate: null as MapTemplateCacheEntry,
 
     countriesByIdentifier: null as { [id: string]: Country },
 
@@ -30,7 +33,8 @@ const initialState = makeImmutable({
         destinationCountryIdentifier: null as string,
         numberOfUnits: 0,
         minUnits: 0,
-        maxUnits: 0
+        maxUnits: 0,
+        allowedDestinations: []
     } as ITwoCountry,
 
     attacksLeftPerTurn: 0,
@@ -56,8 +60,8 @@ function countriesToMap(countries: Country[]): { [id: string]: Country } {
     return idToCountry;
 }
 
-function getPlayer(game: Game, userId: string): Player {
-    for (let team of game.teams) {
+function getPlayerFromTeams(teams: Team[], userId: string): Player {
+    for (let team of teams) {
         for (let player of team.players) {
             if (player.userId === userId) {
                 return player;
@@ -66,6 +70,10 @@ function getPlayer(game: Game, userId: string): Player {
     }
 
     return null;
+}
+
+function getPlayer(game: Game, userId: string): Player {
+    return getPlayerFromTeams(game.teams, userId);
 }
 
 function getTeam(game: Game, userId: string): Team {
@@ -83,13 +91,14 @@ function getTeam(game: Game, userId: string): Team {
 //
 // Ui actions
 //
-export const switchGame = (state: IPlayState, action: IAction<Game>) => {
-    const game = action.payload;
+export const switchGame = (state: IPlayState, action: IAction<ISwitchGamePayload>) => {
+    const { game, mapTemplate } = action.payload;
     const player = getPlayer(game, UserProvider.getUserId());
 
     return initialState.merge(x => x, {
         gameId: game.id,
         game,
+        mapTemplate,
         player,
         countriesByIdentifier: countriesToMap(game.map.countries)
     });
@@ -107,11 +116,14 @@ export const inProgress = (state: IPlayState, action: IAction<boolean>) => {
 // Play actions
 //
 export const selectCountry = (state: IPlayState, action: IAction<string>) => {
-    const { game, placeCountries, twoCountry, countriesByIdentifier } = state.data;
-
+    const { game, placeCountries, twoCountry, countriesByIdentifier, mapTemplate } = state.data;
     const currentUserId = UserProvider.getUserId();
+    const teamId = getTeam(game, currentUserId).id;
+
+    const countryIdentifier = action.payload;
+    const country = countriesByIdentifier[countryIdentifier];
+
     if (game && game.currentPlayer.userId === currentUserId) {
-        const countryIdentifier = action.payload;
 
         if (game.playState === PlayState.PlaceUnits) {
             if (placeCountries[countryIdentifier]) {
@@ -120,32 +132,30 @@ export const selectCountry = (state: IPlayState, action: IAction<string>) => {
             }
 
             // Select country
-            const remainingUnits = game.unitsToPlace - Object.keys(placeCountries).reduce((sum, id) => sum + placeCountries[id], 0);
+            if (country && country.teamId === teamId) {
+                const remainingUnits = game.unitsToPlace - Object.keys(placeCountries).reduce((sum, id) => sum + placeCountries[id], 0);
 
-            return state.merge(x => x.placeCountries, {
-                [countryIdentifier]: remainingUnits
-            });
+                return state.merge(x => x.placeCountries, {
+                    [countryIdentifier]: remainingUnits
+                });
+            }
         } else if (game.playState === PlayState.Attack
             || game.playState === PlayState.Move) {
 
             if (countryIdentifier === null) {
-                return state.set(x => x.twoCountry, {
-                    originCountryIdentifier: null,
-                    destinationCountryIdentifier: null,
-                    numberOfUnits: 0
-                } as ITwoCountry);
+                return state.set(x => x.twoCountry, initialState.data.twoCountry);
             }
 
             const originSet = !!twoCountry.originCountryIdentifier;
-            const country = countriesByIdentifier[countryIdentifier];
-            const teamId = getTeam(game, currentUserId).id;
+            const destinationSet = !!twoCountry.destinationCountryIdentifier;
 
             if (game.playState === PlayState.Attack) {
-                if (originSet) {
+                if (originSet && !destinationSet) {
                     const originCountry = countriesByIdentifier[twoCountry.originCountryIdentifier];
 
                     // Try to set destination country, has to belong to other team
-                    if (country.teamId !== teamId) {
+                    if (country.teamId !== teamId
+                        && mapTemplate.areConnected(originCountry.identifier, countryIdentifier)) {
                         const maxUnits = originCountry.units - game.options.minUnitsPerCountry;
 
                         return state
@@ -153,37 +163,62 @@ export const selectCountry = (state: IPlayState, action: IAction<string>) => {
                             .merge(x => x.twoCountry, {
                                 minUnits: 1,
                                 maxUnits,
-                                numberOfUnits: Math.min(1, maxUnits)
+                                numberOfUnits: Math.max(0, maxUnits)
                             });
+                    } else {
+                        // Reset
+                        state.set(x => x.twoCountry, initialState.data.twoCountry);
                     }
-                } else if (!twoCountry.originCountryIdentifier || !!twoCountry.destinationCountryIdentifier) {
+                } else {
                     // Origin country has to belong to current player's team
                     if (country.teamId === teamId) {
+                        const allowedDestinations = mapTemplate
+                            .connections(countryIdentifier)
+                            .filter(c => countriesByIdentifier[c].teamId !== teamId);
+
                         return state
-                            .set(x => x.twoCountry.originCountryIdentifier, countryIdentifier);
+                            .merge(x => x.twoCountry, {
+                                originCountryIdentifier: countryIdentifier,
+                                destinationCountryIdentifier: null,
+                                allowedDestinations
+                            } as ITwoCountry);
                     }
                 }
             } else if (game.playState === PlayState.Move) {
                 // Can only select own team's countries
                 if (country.teamId === teamId) {
-                    if (originSet) {
+                    if (originSet && mapTemplate.areConnected(twoCountry.originCountryIdentifier, countryIdentifier)) {
                         const originCountry = countriesByIdentifier[twoCountry.originCountryIdentifier];
                         const maxUnits = originCountry.units - game.options.minUnitsPerCountry;
+
                         return state
-                            .set(x => x.twoCountry.destinationCountryIdentifier, countryIdentifier)
                             .merge(x => x.twoCountry, {
+                                destinationCountryIdentifier: countryIdentifier,
                                 minUnits: 1,
                                 maxUnits,
-                                numberOfUnits: Math.min(1, maxUnits)
-                            });
+                                numberOfUnits: Math.max(0, maxUnits)
+                            } as ITwoCountry);
                     } else if (!twoCountry.originCountryIdentifier || !!twoCountry.destinationCountryIdentifier) {
-                        return state.set(x => x.twoCountry.originCountryIdentifier, countryIdentifier);
+                        // Set destination
+                        const allowedDestinations = mapTemplate
+                            .connections(countryIdentifier)
+                            .filter(c => countriesByIdentifier[c].teamId === teamId);
+
+                        return state
+                            .merge(x => x.twoCountry, {
+                                originCountryIdentifier: countryIdentifier,
+                                allowedDestinations
+                            } as ITwoCountry);
                     }
+                } else {
+                    // Reset
+                    state.set(x => x.twoCountry, initialState.data.twoCountry);
                 }
             }
         }
     }
 
+    // Ignore action
     return state;
 };
 
@@ -220,6 +255,7 @@ export const setActionUnits = (state: IPlayState, action: IAction<number>) => {
 
 export const updateFromResult = (state: IPlayState, action: IAction<GameActionResult>) => {
     const result = action.payload;
+    const currentUserId = UserProvider.getUserId();
 
     return state
         .set(x => x.placeCountries, {})
@@ -235,11 +271,7 @@ export const updateFromResult = (state: IPlayState, action: IAction<GameActionRe
             return game;
         })
         .set(x => x.game.teams, result.teams)
-        .update(x => x.player, player => {
-            player.cards = result.cards;
-
-            return player;
-        })
+        .merge(x => x.player, getPlayerFromTeams(result.teams, currentUserId))
         .merge(x => x.countriesByIdentifier, countriesToMap(result.countryUpdates));
 };
 
@@ -274,7 +306,10 @@ export const play = <TPayload>(
         [SET_ACTION_UNITS]: setActionUnits,
 
         [success(PLACE)]: updateFromResult,
+        [success(EXCHANGE)]: updateFromResult,
         [success(ATTACK)]: updateFromResult,
+        [success(END_ATTACK)]: updateFromResult,
+        [success(MOVE)]: updateFromResult,
         [success(END_TURN)]: updateFromResult
     });
 };

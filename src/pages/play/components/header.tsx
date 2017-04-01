@@ -96,12 +96,12 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps, void> 
                 </Button>}
 
                 {game.playState === PlayState.Attack && <ButtonGroup>
-                    <Button title={__("Attack")} className={css("btn-u")} disabled={!canMoveOrAttack} onClick={this._onAttack}>
+                    <Button key="attack" title={__("Attack")} className={css("btn-u")} disabled={!canMoveOrAttack} onClick={this._onAttack}>
                         <span className="fa fa-crosshairs" />&nbsp;<span>
                             {game.attacksInCurrentTurn}/{game.options.attacksPerTurn}
                         </span>
                     </Button>
-                    <Button title={__("Change to move")} className="btn-u" onClick={this._onEndAttack}>
+                    <Button key="endattack" title={__("Change to move")} className="btn-u" onClick={this._onEndAttack}>
                         <span className="fa fa-mail-forward"></span>
                     </Button>
                 </ButtonGroup>}
@@ -136,9 +136,8 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps, void> 
             </div>
 
             {/*<!-- Spinner -->*/}
-            <div className="play-header-block right ng-hide" ng-show="playCtrl.operationInProgress">
-
-            </div>
+            {false && <div className="play-header-block right ng-hide">
+            </div>}
         </div>;
     }
 

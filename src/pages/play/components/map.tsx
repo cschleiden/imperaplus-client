@@ -3,18 +3,20 @@ import * as React from "react";
 import "./map.scss";
 
 import { connect } from "react-redux";
-import { Game, MapTemplate, MapClient, Country, CountryTemplate } from "../../../external/imperaClients";
+import { Game, MapTemplate, MapClient, Country, CountryTemplate, PlayState } from "../../../external/imperaClients";
 import { IState } from "../../../reducers";
 import { getCachedClient } from "../../../clients/clientFactory";
 import { imageBaseUri } from "../../../configuration";
 import { css } from "../../../lib/css";
 import { autobind } from "../../../lib/autobind";
 import { log } from "../../../lib/log";
-import { selectCountry, setPlaceUnits, setActionUnits } from "../play.actions";
+import { selectCountry, setPlaceUnits, setActionUnits, attack, move } from "../play.actions";
 import { ITwoCountry } from "../play.reducer";
 
 import "jsplumb";
 import { debounce } from "../../../lib/debounce";
+import { MapTemplateCacheEntry } from "../mapTemplateCache";
+import { CountryInputField } from "./countryInput";
 
 enum MapState {
     DisplayOnly,
@@ -37,127 +39,9 @@ namespace KeyBindings {
     const SUBMIT_ACTION = 13; // Enter
 }
 
-namespace MapTemplateCache {
-    export function getMapTemplate(name: string): Promise<MapTemplateCacheEntry> {
-        if (mapTemplateCache[name]) {
-            return mapTemplateCache[name];
-        }
-
-        return getCachedClient(MapClient).getMapTemplate(name).then(mapTemplate => {
-            mapTemplateCache[name] = Promise.resolve(new MapTemplateCacheEntry(mapTemplate));
-
-            return mapTemplateCache[name];
-        });
-    }
-
-    export class MapTemplateCacheEntry {
-        private _countries: { [id: string]: CountryTemplate } = {};
-        private _connections: { [id: string]: { [id: string]: boolean } } = {};
-
-        constructor(public mapTemplate: MapTemplate) {
-            for (let country of mapTemplate.countries) {
-                this._countries[country.identifier] = country;
-            }
-
-            for (let connection of mapTemplate.connections) {
-                if (this._connections[connection.origin]) {
-                    this._connections[connection.origin][connection.destination] = true;
-                } else {
-                    this._connections[connection.origin] = { [connection.destination]: true };
-                }
-            }
-        }
-
-        get countries(): CountryTemplate[] {
-            return this.mapTemplate.countries;
-        }
-
-        get image(): string {
-            return `${imageBaseUri}${this.mapTemplate.image}`;
-        }
-
-        country(identifier: string): CountryTemplate {
-            return this._countries[identifier];
-        }
-
-        areConnected(origin: string, destination: string) {
-            const conn = this._connections[origin];
-            return conn && conn[destination];
-        }
-
-        connections(identifier: string): string[] {
-            return Object.keys(this._connections[identifier]);
-        }
-    }
-
-    const mapTemplateCache: { [name: string]: Promise<MapTemplateCacheEntry> } = {};
-}
-
-interface ICountryInputFieldProps {
-    countryTemplate: CountryTemplate;
-
-    value: number;
-
-    onChange: (value: number) => void;
-}
-
-class CountryInputField extends React.Component<ICountryInputFieldProps, void> {
-    private _element: HTMLDivElement;
-    private _resolveElement = (elem: HTMLDivElement) => { this._element = elem; };
-
-    private _inputElement: HTMLInputElement;
-    private _resolveInputElement = (elem: HTMLInputElement) => { this._inputElement = elem; };
-
-    render() {
-        const { countryTemplate, value } = this.props;
-
-        return <div
-            id={`p${countryTemplate.identifier}`}
-            className={css("input-country")}
-            style={{
-                left: countryTemplate.x + 10,
-                top: countryTemplate.y + 2
-            }}
-            ref={this._resolveElement}>
-            <input
-                type="number"
-                min={1}
-                defaultValue={value.toString(10)}
-                onChange={this._onChange}
-                onFocus={this._onFocus}
-                ref={this._resolveInputElement} />
-        </div>;
-    }
-
-    componentDidMount() {
-        this._element.classList.add("input-country-active");
-
-        this._inputElement.focus();
-    }
-
-    componentWillReceiveProps(props: ICountryInputFieldProps) {
-        if (this._inputElement.value !== "") {
-            this._inputElement.value = props.value.toString(10);
-        }
-    }
-
-    @autobind
-    private _onChange(ev: React.FormEvent<HTMLInputElement>) {
-        const newValue = parseInt(this._inputElement.value, 10);
-
-        if (!isNaN(newValue)) {
-            this.props.onChange(newValue);
-        }
-    }
-
-    @autobind
-    private _onFocus() {
-        this._inputElement.select();
-    }
-}
-
 interface IMapProps {
     game: Game;
+    mapTemplate: MapTemplateCacheEntry;
     placeCountries: { [id: string]: number };
     twoCountry: ITwoCountry;
     idToCountry: { [id: string]: Country };
@@ -165,27 +49,26 @@ interface IMapProps {
     selectCountry: (countryIdentifier: string) => void;
     setUnits: (countryIdentifier: string, units: number) => void;
     setActionUnits: (units: number) => void;
+    attack: () => void;
+    move: () => void;
 }
 
 interface IMapState {
     isLoading: boolean;
-
-    mapTemplate: MapTemplateCache.MapTemplateCacheEntry;
-
     hoveredCountry: string;
 }
 
 class Map extends React.Component<IMapProps, IMapState> {
     private _jsPlumb: jsPlumbInstance;
     private _connection: Connection;
-    private _inputElement: HTMLDivElement;
+    private _inputElement: HTMLInputElement;
+    private _inputElementWrapper: HTMLDivElement;
 
     constructor(props: IMapProps, context) {
         super(props, context);
 
         this.state = {
             isLoading: false,
-            mapTemplate: null,
             hoveredCountry: null
         };
 
@@ -194,32 +77,29 @@ class Map extends React.Component<IMapProps, IMapState> {
 
     componentWillReceiveProps(props: IMapProps) {
         if (this.props.game !== props.game) {
-            this._update(props.game);
+            this._update(props);
         }
     }
 
-    private _update(game: Game) {
-        this.setState({
-            isLoading: true
-        } as IMapState);
+    private _update(props: IMapProps) {
+        const { game, mapTemplate } = props;
 
-        // Get template
-        const mapTemplateName = game.mapTemplate;
-
-        MapTemplateCache.getMapTemplate(mapTemplateName).then(mapTemplate => {
+        if (game && !mapTemplate) {
             this.setState({
-                isLoading: false,
-                mapTemplate
+                isLoading: true
             } as IMapState);
-        });
+        } else {
+            this.setState({
+                isLoading: false
+            } as IMapState)
+        }
     }
 
     render(): JSX.Element {
-        const { twoCountry } = this.props;
-        const { mapTemplate } = this.state;
+        const { twoCountry, mapTemplate } = this.props;
 
         return <div className="map" onClick={this._onClick} onMouseMove={this._onMouseMove}>
-            {mapTemplate && <img src={mapTemplate.image} />}
+            {mapTemplate && <img src={mapTemplate.image} className="map" />}
             {mapTemplate && this._renderCountries()}
 
             {this._renderUnitInput()}
@@ -239,9 +119,9 @@ class Map extends React.Component<IMapProps, IMapState> {
     }
 
     private _renderCountries() {
-        const { game, placeCountries, idToCountry } = this.props;
+        const { game, placeCountries, idToCountry, mapTemplate } = this.props;
         const { map } = game;
-        const { mapTemplate, hoveredCountry } = this.state;
+        const { hoveredCountry } = this.state;
 
         return mapTemplate.countries.map(countryTemplate => {
             const country = idToCountry[countryTemplate.identifier];
@@ -288,13 +168,11 @@ class Map extends React.Component<IMapProps, IMapState> {
             return;
         }
 
-        const targets = this.state.mapTemplate.connections(twoCountry.originCountryIdentifier);
-
         (jsPlumb as any).doWhileSuspended(() => {
-            for (let target of targets) {
+            for (let destination of twoCountry.allowedDestinations) {
                 this._jsPlumb.connect({
                     source: twoCountry.originCountryIdentifier,
-                    target: target,
+                    target: destination,
                     cssClass: "connections connections-attack",
                     hoverClass: "connections-hover",
                     anchors: [
@@ -350,7 +228,7 @@ class Map extends React.Component<IMapProps, IMapState> {
             overlays: [
                 ["Custom", {
                     create: (component) => {
-                        return $(this._inputElement);
+                        return $(this._inputElementWrapper);
                     },
                     location: 0.5,
                     id: "unit-input"
@@ -363,7 +241,7 @@ class Map extends React.Component<IMapProps, IMapState> {
     private _renderUnitInput(): JSX.Element {
         const { destinationCountryIdentifier, numberOfUnits, minUnits, maxUnits } = this.props.twoCountry;
 
-        return <div className="action-overlay-wrapper" ref={this._resolveInput}>
+        return <div className="action-overlay-wrapper" ref={this._resolveInputWrapper}>
             <input
                 className="action-overlay-input"
                 type="number"
@@ -373,12 +251,18 @@ class Map extends React.Component<IMapProps, IMapState> {
                 onChange={this._changeUnits}
                 style={{
                     display: !destinationCountryIdentifier ? "none" : "block"
-                }} />
+                }}
+                ref={this._resolveInput} />
         </div>;
     }
 
     @autobind
-    private _resolveInput(element: HTMLDivElement) {
+    private _resolveInputWrapper(element: HTMLDivElement) {
+        this._inputElementWrapper = element;
+    }
+
+    @autobind
+    private _resolveInput(element: HTMLInputElement) {
         this._inputElement = element;
     }
 
@@ -396,10 +280,24 @@ class Map extends React.Component<IMapProps, IMapState> {
 
         if (target.classList.contains("country")) {
             const countryIdentifier = target.id;
-
-            this.props.selectCountry(countryIdentifier);
-        } else {
+            this._onCountryClick(countryIdentifier);
+        } else if (target.classList.contains("map")) {
+            // Cancel any country selection
             this.props.selectCountry(null);
+        }
+    }
+
+    private _onCountryClick(countryIdentifier: string) {
+        const { game, twoCountry } = this.props;
+
+        if (!!twoCountry.originCountryIdentifier && !!twoCountry.destinationCountryIdentifier) {
+            if (game.playState === PlayState.Attack) {
+                this.props.attack();
+            } else if (game.playState === PlayState.Move) {
+                this.props.move();
+            }
+        } else {
+            this.props.selectCountry(countryIdentifier);
         }
     }
 
@@ -425,10 +323,11 @@ class Map extends React.Component<IMapProps, IMapState> {
 }
 
 export default connect((state: IState) => {
-    const { game, placeCountries, countriesByIdentifier, twoCountry } = state.play.data;
+    const { game, placeCountries, countriesByIdentifier, twoCountry, mapTemplate } = state.play.data;
 
     return {
         game: game,
+        mapTemplate: mapTemplate,
         placeCountries: placeCountries,
         twoCountry: twoCountry,
         idToCountry: countriesByIdentifier
@@ -436,5 +335,7 @@ export default connect((state: IState) => {
 }, (dispatch) => ({
     selectCountry: (countryIdentifier: string) => { dispatch(selectCountry(countryIdentifier)); },
     setUnits: (countryIdentifier: string, units: number) => { dispatch(setPlaceUnits(countryIdentifier, units)); },
-    setActionUnits: (units: number) => { dispatch(setActionUnits(units)); }
+    setActionUnits: (units: number) => { dispatch(setActionUnits(units)); },
+    attack: () => dispatch(attack(null)),
+    move: () => dispatch(move(null))
 }))(Map);
