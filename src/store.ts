@@ -48,7 +48,7 @@ const language = localStorage.getItem("impera-lang") || "en";
 const initialState = Object.assign({}, sessionData, { language: language });
 const initialSessionState = sessionData && makeImmutable(initialState) as ISessionState || undefined;
 
-export var store = Redux.createStore<IState>(
+export let store = Redux.createStore<IState>(
   rootReducer,
   {
     // Pre-populate stored session data

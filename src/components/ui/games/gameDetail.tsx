@@ -4,11 +4,9 @@ import "./gameDetail.scss";
 
 import { connect } from "react-redux";
 import { store } from "../../../store";
-import { GameSummary, GameState, PlayerSummary, PlayerState } from "../../../external/imperaClients";
+import { GameSummary, GameState, PlayerSummary, PlayerState, MapClient, GameType } from "../../../external/imperaClients";
 import { Grid, GridRow, GridColumn } from "../../../components/layout";
-import HumanDate from "../../../components/ui/humanDate";
-import HumanTime from "../../../components/ui/humanTime";
-import { MapClient, GameType } from "../../../external/imperaClients";
+import { HumanDate, HumanTime} from "../../../components/ui/humanDate";
 import { getCachedClient } from "../../../clients/clientFactory";
 import { imageBaseUri } from "../../../configuration";
 import { PlayerOutcomeDisplay } from "./playerOutcome";
