@@ -22,7 +22,7 @@ interface ILanguageSelectorProps {
 class LanguageSelector extends React.Component<ILanguageSelectorProps, void> {
     public render() {
         return <div>
-            <i className="fa-globe"></i>
+            <i className="fa fa-globe"></i>
             <div className="language">
                 <DropdownButton id="language" title={__("LANGUAGE")} bsStyle="link">
                     <MenuItem

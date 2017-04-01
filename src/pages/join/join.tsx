@@ -29,8 +29,7 @@ export class FunGamesComponent extends React.Component<IFunGamesProps, void> {
         let fun: JSX.Element[];
 
         if (this.props.funGames.length > 0) {
-            fun = [<Section key="fun-title">{__("Fun")}</Section>,
-            <JoinList games={this.props.funGames} key="fun" />];
+            fun = [<JoinList games={this.props.funGames} key="fun" />];
         }
 
         return <GridColumn className="col-xs-12">

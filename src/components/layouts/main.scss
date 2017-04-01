@@ -212,21 +212,6 @@ $headerHeight: 120px;
     }
 }
 
-
-.fa-globe {
-    display: inline-block;
-    font: normal normal normal 14px/1 FontAwesome;
-    font-size: inherit;
-    text-rendering: auto;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    transform: translate(0, 0);
-}
-
-.fa-globe:before {
-    content: "\f0ac";
-}
-
 .content {
     background: url('/assets/background.png') repeat-x #fff;
     padding-bottom: 50px;

@@ -1,5 +1,6 @@
 import { IAction, makePromiseAction } from "../../lib/action";
 import { GameSummary, GameClient } from "../../external/imperaClients";
+import { show, MessageType } from "../../common/message/message.actions";
 
 export const REFRESH = "games-refresh";
 export const refresh = makePromiseAction<void, GameSummary[]>((input, dispatch, getState, deps) =>
@@ -107,9 +108,11 @@ export const join = makePromiseAction<number, GameSummary>((gameId, dispatch, ge
             promise: deps.getCachedClient(GameClient).postJoin(gameId).then(() => {
                 // Refresh games after hiding
                 dispatch(refreshFun(null));
+                dispatch(show(__("Game created, you can find it now in [My Games](/game/games)."), MessageType.success));
             })
         },
         options: {
-            useMessage: true
+            useMessage: true,
+            clearMessage: true
         }
     }));

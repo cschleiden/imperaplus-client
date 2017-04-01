@@ -6,7 +6,7 @@ import { ProgressBar } from "react-bootstrap";
 import { UserInfo, NewsItem, NewsContent } from "../../external/imperaClients";
 import { Grid, GridRow, GridColumn } from "../../components/layout";
 import { Title, Section } from "../../components/ui/typography";
-import HumanDate from "../../components/ui/humanDate";
+import { HumanDate } from "../../components/ui/humanDate";
 
 import { refresh } from "./news.actions";
 

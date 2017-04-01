@@ -2,13 +2,9 @@ import * as React from "react";
 
 import "./gameList.scss";
 
-import { GameSummary, PlayerSummary, Game, GameState } from "../../../external/imperaClients";
-import { Grid, GridRow, GridColumn } from "../../../components/layout";
-import HumanDate from "../humanDate";
-import HumanCountdown from "../humanCountdown";
-import { Title, Section } from "../typography";
+import { GameSummary, PlayerSummary, GameState } from "../../../external/imperaClients";
+import {HumanCountdown} from "../humanDate";
 import GameDetails from "./gameDetail";
-
 import { Table, Glyphicon, Button } from "react-bootstrap";
 import { GameStateDisplay } from "./gameState";
 import { PlayerOutcomeDisplay } from "./playerOutcome";
@@ -53,10 +49,10 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
             <th>{__("Name")}</th>
             <th className="hidden-xs">{__("Map")}</th>
             <th className="hidden-xs">{__("Mode")}</th>
-            <th className="hidden-xs">{__("Active")}</th>
+            <th className="hidden-xs username">{__("Active")}</th>
             <th className="hidden-xs">{__("Teams/Players")}</th>
-            <th>{__("Time left for turn")}</th>
-            <th>{__("State")}</th>
+            <th className="timer">{__("Time left for turn")}</th>
+            <th className="state">{__("State")}</th>
             <th>&nbsp;</th>
         </tr>;
     }
