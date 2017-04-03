@@ -52,7 +52,7 @@ class Play extends React.Component<IPlayProps & IPlayDispatchProps, void> {
     }
 
     render() {
-        const { sidebarOpen } = this.props;
+        const { sidebarOpen, game } = this.props;
 
         return <div className="play-container">
             <div className="play-header-container">
@@ -60,7 +60,7 @@ class Play extends React.Component<IPlayProps & IPlayDispatchProps, void> {
             </div>
 
             <div className="play-sidebar-container">
-                {sidebarOpen && <Sidebar />}
+                {sidebarOpen && <Sidebar game={game} />}
             </div>
 
             <div className={css("play-area", {

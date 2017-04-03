@@ -5,7 +5,7 @@ import { Tabs, Tab } from "react-bootstrap";
 
 export class GameChat extends React.Component<void, void> {
     render() {
-        return <Tabs defaultActiveKey={1} className="game-chat">
+        return <Tabs id="game-chat" defaultActiveKey={1} className="game-chat">
             <Tab eventKey={1} title={__("All")}>
             </Tab>
 

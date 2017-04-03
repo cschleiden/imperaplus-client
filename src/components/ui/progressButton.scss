@@ -1,14 +1,4 @@
-$spin-duration: 1.3s;
 $borderSize: 1.5px;
-
-@keyframes progress-spin {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-}
 
 .progress-button {
     position: relative;
@@ -33,7 +23,7 @@ $borderSize: 1.5px;
 
             border: 2px solid white;
             border-top-color: #cfac1e;
-            animation: progress-spin $spin-duration infinite cubic-bezier(.53,.21,.29,.67);
+            animation: progress-spin 1.3s infinite cubic-bezier(.53,.21,.29,.67);
         }
     }
 }

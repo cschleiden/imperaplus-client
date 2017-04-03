@@ -1,0 +1,38 @@
+$spin-duration: 1.3s;
+$spin-dimensions: 20px;
+
+@keyframes progress-spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@mixin spinner() {
+    &:before {
+        content: "";
+        display: inline-block;
+        width: $spin-dimensions;
+        height: $spin-dimensions;
+        position: absolute;
+        left: 10px;
+        top: 25%;
+        box-sizing: border-box;
+        border-radius: 50%;
+        border: 2px solid white;
+        border-top-color: #cfac1e;
+        animation: progress-spin $spin-duration infinite cubic-bezier(.53, .21, .29, .67);
+    }
+}
+
+.spinner {
+    @include spinner();
+
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
+
+    position: relative;
+}

@@ -15,6 +15,7 @@ import { css } from "../../../lib/css";
 import { ToggleButton } from "../../../components/ui/toggleButton";
 import { store } from "../../../store";
 import { canPlace, inputActive, canMoveOrAttack } from "../play.selectors";
+import { Spinner } from "../../../components/ui/spinner";
 
 interface IHeaderProps {
 }
@@ -25,6 +26,7 @@ interface IHeaderDispatchProps {
     player: Player;
 
     inputActive: boolean;
+    operationInProgress: boolean;
     canPlace: boolean;
     canMoveOrAttack: boolean;
 
@@ -41,7 +43,9 @@ interface IHeaderDispatchProps {
 
 class Header extends React.Component<IHeaderProps & IHeaderDispatchProps, void> {
     render() {
-        const { game, remainingPlaceUnits, player, inputActive, canPlace, canMoveOrAttack } = this.props;
+        const {
+            game, remainingPlaceUnits, player, inputActive, canPlace, canMoveOrAttack, operationInProgress
+        } = this.props;
 
         if (!game) {
             return null;
@@ -76,7 +80,11 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps, void> 
 
             {/*<!-- Cards --> */}
             <div className="play-header-block hidden-xs">
-                <Button className="btn btn-u" title={__("Exchange cards")} onClick={this._onExchangeCards} disabled={!inputActive}>
+                <Button
+                    className="btn btn-u"
+                    title={__("Exchange cards")}
+                    onClick={this._onExchangeCards}
+                    disabled={!inputActive || game.playState !== PlayState.PlaceUnits}>
                     <Cards cards={player && player.cards} />
                 </Button>
             </div>
@@ -136,13 +144,15 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps, void> 
             </div>
 
             {/*<!-- Spinner -->*/}
-            {false && <div className="play-header-block right ng-hide">
+            {operationInProgress && <div className="play-header-block right">
+                <Spinner className="btn" />
             </div>}
         </div>;
     }
 
     @autobind
     private _onExchangeCards() {
+        this.props.exchangeCards();
     }
 
     @autobind
@@ -182,7 +192,7 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps, void> 
 }
 
 export default connect((state: IState, ownProps: IHeaderProps) => {
-    const { game, placeCountries, player } = state.play.data;
+    const { game, placeCountries, player, operationInProgress } = state.play.data;
     const remainingPlaceUnits = Object.keys(placeCountries).reduce((sum, ci) => sum + placeCountries[ci], 0);
 
     return {
@@ -191,7 +201,8 @@ export default connect((state: IState, ownProps: IHeaderProps) => {
         player,
         inputActive: inputActive(state.play),
         canPlace: canPlace(state.play),
-        canMoveOrAttack: canMoveOrAttack(state.play)
+        canMoveOrAttack: canMoveOrAttack(state.play),
+        operationInProgress
     };
 }, (dispatch) => ({
     place: () => dispatch(place(null)),

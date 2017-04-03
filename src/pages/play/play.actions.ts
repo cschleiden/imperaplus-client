@@ -25,12 +25,6 @@ export const toggleSidebar = (): IAction<void> => ({
     type: TOGGLE_SIDEBAR
 });
 
-export const INPROGRESS = "play-in-progress";
-export const inProgress = (isActive: boolean): IAction<boolean> => ({
-    type: INPROGRESS,
-    payload: isActive
-});
-
 export const PLACE = "play-place";
 export const place = makePromiseAction<void, GameActionResult>((gameId, dispatch, getState, deps) => {
     const playState = getState().play.data;
@@ -40,16 +34,13 @@ export const place = makePromiseAction<void, GameActionResult>((gameId, dispatch
         numberOfUnits: playState.placeCountries[ci]
     } as PlaceUnitsOptions));
 
-    dispatch(inProgress(true));
-
     return {
         type: PLACE,
         payload: {
             promise: deps.getCachedClient(PlayClient).postPlace(playState.gameId, options)
         },
         options: {
-            useMessage: true,
-            afterSuccess: () => dispatch(inProgress(true))
+            useMessage: true
         }
     };
 });

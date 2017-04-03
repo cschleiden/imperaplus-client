@@ -6,6 +6,1044 @@
 //----------------------
 
 
+export class TournamentClient {
+    private baseUrl: string | undefined = undefined;
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        this.baseUrl = baseUrl ? baseUrl : "";
+        this.http = http ? http : <any>window;;
+    }
+
+    /**
+     * Returns tournaments
+     * @return List of tournaments
+     */
+    getAll(): Promise<Tournament[]> {
+        let url_ = this.baseUrl + "/api/tournaments";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8", 
+                "Accept": "application/json; charset=UTF-8"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((response: Response) => {
+            return this.processGetAll(response);
+        });
+    }
+
+    protected processGetAll(response: Response): Promise<Tournament[]> {
+        return response.text().then((responseText) => {
+            const status = response.status; 
+
+            if (status === 200) {
+                let result200: Tournament[] | null = null;
+                result200 = responseText === "" ? null : <Tournament[]>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
+            } else if (status !== 200 && status !== 204) {
+                this.throwException("An unexpected server error occurred.", status, responseText);
+            }
+            return null;
+        });
+    }
+
+    /**
+     * Get tournament identified by Id
+     * @tournamentId Id of tournament
+     */
+    getById(tournamentId: string): Promise<Tournament> {
+        let url_ = this.baseUrl + "/api/tournaments/{tournamentId}";
+        if (tournamentId === undefined || tournamentId === null)
+            throw new Error("The parameter 'tournamentId' must be defined.");
+        url_ = url_.replace("{tournamentId}", encodeURIComponent("" + tournamentId)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8", 
+                "Accept": "application/json; charset=UTF-8"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((response: Response) => {
+            return this.processGetById(response);
+        });
+    }
+
+    protected processGetById(response: Response): Promise<Tournament> {
+        return response.text().then((responseText) => {
+            const status = response.status; 
+
+            if (status === 200) {
+                let result200: Tournament | null = null;
+                result200 = responseText === "" ? null : <Tournament>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
+            } else if (status !== 200 && status !== 204) {
+                this.throwException("An unexpected server error occurred.", status, responseText);
+            }
+            return null;
+        });
+    }
+
+    /**
+     * Join tournament
+     * @tournamentId Id of tournament
+     */
+    postJoin(tournamentId: string): Promise<TournamentTeam> {
+        let url_ = this.baseUrl + "/api/tournaments/{tournamentId}";
+        if (tournamentId === undefined || tournamentId === null)
+            throw new Error("The parameter 'tournamentId' must be defined.");
+        url_ = url_.replace("{tournamentId}", encodeURIComponent("" + tournamentId)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = "";
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8", 
+                "Accept": "application/json; charset=UTF-8"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((response: Response) => {
+            return this.processPostJoin(response);
+        });
+    }
+
+    protected processPostJoin(response: Response): Promise<TournamentTeam> {
+        return response.text().then((responseText) => {
+            const status = response.status; 
+
+            if (status === 200) {
+                let result200: TournamentTeam | null = null;
+                result200 = responseText === "" ? null : <TournamentTeam>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
+            } else if (status !== 200 && status !== 204) {
+                this.throwException("An unexpected server error occurred.", status, responseText);
+            }
+            return null;
+        });
+    }
+
+    /**
+     * Get teams for tournament
+     * @tournamentId Id of tournament
+     */
+    getTeams(tournamentId: string): Promise<TournamentTeam[]> {
+        let url_ = this.baseUrl + "/api/tournaments/{tournamentId}/teams";
+        if (tournamentId === undefined || tournamentId === null)
+            throw new Error("The parameter 'tournamentId' must be defined.");
+        url_ = url_.replace("{tournamentId}", encodeURIComponent("" + tournamentId)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8", 
+                "Accept": "application/json; charset=UTF-8"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((response: Response) => {
+            return this.processGetTeams(response);
+        });
+    }
+
+    protected processGetTeams(response: Response): Promise<TournamentTeam[]> {
+        return response.text().then((responseText) => {
+            const status = response.status; 
+
+            if (status === 200) {
+                let result200: TournamentTeam[] | null = null;
+                result200 = responseText === "" ? null : <TournamentTeam[]>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
+            } else if (status !== 200 && status !== 204) {
+                this.throwException("An unexpected server error occurred.", status, responseText);
+            }
+            return null;
+        });
+    }
+
+    /**
+     * Create new team for a tournament
+     * @tournamentId Id of tournament
+     * @name Name of team
+     * @password Optional password for team
+     * @return Summary of newly created team
+     */
+    postCreateTeam(tournamentId: string, name: string, password: string): Promise<TournamentTeamSummary> {
+        let url_ = this.baseUrl + "/api/tournaments/{tournamentId}/teams?";
+        if (tournamentId === undefined || tournamentId === null)
+            throw new Error("The parameter 'tournamentId' must be defined.");
+        url_ = url_.replace("{tournamentId}", encodeURIComponent("" + tournamentId)); 
+        if (name === undefined)
+            throw new Error("The parameter 'name' must be defined.");
+        else
+            url_ += "name=" + encodeURIComponent("" + name) + "&"; 
+        if (password !== undefined)
+            url_ += "password=" + encodeURIComponent("" + password) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = "";
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8", 
+                "Accept": "application/json; charset=UTF-8"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((response: Response) => {
+            return this.processPostCreateTeam(response);
+        });
+    }
+
+    protected processPostCreateTeam(response: Response): Promise<TournamentTeamSummary> {
+        return response.text().then((responseText) => {
+            const status = response.status; 
+
+            if (status === 200) {
+                let result200: TournamentTeamSummary | null = null;
+                result200 = responseText === "" ? null : <TournamentTeamSummary>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
+            } else if (status !== 200 && status !== 204) {
+                this.throwException("An unexpected server error occurred.", status, responseText);
+            }
+            return null;
+        });
+    }
+
+    /**
+     * Join existing team
+     * @tournamentId Id of tournament
+     * @teamId Id of team
+     * @password Optional password for team to join
+     */
+    postJoinTeam(tournamentId: string, teamId: string, password: string): Promise<any> {
+        let url_ = this.baseUrl + "/api/tournaments/{tournamentId}/teams/{teamId}?";
+        if (tournamentId === undefined || tournamentId === null)
+            throw new Error("The parameter 'tournamentId' must be defined.");
+        url_ = url_.replace("{tournamentId}", encodeURIComponent("" + tournamentId)); 
+        if (teamId === undefined || teamId === null)
+            throw new Error("The parameter 'teamId' must be defined.");
+        url_ = url_.replace("{teamId}", encodeURIComponent("" + teamId)); 
+        if (password !== undefined)
+            url_ += "password=" + encodeURIComponent("" + password) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = "";
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8", 
+                "Accept": "application/json; charset=UTF-8"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((response: Response) => {
+            return this.processPostJoinTeam(response);
+        });
+    }
+
+    protected processPostJoinTeam(response: Response): Promise<any> {
+        return response.text().then((responseText) => {
+            const status = response.status; 
+
+            if (status === 200) {
+                let result200: any | null = null;
+                result200 = responseText === "" ? null : <any>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
+            } else if (status !== 200 && status !== 204) {
+                this.throwException("An unexpected server error occurred.", status, responseText);
+            }
+            return null;
+        });
+    }
+
+    /**
+     * Delete a team. Only allowed if user created it
+     * @tournamentId Id of tournament
+     * @teamId Id of team to delete
+     */
+    deleteTeam(tournamentId: string, teamId: string): Promise<any> {
+        let url_ = this.baseUrl + "/api/tournaments/{tournamentId}/teams/{teamId}";
+        if (tournamentId === undefined || tournamentId === null)
+            throw new Error("The parameter 'tournamentId' must be defined.");
+        url_ = url_.replace("{tournamentId}", encodeURIComponent("" + tournamentId)); 
+        if (teamId === undefined || teamId === null)
+            throw new Error("The parameter 'teamId' must be defined.");
+        url_ = url_.replace("{teamId}", encodeURIComponent("" + teamId)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = "";
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8", 
+                "Accept": "application/json; charset=UTF-8"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((response: Response) => {
+            return this.processDeleteTeam(response);
+        });
+    }
+
+    protected processDeleteTeam(response: Response): Promise<any> {
+        return response.text().then((responseText) => {
+            const status = response.status; 
+
+            if (status === 200) {
+                let result200: any | null = null;
+                result200 = responseText === "" ? null : <any>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
+            } else if (status !== 200 && status !== 204) {
+                this.throwException("An unexpected server error occurred.", status, responseText);
+            }
+            return null;
+        });
+    }
+
+    /**
+     * Leave a team and tournament
+     * @tournamentId Id of tournament
+     */
+    leaveTournament(tournamentId: string): Promise<any> {
+        let url_ = this.baseUrl + "/api/tournaments/{tournamentId}/teams/me";
+        if (tournamentId === undefined || tournamentId === null)
+            throw new Error("The parameter 'tournamentId' must be defined.");
+        url_ = url_.replace("{tournamentId}", encodeURIComponent("" + tournamentId)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = "";
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8", 
+                "Accept": "application/json; charset=UTF-8"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((response: Response) => {
+            return this.processLeaveTournament(response);
+        });
+    }
+
+    protected processLeaveTournament(response: Response): Promise<any> {
+        return response.text().then((responseText) => {
+            const status = response.status; 
+
+            if (status === 200) {
+                let result200: any | null = null;
+                result200 = responseText === "" ? null : <any>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
+            } else if (status !== 200 && status !== 204) {
+                this.throwException("An unexpected server error occurred.", status, responseText);
+            }
+            return null;
+        });
+    }
+
+    protected throwException(message: string, status: number, response: string, result?: any): any {
+        if(result !== null && result !== undefined)
+            throw result;
+        else
+            throw new SwaggerException(message, status, response, null);
+    }
+}
+
+export class UserClient {
+    private baseUrl: string | undefined = undefined;
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        this.baseUrl = baseUrl ? baseUrl : "";
+        this.http = http ? http : <any>window;;
+    }
+
+    /**
+     * Find users starting with the given query
+     * @query Query to search for
+     */
+    findUsers(query: string): Promise<UserReference[]> {
+        let url_ = this.baseUrl + "/api/users/find/{query}";
+        if (query === undefined || query === null)
+            throw new Error("The parameter 'query' must be defined.");
+        url_ = url_.replace("{query}", encodeURIComponent("" + query)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8", 
+                "Accept": "application/json; charset=UTF-8"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((response: Response) => {
+            return this.processFindUsers(response);
+        });
+    }
+
+    protected processFindUsers(response: Response): Promise<UserReference[]> {
+        return response.text().then((responseText) => {
+            const status = response.status; 
+
+            if (status === 200) {
+                let result200: UserReference[] | null = null;
+                result200 = responseText === "" ? null : <UserReference[]>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
+            } else if (status !== 200 && status !== 204) {
+                this.throwException("An unexpected server error occurred.", status, responseText);
+            }
+            return null;
+        });
+    }
+
+    protected throwException(message: string, status: number, response: string, result?: any): any {
+        if(result !== null && result !== undefined)
+            throw result;
+        else
+            throw new SwaggerException(message, status, response, null);
+    }
+}
+
+export class PlayClient {
+    private baseUrl: string | undefined = undefined;
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        this.baseUrl = baseUrl ? baseUrl : "";
+        this.http = http ? http : <any>window;;
+    }
+
+    /**
+     * Place units to countries.
+     * @gameId Id of the game
+     * @placeUnitsOptions List of country/unit count pairs
+     * @return GameActionResult of action
+     */
+    postPlace(gameId: number, placeUnitsOptions: PlaceUnitsOptions[]): Promise<GameActionResult> {
+        let url_ = this.baseUrl + "/api/games/{gameId}/play/place";
+        if (gameId === undefined || gameId === null)
+            throw new Error("The parameter 'gameId' must be defined.");
+        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(placeUnitsOptions);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8", 
+                "Accept": "application/json; charset=UTF-8"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((response: Response) => {
+            return this.processPostPlace(response);
+        });
+    }
+
+    protected processPostPlace(response: Response): Promise<GameActionResult> {
+        return response.text().then((responseText) => {
+            const status = response.status; 
+
+            if (status === 200) {
+                let result200: GameActionResult | null = null;
+                result200 = responseText === "" ? null : <GameActionResult>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
+            } else if (status !== 200 && status !== 204) {
+                this.throwException("An unexpected server error occurred.", status, responseText);
+            }
+            return null;
+        });
+    }
+
+    /**
+     * Exchange cards for the current player. Which cards to exchange is automatically chosen to gain the most bonus for the player.
+     * @gameId Id of the game
+     * @return GameActionResult of action
+     */
+    postExchange(gameId: number): Promise<GameActionResult> {
+        let url_ = this.baseUrl + "/api/games/{gameId}/play/exchange";
+        if (gameId === undefined || gameId === null)
+            throw new Error("The parameter 'gameId' must be defined.");
+        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = "";
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8", 
+                "Accept": "application/json; charset=UTF-8"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((response: Response) => {
+            return this.processPostExchange(response);
+        });
+    }
+
+    protected processPostExchange(response: Response): Promise<GameActionResult> {
+        return response.text().then((responseText) => {
+            const status = response.status; 
+
+            if (status === 200) {
+                let result200: GameActionResult | null = null;
+                result200 = responseText === "" ? null : <GameActionResult>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
+            } else if (status !== 200 && status !== 204) {
+                this.throwException("An unexpected server error occurred.", status, responseText);
+            }
+            return null;
+        });
+    }
+
+    /**
+     * Attack from one to another country.
+     * @gameId Id of the game
+     * @options Options for the command
+     * @return GameActionResult of action
+     */
+    postAttack(gameId: number, options: AttackOptions): Promise<GameActionResult> {
+        let url_ = this.baseUrl + "/api/games/{gameId}/play/attack";
+        if (gameId === undefined || gameId === null)
+            throw new Error("The parameter 'gameId' must be defined.");
+        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(options);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8", 
+                "Accept": "application/json; charset=UTF-8"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((response: Response) => {
+            return this.processPostAttack(response);
+        });
+    }
+
+    protected processPostAttack(response: Response): Promise<GameActionResult> {
+        return response.text().then((responseText) => {
+            const status = response.status; 
+
+            if (status === 200) {
+                let result200: GameActionResult | null = null;
+                result200 = responseText === "" ? null : <GameActionResult>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
+            } else if (status !== 200 && status !== 204) {
+                this.throwException("An unexpected server error occurred.", status, responseText);
+            }
+            return null;
+        });
+    }
+
+    /**
+     * Switch to moving.
+     * @gameId Id of the game
+     * @return GameActionResult of action
+     */
+    postEndAttack(gameId: number): Promise<GameActionResult> {
+        let url_ = this.baseUrl + "/api/games/{gameId}/play/endattack";
+        if (gameId === undefined || gameId === null)
+            throw new Error("The parameter 'gameId' must be defined.");
+        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = "";
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8", 
+                "Accept": "application/json; charset=UTF-8"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((response: Response) => {
+            return this.processPostEndAttack(response);
+        });
+    }
+
+    protected processPostEndAttack(response: Response): Promise<GameActionResult> {
+        return response.text().then((responseText) => {
+            const status = response.status; 
+
+            if (status === 200) {
+                let result200: GameActionResult | null = null;
+                result200 = responseText === "" ? null : <GameActionResult>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
+            } else if (status !== 200 && status !== 204) {
+                this.throwException("An unexpected server error occurred.", status, responseText);
+            }
+            return null;
+        });
+    }
+
+    /**
+     * Move units between countries. Only allowed after placing. Cancels any attacks that the player had left before. Attacking is not
+possible anymore after moving.
+     * @gameId Id of the game
+     * @options Options for the command
+     * @return GameActionResult of action
+     */
+    postMove(gameId: number, options: MoveOptions): Promise<GameActionResult> {
+        let url_ = this.baseUrl + "/api/games/{gameId}/play/move";
+        if (gameId === undefined || gameId === null)
+            throw new Error("The parameter 'gameId' must be defined.");
+        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(options);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8", 
+                "Accept": "application/json; charset=UTF-8"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((response: Response) => {
+            return this.processPostMove(response);
+        });
+    }
+
+    protected processPostMove(response: Response): Promise<GameActionResult> {
+        return response.text().then((responseText) => {
+            const status = response.status; 
+
+            if (status === 200) {
+                let result200: GameActionResult | null = null;
+                result200 = responseText === "" ? null : <GameActionResult>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
+            } else if (status !== 200 && status !== 204) {
+                this.throwException("An unexpected server error occurred.", status, responseText);
+            }
+            return null;
+        });
+    }
+
+    /**
+     * End the current turn
+     * @gameId Id of the game
+     * @return GameActionResult of action
+     */
+    postEndTurn(gameId: number): Promise<Game> {
+        let url_ = this.baseUrl + "/api/games/{gameId}/play/endturn";
+        if (gameId === undefined || gameId === null)
+            throw new Error("The parameter 'gameId' must be defined.");
+        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = "";
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8", 
+                "Accept": "application/json; charset=UTF-8"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((response: Response) => {
+            return this.processPostEndTurn(response);
+        });
+    }
+
+    protected processPostEndTurn(response: Response): Promise<Game> {
+        return response.text().then((responseText) => {
+            const status = response.status; 
+
+            if (status === 200) {
+                let result200: Game | null = null;
+                result200 = responseText === "" ? null : <Game>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
+            } else if (status !== 200 && status !== 204) {
+                this.throwException("An unexpected server error occurred.", status, responseText);
+            }
+            return null;
+        });
+    }
+
+    protected throwException(message: string, status: number, response: string, result?: any): any {
+        if(result !== null && result !== undefined)
+            throw result;
+        else
+            throw new SwaggerException(message, status, response, null);
+    }
+}
+
+export class NotificationClient {
+    private baseUrl: string | undefined = undefined;
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        this.baseUrl = baseUrl ? baseUrl : "";
+        this.http = http ? http : <any>window;;
+    }
+
+    /**
+     * Get notification summary for current user
+     */
+    getSummary(): Promise<NotificationSummary> {
+        let url_ = this.baseUrl + "/api/notifications/summary";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8", 
+                "Accept": "application/json; charset=UTF-8"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((response: Response) => {
+            return this.processGetSummary(response);
+        });
+    }
+
+    protected processGetSummary(response: Response): Promise<NotificationSummary> {
+        return response.text().then((responseText) => {
+            const status = response.status; 
+
+            if (status === 200) {
+                let result200: NotificationSummary | null = null;
+                result200 = responseText === "" ? null : <NotificationSummary>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
+            } else if (status !== 200 && status !== 204) {
+                this.throwException("An unexpected server error occurred.", status, responseText);
+            }
+            return null;
+        });
+    }
+
+    protected throwException(message: string, status: number, response: string, result?: any): any {
+        if(result !== null && result !== undefined)
+            throw result;
+        else
+            throw new SwaggerException(message, status, response, null);
+    }
+}
+
+export class NewsClient {
+    private baseUrl: string | undefined = undefined;
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        this.baseUrl = baseUrl ? baseUrl : "";
+        this.http = http ? http : <any>window;;
+    }
+
+    /**
+     * Returns the last 10 news items for all languages
+     * @return List of news items
+     */
+    getAll(): Promise<NewsItem[]> {
+        let url_ = this.baseUrl + "/api/news";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8", 
+                "Accept": "application/json; charset=UTF-8"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((response: Response) => {
+            return this.processGetAll(response);
+        });
+    }
+
+    protected processGetAll(response: Response): Promise<NewsItem[]> {
+        return response.text().then((responseText) => {
+            const status = response.status; 
+
+            if (status === 200) {
+                let result200: NewsItem[] | null = null;
+                result200 = responseText === "" ? null : <NewsItem[]>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
+            } else if (status !== 200 && status !== 204) {
+                this.throwException("An unexpected server error occurred.", status, responseText);
+            }
+            return null;
+        });
+    }
+
+    protected throwException(message: string, status: number, response: string, result?: any): any {
+        if(result !== null && result !== undefined)
+            throw result;
+        else
+            throw new SwaggerException(message, status, response, null);
+    }
+}
+
+export class MessageClient {
+    private baseUrl: string | undefined = undefined;
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        this.baseUrl = baseUrl ? baseUrl : "";
+        this.http = http ? http : <any>window;;
+    }
+
+    getAll(messageFolder: MessageFolder): Promise<Message[]> {
+        let url_ = this.baseUrl + "/api/messages/folder?";
+        if (messageFolder === null)
+            throw new Error("The parameter 'messageFolder' cannot be null.");
+        else if (messageFolder !== undefined)
+            url_ += "messageFolder=" + encodeURIComponent("" + messageFolder) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8", 
+                "Accept": "application/json; charset=UTF-8"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((response: Response) => {
+            return this.processGetAll(response);
+        });
+    }
+
+    protected processGetAll(response: Response): Promise<Message[]> {
+        return response.text().then((responseText) => {
+            const status = response.status; 
+
+            if (status === 200) {
+                let result200: Message[] | null = null;
+                result200 = responseText === "" ? null : <Message[]>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
+            } else if (status !== 200 && status !== 204) {
+                this.throwException("An unexpected server error occurred.", status, responseText);
+            }
+            return null;
+        });
+    }
+
+    get(messageId: string): Promise<Message> {
+        let url_ = this.baseUrl + "/api/messages/{messageId}";
+        if (messageId === undefined || messageId === null)
+            throw new Error("The parameter 'messageId' must be defined.");
+        url_ = url_.replace("{messageId}", encodeURIComponent("" + messageId)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8", 
+                "Accept": "application/json; charset=UTF-8"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((response: Response) => {
+            return this.processGet(response);
+        });
+    }
+
+    protected processGet(response: Response): Promise<Message> {
+        return response.text().then((responseText) => {
+            const status = response.status; 
+
+            if (status === 200) {
+                let result200: Message | null = null;
+                result200 = responseText === "" ? null : <Message>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
+            } else if (status !== 200 && status !== 204) {
+                this.throwException("An unexpected server error occurred.", status, responseText);
+            }
+            return null;
+        });
+    }
+
+    patchMarkRead(messageId: string): Promise<any> {
+        let url_ = this.baseUrl + "/api/messages/{messageId}";
+        if (messageId === undefined || messageId === null)
+            throw new Error("The parameter 'messageId' must be defined.");
+        url_ = url_.replace("{messageId}", encodeURIComponent("" + messageId)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = "";
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8", 
+                "Accept": "application/json; charset=UTF-8"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((response: Response) => {
+            return this.processPatchMarkRead(response);
+        });
+    }
+
+    protected processPatchMarkRead(response: Response): Promise<any> {
+        return response.text().then((responseText) => {
+            const status = response.status; 
+
+            if (status === 200) {
+                let result200: any | null = null;
+                result200 = responseText === "" ? null : <any>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
+            } else if (status !== 200 && status !== 204) {
+                this.throwException("An unexpected server error occurred.", status, responseText);
+            }
+            return null;
+        });
+    }
+
+    delete(messageId: string): Promise<any> {
+        let url_ = this.baseUrl + "/api/messages/{messageId}";
+        if (messageId === undefined || messageId === null)
+            throw new Error("The parameter 'messageId' must be defined.");
+        url_ = url_.replace("{messageId}", encodeURIComponent("" + messageId)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = "";
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8", 
+                "Accept": "application/json; charset=UTF-8"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((response: Response) => {
+            return this.processDelete(response);
+        });
+    }
+
+    protected processDelete(response: Response): Promise<any> {
+        return response.text().then((responseText) => {
+            const status = response.status; 
+
+            if (status === 200) {
+                let result200: any | null = null;
+                result200 = responseText === "" ? null : <any>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
+            } else if (status !== 200 && status !== 204) {
+                this.throwException("An unexpected server error occurred.", status, responseText);
+            }
+            return null;
+        });
+    }
+
+    getFolderInformation(): Promise<FolderInformation> {
+        let url_ = this.baseUrl + "/api/messages/folders";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8", 
+                "Accept": "application/json; charset=UTF-8"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((response: Response) => {
+            return this.processGetFolderInformation(response);
+        });
+    }
+
+    protected processGetFolderInformation(response: Response): Promise<FolderInformation> {
+        return response.text().then((responseText) => {
+            const status = response.status; 
+
+            if (status === 200) {
+                let result200: FolderInformation | null = null;
+                result200 = responseText === "" ? null : <FolderInformation>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
+            } else if (status !== 200 && status !== 204) {
+                this.throwException("An unexpected server error occurred.", status, responseText);
+            }
+            return null;
+        });
+    }
+
+    postSend(message: SendMessage): Promise<any> {
+        let url_ = this.baseUrl + "/api/messages";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(message);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8", 
+                "Accept": "application/json; charset=UTF-8"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((response: Response) => {
+            return this.processPostSend(response);
+        });
+    }
+
+    protected processPostSend(response: Response): Promise<any> {
+        return response.text().then((responseText) => {
+            const status = response.status; 
+
+            if (status === 200) {
+                let result200: any | null = null;
+                result200 = responseText === "" ? null : <any>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
+            } else if (status !== 200 && status !== 204) {
+                this.throwException("An unexpected server error occurred.", status, responseText);
+            }
+            return null;
+        });
+    }
+
+    protected throwException(message: string, status: number, response: string, result?: any): any {
+        if(result !== null && result !== undefined)
+            throw result;
+        else
+            throw new SwaggerException(message, status, response, null);
+    }
+}
+
 export class AccountClient {
     private baseUrl: string | undefined = undefined;
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
@@ -1463,1042 +2501,279 @@ export class MapClient {
     }
 }
 
-export class MessageClient {
-    private baseUrl: string | undefined = undefined;
-    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-
-    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
-        this.baseUrl = baseUrl ? baseUrl : "";
-        this.http = http ? http : <any>window;;
-    }
-
-    getAll(messageFolder: MessageFolder): Promise<Message[]> {
-        let url_ = this.baseUrl + "/api/messages/folder?";
-        if (messageFolder === null)
-            throw new Error("The parameter 'messageFolder' cannot be null.");
-        else if (messageFolder !== undefined)
-            url_ += "messageFolder=" + encodeURIComponent("" + messageFolder) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ = <RequestInit>{
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
-                "Accept": "application/json; charset=UTF-8"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((response: Response) => {
-            return this.processGetAll(response);
-        });
-    }
-
-    protected processGetAll(response: Response): Promise<Message[]> {
-        return response.text().then((responseText) => {
-            const status = response.status; 
-
-            if (status === 200) {
-                let result200: Message[] | null = null;
-                result200 = responseText === "" ? null : <Message[]>JSON.parse(responseText, this.jsonParseReviver);
-                return result200;
-            } else if (status !== 200 && status !== 204) {
-                this.throwException("An unexpected server error occurred.", status, responseText);
-            }
-            return null;
-        });
-    }
-
-    get(messageId: string): Promise<Message> {
-        let url_ = this.baseUrl + "/api/messages/{messageId}";
-        if (messageId === undefined || messageId === null)
-            throw new Error("The parameter 'messageId' must be defined.");
-        url_ = url_.replace("{messageId}", encodeURIComponent("" + messageId)); 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ = <RequestInit>{
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
-                "Accept": "application/json; charset=UTF-8"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((response: Response) => {
-            return this.processGet(response);
-        });
-    }
-
-    protected processGet(response: Response): Promise<Message> {
-        return response.text().then((responseText) => {
-            const status = response.status; 
-
-            if (status === 200) {
-                let result200: Message | null = null;
-                result200 = responseText === "" ? null : <Message>JSON.parse(responseText, this.jsonParseReviver);
-                return result200;
-            } else if (status !== 200 && status !== 204) {
-                this.throwException("An unexpected server error occurred.", status, responseText);
-            }
-            return null;
-        });
-    }
-
-    patchMarkRead(messageId: string): Promise<any> {
-        let url_ = this.baseUrl + "/api/messages/{messageId}";
-        if (messageId === undefined || messageId === null)
-            throw new Error("The parameter 'messageId' must be defined.");
-        url_ = url_.replace("{messageId}", encodeURIComponent("" + messageId)); 
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = "";
-
-        let options_ = <RequestInit>{
-            body: content_,
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
-                "Accept": "application/json; charset=UTF-8"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((response: Response) => {
-            return this.processPatchMarkRead(response);
-        });
-    }
-
-    protected processPatchMarkRead(response: Response): Promise<any> {
-        return response.text().then((responseText) => {
-            const status = response.status; 
-
-            if (status === 200) {
-                let result200: any | null = null;
-                result200 = responseText === "" ? null : <any>JSON.parse(responseText, this.jsonParseReviver);
-                return result200;
-            } else if (status !== 200 && status !== 204) {
-                this.throwException("An unexpected server error occurred.", status, responseText);
-            }
-            return null;
-        });
-    }
-
-    delete(messageId: string): Promise<any> {
-        let url_ = this.baseUrl + "/api/messages/{messageId}";
-        if (messageId === undefined || messageId === null)
-            throw new Error("The parameter 'messageId' must be defined.");
-        url_ = url_.replace("{messageId}", encodeURIComponent("" + messageId)); 
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = "";
-
-        let options_ = <RequestInit>{
-            body: content_,
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
-                "Accept": "application/json; charset=UTF-8"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((response: Response) => {
-            return this.processDelete(response);
-        });
-    }
-
-    protected processDelete(response: Response): Promise<any> {
-        return response.text().then((responseText) => {
-            const status = response.status; 
-
-            if (status === 200) {
-                let result200: any | null = null;
-                result200 = responseText === "" ? null : <any>JSON.parse(responseText, this.jsonParseReviver);
-                return result200;
-            } else if (status !== 200 && status !== 204) {
-                this.throwException("An unexpected server error occurred.", status, responseText);
-            }
-            return null;
-        });
-    }
-
-    getFolderInformation(): Promise<FolderInformation> {
-        let url_ = this.baseUrl + "/api/messages/folders";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ = <RequestInit>{
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
-                "Accept": "application/json; charset=UTF-8"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((response: Response) => {
-            return this.processGetFolderInformation(response);
-        });
-    }
-
-    protected processGetFolderInformation(response: Response): Promise<FolderInformation> {
-        return response.text().then((responseText) => {
-            const status = response.status; 
-
-            if (status === 200) {
-                let result200: FolderInformation | null = null;
-                result200 = responseText === "" ? null : <FolderInformation>JSON.parse(responseText, this.jsonParseReviver);
-                return result200;
-            } else if (status !== 200 && status !== 204) {
-                this.throwException("An unexpected server error occurred.", status, responseText);
-            }
-            return null;
-        });
-    }
-
-    postSend(message: SendMessage): Promise<any> {
-        let url_ = this.baseUrl + "/api/messages";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(message);
-
-        let options_ = <RequestInit>{
-            body: content_,
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
-                "Accept": "application/json; charset=UTF-8"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((response: Response) => {
-            return this.processPostSend(response);
-        });
-    }
-
-    protected processPostSend(response: Response): Promise<any> {
-        return response.text().then((responseText) => {
-            const status = response.status; 
-
-            if (status === 200) {
-                let result200: any | null = null;
-                result200 = responseText === "" ? null : <any>JSON.parse(responseText, this.jsonParseReviver);
-                return result200;
-            } else if (status !== 200 && status !== 204) {
-                this.throwException("An unexpected server error occurred.", status, responseText);
-            }
-            return null;
-        });
-    }
-
-    protected throwException(message: string, status: number, response: string, result?: any): any {
-        if(result !== null && result !== undefined)
-            throw result;
-        else
-            throw new SwaggerException(message, status, response, null);
-    }
+export interface TournamentSummary {
+    id: string | undefined;
+    name: string | undefined;
+    state: TournamentState | undefined;
+    options?: GameOptions | null | undefined;
+    numberOfTeams: number | undefined;
+    numberOfGroupGames: number | undefined;
+    numberOfKnockoutGames: number | undefined;
+    numberOfFinalGames: number | undefined;
+    startOfRegistration: Date | undefined;
+    startOfTournament: Date | undefined;
+    endOfTournament: Date | undefined;
+    completion: number | undefined;
 }
 
-export class NewsClient {
-    private baseUrl: string | undefined = undefined;
-    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-
-    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
-        this.baseUrl = baseUrl ? baseUrl : "";
-        this.http = http ? http : <any>window;;
-    }
-
-    /**
-     * Returns the last 10 news items for all languages
-     * @return List of news items
-     */
-    getAll(): Promise<NewsItem[]> {
-        let url_ = this.baseUrl + "/api/news";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ = <RequestInit>{
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
-                "Accept": "application/json; charset=UTF-8"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((response: Response) => {
-            return this.processGetAll(response);
-        });
-    }
-
-    protected processGetAll(response: Response): Promise<NewsItem[]> {
-        return response.text().then((responseText) => {
-            const status = response.status; 
-
-            if (status === 200) {
-                let result200: NewsItem[] | null = null;
-                result200 = responseText === "" ? null : <NewsItem[]>JSON.parse(responseText, this.jsonParseReviver);
-                return result200;
-            } else if (status !== 200 && status !== 204) {
-                this.throwException("An unexpected server error occurred.", status, responseText);
-            }
-            return null;
-        });
-    }
-
-    protected throwException(message: string, status: number, response: string, result?: any): any {
-        if(result !== null && result !== undefined)
-            throw result;
-        else
-            throw new SwaggerException(message, status, response, null);
-    }
+export interface Tournament extends TournamentSummary {
+    teams?: TournamentTeam[] | null | undefined;
+    groups?: TournamentGroup[] | null | undefined;
+    pairings?: TournamentPairing[] | null | undefined;
+    mapTemplates?: string[] | null | undefined;
+    winner?: TournamentTeam | null | undefined;
+    phase: number | undefined;
 }
 
-export class NotificationClient {
-    private baseUrl: string | undefined = undefined;
-    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-
-    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
-        this.baseUrl = baseUrl ? baseUrl : "";
-        this.http = http ? http : <any>window;;
-    }
-
-    /**
-     * Get notification summary for current user
-     */
-    getSummary(): Promise<NotificationSummary> {
-        let url_ = this.baseUrl + "/api/notifications/summary";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ = <RequestInit>{
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
-                "Accept": "application/json; charset=UTF-8"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((response: Response) => {
-            return this.processGetSummary(response);
-        });
-    }
-
-    protected processGetSummary(response: Response): Promise<NotificationSummary> {
-        return response.text().then((responseText) => {
-            const status = response.status; 
-
-            if (status === 200) {
-                let result200: NotificationSummary | null = null;
-                result200 = responseText === "" ? null : <NotificationSummary>JSON.parse(responseText, this.jsonParseReviver);
-                return result200;
-            } else if (status !== 200 && status !== 204) {
-                this.throwException("An unexpected server error occurred.", status, responseText);
-            }
-            return null;
-        });
-    }
-
-    protected throwException(message: string, status: number, response: string, result?: any): any {
-        if(result !== null && result !== undefined)
-            throw result;
-        else
-            throw new SwaggerException(message, status, response, null);
-    }
+export interface TournamentTeamSummary {
+    id: string | undefined;
+    name?: string | null | undefined;
+    groupOrder: number | undefined;
+    state: TournamentTeamState | undefined;
 }
 
-export class PlayClient {
-    private baseUrl: string | undefined = undefined;
-    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-
-    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
-        this.baseUrl = baseUrl ? baseUrl : "";
-        this.http = http ? http : <any>window;;
-    }
-
-    /**
-     * Place units to countries.
-     * @gameId Id of the game
-     * @placeUnitsOptions List of country/unit count pairs
-     * @return GameActionResult of action
-     */
-    postPlace(gameId: number, placeUnitsOptions: PlaceUnitsOptions[]): Promise<GameActionResult> {
-        let url_ = this.baseUrl + "/api/games/{gameId}/play/place";
-        if (gameId === undefined || gameId === null)
-            throw new Error("The parameter 'gameId' must be defined.");
-        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId)); 
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(placeUnitsOptions);
-
-        let options_ = <RequestInit>{
-            body: content_,
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
-                "Accept": "application/json; charset=UTF-8"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((response: Response) => {
-            return this.processPostPlace(response);
-        });
-    }
-
-    protected processPostPlace(response: Response): Promise<GameActionResult> {
-        return response.text().then((responseText) => {
-            const status = response.status; 
-
-            if (status === 200) {
-                let result200: GameActionResult | null = null;
-                result200 = responseText === "" ? null : <GameActionResult>JSON.parse(responseText, this.jsonParseReviver);
-                return result200;
-            } else if (status !== 200 && status !== 204) {
-                this.throwException("An unexpected server error occurred.", status, responseText);
-            }
-            return null;
-        });
-    }
-
-    /**
-     * Exchange cards for the current player. Which cards to exchange is automatically chosen to gain the most bonus for the player.
-     * @gameId Id of the game
-     * @return GameActionResult of action
-     */
-    postExchange(gameId: number): Promise<GameActionResult> {
-        let url_ = this.baseUrl + "/api/games/{gameId}/play/exchange";
-        if (gameId === undefined || gameId === null)
-            throw new Error("The parameter 'gameId' must be defined.");
-        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId)); 
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = "";
-
-        let options_ = <RequestInit>{
-            body: content_,
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
-                "Accept": "application/json; charset=UTF-8"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((response: Response) => {
-            return this.processPostExchange(response);
-        });
-    }
-
-    protected processPostExchange(response: Response): Promise<GameActionResult> {
-        return response.text().then((responseText) => {
-            const status = response.status; 
-
-            if (status === 200) {
-                let result200: GameActionResult | null = null;
-                result200 = responseText === "" ? null : <GameActionResult>JSON.parse(responseText, this.jsonParseReviver);
-                return result200;
-            } else if (status !== 200 && status !== 204) {
-                this.throwException("An unexpected server error occurred.", status, responseText);
-            }
-            return null;
-        });
-    }
-
-    /**
-     * Attack from one to another country.
-     * @gameId Id of the game
-     * @options Options for the command
-     * @return GameActionResult of action
-     */
-    postAttack(gameId: number, options: AttackOptions): Promise<GameActionResult> {
-        let url_ = this.baseUrl + "/api/games/{gameId}/play/attack";
-        if (gameId === undefined || gameId === null)
-            throw new Error("The parameter 'gameId' must be defined.");
-        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId)); 
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(options);
-
-        let options_ = <RequestInit>{
-            body: content_,
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
-                "Accept": "application/json; charset=UTF-8"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((response: Response) => {
-            return this.processPostAttack(response);
-        });
-    }
-
-    protected processPostAttack(response: Response): Promise<GameActionResult> {
-        return response.text().then((responseText) => {
-            const status = response.status; 
-
-            if (status === 200) {
-                let result200: GameActionResult | null = null;
-                result200 = responseText === "" ? null : <GameActionResult>JSON.parse(responseText, this.jsonParseReviver);
-                return result200;
-            } else if (status !== 200 && status !== 204) {
-                this.throwException("An unexpected server error occurred.", status, responseText);
-            }
-            return null;
-        });
-    }
-
-    /**
-     * Switch to moving.
-     * @gameId Id of the game
-     * @return GameActionResult of action
-     */
-    postEndAttack(gameId: number): Promise<GameActionResult> {
-        let url_ = this.baseUrl + "/api/games/{gameId}/play/endattack";
-        if (gameId === undefined || gameId === null)
-            throw new Error("The parameter 'gameId' must be defined.");
-        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId)); 
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = "";
-
-        let options_ = <RequestInit>{
-            body: content_,
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
-                "Accept": "application/json; charset=UTF-8"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((response: Response) => {
-            return this.processPostEndAttack(response);
-        });
-    }
-
-    protected processPostEndAttack(response: Response): Promise<GameActionResult> {
-        return response.text().then((responseText) => {
-            const status = response.status; 
-
-            if (status === 200) {
-                let result200: GameActionResult | null = null;
-                result200 = responseText === "" ? null : <GameActionResult>JSON.parse(responseText, this.jsonParseReviver);
-                return result200;
-            } else if (status !== 200 && status !== 204) {
-                this.throwException("An unexpected server error occurred.", status, responseText);
-            }
-            return null;
-        });
-    }
-
-    /**
-     * Move units between countries. Only allowed after placing. Cancels any attacks that the player had left before. Attacking is not
-possible anymore after moving.
-     * @gameId Id of the game
-     * @options Options for the command
-     * @return GameActionResult of action
-     */
-    postMove(gameId: number, options: MoveOptions): Promise<GameActionResult> {
-        let url_ = this.baseUrl + "/api/games/{gameId}/play/move";
-        if (gameId === undefined || gameId === null)
-            throw new Error("The parameter 'gameId' must be defined.");
-        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId)); 
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(options);
-
-        let options_ = <RequestInit>{
-            body: content_,
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
-                "Accept": "application/json; charset=UTF-8"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((response: Response) => {
-            return this.processPostMove(response);
-        });
-    }
-
-    protected processPostMove(response: Response): Promise<GameActionResult> {
-        return response.text().then((responseText) => {
-            const status = response.status; 
-
-            if (status === 200) {
-                let result200: GameActionResult | null = null;
-                result200 = responseText === "" ? null : <GameActionResult>JSON.parse(responseText, this.jsonParseReviver);
-                return result200;
-            } else if (status !== 200 && status !== 204) {
-                this.throwException("An unexpected server error occurred.", status, responseText);
-            }
-            return null;
-        });
-    }
-
-    /**
-     * End the current turn
-     * @gameId Id of the game
-     * @return GameActionResult of action
-     */
-    postEndTurn(gameId: number): Promise<Game> {
-        let url_ = this.baseUrl + "/api/games/{gameId}/play/endturn";
-        if (gameId === undefined || gameId === null)
-            throw new Error("The parameter 'gameId' must be defined.");
-        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId)); 
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = "";
-
-        let options_ = <RequestInit>{
-            body: content_,
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
-                "Accept": "application/json; charset=UTF-8"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((response: Response) => {
-            return this.processPostEndTurn(response);
-        });
-    }
-
-    protected processPostEndTurn(response: Response): Promise<Game> {
-        return response.text().then((responseText) => {
-            const status = response.status; 
-
-            if (status === 200) {
-                let result200: Game | null = null;
-                result200 = responseText === "" ? null : <Game>JSON.parse(responseText, this.jsonParseReviver);
-                return result200;
-            } else if (status !== 200 && status !== 204) {
-                this.throwException("An unexpected server error occurred.", status, responseText);
-            }
-            return null;
-        });
-    }
-
-    protected throwException(message: string, status: number, response: string, result?: any): any {
-        if(result !== null && result !== undefined)
-            throw result;
-        else
-            throw new SwaggerException(message, status, response, null);
-    }
+export interface TournamentTeam extends TournamentTeamSummary {
+    participants?: UserReference[] | null | undefined;
 }
 
-export class TournamentClient {
-    private baseUrl: string | undefined = undefined;
-    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-
-    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
-        this.baseUrl = baseUrl ? baseUrl : "";
-        this.http = http ? http : <any>window;;
-    }
-
-    /**
-     * Returns tournaments
-     * @return List of tournaments
-     */
-    getAll(): Promise<Tournament[]> {
-        let url_ = this.baseUrl + "/api/tournaments";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ = <RequestInit>{
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
-                "Accept": "application/json; charset=UTF-8"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((response: Response) => {
-            return this.processGetAll(response);
-        });
-    }
-
-    protected processGetAll(response: Response): Promise<Tournament[]> {
-        return response.text().then((responseText) => {
-            const status = response.status; 
-
-            if (status === 200) {
-                let result200: Tournament[] | null = null;
-                result200 = responseText === "" ? null : <Tournament[]>JSON.parse(responseText, this.jsonParseReviver);
-                return result200;
-            } else if (status !== 200 && status !== 204) {
-                this.throwException("An unexpected server error occurred.", status, responseText);
-            }
-            return null;
-        });
-    }
-
-    /**
-     * Get tournament identified by Id
-     * @tournamentId Id of tournament
-     */
-    getById(tournamentId: string): Promise<Tournament> {
-        let url_ = this.baseUrl + "/api/tournaments/{tournamentId}";
-        if (tournamentId === undefined || tournamentId === null)
-            throw new Error("The parameter 'tournamentId' must be defined.");
-        url_ = url_.replace("{tournamentId}", encodeURIComponent("" + tournamentId)); 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ = <RequestInit>{
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
-                "Accept": "application/json; charset=UTF-8"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((response: Response) => {
-            return this.processGetById(response);
-        });
-    }
-
-    protected processGetById(response: Response): Promise<Tournament> {
-        return response.text().then((responseText) => {
-            const status = response.status; 
-
-            if (status === 200) {
-                let result200: Tournament | null = null;
-                result200 = responseText === "" ? null : <Tournament>JSON.parse(responseText, this.jsonParseReviver);
-                return result200;
-            } else if (status !== 200 && status !== 204) {
-                this.throwException("An unexpected server error occurred.", status, responseText);
-            }
-            return null;
-        });
-    }
-
-    /**
-     * Join tournament
-     * @tournamentId Id of tournament
-     */
-    postJoin(tournamentId: string): Promise<TournamentTeam> {
-        let url_ = this.baseUrl + "/api/tournaments/{tournamentId}";
-        if (tournamentId === undefined || tournamentId === null)
-            throw new Error("The parameter 'tournamentId' must be defined.");
-        url_ = url_.replace("{tournamentId}", encodeURIComponent("" + tournamentId)); 
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = "";
-
-        let options_ = <RequestInit>{
-            body: content_,
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
-                "Accept": "application/json; charset=UTF-8"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((response: Response) => {
-            return this.processPostJoin(response);
-        });
-    }
-
-    protected processPostJoin(response: Response): Promise<TournamentTeam> {
-        return response.text().then((responseText) => {
-            const status = response.status; 
-
-            if (status === 200) {
-                let result200: TournamentTeam | null = null;
-                result200 = responseText === "" ? null : <TournamentTeam>JSON.parse(responseText, this.jsonParseReviver);
-                return result200;
-            } else if (status !== 200 && status !== 204) {
-                this.throwException("An unexpected server error occurred.", status, responseText);
-            }
-            return null;
-        });
-    }
-
-    /**
-     * Get teams for tournament
-     * @tournamentId Id of tournament
-     */
-    getTeams(tournamentId: string): Promise<TournamentTeam[]> {
-        let url_ = this.baseUrl + "/api/tournaments/{tournamentId}/teams";
-        if (tournamentId === undefined || tournamentId === null)
-            throw new Error("The parameter 'tournamentId' must be defined.");
-        url_ = url_.replace("{tournamentId}", encodeURIComponent("" + tournamentId)); 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ = <RequestInit>{
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
-                "Accept": "application/json; charset=UTF-8"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((response: Response) => {
-            return this.processGetTeams(response);
-        });
-    }
-
-    protected processGetTeams(response: Response): Promise<TournamentTeam[]> {
-        return response.text().then((responseText) => {
-            const status = response.status; 
-
-            if (status === 200) {
-                let result200: TournamentTeam[] | null = null;
-                result200 = responseText === "" ? null : <TournamentTeam[]>JSON.parse(responseText, this.jsonParseReviver);
-                return result200;
-            } else if (status !== 200 && status !== 204) {
-                this.throwException("An unexpected server error occurred.", status, responseText);
-            }
-            return null;
-        });
-    }
-
-    /**
-     * Create new team for a tournament
-     * @tournamentId Id of tournament
-     * @name Name of team
-     * @password Optional password for team
-     * @return Summary of newly created team
-     */
-    postCreateTeam(tournamentId: string, name: string, password: string): Promise<TournamentTeamSummary> {
-        let url_ = this.baseUrl + "/api/tournaments/{tournamentId}/teams?";
-        if (tournamentId === undefined || tournamentId === null)
-            throw new Error("The parameter 'tournamentId' must be defined.");
-        url_ = url_.replace("{tournamentId}", encodeURIComponent("" + tournamentId)); 
-        if (name === undefined)
-            throw new Error("The parameter 'name' must be defined.");
-        else
-            url_ += "name=" + encodeURIComponent("" + name) + "&"; 
-        if (password !== undefined)
-            url_ += "password=" + encodeURIComponent("" + password) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = "";
-
-        let options_ = <RequestInit>{
-            body: content_,
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
-                "Accept": "application/json; charset=UTF-8"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((response: Response) => {
-            return this.processPostCreateTeam(response);
-        });
-    }
-
-    protected processPostCreateTeam(response: Response): Promise<TournamentTeamSummary> {
-        return response.text().then((responseText) => {
-            const status = response.status; 
-
-            if (status === 200) {
-                let result200: TournamentTeamSummary | null = null;
-                result200 = responseText === "" ? null : <TournamentTeamSummary>JSON.parse(responseText, this.jsonParseReviver);
-                return result200;
-            } else if (status !== 200 && status !== 204) {
-                this.throwException("An unexpected server error occurred.", status, responseText);
-            }
-            return null;
-        });
-    }
-
-    /**
-     * Join existing team
-     * @tournamentId Id of tournament
-     * @teamId Id of team
-     * @password Optional password for team to join
-     */
-    postJoinTeam(tournamentId: string, teamId: string, password: string): Promise<any> {
-        let url_ = this.baseUrl + "/api/tournaments/{tournamentId}/teams/{teamId}?";
-        if (tournamentId === undefined || tournamentId === null)
-            throw new Error("The parameter 'tournamentId' must be defined.");
-        url_ = url_.replace("{tournamentId}", encodeURIComponent("" + tournamentId)); 
-        if (teamId === undefined || teamId === null)
-            throw new Error("The parameter 'teamId' must be defined.");
-        url_ = url_.replace("{teamId}", encodeURIComponent("" + teamId)); 
-        if (password !== undefined)
-            url_ += "password=" + encodeURIComponent("" + password) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = "";
-
-        let options_ = <RequestInit>{
-            body: content_,
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
-                "Accept": "application/json; charset=UTF-8"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((response: Response) => {
-            return this.processPostJoinTeam(response);
-        });
-    }
-
-    protected processPostJoinTeam(response: Response): Promise<any> {
-        return response.text().then((responseText) => {
-            const status = response.status; 
-
-            if (status === 200) {
-                let result200: any | null = null;
-                result200 = responseText === "" ? null : <any>JSON.parse(responseText, this.jsonParseReviver);
-                return result200;
-            } else if (status !== 200 && status !== 204) {
-                this.throwException("An unexpected server error occurred.", status, responseText);
-            }
-            return null;
-        });
-    }
-
-    /**
-     * Delete a team. Only allowed if user created it
-     * @tournamentId Id of tournament
-     * @teamId Id of team to delete
-     */
-    deleteTeam(tournamentId: string, teamId: string): Promise<any> {
-        let url_ = this.baseUrl + "/api/tournaments/{tournamentId}/teams/{teamId}";
-        if (tournamentId === undefined || tournamentId === null)
-            throw new Error("The parameter 'tournamentId' must be defined.");
-        url_ = url_.replace("{tournamentId}", encodeURIComponent("" + tournamentId)); 
-        if (teamId === undefined || teamId === null)
-            throw new Error("The parameter 'teamId' must be defined.");
-        url_ = url_.replace("{teamId}", encodeURIComponent("" + teamId)); 
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = "";
-
-        let options_ = <RequestInit>{
-            body: content_,
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
-                "Accept": "application/json; charset=UTF-8"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((response: Response) => {
-            return this.processDeleteTeam(response);
-        });
-    }
-
-    protected processDeleteTeam(response: Response): Promise<any> {
-        return response.text().then((responseText) => {
-            const status = response.status; 
-
-            if (status === 200) {
-                let result200: any | null = null;
-                result200 = responseText === "" ? null : <any>JSON.parse(responseText, this.jsonParseReviver);
-                return result200;
-            } else if (status !== 200 && status !== 204) {
-                this.throwException("An unexpected server error occurred.", status, responseText);
-            }
-            return null;
-        });
-    }
-
-    /**
-     * Leave a team and tournament
-     * @tournamentId Id of tournament
-     */
-    leaveTournament(tournamentId: string): Promise<any> {
-        let url_ = this.baseUrl + "/api/tournaments/{tournamentId}/teams/me";
-        if (tournamentId === undefined || tournamentId === null)
-            throw new Error("The parameter 'tournamentId' must be defined.");
-        url_ = url_.replace("{tournamentId}", encodeURIComponent("" + tournamentId)); 
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = "";
-
-        let options_ = <RequestInit>{
-            body: content_,
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
-                "Accept": "application/json; charset=UTF-8"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((response: Response) => {
-            return this.processLeaveTournament(response);
-        });
-    }
-
-    protected processLeaveTournament(response: Response): Promise<any> {
-        return response.text().then((responseText) => {
-            const status = response.status; 
-
-            if (status === 200) {
-                let result200: any | null = null;
-                result200 = responseText === "" ? null : <any>JSON.parse(responseText, this.jsonParseReviver);
-                return result200;
-            } else if (status !== 200 && status !== 204) {
-                this.throwException("An unexpected server error occurred.", status, responseText);
-            }
-            return null;
-        });
-    }
-
-    protected throwException(message: string, status: number, response: string, result?: any): any {
-        if(result !== null && result !== undefined)
-            throw result;
-        else
-            throw new SwaggerException(message, status, response, null);
-    }
+export interface UserReference {
+    id?: string | null | undefined;
+    name?: string | null | undefined;
 }
 
-export class UserClient {
-    private baseUrl: string | undefined = undefined;
-    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+export enum TournamentTeamState {
+    Open = <any>"Open", 
+    Active = <any>"Active", 
+    InActive = <any>"InActive", 
+}
 
-    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
-        this.baseUrl = baseUrl ? baseUrl : "";
-        this.http = http ? http : <any>window;;
-    }
+export interface TournamentGroup {
+    id: string | undefined;
+    teams?: TournamentTeamSummary[] | null | undefined;
+}
 
-    /**
-     * Find users starting with the given query
-     * @query Query to search for
-     */
-    findUsers(query: string): Promise<UserReference[]> {
-        let url_ = this.baseUrl + "/api/users/find/{query}";
-        if (query === undefined || query === null)
-            throw new Error("The parameter 'query' must be defined.");
-        url_ = url_.replace("{query}", encodeURIComponent("" + query)); 
-        url_ = url_.replace(/[?&]$/, "");
+export interface TournamentPairing {
+    teamA?: TournamentTeamSummary | null | undefined;
+    teamB?: TournamentTeamSummary | null | undefined;
+    teamAWon: number | undefined;
+    teamBWon: number | undefined;
+    numberOfGames: number | undefined;
+    phase: number | undefined;
+    order: number | undefined;
+}
 
-        let options_ = <RequestInit>{
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
-                "Accept": "application/json; charset=UTF-8"
-            }
-        };
+export enum TournamentState {
+    Open = <any>"Open", 
+    Groups = <any>"Groups", 
+    Knockout = <any>"Knockout", 
+    Closed = <any>"Closed", 
+}
 
-        return this.http.fetch(url_, options_).then((response: Response) => {
-            return this.processFindUsers(response);
-        });
-    }
+export interface GameOptions {
+    numberOfPlayersPerTeam: number | undefined;
+    numberOfTeams: number | undefined;
+    minUnitsPerCountry: number | undefined;
+    newUnitsPerTurn: number | undefined;
+    attacksPerTurn: number | undefined;
+    movesPerTurn: number | undefined;
+    initialCountryUnits: number | undefined;
+    mapDistribution: MapDistribution | undefined;
+    timeoutInSeconds: number | undefined;
+    maximumTimeoutsPerPlayer: number | undefined;
+    maximumNumberOfCards: number | undefined;
+    victoryConditions: VictoryConditionType[] | undefined;
+    visibilityModifier: VisibilityModifierType[] | undefined;
+}
 
-    protected processFindUsers(response: Response): Promise<UserReference[]> {
-        return response.text().then((responseText) => {
-            const status = response.status; 
+export enum MapDistribution {
+    Default = <any>"Default", 
+    Malibu = <any>"Malibu", 
+    TeamCluster = <any>"TeamCluster", 
+}
 
-            if (status === 200) {
-                let result200: UserReference[] | null = null;
-                result200 = responseText === "" ? null : <UserReference[]>JSON.parse(responseText, this.jsonParseReviver);
-                return result200;
-            } else if (status !== 200 && status !== 204) {
-                this.throwException("An unexpected server error occurred.", status, responseText);
-            }
-            return null;
-        });
-    }
+export enum VictoryConditionType {
+    Survival = <any>"Survival", 
+    ControlContinent = <any>"ControlContinent", 
+}
 
-    protected throwException(message: string, status: number, response: string, result?: any): any {
-        if(result !== null && result !== undefined)
-            throw result;
-        else
-            throw new SwaggerException(message, status, response, null);
-    }
+export enum VisibilityModifierType {
+    None = <any>"None", 
+    Fog = <any>"Fog", 
+}
+
+export interface PlaceUnitsOptions {
+    countryIdentifier: string | undefined;
+    numberOfUnits: number | undefined;
+}
+
+export interface GameActionResult {
+    id: number | undefined;
+    teams?: Team[] | null | undefined;
+    state: GameState | undefined;
+    playState: PlayState | undefined;
+    countryUpdates?: Country[] | null | undefined;
+    actionResult: ActionResult | undefined;
+    unitsToPlace: number | undefined;
+    attacksInCurrentTurn: number | undefined;
+    movesInCurrentTurn: number | undefined;
+    cards?: BonusCard[] | null | undefined;
+    currentPlayer?: Player | null | undefined;
+}
+
+export interface Team {
+    id: string | undefined;
+    playOrder: number | undefined;
+    players?: Player[] | null | undefined;
+}
+
+export interface PlayerSummary {
+    id: string | undefined;
+    userId?: string | null | undefined;
+    name?: string | null | undefined;
+    state: PlayerState | undefined;
+    outcome: PlayerOutcome | undefined;
+    teamId: string | undefined;
+    playOrder: number | undefined;
+    timeouts: number | undefined;
+}
+
+export interface Player extends PlayerSummary {
+    cards?: BonusCard[] | null | undefined;
+    placedInitialUnits: boolean | undefined;
+    numberOfUnits: number | undefined;
+    numberOfCountries: number | undefined;
+}
+
+export enum BonusCard {
+    A = <any>"A", 
+    B = <any>"B", 
+    C = <any>"C", 
+}
+
+export enum PlayerState {
+    None = <any>"None", 
+    Active = <any>"Active", 
+    InActive = <any>"InActive", 
+}
+
+export enum PlayerOutcome {
+    None = <any>"None", 
+    Won = <any>"Won", 
+    Defeated = <any>"Defeated", 
+    Surrendered = <any>"Surrendered", 
+    Timeout = <any>"Timeout", 
+}
+
+export enum GameState {
+    None = <any>"None", 
+    Open = <any>"Open", 
+    Active = <any>"Active", 
+    Ended = <any>"Ended", 
+}
+
+export enum PlayState {
+    None = <any>"None", 
+    PlaceUnits = <any>"PlaceUnits", 
+    Attack = <any>"Attack", 
+    Move = <any>"Move", 
+    Done = <any>"Done", 
+}
+
+export interface Country {
+    identifier?: string | null | undefined;
+    playerId: string | undefined;
+    teamId: string | undefined;
+    units: number | undefined;
+}
+
+export enum ActionResult {
+    None = <any>"None", 
+    Successful = <any>"Successful", 
+    NotSuccessful = <any>"NotSuccessful", 
+}
+
+export interface AttackOptions {
+    originCountryIdentifier: string | undefined;
+    destinationCountryIdentifier: string | undefined;
+    numberOfUnits: number | undefined;
+}
+
+export interface MoveOptions {
+    originCountryIdentifier: string | undefined;
+    destinationCountryIdentifier: string | undefined;
+    numberOfUnits: number | undefined;
+}
+
+export interface Game {
+    id: number | undefined;
+    type: GameType | undefined;
+    name?: string | null | undefined;
+    mapTemplate?: string | null | undefined;
+    teams?: Team[] | null | undefined;
+    state: GameState | undefined;
+    playState: PlayState | undefined;
+    currentPlayer?: PlayerSummary | null | undefined;
+    map?: Map | null | undefined;
+    options?: GameOptions | null | undefined;
+    lastModifiedAt: Date | undefined;
+    timeoutSecondsLeft: number | undefined;
+    turnCounter: number | undefined;
+    unitsToPlace: number | undefined;
+    attacksInCurrentTurn: number | undefined;
+    movesInCurrentTurn: number | undefined;
+}
+
+export enum GameType {
+    Fun = <any>"Fun", 
+    Ranking = <any>"Ranking", 
+    Tournament = <any>"Tournament", 
+}
+
+export interface Map {
+    countries?: Country[] | null | undefined;
+}
+
+export interface NotificationSummary {
+    numberOfGames: number | undefined;
+    numberOfMessages: number | undefined;
+}
+
+export interface NewsItem {
+    dateTime: Date | undefined;
+    postedBy?: string | null | undefined;
+    content?: NewsContent[] | null | undefined;
+}
+
+export interface NewsContent {
+    language?: string | null | undefined;
+    title?: string | null | undefined;
+    text?: string | null | undefined;
+}
+
+export enum MessageFolder {
+    None = <any>"None", 
+    Inbox = <any>"Inbox", 
+    Sent = <any>"Sent", 
+}
+
+export interface SendMessage {
+    to: UserReference | undefined;
+    subject?: string | null | undefined;
+    text?: string | null | undefined;
+}
+
+export interface Message extends SendMessage {
+    id: string | undefined;
+    from?: UserReference | null | undefined;
+    folder: MessageFolder | undefined;
+    sentAt: Date | undefined;
+    isRead: boolean | undefined;
+}
+
+export interface FolderInformation {
+    folder: MessageFolder | undefined;
+    count: number | undefined;
+    unreadCount: number | undefined;
 }
 
 export interface LoginResponseModel {
@@ -2613,76 +2888,6 @@ export interface GameSummary {
     teams?: TeamSummary[] | null | undefined;
 }
 
-export enum GameType {
-    Fun = <any>"Fun", 
-    Ranking = <any>"Ranking", 
-    Tournament = <any>"Tournament", 
-}
-
-export interface GameOptions {
-    numberOfPlayersPerTeam: number | undefined;
-    numberOfTeams: number | undefined;
-    minUnitsPerCountry: number | undefined;
-    newUnitsPerTurn: number | undefined;
-    attacksPerTurn: number | undefined;
-    movesPerTurn: number | undefined;
-    initialCountryUnits: number | undefined;
-    mapDistribution: MapDistribution | undefined;
-    timeoutInSeconds: number | undefined;
-    maximumTimeoutsPerPlayer: number | undefined;
-    maximumNumberOfCards: number | undefined;
-    victoryConditions: VictoryConditionType[] | undefined;
-    visibilityModifier: VisibilityModifierType[] | undefined;
-}
-
-export enum MapDistribution {
-    Default = <any>"Default", 
-    Malibu = <any>"Malibu", 
-    TeamCluster = <any>"TeamCluster", 
-}
-
-export enum VictoryConditionType {
-    Survival = <any>"Survival", 
-    ControlContinent = <any>"ControlContinent", 
-}
-
-export enum VisibilityModifierType {
-    None = <any>"None", 
-    Fog = <any>"Fog", 
-}
-
-export enum GameState {
-    None = <any>"None", 
-    Open = <any>"Open", 
-    Active = <any>"Active", 
-    Ended = <any>"Ended", 
-}
-
-export interface PlayerSummary {
-    id: string | undefined;
-    userId?: string | null | undefined;
-    name?: string | null | undefined;
-    state: PlayerState | undefined;
-    outcome: PlayerOutcome | undefined;
-    teamId: string | undefined;
-    playOrder: number | undefined;
-    timeouts: number | undefined;
-}
-
-export enum PlayerState {
-    None = <any>"None", 
-    Active = <any>"Active", 
-    InActive = <any>"InActive", 
-}
-
-export enum PlayerOutcome {
-    None = <any>"None", 
-    Won = <any>"Won", 
-    Defeated = <any>"Defeated", 
-    Surrendered = <any>"Surrendered", 
-    Timeout = <any>"Timeout", 
-}
-
 export interface TeamSummary {
     id: string | undefined;
     playOrder: number | undefined;
@@ -2693,63 +2898,6 @@ export interface GameCreationOptions extends GameOptions {
     name: string | undefined;
     addBot: boolean | undefined;
     mapTemplate: string | undefined;
-}
-
-export interface Game {
-    id: number | undefined;
-    type: GameType | undefined;
-    name?: string | null | undefined;
-    mapTemplate?: string | null | undefined;
-    teams?: Team[] | null | undefined;
-    state: GameState | undefined;
-    playState: PlayState | undefined;
-    currentPlayer?: PlayerSummary | null | undefined;
-    map?: Map | null | undefined;
-    options?: GameOptions | null | undefined;
-    lastModifiedAt: Date | undefined;
-    timeoutSecondsLeft: number | undefined;
-    turnCounter: number | undefined;
-    unitsToPlace: number | undefined;
-    attacksInCurrentTurn: number | undefined;
-    movesInCurrentTurn: number | undefined;
-}
-
-export interface Team {
-    id: string | undefined;
-    playOrder: number | undefined;
-    players?: Player[] | null | undefined;
-}
-
-export interface Player extends PlayerSummary {
-    cards?: BonusCard[] | null | undefined;
-    placedInitialUnits: boolean | undefined;
-    numberOfUnits: number | undefined;
-    numberOfCountries: number | undefined;
-}
-
-export enum BonusCard {
-    A = <any>"A", 
-    B = <any>"B", 
-    C = <any>"C", 
-}
-
-export enum PlayState {
-    None = <any>"None", 
-    PlaceUnits = <any>"PlaceUnits", 
-    Attack = <any>"Attack", 
-    Move = <any>"Move", 
-    Done = <any>"Done", 
-}
-
-export interface Map {
-    countries?: Country[] | null | undefined;
-}
-
-export interface Country {
-    identifier?: string | null | undefined;
-    playerId: string | undefined;
-    teamId: string | undefined;
-    units: number | undefined;
 }
 
 export interface HistoryTurn {
@@ -2844,153 +2992,6 @@ export interface Continent {
     name?: string | null | undefined;
     bonus: number | undefined;
     countries?: string[] | null | undefined;
-}
-
-export enum MessageFolder {
-    None = <any>"None", 
-    Inbox = <any>"Inbox", 
-    Sent = <any>"Sent", 
-}
-
-export interface SendMessage {
-    to: UserReference | undefined;
-    subject?: string | null | undefined;
-    text?: string | null | undefined;
-}
-
-export interface Message extends SendMessage {
-    id: string | undefined;
-    from?: UserReference | null | undefined;
-    folder: MessageFolder | undefined;
-    sentAt: Date | undefined;
-    isRead: boolean | undefined;
-}
-
-export interface UserReference {
-    id?: string | null | undefined;
-    name?: string | null | undefined;
-}
-
-export interface FolderInformation {
-    folder: MessageFolder | undefined;
-    count: number | undefined;
-    unreadCount: number | undefined;
-}
-
-export interface NewsItem {
-    dateTime: Date | undefined;
-    postedBy?: string | null | undefined;
-    content?: NewsContent[] | null | undefined;
-}
-
-export interface NewsContent {
-    language?: string | null | undefined;
-    title?: string | null | undefined;
-    text?: string | null | undefined;
-}
-
-export interface NotificationSummary {
-    numberOfGames: number | undefined;
-    numberOfMessages: number | undefined;
-}
-
-export interface PlaceUnitsOptions {
-    countryIdentifier: string | undefined;
-    numberOfUnits: number | undefined;
-}
-
-export interface GameActionResult {
-    id: number | undefined;
-    teams?: Team[] | null | undefined;
-    state: GameState | undefined;
-    playState: PlayState | undefined;
-    countryUpdates?: Country[] | null | undefined;
-    actionResult: ActionResult | undefined;
-    attacksInCurrentTurn: number | undefined;
-    movesInCurrentTurn: number | undefined;
-    cards?: BonusCard[] | null | undefined;
-    currentPlayer?: Player | null | undefined;
-}
-
-export enum ActionResult {
-    None = <any>"None", 
-    Successful = <any>"Successful", 
-    NotSuccessful = <any>"NotSuccessful", 
-}
-
-export interface AttackOptions {
-    originCountryIdentifier: string | undefined;
-    destinationCountryIdentifier: string | undefined;
-    numberOfUnits: number | undefined;
-}
-
-export interface MoveOptions {
-    originCountryIdentifier: string | undefined;
-    destinationCountryIdentifier: string | undefined;
-    numberOfUnits: number | undefined;
-}
-
-export interface TournamentSummary {
-    id: string | undefined;
-    name: string | undefined;
-    state: TournamentState | undefined;
-    options?: GameOptions | null | undefined;
-    numberOfTeams: number | undefined;
-    numberOfGroupGames: number | undefined;
-    numberOfKnockoutGames: number | undefined;
-    numberOfFinalGames: number | undefined;
-    startOfRegistration: Date | undefined;
-    startOfTournament: Date | undefined;
-    endOfTournament: Date | undefined;
-    completion: number | undefined;
-}
-
-export interface Tournament extends TournamentSummary {
-    teams?: TournamentTeam[] | null | undefined;
-    groups?: TournamentGroup[] | null | undefined;
-    pairings?: TournamentPairing[] | null | undefined;
-    mapTemplates?: string[] | null | undefined;
-    winner?: TournamentTeam | null | undefined;
-    phase: number | undefined;
-}
-
-export interface TournamentTeamSummary {
-    id: string | undefined;
-    name?: string | null | undefined;
-    groupOrder: number | undefined;
-    state: TournamentTeamState | undefined;
-}
-
-export interface TournamentTeam extends TournamentTeamSummary {
-    participants?: UserReference[] | null | undefined;
-}
-
-export enum TournamentTeamState {
-    Open = <any>"Open", 
-    Active = <any>"Active", 
-    InActive = <any>"InActive", 
-}
-
-export interface TournamentGroup {
-    id: string | undefined;
-    teams?: TournamentTeamSummary[] | null | undefined;
-}
-
-export interface TournamentPairing {
-    teamA?: TournamentTeamSummary | null | undefined;
-    teamB?: TournamentTeamSummary | null | undefined;
-    teamAWon: number | undefined;
-    teamBWon: number | undefined;
-    numberOfGames: number | undefined;
-    phase: number | undefined;
-    order: number | undefined;
-}
-
-export enum TournamentState {
-    Open = <any>"Open", 
-    Groups = <any>"Groups", 
-    Knockout = <any>"Knockout", 
-    Closed = <any>"Closed", 
 }
 
 export class SwaggerException extends Error {

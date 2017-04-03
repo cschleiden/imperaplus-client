@@ -18,7 +18,7 @@ describe("Play:reducer", () => {
         }
     } as any);
 
-    describe("select_country", () => {
+    describe("select country", () => {
         it("sets origin, then destination, then origin", () => {
             let s = state;
 
@@ -64,7 +64,11 @@ describe("Play:reducer", () => {
         });
 
         it("selects countries only when allowed", () => {
-            
+
         });
+    });
+
+    describe("place units", () => {
+
     });
 });

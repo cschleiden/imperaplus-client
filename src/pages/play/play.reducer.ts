@@ -1,8 +1,14 @@
 import { makeImmutable, IImmutable } from "immuts";
 import reducerMap from "../../lib/reducerMap";
-import { GameSummary, GameType, GameState, AttackOptions, MoveOptions, GameActionResult, ActionResult, Game, Country, PlayState, Player, Team } from "../../external/imperaClients";
+import {
+    GameSummary, GameType, GameState, AttackOptions, MoveOptions, GameActionResult,
+    ActionResult, Game, Country, PlayState, Player, Team
+} from "../../external/imperaClients";
 import { IAction, success, pending, failed } from "../../lib/action";
-import { EXCHANGE, ATTACK, SWITCH_GAME, TOGGLE_SIDEBAR, SELECT_COUNTRY, ISetPlaceUnitsPayload, SET_PLACE_UNITS, INPROGRESS, PLACE, END_TURN, SET_ACTION_UNITS, ISwitchGamePayload, END_ATTACK, MOVE } from "./play.actions";
+import {
+    EXCHANGE, ATTACK, SWITCH_GAME, TOGGLE_SIDEBAR, SELECT_COUNTRY, ISetPlaceUnitsPayload,
+    SET_PLACE_UNITS, PLACE, END_TURN, SET_ACTION_UNITS, ISwitchGamePayload, END_ATTACK, MOVE
+} from "./play.actions";
 import { UserProvider } from "../../services/userProvider";
 import { MapTemplateCacheEntry } from "./mapTemplateCache";
 
@@ -108,8 +114,8 @@ export const toggleSidebar = (state: IPlayState, action: IAction<void>) => {
     return state.set(x => x.sidebarOpen, !state.data.sidebarOpen);
 };
 
-export const inProgress = (state: IPlayState, action: IAction<boolean>) => {
-    return state.set(x => x.operationInProgress, action.payload);
+export const isPending = (state: IPlayState) => {
+    return state.set(x => x.operationInProgress, true);
 };
 
 //
@@ -124,7 +130,6 @@ export const selectCountry = (state: IPlayState, action: IAction<string>) => {
     const country = countriesByIdentifier[countryIdentifier];
 
     if (game && game.currentPlayer.userId === currentUserId) {
-
         if (game.playState === PlayState.PlaceUnits) {
             if (placeCountries[countryIdentifier]) {
                 // Country was selected, de-select
@@ -258,6 +263,7 @@ export const updateFromResult = (state: IPlayState, action: IAction<GameActionRe
     const currentUserId = UserProvider.getUserId();
 
     return state
+        .set(x => x.operationInProgress, false)
         .set(x => x.placeCountries, {})
         .set(x => x.twoCountry, initialState.data.twoCountry)
         .update(x => x.game, game => {
@@ -267,6 +273,7 @@ export const updateFromResult = (state: IPlayState, action: IAction<GameActionRe
             game.attacksInCurrentTurn = result.attacksInCurrentTurn;
             game.movesInCurrentTurn = result.movesInCurrentTurn;
             game.currentPlayer = result.currentPlayer;
+            game.unitsToPlace = result.unitsToPlace;
 
             return game;
         })
@@ -299,17 +306,22 @@ export const play = <TPayload>(
     return reducerMap(action, state, {
         [TOGGLE_SIDEBAR]: toggleSidebar,
         [success(SWITCH_GAME)]: switchGame,
-        [INPROGRESS]: inProgress,
 
         [SELECT_COUNTRY]: selectCountry,
         [SET_PLACE_UNITS]: setPlaceUnits,
         [SET_ACTION_UNITS]: setActionUnits,
 
+        [pending(PLACE)]: isPending,
         [success(PLACE)]: updateFromResult,
+        [pending(EXCHANGE)]: isPending,
         [success(EXCHANGE)]: updateFromResult,
+        [pending(ATTACK)]: isPending,
         [success(ATTACK)]: updateFromResult,
+        [pending(END_ATTACK)]: isPending,
         [success(END_ATTACK)]: updateFromResult,
+        [pending(MOVE)]: isPending,
         [success(MOVE)]: updateFromResult,
+        [pending(END_TURN)]: isPending,
         [success(END_TURN)]: updateFromResult
     });
 };

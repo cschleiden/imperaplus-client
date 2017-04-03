@@ -31,13 +31,13 @@ enum MouseState {
     ActionDragger
 }
 
-namespace KeyBindings {
-    const ABORT = 27; // Escape
+const KeyBindings = {
+    "ABORT": 27, // Escape
 
-    const INCREASE_UNITCOUNT = 38; // Cursor up
-    const DECREASE_UNITCOUNT = 40; // Cursor down
-    const SUBMIT_ACTION = 13; // Enter
-}
+    "INCREASE_UNITCOUNT": 38, // Cursor up
+    "DECREASE_UNITCOUNT": 40, // Cursor down
+    "SUBMIT_ACTION": 13 // Enter
+};
 
 interface IMapProps {
     game: Game;
@@ -91,7 +91,7 @@ class Map extends React.Component<IMapProps, IMapState> {
         } else {
             this.setState({
                 isLoading: false
-            } as IMapState)
+            } as IMapState);
         }
     }
 
@@ -158,7 +158,7 @@ class Map extends React.Component<IMapProps, IMapState> {
     }
 
     private _renderConnections() {
-        const { twoCountry } = this.props;
+        const { twoCountry, game } = this.props;
         const showConnections = !!twoCountry.originCountryIdentifier && !twoCountry.destinationCountryIdentifier;
         if (!showConnections) {
             // Remove any arrows
@@ -173,7 +173,7 @@ class Map extends React.Component<IMapProps, IMapState> {
                 this._jsPlumb.connect({
                     source: twoCountry.originCountryIdentifier,
                     target: destination,
-                    cssClass: "connections connections-attack",
+                    cssClass: "connections connections-" + (game.playState === PlayState.Attack ? "attack" : "move"),
                     hoverClass: "connections-hover",
                     anchors: [
                         ["Perimeter", { shape: "Circle" }],
@@ -203,7 +203,7 @@ class Map extends React.Component<IMapProps, IMapState> {
     }
 
     private _renderConnection() {
-        const { twoCountry } = this.props;
+        const { twoCountry, game } = this.props;
         const showConnections = !!twoCountry.originCountryIdentifier && !!twoCountry.destinationCountryIdentifier;
         if (!showConnections) {
             this._connection = null;
@@ -224,7 +224,7 @@ class Map extends React.Component<IMapProps, IMapState> {
                 outlineStroke: "black"
             },
             connector: ["StateMachine"],
-            cssClass: "connections connections-attack",
+            cssClass: "connections connections-" + (game.playState === PlayState.Attack ? "attack" : "move"),
             overlays: [
                 ["Custom", {
                     create: (component) => {
@@ -249,6 +249,7 @@ class Map extends React.Component<IMapProps, IMapState> {
                 max={maxUnits}
                 value={numberOfUnits}
                 onChange={this._changeUnits}
+                onKeyUp={this._onKeyUp}
                 style={{
                     display: !destinationCountryIdentifier ? "none" : "block"
                 }}
@@ -291,11 +292,7 @@ class Map extends React.Component<IMapProps, IMapState> {
         const { game, twoCountry } = this.props;
 
         if (!!twoCountry.originCountryIdentifier && !!twoCountry.destinationCountryIdentifier) {
-            if (game.playState === PlayState.Attack) {
-                this.props.attack();
-            } else if (game.playState === PlayState.Move) {
-                this.props.move();
-            }
+            this._performAction();
         } else {
             this.props.selectCountry(countryIdentifier);
         }
@@ -318,6 +315,29 @@ class Map extends React.Component<IMapProps, IMapState> {
             this.setState({
                 hoveredCountry: null
             } as IMapState);
+        }
+    }
+
+    @autobind
+    private _onKeyUp(ev: React.KeyboardEvent<HTMLInputElement>) {
+        switch (ev.keyCode) {
+            case KeyBindings.SUBMIT_ACTION:
+                this._performAction();
+                break;
+
+            case KeyBindings.ABORT:
+                this.props.selectCountry(null);
+                break;
+        }
+    }
+
+    private _performAction() {
+        const { game } = this.props;
+
+        if (game.playState === PlayState.Attack) {
+            this.props.attack();
+        } else if (game.playState === PlayState.Move) {
+            this.props.move();
         }
     }
 }
