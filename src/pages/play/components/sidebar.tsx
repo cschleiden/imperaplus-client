@@ -6,7 +6,8 @@ import { Game } from "../../../external/imperaClients";
 import { IState } from "../../../reducers";
 import { Section, SubSection } from "../../../components/ui/typography";
 import { Tabs } from "react-bootstrap";
-import { GameChat } from "./gameChat";
+import GameChat from "./gameChat";
+import GameHistory from "./gameHistory";
 import { GameStats } from "./stats";
 
 interface ISidebarProps {
@@ -21,6 +22,9 @@ class Sidebar extends React.Component<ISidebarProps, void> {
             <GameChat />
 
             <SubSection>{__("History")}</SubSection>
+            <GameHistory />
+
+            <SubSection>{__("Stats")}</SubSection>
             <GameStats game={game} />
 
             <SubSection>{__("Other Games")}</SubSection>

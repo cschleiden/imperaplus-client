@@ -1,24 +1,96 @@
-import { IAction, makePromiseAction } from "../../lib/action";
+import { IAction, makePromiseAction, IAsyncActionVoid, IAsyncAction } from "../../lib/action";
 import { PlayClient, GameActionResult, MoveOptions, AttackOptions, Game, GameClient, PlaceUnitsOptions } from "../../external/imperaClients";
 import { getMapTemplate, MapTemplateCacheEntry } from "./mapTemplateCache";
+import { NotificationType, INotification, IGameChatMessageNotification, IGameChatMessage } from "../../external/notificationModel";
 
 export const SWITCH_GAME = "play-switch-game";
 export interface ISwitchGamePayload {
     game: Game;
     mapTemplate: MapTemplateCacheEntry;
 }
-export const switchGame = makePromiseAction<number, ISwitchGamePayload>((gameId, dispatch, getState, deps) =>
-    ({
-        type: SWITCH_GAME,
-        payload: {
-            promise: deps.getCachedClient(GameClient).get(gameId).then(game => {
-                return getMapTemplate(game.mapTemplate).then(mapTemplate => ({
-                    game,
-                    mapTemplate
-                }));
-            })
+export const switchGame: IAsyncAction<number> = (gameId) =>
+    (dispatch, getState, deps) => {
+        const finish = () => ({
+            type: SWITCH_GAME,
+            payload: {
+                promise: client.invoke("switchGame", oldGameId, gameId)
+                    .then(() => deps.getCachedClient(GameClient)
+                        .get(gameId)
+                        .then(game => {
+                            // deps.getCachedClient(GameClient).getMessages(gameId, false);
+                            // deps.getCachedClient(GameClient).getMessages(gameId, true);
+
+                            return getMapTemplate(game.mapTemplate)
+                                .then(mapTemplate => ({
+                                    game,
+                                    mapTemplate
+                                }));
+                        })
+                    )
+            }
+        });
+
+        const client = deps.getSignalRClient("game");
+
+        const oldGameId = getState().play.data.gameId;
+        if (!oldGameId && !client.isConnected()) {
+            client.detachAllHandlers();
+
+            client.on("notification", (notification: INotification) => {
+                if (notification.type === NotificationType.GameChatMessage) {
+                    const gameChatNotification = notification as IGameChatMessageNotification;
+                    const message = gameChatNotification.message;
+
+                    dispatch(gameChatMessage(message));
+                }
+            });
+
+            client.onInit(() => {
+                return client.invoke("switchGame", oldGameId || 0, gameId).then(() => {
+                    dispatch(finish());
+                });
+            });
+
+            client.start();
+        } else {
+            dispatch(finish());
         }
-    }));
+    };
+
+export const GAME_CHAT_MESSAGE = "play-game-chat-message";
+export const gameChatMessage = (message: IGameChatMessage): IAction<IGameChatMessage> => ({
+    type: GAME_CHAT_MESSAGE,
+    payload: message
+});
+
+export const GAME_CHAT_SEND_MESSAGE = "play-game-chat-send-message";
+export interface IGameChatSendMessageInput {
+    message: string;
+    isPublic: boolean;
+}
+export const gameChatSendMessage = makePromiseAction<IGameChatSendMessageInput, void>((input, dispatch, getState, deps) => {
+    const gameId = getState().play.data.gameId;
+    const client = deps.getSignalRClient("game");
+
+    return {
+        type: GAME_CHAT_SEND_MESSAGE,
+        payload: {
+            promise: client.invoke<void>("sendGameMessage", gameId, input.message, input.isPublic)
+        }
+    };
+});
+
+export const LEAVE = "play-leave";
+export const leave: IAsyncActionVoid = () =>
+    (dispatch, getState, deps) => {
+        // Stop notification hub
+        let client = deps.getSignalRClient("notification");
+        client.stop();
+
+        dispatch(<IAction<void>>{
+            type: LEAVE
+        });
+    };
 
 export const TOGGLE_SIDEBAR = "play-toggle-sidebar";
 export const toggleSidebar = (): IAction<void> => ({

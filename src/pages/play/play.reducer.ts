@@ -7,10 +7,12 @@ import {
 import { IAction, success, pending, failed } from "../../lib/action";
 import {
     EXCHANGE, ATTACK, SWITCH_GAME, TOGGLE_SIDEBAR, SELECT_COUNTRY, ISetPlaceUnitsPayload,
-    SET_PLACE_UNITS, PLACE, END_TURN, SET_ACTION_UNITS, ISwitchGamePayload, END_ATTACK, MOVE
+    SET_PLACE_UNITS, PLACE, END_TURN, SET_ACTION_UNITS, ISwitchGamePayload, END_ATTACK, MOVE, GAME_CHAT_MESSAGE, GAME_CHAT_SEND_MESSAGE
 } from "./play.actions";
 import { UserProvider } from "../../services/userProvider";
 import { MapTemplateCacheEntry } from "./mapTemplateCache";
+import { IGameChatMessage } from "../../external/notificationModel";
+import { isEmptyGuid } from "../../lib/guid";
 
 export interface ITwoCountry {
     originCountryIdentifier: string;
@@ -24,13 +26,19 @@ export interface ITwoCountry {
 const initialState = makeImmutable({
     gameId: 0,
     game: null as Game,
+
+    gameChat: {
+        isPending: false,
+        public: [] as IGameChatMessage[],
+        team: [] as IGameChatMessage[]
+    },
+
+    /** Current user's player */
     player: null as Player,
     mapTemplate: null as MapTemplateCacheEntry,
 
+    /** List of countries of current game indexed by identifier */
     countriesByIdentifier: null as { [id: string]: Country },
-
-    /** Other games where it's the player's turn */
-    otherGames: [] as GameSummary[],
 
     placeCountries: {} as { [id: string]: number },
 
@@ -49,7 +57,11 @@ const initialState = makeImmutable({
     sidebarOpen: false,
     operationInProgress: false,
 
-    historyActive: false
+    /** Value indicating whether current turn is displayed or history */
+    historyActive: false,
+
+    /** Other games where it's the player's turn */
+    otherGames: [] as GameSummary[]
 });
 
 export type IPlayState = typeof initialState;
@@ -114,8 +126,29 @@ export const toggleSidebar = (state: IPlayState, action: IAction<void>) => {
     return state.set(x => x.sidebarOpen, !state.data.sidebarOpen);
 };
 
-export const isPending = (state: IPlayState) => {
+export const pendingOperation = (state: IPlayState) => {
     return state.set(x => x.operationInProgress, true);
+};
+
+// 
+// Game chat
+//
+export const gameChatMessage = (state: IPlayState, action: IAction<IGameChatMessage>) => {
+    const message = action.payload;
+
+    if (isEmptyGuid(message.teamId)) {
+        return state.update(x => x.gameChat.public, messages => messages.concat([message]));
+    } else {
+        return state.update(x => x.gameChat.team, messages => messages.concat([message]));
+    }
+};
+
+export const gameChatSendMessagePending = (state: IPlayState, action: IAction<void>) => {
+    return state.set(x => x.gameChat.isPending, true);
+};
+
+export const gameChatSendMessageSuccess = (state: IPlayState, action: IAction<void>) => {
+    return state.set(x => x.gameChat.isPending, false);
 };
 
 //
@@ -307,21 +340,27 @@ export const play = <TPayload>(
         [TOGGLE_SIDEBAR]: toggleSidebar,
         [success(SWITCH_GAME)]: switchGame,
 
+        // Game chat
+        [GAME_CHAT_MESSAGE]: gameChatMessage,
+        [pending(GAME_CHAT_SEND_MESSAGE)]: gameChatSendMessagePending,
+        [success(GAME_CHAT_SEND_MESSAGE)]: gameChatSendMessageSuccess,
+
+        // Play actions
         [SELECT_COUNTRY]: selectCountry,
         [SET_PLACE_UNITS]: setPlaceUnits,
         [SET_ACTION_UNITS]: setActionUnits,
 
-        [pending(PLACE)]: isPending,
+        [pending(PLACE)]: pendingOperation,
         [success(PLACE)]: updateFromResult,
-        [pending(EXCHANGE)]: isPending,
+        [pending(EXCHANGE)]: pendingOperation,
         [success(EXCHANGE)]: updateFromResult,
-        [pending(ATTACK)]: isPending,
+        [pending(ATTACK)]: pendingOperation,
         [success(ATTACK)]: updateFromResult,
-        [pending(END_ATTACK)]: isPending,
+        [pending(END_ATTACK)]: pendingOperation,
         [success(END_ATTACK)]: updateFromResult,
-        [pending(MOVE)]: isPending,
+        [pending(MOVE)]: pendingOperation,
         [success(MOVE)]: updateFromResult,
-        [pending(END_TURN)]: isPending,
+        [pending(END_TURN)]: pendingOperation,
         [success(END_TURN)]: updateFromResult
     });
 };

@@ -1,3 +1,35 @@
 .game-chat .tab-content {
     height: 200px;
+    padding: 0;
+}
+
+.game-chat-list {
+    padding: 10px;
+    height: 200px - 32px;
+    overflow: auto;
+    ul {
+        list-style: none;
+        padding: 0;
+    }
+    strong {
+        margin-right: 10px;
+    }
+    .game-chat-date {
+        font-size: 80%;
+    }
+}
+
+$buttonWidth: 75px;
+.game-chat {
+    .input-group {
+        width: 100%;
+        .game-chat-input {
+            width: calc(100% - #{$buttonWidth}) !important;
+            height: 34px;
+        }
+        .game-chat-button {
+            width: $buttonWidth;
+            height: 34px;
+        }
+    }
 }

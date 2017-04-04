@@ -15,7 +15,7 @@ export default function promiseMiddleware({ dispatch }) {
         const { type, payload, meta, options } = action;
         const { promise, data } = payload;
 
-        if (options.clearMessage) {
+        if (options && options.clearMessage) {
             dispatch(clear(null));
         }
 
@@ -69,7 +69,7 @@ export default function promiseMiddleware({ dispatch }) {
                     });
                 }
 
-                if (options.afterError) {
+                if (options && options.afterError) {
                     options.afterError(dispatch);
                 }
             }
