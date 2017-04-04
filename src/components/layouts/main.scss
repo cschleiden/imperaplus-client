@@ -75,6 +75,7 @@ $headerHeight: 120px;
             & > li {
                 display: inline-block;
                 position: relative;
+                padding: 0px #{2 * $spacing} 0px $spacing;
 
                 & > a {
                     text-transform: uppercase;
@@ -84,7 +85,6 @@ $headerHeight: 120px;
 
                     display: inline-block;
 
-                    padding: $spacing #{3 * $spacing} $spacing #{2 * $spacing};
                     border-bottom: 2px solid transparent;
                     &.active,
                     &:hover {
@@ -96,16 +96,6 @@ $headerHeight: 120px;
                     }
                 }
 
-                &.dropable > a:after {
-                    top: 13px;
-                    right: 15px;
-                    content: "\f107";
-                    font-size: 11px;
-                    position: absolute;
-                    font-weight: normal;
-                    display: inline-block;
-                    font-family: FontAwesome;
-                }
                 // Show dropdown         
                 &:hover {
                     ul.nav-dropdown {

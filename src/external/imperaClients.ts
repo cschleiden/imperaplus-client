@@ -2817,6 +2817,7 @@ export interface Ladder extends LadderSummary {
 
 export interface MapTemplateDescriptor {
     name?: string | null | undefined;
+    image?: string | null | undefined;
 }
 
 export interface MapTemplate {

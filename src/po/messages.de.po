@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2017-04-02 00:12+0200\n"
+"POT-Creation-Date: 2017-04-04 19:52+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christopher Schleiden <cschleiden@live.de>\n"
 "Language-Team: \n"
@@ -62,7 +62,7 @@ msgstr "Nutzungsbedingungen"
 
 #: temp/src/components/layouts/main.js:81
 msgid "User Voice"
-msgstr "Dein Feedback!\","
+msgstr "Dein Feedback!\""
 
 #: temp/src/components/navigation/game.js:10 temp/src/pages/start/index.js:28
 msgid "News"
@@ -72,70 +72,69 @@ msgstr "News"
 msgid "Games"
 msgstr "Spiele"
 
-#: temp/src/components/navigation/game.js:15 temp/src/pages/games/games.js:23
+#: temp/src/components/navigation/game.js:16 temp/src/pages/games/games.js:23
 #: temp/src/pages/games/games.js:42
 msgid "My Games"
 msgstr "Meine Spiele"
 
-#: temp/src/components/navigation/game.js:17
+#: temp/src/components/navigation/game.js:18
 msgid "Create Fun Game"
 msgstr "Fun Spiel erstellen"
 
-#: temp/src/components/navigation/game.js:19
+#: temp/src/components/navigation/game.js:20
 msgid "Join Fun Game"
 msgstr "Fun Spiel beitreten"
 
-#: temp/src/components/navigation/game.js:21
+#: temp/src/components/navigation/game.js:22
 msgid "Ladders"
 msgstr "Ranglisten"
 
-#: temp/src/components/navigation/game.js:23 temp/src/pages/games/games.js:38
-#: temp/src/pages/start/index.js:43
+#: temp/src/components/navigation/game.js:24 temp/src/pages/games/games.js:38
+#: temp/src/pages/start/index.js:44
 msgid "Tournaments"
 msgstr "Turniere"
 
-#: temp/src/components/navigation/game.js:25
+#: temp/src/components/navigation/game.js:26
 msgid "Alliance"
 msgstr "Allianz"
 
-#: temp/src/components/navigation/game.js:28
-msgid "Create game"
-msgstr "Spiel erstellen"
-
 #: temp/src/components/navigation/game.js:30
-#: temp/src/components/ui/games/gameDetail.js:97
-msgid "Join game"
-msgstr "Fun Spiel beitreten"
+msgid "Create alliance"
+msgstr "Allianz erstellen"
 
 #: temp/src/components/navigation/game.js:32
+msgid "Join alliance"
+msgstr "Allianz beitreten"
+
+#: temp/src/components/navigation/game.js:34
 msgid "Admin"
 msgstr "Admin"
 
-#: temp/src/components/navigation/game.js:34
+#: temp/src/components/navigation/game.js:36
 msgid "Information"
 msgstr "Information"
 
-#: temp/src/components/navigation/game.js:36
+#: temp/src/components/navigation/game.js:38
 msgid "Forum"
 msgstr "Forum"
 
-#: temp/src/components/navigation/game.js:42
+#: temp/src/components/navigation/game.js:44
 msgid "Messages"
 msgstr "Nachrichten"
 
-#: temp/src/components/navigation/game.js:48
+#: temp/src/components/navigation/game.js:50
 msgid "Account"
 msgstr "Account"
 
-#: temp/src/components/navigation/game.js:50
+#: temp/src/components/navigation/game.js:53
 msgid "userName"
 msgstr "Benutzername"
 
-#: temp/src/components/navigation/game.js:52
+#: temp/src/components/navigation/game.js:55
 msgid "Profile"
 msgstr "Profil"
 
-#: temp/src/components/navigation/game.js:58
+#: temp/src/components/navigation/game.js:61
 msgid "Logout"
 msgstr "Ausloggen"
 
@@ -154,6 +153,57 @@ msgstr "Registrieren"
 msgid "Login"
 msgstr "Einloggen"
 
+#: temp/src/components/ui/alliance/joinList.js:34
+#: temp/src/components/ui/games/gameList.js:36
+#: temp/src/components/ui/games/joinList.js:34
+#: temp/src/components/ui/games/ladders.js:34
+msgid "Id"
+msgstr "Id"
+
+#: temp/src/components/ui/alliance/joinList.js:35
+#: temp/src/components/ui/games/gameList.js:37
+#: temp/src/components/ui/games/joinList.js:35
+#: temp/src/components/ui/games/ladders.js:35
+#: temp/src/pages/create/create.js:104
+msgid "Name"
+msgstr "Name"
+
+#: temp/src/components/ui/alliance/joinList.js:36
+#: temp/src/components/ui/games/gameList.js:38
+#: temp/src/components/ui/games/joinList.js:36
+#: temp/src/components/ui/games/ladders.js:36
+#: temp/src/pages/create/create.js:107
+msgid "Map"
+msgstr "Karte"
+
+#: temp/src/components/ui/alliance/joinList.js:37
+#: temp/src/components/ui/games/gameDetail.js:59
+#: temp/src/components/ui/games/gameList.js:39
+#: temp/src/components/ui/games/joinList.js:37
+#: temp/src/components/ui/games/ladders.js:37
+msgid "Mode"
+msgstr "Modus"
+
+#: temp/src/components/ui/alliance/joinList.js:38
+#: temp/src/components/ui/games/joinList.js:38
+#: temp/src/components/ui/games/ladders.js:38
+msgid "Owner"
+msgstr "Ersteller"
+
+#: temp/src/components/ui/alliance/joinList.js:39
+#: temp/src/components/ui/games/gameList.js:41
+#: temp/src/components/ui/games/joinList.js:39
+#: temp/src/components/ui/games/ladders.js:39
+msgid "Teams/Players"
+msgstr "Teams/Spieler"
+
+#: temp/src/components/ui/alliance/joinList.js:66
+#: temp/src/components/ui/games/gameList.js:83
+#: temp/src/components/ui/games/joinList.js:66
+#: temp/src/components/ui/games/ladders.js:66
+msgid "Show details"
+msgstr "Details einblenden"
+
 #: temp/src/components/ui/games/gameDetail.js:51
 msgid "Started"
 msgstr "Begonnen am"
@@ -168,23 +218,17 @@ msgstr "Letzte Aktion"
 
 #: temp/src/components/ui/games/gameDetail.js:57
 #: temp/src/components/ui/games/playerOutcome.js:35
-#: temp/src/pages/create/create.js:108
+#: temp/src/pages/create/create.js:111
 msgid "Timeout"
 msgstr "Timeout"
 
-#: temp/src/components/ui/games/gameDetail.js:59
-#: temp/src/components/ui/games/gameList.js:39
-#: temp/src/components/ui/games/joinList.js:37
-msgid "Mode"
-msgstr "Modus"
-
 #: temp/src/components/ui/games/gameDetail.js:62
-#: temp/src/pages/create/create.js:116
+#: temp/src/pages/create/create.js:134
 msgid "Attacks"
 msgstr "Angriffe"
 
 #: temp/src/components/ui/games/gameDetail.js:64
-#: temp/src/pages/create/create.js:117
+#: temp/src/pages/create/create.js:135
 msgid "Moves"
 msgstr "Bewegungen"
 
@@ -216,6 +260,10 @@ msgstr "Spiel löschen"
 msgid "Hide finished game"
 msgstr "Beendetes Spiel verstecken"
 
+#: temp/src/components/ui/games/gameDetail.js:97
+msgid "Join game"
+msgstr "Fun Spiel beitreten"
+
 #: temp/src/components/ui/games/gameDetail.js:107
 #: temp/src/pages/play/components/gameChat.js:18
 msgid "Team"
@@ -225,33 +273,11 @@ msgstr "Teams"
 msgid "Timeouts"
 msgstr "Timeouts"
 
-#: temp/src/components/ui/games/gameList.js:36
-#: temp/src/components/ui/games/joinList.js:34
-msgid "Id"
-msgstr "Id"
-
-#: temp/src/components/ui/games/gameList.js:37
-#: temp/src/components/ui/games/joinList.js:35
-#: temp/src/pages/create/create.js:103
-msgid "Name"
-msgstr "Name"
-
-#: temp/src/components/ui/games/gameList.js:38
-#: temp/src/components/ui/games/joinList.js:36
-#: temp/src/pages/create/create.js:105
-msgid "Map"
-msgstr "Karte"
-
 #: temp/src/components/ui/games/gameList.js:40
 #: temp/src/components/ui/games/gameState.js:13
 #: temp/src/components/ui/games/playerOutcome.js:15
 msgid "Active"
 msgstr "Am Zug"
-
-#: temp/src/components/ui/games/gameList.js:41
-#: temp/src/components/ui/games/joinList.js:39
-msgid "Teams/Players"
-msgstr "Teams/Spieler"
 
 #: temp/src/components/ui/games/gameList.js:42
 msgid "Time left for turn"
@@ -261,10 +287,9 @@ msgstr "Restzeit für Zug"
 msgid "State"
 msgstr "Status"
 
-#: temp/src/components/ui/games/gameList.js:74
-#: temp/src/components/ui/games/joinList.js:66
-msgid "Show details"
-msgstr "Details einblenden"
+#: temp/src/components/ui/games/gameList.js:63
+msgid "not started"
+msgstr "noch nicht gestartet"
 
 #: temp/src/components/ui/games/gameState.js:18
 msgid "Open"
@@ -273,10 +298,6 @@ msgstr "Offen"
 #: temp/src/components/ui/games/gameState.js:23
 msgid "Ended"
 msgstr "Beendet"
-
-#: temp/src/components/ui/games/joinList.js:38
-msgid "Owner"
-msgstr "Ersteller"
 
 #: temp/src/components/ui/games/playerOutcome.js:20
 msgid "Won"
@@ -346,27 +367,27 @@ msgstr "vor einem Jahr"
 msgid "over a year ago"
 msgstr "vor mehr als einem Jahr"
 
-#: temp/src/components/ui/humanDate.js:53 temp/src/pages/create/create.js:109
+#: temp/src/components/ui/humanDate.js:53 temp/src/pages/create/create.js:114
 msgid "5 Minutes"
 msgstr "5 Minuten"
 
-#: temp/src/components/ui/humanDate.js:55 temp/src/pages/create/create.js:110
+#: temp/src/components/ui/humanDate.js:55 temp/src/pages/create/create.js:115
 msgid "10 Minutes"
 msgstr "10 Minuten"
 
-#: temp/src/components/ui/humanDate.js:57 temp/src/pages/create/create.js:111
+#: temp/src/components/ui/humanDate.js:57 temp/src/pages/create/create.js:122
 msgid "10 Hours"
 msgstr "10 Stunden"
 
-#: temp/src/components/ui/humanDate.js:59 temp/src/pages/create/create.js:112
+#: temp/src/components/ui/humanDate.js:59 temp/src/pages/create/create.js:125
 msgid "1 Day"
 msgstr "1 Tag"
 
-#: temp/src/components/ui/humanDate.js:61 temp/src/pages/create/create.js:113
+#: temp/src/components/ui/humanDate.js:61 temp/src/pages/create/create.js:126
 msgid "2 Days"
 msgstr "2 Tage"
 
-#: temp/src/components/ui/humanDate.js:76
+#: temp/src/components/ui/humanDate.js:75
 msgid "day(s)"
 msgstr "Tag(e)"
 
@@ -466,112 +487,199 @@ msgstr "Dieser Name ist bereits in Benutzung."
 msgid "Team is already full."
 msgstr "Das Team ist bereits voll."
 
+#: temp/src/pages/alliance/admin.js:19 temp/src/pages/alliance/admin.js:24
+msgid "Alliance Admin"
+msgstr "Allianz Adminbereich"
+
+#: temp/src/pages/alliance/create.js:19 temp/src/pages/alliance/create.js:24
+msgid "Create Alliance"
+msgstr "Allianz erstellen"
+
+#: temp/src/pages/alliance/info.js:19 temp/src/pages/alliance/info.js:24
+msgid "Information about alliances"
+msgstr "Informationen über Allianzen"
+
+#: temp/src/pages/alliance/join.js:20 temp/src/pages/alliance/join.js:25
+msgid "Join Alliance"
+msgstr "Allianz beitreten"
+
 #: temp/src/pages/create/create.actions.js:12
 #: temp/src/pages/games/games.actions.js:109
 msgid "Game created, you can find it now in [My Games](/game/games)."
-msgstr ""
-"Spiel erstellt, du findest es jetzt unter [Meine Spiele](game/games/my)."
+msgstr "Spiel erstellt, du findest es jetzt unter [Meine Spiele](/game/games)."
 
-#: temp/src/pages/create/create.js:20
+#: temp/src/pages/create/create.js:21
 msgid "1 vs Bot"
 msgstr "1 vs Computer"
 
-#: temp/src/pages/create/create.js:30
+#: temp/src/pages/create/create.js:31
 msgid "Players"
 msgstr "Spieler"
 
-#: temp/src/pages/create/create.js:37
+#: temp/src/pages/create/create.js:38
 msgid "vs"
 msgstr "vs"
 
-#: temp/src/pages/create/create.js:58
+#: temp/src/pages/create/create.js:59
 msgid "Create Game"
 msgstr "Spiel erstellen"
 
-#: temp/src/pages/create/create.js:60
+#: temp/src/pages/create/create.js:61
 msgid ""
 "Here you can create a new fun game. If you want to start playing sooner, you "
-"might want to [join](game/games/join) an existing game. Fun games do not "
+"might want to [join](/game/games/join) an existing game. Fun games do not "
 "count for the ladder."
 msgstr ""
 "Hier kannst du ein neues Fun-Spiel erstellen. Wenn du direkt losspielen "
-"willst möchtest du vielleicht einem bestehendem Spiel [beitreten](game/games/"
-"join). Fun-Spiele zählen nicht für die Rangliste."
+"willst möchtest du vielleicht einem bestehendem Spiel [beitreten](/game/"
+"games/join). Fun-Spiele zählen nicht für die Rangliste."
 
-#: temp/src/pages/create/create.js:102 temp/src/pages/create/create.js:133
+#: temp/src/pages/create/create.js:103 temp/src/pages/create/create.js:156
 msgid "Simple"
 msgstr "Einfach"
 
-#: temp/src/pages/create/create.js:104 temp/src/pages/public/login/index.js:44
+#: temp/src/pages/create/create.js:105 temp/src/pages/public/login/index.js:44
 #: temp/src/pages/public/signup/index.js:49
 msgid "Password"
 msgstr "Passwort"
 
-#: temp/src/pages/create/create.js:104
+#: temp/src/pages/create/create.js:105
 msgid "Optional: Password"
 msgstr "Optional: Passwort"
 
-#: temp/src/pages/create/create.js:114
+#: temp/src/pages/create/create.js:112
+msgid "2 Minutes"
+msgstr "2 Minuten"
+
+#: temp/src/pages/create/create.js:113
+msgid "3 Minutes"
+msgstr "3 Minuten"
+
+#: temp/src/pages/create/create.js:116
+msgid "15 Minutes"
+msgstr "15 Minuten"
+
+#: temp/src/pages/create/create.js:117
+msgid "30 Minutes"
+msgstr "30 Minuten"
+
+#: temp/src/pages/create/create.js:118
+msgid "45 Minutes"
+msgstr "45 Minuten"
+
+#: temp/src/pages/create/create.js:119
+msgid "1 Hours"
+msgstr "1 Stunde"
+
+#: temp/src/pages/create/create.js:120
+msgid "2 Hours"
+msgstr "2 Stunden"
+
+#: temp/src/pages/create/create.js:121
+msgid "4 Hours"
+msgstr "4 Stunden"
+
+#: temp/src/pages/create/create.js:123
+msgid "12 Hours"
+msgstr "12 Stunden"
+
+#: temp/src/pages/create/create.js:124
+msgid "15 Hours"
+msgstr "15 Stunden"
+
+#: temp/src/pages/create/create.js:127
+msgid "3 Days"
+msgstr "3 Tage"
+
+#: temp/src/pages/create/create.js:128
+msgid "5 Days"
+msgstr "5 Tage"
+
+#: temp/src/pages/create/create.js:129
+msgid "7 Days"
+msgstr "7 Tage"
+
+#: temp/src/pages/create/create.js:130
 msgid "Players & Teams"
 msgstr "Spieler & Teams"
 
-#: temp/src/pages/create/create.js:115 temp/src/pages/create/create.js:135
+#: temp/src/pages/create/create.js:133 temp/src/pages/create/create.js:158
 msgid "Advanced"
 msgstr "Erweitert"
 
-#: temp/src/pages/create/create.js:118
+#: temp/src/pages/create/create.js:136
 msgid "Units per turn"
 msgstr "Einheiten pro Zug"
 
-#: temp/src/pages/create/create.js:119
+#: temp/src/pages/create/create.js:137
 msgid "Victory Condition"
 msgstr "Siegbedingung"
 
-#: temp/src/pages/create/create.js:120
+#: temp/src/pages/create/create.js:138
 msgid "Survival"
 msgstr "Überleben"
 
-#: temp/src/pages/create/create.js:121
+#: temp/src/pages/create/create.js:139
+msgid "Mission"
+msgstr "Mission"
+
+#: temp/src/pages/create/create.js:140
 msgid "Visibility modifier"
 msgstr "Spielmodus"
 
-#: temp/src/pages/create/create.js:122
+#: temp/src/pages/create/create.js:141
 msgid "Everything visible"
 msgstr "Alles sichtbar"
 
-#: temp/src/pages/create/create.js:123
+#: temp/src/pages/create/create.js:142
 msgid "Fog of War"
 msgstr "Fog of War"
 
-#: temp/src/pages/create/create.js:124
+#: temp/src/pages/create/create.js:143
 msgid "Distribution"
 msgstr "Verteilung"
 
-#: temp/src/pages/create/create.js:125
+#: temp/src/pages/create/create.js:144
 msgid "Default"
 msgstr "Default"
 
-#: temp/src/pages/create/create.js:126
+#: temp/src/pages/create/create.js:145
 msgid "Malibu"
 msgstr "Malibu"
 
-#: temp/src/pages/create/create.js:127
+#: temp/src/pages/create/create.js:146
+msgid "initial country units"
+msgstr "Starteinheiten pro Land"
+
+#: temp/src/pages/create/create.js:147
+msgid "maximum number of cards"
+msgstr "Maximale Anzahl Karten"
+
+#: temp/src/pages/create/create.js:148
+msgid "minimium units per country"
+msgstr "Minimale Anzahl Einheiten pro Land"
+
+#: temp/src/pages/create/create.js:149
+msgid "maximum timeouts per player"
+msgstr "Maximale Timeouts pro Spieler"
+
+#: temp/src/pages/create/create.js:150
 msgid "Create"
 msgstr "Erstellen"
 
-#: temp/src/pages/create/create.js:130
+#: temp/src/pages/create/create.js:153
 msgid "Help"
 msgstr "Hilfe"
 
-#: temp/src/pages/create/create.js:132
+#: temp/src/pages/create/create.js:155
 msgid ""
-"Here you can create a new game. You can also [join](games/games/join) an "
+"Here you can create a new game. You can also [join](/game/games/join) an "
 "existing game, which might be faster."
 msgstr ""
 "Hier kannst du ein neues Spiel erstellen. Du kannst auch einembestehendem "
-"Spiel [beitreten](games/games/join), das könnte schneller gehen."
+"Spiel [beitreten](/game/games/join), das könnte schneller gehen."
 
-#: temp/src/pages/create/create.js:134
+#: temp/src/pages/create/create.js:157
 msgid ""
 "Simple game settings group the most common settings, if you are not familiar "
 "with the other settings, just use the default values."
@@ -580,7 +688,7 @@ msgstr ""
 "solltest du mit den anderen Einstellungen nicht vertraut sein benutze die "
 "Standardeinstellungen."
 
-#: temp/src/pages/create/create.js:136
+#: temp/src/pages/create/create.js:159
 msgid ""
 "These settings allow you to customize nearly every aspect of the created "
 "game."
@@ -588,7 +696,7 @@ msgstr ""
 "Diese Einstellungen erlauben Dir so gut wie jeden Aspekt des erstellten "
 "Spiels zu beeinflussen."
 
-#: temp/src/pages/games/games.js:30
+#: temp/src/pages/games/games.js:30 temp/src/pages/join/tournaments.js:27
 msgid "Fun"
 msgstr "Fun"
 
@@ -605,8 +713,17 @@ msgid "Hide completed games"
 msgstr "Beendete Spiele ausblenden"
 
 #: temp/src/pages/join/join.js:23 temp/src/pages/join/join.js:31
+#: temp/src/pages/join/tournaments.js:22 temp/src/pages/join/tournaments.js:31
 msgid "Open FunGames"
 msgstr "Fun Spiel beitreten"
+
+#: temp/src/pages/join/ladders.js:22 temp/src/pages/join/ladders.js:31
+msgid "Join Ladder"
+msgstr "Ranglisten Spiel beitreten"
+
+#: temp/src/pages/join/ladders.js:27
+msgid "Ladder"
+msgstr "Rangliste"
 
 #: temp/src/pages/play/components/gameChat.js:17
 msgid "All"
@@ -620,7 +737,7 @@ msgstr "Karten tauschen"
 msgid "Place"
 msgstr "Setzen"
 
-#: temp/src/pages/play/components/header.js:67
+#: temp/src/pages/play/components/header.js:68
 msgid "Attack"
 msgstr "Angriff"
 
@@ -632,11 +749,11 @@ msgstr "Zu \"Einheiten verschieben\" wechseln"
 msgid "Move"
 msgstr "Einheiten bewegen"
 
-#: temp/src/pages/play/components/header.js:90
+#: temp/src/pages/play/components/header.js:91
 msgid "End turn"
 msgstr "Zug beenden"
 
-#: temp/src/pages/play/components/header.js:93
+#: temp/src/pages/play/components/header.js:94
 msgid "Exit"
 msgstr "Verlassen"
 
@@ -652,25 +769,104 @@ msgstr "Weitere Spiele"
 msgid "Play"
 msgstr "Spielen"
 
-#: temp/src/pages/public/home/index.js:21
+#: temp/src/pages/public/home/index.js:17
+msgid "ImperaOnline"
+msgstr "ImperaOnline"
+
+#: temp/src/pages/public/home/index.js:23
 msgid "Conquer"
 msgstr "Erobere"
 
-#: temp/src/pages/public/home/index.js:21
+#: temp/src/pages/public/home/index.js:23
 msgid "the world"
 msgstr "die Welt"
 
-#: temp/src/pages/public/home/index.js:22
+#: temp/src/pages/public/home/index.js:24
 msgid "Fight"
 msgstr "Kämpfe"
 
-#: temp/src/pages/public/home/index.js:22
+#: temp/src/pages/public/home/index.js:24
 msgid "on more than"
 msgstr "auf mehr als"
 
-#: temp/src/pages/public/home/index.js:22
+#: temp/src/pages/public/home/index.js:24
 msgid "40 maps"
 msgstr "40 Karten"
+
+#: temp/src/pages/public/home/index.js:27
+msgid "Win in"
+msgstr "Gewinne"
+
+#: temp/src/pages/public/home/index.js:27
+msgid "tournaments"
+msgstr "Turniere"
+
+#: temp/src/pages/public/home/index.js:28
+msgid "with hundreds"
+msgstr "mit Hunderten"
+
+#: temp/src/pages/public/home/index.js:28
+msgid "of players"
+msgstr "von Spielern"
+
+#: temp/src/pages/public/home/index.js:31
+msgid "Participate"
+msgstr "Sei Teil "
+
+#: temp/src/pages/public/home/index.js:31
+msgid "in"
+msgstr "einer"
+
+#: temp/src/pages/public/home/index.js:31
+msgid "leagues"
+msgstr "Liga"
+
+#: temp/src/pages/public/home/index.js:32
+msgid "Participate in different"
+msgstr "Nimm Teil an verschiedenen"
+
+#: temp/src/pages/public/home/index.js:32
+msgid "leagues, alone or"
+msgstr "Liegen, alleine oder "
+
+#: temp/src/pages/public/home/index.js:32
+msgid "in a team"
+msgstr "im Team"
+
+#: temp/src/pages/public/home/index.js:36
+msgid "Impera allows you to conquer the world! Or many others."
+msgstr "Impera ermöglicht Dir die Welt zu erobern. Oder viele andere..."
+
+#: temp/src/pages/public/home/index.js:43
+msgid "Many Different Maps"
+msgstr "Viele verschiedene Karten"
+
+#: temp/src/pages/public/home/index.js:45
+msgid ""
+"Play on up to 40 different maps against opponents from all over the world..."
+msgstr "Spiele auf mehr als 40 Karten gegen Spieler aus der ganzen Welt..."
+
+#: temp/src/pages/public/home/index.js:51
+msgid "Great Community"
+msgstr "Aktive Community"
+
+#: temp/src/pages/public/home/index.js:53
+msgid ""
+"Tournaments, Leagues: Impera is not limited to simple one vs one games, it "
+"offers a wide variety of challenges"
+msgstr ""
+"Turniere, Ligen: Impera bietet nicht nur einfache Matches, es gibt eine "
+"Vielzahl an Herausforderungen."
+
+#: temp/src/pages/public/home/index.js:59
+msgid "Free As In Beer"
+msgstr "Free As In Beer"
+
+#: temp/src/pages/public/home/index.js:61
+msgid "Impera is completely free, no hidden fees, no \"in-app\" purchases..."
+msgstr ""
+"Impera ist komplett kostenlos, keine versteckten Kosten, keine \"in-app\" "
+"Käufe..."
 
 #: temp/src/pages/public/login/index.js:34
 msgid "Sign in using your Impera account..."
@@ -751,15 +947,15 @@ msgstr "Anmelden"
 msgid "Or sign in using an existing account."
 msgstr "Oder verwende einen existierenden Account zum Einloggen."
 
-#: temp/src/pages/start/index.js:44 temp/src/pages/start/index.js:47
+#: temp/src/pages/start/index.js:45 temp/src/pages/start/index.js:48
 msgid "Champion's Cup March"
 msgstr "Champion's Cup March"
 
-#~ msgid "Join"
-#~ msgstr "Beitreten"
+#~ msgid "Create game"
+#~ msgstr "Spiel erstellen"
 
-#~ msgid "5 Hours"
-#~ msgstr "5 Stunden"
+#~ msgid "add Bot"
+#~ msgstr "Computergegner hinzufügen"
 
 #~ msgid "Tournament"
 #~ msgstr "Turnier"

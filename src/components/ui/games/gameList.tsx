@@ -60,14 +60,23 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
     private _renderGameRow(game: GameSummary): JSX.Element[] {
         const player = this._playerForGame(game);
         let playerState: JSX.Element = null;
+        let playerName: JSX.Element = null;
 
         if (!!player) {
             playerState = <span>&nbsp;-&nbsp;<PlayerOutcomeDisplay outcome={player.outcome} /></span>;
+
+            if ((game.currentPlayer && game.currentPlayer.name) === player.name) {
+                playerName = <b>{game.currentPlayer && game.currentPlayer.name}</b>;
+            } else {
+                playerName = <span>{game.currentPlayer && game.currentPlayer.name}</span>;
+            }
         }
 
         let name: JSX.Element;
+        let timer = __("not started");
         if (game.state !== GameState.Open) {
             name = <Link to={`/play/${game.id}`}>{game.name}</Link>;
+            timer = HumanCountdown(game.timeoutSecondsLeft);
         } else {
             name = <span>{game.name}</span>;
         }
@@ -79,9 +88,9 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
             </td>
             <td className="hidden-xs">{game.mapTemplate}</td>
             <td className="hidden-xs">{game.options.mapDistribution}</td>
-            <td className="hidden-xs">{game.currentPlayer && game.currentPlayer.name}</td>
+            <td className="hidden-xs">{playerName}</td>
             <td className="hidden-xs">{`${game.options.numberOfTeams}/${game.options.numberOfPlayersPerTeam}`}</td>
-            <td>{HumanCountdown(game.timeoutSecondsLeft)}</td>
+            <td>{timer}</td>
             <td>
                 <GameStateDisplay gameState={game.state} />{playerState}
             </td>

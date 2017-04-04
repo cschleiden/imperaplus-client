@@ -25,8 +25,10 @@ export class StartComponent extends React.Component<IStartProps, void> {
     public render(): JSX.Element {
         return <Grid>
             <GridRow>
-                <GridColumn className="col-md-9">
+                <div className="container">
                     <Title>{__("News")}</Title>
+                </div>
+                <GridColumn className="col-md-9">
                     <div>
                         {this.props.news.map((n, i) => {
                             let content = this._getLanguageContent(n.content);
@@ -35,7 +37,7 @@ export class StartComponent extends React.Component<IStartProps, void> {
                             }
 
                             return <div key={i}>
-                                <h2>{content.title}</h2>
+                                <h2 className="headline">{content.title}</h2>
                                 <h5>{HumanDate(n.dateTime)} - {n.postedBy}</h5>
 
                                 <ReactMarkdown source={content.text} />

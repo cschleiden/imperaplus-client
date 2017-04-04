@@ -11,6 +11,7 @@ export const GameNavigation = ({ dispatch }): JSX.Element => {
         </li>
         <li className="dropable">
             <Link to="/game/games" activeClassName="active">{__("Games")}</Link>
+            <i className="fa fa-caret-down" aria-hidden="true"></i>
             <ul className="nav-dropdown">
                 <li>
                     <IndexLink to="/game/games" activeClassName="active">{__("My Games")}</IndexLink>
@@ -31,12 +32,13 @@ export const GameNavigation = ({ dispatch }): JSX.Element => {
         </li>
         <li className="dropable">
             <Link to="/game/alliance" activeClassName="active">{__("Alliance")}</Link>
+            <i className="fa fa-caret-down" aria-hidden="true"></i>
             <ul className="nav-dropdown">
                 <li>
-                    <Link to="/game/alliance/create" activeClassName="active">{__("Create game")}</Link>
+                    <Link to="/game/alliance/create" activeClassName="active">{__("Create alliance")}</Link>
                 </li>
                 <li>
-                    <Link to="/game/alliance/join" activeClassName="active">{__("Join game")}</Link>
+                    <Link to="/game/alliance/join" activeClassName="active">{__("Join alliance")}</Link>
                 </li>
                 <li>
                     <Link to="/game/alliance/admin" activeClassName="active">{__("Admin")}</Link>
@@ -60,6 +62,7 @@ export const GameNavigation = ({ dispatch }): JSX.Element => {
                 <i className="fa fa-user" aria-hidden="true"></i>
                 <span className="visible-xs-inline">&nbsp;{__("Account")}</span>
             </Link>
+            <i className="fa fa-caret-down" aria-hidden="true"></i>
             <ul className="nav-dropdown">
                 <li>
                     {__("userName")}
