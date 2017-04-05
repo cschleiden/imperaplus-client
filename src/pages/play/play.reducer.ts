@@ -2,16 +2,15 @@ import { makeImmutable, IImmutable } from "immuts";
 import reducerMap from "../../lib/reducerMap";
 import {
     GameSummary, GameType, GameState, AttackOptions, MoveOptions, GameActionResult,
-    ActionResult, Game, Country, PlayState, Player, Team
+    ActionResult, Game, Country, PlayState, Player, Team, GameChatMessage
 } from "../../external/imperaClients";
 import { IAction, success, pending, failed } from "../../lib/action";
 import {
     EXCHANGE, ATTACK, SWITCH_GAME, TOGGLE_SIDEBAR, SELECT_COUNTRY, ISetPlaceUnitsPayload,
-    SET_PLACE_UNITS, PLACE, END_TURN, SET_ACTION_UNITS, ISwitchGamePayload, END_ATTACK, MOVE, GAME_CHAT_MESSAGE, GAME_CHAT_SEND_MESSAGE
+    SET_PLACE_UNITS, PLACE, END_TURN, SET_ACTION_UNITS, ISwitchGamePayload, END_ATTACK, MOVE, GAME_CHAT_MESSAGE, GAME_CHAT_SEND_MESSAGE, GAME_CHAT_MESSAGES, IGameChatMessagesPayload
 } from "./play.actions";
 import { UserProvider } from "../../services/userProvider";
 import { MapTemplateCacheEntry } from "./mapTemplateCache";
-import { IGameChatMessage } from "../../external/notificationModel";
 import { isEmptyGuid } from "../../lib/guid";
 
 export interface ITwoCountry {
@@ -28,9 +27,10 @@ const initialState = makeImmutable({
     game: null as Game,
 
     gameChat: {
-        isPending: false,
-        public: [] as IGameChatMessage[],
-        team: [] as IGameChatMessage[]
+        // Initially do not allow sending messages, until state is retrieved
+        isPending: true,
+        all: [] as GameChatMessage[],
+        team: [] as GameChatMessage[]
     },
 
     /** Current user's player */
@@ -133,11 +133,11 @@ export const pendingOperation = (state: IPlayState) => {
 // 
 // Game chat
 //
-export const gameChatMessage = (state: IPlayState, action: IAction<IGameChatMessage>) => {
+export const gameChatMessage = (state: IPlayState, action: IAction<GameChatMessage>) => {
     const message = action.payload;
 
     if (isEmptyGuid(message.teamId)) {
-        return state.update(x => x.gameChat.public, messages => messages.concat([message]));
+        return state.update(x => x.gameChat.all, messages => messages.concat([message]));
     } else {
         return state.update(x => x.gameChat.team, messages => messages.concat([message]));
     }
@@ -149,6 +149,21 @@ export const gameChatSendMessagePending = (state: IPlayState, action: IAction<vo
 
 export const gameChatSendMessageSuccess = (state: IPlayState, action: IAction<void>) => {
     return state.set(x => x.gameChat.isPending, false);
+};
+
+export const gameChatMessages = (state: IPlayState, action: IAction<IGameChatMessagesPayload>) => {
+    const { gameId, all, team, } = action.payload;
+
+    if (state.data.gameId !== gameId) {
+        // Game might have changed, ignore result
+        return state;
+    }
+
+    return state.merge(x => x.gameChat, {
+        isPending: false,
+        all,
+        team
+    });
 };
 
 //
@@ -344,6 +359,7 @@ export const play = <TPayload>(
         [GAME_CHAT_MESSAGE]: gameChatMessage,
         [pending(GAME_CHAT_SEND_MESSAGE)]: gameChatSendMessagePending,
         [success(GAME_CHAT_SEND_MESSAGE)]: gameChatSendMessageSuccess,
+        [success(GAME_CHAT_MESSAGES)]: gameChatMessages,
 
         // Play actions
         [SELECT_COUNTRY]: selectCountry,

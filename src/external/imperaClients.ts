@@ -1914,7 +1914,7 @@ export class GameClient {
      * @isPublic Value indicating whether to return only public messages, default is true
      * @return Messages posted in the requested game
      */
-    getMessages(gameId: number, isPublic: boolean): Promise<Game> {
+    getMessages(gameId: number, isPublic: boolean): Promise<GameChatMessage[]> {
         let url_ = this.baseUrl + "/api/games/{gameId}/messages?";
         if (gameId === undefined || gameId === null)
             throw new Error("The parameter 'gameId' must be defined.");
@@ -1938,13 +1938,13 @@ export class GameClient {
         });
     }
 
-    protected processGetMessages(response: Response): Promise<Game> {
+    protected processGetMessages(response: Response): Promise<GameChatMessage[]> {
         return response.text().then((responseText) => {
             const status = response.status; 
 
             if (status === 200) {
-                let result200: Game | null = null;
-                result200 = responseText === "" ? null : <Game>JSON.parse(responseText, this.jsonParseReviver);
+                let result200: GameChatMessage[] | null = null;
+                result200 = responseText === "" ? null : <GameChatMessage[]>JSON.parse(responseText, this.jsonParseReviver);
                 return result200;
             } else if (status !== 200 && status !== 204) {
                 this.throwException("An unexpected server error occurred.", status, responseText);
@@ -2898,6 +2898,15 @@ export interface GameCreationOptions extends GameOptions {
     name: string | undefined;
     addBot: boolean | undefined;
     mapTemplate: string | undefined;
+}
+
+export interface GameChatMessage {
+    id: number | undefined;
+    gameId: number | undefined;
+    user?: UserReference | null | undefined;
+    teamId: string | undefined;
+    dateTime: Date | undefined;
+    text?: string | null | undefined;
 }
 
 export interface HistoryTurn {

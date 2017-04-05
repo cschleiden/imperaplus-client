@@ -14,7 +14,7 @@ import { setDocumentTitle } from "../../lib/title";
 import { css } from "../../lib/css";
 
 interface IPlayProps {
-    params: { id: number };
+    params: { id: string };
 
     game: Game;
     sidebarOpen: boolean;
@@ -26,7 +26,7 @@ interface IPlayDispatchProps {
 
 class Play extends React.Component<IPlayProps & IPlayDispatchProps, void> {
     componentDidMount() {
-        const gameId = this.props.params.id;
+        const gameId = parseInt(this.props.params.id, 10);
         if (!gameId) {
             alert("");
         }

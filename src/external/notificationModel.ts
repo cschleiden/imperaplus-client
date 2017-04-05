@@ -1,4 +1,4 @@
-import { UserReference } from "./imperaClients";
+import { UserReference, GameChatMessage } from "./imperaClients";
 
 export enum NotificationType {
     PlayerTurn = 0,
@@ -20,20 +20,6 @@ export interface IGameNotification extends INotification {
     gameId: number;
 }
 
-export interface IGameChatMessage {
-    id: number;
-
-    gameId: number;
-
-    user: UserReference;
-
-    teamId: string;
-
-    dateTime: Date;
-
-    text: string;
-}
-
 export interface IGameChatMessageNotification extends IGameNotification {
-    message: IGameChatMessage;
+    message: GameChatMessage;
 }

@@ -5,12 +5,12 @@ import { connect } from "react-redux";
 import { Tabs, Tab, Button } from "react-bootstrap";
 import { autobind } from "../../../lib/autobind";
 import HumanDate from "../../../components/ui/humanDate";
-import { IGameChatMessage } from "../../../external/notificationModel";
 import { IState } from "../../../reducers";
 import { gameChatSendMessage } from "../play.actions";
+import { GameChatMessage } from "../../../external/imperaClients";
 
 interface IGameChatTabProps {
-    messages: IGameChatMessage[];
+    messages: GameChatMessage[];
     isPending: boolean;
 
     onSend: (text: string) => void;
@@ -37,7 +37,7 @@ class GameChatTab extends React.Component<IGameChatTabProps, IGameChatTabState> 
 
     componentDidUpdate() {
         if (this._element) {
-            this._element.scrollTop = this._element.offsetHeight * 2;
+            this._element.scrollTop = this._element.scrollHeight;
         }
 
         if (this._inputElement) {
@@ -105,8 +105,8 @@ class GameChatTab extends React.Component<IGameChatTabProps, IGameChatTabState> 
 }
 
 interface IGameChatProps {
-    publicMessages: IGameChatMessage[];
-    teamMessages: IGameChatMessage[];
+    publicMessages: GameChatMessage[];
+    teamMessages: GameChatMessage[];
 
     isPending: boolean;
 
@@ -147,7 +147,7 @@ export default connect((state: IState) => {
     const gameChat = state.play.data.gameChat;
 
     return {
-        publicMessages: gameChat.public,
+        publicMessages: gameChat.all,
         teamMessages: gameChat.team,
         isPending: gameChat.isPending
     };

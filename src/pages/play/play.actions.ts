@@ -1,7 +1,7 @@
-import { IAction, makePromiseAction, IAsyncActionVoid, IAsyncAction } from "../../lib/action";
-import { PlayClient, GameActionResult, MoveOptions, AttackOptions, Game, GameClient, PlaceUnitsOptions } from "../../external/imperaClients";
+import { IAction, makePromiseAction, IAsyncActionVoid, IAsyncAction, IApiActionOptions } from "../../lib/action";
+import { PlayClient, GameActionResult, MoveOptions, AttackOptions, Game, GameClient, PlaceUnitsOptions, GameChatMessage } from "../../external/imperaClients";
 import { getMapTemplate, MapTemplateCacheEntry } from "./mapTemplateCache";
-import { NotificationType, INotification, IGameChatMessageNotification, IGameChatMessage } from "../../external/notificationModel";
+import { NotificationType, INotification, IGameChatMessageNotification } from "../../external/notificationModel";
 
 export const SWITCH_GAME = "play-switch-game";
 export interface ISwitchGamePayload {
@@ -27,7 +27,12 @@ export const switchGame: IAsyncAction<number> = (gameId) =>
                                 }));
                         })
                     )
-            }
+            },
+            options: {
+                afterSuccess: (d) => {
+                    d(gameChatMessages(gameId));
+                }
+            } as IApiActionOptions
         });
 
         const client = deps.getSignalRClient("game");
@@ -57,8 +62,30 @@ export const switchGame: IAsyncAction<number> = (gameId) =>
         }
     };
 
+export const GAME_CHAT_MESSAGES = "play-game-chat-messages";
+export interface IGameChatMessagesPayload {
+    gameId: number;
+    all: GameChatMessage[];
+    team: GameChatMessage[];
+}
+export const gameChatMessages = makePromiseAction<number, IGameChatMessagesPayload>((gameId, dispatch, getState, deps) => ({
+    type: GAME_CHAT_MESSAGES,
+    payload: {
+        promise: Promise.all([
+            deps.getCachedClient(GameClient).getMessages(gameId, false),
+            deps.getCachedClient(GameClient).getMessages(gameId, true)
+        ]).then(messages => {
+            return {
+                gameId,
+                all: messages[0],
+                team: messages[1]
+            } as IGameChatMessagesPayload;
+        })
+    }
+}));
+
 export const GAME_CHAT_MESSAGE = "play-game-chat-message";
-export const gameChatMessage = (message: IGameChatMessage): IAction<IGameChatMessage> => ({
+export const gameChatMessage = (message: GameChatMessage): IAction<GameChatMessage> => ({
     type: GAME_CHAT_MESSAGE,
     payload: message
 });
