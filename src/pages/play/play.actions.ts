@@ -1,5 +1,6 @@
+import { push } from "react-router-redux";
 import { IAction, makePromiseAction, IAsyncActionVoid, IAsyncAction, IApiActionOptions } from "../../lib/action";
-import { PlayClient, GameActionResult, MoveOptions, AttackOptions, Game, GameClient, PlaceUnitsOptions, GameChatMessage, HistoryClient, HistoryTurn } from "../../external/imperaClients";
+import { PlayClient, GameActionResult, Game, GameClient, PlaceUnitsOptions, GameChatMessage, HistoryClient, HistoryTurn } from "../../external/imperaClients";
 import { getMapTemplate, MapTemplateCacheEntry } from "./mapTemplateCache";
 import { NotificationType, INotification, IGameChatMessageNotification, IGameNotification } from "../../external/notificationModel";
 import { inputActive } from "./reducer/play.selectors";
@@ -12,8 +13,14 @@ export interface ISwitchGamePayload {
     game: Game;
     mapTemplate: MapTemplateCacheEntry;
 }
-export const switchGame: IAsyncAction<number> = (gameId) =>
+export interface ISwitchGameInput {
+    gameId: number;
+    turnNo?: number;
+}
+export const switchGame: IAsyncAction<ISwitchGameInput> = (input) =>
     (dispatch, getState, deps) => {
+        const { gameId, turnNo } = input;
+
         const finish = () => ({
             type: SWITCH_GAME,
             payload: {
@@ -31,7 +38,13 @@ export const switchGame: IAsyncAction<number> = (gameId) =>
             },
             options: {
                 afterSuccess: (d) => {
+                    // Retrieve game chat
                     d(gameChatMessages(gameId));
+
+                    // Go to history, if requested
+                    if (turnNo > 0) {
+                        (dispatch as any)(historyTurn(turnNo));
+                    }
                 }
             } as IApiActionOptions
         });
@@ -142,6 +155,8 @@ export const leave: IAsyncActionVoid = () =>
         dispatch(<IAction<void>>{
             type: LEAVE
         });
+
+        dispatch(push("/game/games"));
     };
 
 export const TOGGLE_SIDEBAR = "play-toggle-sidebar";
@@ -297,6 +312,8 @@ export const HISTORY_TURN = "play-history-turn";
 export const historyTurn = makePromiseAction<number, HistoryTurn>((turnId, dispatch, getState, deps) => {
     const { gameId } = getState().play.data;
 
+    dispatch(push(`/play/${gameId}/history/${turnId}`));
+
     return {
         type: HISTORY_TURN,
         payload: {
@@ -306,7 +323,14 @@ export const historyTurn = makePromiseAction<number, HistoryTurn>((turnId, dispa
 });
 
 export const HISTORY_EXIT = "play-history-exit";
-export const historyExit: IAction<void> = {
-    type: HISTORY_EXIT,
-    payload: null
-};
+export const historyExit: IAsyncAction<void> = () =>
+    (dispatch, getState, deps) => {
+        const gameId = getState().play.data.gameId;
+
+        dispatch(push(`/play/${gameId}`));
+
+        dispatch({
+            type: HISTORY_EXIT,
+            payload: null
+        });
+    };

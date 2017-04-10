@@ -71,7 +71,7 @@ export const refresh = (access_token: string, refresh_token: string): IAction<IR
 });
 
 export const LOGOUT = "logout";
-export const logout = makePromiseAction<void, void>((_, dispatch, getState, deps) => ({
+export const logout = makePromiseAction<void, null>((_, dispatch, getState, deps) => ({
     type: LOGOUT,
     payload: {
         promise: deps.getCachedClient(AccountClient).logout()

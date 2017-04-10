@@ -16,7 +16,7 @@ import { autobind } from "../../lib/autobind";
 import { ErrorCodes } from "../../i18n/errorCodes";
 
 interface IPlayProps {
-    params: { id: string };
+    params: { id: string; turn: string; };
 
     game: Game;
     error: ErrorResponse;
@@ -24,7 +24,7 @@ interface IPlayProps {
 }
 
 interface IPlayDispatchProps {
-    switchGame: (gameId: number) => void;
+    switchGame: (gameId: number, turnNo?: number) => void;
     refreshGame: () => void;
 }
 
@@ -32,10 +32,12 @@ class Play extends React.Component<IPlayProps & IPlayDispatchProps, void> {
     componentDidMount() {
         const gameId = parseInt(this.props.params.id, 10);
         if (!gameId) {
-            alert("");
+            throw new Error("Game id is required");
         }
 
-        this.props.switchGame(gameId);
+        const turnNo = parseInt(this.props.params.turn, 10);
+
+        this.props.switchGame(gameId, turnNo);
 
         this._setGameTitle(this.props);
     }
@@ -96,6 +98,6 @@ export default connect((state: IState, ownProps: IPlayProps) => {
         sidebarOpen: playState.sidebarOpen
     };
 }, (dispatch) => ({
-    switchGame: (gameId: number) => dispatch(switchGame(gameId)),
+    switchGame: (gameId: number, turnNo?: number) => dispatch(switchGame({ gameId, turnNo })),
     refreshGame: () => dispatch(refreshGame(null))
 }))(Play);

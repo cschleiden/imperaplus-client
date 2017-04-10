@@ -19,28 +19,32 @@ export const switchGame = (state: IPlayState, action: IAction<ISwitchGamePayload
     const { game, mapTemplate } = action.payload;
     const player = getPlayer(game, UserProvider.getUserId());
 
-    return initialState
+    return state
         .merge(x => x, {
             gameId: game.id,
             game,
             mapTemplate,
             player
         })
-        .set(x => x.operationInProgress, false);
+        .set(x => x.operationInProgress, false)
+        .set(x => x.error, null);
 };
 
 export const refreshGame = (state: IPlayState, action: IAction<Game>) => {
+    const currentState = state.data;
+
     const game = action.payload;
     const player = getPlayer(game, UserProvider.getUserId());
 
-    return initialState
+    return state
         .merge(x => x, {
             gameId: game.id,
             game,
-            mapTemplate: state.data.mapTemplate,
+            mapTemplate: currentState.mapTemplate,
             player
         })
-        .set(x => x.operationInProgress, false);
+        .set(x => x.operationInProgress, false)
+        .set(x => x.error, null);
 };
 
 export const toggleSidebar = (state: IPlayState, action: IAction<void>) => {
@@ -55,7 +59,11 @@ export const error = (state: IPlayState, action: IAction<ErrorResponse>) => {
     return state.set(x => x.error, action.payload);
 };
 
-// 
+export const leave = (state: IPlayState) => {
+    return initialState;
+};
+
+//
 // Game chat
 //
 export const gameChatMessage = (state: IPlayState, action: IAction<GameChatMessage>) => {

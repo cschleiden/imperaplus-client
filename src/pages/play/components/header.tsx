@@ -8,7 +8,7 @@ import { push } from "react-router-redux";
 import Cards from "./cards";
 import { ButtonGroup, Button } from "react-bootstrap";
 import { IState } from "../../../reducers";
-import { exchange, attack, move, endAttack, place, endTurn, toggleSidebar } from "../play.actions";
+import { exchange, attack, move, endAttack, place, endTurn, toggleSidebar, leave } from "../play.actions";
 import { autobind } from "../../../lib/autobind";
 import { Game, PlayState, Player } from "../../../external/imperaClients";
 import { css } from "../../../lib/css";
@@ -208,5 +208,5 @@ export default connect((state: IState, ownProps: IHeaderProps) => {
     endTurn: () => dispatch(endTurn(null)),
 
     toggleSidebar: () => { dispatch(toggleSidebar()); },
-    exit: () => { dispatch(push("/game/games")); }
+    exit: () => { dispatch(leave()); }
 }))(Header);

@@ -56,7 +56,7 @@ export const surrender = makePromiseAction<number, GameSummary>((gameId, dispatc
     }));
 
 export const LEAVE = "game-leave";
-export const leave = makePromiseAction<number, GameSummary>((gameId, dispatch, getState, deps) =>
+export const leave = makePromiseAction<number, null>((gameId, dispatch, getState, deps) =>
     ({
         type: LEAVE,
         payload: {
@@ -68,7 +68,7 @@ export const leave = makePromiseAction<number, GameSummary>((gameId, dispatch, g
     }));
 
 export const REMOVE = "game-remove";
-export const remove = makePromiseAction<number, GameSummary>((gameId, dispatch, getState, deps) =>
+export const remove = makePromiseAction<number, null>((gameId, dispatch, getState, deps) =>
     ({
         type: SURRENDER,
         payload: {
@@ -81,7 +81,7 @@ export const remove = makePromiseAction<number, GameSummary>((gameId, dispatch, 
 
 
 export const JOIN = "game-join";
-export const join = makePromiseAction<number, GameSummary>((gameId, dispatch, getState, deps) =>
+export const join = makePromiseAction<number, null>((gameId, dispatch, getState, deps) =>
     ({
         type: SURRENDER,
         payload: {

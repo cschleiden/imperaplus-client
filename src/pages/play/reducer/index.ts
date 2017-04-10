@@ -20,6 +20,8 @@ export const play = <TPayload>(
         [success(Actions.REFRESH_GAME)]: ActionHandlers.refreshGame,
         [pending(Actions.REFRESH_GAME)]: ActionHandlers.pendingOperation,
 
+        [Actions.LEAVE]: ActionHandlers.leave,
+
         // Game chat
         [Actions.GAME_CHAT_MESSAGE]: ActionHandlers.gameChatMessage,
         [pending(Actions.GAME_CHAT_SEND_MESSAGE)]: ActionHandlers.gameChatSendMessagePending,

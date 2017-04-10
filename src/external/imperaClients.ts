@@ -2679,6 +2679,7 @@ export enum HistoryAction {
     PlayerTimeout = <any>"PlayerTimeout", 
     OwnerChange = <any>"OwnerChange", 
     EndTurn = <any>"EndTurn", 
+    PlayerSurrendered = <any>"PlayerSurrendered", 
 }
 
 export interface LadderSummary {

@@ -26,7 +26,7 @@ export class CountryInputField extends React.Component<ICountryInputFieldProps, 
             className={css("input-country")}
             style={{
                 left: countryTemplate.x + 10,
-                top: countryTemplate.y + 2
+                top: countryTemplate.y + 3
             }}
             ref={this._resolveElement}>
             <input

@@ -69,6 +69,9 @@ export class GameHistoryEntry extends React.Component<IGameHistoryEntryProps, vo
             case HistoryAction.PlayerTimeout:
                 return format(__("{0} had a timeout"), actorElement);
 
+            case HistoryAction.PlayerSurrendered:
+                return format(__("{0} surrendered"), actorElement);
+
             default:
             case HistoryAction.StartGame:
             case HistoryAction.OwnerChange:
@@ -195,5 +198,5 @@ export default connect((state: IState) => {
     };
 }, (dispatch) => ({
     showHistoryTurn: (turnId: number): void => { dispatch(historyTurn(turnId)); },
-    exitHistory: (): void => { dispatch(historyExit); }
+    exitHistory: (): void => { dispatch(historyExit(null)); }
 }))(GameHistory);
