@@ -1,7 +1,7 @@
-import { play, IPlayState } from "./play.reducer";
-import * as Actions from "./play.actions";
-import { UserProvider } from "../../services/userProvider";
-import { Game, GameState, PlayState } from "../../external/imperaClients";
+import * as Actions from "../play.actions";
+import { UserProvider } from "../../../services/userProvider";
+import { GameState, PlayState } from "../../../external/imperaClients";
+import { play } from "./index";
 
 UserProvider.userProvider = () => "user1";
 

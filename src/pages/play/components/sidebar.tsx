@@ -4,11 +4,11 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { Game } from "../../../external/imperaClients";
 import { IState } from "../../../reducers";
-import { Section, SubSection } from "../../../components/ui/typography";
-import { Tabs } from "react-bootstrap";
+import { SubSection } from "../../../components/ui/typography";
 import GameChat from "./gameChat";
 import GameHistory from "./gameHistory";
-import { GameStats } from "./stats";
+import { GameStats } from "./gameStats";
+import { game } from "../reducer/play.selectors";
 
 interface ISidebarProps {
     game: Game;
@@ -20,8 +20,7 @@ class Sidebar extends React.Component<ISidebarProps, void> {
 
         return <div className="play-sidebar">
             <GameChat />
-
-            <SubSection>{__("History")}</SubSection>
+            
             <GameHistory />
 
             <SubSection>{__("Stats")}</SubSection>
@@ -32,6 +31,7 @@ class Sidebar extends React.Component<ISidebarProps, void> {
     }
 }
 
-export default connect((state: IState, props: ISidebarProps) => ({
+export default connect((state: IState) => ({
+    game: game(state.play)
 }), (dispatch) => ({
 }))(Sidebar);

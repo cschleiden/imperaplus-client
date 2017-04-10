@@ -1,0 +1,11 @@
+//
+// Global, game related styles
+//
+
+.player {
+    padding: 1px 4px;
+    color: white;
+
+    $text-shadow: black;
+    text-shadow: -1px 0 0.01em $text-shadow, 0 1px 0.01em $text-shadow, 1px 0 0.01em $text-shadow, 0 -1px 0.01em $text-shadow;
+}

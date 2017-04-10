@@ -13,8 +13,7 @@ import { autobind } from "../../../lib/autobind";
 import { Game, PlayState, Player } from "../../../external/imperaClients";
 import { css } from "../../../lib/css";
 import { ToggleButton } from "../../../components/ui/toggleButton";
-import { store } from "../../../store";
-import { canPlace, inputActive, canMoveOrAttack } from "../play.selectors";
+import { canPlace, inputActive, canMoveOrAttack, game } from "../reducer/play.selectors";
 import { Spinner } from "../../../components/ui/spinner";
 
 interface IHeaderProps {
@@ -51,9 +50,9 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps, void> 
             return null;
         }
 
-        const placeOnlyTurn = false;
-        const attackActive = game.playState === PlayState.Attack;
-        const moveActive = game.playState === PlayState.Move;
+        const currentPlayer = <span className={css("label", "current-player", "player", "player-" + (game.currentPlayer.playOrder + 1))}>
+            {game.currentPlayer.name}
+        </span>;
 
         return <div className="play-header">
             <div className="play-header-block">
@@ -63,16 +62,12 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps, void> 
             </div>
 
             <div className="play-header-block stacked visible-xs">
-                <span className={css("current-player", "player-" + (game.currentPlayer.playOrder + 1))}>
-                    {game.currentPlayer.name}
-                </span>
+                {currentPlayer}
                 <span>{/*<timer interval="1000" countdown="true" autostart="false" className="ng-binding ng-isolate-scope"><span className="ng-binding ng-scope">0:3:45:49</span></timer>*/}</span>
             </div>
 
             <div className="play-header-block full-text hidden-xs">
-                <span className={css("current-player", "player-" + (game.currentPlayer.playOrder + 1))}>
-                    {game.currentPlayer.name}
-                </span>
+                {currentPlayer}
             </div>
             <div className="play-header-block full-text hidden-xs">
                 <span>{/*<timer interval="1000" countdown="true" autostart="false" className="ng-binding ng-isolate-scope"><span className="ng-binding ng-scope">0:3:45:49</span></timer>*/}</span>
@@ -192,11 +187,11 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps, void> 
 }
 
 export default connect((state: IState, ownProps: IHeaderProps) => {
-    const { game, placeCountries, player, operationInProgress } = state.play.data;
+    const { placeCountries, player, operationInProgress } = state.play.data;
     const remainingPlaceUnits = Object.keys(placeCountries).reduce((sum, ci) => sum + placeCountries[ci], 0);
 
     return {
-        game: game,
+        game: game(state.play),
         remainingPlaceUnits,
         player,
         inputActive: inputActive(state.play),

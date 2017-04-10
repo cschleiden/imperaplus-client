@@ -1,9 +1,8 @@
 import * as Redux from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
-import { push } from "react-router-redux";
 
-import { Router, Route, IndexRoute, browserHistory } from "react-router";
-import { syncHistoryWithStore, routerMiddleware } from "react-router-redux";
+import { browserHistory } from "react-router";
+import { routerMiddleware } from "react-router-redux";
 
 import thunkMiddleware from "redux-thunk";
 import * as createLogger from "redux-logger";
@@ -11,18 +10,14 @@ import promiseMiddleware from "./middleware/promise-middleware";
 
 import { IAsyncActionDependencies } from "./lib/action";
 import { getCachedClient, createClientWithToken, setOnUnauthorized } from "./clients/clientFactory";
-import { getSignalRClient, ISignalRClient } from "./clients/signalrFactory";
+import { getSignalRClient } from "./clients/signalrFactory";
 
 // Reducers
-import { makeImmutable, IImmutable } from "immuts";
+import { makeImmutable } from "immuts";
 import rootReducer, { IState } from "./reducers";
 
-import { baseUri } from "./configuration";
-
-import { AccountClient } from "./external/imperaClients";
 import { ISessionState } from "./common/session/session.reducer";
 import { SessionService } from "./common/session/session.service";
-import { refresh, expire } from "./common/session/session.actions";
 import { debounce } from "./lib/debounce";
 import { UserProvider } from "./services/userProvider";
 
@@ -48,7 +43,7 @@ const language = localStorage.getItem("impera-lang") || "en";
 const initialState = Object.assign({}, sessionData, { language: language });
 const initialSessionState = sessionData && makeImmutable(initialState) as ISessionState || undefined;
 
-export var store = Redux.createStore<IState>(
+export let store = Redux.createStore<IState>(
   rootReducer,
   {
     // Pre-populate stored session data
@@ -80,7 +75,7 @@ setOnUnauthorized(() => {
   return SessionService.getInstance().reAuthorize();
 });
 
-UserProvider.userProvider = () => { 
+UserProvider.userProvider = () => {
   const userInfo = store.getState().session.data.userInfo;
   return userInfo && userInfo.userId;
 };

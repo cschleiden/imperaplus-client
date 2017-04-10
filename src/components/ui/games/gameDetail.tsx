@@ -136,7 +136,7 @@ class GameDetails extends React.Component<IGameDetailsProps & IGameDetailsDispat
             result.push(<dd key={`dd-${team.id}`}>
                 <ul className="list-unstyled">
                     {team.players.map(player => <li key={player.id}>
-                        <PlayerOutcomeDisplay outcome={player.outcome} />&nbsp;<span className={`label player-${player.playOrder + 1}`}>{player.name}</span>&nbsp;-&nbsp;<span>{__("Timeouts")}: {player.timeouts}</span>
+                        <PlayerOutcomeDisplay outcome={player.outcome} />&nbsp;<span className={`label player player-${player.playOrder + 1}`}>{player.name}</span>&nbsp;-&nbsp;<span>{__("Timeouts")}: {player.timeouts}</span>
                     </li>)}
                 </ul>
             </dd>);

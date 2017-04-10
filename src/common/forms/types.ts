@@ -1,5 +1,5 @@
 import * as React from "react";
-import { IForms, IForm } from "./forms.reducer";
+import { IForm } from "./forms.reducer";
 
 export const contextTypes = {
     formState: React.PropTypes.object.isRequired,

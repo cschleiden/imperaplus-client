@@ -13,6 +13,7 @@ import { IState } from "../../reducers";
 import { Button, ButtonProps, DropdownButton, MenuItem, Alert, Modal, Glyphicon } from "react-bootstrap";
 
 import LinkString from "../../components/ui/strLink";
+import { getStyleForMessage } from "../../lib/message";
 
 interface ILanguageSelectorProps {
     selectedLanguage: string;
@@ -38,6 +39,36 @@ class LanguageSelector extends React.Component<ILanguageSelectorProps, void> {
     }
 }
 
+
+class MobileLanguageSelector extends React.Component<ILanguageSelectorProps, void> {
+    public render() {
+        return <ul className="nav">
+            <li>
+                <a>{__("Language")}</a>
+                <ul className="nav-dropdown">
+                    <li><a href="#" onClick={this._onClick.bind(this, "en")}>
+                        {__("English")}
+                    </a>
+                    </li>
+                    <li>
+                        <a href="#" onClick={this._onClick.bind(this, "de")}>
+                            {__("German")}
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>;
+    }
+
+    private _onClick(language: string, ev: React.MouseEvent<HTMLAnchorElement>) {
+        ev.preventDefault();
+        ev.stopPropagation();
+
+        this.props.onLanguageSelect(language);
+    }
+}
+
+
 interface ILayoutProps {
     message;
     clear: () => void;
@@ -57,7 +88,7 @@ export class Layout extends React.Component<ILayoutProps, void> {
         let msg: JSX.Element;
         if (!!this.props.message) {
             msg = <Alert
-                bsStyle={this._getStyleForMessage(this.props.message.type)}
+                bsStyle={getStyleForMessage(this.props.message.type)}
                 onDismiss={this._onClear}>
                 <LinkString link={this.props.message.message} />
             </Alert>;
@@ -73,12 +104,8 @@ export class Layout extends React.Component<ILayoutProps, void> {
                     {/* Responsive Navigation */}
                     <GridColumn className="col-xs-2 col-sm-7 mobile-navigation visible-xs-block">
                         {this.props.isNavOpen && <div className="mobile-nav">
-                            <Grid>
+                            <Grid className="container">
                                 <GridRow className="text-right">
-                                    <LanguageSelector
-                                        selectedLanguage={this.props.language}
-                                        onLanguageSelect={this._onLanguageSelect} />
-
                                     <Button onClick={() => this.props.openCloseNav(false)}>
                                         <Glyphicon glyph="menu-hamburger" />
                                     </Button>
@@ -86,6 +113,12 @@ export class Layout extends React.Component<ILayoutProps, void> {
 
                                 <GridRow>
                                     {this.props.nav}
+                                </GridRow>
+
+                                <GridRow>
+                                    <MobileLanguageSelector
+                                        selectedLanguage={this.props.language}
+                                        onLanguageSelect={this._onLanguageSelect} />
                                 </GridRow>
                             </Grid>
                         </div>}
@@ -125,19 +158,6 @@ export class Layout extends React.Component<ILayoutProps, void> {
 
             {this.props.pageContent}
         </div >;
-    }
-
-    private _getStyleForMessage(messageType: MessageType): string {
-        switch (messageType) {
-            case MessageType.error:
-                return "danger";
-
-            case MessageType.warning:
-                return "warning";
-
-            default:
-                return "info";
-        }
     }
 
     private _onLanguageSelect = (language: string) => {

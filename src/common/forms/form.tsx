@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import { connect } from "react-redux";
+import { FormGroup } from "react-bootstrap";
 import { IImmutable } from "immuts";
 
 import { IPromiseAction } from "../../lib/action";
@@ -51,11 +52,13 @@ class Form extends React.Component<IFormProps & IInternalFormProps, void> {
         let formState = new FormState(this.props.formState);
 
         return <form onSubmit={this._onSubmit} action="#">
-            {this.props.component({
-                isPending: this.props.isPending,
-                formState: formState,
-                submit: () => this.props.submit(formState)
-            })}
+            <FormGroup>
+                {this.props.component({
+                    isPending: this.props.isPending,
+                    formState: formState,
+                    submit: () => this.props.submit(formState)
+                })}
+            </FormGroup>
         </form>;
     }
 
@@ -67,12 +70,12 @@ class Form extends React.Component<IFormProps & IInternalFormProps, void> {
     }
 }
 
-export interface IFormState { 
+export interface IFormState {
     getFieldValue<T>(key: string, defaultValue?: T);
 }
 
 export class FormState implements IFormState {
-    constructor(public formState: IForm) {        
+    constructor(public formState: IForm) {
     }
 
     getFieldValue<T>(key: string, defaultValue?: T) {

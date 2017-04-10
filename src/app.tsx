@@ -76,7 +76,11 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
 
                     { /* play interface */}
                     <Route path="/play" component={PlayLayout}>
-                        <Route path="/play/:id" component={Play} />
+                        <Route path="/play/:id">
+                            <IndexRoute component={Play} />
+
+                            <Route path="/play/:id/history/:turn" />
+                        </Route>
                     </Route>
                 </Route>
             </Router>

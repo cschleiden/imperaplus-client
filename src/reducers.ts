@@ -11,7 +11,7 @@ import { general, IGeneralState } from "./common/general/general.reducer";
 import { chat, IChatState } from "./common/chat/chat.reducer";
 import { news, INewsState } from "./pages/start/news.reducer";
 import { games, IMyGamesState } from "./pages/games/games.reducer";
-import { play, IPlayState } from "./pages/play/play.reducer";
+import { play, IPlayState } from "./pages/play/reducer";
 
 export interface IState {
     news: INewsState;

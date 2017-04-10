@@ -3,33 +3,19 @@ import * as React from "react";
 import "./map.scss";
 
 import { connect } from "react-redux";
-import { Game, MapTemplate, MapClient, Country, CountryTemplate, PlayState } from "../../../external/imperaClients";
+import { Game, PlayState, HistoryAction, HistoryEntry, HistoryTurn } from "../../../external/imperaClients";
 import { IState } from "../../../reducers";
-import { getCachedClient } from "../../../clients/clientFactory";
-import { imageBaseUri } from "../../../configuration";
 import { css } from "../../../lib/css";
 import { autobind } from "../../../lib/autobind";
-import { log } from "../../../lib/log";
 import { selectCountry, setPlaceUnits, setActionUnits, attack, move } from "../play.actions";
-import { ITwoCountry } from "../play.reducer";
+import { ITwoCountry } from "../reducer";
 
+// Used for displaying connections
 import "jsplumb";
-import { debounce } from "../../../lib/debounce";
 import { MapTemplateCacheEntry } from "../mapTemplateCache";
 import { CountryInputField } from "./countryInput";
-
-enum MapState {
-    DisplayOnly,
-    Place,
-    Move,
-    Attack,
-    History
-}
-
-enum MouseState {
-    Default,
-    ActionDragger
-}
+import { getPlayerByPlayerId, countriesToMap } from "../../../lib/game/utils";
+import { game } from "../reducer/play.selectors";
 
 const KeyBindings = {
     "ABORT": 27, // Escape
@@ -41,10 +27,10 @@ const KeyBindings = {
 
 interface IMapProps {
     game: Game;
+    historyTurn: HistoryTurn;
     mapTemplate: MapTemplateCacheEntry;
     placeCountries: { [id: string]: number };
     twoCountry: ITwoCountry;
-    idToCountry: { [id: string]: Country };
 
     selectCountry: (countryIdentifier: string) => void;
     setUnits: (countryIdentifier: string, units: number) => void;
@@ -63,6 +49,10 @@ class Map extends React.Component<IMapProps, IMapState> {
     private _connection: Connection;
     private _inputElement: HTMLInputElement;
     private _inputElementWrapper: HTMLDivElement;
+
+    private _selectionOrigin: string = null;
+    private _selectionConnections: Connection[] = [];
+    private _historyConnections: Connection[] = [];
 
     constructor(props: IMapProps, context) {
         super(props, context);
@@ -96,37 +86,49 @@ class Map extends React.Component<IMapProps, IMapState> {
     }
 
     render(): JSX.Element {
-        const { twoCountry, mapTemplate } = this.props;
+        const { mapTemplate, historyTurn } = this.props;
 
         return <div className="map" onClick={this._onClick} onMouseMove={this._onMouseMove}>
             {mapTemplate && <img src={mapTemplate.image} className="map" />}
             {mapTemplate && this._renderCountries()}
+            {historyTurn && mapTemplate && this._renderHistory(mapTemplate, historyTurn.actions)}
 
             {this._renderUnitInput()}
         </div>;
     }
 
     componentDidUpdate() {
+        const { twoCountry, historyTurn } = this.props;
+
         this._renderConnections();
         this._renderConnection();
 
-        const { twoCountry } = this.props;
-        const showConnection = !!twoCountry.originCountryIdentifier && !!twoCountry.destinationCountryIdentifier;
+        // History
+        if (!historyTurn) {
+            this._clearHistoryConnections();
+        } else {
+            this._showHistoryConnections(historyTurn.actions);
+        }
 
+        // Focus input element if an entry box is shown
+        const showConnection = !!twoCountry.originCountryIdentifier && !!twoCountry.destinationCountryIdentifier;
         if (showConnection) {
+            this._inputElement.select();
             this._inputElement.focus();
         }
     }
 
     private _renderCountries() {
-        const { game, placeCountries, idToCountry, mapTemplate } = this.props;
+        const { game, placeCountries, mapTemplate } = this.props;
         const { map } = game;
         const { hoveredCountry } = this.state;
 
+        const idToCountry = countriesToMap(map.countries);
+
         return mapTemplate.countries.map(countryTemplate => {
             const country = idToCountry[countryTemplate.identifier];
-            const team = game.teams.filter(t => t.id === country.teamId)[0];
-            const player = team.players.filter(p => p.id === country.playerId)[0];
+
+            const player = getPlayerByPlayerId(game, country.playerId);
 
             const isHighlighted = hoveredCountry && mapTemplate.areConnected(hoveredCountry, country.identifier);
 
@@ -138,7 +140,7 @@ class Map extends React.Component<IMapProps, IMapState> {
                 key={countryTemplate.identifier}
                 className={css(
                     "country",
-                    "player-" + (player.playOrder + 1),
+                    "player-" + (player ? (player.playOrder + 1) : 0),
                     {
                         "country-highlight": isHighlighted
                     })}
@@ -158,19 +160,39 @@ class Map extends React.Component<IMapProps, IMapState> {
     }
 
     private _renderConnections() {
-        const { twoCountry, game } = this.props;
-        const showConnections = !!twoCountry.originCountryIdentifier && !twoCountry.destinationCountryIdentifier;
-        if (!showConnections) {
-            // Remove any arrows
-            this._jsPlumb.unbind("click");
-            this._jsPlumb.detachEveryConnection();
-            (this._jsPlumb as any).deleteEveryEndpoint();
+        const { twoCountry, game, historyTurn } = this.props;
+        const showConnections = !historyTurn && !!twoCountry.originCountryIdentifier && !twoCountry.destinationCountryIdentifier;
+
+        if (showConnections && this._selectionOrigin === twoCountry.originCountryIdentifier) {
+            // Already up-to-date
             return;
         }
 
+        if (!showConnections
+            || (this._selectionOrigin !== twoCountry.originCountryIdentifier || !!twoCountry.destinationCountryIdentifier)) {
+            // Remove any existing connections
+            this._selectionOrigin = null;
+            (jsPlumb as any).doWhileSuspended(() => {
+                this._jsPlumb.unbind("click");
+
+                if (this._selectionConnections.length) {
+                    for (let conn of this._selectionConnections) {
+                        (this._jsPlumb as any).detach(conn);
+                    }
+
+                    this._selectionConnections = [];
+                }
+            });
+        }
+
+        if (!showConnections) {
+            return;
+        }
+
+        this._selectionOrigin = twoCountry.originCountryIdentifier;
         (jsPlumb as any).doWhileSuspended(() => {
             for (let destination of twoCountry.allowedDestinations) {
-                this._jsPlumb.connect({
+                this._selectionConnections.push(this._jsPlumb.connect({
                     source: twoCountry.originCountryIdentifier,
                     target: destination,
                     cssClass: "connections connections-" + (game.playState === PlayState.Attack ? "attack" : "move"),
@@ -192,7 +214,7 @@ class Map extends React.Component<IMapProps, IMapState> {
                     overlays: [
                         ["PlainArrow", { location: 1, width: 15, length: 12 }]
                     ]
-                } as any);
+                } as any));
 
                 this._jsPlumb.bind("click", (connection) => {
                     const targetId: string = connection.targetId;
@@ -203,10 +225,28 @@ class Map extends React.Component<IMapProps, IMapState> {
     }
 
     private _renderConnection() {
-        const { twoCountry, game } = this.props;
-        const showConnections = !!twoCountry.originCountryIdentifier && !!twoCountry.destinationCountryIdentifier;
-        if (!showConnections) {
+        const { twoCountry, game, historyTurn } = this.props;
+        const showConnection = !historyTurn && !!twoCountry.originCountryIdentifier && !!twoCountry.destinationCountryIdentifier;
+
+        const hasExistingConnection = !!this._connection;
+
+        const untypedConnection: any = this._connection;
+        const existingConnectionMatches = hasExistingConnection && twoCountry
+            && (untypedConnection.sourceId !== twoCountry.originCountryIdentifier
+                || untypedConnection.targetId !== twoCountry.destinationCountryIdentifier);
+
+        if (showConnection && existingConnectionMatches) {
+            // Already up-to-date
+            return;
+        }
+
+        if (hasExistingConnection && (!showConnection || !existingConnectionMatches)) {
+            // Remove existing connection
+            (this._jsPlumb as any).detach(this._connection);
             this._connection = null;
+        }
+
+        if (!showConnection) {
             return;
         }
 
@@ -230,7 +270,7 @@ class Map extends React.Component<IMapProps, IMapState> {
                     create: (component) => {
                         return $(this._inputElementWrapper);
                     },
-                    location: 0.5,
+                    location: 0.4,
                     id: "unit-input"
                 }],
                 ["PlainArrow", { location: 1, width: 20, length: 12 }]
@@ -289,7 +329,7 @@ class Map extends React.Component<IMapProps, IMapState> {
     }
 
     private _onCountryClick(countryIdentifier: string) {
-        const { game, twoCountry } = this.props;
+        const { twoCountry } = this.props;
 
         if (!!twoCountry.originCountryIdentifier && !!twoCountry.destinationCountryIdentifier) {
             this._performAction();
@@ -340,17 +380,86 @@ class Map extends React.Component<IMapProps, IMapState> {
             this.props.move();
         }
     }
+
+    private _renderHistory(mapTemplate: MapTemplateCacheEntry, actions: HistoryEntry[]): JSX.Element[] {
+        let result: JSX.Element[] = [];
+
+        for (let action of actions.filter(a => a.action === HistoryAction.PlaceUnits)) {
+            const countryTemplate = mapTemplate.country(action.originIdentifier);
+
+            result.push(<div
+                key={`history-${action.id}`}
+                className="country-place"
+                style={{
+                    left: countryTemplate.x,
+                    top: countryTemplate.y
+                }}>
+                {action.units}
+            </div>);
+        }
+
+        return result;
+    }
+
+    private _showHistoryConnections(actions: HistoryEntry[]) {
+        // Clear            
+        this._clearHistoryConnections();
+
+        for (let action of actions) {
+            switch (action.action) {
+                case HistoryAction.Attack: {
+                    this._displayHistoryConnection(action.originIdentifier, action.destinationIdentifier, "" + action.units, "connection-attack", 10);
+                    break;
+                }
+
+                case HistoryAction.Move: {
+                    this._displayHistoryConnection(action.originIdentifier, action.destinationIdentifier, "" + action.units, "connection-move", -10);
+                    break;
+                }
+            }
+        }
+    }
+
+    private _clearHistoryConnections() {
+        if (this._historyConnections.length) {
+            for (let connection of this._historyConnections) {
+                (this._jsPlumb as any).detach(connection);
+            }
+
+            this._historyConnections = [];
+        }
+    }
+
+    private _displayHistoryConnection(originIdentifier: string, destinationIdentifier: string, label: string, cssClass: string, curviness: number) {
+        const historyConnection = this._jsPlumb.connect({
+            source: originIdentifier,
+            target: destinationIdentifier,
+            anchors: [
+                ["Center"],
+                ["Perimeter", { shape: "Circle" }]
+            ],
+            endpoint: "Blank",
+            connector: ["StateMachine", { curviness: curviness, proximityLimit: 10 }],
+            cssClass: "connection " + cssClass,
+            overlays: [
+                ["PlainArrow", { location: 1, width: 4, length: 8 }],
+                ["Label", { label: label, cssClass: "history-label" }]
+            ]
+        } as any);
+
+        this._historyConnections.push(historyConnection);
+    }
 }
 
 export default connect((state: IState) => {
-    const { game, placeCountries, countriesByIdentifier, twoCountry, mapTemplate } = state.play.data;
+    const { placeCountries, twoCountry, mapTemplate, historyTurn } = state.play.data;
 
     return {
-        game: game,
+        game: game(state.play),
+        historyTurn,
         mapTemplate: mapTemplate,
         placeCountries: placeCountries,
-        twoCountry: twoCountry,
-        idToCountry: countriesByIdentifier
+        twoCountry: twoCountry
     };
 }, (dispatch) => ({
     selectCountry: (countryIdentifier: string) => { dispatch(selectCountry(countryIdentifier)); },

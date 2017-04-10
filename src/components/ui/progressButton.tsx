@@ -10,9 +10,9 @@ export interface IProgressButtonProps extends ButtonProps {
 }
 
 export const ProgressButton = (props: IProgressButtonProps) => {
-    const className = css(props.className, "progress-button", {
-        "progress-button-active": props.isActive
-    });
+    const { isActive, className, disabled, ...buttonProps } = props;
 
-    return <Button {...props} className={className} disabled={props.disabled || props.isActive} />;
+    return <Button {...buttonProps} className={css(className, "progress-button", {
+        "progress-button-active": isActive
+    })} disabled={disabled || isActive} />;
 };
