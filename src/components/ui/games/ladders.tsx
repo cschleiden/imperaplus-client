@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import "./joinList.scss";
+import "./gameList.scss";
 
 import { GameSummary, PlayerSummary, Game, GameState } from "../../../external/imperaClients";
 import { Grid, GridRow, GridColumn } from "../../../components/layout";

@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { GameSummary, GameType } from "../../external/imperaClients";
 import { Grid, GridRow, GridColumn } from "../../components/layout";
 import { Title, Section } from "../../components/ui/typography";
-import { JoinList } from "../../components/ui/games/joinList";
+import { GameList } from "../../components/ui/games/gameList";
 import { Button, ButtonGroup } from "react-bootstrap";
 
 import { IState } from "../../reducers";
@@ -29,7 +29,7 @@ export class FunGamesComponent extends React.Component<IFunGamesProps, void> {
         let fun: JSX.Element[];
 
         if (this.props.funGames.length > 0) {
-            fun = [<JoinList games={this.props.funGames} key="fun" />];
+            fun = [<GameList games={this.props.funGames} key="fun" />];
         }
 
         return <GridColumn className="col-xs-12">

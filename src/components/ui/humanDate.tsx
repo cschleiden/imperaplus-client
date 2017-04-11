@@ -104,7 +104,21 @@ export const HumanCountdown = (secs: number): string => {
     let divisor_for_seconds = divisor_for_minutes % 60;
     let seconds = Math.ceil(divisor_for_seconds);
 
-    return days + " " + __("day(s)") + " | " + hours + ":" + minutes + ":" + seconds;
+    let hString: string = hours.toString();
+    let mString: string = minutes.toString();
+    let sString: string = seconds.toString();
+
+    if (hString.length === 1) {
+      hString = "0" + hString;
+    }
+    if (mString.length === 1) {
+      mString = "0" + mString;
+    }
+    if (sString.length === 1) {
+      sString = "0" + sString;
+    }
+
+    return days + " " + __("day(s)") + " | " + hString + ":" + mString + ":" + sString;
 };
 
 export default HumanDate;
