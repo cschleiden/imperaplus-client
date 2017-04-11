@@ -1,10 +1,13 @@
 import * as React from "react";
 
-import "./gameList.scss";
+import "./joinList.scss";
 
-import { GameSummary, PlayerSummary, GameState } from "../../../external/imperaClients";
-import {HumanCountdown} from "../humanDate";
+import { GameSummary, PlayerSummary, Game, GameState } from "../../../external/imperaClients";
+import { Grid, GridRow, GridColumn } from "../../../components/layout";
+import HumanDate from "../humanDate";
+import { Title, Section } from "../typography";
 import GameDetails from "./gameDetail";
+
 import { Table, Glyphicon, Button } from "react-bootstrap";
 import { GameStateDisplay } from "./gameState";
 import { PlayerOutcomeDisplay } from "./playerOutcome";
@@ -20,7 +23,7 @@ interface IGameListState {
     expandedGames?: { [id: number]: boolean };
 }
 
-export class GameList extends React.Component<IGameListProps, IGameListState> {
+export class JoinList extends React.Component<IGameListProps, IGameListState> {
     constructor(props, context) {
         super(props, context);
 
@@ -49,10 +52,8 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
             <th>{__("Name")}</th>
             <th className="hidden-xs">{__("Map")}</th>
             <th className="hidden-xs">{__("Mode")}</th>
-            <th className="hidden-xs username">{__("Active")}</th>
+            <th className="hidden-xs">{__("Owner")}</th>
             <th className="hidden-xs">{__("Teams/Players")}</th>
-            <th className="timer">{__("Time left for turn")}</th>
-            <th className="state">{__("State")}</th>
             <th>&nbsp;</th>
         </tr>;
     }
@@ -79,12 +80,8 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
             </td>
             <td className="hidden-xs">{game.mapTemplate}</td>
             <td className="hidden-xs">{game.options.mapDistribution}</td>
-            <td className="hidden-xs">{game.currentPlayer && game.currentPlayer.name}</td>
+            <td className="hidden-xs">{game.createdByName}</td>
             <td className="hidden-xs">{`${game.options.numberOfTeams}/${game.options.numberOfPlayersPerTeam}`}</td>
-            <td>{HumanCountdown(game.timeoutSecondsLeft)}</td>
-            <td>
-                <GameStateDisplay gameState={game.state} />{playerState}
-            </td>
             <td>
                 <Button
                     bsSize="xsmall" bsStyle="info"

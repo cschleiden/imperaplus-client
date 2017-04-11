@@ -51,7 +51,6 @@ export const games = <TPayload>(
         [pending(REFRESH)]: loading,
         [success(REFRESH)]: refresh,
         [success(SURRENDER)]: surrender,
-        [success(REMOVE)]: remove,
-        [success(LEAVE)]: remove
+        [success(REMOVE)]: remove
     });
 };
