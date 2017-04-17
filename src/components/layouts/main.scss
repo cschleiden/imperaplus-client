@@ -13,6 +13,7 @@
 }
 
 .language {
+    display: inline-block;
     button, ul {
         font-size: 11px !important;
         text-transform: uppercase;
@@ -25,7 +26,7 @@
 
 $headerHeight: 120px;
 .header {
-    margin-top: $spacing;
+    margin-top: 0px;
 
     .logo {
         padding: $spacing * 2;
@@ -42,12 +43,15 @@ $headerHeight: 120px;
 
     .navigation-container {
         height: $headerHeight;
-
+        padding-right: 0px;
         text-align: right;
     }
 
     .lang {
         height: $headerHeight / 2;
+        & > div {
+            padding-top: $spacing;
+        }
     }
 
     .navigation {
@@ -71,11 +75,13 @@ $headerHeight: 120px;
             & > li {
                 display: inline-block;
                 position: relative;
+                padding: 0px #{2 * $spacing} 0px $spacing;
 
                 & > a {
                     text-transform: uppercase;
                     //@include ms-font-m-plus;
                     //color: $ms-color-neutralSecondary;
+                    color: $colorInactive;
 
                     display: inline-block;
 
@@ -129,7 +135,9 @@ $headerHeight: 120px;
 
                     a {
                         display: block;
-
+                        color: $colorInactive;
+                        font-size: 13px;
+                        font-weight: 400;
                         &.active {
                             color: $accent;
                         }

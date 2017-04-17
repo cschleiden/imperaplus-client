@@ -22,19 +22,22 @@ interface ILanguageSelectorProps {
 
 class LanguageSelector extends React.Component<ILanguageSelectorProps, void> {
     public render() {
-        return <div className="language">
-            <DropdownButton id="language" title={__("LANGUAGE")} bsStyle="link">
-                <MenuItem
-                    onClick={() => this.props.onLanguageSelect("en")}
-                    active={this.props.selectedLanguage === "en"}>
-                    {__("English")}
-                </MenuItem>
-                <MenuItem
-                    onClick={() => this.props.onLanguageSelect("de")}
-                    active={this.props.selectedLanguage === "de"}>
-                    {__("German")}
-                </MenuItem>
-            </DropdownButton>
+        return <div>
+            <i className="fa fa-globe"></i>
+            <div className="language">
+                <DropdownButton id="language" title={__("LANGUAGE")} bsStyle="link">
+                    <MenuItem
+                        onClick={() => this.props.onLanguageSelect("en")}
+                        active={this.props.selectedLanguage === "en"}>
+                        {__("English")}
+                    </MenuItem>
+                    <MenuItem
+                        onClick={() => this.props.onLanguageSelect("de")}
+                        active={this.props.selectedLanguage === "de"}>
+                        {__("German")}
+                    </MenuItem>
+                </DropdownButton>
+            </div>
         </div>;
     }
 }
@@ -94,7 +97,7 @@ export class Layout extends React.Component<ILayoutProps, void> {
             </Alert>;
         }
 
-        return <div>
+        return <div className="mainWrapper">
             <GridContainer className="layout">
                 <GridRow className="header">
                     <GridColumn className="col-xs-10 col-sm-5 logo">
@@ -152,7 +155,7 @@ export class Layout extends React.Component<ILayoutProps, void> {
                 </GridRow>
 
                 <GridRow className="footer">
-                    2003-2017 &copy; Christopher Schleiden and the Impera team. All Rights Reserved. <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> | <a href="#">User Voice</a>
+                    2003-2017 &copy; Christopher Schleiden {__("and the Impera team. All Rights Reserved.")} <a href="#">{__("Privacy Policy")}</a> | <a href="#">{__("Terms of Service")}</a> | <a href="#">{__("User Voice")}</a>
                 </GridRow>
             </GridContainer>
 

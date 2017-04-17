@@ -7,10 +7,11 @@ import { logout } from "../../common/session/session.actions";
 export const GameNavigation = ({ dispatch }): JSX.Element => {
     return <ul className="nav">
         <li>
-            <IndexLink to="/game" activeClassName="active">{__("Start")}</IndexLink>
+            <IndexLink to="/game" activeClassName="active">{__("News")}</IndexLink>
         </li>
-        <li>
+        <li className="dropable">
             <Link to="/game/games" activeClassName="active">{__("Games")}</Link>
+            <i className="fa fa-caret-down" aria-hidden="true"></i>
             <ul className="nav-dropdown">
                 <li>
                     <IndexLink to="/game/games" activeClassName="active">{__("My Games")}</IndexLink>
@@ -29,14 +30,15 @@ export const GameNavigation = ({ dispatch }): JSX.Element => {
                 </li>
             </ul>
         </li>
-        <li>
+        <li className="dropable">
             <Link to="/game/alliance" activeClassName="active">{__("Alliance")}</Link>
+            <i className="fa fa-caret-down" aria-hidden="true"></i>
             <ul className="nav-dropdown">
                 <li>
-                    <Link to="/game/alliance/create" activeClassName="active">{__("Create")}</Link>
+                    <Link to="/game/alliance/create" activeClassName="active">{__("Create alliance")}</Link>
                 </li>
                 <li>
-                    <Link to="/game/alliance/join" activeClassName="active">{__("Join")}</Link>
+                    <Link to="/game/alliance/join" activeClassName="active">{__("Join alliance")}</Link>
                 </li>
                 <li>
                     <Link to="/game/alliance/admin" activeClassName="active">{__("Admin")}</Link>
@@ -55,12 +57,16 @@ export const GameNavigation = ({ dispatch }): JSX.Element => {
                 <span className="visible-xs-inline">&nbsp;{__("Messages")}</span>
             </Link>
         </li>
-        <li>
+        <li className="dropable">
             <Link to="/game/profile" activeClassName="active">
                 <i className="fa fa-user" aria-hidden="true"></i>
                 <span className="visible-xs-inline">&nbsp;{__("Account")}</span>
             </Link>
+            <i className="fa fa-caret-down" aria-hidden="true"></i>
             <ul className="nav-dropdown">
+                <li>
+                    {__("userName")}
+                </li>
                 <li>
                     <Link to="/game/profile" activeClassName="active">{__("Profile")}</Link>
                 </li>
