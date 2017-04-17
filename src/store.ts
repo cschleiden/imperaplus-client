@@ -58,7 +58,7 @@ export let store = Redux.createStore<IState>(
         createClientWithToken: createClientWithToken,
         getSignalRClient: getSignalRClient
       } as IAsyncActionDependencies),
-      createLogger())));
+        (createLogger as any)())));
 
 // Persist session settings to session storage
 store.subscribe(debounce(() => {
