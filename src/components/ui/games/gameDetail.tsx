@@ -4,10 +4,9 @@ import "./gameDetail.scss";
 
 import { connect } from "react-redux";
 import { store } from "../../../store";
-import { GameSummary, GameState, PlayerSummary, PlayerState } from "../../../external/imperaClients";
+import { GameSummary, GameState, PlayerSummary, PlayerState, MapClient, GameType } from "../../../external/imperaClients";
 import { Grid, GridRow, GridColumn } from "../../../components/layout";
-import HumanDate from "../../../components/ui/humanDate";
-import { MapClient, GameType } from "../../../external/imperaClients";
+import { HumanDate, HumanTime} from "../../../components/ui/humanDate";
 import { getCachedClient } from "../../../clients/clientFactory";
 import { imageBaseUri } from "../../../configuration";
 import { PlayerOutcomeDisplay } from "./playerOutcome";
@@ -57,7 +56,7 @@ class GameDetails extends React.Component<IGameDetailsProps & IGameDetailsDispat
                 <dl className="game-details">
                     <dt>{__("Started")}</dt>
                     <dd>
-                        {HumanDate(this.props.game.startedAt)}
+                        {HumanDate(this.props.game.startedAt || this.props.game.lastActionAt)}
                     </dd>
 
                     <dt>{__("Started By")}</dt>
@@ -68,7 +67,7 @@ class GameDetails extends React.Component<IGameDetailsProps & IGameDetailsDispat
 
                     <dt>{__("Timeout")}</dt>
                     <dd>
-                        {this.props.game.options.timeoutInSeconds}
+                        {HumanTime(this.props.game.options.timeoutInSeconds)}
                     </dd>
 
                     <dt>{__("Mode")}</dt>
@@ -163,7 +162,7 @@ class GameDetails extends React.Component<IGameDetailsProps & IGameDetailsDispat
         const { game } = this.props;
         const player = this._player();
 
-        return game.state === GameState.Open && game.createdByUserId === player.userId;
+        return game.state === GameState.Open && !!player && game.createdByUserId === player.userId;
     }
 
     private _canHide(): boolean {
@@ -226,5 +225,5 @@ export default connect((state: IState, ownProps: IGameDetailsProps) => ownProps,
     remove: (gameId: number) => dispatch(remove(gameId)),
     surrender: (gameId: number) => dispatch(surrender(gameId)),
     leave: (gameId: number) => dispatch(leave(gameId)),
-    join: (gameId: number) => dispatch(join(gameId)),
+    join: (gameId: number) => dispatch(join(gameId))
 }))(GameDetails);
