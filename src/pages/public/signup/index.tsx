@@ -89,6 +89,7 @@ export class SignupComponent extends React.Component<ISignupProps, void> {
 
                                 <div className="ms-u-textAlignRight">
                                     <ProgressButton
+                                        type="submit"
                                         disabled={!this._formValid(formState)}
                                         isActive={isPending}
                                         bsStyle="primary">

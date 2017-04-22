@@ -235,9 +235,17 @@ $footerHeight: 40px;
 }
 
 .main-content {
-    padding: 20px 0;
+    padding: 0 0 #{2 * $spacing / 2} 0;
 }
 
 .message .alert {
     margin-bottom: 0;
+}
+
+.tag-box-v3 {
+    background: #fafafa;
+    border: solid 1px #eee;
+    padding: #{2 * $spacing / 2};
+    margin-bottom: #{3 * $spacing / 3};
+    border-left: solid 2px #e6c954;
 }

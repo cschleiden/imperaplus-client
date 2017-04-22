@@ -27,9 +27,10 @@ import GameNav from "./components/navigation/game";
 import Start from "./pages/start";
 import My from "./pages/games/games";
 import Create from "./pages/create/create";
-import Join from "./pages/join/join";
+import Join from "./pages/join/fun";
 import Ladders from "./pages/join/ladders";
-import Tournaments from "./pages/join/tournaments";
+import Tournaments from "./pages/games/tournaments";
+import Tournament from "./pages/tournaments/tournaments";
 
 // Play
 import Play from "./pages/play/play";
@@ -39,6 +40,13 @@ import CreateAlliance from "./pages/alliance/create";
 import AllianceAdmin from "./pages/alliance/admin";
 import JoinAlliance from "./pages/alliance/join";
 import AllianceInfo from "./pages/alliance/info";
+
+// messages
+import Messages from "./pages/messages/messages";
+
+// profile
+import UserProfile from "./pages/profile/profile";
+
 
 function checkLoggedIn(store: Redux.Store<IState>, nextState, replace) {
     const state = store.getState();
@@ -88,6 +96,9 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
                                 <Route path="/game/alliance/join" component={JoinAlliance} />
                             </Route>
 
+                            <Route path="/game/messages/messages" component={Messages} />
+                            <Route path="/game/profile/profile" component={UserProfile} />
+
                         </Route>
                     </Route>
 
@@ -97,6 +108,15 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
                             <IndexRoute component={Play} />
 
                             <Route path="/play/:id/history/:turn" component={Play} />
+                        </Route>
+                    </Route>
+
+                    { /* tournaments interface */}
+                    <Route path="/game/tournaments" component={MainLayout}>
+                        <Route path="/game/tournaments/:id" components={{ nav: Game, content: GameLayout }}>>
+                            <IndexRoute component={Tournament} />
+
+                            <Route path="/game/tournaments/:id" component={Tournament} />
                         </Route>
                     </Route>
                 </Route>

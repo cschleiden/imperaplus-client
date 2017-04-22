@@ -14,7 +14,7 @@ export default class Home extends React.Component<{}, void> {
             <div>
                 <Slider background="/assets/slider/slider.gif" slides={[{
                     headLines: [__("Conquer"), __("the world")],
-                    bodyLines: [__("Fight"), __("on more than"), __("40 maps")],
+                    bodyLines: [__("Fight"), __("on more than"), __("80 maps")],
                     img: "/assets/slider/map.png"
                 }, {
                     headLines: [__("Win in"), __("tournaments")],

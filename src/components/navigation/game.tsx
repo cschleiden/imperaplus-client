@@ -46,13 +46,10 @@ export const GameNavigation = ({ dispatch }): JSX.Element => {
                 <li>
                     <Link to="/game/alliance/info" activeClassName="active">{__("Information")}</Link>
                 </li>
-                <li>
-                    <Link to="/game/alliance/forum" activeClassName="active">{__("Forum")}</Link>
-                </li>
             </ul>
         </li>
         <li>
-            <Link to="/game/messages" activeClassName="active">
+            <Link to="/game/messages/message" activeClassName="active">
                 <i className="fa fa-envelope" aria-hidden="true"></i>
                 <span className="visible-xs-inline">&nbsp;{__("Messages")}</span>
             </Link>
@@ -65,10 +62,13 @@ export const GameNavigation = ({ dispatch }): JSX.Element => {
             <i className="fa fa-caret-down" aria-hidden="true"></i>
             <ul className="nav-dropdown">
                 <li>
-                    {__("userName")}
+                    <span>{JSON.parse(sessionStorage.impera).userInfo.userName}</span>
                 </li>
                 <li>
-                    <Link to="/game/profile" activeClassName="active">{__("Profile")}</Link>
+                    <Link to="/game/profile/profile" activeClassName="active">{__("Profile")}</Link>
+                </li>
+                <li>
+                    <a href="http://impera.ruesken.de/" target="_blank">{__("Forum")}</a>
                 </li>
                 <li>
                     <a href="#" onClick={((e) => {

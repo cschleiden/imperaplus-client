@@ -186,7 +186,7 @@ export class CreateGameComponent extends React.Component<ICreateGameProps, void>
                                                 type="number"
                                                 fieldName="attacks"
                                                 initialValue={"5"}
-                                                required={false} />
+                                                required={true} />
 
                                             <ControlledTextField
                                                 label={__("Moves")}
@@ -194,7 +194,7 @@ export class CreateGameComponent extends React.Component<ICreateGameProps, void>
                                                 type="number"
                                                 fieldName="moves"
                                                 initialValue={"7"}
-                                                required={false} />
+                                                required={true} />
 
                                             <ControlledTextField
                                                 label={__("Units per turn")}
@@ -202,7 +202,7 @@ export class CreateGameComponent extends React.Component<ICreateGameProps, void>
                                                 type="number"
                                                 fieldName="unitsperturn"
                                                 initialValue={"3"}
-                                                required={false} />
+                                                required={true} />
 
                                             <ControlledTextField
                                                 label={__("initial country units")}
@@ -210,7 +210,7 @@ export class CreateGameComponent extends React.Component<ICreateGameProps, void>
                                                 type="number"
                                                 fieldName="initialCountryUnits"
                                                 initialValue={"1"}
-                                                required={false} />
+                                                required={true} />
 
 
                                             <ControlledTextField
@@ -219,7 +219,7 @@ export class CreateGameComponent extends React.Component<ICreateGameProps, void>
                                                 type="number"
                                                 fieldName="minUnitsPerCountry"
                                                 initialValue={"1"}
-                                                required={false} />
+                                                required={true} />
 
                                         </GridColumn>
                                         <GridColumn className="col-md-6">

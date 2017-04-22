@@ -10,8 +10,9 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
 
 * {
-    font-family: 'Open Sans', sans-serif;
-
+    // font-family: 'Open Sans', sans-serif;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	
     // no rounded corners
     border-radius: 0 !important;
 }
@@ -31,6 +32,7 @@ html {
 body {
     background: repeat url('/assets/pattern.png');
     padding: 0px;
+    font-size: $fontNormal;
 }
 
 // General styles
@@ -40,6 +42,10 @@ a {
     &:hover {
         text-decoration: underline;
     }
+}
+
+p, li, li a {
+    color: $stdColor;
 }
 
 #root {

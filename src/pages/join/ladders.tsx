@@ -28,13 +28,7 @@ export class LaddersComponent extends React.Component<ILaddersProps, void> {
     }
 
     public render(): JSX.Element {
-        let ranking: JSX.Element[];
-
         const rows = this.props.ladders.map(ladder => this._renderLadder(ladder));
-
-        /* if (this.props.ladders.length > 0) {
-            ranking = [<Ladders ladders={this.props.ladders} key="ladder" />];
-        } */
 
         return <GridColumn className="col-xs-12">
             <Title>{__("Join Ladder")}</Title>
