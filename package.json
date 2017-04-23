@@ -121,6 +121,7 @@
     "typescript": "2.2.2",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.3",
+    "webpack-bundle-analyzer": "^2.4.0",
     "webpack-dev-server": "^1.16.2",
     "webpack-git-hash": "^1.0.2",
     "webpack-hot-middleware": "^2.13.2",

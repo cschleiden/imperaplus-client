@@ -48,6 +48,6 @@ exports.ttf = makeUrlLoader(/\.ttf(\?.*$|$)/);
 function makeUrlLoader(pattern) {
   return {
     test: pattern,
-    loader: 'url'
+    loader: 'url?limit=8192'
   };
 }
