@@ -7,7 +7,7 @@ const config = {
 function getToken(name: string, defaultValue: string): string {
     const value: string = config[name];
 
-    if (!value || value.startsWith("#{")) {
+    if (!value || value.startsWith("#")) {
         return defaultValue;
     }
 
