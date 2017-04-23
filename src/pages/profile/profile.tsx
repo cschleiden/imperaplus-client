@@ -33,7 +33,6 @@ export class ProfileComponent extends React.Component<IProfileProps, void> {
         }
 
         return <GridColumn className="col-xs-12">
-            <Title>{__("Your profile")}</Title>
             <p className="lead"><span>{__("Here you can manage your profile and settings")}</span></p>
 
             {profile}

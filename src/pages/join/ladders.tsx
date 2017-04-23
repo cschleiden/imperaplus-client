@@ -4,7 +4,7 @@ import "../../components/ui/ladders.scss";
 
 import { connect } from "react-redux";
 import { LadderSummary } from "../../external/imperaClients";
-import { GridColumn } from "../../components/layout";
+import { GridRow, GridColumn } from "../../components/layout";
 import { Title } from "../../components/ui/typography";
 import { Glyphicon, Button, ButtonGroup } from "react-bootstrap";
 import { autobind } from "../../lib/autobind";
@@ -31,7 +31,6 @@ export class LaddersComponent extends React.Component<ILaddersProps, void> {
         const rows = this.props.ladders.map(ladder => this._renderLadder(ladder));
 
         return <GridColumn className="col-xs-12">
-            <Title>{__("Join Ladder")}</Title>
             <div className="ladderList">
                 <div className="pull-right">
                     <ButtonGroup>

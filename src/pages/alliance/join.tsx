@@ -29,7 +29,6 @@ export class JoinAllianceComponent extends React.Component<IJoinAllianceProps, v
         let alliances: JSX.Element[];
 
         return <GridColumn className="col-xs-12">
-            <Title>{__("Join Alliance")}</Title>
             <div className="inProgress">
             </div>
         </GridColumn>;

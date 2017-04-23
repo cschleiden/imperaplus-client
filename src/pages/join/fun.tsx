@@ -32,14 +32,12 @@ export class FunGamesComponent extends React.Component<IFunGamesProps, void> {
         }
 
         return <GridColumn className="col-xs-12">
-            <Title>{__("Open FunGames")}</Title>
             <div>
                 <div className="pull-right">
                     <ButtonGroup>
                         <Button key="refresh" onClick={this.props.refreshFun} title={__("Refresh")}><span className="glyphicon glyphicon-refresh" /></Button>
                     </ButtonGroup>
                 </div>
-
                 {fun}
             </div>
         </GridColumn>;

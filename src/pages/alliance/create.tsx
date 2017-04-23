@@ -25,7 +25,6 @@ export class CreateAllianceComponent extends React.Component<ICreateAllianceProp
         let alliances: JSX.Element[];
 
         return <GridColumn className="col-xs-12">
-            <Title>{__("Create Alliance")}</Title>
             <div className="inProgress">
             </div>
         </GridColumn>;

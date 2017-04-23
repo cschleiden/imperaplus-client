@@ -16,6 +16,8 @@ import PublicLayout from "./components/layouts/public";
 import PublicNav from "./components/navigation/public";
 import Game from "./components/navigation/game";
 import ChatLayout from "./components/layouts/chat";
+import adTag from "./components/commercial/adtag";
+import Breadcrumbs from "./components/ui/breadcrumbs";
 
 // Public
 import { Home, SignupConfirmation, Login } from "./pages/public";
@@ -64,7 +66,7 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
                 {/* main layout */}
                 <Route component={MainLayout}>
                     {/* public */}
-                    <Route path="/" components={{ nav: PublicNav, content: PublicLayout }}>
+                    <Route path="/" components={{ nav: PublicNav, content: PublicLayout}}>
                         <IndexRoute component={Home} />
 
                         <Route path="signup" component={Signup} />
@@ -77,7 +79,7 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
                 <Route component={ChatLayout} onEnter={checkLoggedIn.bind(this, this.props.store)}>
                     <Route component={MainLayout}>
                         { /* in game */}
-                        <Route path="/game" components={{ nav: Game, content: GameLayout }}>
+                        <Route path="/game" components={{ nav: Game, content: GameLayout, breadcrumbs: Breadcrumbs, commercials: adTag }}>
                             <IndexRoute component={Start} />
 
                             <Route path="/game/games">
@@ -87,6 +89,10 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
                                 <Route path="/game/games/join" component={Join} />
                                 <Route path="/game/games/ladders" component={Ladders} />
                                 <Route path="/game/games/tournaments" component={Tournaments} />
+                            </Route>
+
+                            <Route path="/game/tournaments">
+                                <Route path="/game/tournaments/:id" component={Tournament} />
                             </Route>
 
                             <Route path="/game/alliance">
@@ -108,15 +114,6 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
                             <IndexRoute component={Play} />
 
                             <Route path="/play/:id/history/:turn" component={Play} />
-                        </Route>
-                    </Route>
-
-                    { /* tournaments interface */}
-                    <Route path="/game/tournaments" component={MainLayout}>
-                        <Route path="/game/tournaments/:id" components={{ nav: Game, content: GameLayout }}>>
-                            <IndexRoute component={Tournament} />
-
-                            <Route path="/game/tournaments/:id" component={Tournament} />
                         </Route>
                     </Route>
                 </Route>

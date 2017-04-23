@@ -48,7 +48,6 @@ export class MyGamesComponent extends React.Component<IMyGamesProps, void> {
         }
 
         return <GridColumn className="col-xs-12">
-            <Title>{__("My Games")}</Title>
             <div>
                 <div className="pull-right">
                     <ButtonGroup>

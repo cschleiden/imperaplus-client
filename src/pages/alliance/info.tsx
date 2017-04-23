@@ -25,7 +25,6 @@ export class AllianceInfoComponent extends React.Component<IAllianceInfoProps, v
         let alliances: JSX.Element[];
 
         return <GridColumn className="col-xs-12">
-            <Title>{__("Information about alliances")}</Title>
             <div className="inProgress">
             </div>
         </GridColumn>;

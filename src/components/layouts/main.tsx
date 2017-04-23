@@ -23,7 +23,7 @@ interface ILanguageSelectorProps {
 class LanguageSelector extends React.Component<ILanguageSelectorProps, void> {
     public render() {
         return <div>
-            <i className="fa fa-globe"></i>
+            <i className="fa fa-globe">&nbsp;</i>
             <div className="language">
                 <DropdownButton id="language" title={__("LANGUAGE")} bsStyle="link">
                     <MenuItem
@@ -75,6 +75,8 @@ class MobileLanguageSelector extends React.Component<ILanguageSelectorProps, voi
 interface ILayoutProps {
     message;
     clear: () => void;
+    breadcrumbs;
+    commercials;
     nav;
     content;
     pageContent;
@@ -149,6 +151,10 @@ export class Layout extends React.Component<ILayoutProps, void> {
                 </GridRow>
 
                 <GridRow className="content">
+                    {this.props.breadcrumbs && this.props.breadcrumbs}
+
+                    {this.props.commercials && this.props.commercials}
+
                     <GridColumn className="col-xs-12 main-content">
                         {this.props.content}
                     </GridColumn>

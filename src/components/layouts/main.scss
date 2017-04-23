@@ -6,7 +6,7 @@
     max-width: 1170px;
     min-height: 100%;
 
-    margin: 0 auto;    
+    margin: 0 auto;
 
     background: white;
     box-shadow: 0 0 5px #ccc;
@@ -97,7 +97,7 @@ $headerHeight: 120px;
                     }
                 }
 
-                // Show dropdown         
+                // Show dropdown
                 &:hover {
                     ul.nav-dropdown {
                         display: block;
@@ -235,7 +235,7 @@ $footerHeight: 40px;
 }
 
 .main-content {
-    padding: 0 0 #{2 * $spacing / 2} 0;
+    padding: 0 0 $spacing 0;
 }
 
 .message .alert {
@@ -245,7 +245,47 @@ $footerHeight: 40px;
 .tag-box-v3 {
     background: #fafafa;
     border: solid 1px #eee;
-    padding: #{2 * $spacing / 2};
-    margin-bottom: #{3 * $spacing / 3};
+    padding: $spacing;
+    margin-bottom: $spacing;
     border-left: solid 2px #e6c954;
+}
+
+.breadcrumbs {
+    overflow: hidden;
+    padding: 10px 0 6px;
+    border-bottom: solid 1px #eee;
+}
+
+.breadcrumbs h1 {
+    color: #666;
+    font-size: 22px;
+    margin-top: 8px;
+    line-height: 35px;
+    &:first-letter {
+        text-transform: capitalize;
+    }
+}
+
+.breadcrumb {
+    top: $spacing;
+    padding-right: 0;
+    background: none;
+    position: relative;
+    & > .breadcrumb-item {
+        &:first-letter {
+            text-transform: capitalize;
+        }
+        a {
+            color: $accent;
+            text-transform: capitalize;
+        }
+        &.active, & > a:hover {
+            color: $accent;
+            text-decoration: none;
+        }
+    }
+}
+
+.content-adslot {
+    margin: 10px 0;
 }

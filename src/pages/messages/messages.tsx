@@ -23,7 +23,6 @@ export class MessagesComponent extends React.Component<IMessagesProps, void> {
         let messages: JSX.Element[];
 
         return <GridColumn className="col-xs-12">
-            <Title>{__("Your messages")}</Title>
             <div className="inProgress">
             </div>
         </GridColumn>;

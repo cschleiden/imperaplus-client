@@ -23,7 +23,7 @@ export class TournamentComponent extends React.Component<ITournamentProps, void>
     public render(): JSX.Element {
 
         return <GridColumn className="col-xs-12">
-            <Title>{__("Tournament") + this.props.tournament.name}</Title>
+            <Title>{this.props.tournament.name}</Title>
             <div className="container tournament">
                 <div>
                     <h3><span>{__("Information")}</span></h3>

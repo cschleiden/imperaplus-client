@@ -23,44 +23,39 @@ export class StartComponent extends React.Component<IStartProps, void> {
     }
 
     public render(): JSX.Element {
-        return <Grid>
-            <GridRow>
-                <div className="container">
-                    <Title>{__("News")}</Title>
+        return <GridRow>
+            <GridColumn className="col-md-9">
+                <div>
+                    {this.props.news.map((n, i) => {
+                        let content = this._getLanguageContent(n.content);
+                        if (!content) {
+                            return null;
+                        }
+
+                        return <div key={i}>
+                            <h2 className="headline">{content.title}</h2>
+                            <h5>{HumanDate(n.dateTime)} - {n.postedBy}</h5>
+
+                            <ReactMarkdown source={content.text} />
+                        </div>;
+                    })}
                 </div>
-                <GridColumn className="col-md-9">
-                    <div>
-                        {this.props.news.map((n, i) => {
-                            let content = this._getLanguageContent(n.content);
-                            if (!content) {
-                                return null;
-                            }
+            </GridColumn>
 
-                            return <div key={i}>
-                                <h2 className="headline">{content.title}</h2>
-                                <h5>{HumanDate(n.dateTime)} - {n.postedBy}</h5>
+            <GridColumn className="col-md-3">
+                <Section>{__("Tournaments")}</Section>
 
-                                <ReactMarkdown source={content.text} />
-                            </div>;
-                        })}
-                    </div>
-                </GridColumn>
+                {__("Champion's Cup March")}
+                <div className="progress progress-xxs">
+                    <ProgressBar now={80} />
+                </div>
 
-                <GridColumn className="col-md-3">
-                    <Section>{__("Tournaments")}</Section>
-
-                    {__("Champion's Cup March")}
-                    <div className="progress progress-xxs">
-                        <ProgressBar now={80} />
-                    </div>
-
-                    {__("Champion's Cup March")}
-                    <div className="progress progress-xxs">
-                        <ProgressBar now={80} />
-                    </div>
-                </GridColumn>
-            </GridRow>
-        </Grid>;
+                {__("Champion's Cup March")}
+                <div className="progress progress-xxs">
+                    <ProgressBar now={80} />
+                </div>
+            </GridColumn>
+        </GridRow>;
     };
 
     private _getLanguageContent(content: NewsContent[]): NewsContent {

@@ -24,7 +24,6 @@ export class AllianceAdminComponent extends React.Component<IAllianceAdminProps,
         let alliances: JSX.Element[];
 
         return <GridColumn className="col-xs-12">
-            <Title>{__("Alliance Admin")}</Title>
             <div className="inProgress">
             </div>
         </GridColumn>;

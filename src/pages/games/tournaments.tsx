@@ -55,20 +55,19 @@ export class TournamentsComponent extends React.Component<ITournamentGamesProps,
         }
 
         return <GridColumn className="col-xs-12">
-            <Title>{__("Tournaments")}</Title>
-            <div>
-                <div className="pull-right">
-                    <ButtonGroup>
-                        <Button key="refresh" onClick={this.props.refresh} title={__("Refresh")}><span className="glyphicon glyphicon-refresh" /></Button>
-                    </ButtonGroup>
-                </div>
+              <div>
+                  <div className="pull-right">
+                      <ButtonGroup>
+                          <Button key="refresh" onClick={this.props.refresh} title={__("Refresh")}><span className="glyphicon glyphicon-refresh" /></Button>
+                      </ButtonGroup>
+                  </div>
 
-                {open}
-                {group}
-                {knockout}
-                {closed}
-            </div>
-        </GridColumn>;
+                  {open}
+                  {group}
+                  {knockout}
+                  {closed}
+              </div>
+            </GridColumn>;
     }
 }
 
