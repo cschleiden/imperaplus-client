@@ -18,7 +18,7 @@ import Game from "./components/navigation/game";
 import ChatLayout from "./components/layouts/chat";
 
 // Public
-import { Home, Signup, SignupConfirmation, Login, TOS } from "./pages/public";
+import { Home, Signup, SignupConfirmation, Login, TOS, Activate } from "./pages/public";
 
 // Game
 import GameLayout from "./components/layouts/game";
@@ -52,6 +52,7 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
 
                         <Route path="signup" component={Signup} />
                         <Route path="signup/confirmation" component={SignupConfirmation} />
+                        <Route path="activate/:userId/:code" component={Activate} />
 
                         <Route path="login" component={Login} />
 

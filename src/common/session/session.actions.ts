@@ -4,6 +4,7 @@ import { IAction, IAsyncAction, makePromiseAction } from "../../lib/action";
 import { AccountClient, UserInfo } from "../../external/imperaClients";
 
 import { TokenProvider } from "../../services/tokenProvider";
+import { baseUri } from "../../configuration";
 
 const scope = "openid offline_access";
 
@@ -56,6 +57,26 @@ export const login = makePromiseAction<ILoginInput, ILoginPayload>((input, dispa
         }
     }));
 
+export interface IConfirmInput {
+    userId: string;
+    code: string;
+}
+
+export const ACTIVATE = "activate";
+export const activate = makePromiseAction<IConfirmInput, void>((input, dispatch, getState, deps) =>
+    ({
+        type: ACTIVATE,
+        payload: {
+            promise: deps.getCachedClient(AccountClient).confirmEmail({
+                userId: input.userId,
+                code: input.code
+            }) as Promise<any>
+        },
+        options: {
+            useMessage: true
+        }
+    }));
+
 export interface IRefreshPayload {
     access_token: string;
     refresh_token: string;
@@ -104,8 +125,8 @@ export const signup = makePromiseAction<ISignupInput, void>((input, dispatch, ge
                 password: input.password,
                 confirmPassword: input.passwordConfirm,
                 email: input.email,
-                language: "en", // TODO: CS
-                callbackUrl: "" // TODO
+                language: getState().session.data.language || "en",
+                callbackUrl: `${baseUri}/activate/userId/code`
             })
         },
         options: {
