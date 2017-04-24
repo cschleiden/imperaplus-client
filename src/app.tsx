@@ -16,6 +16,8 @@ import PublicLayout from "./components/layouts/public";
 import PublicNav from "./components/navigation/public";
 import Game from "./components/navigation/game";
 import ChatLayout from "./components/layouts/chat";
+import adTag from "./components/commercial/adtag";
+import Breadcrumbs from "./components/ui/breadcrumbs";
 
 // Public
 import { Home, Signup, SignupConfirmation, Login, TOS, Activate } from "./pages/public";
@@ -26,10 +28,26 @@ import GameNav from "./components/navigation/game";
 import Start from "./pages/start";
 import My from "./pages/games/games";
 import Create from "./pages/create/create";
-import Join from "./pages/join/join";
+import Join from "./pages/join/fun";
+import Ladders from "./pages/join/ladders";
+import Tournaments from "./pages/games/tournaments";
+import Tournament from "./pages/tournaments/tournaments";
 
 // Play
 import Play from "./pages/play/play";
+
+// Alliances
+import CreateAlliance from "./pages/alliance/create";
+import AllianceAdmin from "./pages/alliance/admin";
+import JoinAlliance from "./pages/alliance/join";
+import AllianceInfo from "./pages/alliance/info";
+
+// messages
+import Messages from "./pages/messages/messages";
+
+// profile
+import UserProfile from "./pages/profile/profile";
+
 
 function checkLoggedIn(store: Redux.Store<IState>, nextState, replace) {
     const state = store.getState();
@@ -47,7 +65,7 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
                 {/* main layout */}
                 <Route component={MainLayout}>
                     {/* public */}
-                    <Route path="/" components={{ nav: PublicNav, content: PublicLayout }}>
+                    <Route path="/" components={{ nav: PublicNav, content: PublicLayout}}>
                         <IndexRoute component={Home} />
 
                         <Route path="signup" component={Signup} />
@@ -63,7 +81,7 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
                 <Route component={ChatLayout} onEnter={checkLoggedIn.bind(this, this.props.store)}>
                     <Route component={MainLayout}>
                         { /* in game */}
-                        <Route path="/game" components={{ nav: Game, content: GameLayout }}>
+                        <Route path="/game" components={{ nav: Game, content: GameLayout, breadcrumbs: Breadcrumbs, commercials: adTag }}>
                             <IndexRoute component={Start} />
 
                             <Route path="/game/games">
@@ -71,7 +89,23 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
 
                                 <Route path="/game/games/create" component={Create} />
                                 <Route path="/game/games/join" component={Join} />
+                                <Route path="/game/games/ladders" component={Ladders} />
+                                <Route path="/game/games/tournaments" component={Tournaments} />
                             </Route>
+
+                            <Route path="/game/tournaments">
+                                <Route path="/game/tournaments/:id" component={Tournament} />
+                            </Route>
+
+                            <Route path="/game/alliance">
+                                <Route path="/game/alliance/create" component={CreateAlliance} />
+                                <Route path="/game/alliance/admin" component={AllianceAdmin} />
+                                <Route path="/game/alliance/info" component={AllianceInfo} />
+                                <Route path="/game/alliance/join" component={JoinAlliance} />
+                            </Route>
+
+                            <Route path="/game/messages/messages" component={Messages} />
+                            <Route path="/game/profile/profile" component={UserProfile} />
 
                         </Route>
                     </Route>

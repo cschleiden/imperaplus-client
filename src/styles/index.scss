@@ -11,7 +11,7 @@
 
 * {
     font-family: 'Open Sans', sans-serif;
-
+	
     // no rounded corners
     border-radius: 0 !important;
 }
@@ -30,6 +30,9 @@ html {
 
 body {
     background: repeat url('/assets/pattern.png');
+
+    padding: 0px;
+    font-size: $fontNormal;
 }
 
 // General styles
@@ -41,9 +44,17 @@ a {
     }
 }
 
+p, li, li a {
+    color: $stdColor;
+}
+
 #root {
     &,
     & > div {
+        width: 100%;
+        height: 100%;
+    },
+    & > div > div.mainWrapper {
         width: 100%;
         height: 100%;
     }

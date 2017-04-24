@@ -6,7 +6,7 @@ import { ProgressBar } from "react-bootstrap";
 import { UserInfo, NewsItem, NewsContent } from "../../external/imperaClients";
 import { Grid, GridRow, GridColumn } from "../../components/layout";
 import { Title, Section } from "../../components/ui/typography";
-import HumanDate from "../../components/ui/humanDate";
+import { HumanDate } from "../../components/ui/humanDate";
 
 import { refresh } from "./news.actions";
 
@@ -23,42 +23,39 @@ export class StartComponent extends React.Component<IStartProps, void> {
     }
 
     public render(): JSX.Element {
-        return <Grid>
-            <GridRow>
-                <GridColumn className="col-md-9">
-                    <Title>{__("News")}</Title>
-                    <div>
-                        {this.props.news.map((n, i) => {
-                            let content = this._getLanguageContent(n.content);
-                            if (!content) {
-                                return null;
-                            }
+        return <GridRow>
+            <GridColumn className="col-md-9">
+                <div>
+                    {this.props.news.map((n, i) => {
+                        let content = this._getLanguageContent(n.content);
+                        if (!content) {
+                            return null;
+                        }
 
-                            return <div key={i}>
-                                <h2>{content.title}</h2>
-                                <h5>{HumanDate(n.dateTime)} - {n.postedBy}</h5>
+                        return <div key={i}>
+                            <h2 className="headline">{content.title}</h2>
+                            <h5>{HumanDate(n.dateTime)} - {n.postedBy}</h5>
 
-                                <ReactMarkdown source={content.text} />
-                            </div>;
-                        })}
-                    </div>
-                </GridColumn>
+                            <ReactMarkdown source={content.text} />
+                        </div>;
+                    })}
+                </div>
+            </GridColumn>
 
-                <GridColumn className="col-md-3">
-                    <Section>{__("Tournaments")}</Section>
+            <GridColumn className="col-md-3">
+                <Section>{__("Tournaments")}</Section>
 
-                    {__("Champion's Cup March")}
-                    <div className="progress progress-xxs">
-                        <ProgressBar now={80} />
-                    </div>
+                {__("Champion's Cup March")}
+                <div className="progress progress-xxs">
+                    <ProgressBar now={80} />
+                </div>
 
-                    {__("Champion's Cup March")}
-                    <div className="progress progress-xxs">
-                        <ProgressBar now={80} />
-                    </div>
-                </GridColumn>
-            </GridRow>
-        </Grid>;
+                {__("Champion's Cup March")}
+                <div className="progress progress-xxs">
+                    <ProgressBar now={80} />
+                </div>
+            </GridColumn>
+        </GridRow>;
     };
 
     private _getLanguageContent(content: NewsContent[]): NewsContent {

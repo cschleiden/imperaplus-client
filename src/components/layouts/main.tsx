@@ -22,19 +22,22 @@ interface ILanguageSelectorProps {
 
 class LanguageSelector extends React.Component<ILanguageSelectorProps, void> {
     public render() {
-        return <div className="language">
-            <DropdownButton id="language" title={__("LANGUAGE")} bsStyle="link">
-                <MenuItem
-                    onClick={() => this.props.onLanguageSelect("en")}
-                    active={this.props.selectedLanguage === "en"}>
-                    {__("English")}
-                </MenuItem>
-                <MenuItem
-                    onClick={() => this.props.onLanguageSelect("de")}
-                    active={this.props.selectedLanguage === "de"}>
-                    {__("German")}
-                </MenuItem>
-            </DropdownButton>
+        return <div>
+            <i className="fa fa-globe">&nbsp;</i>
+            <div className="language">
+                <DropdownButton id="language" title={__("LANGUAGE")} bsStyle="link">
+                    <MenuItem
+                        onClick={() => this.props.onLanguageSelect("en")}
+                        active={this.props.selectedLanguage === "en"}>
+                        {__("English")}
+                    </MenuItem>
+                    <MenuItem
+                        onClick={() => this.props.onLanguageSelect("de")}
+                        active={this.props.selectedLanguage === "de"}>
+                        {__("German")}
+                    </MenuItem>
+                </DropdownButton>
+            </div>
         </div>;
     }
 }
@@ -72,6 +75,8 @@ class MobileLanguageSelector extends React.Component<ILanguageSelectorProps, voi
 interface ILayoutProps {
     message;
     clear: () => void;
+    breadcrumbs;
+    commercials;
     nav;
     content;
     pageContent;
@@ -94,7 +99,7 @@ export class Layout extends React.Component<ILayoutProps, void> {
             </Alert>;
         }
 
-        return <div>
+        return <div className="mainWrapper">
             <GridContainer className="layout">
                 <GridRow className="header">
                     <GridColumn className="col-xs-10 col-sm-5 logo">
@@ -146,9 +151,9 @@ export class Layout extends React.Component<ILayoutProps, void> {
                 </GridRow>
 
                 <GridRow className="content">
-                    <GridColumn className="col-xs-12">
-                        <div className="ads" style={{ background: "grey", width: "728px", height: "90px" }} />
-                    </GridColumn>
+                    {this.props.breadcrumbs && this.props.breadcrumbs}
+
+                    {this.props.commercials && this.props.commercials}
 
                     <GridColumn className="col-xs-12 main-content">
                         {this.props.content}
