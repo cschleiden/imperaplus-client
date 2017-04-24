@@ -146,13 +146,17 @@ export class Layout extends React.Component<ILayoutProps, void> {
                 </GridRow>
 
                 <GridRow className="content">
+                    <GridColumn className="col-xs-12">
+                        <div className="ads" style={{ background: "grey", width: "728px", height: "90px" }} />
+                    </GridColumn>
+
                     <GridColumn className="col-xs-12 main-content">
                         {this.props.content}
                     </GridColumn>
                 </GridRow>
 
                 <GridRow className="footer">
-                    2003-2017 &copy; Christopher Schleiden and the Impera team. All Rights Reserved. <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> | <a href="#">User Voice</a>
+                    <a href="#">{__("Privacy Policy")}</a> | <a href="#">{__("Terms of Service")}</a> | <a href="#">User Voice</a> | <a href="http://impera.ruesken.de/">{__("Forum")}</a>
                 </GridRow>
             </GridContainer>
 
