@@ -161,7 +161,7 @@ export class Layout extends React.Component<ILayoutProps, void> {
                 </GridRow>
 
                 <GridRow className="footer">
-                    2003-2017 &copy; Christopher Schleiden {__("and the Impera team. All Rights Reserved.")} <a href="#">{__("Privacy Policy")}</a> | <a href="#">{__("Terms of Service")}</a> | <a href="#">{__("User Voice")}</a>
+                    <a href="#">{__("Privacy Policy")}</a> | <a href="#">{__("Terms of Service")}</a> | <a href="#">User Voice</a> | <a href="http://impera.ruesken.de/">{__("Forum")}</a>
                 </GridRow>
             </GridContainer>
 

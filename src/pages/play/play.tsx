@@ -16,7 +16,10 @@ import { autobind } from "../../lib/autobind";
 import { ErrorCodes } from "../../i18n/errorCodes";
 
 interface IPlayProps {
-    params: { id: string; turn: string; };
+    params: {
+        id: string;
+        turn: string;
+    };
 
     game: Game;
     error: ErrorResponse;

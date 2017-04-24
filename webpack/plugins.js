@@ -7,6 +7,7 @@ const styleLintPlugin = require('stylelint-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const WebpackGitHash = require('webpack-git-hash');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const sourceMap = process.env.TEST || process.env.NODE_ENV !== "production"
     ? [new webpack.SourceMapDevToolPlugin({ filename: null, test: /\.tsx?$/ })]
@@ -45,6 +46,9 @@ const prodPlugins = [
             indexHtml = indexHtml.replace(/\[hash\]/, hash);
             fs.writeFileSync('./dist/index.html', indexHtml);
         }
+    }),
+    new BundleAnalyzerPlugin({
+        analyzerMode: 'static'
     })
 ];
 

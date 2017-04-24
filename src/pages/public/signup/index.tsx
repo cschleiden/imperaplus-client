@@ -104,11 +104,11 @@ export class SignupComponent extends React.Component<ISignupProps, void> {
                     </p>
 
                     <ul className="list-unstyled">
-                        <li>
+                        {/*<li>
                             <Button block bsStyle="primary">Facebook</Button>
-                        </li>
+                        </li>*/}
                         <li>
-                            <Button block bsStyle="primary">Microsoft</Button>
+                            {__("Coming soon..")}
                         </li>
                     </ul>
                 </GridColumn>
@@ -132,7 +132,7 @@ export class SignupComponent extends React.Component<ISignupProps, void> {
 
     private _onSubmitSucess = () => {
         this.props.dispatch(push("signup/confirmation"));
-    }
+     }
 }
 
 export default connect(state => ({}), {})(SignupComponent);
