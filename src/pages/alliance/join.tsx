@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { GameSummary, GameType } from "../../external/imperaClients";
 import { Grid, GridRow, GridColumn } from "../../components/layout";
 import { Title, Section } from "../../components/ui/typography";
-import { JoinList } from "../../components/ui/alliance/joinList";
+// import { JoinList } from "../../components/ui/alliance/joinList";
 import { Button, ButtonGroup } from "react-bootstrap";
 
 import { IState } from "../../reducers";

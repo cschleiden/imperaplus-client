@@ -50,9 +50,6 @@ $headerHeight: 120px;
 
     .lang {
         height: $headerHeight / 2;
-        & > div {
-            padding-top: $spacing;
-        }
     }
 
     .navigation {
@@ -76,12 +73,9 @@ $headerHeight: 120px;
             & > li {
                 display: inline-block;
                 position: relative;
-                padding: 0px #{2 * $spacing} 0px $spacing;
 
                 & > a {
                     text-transform: uppercase;
-                    //@include ms-font-m-plus;
-                    //color: $ms-color-neutralSecondary;
                     color: $colorInactive;
 
                     display: inline-block;
@@ -95,6 +89,10 @@ $headerHeight: 120px;
 
                     &.active {
                         color: $accent;
+                    }
+
+                    .fa-angle-down {
+                        margin-left: 5px;
                     }
                 }
 

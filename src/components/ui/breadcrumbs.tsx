@@ -13,6 +13,7 @@ interface IBreadcrumbProps {
 /* Breadcrumbs */
 export class Breadcrumbs extends React.Component<IBreadcrumbProps, void> {
     public render(): JSX.Element {
+        // TODO: This should come from the app
         let path = this.props.location.pathname.split("/");
         let locationArray = {
             games: __("My Games"),

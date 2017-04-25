@@ -9,9 +9,11 @@ export const GameNavigation = ({ dispatch }): JSX.Element => {
         <li>
             <IndexLink to="/game" activeClassName="active">{__("News")}</IndexLink>
         </li>
-        <li className="dropable">
-            <Link to="/game/games" activeClassName="active">{__("Games")}</Link>
-            <i className="fa fa-caret-down" aria-hidden="true"></i>
+        <li>
+            <Link to="/game/games" activeClassName="active">
+                {__("Games")}
+                <i className="fa fa-angle-down" aria-hidden="true" />
+            </Link>
             <ul className="nav-dropdown">
                 <li>
                     <IndexLink to="/game/games" activeClassName="active">{__("My Games")}</IndexLink>
@@ -30,9 +32,11 @@ export const GameNavigation = ({ dispatch }): JSX.Element => {
                 </li>
             </ul>
         </li>
-        <li className="dropable">
-            <Link to="/game/alliance" activeClassName="active">{__("Alliance")}</Link>
-            <i className="fa fa-caret-down" aria-hidden="true"></i>
+        <li>
+            <Link to="/game/alliance" activeClassName="active">
+                {__("Alliance")}
+                <i className="fa fa-angle-down" aria-hidden="true" />
+            </Link>
             <ul className="nav-dropdown">
                 <li>
                     <Link to="/game/alliance/create" activeClassName="active">{__("Create alliance")}</Link>
@@ -50,16 +54,15 @@ export const GameNavigation = ({ dispatch }): JSX.Element => {
         </li>
         <li>
             <Link to="/game/messages/message" activeClassName="active">
-                <i className="fa fa-envelope" aria-hidden="true"></i>
+                <i className="fa fa-envelope" aria-hidden="true" />
                 <span className="visible-xs-inline">&nbsp;{__("Messages")}</span>
             </Link>
         </li>
-        <li className="dropable">
+        <li>
             <Link to="/game/profile" activeClassName="active">
-                <i className="fa fa-user" aria-hidden="true"></i>
+                <i className="fa fa-user" aria-hidden="true" />
                 <span className="visible-xs-inline">&nbsp;{__("Account")}</span>
             </Link>
-            <i className="fa fa-caret-down" aria-hidden="true"></i>
             <ul className="nav-dropdown">
                 <li>
                 </li>
