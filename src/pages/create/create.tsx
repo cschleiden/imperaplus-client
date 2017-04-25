@@ -203,8 +203,8 @@ export class CreateGameComponent extends React.Component<ICreateGameProps, void>
                                                 required={true} />
 
                                             <ControlledTextField
-                                                label={__("initial country units")}
-                                                placeholder={__("initial country units")}
+                                                label={__("Initial country units")}
+                                                placeholder={__("Initial country units")}
                                                 type="number"
                                                 fieldName="initialCountryUnits"
                                                 initialValue={"1"}
@@ -212,16 +212,15 @@ export class CreateGameComponent extends React.Component<ICreateGameProps, void>
 
 
                                             <ControlledTextField
-                                                label={__("minimium units per country")}
+                                                label={__("Minimum units per country")}
                                                 placeholder={__("minimium units per country")}
                                                 type="number"
                                                 fieldName="minUnitsPerCountry"
                                                 initialValue={"1"}
                                                 required={true} />
-
                                         </GridColumn>
-                                        <GridColumn className="col-md-6">
 
+                                        <GridColumn className="col-md-6">
                                             <ControlledTextField
                                                 label={__("maximum number of cards")}
                                                 placeholder={__("maximum number of cards")}
@@ -229,7 +228,6 @@ export class CreateGameComponent extends React.Component<ICreateGameProps, void>
                                                 fieldName="maximumNumberOfCards"
                                                 initialValue={"5"}
                                                 required={false} />
-
 
                                             <ControlledTextField
                                                 label={__("maximum timeouts per player")}

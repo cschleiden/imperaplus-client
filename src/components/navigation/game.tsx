@@ -62,7 +62,6 @@ export const GameNavigation = ({ dispatch }): JSX.Element => {
             <i className="fa fa-caret-down" aria-hidden="true"></i>
             <ul className="nav-dropdown">
                 <li>
-                    <span>{JSON.parse(sessionStorage.impera).userInfo.userName}</span>
                 </li>
                 <li>
                     <Link to="/game/profile/profile" activeClassName="active">{__("Profile")}</Link>

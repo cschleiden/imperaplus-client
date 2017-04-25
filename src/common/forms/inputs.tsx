@@ -118,13 +118,7 @@ export class ControlledDropdown extends React.Component<FormControlProps & ICont
                 onChange={(ev) => {
                     const inputElement = ev.target as HTMLSelectElement;
                     const value = inputElement.value;
-                    if (this.props.fieldName === "map" && document.getElementById("mapPreview")) {
-                        for (let i = 0; i < inputElement.length; i++) {
-                            if (inputElement[i].value === value) {
-                                document.getElementById("mapPreview").setAttribute("src", inputElement[i].attributes["data-map-url"].value);
-                            }
-                        }
-                    }
+                                        
                     this.context.changeField(this.props.fieldName, value);
                 }}
                 value={this._currentValue()}>
