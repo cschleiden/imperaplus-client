@@ -1,4 +1,10 @@
-export default (date: Date): string => {
+export interface HumanDate {
+    HumanDate: () => void;
+    HumanTime: () => void;
+    HumanCountdown: () => void;
+}
+
+export const HumanDate = (date: Date): string => {
     let calculateDelta, day, hour, minute, month, week, year;
     minute = 60;
     hour = minute * 60;
@@ -63,3 +69,56 @@ export default (date: Date): string => {
             return "";
     }
 };
+
+export const HumanTime = (time: number): string => {
+
+    switch (false) {
+        case !(time === 300):
+            return __("5 Minutes");
+
+        case !(time === 600):
+            return __("10 Minutes");
+
+        case !(time === 18000):
+            return __("10 Hours");
+
+        case !(time === 86400):
+            return __("1 Day");
+
+        case !(time === 172800):
+            return __("2 Days");
+
+        default:
+            return "";
+    }
+};
+
+export const HumanCountdown = (secs: number): string => {
+
+    let ms = secs * 1000;
+    let days = Math.floor(secs / (60 * 60 * 24));
+    let divisor_for_hours = secs % (60 * 60 * 24);
+    let hours = Math.floor(divisor_for_hours / (60 * 60));
+    let divisor_for_minutes = secs % (60 * 60);
+    let minutes = Math.floor(divisor_for_minutes / 60);
+    let divisor_for_seconds = divisor_for_minutes % 60;
+    let seconds = Math.ceil(divisor_for_seconds);
+
+    let hString: string = hours.toString();
+    let mString: string = minutes.toString();
+    let sString: string = seconds.toString();
+
+    if (hString.length === 1) {
+      hString = "0" + hString;
+    }
+    if (mString.length === 1) {
+      mString = "0" + mString;
+    }
+    if (sString.length === 1) {
+      sString = "0" + sString;
+    }
+
+    return days + " " + __("day(s)") + " | " + hString + ":" + mString + ":" + sString;
+};
+
+export default HumanDate;

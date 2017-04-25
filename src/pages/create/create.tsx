@@ -3,19 +3,19 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { IState } from "../../reducers";
 
-import { Grid, GridRow, GridColumn } from "../../components/layout";
+import { imageBaseUri } from "../../configuration";
+import { GridRow, GridColumn } from "../../components/layout";
 import { Title, Section, SubSection } from "../../components/ui/typography";
 import { ProgressButton } from "../../components/ui/progressButton";
 import LinkString from "../../components/ui/strLink";
 
-import { Tabs, Tab } from "react-bootstrap";
+import { Tabs, Tab, Image } from "react-bootstrap";
 
 import Form, { IFormState } from "../../common/forms/form";
-import { IForm } from "../../common/forms/forms.reducer";
-import { ControlledCheckBox, ControlledTextField, ControlledDropdown } from "../../common/forms/inputs";
+import { ControlledTextField, ControlledDropdown } from "../../common/forms/inputs";
 
 import { getMaps, create } from "./create.actions";
-import { MapTemplateDescriptor, GameCreationOptions } from "../../external/imperaClients";
+import { MapTemplate } from "../../external/imperaClients";
 
 function getPlayerAndTeams() {
     let result: { key: string, text: string }[] = [];
@@ -52,7 +52,7 @@ function getPlayerAndTeams() {
 interface ICreateGameProps {
     getMaps: () => void;
 
-    maps: MapTemplateDescriptor[];
+    maps: MapTemplate[];
 }
 
 export class CreateGameComponent extends React.Component<ICreateGameProps, void> {
@@ -63,12 +63,10 @@ export class CreateGameComponent extends React.Component<ICreateGameProps, void>
     }
 
     public render(): JSX.Element {
-        return <GridRow>
+        return <GridColumn>
             <GridColumn className="col-md-8">
-                <Title>{__("Create Game")}</Title>
-
                 <p>
-                    <LinkString link={__("Here you can create a new fun game. If you want to start playing sooner, you might want to [join](game/games/join) an existing game. Fun games do not count for the ladder.")} />
+                    <LinkString link={__("Here you can create a new fun game. If you want to start playing sooner, you might want to [join](/game/games/join) an existing game. Fun games do not count for the ladder.")} />
                 </p>
 
                 <Form
@@ -105,123 +103,183 @@ export class CreateGameComponent extends React.Component<ICreateGameProps, void>
                             victoryConditions: [formState.getFieldValue("victoryConditions", 0)],
                             visibilityModifier: [formState.getFieldValue("visibilityModifier", 0)],
                             mapDistribution: formState.getFieldValue("distribution", 0),
-                            initialCountryUnits: 1,
-                            maximumNumberOfCards: 5,
-                            minUnitsPerCountry: 1,
-                            maximumTimeoutsPerPlayer: 3,
+                            initialCountryUnits: formState.getFieldValue("initialCountryUnits", 1),
+                            maximumNumberOfCards: formState.getFieldValue("maximumNumberOfCards", 5),
+                            minUnitsPerCountry: formState.getFieldValue("minUnitsPerCountry", 1),
+                            maximumTimeoutsPerPlayer: formState.getFieldValue("maximumTimeoutsPerPlayer", 2),
                             addBot: addBot
                         }, options);
                     }}
                     component={(({ isPending, submit, formState }) => (
-                        <Grid>
-                            <GridRow>
-                                <Tabs defaultActiveKey={1}>
-                                    <Tab eventKey={1} title={__("Simple")}>
-                                        <ControlledTextField
-                                            label={__("Name")}
-                                            placeholder={__("Name")}
-                                            fieldName="name"
-                                            required={true} />
+                        <div>
+                            <Tabs defaultActiveKey={1}>
+                                <Tab eventKey={1} title={__("Simple")}>
+                                    <GridRow>
+                                        <GridColumn className="col-md-6">
+                                            <ControlledTextField
+                                                label={__("Name")}
+                                                placeholder={__("Name")}
+                                                fieldName="name"
+                                                required={true} />
 
-                                        <ControlledTextField
-                                            label={__("Password")}
-                                            placeholder={__("Optional: Password")}
-                                            type="password"
-                                            fieldName="password"
-                                            required={false}
-                                            autoComplete="new-password" />
+                                            <ControlledTextField
+                                                label={__("Password")}
+                                                placeholder={__("Optional: Password")}
+                                                type="password"
+                                                fieldName="password"
+                                                required={false}
+                                                autoComplete="new-password" />
 
-                                        <ControlledDropdown
-                                            label={__("Map")}
-                                            fieldName="map" value={""}>
-                                            <option value=""></option>
-                                            {this.props.maps && this.props.maps.map(m => <option value={m.name}>{m.name}</option>)}
-                                        </ControlledDropdown>
+                                            <ControlledDropdown
+                                                label={__("Map")}
+                                                fieldName="map"
+                                                value={""}>
+                                                <option value=""></option>
+                                                {this.props.maps && this.props.maps.map(m => <option value={m.name} data-map-url={`${imageBaseUri}${m.image}`}>{m.name}</option>)}
+                                            </ControlledDropdown>
 
-                                        <ControlledDropdown
-                                            label={__("Timeout")}
-                                            fieldName="timeout"
-                                            value="86400">
-                                            <option value="300">{__("5 Minutes")}</option>
-                                            <option value="600">{__("10 Minutes")}</option>
-                                            <option value="18000">{__("10 Hours")}</option>
-                                            <option value="86400">{__("1 Day")}</option>
-                                            <option value="172800">{__("2 Days")}</option>
-                                        </ControlledDropdown>
+                                            <ControlledDropdown
+                                                label={__("Timeout")}
+                                                fieldName="timeout"
+                                                value="86400">
+                                                <option value="120">{__("2 Minutes")}</option>
+                                                <option value="180">{__("3 Minutes")}</option>
+                                                <option value="300">{__("5 Minutes")}</option>
+                                                <option value="600">{__("10 Minutes")}</option>
+                                                <option value="900">{__("15 Minutes")}</option>
+                                                <option value="1800">{__("30 Minutes")}</option>
+                                                <option value="2700">{__("45 Minutes")}</option>
+                                                <option value="3600">{__("1 Hours")}</option>
+                                                <option value="7200">{__("2 Hours")}</option>
+                                                <option value="14400">{__("4 Hours")}</option>
+                                                <option value="36000">{__("10 Hours")}</option>
+                                                <option value="43200">{__("12 Hours")}</option>
+                                                <option value="54000">{__("15 Hours")}</option>
+                                                <option value="86400">{__("1 Day")}</option>
+                                                <option value="172800">{__("2 Days")}</option>
+                                                <option value="259200">{__("3 Days")}</option>
+                                                <option value="432000">{__("5 Days")}</option>
+                                                <option value="604800">{__("7 Days")}</option>
+                                            </ControlledDropdown>
 
-                                        <ControlledDropdown
-                                            label={__("Players & Teams")}
-                                            fieldName="players" value="1bot">
-                                            {getPlayerAndTeams().map(x => <option value={x.key}>{x.text}</option>)}
-                                        </ControlledDropdown>
-                                    </Tab>
+                                            <ControlledDropdown
+                                                label={__("Players & Teams")}
+                                                fieldName="players" value="1bot">
+                                                {getPlayerAndTeams().map(x => <option value={x.key}>{x.text}</option>)}
+                                            </ControlledDropdown>
 
-                                    <Tab eventKey={2} title={__("Advanced")}>
-                                        <ControlledTextField
-                                            label={__("Attacks")}
-                                            placeholder={__("Attacks")}
-                                            type="number"
-                                            fieldName="attacks"
-                                            initialValue={"3"}
-                                            required={false} />
+                                        </GridColumn>
+                                        <GridColumn className="col-md-6">
+                                            <Image className="game-details-map" id="mapPreview" src="/assets/logo_150.png" responsive />
+                                        </GridColumn>
+                                    </GridRow>
+                                </Tab>
 
-                                        <ControlledTextField
-                                            label={__("Moves")}
-                                            placeholder={__("Moves")}
-                                            type="number"
-                                            fieldName="moves"
-                                            initialValue={"3"}
-                                            required={false} />
+                                <Tab eventKey={2} title={__("Advanced")}>
+                                    <GridRow>
+                                        <GridColumn className="col-md-6">
+                                            <ControlledTextField
+                                                label={__("Attacks")}
+                                                placeholder={__("Attacks")}
+                                                type="number"
+                                                fieldName="attacks"
+                                                initialValue={"5"}
+                                                required={true} />
 
-                                        <ControlledTextField
-                                            label={__("Units per turn")}
-                                            placeholder={__("Units per turn")}
-                                            type="number"
-                                            fieldName="unitsperturn"
-                                            initialValue={"3"}
-                                            required={false} />
+                                            <ControlledTextField
+                                                label={__("Moves")}
+                                                placeholder={__("Moves")}
+                                                type="number"
+                                                fieldName="moves"
+                                                initialValue={"7"}
+                                                required={true} />
 
-                                        <ControlledDropdown
-                                            label={__("Victory Condition")}
-                                            fieldName="victoryCondition" value={0}>
-                                            <option value="0">{__("Survival")}</option>
-                                        </ControlledDropdown>
+                                            <ControlledTextField
+                                                label={__("Units per turn")}
+                                                placeholder={__("Units per turn")}
+                                                type="number"
+                                                fieldName="unitsperturn"
+                                                initialValue={"3"}
+                                                required={true} />
 
-                                        <ControlledDropdown
-                                            label={__("Visibility modifier")}
-                                            fieldName="visibilityModifier" value={0}>
-                                            <option value="0">{__("Everything visible")}</option>
-                                            <option value="1">{__("Fog of War")}</option>
-                                        </ControlledDropdown>
+                                            <ControlledTextField
+                                                label={__("initial country units")}
+                                                placeholder={__("initial country units")}
+                                                type="number"
+                                                fieldName="initialCountryUnits"
+                                                initialValue={"1"}
+                                                required={true} />
 
-                                        <ControlledDropdown
-                                            label={__("Distribution")}
-                                            fieldName="distribution"
-                                            value={0}>
-                                            <option value="0">{__("Default")}</option>
-                                            <option value="1">{__("Malibu")}</option>
-                                        </ControlledDropdown>
-                                    </Tab>
-                                </Tabs>
-                            </GridRow>
 
-                            <GridRow>
-                                <ProgressButton
-                                    type="submit"
-                                    bsStyle="primary"
-                                    disabled={!this._formValid(formState)}
-                                    isActive={isPending}>
-                                    {__("Create")}
-                                </ProgressButton>
-                            </GridRow>
-                        </Grid>
+                                            <ControlledTextField
+                                                label={__("minimium units per country")}
+                                                placeholder={__("minimium units per country")}
+                                                type="number"
+                                                fieldName="minUnitsPerCountry"
+                                                initialValue={"1"}
+                                                required={true} />
+
+                                        </GridColumn>
+                                        <GridColumn className="col-md-6">
+
+                                            <ControlledTextField
+                                                label={__("maximum number of cards")}
+                                                placeholder={__("maximum number of cards")}
+                                                type="number"
+                                                fieldName="maximumNumberOfCards"
+                                                initialValue={"5"}
+                                                required={false} />
+
+
+                                            <ControlledTextField
+                                                label={__("maximum timeouts per player")}
+                                                placeholder={__("maximum timeouts per player")}
+                                                type="number"
+                                                fieldName="maximumTimeoutsPerPlayer"
+                                                initialValue={"2"}
+                                                required={false} />
+
+                                            <ControlledDropdown
+                                                label={__("Victory Condition")}
+                                                fieldName="victoryCondition" value={0}>
+                                                <option value="0">{__("Survival")}</option>
+                                                <option value="1">{__("Mission")}</option>
+                                            </ControlledDropdown>
+
+                                            <ControlledDropdown
+                                                label={__("Visibility modifier")}
+                                                fieldName="visibilityModifier" value={1}>
+                                                <option value="0">{__("Everything visible")}</option>
+                                                <option value="1">{__("Fog of War")}</option>
+                                            </ControlledDropdown>
+
+                                            <ControlledDropdown
+                                                label={__("Distribution")}
+                                                fieldName="distribution"
+                                                value={1}>
+                                                <option value="0">{__("Default")}</option>
+                                                <option value="1">{__("Malibu")}</option>
+                                            </ControlledDropdown>
+                                        </GridColumn>
+                                    </GridRow>
+                                </Tab>
+                            </Tabs>
+
+                            <ProgressButton
+                                type="submit"
+                                bsStyle="primary"
+                                disabled={!this._formValid(formState)}
+                                isActive={isPending}>
+                                {__("Create")}
+                            </ProgressButton>
+                        </div>
                     ))} />
             </GridColumn>
 
             <GridColumn className="col-md-4">
                 <Section>{__("Help")}</Section>
                 <p>
-                    <LinkString link={__("Here you can create a new game. You can also [join](games/games/join) an existing game, which might be faster.")} />
+                    <LinkString link={__("Here you can create a new game. You can also [join](/game/games/join) an existing game, which might be faster.")} />
                 </p>
 
                 <SubSection>{__("Simple")}</SubSection>
@@ -234,7 +292,7 @@ export class CreateGameComponent extends React.Component<ICreateGameProps, void>
                     {__("These settings allow you to customize nearly every aspect of the created game.")}
                 </p>
             </GridColumn>
-        </GridRow>;
+        </GridColumn>;
     }
 
     private _formValid(formState: IFormState): boolean {

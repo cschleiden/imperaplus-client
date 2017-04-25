@@ -71,8 +71,8 @@ const config = (lang) => {
     };
 };
 
-if (process.env.NODE_ENV === "development" || process.env.TEST) {
+/*if (process.env.NODE_ENV === "development" || process.env.TEST) {
     module.exports = config("en");
-} else {
+} else {*/
     module.exports = Object.keys(languages).map(lang => config(lang));
-}
+/*}*/
