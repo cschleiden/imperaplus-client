@@ -147,7 +147,9 @@ export class Layout extends React.Component<ILayoutProps, void> {
 
                 <GridRow className="content">
                     <GridColumn className="col-xs-12">
-                        <div className="ads" style={{ background: "grey", width: "728px", height: "90px" }} />
+                        <div className="ads">
+                            <div style={{ background: "grey", width: "728px", height: "90px" }} />
+                        </div>
                     </GridColumn>
 
                     <GridColumn className="col-xs-12 main-content">
