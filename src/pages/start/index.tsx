@@ -9,6 +9,7 @@ import { Title, Section } from "../../components/ui/typography";
 import { HumanDate } from "../../components/ui/humanDate";
 
 import { refresh } from "./news.actions";
+import { setDocumentTitle } from "../../lib/title";
 
 export interface IStartProps {
     userInfo: UserInfo;
@@ -20,6 +21,8 @@ export interface IStartProps {
 export class StartComponent extends React.Component<IStartProps, void> {
     public componentDidMount() {
         this.props.refresh();
+
+        setDocumentTitle(__("News"));
     }
 
     public render(): JSX.Element {

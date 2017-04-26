@@ -3,8 +3,9 @@ import { connect } from "react-redux";
 import { Link, IndexLink } from "react-router";
 
 import { logout } from "../../common/session/session.actions";
+import { IState } from "../../reducers";
 
-export const GameNavigation = ({ dispatch }): JSX.Element => {
+export const GameNavigation = ({ dispatch, userName }): JSX.Element => {
     return <ul className="nav">
         <li>
             <IndexLink to="/game" activeClassName="active">{__("News")}</IndexLink>
@@ -64,7 +65,8 @@ export const GameNavigation = ({ dispatch }): JSX.Element => {
                 <span className="visible-xs-inline">&nbsp;{__("Account")}</span>
             </Link>
             <ul className="nav-dropdown">
-                <li>
+                <li className="text-center">
+                    {userName}
                 </li>
                 <li>
                     <Link to="/game/profile/profile" activeClassName="active">{__("Profile")}</Link>
@@ -85,4 +87,6 @@ export const GameNavigation = ({ dispatch }): JSX.Element => {
     </ul>;
 };
 
-export default connect()(GameNavigation);
+export default connect((state: IState) => ({
+    userName: state.session.data.userInfo.userName
+}))(GameNavigation);

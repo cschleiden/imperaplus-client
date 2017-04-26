@@ -105,6 +105,7 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
                             </Route>
 
                             <Route path="/game/messages/messages" component={Messages} />
+                            
                             <Route path="/game/profile/profile" component={UserProfile} />
 
                         </Route>
