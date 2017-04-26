@@ -16,7 +16,7 @@ $windowWidthFull: 550px;
 $buttonWidth: 100px;
 
 $headerHeight: 32px;
-$inputHeight: 30px;
+$inputHeight: 34px;
 
 $usersWidth: 100px;
 
@@ -77,23 +77,18 @@ $usersWidth: 100px;
         padding: 0;
 
         width: 100%;
-        height: $inputHeight;
 
-        .ms-TextField {
+        input {
             display: inline-block;
             width: calc(100% - #{$buttonWidth});
-            height: 30px;
-
-            input {
-                height: 30px;
-            }
+            height: $inputHeight;
         }
 
         button {
             display: inline-block;
 
             width: $buttonWidth;
-            height: 30px;
+            height: $inputHeight;
         }
     }
 

@@ -10,6 +10,7 @@ import { showHide, close, message, switchChannel } from "./chat.actions";
 
 import { Grid, GridRow, GridColumn } from "../../components/layout";
 import { Button, FormControl } from "react-bootstrap";
+import { autobind } from "../../lib/autobind";
 
 interface IChatProps {
     isVisible: boolean;
@@ -63,7 +64,7 @@ export class Chat extends React.Component<IChatProps, IChatState> {
                                             e.preventDefault();
                                             this._switchChannel(c.identifier);
                                             return false;
-                                        } }>{c.title}</a>
+                                        }}>{c.title}</a>
                                     </li>) || []}
                             </ul>
                         </div>
@@ -98,10 +99,14 @@ export class Chat extends React.Component<IChatProps, IChatState> {
 
                     <div className="chat-input">
                         <form onSubmit={this._onSend}>
-                            <FormControl autoComplete="off" placeholder={__("Enter your message...")} value={this.state.msg} onChange={this._onChange} />
+                            <FormControl
+                                autoComplete="off"
+                                placeholder={__("Enter your message...")} 
+                                value={this.state.msg} 
+                                onChange={this._onChange} />
                             <Button
                                 disabled={!this._isValid()}
-                                onClick={this._onSend}>{__("Send")}</Button>
+                                type="submit">{__("Send")}</Button>
                         </form>
                     </div>
                 </div>;
@@ -111,7 +116,7 @@ export class Chat extends React.Component<IChatProps, IChatState> {
                 return <div className="chat-button">
                     <Button onClick={this._onShow}>
                         {unreadCount > 0 ? unreadCount :
-                            <i className="ms-Icon ms-Icon--Mail" aria-hidden="true"></i>
+                            <i className="fa fa-envelope-o" aria-hidden="true"></i>
                         }
                     </Button>
                 </div>;
@@ -151,7 +156,11 @@ export class Chat extends React.Component<IChatProps, IChatState> {
         this.props.switchChannel(channelId);
     };
 
-    private _onSend = () => {
+    @autobind
+    private _onSend(ev: React.FormEvent<HTMLFormElement>) {
+        ev.stopPropagation();
+        ev.preventDefault();
+
         this.props.send(this.state.msg);
 
         this.setState({

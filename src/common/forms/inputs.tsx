@@ -38,10 +38,12 @@ export class ControlledTextField extends React.Component<FormControlProps & ICon
     }
 
     public render() {
+        const { fieldName, label, ...remainingProps } = this.props;
+
         return <FormGroup controlId={this._id}>
-            <ControlLabel>{this.props.label}</ControlLabel>
+            <ControlLabel>{label}</ControlLabel>
             <FormControl
-                {...this.props as any}
+                {...remainingProps as any}
                 id={this._id}
                 onChange={(ev) => {
                     const inputElement = ev.target as HTMLInputElement;
@@ -49,7 +51,7 @@ export class ControlledTextField extends React.Component<FormControlProps & ICon
 
                     if (value !== this._currentValue()) {
                         if (this.context.changeField) {
-                            this.context.changeField(this.props.fieldName, value);
+                            this.context.changeField(fieldName, value);
                         }
                     }
                 }}
@@ -118,7 +120,7 @@ export class ControlledDropdown extends React.Component<FormControlProps & ICont
                 onChange={(ev) => {
                     const inputElement = ev.target as HTMLSelectElement;
                     const value = inputElement.value;
-                                        
+
                     this.context.changeField(this.props.fieldName, value);
                 }}
                 value={this._currentValue()}>
