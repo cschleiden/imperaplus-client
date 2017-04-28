@@ -286,13 +286,19 @@ export const updateFromResult = (state: IPlayState, action: IAction<GameActionRe
 
             // Apply map updates
             const countryUpdates = countriesToMap(result.countryUpdates);
+
             for (let i = 0; i < game.map.countries.length; ++i) {
                 const country = game.map.countries[i];
-
                 const countryUpdate = countryUpdates[country.identifier];
                 if (countryUpdate) {
                     game.map.countries.splice(i, 1, countryUpdate);
-                }
+                    delete countryUpdates[country.identifier];
+                }                
+            }
+
+            // Add remaining countries
+            for (const identifier of Object.keys(countryUpdates)) {
+                game.map.countries.push(countryUpdates[identifier]);
             }
 
             return game;

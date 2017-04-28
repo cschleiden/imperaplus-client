@@ -128,33 +128,39 @@ class Map extends React.Component<IMapProps, IMapState> {
         return mapTemplate.countries.map(countryTemplate => {
             const country = idToCountry[countryTemplate.identifier];
 
-            const player = getPlayerByPlayerId(game, country.playerId);
+            const player = country && getPlayerByPlayerId(game, country.playerId);
 
-            const isHighlighted = hoveredCountry && mapTemplate.areConnected(hoveredCountry, country.identifier);
+            const isHighlighted = hoveredCountry && mapTemplate.areConnected(hoveredCountry, countryTemplate.identifier);
 
             const placeUnits = placeCountries[countryTemplate.identifier];
             const hasInput = placeUnits !== undefined;
+
+            let units = "?";
+            if (country && country.units != null) {
+                units = country.units.toString(10);
+            }
 
             return [<div
                 id={countryTemplate.identifier}
                 key={countryTemplate.identifier}
                 className={css(
                     "country",
-                    "player-" + (player ? (player.playOrder + 1) : 0),
                     {
+                        // only show player color when coountry is visible
+                        ["player-" + (player ? (player.playOrder + 1) : 0)]: !!country,
                         "country-highlight": isHighlighted
                     })}
                 style={{
                     left: countryTemplate.x,
                     top: countryTemplate.y
                 }}>
-                {country.units}
-            </div>,
+                {units}
+            </div >,
             hasInput && <CountryInputField
                 key={`p${countryTemplate.identifier}`}
                 countryTemplate={countryTemplate}
                 value={placeUnits}
-                onChange={(units) => this.props.setUnits(countryTemplate.identifier, units)} />
+                onChange={(inputUnits) => this.props.setUnits(countryTemplate.identifier, inputUnits)} />
             ];
         });
     }
