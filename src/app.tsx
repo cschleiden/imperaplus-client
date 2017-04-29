@@ -47,6 +47,7 @@ import Messages from "./pages/messages/messages";
 
 // profile
 import UserProfile from "./pages/profile/profile";
+import { autobind } from "./lib/autobind";
 
 
 function checkLoggedIn(store: Redux.Store<IState>, nextState, replace) {
@@ -65,7 +66,7 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
                 {/* main layout */}
                 <Route component={MainLayout}>
                     {/* public */}
-                    <Route path="/" components={{ nav: PublicNav, content: PublicLayout}}>
+                    <Route path="/" components={{ nav: PublicNav, content: PublicLayout }}>
                         <IndexRoute component={Home} />
 
                         <Route path="signup" component={Signup} />
@@ -105,7 +106,7 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
                             </Route>
 
                             <Route path="/game/messages/messages" component={Messages} />
-                            
+
                             <Route path="/game/profile/profile" component={UserProfile} />
 
                         </Route>
@@ -120,11 +121,26 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
                         </Route>
                     </Route>
                 </Route>
+
+                <Route path="/toadmin" onEnter={this._onAdmin}>
+                </Route>
             </Router>
         </Provider>;
     }
 
-    private _onRouteUpdate = () => {
+    @autobind
+    private _onAdmin() {
+        const { store } = this.props;
+
+        const token = store.getState().session.data.access_token;
+
+        // Move token to cookie
+        document.cookie = `bearer_token=${token};path=/admin`;
+        window.location.href = "/admin";
+    }
+
+    @autobind
+    private _onRouteUpdate() {
         this._clearMessage();
     };
 

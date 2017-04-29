@@ -14,6 +14,7 @@ import { Button, ButtonProps, DropdownButton, MenuItem, Alert, Modal, Glyphicon 
 
 import LinkString from "../../components/ui/strLink";
 import { getStyleForMessage } from "../../lib/message";
+import { UserInfo } from "../../external/imperaClients";
 
 interface ILanguageSelectorProps {
     selectedLanguage: string;
@@ -82,6 +83,7 @@ interface ILayoutProps {
 
     isNavOpen: boolean;
     language: string;
+    userInfo: UserInfo;
 
     openCloseNav: (state: boolean) => void;
     setLanguage: (language: string) => void;
@@ -96,6 +98,14 @@ export class Layout extends React.Component<ILayoutProps, void> {
                 onDismiss={this._onClear}>
                 <LinkString link={this.props.message.message} />
             </Alert>;
+        }
+
+        const { userInfo } = this.props;
+        let isAdmin = false;
+        if (userInfo) {
+            isAdmin = userInfo.roles
+                .map(r => r.toUpperCase())
+                .indexOf("admin".toUpperCase()) !== -1;
         }
 
         return <div className="mainWrapper">
@@ -160,6 +170,7 @@ export class Layout extends React.Component<ILayoutProps, void> {
                 </GridRow>
 
                 <GridRow className="footer">
+                    {isAdmin && <a href="/toadmin">ADMIN&nbsp;</a>}
                     <a href="#">{__("Privacy Policy")}</a> | <a href="#">{__("Terms of Service")}</a> | <a href="#">User Voice</a> | <a href="http://impera.ruesken.de/">{__("Forum")}</a>
                 </GridRow>
             </GridContainer>
@@ -180,7 +191,8 @@ export class Layout extends React.Component<ILayoutProps, void> {
 export default connect((state: IState) => ({
     message: state.message.data.message,
     isNavOpen: state.general.data.isNavOpen,
-    language: state.session.data.language
+    language: state.session.data.language,
+    userInfo: state.session.data.userInfo
 }), (dispatch) => ({
     clear: () => { dispatch(clear(null)); },
     openCloseNav: (state: boolean) => { dispatch(openCloseNav(state)); },
