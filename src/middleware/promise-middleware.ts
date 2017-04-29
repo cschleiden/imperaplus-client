@@ -61,13 +61,13 @@ export default function promiseMiddleware({ dispatch }) {
                     }
 
                     dispatch(show(message, MessageType.error));
-                } else {
-                    dispatch({
-                        type: failed(type),
-                        payload: error,
-                        meta,
-                    });
                 }
+
+                dispatch({
+                    type: failed(type),
+                    payload: error,
+                    meta,
+                });
 
                 if (options && options.afterError) {
                     options.afterError(dispatch);

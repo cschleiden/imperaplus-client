@@ -2,6 +2,7 @@ import { combineReducers } from "redux";
 
 // General purpose
 import { routerReducer,  } from "react-router-redux";
+import { loadingBarReducer } from "react-redux-loading-bar";
 import { forms } from "./common/forms/forms.reducer";
 import { message, IMessageState } from "./common/message/message.reducer";
 import { session, ISessionState } from "./common/session/session.reducer";
@@ -41,6 +42,7 @@ const rootReducer = combineReducers<IState>({
 
     // General reducers
     routing: routerReducer,
+    loadingBar: loadingBarReducer,
     session,
     forms,
     message,

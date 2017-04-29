@@ -24,6 +24,14 @@
     }
 }
 
+.loading-bar {
+    height: 3px;
+    background-color: $accent;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+}
+
 $headerHeight: 120px;
 .header {
     margin-top: 0px;

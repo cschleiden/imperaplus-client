@@ -126,6 +126,7 @@
     "whatwg-fetch": "^2.0.0"
   },
   "dependencies": {
-    "font-awesome": "^4.7.0"
+    "font-awesome": "^4.7.0",
+    "react-redux-loading-bar": "^2.8.1"
   }
 }

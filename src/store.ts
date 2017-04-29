@@ -8,7 +8,7 @@ import thunkMiddleware from "redux-thunk";
 import * as createLogger from "redux-logger";
 import promiseMiddleware from "./middleware/promise-middleware";
 
-import { IAsyncActionDependencies } from "./lib/action";
+import { IAsyncActionDependencies, pending, failed, success } from "./lib/action";
 import { getCachedClient, createClientWithToken, setOnUnauthorized } from "./clients/clientFactory";
 import { getSignalRClient } from "./clients/signalrFactory";
 
@@ -20,6 +20,7 @@ import { ISessionState } from "./common/session/session.reducer";
 import { SessionService } from "./common/session/session.service";
 import { debounce } from "./lib/debounce";
 import { UserProvider } from "./services/userProvider";
+import { loadingBarMiddleware } from "react-redux-loading-bar";
 
 // Create main store
 const compose = composeWithDevTools({
@@ -52,6 +53,9 @@ export let store = Redux.createStore<IState>(
   compose(
     Redux.applyMiddleware(
       routerMiddleware(browserHistory),
+      loadingBarMiddleware({
+        promiseTypeSuffixes: [pending(""), success(""), failed("")]
+      }),
       promiseMiddleware as any,
       thunkMiddleware.withExtraArgument({
         getCachedClient: getCachedClient,

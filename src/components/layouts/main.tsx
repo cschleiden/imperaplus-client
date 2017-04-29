@@ -3,6 +3,7 @@ import "./main.scss";
 
 import * as React from "react";
 import { connect } from "react-redux";
+import LoadingBar from "react-redux-loading-bar";
 import { Grid, GridRow, GridColumn, GridContainer } from "../layout";
 
 import { clear, MessageType } from "../../common/message/message.actions";
@@ -111,6 +112,8 @@ export class Layout extends React.Component<ILayoutProps, void> {
         return <div className="mainWrapper">
             <GridContainer className="layout">
                 <GridRow className="header">
+                    <LoadingBar className="loading-bar" />
+
                     <GridColumn className="col-xs-10 col-sm-5 logo">
                         <img src="/assets/logo_150.png" />
                     </GridColumn>
