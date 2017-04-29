@@ -7,7 +7,7 @@ import { refresh, expire } from "./session.actions";
 import { close } from "../chat/chat.actions";
 import { store } from "../../store";
 
-const scope = "openid offline_access";
+const scope = "openid offline_access roles";
 
 export interface IRefreshResult {
     access_token: string;

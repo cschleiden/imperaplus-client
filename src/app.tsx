@@ -48,6 +48,7 @@ import Messages from "./pages/messages/messages";
 // profile
 import UserProfile from "./pages/profile/profile";
 import { autobind } from "./lib/autobind";
+import { baseUri } from "./configuration";
 
 
 function checkLoggedIn(store: Redux.Store<IState>, nextState, replace) {
@@ -136,7 +137,7 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
 
         // Move token to cookie
         document.cookie = `bearer_token=${token};path=/admin`;
-        window.location.href = "/admin";
+        window.location.href = baseUri + "admin/news";
     }
 
     @autobind

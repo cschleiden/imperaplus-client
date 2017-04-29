@@ -6,7 +6,7 @@ import { AccountClient, UserInfo } from "../../external/imperaClients";
 import { TokenProvider } from "../../services/tokenProvider";
 import { baseUri } from "../../configuration";
 
-const scope = "openid offline_access";
+const scope = "openid offline_access roles";
 
 export const SET_LANGUAGE = "set-language";
 export const setLanguage: IAsyncAction<string> = (language: string) =>
