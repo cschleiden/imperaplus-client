@@ -50,9 +50,10 @@ class MobileLanguageSelector extends React.Component<ILanguageSelectorProps, voi
             <li>
                 <a>{__("Language")}</a>
                 <ul className="nav-dropdown">
-                    <li><a href="#" onClick={this._onClick.bind(this, "en")}>
-                        {__("English")}
-                    </a>
+                    <li>
+                        <a href="#" onClick={this._onClick.bind(this, "en")}>
+                            {__("English")}
+                        </a>
                     </li>
                     <li>
                         <a href="#" onClick={this._onClick.bind(this, "de")}>

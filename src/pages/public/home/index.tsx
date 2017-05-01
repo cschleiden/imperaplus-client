@@ -32,16 +32,16 @@ export default class Home extends React.Component<{}, void> {
             <GridRow>
                 <GridColumn className="col-md-4">
                     <div>
-                        <i className="fa fa-compress service-icon"></i>
+                        <i className="fa fa-compress service-icon" />
                         <div>
                             <h4><span>{__("Many Different Maps")}</span></h4>
-                            <p><span>{__("Play on up to 40 different maps against opponents from all over the world...")}</span></p>
+                            <p><span>{__("Play on up to 80 different maps against opponents from all over the world...")}</span></p>
                         </div>
                     </div>
                 </GridColumn>
                 <GridColumn className="col-md-4">
                     <div>
-                        <i className="fa fa-cogs service-icon"></i>
+                        <i className="fa fa-cogs service-icon" />
                         <div>
                             <h4><span>{__("Great Community")}</span></h4>
                             <p><span>{__("Tournaments, Leagues: Impera is not limited to simple one vs one games, it offers a wide variety of challenges")}</span></p>
@@ -50,7 +50,7 @@ export default class Home extends React.Component<{}, void> {
                 </GridColumn>
                 <GridColumn className="col-md-4">
                     <div>
-                        <i className="fa fa-rocket service-icon"></i>
+                        <i className="fa fa-rocket service-icon" />
                         <div>
                             <h4><span>{__("Free As In Beer")}</span></h4>
                             <p><span>{__("Impera is completely free, no hidden fees, no \"in-app\" purchases...")}</span></p>
