@@ -47,7 +47,7 @@ render(
 
 if (module.hot) {
   module.hot.accept(["./app"], () => {
-    const NextApp = require("./app").default;
+    const NextApp = (require("./app") as any).default;
     render(<AppContainer>
       <NextApp store={store} />
     </AppContainer>,

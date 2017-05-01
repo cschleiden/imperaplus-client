@@ -1,5 +1,5 @@
 import { IAction, makePromiseAction } from "../../lib/action";
-import { TournamentSummary, TournamentClient } from "../../external/imperaClients";
+import { TournamentSummary, TournamentClient, Tournament } from "../../external/imperaClients";
 import { show, MessageType } from "../../common/message/message.actions";
 
 export const REFRESH = "tournaments-refresh";
@@ -8,6 +8,18 @@ export const refresh = makePromiseAction<void, TournamentSummary[]>((input, disp
         type: REFRESH,
         payload: {
             promise: deps.getCachedClient(TournamentClient).getAll()
+        },
+        options: {
+            useMessage: true
+        }
+    }));
+
+export const LOAD = "tournaments-load";
+export const load = makePromiseAction<string, Tournament>((tournamentId, dispatch, getState, deps) =>
+    ({
+        type: LOAD,
+        payload: {
+            promise: deps.getCachedClient(TournamentClient).getById(tournamentId)
         },
         options: {
             useMessage: true

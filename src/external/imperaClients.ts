@@ -1994,7 +1994,7 @@ export class TournamentClient {
      * Returns tournaments
      * @return List of tournaments
      */
-    getAll(): Promise<Tournament[] | null> {
+    getAll(): Promise<TournamentSummary[] | null> {
         let url_ = this.baseUrl + "/api/tournaments";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -2011,12 +2011,12 @@ export class TournamentClient {
         });
     }
 
-    protected processGetAll(_response: Response): Promise<Tournament[] | null> {
+    protected processGetAll(_response: Response): Promise<TournamentSummary[] | null> {
         const _status = _response.status;
         if (_status === 200) {
             return _response.text().then((_responseText) => {
-            let result200: Tournament[] | null = null;
-            result200 = _responseText === "" ? null : <Tournament[]>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: TournamentSummary[] | null = null;
+            result200 = _responseText === "" ? null : <TournamentSummary[]>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (_status !== 200 && _status !== 204) {

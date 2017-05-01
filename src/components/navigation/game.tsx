@@ -29,7 +29,7 @@ export const GameNavigation = ({ dispatch, userName }): JSX.Element => {
                     <Link to="/game/games/ladders" activeClassName="active">{__("Ladders")}</Link>
                 </li>
                 <li>
-                    <Link to="/game/games/tournaments" activeClassName="active">{__("Tournaments")}</Link>
+                    <Link to="/game/tournaments" activeClassName="active">{__("Tournaments")}</Link>
                 </li>
             </ul>
         </li>

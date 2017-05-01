@@ -29,6 +29,7 @@
     background-color: $accent;
     position: fixed;
     top: 0;
+    left: 0;
     z-index: 1000;
 }
 
@@ -137,14 +138,16 @@ $headerHeight: 120px;
                     margin: 0;
                     padding: 0;
 
-                    cursor: pointer;
-                    padding: $spacing;
+                    cursor: pointer;                    
 
                     a {
                         display: block;
                         color: $colorInactive;
                         font-size: 13px;
                         font-weight: 400;
+
+                        padding: $spacing;  
+
                         &.active {
                             color: $accent;
                         }

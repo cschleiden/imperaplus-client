@@ -30,8 +30,8 @@ import My from "./pages/games/games";
 import Create from "./pages/create/create";
 import Join from "./pages/join/fun";
 import Ladders from "./pages/join/ladders";
-import Tournaments from "./pages/games/tournaments";
-import Tournament from "./pages/tournaments/tournaments";
+import Tournaments from "./pages/tournaments/tournaments";
+import Tournament from "./pages/tournaments/tournament";
 
 // Play
 import Play from "./pages/play/play";
@@ -92,10 +92,10 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
                                 <Route path="/game/games/create" component={Create} />
                                 <Route path="/game/games/join" component={Join} />
                                 <Route path="/game/games/ladders" component={Ladders} />
-                                <Route path="/game/games/tournaments" component={Tournaments} />
                             </Route>
 
                             <Route path="/game/tournaments">
+                                <IndexRoute component={Tournaments} />
                                 <Route path="/game/tournaments/:id" component={Tournament} />
                             </Route>
 

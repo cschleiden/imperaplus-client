@@ -1,29 +1,28 @@
 import { makeImmutable, IImmutable } from "immuts";
 import reducerMap from "../../lib/reducerMap";
-import { TournamentClient, TournamentSummary } from "../../external/imperaClients";
+import { TournamentClient, TournamentSummary, Tournament } from "../../external/imperaClients";
 import { IAction, success, pending, failed } from "../../lib/action";
-import { REFRESH, JOIN } from "./tournaments.actions";
+import { REFRESH, JOIN, LOAD } from "./tournaments.actions";
 
 const initialState = makeImmutable({
     isLoading: false,
-    tournaments: {} as { [tournamentId: number]: TournamentSummary }
+    tournaments: [] as TournamentSummary[],
+    tournament: null as Tournament
 });
 
 export type ITournamentsState = typeof initialState;
 
 const refresh = (state: ITournamentsState, action: IAction<TournamentSummary[]>) => {
-    // Convert to map
-    let tournamentMap = {};
-
-    if (action.payload) {
-        for (let tournament of action.payload) {
-            tournamentMap[tournament.id] = tournament;
-        }
-    }
-
     return state.merge(x => x, {
         isLoading: false,
-        tournaments: tournamentMap
+        tournaments: action.payload
+    });
+};
+
+const load = (state: ITournamentsState, action: IAction<Tournament>) => {
+    return state.merge(x => x, {
+        isLoading: false,
+        tournament: action.payload
     });
 };
 
@@ -37,6 +36,9 @@ export const tournaments = <TPayload>(
 
     return reducerMap(action, state, {
         [pending(REFRESH)]: loading,
-        [success(REFRESH)]: refresh
+        [success(REFRESH)]: refresh,
+
+        [pending(LOAD)]: loading,
+        [success(LOAD)]: load
     });
 };
