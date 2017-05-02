@@ -9,5 +9,5 @@ export const contextTypes = {
 export interface IFormContext {
     formState: IForm;
 
-    changeField: (fieldName: string, value: string | number | boolean) => void;
+    changeField: (fieldName: string, value: string | number | boolean | Object) => void;
 }

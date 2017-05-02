@@ -341,16 +341,8 @@ export class AccountClient {
         return Promise.resolve(null);
     }
 
-    getExternalLogins(returnUrl: string, generateState: boolean): Promise<ExternalLoginViewModel[] | null> {
-        let url_ = this.baseUrl + "/api/Account/ExternalLogins?";
-        if (returnUrl === undefined)
-            throw new Error("The parameter 'returnUrl' must be defined.");
-        else
-            url_ += "returnUrl=" + encodeURIComponent("" + returnUrl) + "&"; 
-        if (generateState === null)
-            throw new Error("The parameter 'generateState' cannot be null.");
-        else if (generateState !== undefined)
-            url_ += "generateState=" + encodeURIComponent("" + generateState) + "&"; 
+    getExternalLogins(): Promise<ExternalLoginViewModel[] | null> {
+        let url_ = this.baseUrl + "/api/Account/ExternalLogins";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
@@ -1401,11 +1393,10 @@ export class MessageClient {
     }
 
     getAll(messageFolder: MessageFolder): Promise<Message[] | null> {
-        let url_ = this.baseUrl + "/api/messages/folder?";
-        if (messageFolder === null)
-            throw new Error("The parameter 'messageFolder' cannot be null.");
-        else if (messageFolder !== undefined)
-            url_ += "messageFolder=" + encodeURIComponent("" + messageFolder) + "&"; 
+        let url_ = this.baseUrl + "/api/messages/folder/{messageFolder}";
+        if (messageFolder === undefined || messageFolder === null)
+            throw new Error("The parameter 'messageFolder' must be defined.");
+        url_ = url_.replace("{messageFolder}", encodeURIComponent("" + messageFolder)); 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
@@ -1541,7 +1532,7 @@ export class MessageClient {
         return Promise.resolve(null);
     }
 
-    getFolderInformation(): Promise<FolderInformation | null> {
+    getFolderInformation(): Promise<FolderInformation[] | null> {
         let url_ = this.baseUrl + "/api/messages/folders";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1558,12 +1549,12 @@ export class MessageClient {
         });
     }
 
-    protected processGetFolderInformation(_response: Response): Promise<FolderInformation | null> {
+    protected processGetFolderInformation(_response: Response): Promise<FolderInformation[] | null> {
         const _status = _response.status;
         if (_status === 200) {
             return _response.text().then((_responseText) => {
-            let result200: FolderInformation | null = null;
-            result200 = _responseText === "" ? null : <FolderInformation>JSON.parse(_responseText, this.jsonParseReviver);
+            let result200: FolderInformation[] | null = null;
+            result200 = _responseText === "" ? null : <FolderInformation[]>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (_status !== 200 && _status !== 204) {
@@ -2407,8 +2398,7 @@ export interface UserLoginInfoViewModel {
 
 export interface ExternalLoginViewModel {
     name?: string | undefined;
-    url?: string | undefined;
-    state?: string | undefined;
+    authenticationScheme?: string | undefined;
 }
 
 export interface ChangePasswordBindingModel {
@@ -2834,6 +2824,13 @@ export interface TournamentSummary {
     completion: number;
 }
 
+export enum TournamentState {
+    Open = <any>"Open", 
+    Groups = <any>"Groups", 
+    Knockout = <any>"Knockout", 
+    Closed = <any>"Closed", 
+}
+
 export interface Tournament extends TournamentSummary {
     teams?: TournamentTeam[] | undefined;
     groups?: TournamentGroup[] | undefined;
@@ -2873,13 +2870,6 @@ export interface TournamentPairing {
     numberOfGames: number;
     phase: number;
     order: number;
-}
-
-export enum TournamentState {
-    Open = <any>"Open", 
-    Groups = <any>"Groups", 
-    Knockout = <any>"Knockout", 
-    Closed = <any>"Closed", 
 }
 
 export class SwaggerException extends Error {

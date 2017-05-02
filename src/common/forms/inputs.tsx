@@ -7,6 +7,7 @@ import { IForms, IForm } from "./forms.reducer";
 import { FormGroup, ControlLabel, FormControl, FormControlProps, Checkbox, CheckboxProps } from "react-bootstrap";
 
 import { contextTypes, IFormContext } from "./types";
+import { UserPicker } from "../../components/misc/userPicker";
 
 interface IControlledFieldProps {
     fieldName: string;
@@ -70,6 +71,49 @@ export class ControlledTextField extends React.Component<FormControlProps & ICon
     public static contextTypes = contextTypes;
 }
 
+
+export class ControlledUserPicker extends React.Component<FormControlProps & IControlledFieldProps & { initialValue?: string }, void> {
+    private _id: string;
+
+    public context: IFormContext;
+
+    constructor(props, context) {
+        super(props, context);
+
+        this._id = getId();
+    }
+
+    public componentDidMount() {
+        // Handle initial selection
+        if (!this._currentValue() && this.props.initialValue) {
+            this.context.changeField(this.props.fieldName, this.props.initialValue);
+        }
+    }
+
+    public render() {
+        const { fieldName, label, ...remainingProps } = this.props;
+
+        return <FormGroup controlId={this._id}>
+            <ControlLabel>{label}</ControlLabel>
+            <UserPicker name={fieldName} onChange={(value) => {
+                if (value !== this._currentValue()) {
+                    if (this.context.changeField) {
+                        this.context.changeField(fieldName, value);
+                    }
+                }
+            }} />
+        </FormGroup>;
+    }
+
+    private _currentValue(): string {
+        return this.context.formState
+            && this.context.formState.fields
+            && this.context.formState.fields[this.props.fieldName]
+            && this.context.formState.fields[this.props.fieldName].value as string || "";
+    }
+
+    public static contextTypes = contextTypes;
+}
 
 export const ControlledCheckBox = (props: CheckboxProps & IControlledFieldProps, context: IFormContext) => {
     const currentValue = (): boolean =>

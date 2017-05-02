@@ -63,7 +63,7 @@ export class CreateGameComponent extends React.Component<ICreateGameProps, void>
     }
 
     public render(): JSX.Element {
-        return <GridColumn>
+        return <GridRow>
             <GridColumn className="col-md-8">
                 <p>
                     <LinkString link={__("Here you can create a new fun game. If you want to start playing sooner, you might want to [join](/game/games/join) an existing game. Fun games do not count for the ladder.")} />
@@ -290,7 +290,7 @@ export class CreateGameComponent extends React.Component<ICreateGameProps, void>
                     {__("These settings allow you to customize nearly every aspect of the created game.")}
                 </p>
             </GridColumn>
-        </GridColumn>;
+        </GridRow >;
     }
 
     private _formValid(formState: IFormState): boolean {

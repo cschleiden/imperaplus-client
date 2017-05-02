@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
 
 // General purpose
-import { routerReducer,  } from "react-router-redux";
+import { routerReducer, } from "react-router-redux";
 import { loadingBarReducer } from "react-redux-loading-bar";
 import { forms } from "./common/forms/forms.reducer";
 import { message, IMessageState } from "./common/message/message.reducer";
@@ -15,6 +15,7 @@ import { games, IMyGamesState } from "./pages/games/games.reducer";
 import { ladders, ILaddersState } from "./pages/games/ladders.reducer";
 import { tournaments, ITournamentsState } from "./pages/tournaments/tournaments.reducer";
 import { play, IPlayState } from "./pages/play/reducer";
+import { messages, IMessagesState } from "./pages/messages/messages.reducer";
 
 export interface IState {
     news: INewsState;
@@ -22,6 +23,7 @@ export interface IState {
     games: IMyGamesState;
     ladders: ILaddersState;
     tournaments: ITournamentsState;
+    messages: IMessagesState;
     play: IPlayState;
 
     routing: any;
@@ -37,6 +39,7 @@ const rootReducer = combineReducers<IState>({
     chat,
     games,
     ladders,
+    messages,
     tournaments,
     play,
 

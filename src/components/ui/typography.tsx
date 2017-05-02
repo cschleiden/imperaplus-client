@@ -7,9 +7,10 @@ export const Title = (props: React.Props<{}>): JSX.Element => {
     </h1>;
 };
 
-export const Section = (props: React.Props<{}>): JSX.Element => {
+export const Section = (props: { additionalContent?: JSX.Element } & React.Props<{}>): JSX.Element => {
     return <h2 className="headline">
         <span>{props.children}</span>
+        {props.additionalContent}
     </h2>;
 };
 
