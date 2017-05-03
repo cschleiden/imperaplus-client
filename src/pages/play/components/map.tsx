@@ -7,7 +7,7 @@ import { Game, PlayState, HistoryAction, HistoryEntry, HistoryTurn } from "../..
 import { IState } from "../../../reducers";
 import { css } from "../../../lib/css";
 import { autobind } from "../../../lib/autobind";
-import { selectCountry, setPlaceUnits, setActionUnits, attack, move } from "../play.actions";
+import { selectCountry, setPlaceUnits, setActionUnits, attack, move, place } from "../play.actions";
 import { ITwoCountry } from "../reducer";
 
 // Used for displaying connections
@@ -15,7 +15,7 @@ import "jsplumb";
 import { MapTemplateCacheEntry } from "../mapTemplateCache";
 import { CountryInputField } from "./countryInput";
 import { getPlayerByPlayerId, countriesToMap } from "../../../lib/game/utils";
-import { game } from "../reducer/play.selectors";
+import { game, canPlace } from "../reducer/play.selectors";
 
 const KeyBindings = {
     "ABORT": 27, // Escape
@@ -29,6 +29,7 @@ interface IMapProps {
     game: Game;
     historyTurn: HistoryTurn;
     mapTemplate: MapTemplateCacheEntry;
+    canPlace: boolean;
     placeCountries: { [id: string]: number };
     twoCountry: ITwoCountry;
     operationInProgress: boolean;
@@ -38,6 +39,7 @@ interface IMapProps {
     setActionUnits: (units: number) => void;
     attack: () => void;
     move: () => void;
+    place: () => void;
 }
 
 interface IMapState {
@@ -124,7 +126,7 @@ class Map extends React.Component<IMapProps, IMapState> {
     }
 
     private _renderCountries() {
-        const { game, placeCountries, mapTemplate } = this.props;
+        const { game, placeCountries, mapTemplate, place, canPlace } = this.props;
         const { map } = game;
         const { hoveredCountry } = this.state;
 
@@ -165,7 +167,7 @@ class Map extends React.Component<IMapProps, IMapState> {
                 key={`p${countryTemplate.identifier}`}
                 countryTemplate={countryTemplate}
                 value={placeUnits}
-                onChange={(inputUnits) => this.props.setUnits(countryTemplate.identifier, inputUnits)} />
+                onChange={() => this.props.place()} />
             ];
         });
     }
@@ -393,6 +395,8 @@ class Map extends React.Component<IMapProps, IMapState> {
             this.props.attack();
         } else if (game.playState === PlayState.Move) {
             this.props.move();
+        } else if (game.playState === PlayState.PlaceUnits) {
+            this.props.place();
         }
     }
 
@@ -417,7 +421,7 @@ class Map extends React.Component<IMapProps, IMapState> {
     }
 
     private _showHistoryConnections(actions: HistoryEntry[]) {
-        // Clear            
+        // Clear
         this._clearHistoryConnections();
 
         for (let action of actions) {
@@ -472,6 +476,7 @@ export default connect((state: IState) => {
     return {
         game: game(state.play),
         historyTurn,
+        canPlace: canPlace(state.play),
         mapTemplate: mapTemplate,
         placeCountries: placeCountries,
         twoCountry: twoCountry,
@@ -482,5 +487,6 @@ export default connect((state: IState) => {
     setUnits: (countryIdentifier: string, units: number) => { dispatch(setPlaceUnits(countryIdentifier, units)); },
     setActionUnits: (units: number) => { dispatch(setActionUnits(units)); },
     attack: () => dispatch(attack(null)),
-    move: () => dispatch(move(null))
+    move: () => dispatch(move(null)),
+    place: () => dispatch(place(null))
 }))(Map);
