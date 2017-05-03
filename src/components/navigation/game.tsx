@@ -87,6 +87,10 @@ export const GameNavigation = ({ dispatch, userName }): JSX.Element => {
     </ul>;
 };
 
-export default connect((state: IState) => ({
-    userName: state.session.data.userInfo.userName
-}))(GameNavigation);
+export default connect((state: IState) => {
+    const sessionState = state.session.data;
+
+    return {
+        userName: sessionState && sessionState.userInfo && sessionState.userInfo.userName
+    };
+})(GameNavigation);
