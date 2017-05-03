@@ -2,14 +2,14 @@ import { makeImmutable, IImmutable } from "immuts";
 import reducerMap from "../../lib/reducerMap";
 import { FolderInformation, Message, MessageFolder } from "../../external/imperaClients";
 import { IAction, success, pending, failed } from "../../lib/action";
-import { DELETE, SWITCH_FOLDER, ISwitchFolderPayload, LOAD } from "./messages.actions";
+import { DELETE, SWITCH_FOLDER, ISwitchFolderPayload, LOAD, LOAD_MESSAGE, OPEN_MESSAGE, MARK_READ } from "./messages.actions";
 
 const initialState = makeImmutable({
     isLoading: false,
     folderInformation: null as FolderInformation[],
     currentFolder: null as MessageFolder,
     currentMessages: [] as Message[],
-    
+
     currentMessage: null as Message
 });
 
@@ -18,20 +18,46 @@ export type IMessagesState = typeof initialState;
 const switchFolder = (state: IMessagesState, action: IAction<ISwitchFolderPayload>) => {
     const { folder, messages } = action.payload;
 
+    if (messages) {
+        messages.sort((a, b) => b.sentAt.getTime() - a.sentAt.getTime());
+    }
+
     return state.merge(x => x, {
         currentFolder: folder,
         currentMessages: messages || []
     });
 };
 
+const loadPending = (state: IMessagesState, action: IAction<FolderInformation[]>) => {
+    return state
+        .set(x => x.folderInformation, null)
+        .set(x => x.currentMessages, []);
+};
+
 const load = (state: IMessagesState, action: IAction<FolderInformation[]>) => {
     return state.set(x => x.folderInformation, action.payload);
 };
 
-const deleteMessage = (state: IMessagesState, action: IAction<string>) => {
-    return state.remove(
-        x => x.currentMessages.findIndex(m => m.id === action.payload)
-    );
+const openMessage = (state: IMessagesState, action: IAction<Message>) => {
+    return state.set(x => x.currentMessage, action.payload);
+};
+
+const markRead = (state: IMessagesState, action: IAction<string>) => {
+    const messageId = action.payload;
+
+    // Try to find message
+    const idx = state.data.currentMessages.findIndex(m => m.id === messageId);
+    if (-1 !== idx) {
+        const message = state.data.currentMessages[idx];
+        state = state.update(x => x.currentMessages, m => {
+            return m.slice(0).splice(idx, 1, {
+                ...message,
+                isRead: true
+            });
+        });
+    }
+
+    return state.set(x => x.currentMessage.isRead, true);
 };
 
 const loading = (state: IMessagesState, action: IAction<void>) => {
@@ -46,9 +72,11 @@ export const messages = <TPayload>(
         [pending(SWITCH_FOLDER)]: loading,
         [success(SWITCH_FOLDER)]: switchFolder,
 
-        [pending(LOAD)]: loading,
+        [pending(LOAD)]: loadPending,
         [success(LOAD)]: load,
 
-        [success(DELETE)]: deleteMessage
+        [OPEN_MESSAGE]: openMessage,
+
+        [success(MARK_READ)]: markRead
     });
 };

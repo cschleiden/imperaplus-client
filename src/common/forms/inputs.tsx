@@ -8,6 +8,7 @@ import { FormGroup, ControlLabel, FormControl, FormControlProps, Checkbox, Check
 
 import { contextTypes, IFormContext } from "./types";
 import { UserPicker } from "../../components/misc/userPicker";
+import { UserReference } from "../../external/imperaClients";
 
 interface IControlledFieldProps {
     fieldName: string;
@@ -72,7 +73,7 @@ export class ControlledTextField extends React.Component<FormControlProps & ICon
 }
 
 
-export class ControlledUserPicker extends React.Component<FormControlProps & IControlledFieldProps & { initialValue?: string }, void> {
+export class ControlledUserPicker extends React.Component<FormControlProps & IControlledFieldProps & { initialValue?: UserReference }, void> {
     private _id: string;
 
     public context: IFormContext;
@@ -91,7 +92,7 @@ export class ControlledUserPicker extends React.Component<FormControlProps & ICo
     }
 
     public render() {
-        const { fieldName, label, ...remainingProps } = this.props;
+        const { fieldName, label, initialValue, ...remainingProps } = this.props;
 
         return <FormGroup controlId={this._id}>
             <ControlLabel>{label}</ControlLabel>
@@ -101,15 +102,15 @@ export class ControlledUserPicker extends React.Component<FormControlProps & ICo
                         this.context.changeField(fieldName, value);
                     }
                 }
-            }} />
+            }} initialValue={initialValue} />
         </FormGroup>;
     }
 
-    private _currentValue(): string {
+    private _currentValue(): UserReference {
         return this.context.formState
             && this.context.formState.fields
             && this.context.formState.fields[this.props.fieldName]
-            && this.context.formState.fields[this.props.fieldName].value as string || "";
+            && this.context.formState.fields[this.props.fieldName].value;
     }
 
     public static contextTypes = contextTypes;

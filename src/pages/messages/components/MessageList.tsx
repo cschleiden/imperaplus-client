@@ -6,6 +6,7 @@ import { Table, Button } from "react-bootstrap";
 import { FolderName } from "./FolderName";
 import { HumanDate } from "../../../components/ui/humanDate";
 import { css } from "../../../lib/css";
+import { autobind } from "../../../lib/autobind";
 
 export interface IMessageListProps {
     messages: Message[];
@@ -39,15 +40,28 @@ export class MessageList extends React.Component<IMessageListProps, void> {
     private _renderMessage(message: Message) {
         return <tr key={message.id} className={css({
             "unread": !message.isRead
-        })}>
+        })} onClick={() => this._openMessage(message)}>
             <td>{message.from.name}</td>
             <td>{message.subject}</td>
             <td>{HumanDate(message.sentAt)}</td>
             <td className="text-right">
-                <Button bsStyle="danger" bsSize="xs">
+                <Button bsStyle="danger" bsSize="xs" onClick={(ev) => this._deleteMessage(ev, message)}>
                     <i className="fa fa-trash-o" />&nbsp;{__("Delete")}
                 </Button>
             </td>
         </tr>;
+    }
+
+    @autobind
+    private _openMessage(message: Message) {
+        this.props.onMessageSelect(message);
+    }
+
+    @autobind
+    private _deleteMessage(ev: React.MouseEvent<any>, message: Message) {
+        this.props.onMessageDelete(message);
+
+        ev.preventDefault();
+        ev.stopPropagation();
     }
 }

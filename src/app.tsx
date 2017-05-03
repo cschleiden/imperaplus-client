@@ -44,6 +44,7 @@ import AllianceInfo from "./pages/alliance/info";
 
 // messages
 import Messages from "./pages/messages/messages";
+import Message from "./pages/messages/message";
 import Compose from "./pages/messages/compose";
 
 // profile
@@ -110,8 +111,8 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
                             <Route path="/game/messages">
                                 <IndexRoute component={Messages} />
 
-                                <Route path="/game/messages/compose" component={Compose} />
-                                <Route path="/game/messages/:id" component={Messages} />
+                                <Route path="/game/messages/compose(/:replyId)" component={Compose} />
+                                <Route path="/game/messages/:id" component={Message} />
                             </Route>
 
                             <Route path="/game/profile/profile" component={UserProfile} />

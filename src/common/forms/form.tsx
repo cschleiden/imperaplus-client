@@ -43,8 +43,13 @@ class Form extends React.Component<IFormProps & IInternalFormProps, void> {
         };
     }
 
-    public componentWillMount() {
-        // Initialize the form
+    constructor(props: IFormProps & IInternalFormProps, context: any)  {
+        super(props, context);
+
+        this.props.reset();
+    }
+
+    public componentWillUnmount() {
         this.props.reset();
     }
 

@@ -7,6 +7,8 @@ import { autobind } from "../../lib/autobind";
 export interface IUserPickerProps {
     name: string;
 
+    initialValue?: UserReference;
+
     onChange?: (value: UserReference) => void;
 }
 
@@ -24,7 +26,7 @@ export class UserPicker extends React.Component<IUserPickerProps, IUserPickerSta
     }
 
     public render() {
-        const { name } = this.props;
+        const { name, initialValue } = this.props;
 
         return <AsyncTypeahead
             allowNew={false}
@@ -41,6 +43,7 @@ export class UserPicker extends React.Component<IUserPickerProps, IUserPickerSta
             minLength={3}
             delay={300}
             options={this.state.users}
+            selected={initialValue && [initialValue]}
         />;
     }
 

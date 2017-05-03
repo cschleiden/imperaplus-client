@@ -7,14 +7,23 @@ import { ProgressButton } from "../../components/ui/progressButton";
 import { ControlledTextField, ControlledUserPicker } from "../../common/forms/inputs";
 import { IState } from "../../reducers";
 import { UserPicker } from "../../components/misc/userPicker";
-import { SendMessage } from "../../external/imperaClients";
+import { SendMessage, Message } from "../../external/imperaClients";
 import { sendMessage } from "./messages.actions";
 
-interface IComposeProps {
+interface IOwnProps {
+    params: {
+        replyId?: string
+    };
 }
 
-class ComposeComponent extends React.Component<IComposeProps, void> {
+interface IComposeProps {
+    replyTo: Message;
+}
+
+class ComposeComponent extends React.Component<IComposeProps & IOwnProps, void> {
     public render() {
+        const { replyTo } = this.props;
+
         return <GridRow>
             <GridColumn className="col-xs-12">
                 <Form
@@ -31,13 +40,15 @@ class ComposeComponent extends React.Component<IComposeProps, void> {
                             <ControlledUserPicker
                                 label={__("User")}
                                 fieldName="user"
+                                initialValue={replyTo && replyTo.from}
                             />
 
                             <ControlledTextField
                                 label={__("Subject")}
                                 placeholder={__("Subject")}
                                 fieldName="subject"
-                                required={true} />
+                                required={true}
+                                initialValue={replyTo && `${__("RE:")} ${replyTo.subject}`} />
 
                             <ControlledTextField
                                 label={__("Text")}
@@ -48,7 +59,8 @@ class ComposeComponent extends React.Component<IComposeProps, void> {
                                 style={{
                                     "resize": "vertical"
                                 }}
-                                rows={10} />
+                                rows={10}
+                                initialValue={replyTo && `\n\n---------\n${replyTo.text}`} />
 
                             <div className="pull-right clearfix">
                                 <ProgressButton
@@ -72,10 +84,18 @@ class ComposeComponent extends React.Component<IComposeProps, void> {
     }
 }
 
-export default connect((state: IState) => {
+export default connect((state: IState, ownProps: IOwnProps) => {
     const messages = state.messages.data;
 
+    let replyTo: Message;
+    if (ownProps && ownProps.params && ownProps.params.replyId) {
+        if (messages.currentMessage && messages.currentMessage.id === ownProps.params.replyId) {
+            replyTo = messages.currentMessage;
+        }
+    }
+
     return {
+        replyTo
     };
 }, (dispatch) => ({
 }))(ComposeComponent);

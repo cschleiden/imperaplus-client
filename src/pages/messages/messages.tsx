@@ -10,7 +10,7 @@ import { IState } from "../../reducers";
 import { setDocumentTitle } from "../../lib/title";
 import { FolderList } from "./components/FolderList";
 import { autobind } from "../../lib/autobind";
-import { load, switchFolder } from "./messages.actions";
+import { load, switchFolder, deleteMessage } from "./messages.actions";
 import { FolderInformation, MessageFolder, Message } from "../../external/imperaClients";
 import { MessageList } from "./components/MessageList";
 import { FolderName } from "./components/FolderName";
@@ -19,6 +19,8 @@ export interface IMessagesProps {
     init: () => void;
     switchFolder: (folder: MessageFolder) => void;
     compose: () => void;
+    open: (message: Message) => void;
+    delete: (message: Message) => void;
 
     currentFolder: MessageFolder;
     currentMessages: Message[];
@@ -69,12 +71,12 @@ export class MessagesComponent extends React.Component<IMessagesProps, void> {
 
     @autobind
     private _selectMessage(message: Message) {
-        // Navigate
+        this.props.open(message);
     }
 
     @autobind
     private _deleteMessage(message: Message) {
-        // delete
+        this.props.delete(message);
     }
 }
 
@@ -91,5 +93,11 @@ export default connect((state: IState) => {
         dispatch(load(null));
     },
     switchFolder: (folder: MessageFolder) => { dispatch(switchFolder(folder)); },
-    compose: () => { dispatch(push("/game/messages/compose")); }
+    compose: () => { dispatch(push("/game/messages/compose")); },
+    open: (message: Message) => {        
+        dispatch(push(`/game/messages/${message.id}`));
+    },
+    delete: (message: Message) => {
+        dispatch(deleteMessage(message.id));
+    }
 }))(MessagesComponent);
