@@ -19,9 +19,6 @@ import { game, canPlace } from "../reducer/play.selectors";
 
 const KeyBindings = {
     "ABORT": 27, // Escape
-
-    "INCREASE_UNITCOUNT": 38, // Cursor up
-    "DECREASE_UNITCOUNT": 40, // Cursor down
     "SUBMIT_ACTION": 13 // Enter
 };
 
@@ -167,7 +164,8 @@ class Map extends React.Component<IMapProps, IMapState> {
                 key={`p${countryTemplate.identifier}`}
                 countryTemplate={countryTemplate}
                 value={placeUnits}
-                onChange={() => this.props.place()} />
+                onKeyUp={this._onKeyUp}
+                onChange={(inputUnits) => this.props.setUnits(countryTemplate.identifier, inputUnits)} />
             ];
         });
     }

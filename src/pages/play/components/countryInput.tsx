@@ -5,15 +5,13 @@ import { CountryTemplate } from "../../../external/imperaClients";
 
 const KeyBindings = {
     "ABORT": 27, // Escape
-
-    "INCREASE_UNITCOUNT": 38, // Cursor up
-    "DECREASE_UNITCOUNT": 40, // Cursor down
     "SUBMIT_ACTION": 13 // Enter
 };
 
 export interface ICountryInputFieldProps {
     countryTemplate: CountryTemplate;
     value: number;
+    onKeyUp: (event) => void;
     onChange: (value: number) => void;
 }
 
@@ -40,6 +38,7 @@ export class CountryInputField extends React.Component<ICountryInputFieldProps, 
                 min={1}
                 defaultValue={value.toString(10)}
                 onKeyUp={this._onKeyUp}
+                onChange={this._onChange}
                 onFocus={this._onFocus}
                 ref={this._resolveInputElement} />
         </div>;
@@ -59,19 +58,18 @@ export class CountryInputField extends React.Component<ICountryInputFieldProps, 
         }
     }
 
-    private _onKeyUp(ev: React.KeyboardEvent<HTMLInputElement>) {
-        switch (ev.keyCode) {
-            case KeyBindings.SUBMIT_ACTION:
-                const newValue = parseInt(this._inputElement.value, 10);
+    @autobind
+    private _onChange(ev: React.FormEvent<HTMLInputElement>) {
+        const newValue = parseInt(this._inputElement.value, 10);
 
-                if (!isNaN(newValue)) {
-                    this.props.onChange(newValue);
-                }
-                break;
-
-            case KeyBindings.ABORT:
-                break;
+        if (!isNaN(newValue)) {
+            this.props.onChange(newValue);
         }
+    }
+
+    @autobind
+    private _onKeyUp(ev: React.KeyboardEvent<HTMLInputElement>) {
+        this.props.onKeyUp(ev);
     }
 
     @autobind
