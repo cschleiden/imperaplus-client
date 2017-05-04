@@ -15,7 +15,7 @@ import Form, { IFormState } from "../../common/forms/form";
 import { ControlledTextField, ControlledDropdown } from "../../common/forms/inputs";
 
 import { getMaps, create } from "./create.actions";
-import { MapTemplate } from "../../external/imperaClients";
+import { MapTemplate, VisibilityModifierType, MapDistribution, VictoryConditionType } from "../../external/imperaClients";
 
 function getPlayerAndTeams() {
     let result: { key: string, text: string }[] = [];
@@ -184,6 +184,8 @@ export class CreateGameComponent extends React.Component<ICreateGameProps, void>
                                                 type="number"
                                                 fieldName="attacks"
                                                 initialValue={"5"}
+                                                min={1}
+                                                max={100}
                                                 required={true} />
 
                                             <ControlledTextField
@@ -192,6 +194,8 @@ export class CreateGameComponent extends React.Component<ICreateGameProps, void>
                                                 type="number"
                                                 fieldName="moves"
                                                 initialValue={"7"}
+                                                min={1}
+                                                max={100}
                                                 required={true} />
 
                                             <ControlledTextField
@@ -200,6 +204,8 @@ export class CreateGameComponent extends React.Component<ICreateGameProps, void>
                                                 type="number"
                                                 fieldName="unitsperturn"
                                                 initialValue={"3"}
+                                                min={1}
+                                                max={5}
                                                 required={true} />
 
                                             <ControlledTextField
@@ -208,12 +214,13 @@ export class CreateGameComponent extends React.Component<ICreateGameProps, void>
                                                 type="number"
                                                 fieldName="initialCountryUnits"
                                                 initialValue={"1"}
+                                                min={0}
+                                                max={5}
                                                 required={true} />
-
 
                                             <ControlledTextField
                                                 label={__("Minimum units per country")}
-                                                placeholder={__("minimium units per country")}
+                                                placeholder={__("Minimium units per country")}
                                                 type="number"
                                                 fieldName="minUnitsPerCountry"
                                                 initialValue={"1"}
@@ -222,16 +229,17 @@ export class CreateGameComponent extends React.Component<ICreateGameProps, void>
 
                                         <GridColumn className="col-md-6">
                                             <ControlledTextField
-                                                label={__("maximum number of cards")}
-                                                placeholder={__("maximum number of cards")}
+                                                label={__("Maximum number of cards")}
+                                                placeholder={__("Maximum number of cards")}
                                                 type="number"
                                                 fieldName="maximumNumberOfCards"
                                                 initialValue={"5"}
+                                                max={10}
                                                 required={false} />
 
                                             <ControlledTextField
-                                                label={__("maximum timeouts per player")}
-                                                placeholder={__("maximum timeouts per player")}
+                                                label={__("Maximum timeouts per player")}
+                                                placeholder={__("Maximum timeouts per player")}
                                                 type="number"
                                                 fieldName="maximumTimeoutsPerPlayer"
                                                 initialValue={"2"}
@@ -239,24 +247,23 @@ export class CreateGameComponent extends React.Component<ICreateGameProps, void>
 
                                             <ControlledDropdown
                                                 label={__("Victory Condition")}
-                                                fieldName="victoryCondition" value={0}>
-                                                <option value="0">{__("Survival")}</option>
-                                                <option value="1">{__("Mission")}</option>
+                                                fieldName="victoryCondition" value={VictoryConditionType.Survival}>
+                                                <option value={VictoryConditionType.Survival}>{__("Survival")}</option>
                                             </ControlledDropdown>
 
                                             <ControlledDropdown
                                                 label={__("Visibility modifier")}
-                                                fieldName="visibilityModifier" value={1}>
-                                                <option value="0">{__("Everything visible")}</option>
-                                                <option value="1">{__("Fog of War")}</option>
+                                                fieldName="visibilityModifier" value={VisibilityModifierType.None}>
+                                                <option value={VisibilityModifierType.None}>{__("Everything visible")}</option>
+                                                <option value={VisibilityModifierType.Fog}>{__("Fog of War")}</option>
                                             </ControlledDropdown>
 
                                             <ControlledDropdown
                                                 label={__("Distribution")}
                                                 fieldName="distribution"
-                                                value={1}>
-                                                <option value="0">{__("Default")}</option>
-                                                <option value="1">{__("Malibu")}</option>
+                                                value={MapDistribution.Default}>
+                                                <option value={MapDistribution.Default}>{__("Default")}</option>
+                                                <option value={MapDistribution.Malibu}>{__("Malibu")}</option>
                                             </ControlledDropdown>
                                         </GridColumn>
                                     </GridRow>

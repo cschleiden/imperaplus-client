@@ -46,8 +46,10 @@ export class CountryInputField extends React.Component<ICountryInputFieldProps, 
     }
 
     componentWillReceiveProps(props: ICountryInputFieldProps) {
-        if (this._inputElement.value !== "") {
-            this._inputElement.value = props.value.toString(10);
+        const newValue = props.value.toString(10);
+
+        if (this._inputElement.value !== "" && this._inputElement.value !== newValue) {
+            this._inputElement.value = newValue;
         }
     }
 

@@ -52,7 +52,7 @@ export let store = Redux.createStore<IState>(
   } as IState,
   compose(
     Redux.applyMiddleware(
-      routerMiddleware(browserHistory),
+      routerMiddleware(browserHistory as any),
       loadingBarMiddleware({
         promiseTypeSuffixes: [pending(""), success(""), failed("")]
       }),

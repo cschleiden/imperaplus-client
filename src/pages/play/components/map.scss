@@ -46,6 +46,15 @@ $country-height: 24px;
     }
 }
 
+.map {
+    &.blocked {
+        &,
+        .country {
+            cursor: not-allowed;
+        }
+    }
+}
+
 .connections {
     path {
         stroke-width: 3px;
@@ -195,7 +204,6 @@ $input-country-animation-speed: 0.3s;
     text-align: center;
     font-size: 12px;
     outline: none;
-    
     z-index: 5000;
 }
 

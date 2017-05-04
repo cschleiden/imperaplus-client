@@ -13,6 +13,17 @@ export const play = <TPayload>(
     state = initialState,
     action?: IAction<TPayload>) => {
 
+    const userActions = [
+        Actions.SELECT_COUNTRY, 
+        Actions.SET_PLACE_UNITS,
+        Actions.SET_ACTION_UNITS
+    ];
+
+    if (state.data.operationInProgress && action && userActions.some(a => a === action.type)) {
+        // No input allowed while operation is in progress
+        return state;
+    }
+
     return reducerMap(action, state, {
         [Actions.TOGGLE_SIDEBAR]: ActionHandlers.toggleSidebar,
         [success(Actions.SWITCH_GAME)]: ActionHandlers.switchGame,

@@ -39,8 +39,8 @@ const surrender = (state: IMyGamesState, action: IAction<GameSummary>) => {
 
 const remove = (state: IMyGamesState, action: IAction<GameSummary>) => {
     const game = action.payload;
-
-    return state.remove(x => x.games[game.id]);
+    const { [game.id]: _, ...newGames } = state.data.games;
+    return state.set(x => x.games, newGames);
 };
 
 export const games = <TPayload>(

@@ -135,7 +135,8 @@ export const selectCountry = (state: IPlayState, action: IAction<string>) => {
             case PlayState.PlaceUnits: {
                 if (placeCountries[countryIdentifier]) {
                     // Country was selected, de-select
-                    return state.remove(x => x.placeCountries[countryIdentifier]);
+                    const { [countryIdentifier]: _, ...newPlaceCountries } = placeCountries;
+                    return state.set(x => x.placeCountries, newPlaceCountries);
                 }
 
                 // Select country
@@ -152,7 +153,6 @@ export const selectCountry = (state: IPlayState, action: IAction<string>) => {
 
             case PlayState.Attack:
             case PlayState.Move: {
-
                 if (countryIdentifier === null) {
                     return state.set(x => x.twoCountry, initialState.data.twoCountry);
                 }
@@ -275,33 +275,37 @@ export const updateFromResult = (state: IPlayState, action: IAction<GameActionRe
         .set(x => x.operationInProgress, false)
         .set(x => x.placeCountries, {})
         .set(x => x.twoCountry, initialState.data.twoCountry)
-        .update(x => x.game, game => {
-            game.state = result.state;
-            game.playState = result.playState;
-            game.currentPlayer = result.currentPlayer;
-            game.attacksInCurrentTurn = result.attacksInCurrentTurn;
-            game.movesInCurrentTurn = result.movesInCurrentTurn;
-            game.currentPlayer = result.currentPlayer;
-            game.unitsToPlace = result.unitsToPlace;
+        .merge(x => x.game, {
+            state: result.state,
+            playState: result.playState,
+            currentPlayer: result.currentPlayer,
+            attacksInCurrentTurn: result.attacksInCurrentTurn,
+            movesInCurrentTurn: result.movesInCurrentTurn,
+            unitsToPlace: result.unitsToPlace
+        })
+        .update(x => x.game.map, map => {
+            let newMap = {
+                countries: map.countries.slice(0)
+            };
 
             // Apply map updates
             const countryUpdates = countriesToMap(result.countryUpdates);
 
-            for (let i = 0; i < game.map.countries.length; ++i) {
-                const country = game.map.countries[i];
+            for (let i = 0; i < newMap.countries.length; ++i) {
+                const country = newMap.countries[i];
                 const countryUpdate = countryUpdates[country.identifier];
                 if (countryUpdate) {
-                    game.map.countries.splice(i, 1, countryUpdate);
+                    newMap.countries.splice(i, 1, countryUpdate);
                     delete countryUpdates[country.identifier];
-                }                
+                }
             }
 
             // Add remaining countries
             for (const identifier of Object.keys(countryUpdates)) {
-                game.map.countries.push(countryUpdates[identifier]);
+                newMap.countries.push(countryUpdates[identifier]);
             }
 
-            return game;
+            return newMap;
         })
         .set(x => x.game.teams, result.teams)
         .merge(x => x.player, getPlayerFromTeams(result.teams, currentUserId));

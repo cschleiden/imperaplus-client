@@ -31,6 +31,7 @@ interface IMapProps {
     mapTemplate: MapTemplateCacheEntry;
     placeCountries: { [id: string]: number };
     twoCountry: ITwoCountry;
+    operationInProgress: boolean;
 
     selectCountry: (countryIdentifier: string) => void;
     setUnits: (countryIdentifier: string, units: number) => void;
@@ -86,9 +87,13 @@ class Map extends React.Component<IMapProps, IMapState> {
     }
 
     render(): JSX.Element {
-        const { mapTemplate, historyTurn } = this.props;
+        const { mapTemplate, historyTurn, operationInProgress } = this.props;
 
-        return <div className="map" onClick={this._onClick} onMouseMove={this._onMouseMove}>
+        return <div className={css(
+            "map",
+            {
+                "blocked": operationInProgress
+            })} onClick={this._onClick} onMouseMove={this._onMouseMove}>
             {mapTemplate && <img src={mapTemplate.image} className="map" />}
             {mapTemplate && this._renderCountries()}
             {historyTurn && mapTemplate && this._renderHistory(mapTemplate, historyTurn.actions)}
@@ -335,7 +340,11 @@ class Map extends React.Component<IMapProps, IMapState> {
     }
 
     private _onCountryClick(countryIdentifier: string) {
-        const { twoCountry } = this.props;
+        const { operationInProgress, twoCountry } = this.props;
+
+        if (operationInProgress) {
+            return;
+        }
 
         if (!!twoCountry.originCountryIdentifier && !!twoCountry.destinationCountryIdentifier) {
             this._performAction();
@@ -458,14 +467,15 @@ class Map extends React.Component<IMapProps, IMapState> {
 }
 
 export default connect((state: IState) => {
-    const { placeCountries, twoCountry, mapTemplate, historyTurn } = state.play.data;
+    const { placeCountries, twoCountry, mapTemplate, historyTurn, operationInProgress } = state.play.data;
 
     return {
         game: game(state.play),
         historyTurn,
         mapTemplate: mapTemplate,
         placeCountries: placeCountries,
-        twoCountry: twoCountry
+        twoCountry: twoCountry,
+        operationInProgress
     };
 }, (dispatch) => ({
     selectCountry: (countryIdentifier: string) => { dispatch(selectCountry(countryIdentifier)); },
