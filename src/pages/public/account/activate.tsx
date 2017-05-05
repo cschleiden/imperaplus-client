@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 
 import { Grid, GridRow, GridColumn } from "../../../components/layout";
 import { activate } from "../../../common/session/session.actions";
+import { Spinner } from "../../../components/ui/spinner";
 
 interface IActivateProps {
     params: {
@@ -10,18 +11,14 @@ interface IActivateProps {
         code: string;
     };
 
-    dispatch: Function;
+    activate: (userId: string, code: string) => void;
 }
 
 class ActivateComponent extends React.Component<IActivateProps, void> {
     public componentDidMount() {
         const { params } = this.props;
 
-        // TODO: CS: Show indicator while activating
-        this.props.dispatch(activate({
-            userId: params.userId,
-            code: params.code
-        }));
+        this.props.activate(params.userId, params.code);
     }
 
     public render() {
@@ -29,10 +26,10 @@ class ActivateComponent extends React.Component<IActivateProps, void> {
             <GridRow>
                 <GridColumn className="col-xs-12">
                     <h1>
-                        {__("Activate account")}
+                        {__("Activating account")}
                     </h1>
-                    <p>
-                        {__("Your account has been successfully activated.")}
+                    <p className="text-align">
+                        <Spinner />
                     </p>
                 </GridColumn>
             </GridRow>
@@ -40,6 +37,13 @@ class ActivateComponent extends React.Component<IActivateProps, void> {
     }
 }
 
-export default connect(state => ({}), {
+export default connect(state => ({
 
-})(ActivateComponent);
+}), (dispatch) => ({
+    activate: (userId: string, code: string) => {
+        dispatch(activate({
+            userId: userId,
+            code: code
+        }));
+    }
+}))(ActivateComponent);

@@ -61,21 +61,16 @@ export interface IConfirmInput {
     userId: string;
     code: string;
 }
-
-export const ACTIVATE = "activate";
-export const activate = makePromiseAction<IConfirmInput, void>((input, dispatch, getState, deps) =>
-    ({
-        type: ACTIVATE,
-        payload: {
-            promise: deps.getCachedClient(AccountClient).confirmEmail({
-                userId: input.userId,
-                code: input.code
-            }) as Promise<any>
-        },
-        options: {
-            useMessage: true
-        }
-    }));
+export const activate: IAsyncAction<IConfirmInput> = (input) => {
+    return (dispatch, getState, deps) => {
+        deps.getCachedClient(AccountClient).confirmEmail({
+            userId: input.userId,
+            code: input.code
+        }).then(() => {
+            dispatch(push("/activated"));
+        });
+    };
+};
 
 export interface IRefreshPayload {
     access_token: string;

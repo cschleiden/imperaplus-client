@@ -20,7 +20,7 @@ import adTag from "./components/commercial/adtag";
 import Breadcrumbs from "./components/ui/breadcrumbs";
 
 // Public
-import { Home, Signup, SignupConfirmation, Login, TOS, Activate } from "./pages/public";
+import { Home, Signup, SignupConfirmation, Login, TOS, Activate, Activated } from "./pages/public";
 
 // Game
 import GameLayout from "./components/layouts/game";
@@ -74,7 +74,9 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
 
                         <Route path="signup" component={Signup} />
                         <Route path="signup/confirmation" component={SignupConfirmation} />
+                        
                         <Route path="activate/:userId/:code" component={Activate} />
+                        <Route path="activated" component={Activated} />
 
                         <Route path="login" component={Login} />
 
