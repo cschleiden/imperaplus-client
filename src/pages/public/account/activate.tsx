@@ -28,9 +28,8 @@ class ActivateComponent extends React.Component<IActivateProps, void> {
                     <h1>
                         {__("Activating account")}
                     </h1>
-                    <p className="text-align">
-                        <Spinner />
-                    </p>
+                    
+                    <Spinner className="center-block" />
                 </GridColumn>
             </GridRow>
         </Grid>;
