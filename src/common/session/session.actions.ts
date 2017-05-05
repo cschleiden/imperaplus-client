@@ -57,20 +57,6 @@ export const login = makePromiseAction<ILoginInput, ILoginPayload>((input, dispa
         }
     }));
 
-export interface IConfirmInput {
-    userId: string;
-    code: string;
-}
-export const activate: IAsyncAction<IConfirmInput> = (input) => {
-    return (dispatch, getState, deps) => {
-        deps.getCachedClient(AccountClient).confirmEmail({
-            userId: input.userId,
-            code: input.code
-        }).then(() => {
-            dispatch(push("/activated"));
-        });
-    };
-};
 
 export interface IRefreshPayload {
     access_token: string;
@@ -127,5 +113,50 @@ export const signup = makePromiseAction<ISignupInput, void>((input, dispatch, ge
         options: {
             useMessage: true,
             afterSuccess: d => d(replace("signup/confirmation"))
+        }
+    }));
+
+
+export const RECOVER = "signup";
+export interface IRecoverInput {
+    username: string;
+    email: string;
+}
+export const recover = makePromiseAction<IRecoverInput, void>((input, dispatch, getState, deps) =>
+    ({
+        type: SIGNUP,
+        payload: {
+            promise: deps.getCachedClient(AccountClient).forgotPassword({
+                userName: input.username,
+                email: input.email,
+                language: getState().session.data.language,
+                callbackUrl: `${baseUri}/recover/userId/code`
+            }).then<void>(null)
+        },
+        options: {
+            useMessage: true,
+            afterSuccess: d => d(replace("recover/confirmation"))
+        }
+    }));
+
+
+
+export interface IConfirmInput {
+    userId: string;
+    code: string;
+}
+export const ACTIVATE = "session-activate";
+export const activate = makePromiseAction<IConfirmInput, void>((input, dispatch, getState, deps) =>
+    ({
+        type: ACTIVATE,
+        payload: {
+            promise: deps.getCachedClient(AccountClient).confirmEmail({
+                userId: input.userId,
+                code: input.code
+            }).then<void>(null)
+        },
+        options: {
+            useMessage: true,
+            afterSuccess: d => d(replace("/activated"))
         }
     }));

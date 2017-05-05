@@ -160,7 +160,8 @@ export class ControlledDropdown extends React.Component<FormControlProps & ICont
     public render() {
         return <FormGroup controlId={this._id}>
             <ControlLabel>{this.props.label}</ControlLabel>
-            <FormControl componentClass="select"
+            <FormControl
+                componentClass="select"
                 {...this.props}
                 onChange={(ev) => {
                     const inputElement = ev.target as HTMLSelectElement;

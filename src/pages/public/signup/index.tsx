@@ -87,7 +87,7 @@ export class SignupComponent extends React.Component<ISignupProps, void> {
                                     label={__("I agree to the TOS")}
                                     fieldName="accepttos" />
 
-                                <div className="ms-u-textAlignRight">
+                                <div>
                                     <ProgressButton
                                         type="submit"
                                         disabled={!this._formValid(formState)}

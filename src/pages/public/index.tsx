@@ -5,5 +5,6 @@ import Home from "./home";
 import TOS from "./tos";
 import Activate from "./account/activate";
 import Activated from "./account/activated";
+import Recover from "./account/recover";
 
-export { Home, Login, Signup, SignupConfirmation, TOS, Activate, Activated };
+export { Home, Login, Signup, SignupConfirmation, TOS, Activate, Activated, Recover };
