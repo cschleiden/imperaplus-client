@@ -375,13 +375,15 @@ class Map extends React.Component<IMapProps, IMapState> {
 
     @autobind
     private _onKeyUp(ev: React.KeyboardEvent<HTMLInputElement>) {
+        var countryInput = ev.target as HTMLInputElement;
+        var countryIdentifier = countryInput.classList.contains("input-country-field") ? countryInput.classList[1] : null;
         switch (ev.keyCode) {
             case KeyBindings.SUBMIT_ACTION:
                 this._performAction();
                 break;
 
             case KeyBindings.ABORT:
-                this.props.selectCountry(null);
+                this.props.selectCountry(countryIdentifier);
                 break;
         }
     }

@@ -36,6 +36,7 @@ export class CountryInputField extends React.Component<ICountryInputFieldProps, 
             <input
                 type="number"
                 min={1}
+                className={`input-country-field ${this.props.countryTemplate.identifier}`}
                 defaultValue={value.toString(10)}
                 onKeyUp={this._onKeyUp}
                 onChange={this._onChange}
