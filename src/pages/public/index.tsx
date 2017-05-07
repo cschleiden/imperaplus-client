@@ -1,10 +1,25 @@
-import Signup from "./signup";
-import SignupConfirmation from "./signup/confirmation";
-import Login from "./login";
-import Home from "./home";
-import TOS from "./tos";
 import Activate from "./account/activate";
 import Activated from "./account/activated";
-import Recover from "./account/recover";
+import Reset from "./account/reset";
+import ResetConfirmation from "./account/resetConfirm";
+import ResetDone from "./account/resetDone";
+import ResetTriggered from "./account/resetTriggered";
+import Home from "./home";
+import Login from "./login";
+import Signup from "./signup";
+import SignupConfirmation from "./signup/confirmation";
+import TOS from "./tos";
 
-export { Home, Login, Signup, SignupConfirmation, TOS, Activate, Activated, Recover };
+export {
+    Home,
+    Login,
+    Signup,
+    SignupConfirmation,
+    TOS,
+    Activate,
+    Activated,
+    Reset,
+    ResetTriggered,
+    ResetDone,
+    ResetConfirmation
+};

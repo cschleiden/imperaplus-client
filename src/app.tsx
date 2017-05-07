@@ -1,56 +1,58 @@
 import "./styles/index.scss";
 
 import * as React from "react";
-import * as Redux from "redux";
 import { Provider } from "react-redux";
+import * as Redux from "redux";
 import { IState } from "./reducers";
 
-import { Router, Route, IndexRoute } from "react-router";
+import { IndexRoute, Route, Router } from "react-router";
 
 import { clear } from "./common/message/message.actions";
 
 // Components
+import adTag from "./components/commercial/adtag";
+import ChatLayout from "./components/layouts/chat";
 import MainLayout from "./components/layouts/main";
 import PlayLayout from "./components/layouts/play";
 import PublicLayout from "./components/layouts/public";
-import PublicNav from "./components/navigation/public";
 import Game from "./components/navigation/game";
-import ChatLayout from "./components/layouts/chat";
-import adTag from "./components/commercial/adtag";
+import PublicNav from "./components/navigation/public";
 import Breadcrumbs from "./components/ui/breadcrumbs";
 
 // Public
-import { Home, Signup, SignupConfirmation, Login, TOS, Activate, Activated, Recover } from "./pages/public";
+import {
+    Activate, Activated, Home, Login, Reset, ResetConfirmation, ResetDone, ResetTriggered, Signup, SignupConfirmation, TOS
+} from "./pages/public";
 
 // Game
 import GameLayout from "./components/layouts/game";
 import GameNav from "./components/navigation/game";
-import Start from "./pages/start";
-import My from "./pages/games/games";
 import Create from "./pages/create/create";
+import My from "./pages/games/games";
 import Join from "./pages/join/fun";
 import Ladders from "./pages/join/ladders";
-import Tournaments from "./pages/tournaments/tournaments";
+import Start from "./pages/start";
 import Tournament from "./pages/tournaments/tournament";
+import Tournaments from "./pages/tournaments/tournaments";
 
 // Play
 import Play from "./pages/play/play";
 
 // Alliances
-import CreateAlliance from "./pages/alliance/create";
 import AllianceAdmin from "./pages/alliance/admin";
-import JoinAlliance from "./pages/alliance/join";
+import CreateAlliance from "./pages/alliance/create";
 import AllianceInfo from "./pages/alliance/info";
+import JoinAlliance from "./pages/alliance/join";
 
 // messages
-import Messages from "./pages/messages/messages";
-import Message from "./pages/messages/message";
 import Compose from "./pages/messages/compose";
+import Message from "./pages/messages/message";
+import Messages from "./pages/messages/messages";
 
 // profile
-import UserProfile from "./pages/profile/profile";
-import { autobind } from "./lib/autobind";
 import { baseUri } from "./configuration";
+import { autobind } from "./lib/autobind";
+import UserProfile from "./pages/profile/profile";
 
 
 function checkLoggedIn(store: Redux.Store<IState>, nextState, replace) {
@@ -79,8 +81,12 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
                         <Route path="activate/:userId/:code" component={Activate} />
                         <Route path="activated" component={Activated} />
 
-                        {/* Recover account */}
-                        <Route path="recover" component={Recover} />
+                        {/* Reset password */}
+                        <Route path="reset" component={Reset} />
+                        <Route path="reset/triggered" component={ResetTriggered} />
+
+                        <Route path="reset/:userId/:code" component={ResetConfirmation} />
+                        <Route path="reset/done" component={ResetDone} />
 
                         <Route path="login" component={Login} />
 

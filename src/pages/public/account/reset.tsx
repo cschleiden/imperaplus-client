@@ -1,36 +1,31 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { push } from "react-router-redux";
-
-import { recover } from "../../../common/session/session.actions";
-
-import { ProgressButton } from "../../../components/ui/progressButton";
-import { Grid, GridRow, GridColumn } from "../../../components/layout";
-
 import Form from "../../../common/forms/form";
 import { ControlledTextField } from "../../../common/forms/inputs";
+import { resetTrigger } from "../../../common/session/session.actions";
+import { Grid, GridColumn, GridRow } from "../../../components/layout";
+import { ProgressButton } from "../../../components/ui/progressButton";
+import { Title } from "../../../components/ui/typography";
 import { setDocumentTitle } from "../../../lib/title";
 
-interface IRecoverProps {
-}
-
-export class RecoverComponent extends React.Component<IRecoverProps, void> {
+export default class ResetComponent extends React.Component<void, void> {
     public componentDidMount() {
-        setDocumentTitle(__("Recover account"));
+        setDocumentTitle(__("Reset password"));
     }
 
     public render(): JSX.Element {
         return <Grid className="recover">
             <GridRow>
                 <GridColumn className="col-xs-12">
-                    <p>
-                        {__("Recover your password.")}
-                    </p>
+                    <Title>
+                        {__("Reset password")}
+                    </Title>
 
                     <Form
                         name="recover"
                         onSubmit={((formState, options) => {
-                            return recover({
+                            return resetTrigger({
                                 username: formState.getFieldValue("username"),
                                 email: formState.getFieldValue("email")
                             }, options);
@@ -68,5 +63,3 @@ export class RecoverComponent extends React.Component<IRecoverProps, void> {
             && formState.getFieldValue("email");
     }
 }
-
-export default connect(state => ({}), {})(RecoverComponent);

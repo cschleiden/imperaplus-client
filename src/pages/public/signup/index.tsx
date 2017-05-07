@@ -12,8 +12,8 @@ import { ErrorCodes } from "../../../i18n/errorCodes";
 import { signup } from "../../../common/session/session.actions";
 
 import { Button } from "react-bootstrap";
+import { Grid, GridColumn, GridRow } from "../../../components/layout";
 import { ProgressButton } from "../../../components/ui/progressButton";
-import { Grid, GridRow, GridColumn } from "../../../components/layout";
 
 import Form from "../../../common/forms/form";
 import { ControlledCheckBox, ControlledTextField } from "../../../common/forms/inputs";
@@ -81,7 +81,7 @@ export class SignupComponent extends React.Component<ISignupProps, void> {
                                         if (form.getFieldValue("password") !== value) {
                                             return __("Passwords do not match");
                                         }
-                                    } }
+                                    }}
                                     required={true} />
                                 <ControlledCheckBox
                                     label={__("I agree to the TOS")}
@@ -117,7 +117,7 @@ export class SignupComponent extends React.Component<ISignupProps, void> {
             <GridRow className="text-center">
                 <GridColumn className="col-xs-12">
                     {LinkString({
-                        link: __("[Recover](/recover) your password or [create](/signup) a new account.")
+                        link: __("[Reset](/reset) your password or [create](/signup) a new account.")
                     })}
                 </GridColumn>
             </GridRow>
@@ -132,7 +132,7 @@ export class SignupComponent extends React.Component<ISignupProps, void> {
 
     private _onSubmitSucess = () => {
         this.props.dispatch(push("signup/confirmation"));
-     }
+    }
 }
 
 export default connect(state => ({}), {})(SignupComponent);

@@ -1,15 +1,14 @@
 import {
-    GameActionResult, ActionResult, PlayState, GameChatMessage, HistoryTurn, Game, ErrorResponse
+    ActionResult, ErrorResponse, Game, GameActionResult, GameChatMessage, HistoryTurn, PlayState
 } from "../../../external/imperaClients";
 import { IAction } from "../../../lib/action";
-import {
-    ISetPlaceUnitsPayload, ISwitchGamePayload, IGameChatMessagesPayload
-} from "../play.actions";
-import { UserProvider } from "../../../services/userProvider";
+import { countriesToMap, getPlayer, getPlayerFromTeams, getTeam } from "../../../lib/game/utils";
 import { isEmptyGuid } from "../../../lib/guid";
-import { getPlayer, countriesToMap, getTeam, getPlayerFromTeams } from "../../../lib/game/utils";
-
-import { IPlayState, ITwoCountry, initialState } from "./play.reducer.state";
+import { UserProvider } from "../../../services/userProvider";
+import {
+    IGameChatMessagesPayload, ISetPlaceUnitsPayload, ISwitchGamePayload
+} from "../play.actions";
+import { initialState, IPlayState, ITwoCountry } from "./play.reducer.state";
 import { inputActive } from "./play.selectors";
 
 //

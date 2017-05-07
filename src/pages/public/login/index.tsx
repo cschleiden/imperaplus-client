@@ -68,7 +68,7 @@ class LoginComponent extends React.Component<{}, void> {
                 <GridColumn className="col-md-6 col-xs-12 external">
                     <p>
                         {__("...or with an external account.")}
-                </p>
+                    </p>
 
                     <ul className="list-unstyled">
                         <li>
@@ -84,7 +84,7 @@ class LoginComponent extends React.Component<{}, void> {
             <GridRow className="text-center">
                 <GridColumn className="col-xs-12">
                     {LinkString({
-                        link: __("[Recover](/recover) your password or [create](/signup) a new account.")
+                        link: __("[Reset](/reset) your password or [create](/signup) a new account.")
                     })}
                 </GridColumn>
             </GridRow>

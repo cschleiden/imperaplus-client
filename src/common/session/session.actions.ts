@@ -3,8 +3,8 @@ import { IAction, IAsyncAction, makePromiseAction } from "../../lib/action";
 
 import { AccountClient, UserInfo } from "../../external/imperaClients";
 
-import { TokenProvider } from "../../services/tokenProvider";
 import { baseUri } from "../../configuration";
+import { TokenProvider } from "../../services/tokenProvider";
 
 const scope = "openid offline_access roles";
 
@@ -107,38 +107,61 @@ export const signup = makePromiseAction<ISignupInput, void>((input, dispatch, ge
                 confirmPassword: input.passwordConfirm,
                 email: input.email,
                 language: getState().session.data.language || "en",
-                callbackUrl: `${baseUri}/activate/userId/code`
+                callbackUrl: `${baseUri}activate/userId/code`
             })
         },
         options: {
             useMessage: true,
-            afterSuccess: d => d(replace("signup/confirmation"))
+            afterSuccess: d => d(replace("/signup/confirmation"))
         }
     }));
 
 
-export const RECOVER = "signup";
-export interface IRecoverInput {
+export const RESET_TRIGGER = "reset-trigger";
+export interface IResetTriggerInput {
     username: string;
     email: string;
 }
-export const recover = makePromiseAction<IRecoverInput, void>((input, dispatch, getState, deps) =>
+export const resetTrigger = makePromiseAction<IResetTriggerInput, void>((input, dispatch, getState, deps) =>
     ({
-        type: SIGNUP,
+        type: RESET_TRIGGER,
         payload: {
             promise: deps.getCachedClient(AccountClient).forgotPassword({
                 userName: input.username,
                 email: input.email,
                 language: getState().session.data.language,
-                callbackUrl: `${baseUri}/recover/userId/code`
+                callbackUrl: `${baseUri}reset/userId/code`
             }).then<void>(null)
         },
         options: {
             useMessage: true,
-            afterSuccess: d => d(replace("recover/confirmation"))
+            afterSuccess: d => d(replace("/reset/triggered"))
         }
     }));
 
+export const RESET = "reset";
+export interface IResetInput {
+    userId: string;
+    code: string;
+    password: string;
+    confirmPassword: string;
+}
+export const reset = makePromiseAction<IResetInput, void>((input, dispatch, getState, deps) =>
+    ({
+        type: RESET,
+        payload: {
+            promise: deps.getCachedClient(AccountClient).resetPassword({
+                userId: input.userId,
+                code: input.code,
+                password: input.password,
+                confirmPassword: input.confirmPassword
+            }).then<void>(null)
+        },
+        options: {
+            useMessage: true,
+            afterSuccess: d => d(replace("/reset/done"))
+        }
+    }));
 
 
 export interface IConfirmInput {
