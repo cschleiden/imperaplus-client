@@ -1,7 +1,7 @@
 import * as React from "react";
+import { CountryTemplate } from "../../../external/imperaClients";
 import { autobind } from "../../../lib/autobind";
 import { css } from "../../../lib/css";
-import { CountryTemplate } from "../../../external/imperaClients";
 
 export interface ICountryInputFieldProps {
     countryTemplate: CountryTemplate;

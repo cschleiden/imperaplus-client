@@ -1,28 +1,11 @@
 // Hot reloading
-import { AppContainer } from "react-hot-loader";
-
-// TODO: Move to scss
-/*loadTheme({
-  themeDarker: "#cfac1e",
-  themeDark: "#dfbb28",
-  themeDarkAlt: "#e3c23e",
-  themePrimary: "#e6c954",
-  themeSecondary: "#e9d06a",
-  themeTertiary: "#edd780",
-  themeLight: "#f3e5ad",
-  themeLighter: "#faf3d9",
-  themeLighterAlt: "#fdfaf0"
-});*/
-
 import * as React from "react";
 import { render, unmountComponentAtNode } from "react-dom";
-
-import { Router, Route, IndexRoute, browserHistory } from "react-router";
-import { syncHistoryWithStore, routerMiddleware } from "react-router-redux";
-
-import { TokenProvider } from "./services/tokenProvider";
-
+import { AppContainer } from "react-hot-loader";
+import { browserHistory, IndexRoute, Route, Router } from "react-router";
+import { routerMiddleware, syncHistoryWithStore } from "react-router-redux";
 import App from "./app";
+import { TokenProvider } from "./services/tokenProvider";
 import { store } from "./store";
 
 // Set token retriever for http clients from global state.
@@ -47,6 +30,7 @@ render(
 
 if (module.hot) {
   module.hot.accept(["./app"], () => {
+    // tslint:disable-next-line:no-require-imports
     const NextApp = (require("./app") as any).default;
     render(<AppContainer>
       <NextApp store={store} />

@@ -1,9 +1,8 @@
-import objectAssign = require("object-assign");
-
+import * as objectAssign from "object-assign";
+import { clear, MessageType, show } from "../common/message/message.actions";
 import { ErrorResponse } from "../external/imperaClients";
-import { IPromiseAction, IAsyncPayload, success, pending, failed } from "../lib/action";
-import { show, MessageType, clear } from "../common/message/message.actions";
 import { ErrorCodes } from "../i18n/errorCodes";
+import { failed, IAsyncPayload, IPromiseAction, pending, success } from "../lib/action";
 
 export default function promiseMiddleware({ dispatch }) {
     return next => <TResult, TData>(action: IPromiseAction<TResult, TData>) => {

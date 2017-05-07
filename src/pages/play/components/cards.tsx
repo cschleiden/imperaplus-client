@@ -1,6 +1,6 @@
 import * as React from "react";
-import { css } from "../../../lib/css";
 import { BonusCard } from "../../../external/imperaClients";
+import { css } from "../../../lib/css";
 
 const colors = {
     [BonusCard.A]: "green",

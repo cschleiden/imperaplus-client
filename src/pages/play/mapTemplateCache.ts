@@ -1,7 +1,7 @@
 
 import { getCachedClient } from "../../clients/clientFactory";
-import { MapClient, CountryTemplate, MapTemplate } from "../../external/imperaClients";
 import { imageBaseUri } from "../../configuration";
+import { CountryTemplate, MapClient, MapTemplate } from "../../external/imperaClients";
 
 export function getMapTemplate(name: string): Promise<MapTemplateCacheEntry> {
     if (mapTemplateCache[name]) {

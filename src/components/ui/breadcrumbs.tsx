@@ -1,8 +1,8 @@
 import * as React from "react";
-import { GridColumn } from "../layout";
-import { Title } from "./typography";
 import { connect } from "react-redux";
 import { IState } from "../../reducers";
+import { GridColumn } from "../layout";
+import { Title } from "./typography";
 
 interface IBreadcrumbProps {
     location: {

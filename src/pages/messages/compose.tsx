@@ -1,13 +1,13 @@
 import * as React from "react";
+import { ControlLabel, FormGroup } from "react-bootstrap";
 import { connect } from "react-redux";
-import { FormGroup, ControlLabel } from "react-bootstrap";
-import { GridRow, GridColumn } from "../../components/layout/index";
 import Form, { IFormState } from "../../common/forms/form";
-import { ProgressButton } from "../../components/ui/progressButton";
 import { ControlledTextField, ControlledUserPicker } from "../../common/forms/inputs";
-import { IState } from "../../reducers";
+import { GridColumn, GridRow } from "../../components/layout/index";
 import { UserPicker } from "../../components/misc/userPicker";
-import { SendMessage, Message } from "../../external/imperaClients";
+import { ProgressButton } from "../../components/ui/progressButton";
+import { Message, SendMessage } from "../../external/imperaClients";
+import { IState } from "../../reducers";
 import { sendMessage } from "./messages.actions";
 
 interface IOwnProps {

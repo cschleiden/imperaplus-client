@@ -1,7 +1,7 @@
-import { makeImmutable, IImmutable } from "immuts";
+import { IImmutable, makeImmutable } from "immuts";
 import reducerMap from "../../lib/reducerMap";
 
-import { IAction, success, pending, failed } from "../../lib/action";
+import { failed, IAction, pending, success } from "../../lib/action";
 import * as FormActions from "./forms.actions";
 
 export interface IForms {

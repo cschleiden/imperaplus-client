@@ -1,8 +1,8 @@
-import { makeImmutable, IImmutable } from "immuts";
+import { IImmutable, makeImmutable } from "immuts";
+import { GameState, GameSummary, GameType } from "../../external/imperaClients";
+import { failed, IAction, pending, success } from "../../lib/action";
 import reducerMap from "../../lib/reducerMap";
-import { GameSummary, GameType, GameState } from "../../external/imperaClients";
-import { IAction, success, pending, failed } from "../../lib/action";
-import { REFRESH, SURRENDER, REMOVE, LEAVE } from "./games.actions";
+import { LEAVE, REFRESH, REMOVE, SURRENDER } from "./games.actions";
 
 const initialState = makeImmutable({
     isLoading: false,

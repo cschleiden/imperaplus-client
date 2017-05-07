@@ -1,5 +1,5 @@
 import * as React from "react";
-import { GridRow, GridColumn } from "../layout";
+import { GridColumn, GridRow } from "../layout";
 
 /* STD AdTag */
 export const adTag = (props: React.Props<{}>): JSX.Element => {

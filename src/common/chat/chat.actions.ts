@@ -1,5 +1,5 @@
+import { ChannelInformation, ChatInformation, Message, UserChangeEvent } from "../../external/chatModel";
 import { IAction, IAsyncAction, IAsyncActionVoid, makePromiseAction } from "../../lib/action";
-import { ChatInformation, ChannelInformation, Message, UserChangeEvent } from "../../external/chatModel";
 
 export const START = "chat-start";
 export interface IStartPayload {

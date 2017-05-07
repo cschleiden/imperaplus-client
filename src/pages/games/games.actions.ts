@@ -1,6 +1,6 @@
+import { MessageType, show } from "../../common/message/message.actions";
+import { GameClient, GameSummary } from "../../external/imperaClients";
 import { IAction, makePromiseAction } from "../../lib/action";
-import { GameSummary, GameClient } from "../../external/imperaClients";
-import { show, MessageType } from "../../common/message/message.actions";
 
 export const REFRESH = "games-refresh";
 export const refresh = makePromiseAction<void, GameSummary[]>((input, dispatch, getState, deps) =>

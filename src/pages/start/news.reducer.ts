@@ -1,7 +1,7 @@
-import { makeImmutable, IImmutable } from "immuts";
-import reducerMap from "../../lib/reducerMap";
+import { IImmutable, makeImmutable } from "immuts";
 import { NewsClient, NewsItem } from "../../external/imperaClients";
-import { IAction, success, pending, failed } from "../../lib/action";
+import { failed, IAction, pending, success } from "../../lib/action";
+import reducerMap from "../../lib/reducerMap";
 import { REFRESH } from "./news.actions";
 
 const initialState = makeImmutable({

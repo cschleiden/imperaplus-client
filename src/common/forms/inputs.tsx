@@ -1,14 +1,11 @@
 import * as React from "react";
-
-import { IFormState, FormState } from "./form";
-import { resetForm, changeField } from "./forms.actions";
-import { IForms, IForm } from "./forms.reducer";
-
-import { FormGroup, ControlLabel, FormControl, FormControlProps, Checkbox, CheckboxProps } from "react-bootstrap";
-
-import { contextTypes, IFormContext } from "./types";
+import { Checkbox, CheckboxProps, ControlLabel, FormControl, FormControlProps, FormGroup } from "react-bootstrap";
 import { UserPicker } from "../../components/misc/userPicker";
 import { UserReference } from "../../external/imperaClients";
+import { FormState, IFormState } from "./form";
+import { changeField, resetForm } from "./forms.actions";
+import { IForm, IForms } from "./forms.reducer";
+import { contextTypes, IFormContext } from "./types";
 
 interface IControlledFieldProps {
     fieldName: string;

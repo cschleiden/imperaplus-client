@@ -1,15 +1,15 @@
 
 import * as React from "react";
 
-import { connect } from "react-redux";
-import { TournamentSummary, TournamentState, Tournament } from "../../external/imperaClients";
-import { Grid, GridRow, GridColumn } from "../../components/layout";
-import { HumanDate, HumanTime } from "../../components/ui/humanDate";
-import { Title, Section } from "../../components/ui/typography";
 import { Button, ButtonGroup } from "react-bootstrap";
+import { connect } from "react-redux";
+import { Grid, GridColumn, GridRow } from "../../components/layout";
+import { HumanDate, HumanTime } from "../../components/ui/humanDate";
+import { Section, Title } from "../../components/ui/typography";
+import { Tournament, TournamentState, TournamentSummary } from "../../external/imperaClients";
 
-import { IState } from "../../reducers";
 import { setDocumentTitle } from "../../lib/title";
+import { IState } from "../../reducers";
 import { TournamentBracket } from "./components/tournamentBracket";
 import { load } from "./tournaments.actions";
 

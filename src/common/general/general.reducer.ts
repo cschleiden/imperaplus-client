@@ -1,9 +1,9 @@
-import { makeImmutable, IImmutable } from "immuts";
+import { IImmutable, makeImmutable } from "immuts";
 import reducerMap from "../../lib/reducerMap";
 
-import { IAction } from "../../lib/action";
-import { OPEN_CLOSE, LOOKUP_SET, ILookupSetPayload } from "./general.actions";
 import { LOCATION_CHANGE } from "react-router-redux";
+import { IAction } from "../../lib/action";
+import { ILookupSetPayload, LOOKUP_SET, OPEN_CLOSE } from "./general.actions";
 
 const initialState = makeImmutable({
     isNavOpen: false,

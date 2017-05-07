@@ -5,16 +5,16 @@ import "./header.scss";
 import { connect } from "react-redux";
 import { push } from "react-router-redux";
 
-import Cards from "./cards";
-import { ButtonGroup, Button } from "react-bootstrap";
-import { IState } from "../../../reducers";
-import { exchange, attack, move, endAttack, place, endTurn, toggleSidebar, leave } from "../play.actions";
-import { autobind } from "../../../lib/autobind";
-import { Game, PlayState, Player } from "../../../external/imperaClients";
-import { css } from "../../../lib/css";
-import { ToggleButton } from "../../../components/ui/toggleButton";
-import { canPlace, inputActive, canMoveOrAttack, game } from "../reducer/play.selectors";
+import { Button, ButtonGroup } from "react-bootstrap";
 import { Spinner } from "../../../components/ui/spinner";
+import { ToggleButton } from "../../../components/ui/toggleButton";
+import { Game, Player, PlayState } from "../../../external/imperaClients";
+import { autobind } from "../../../lib/autobind";
+import { css } from "../../../lib/css";
+import { IState } from "../../../reducers";
+import { attack, endAttack, endTurn, exchange, leave, move, place, toggleSidebar } from "../play.actions";
+import { canMoveOrAttack, canPlace, game, inputActive } from "../reducer/play.selectors";
+import Cards from "./cards";
 
 interface IHeaderProps {
 }

@@ -4,18 +4,18 @@ import "./main.scss";
 import * as React from "react";
 import { connect } from "react-redux";
 import LoadingBar from "react-redux-loading-bar";
-import { Grid, GridRow, GridColumn, GridContainer } from "../layout";
+import { Grid, GridColumn, GridContainer, GridRow } from "../layout";
 
-import { clear, MessageType } from "../../common/message/message.actions";
 import { openCloseNav } from "../../common/general/general.actions";
+import { clear, MessageType } from "../../common/message/message.actions";
 import { setLanguage } from "../../common/session/session.actions";
 import { IState } from "../../reducers";
 
-import { Button, ButtonProps, DropdownButton, MenuItem, Alert, Modal, Glyphicon } from "react-bootstrap";
+import { Alert, Button, ButtonProps, DropdownButton, Glyphicon, MenuItem, Modal } from "react-bootstrap";
 
 import LinkString from "../../components/ui/strLink";
-import { getStyleForMessage } from "../../lib/message";
 import { UserInfo } from "../../external/imperaClients";
+import { getStyleForMessage } from "../../lib/message";
 
 interface ILanguageSelectorProps {
     selectedLanguage: string;

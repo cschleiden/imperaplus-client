@@ -1,15 +1,15 @@
 import * as React from "react";
 
-import { connect } from "react-redux";
-import { TournamentSummary, TournamentState } from "../../external/imperaClients";
-import { Grid, GridRow, GridColumn } from "../../components/layout";
-import { Title, Section } from "../../components/ui/typography";
-import { TournamentList } from "../../components/ui/games/tournamentList";
 import { Button, ButtonGroup } from "react-bootstrap";
+import { connect } from "react-redux";
+import { Grid, GridColumn, GridRow } from "../../components/layout";
+import { TournamentList } from "../../components/ui/games/tournamentList";
+import { Section, Title } from "../../components/ui/typography";
+import { TournamentState, TournamentSummary } from "../../external/imperaClients";
 
-import { IState } from "../../reducers";
-import { refresh, join } from "../tournaments/tournaments.actions";
 import { setDocumentTitle } from "../../lib/title";
+import { IState } from "../../reducers";
+import { join, refresh } from "../tournaments/tournaments.actions";
 
 export interface ITournamentGamesProps {
     refresh: () => void;

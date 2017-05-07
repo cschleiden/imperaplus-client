@@ -1,13 +1,13 @@
 import "./gameChat.scss";
 
 import * as React from "react";
+import { Button, Tab, Tabs } from "react-bootstrap";
 import { connect } from "react-redux";
-import { Tabs, Tab, Button } from "react-bootstrap";
-import { autobind } from "../../../lib/autobind";
 import HumanDate from "../../../components/ui/humanDate";
+import { GameChatMessage } from "../../../external/imperaClients";
+import { autobind } from "../../../lib/autobind";
 import { IState } from "../../../reducers";
 import { gameChatSendMessage } from "../play.actions";
-import { GameChatMessage } from "../../../external/imperaClients";
 
 interface IGameChatTabProps {
     messages: GameChatMessage[];

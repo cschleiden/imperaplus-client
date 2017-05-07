@@ -3,19 +3,19 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { IState } from "../../reducers";
 
-import { imageBaseUri } from "../../configuration";
-import { GridRow, GridColumn } from "../../components/layout";
-import { Title, Section, SubSection } from "../../components/ui/typography";
+import { GridColumn, GridRow } from "../../components/layout";
 import { ProgressButton } from "../../components/ui/progressButton";
 import LinkString from "../../components/ui/strLink";
+import { Section, SubSection, Title } from "../../components/ui/typography";
+import { imageBaseUri } from "../../configuration";
 
-import { Tabs, Tab, Image } from "react-bootstrap";
+import { Image, Tab, Tabs } from "react-bootstrap";
 
 import Form, { IFormState } from "../../common/forms/form";
-import { ControlledTextField, ControlledDropdown } from "../../common/forms/inputs";
+import { ControlledDropdown, ControlledTextField } from "../../common/forms/inputs";
 
-import { getMaps, create } from "./create.actions";
-import { MapTemplate, VisibilityModifierType, MapDistribution, VictoryConditionType } from "../../external/imperaClients";
+import { MapDistribution, MapTemplate, VictoryConditionType, VisibilityModifierType } from "../../external/imperaClients";
+import { create, getMaps } from "./create.actions";
 
 function getPlayerAndTeams() {
     let result: { key: string, text: string }[] = [];

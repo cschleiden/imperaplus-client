@@ -3,19 +3,19 @@ import * as React from "react";
 import "./map.scss";
 
 import { connect } from "react-redux";
-import { Game, PlayState, HistoryAction, HistoryEntry, HistoryTurn } from "../../../external/imperaClients";
-import { IState } from "../../../reducers";
-import { css } from "../../../lib/css";
+import { Game, HistoryAction, HistoryEntry, HistoryTurn, PlayState } from "../../../external/imperaClients";
 import { autobind } from "../../../lib/autobind";
-import { selectCountry, setPlaceUnits, setActionUnits, attack, move } from "../play.actions";
+import { css } from "../../../lib/css";
+import { IState } from "../../../reducers";
+import { attack, move, selectCountry, setActionUnits, setPlaceUnits } from "../play.actions";
 import { ITwoCountry } from "../reducer";
 
 // Used for displaying connections
 import "jsplumb";
+import { countriesToMap, getPlayerByPlayerId } from "../../../lib/game/utils";
 import { MapTemplateCacheEntry } from "../mapTemplateCache";
-import { CountryInputField } from "./countryInput";
-import { getPlayerByPlayerId, countriesToMap } from "../../../lib/game/utils";
 import { game } from "../reducer/play.selectors";
+import { CountryInputField } from "./countryInput";
 
 const KeyBindings = {
     "ABORT": 27, // Escape

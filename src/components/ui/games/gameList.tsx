@@ -2,14 +2,14 @@ import * as React from "react";
 
 import "./gameList.scss";
 
-import { GameSummary, PlayerSummary, GameState } from "../../../external/imperaClients";
+import { Button, Glyphicon, Table } from "react-bootstrap";
+import { IndexRoute, Link, Route, Router } from "react-router";
+import { GameState, GameSummary, PlayerSummary } from "../../../external/imperaClients";
+import { store } from "../../../store";
 import { HumanCountdown } from "../humanDate";
 import GameDetails from "./gameDetail";
-import { Table, Glyphicon, Button } from "react-bootstrap";
 import { GameStateDisplay } from "./gameState";
 import { PlayerOutcomeDisplay } from "./playerOutcome";
-import { store } from "../../../store";
-import { Router, Route, IndexRoute, Link } from "react-router";
 
 interface IGameListProps {
     games: GameSummary[];

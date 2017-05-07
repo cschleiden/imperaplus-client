@@ -1,8 +1,8 @@
-import { makeImmutable, IImmutable } from "immuts";
-import reducerMap from "../../lib/reducerMap";
+import { IImmutable, makeImmutable } from "immuts";
 import { FolderInformation, Message, MessageFolder } from "../../external/imperaClients";
-import { IAction, success, pending, failed } from "../../lib/action";
-import { DELETE, SWITCH_FOLDER, ISwitchFolderPayload, LOAD, LOAD_MESSAGE, OPEN_MESSAGE, MARK_READ } from "./messages.actions";
+import { failed, IAction, pending, success } from "../../lib/action";
+import reducerMap from "../../lib/reducerMap";
+import { DELETE, ISwitchFolderPayload, LOAD, LOAD_MESSAGE, MARK_READ, OPEN_MESSAGE, SWITCH_FOLDER } from "./messages.actions";
 
 const initialState = makeImmutable({
     isLoading: false,

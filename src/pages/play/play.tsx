@@ -1,19 +1,19 @@
 import "./play.scss";
 
 import * as React from "react";
-import { connect } from "react-redux";
 import { Alert } from "react-bootstrap";
+import { connect } from "react-redux";
 
+import { ErrorResponse, Game } from "../../external/imperaClients";
+import { ErrorCodes } from "../../i18n/errorCodes";
+import { autobind } from "../../lib/autobind";
+import { css } from "../../lib/css";
+import { setDocumentTitle } from "../../lib/title";
+import { IState } from "../../reducers";
 import Header from "./components/header";
 import Map from "./components/map";
 import Sidebar from "./components/sidebar";
-import { IState } from "../../reducers";
-import { switchGame, refreshGame } from "./play.actions";
-import { Game, ErrorResponse } from "../../external/imperaClients";
-import { setDocumentTitle } from "../../lib/title";
-import { css } from "../../lib/css";
-import { autobind } from "../../lib/autobind";
-import { ErrorCodes } from "../../i18n/errorCodes";
+import { refreshGame, switchGame } from "./play.actions";
 
 interface IPlayProps {
     params: {

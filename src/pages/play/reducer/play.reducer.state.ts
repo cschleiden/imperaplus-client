@@ -1,6 +1,6 @@
 import { makeImmutable } from "immuts";
 import {
-    GameSummary, Game, Player, GameChatMessage, HistoryTurn, ErrorResponse
+    ErrorResponse, Game, GameChatMessage, GameSummary, HistoryTurn, Player
 } from "../../../external/imperaClients";
 import { MapTemplateCacheEntry } from "../mapTemplateCache";
 

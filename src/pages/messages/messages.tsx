@@ -1,19 +1,19 @@
 import * as React from "react";
 
+import { Button, ButtonGroup } from "react-bootstrap";
 import { connect } from "react-redux";
 import { push } from "react-router-redux";
-import { Button, ButtonGroup } from "react-bootstrap";
-import { Grid, GridRow, GridColumn } from "../../components/layout";
-import { Title, Section } from "../../components/ui/typography";
+import { Grid, GridColumn, GridRow } from "../../components/layout";
+import { Section, Title } from "../../components/ui/typography";
 
-import { IState } from "../../reducers";
-import { setDocumentTitle } from "../../lib/title";
-import { FolderList } from "./components/FolderList";
+import { FolderInformation, Message, MessageFolder } from "../../external/imperaClients";
 import { autobind } from "../../lib/autobind";
-import { load, switchFolder, deleteMessage } from "./messages.actions";
-import { FolderInformation, MessageFolder, Message } from "../../external/imperaClients";
-import { MessageList } from "./components/MessageList";
+import { setDocumentTitle } from "../../lib/title";
+import { IState } from "../../reducers";
+import { FolderList } from "./components/FolderList";
 import { FolderName } from "./components/FolderName";
+import { MessageList } from "./components/MessageList";
+import { deleteMessage, load, switchFolder } from "./messages.actions";
 
 export interface IMessagesProps {
     init: () => void;

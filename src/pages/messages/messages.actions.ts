@@ -1,7 +1,7 @@
 import { push } from "react-router-redux";
-import { IAction, makePromiseAction, IAsyncAction } from "../../lib/action";
-import { Message, MessageFolder, MessageClient, SendMessage, FolderInformation } from "../../external/imperaClients";
-import { show, MessageType } from "../../common/message/message.actions";
+import { MessageType, show } from "../../common/message/message.actions";
+import { FolderInformation, Message, MessageClient, MessageFolder, SendMessage } from "../../external/imperaClients";
+import { IAction, IAsyncAction, makePromiseAction } from "../../lib/action";
 
 export const SWITCH_FOLDER = "messages-switch-folder";
 export interface ISwitchFolderPayload {

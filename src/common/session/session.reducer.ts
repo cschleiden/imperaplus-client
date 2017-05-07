@@ -1,9 +1,9 @@
-import { makeImmutable, IImmutable } from "immuts";
+import { IImmutable, makeImmutable } from "immuts";
 import reducerMap from "../../lib/reducerMap";
 
-import { IAction, success, pending, failed } from "../../lib/action";
-import { LOGIN, LOGOUT, REFRESH, EXPIRE, SET_LANGUAGE, ILoginPayload, IRefreshPayload } from "./session.actions";
 import { UserInfo } from "../../external/imperaClients";
+import { failed, IAction, pending, success } from "../../lib/action";
+import { EXPIRE, ILoginPayload, IRefreshPayload, LOGIN, LOGOUT, REFRESH, SET_LANGUAGE } from "./session.actions";
 
 const initialState = makeImmutable({
     access_token: null as string,

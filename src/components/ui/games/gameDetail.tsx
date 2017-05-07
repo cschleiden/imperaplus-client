@@ -2,18 +2,18 @@ import * as React from "react";
 
 import "./gameDetail.scss";
 
-import { connect } from "react-redux";
-import { store } from "../../../store";
-import { GameSummary, GameState, PlayerSummary, PlayerState, MapClient, GameType } from "../../../external/imperaClients";
-import { Grid, GridRow, GridColumn } from "../../../components/layout";
-import { HumanDate, HumanTime} from "../../../components/ui/humanDate";
-import { getCachedClient } from "../../../clients/clientFactory";
-import { imageBaseUri } from "../../../configuration";
-import { PlayerOutcomeDisplay } from "./playerOutcome";
-import { autobind } from "../../../lib/autobind";
 import { Button, Glyphicon, Image } from "react-bootstrap";
+import { connect } from "react-redux";
+import { getCachedClient } from "../../../clients/clientFactory";
+import { Grid, GridColumn, GridRow } from "../../../components/layout";
+import { HumanDate, HumanTime} from "../../../components/ui/humanDate";
+import { imageBaseUri } from "../../../configuration";
+import { GameState, GameSummary, GameType, MapClient, PlayerState, PlayerSummary } from "../../../external/imperaClients";
+import { autobind } from "../../../lib/autobind";
+import { hide, join, leave, remove, surrender } from "../../../pages/games/games.actions";
 import { IState } from "../../../reducers";
-import { remove, surrender, hide, leave, join } from "../../../pages/games/games.actions";
+import { store } from "../../../store";
+import { PlayerOutcomeDisplay } from "./playerOutcome";
 
 export interface IGameDetailsProps {
     game: GameSummary;

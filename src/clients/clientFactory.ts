@@ -1,8 +1,8 @@
-import { TokenProvider } from "../services/tokenProvider";
 import { baseUri } from "../configuration";
+import { TokenProvider } from "../services/tokenProvider";
 
-import { AccountClient, ErrorResponse } from "../external/imperaClients";
 import { SessionService } from "../common/session/session.service";
+import { AccountClient, ErrorResponse } from "../external/imperaClients";
 import jsonParseReviver from "../lib/jsonReviver";
 
 export interface IClient<TClient> {

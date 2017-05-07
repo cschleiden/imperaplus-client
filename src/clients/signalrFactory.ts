@@ -1,12 +1,12 @@
-import * as Q from "q";
 import * as $ from "jquery";
 import "ms-signalr-client";
+import * as Q from "q";
 
 import { SessionService } from "../common/session/session.service";
-import { TokenProvider } from "../services/tokenProvider";
 import { baseUri } from "../configuration";
 import jsonParseReviver from "../lib/jsonReviver";
 import { log } from "../lib/log";
+import { TokenProvider } from "../services/tokenProvider";
 
 const cachedClients: { [hubName: string]: ISignalRClient } = {};
 

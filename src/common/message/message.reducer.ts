@@ -1,8 +1,8 @@
-import { makeImmutable, IImmutable } from "immuts";
+import { IImmutable, makeImmutable } from "immuts";
 import reducerMap from "../../lib/reducerMap";
 
 import { IAction } from "../../lib/action";
-import { IMessage, MESSAGE_SHOW, MESSAGE_CLEAR } from "./message.actions"; 
+import { IMessage, MESSAGE_CLEAR, MESSAGE_SHOW } from "./message.actions"; 
 
 const initialState = makeImmutable({
     message: null

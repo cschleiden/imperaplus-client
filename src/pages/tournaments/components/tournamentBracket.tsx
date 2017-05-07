@@ -1,10 +1,9 @@
-import * as React from "react";
 import * as d3type from "d3";
-import { Tournament, TournamentPairing } from "../../../external/imperaClients";
-
-import "./tournamentBracket.scss";
 import { HierarchyPointNode } from "d3";
+import * as React from "react";
+import { Tournament, TournamentPairing } from "../../../external/imperaClients";
 import { css } from "../../../lib/css";
+import "./tournamentBracket.scss";
 
 export interface ITournamentBracketProps {
     tournament: Tournament;
@@ -54,6 +53,7 @@ export class TournamentBracket extends React.Component<ITournamentBracketProps, 
 
     public componentDidMount() {
         require.ensure(["d3"], require => {
+            // tslint:disable-next-line:no-require-imports
             const d3 = require("d3") as typeof d3type;
 
             const { pairings, width, height } = this.state;

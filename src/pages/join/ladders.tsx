@@ -2,16 +2,16 @@ import * as React from "react";
 
 import "../../components/ui/ladders.scss";
 
+import { Button, ButtonGroup, Glyphicon } from "react-bootstrap";
 import { connect } from "react-redux";
-import { LadderSummary } from "../../external/imperaClients";
-import { GridRow, GridColumn } from "../../components/layout";
-import { Title } from "../../components/ui/typography";
-import { Glyphicon, Button, ButtonGroup } from "react-bootstrap";
-import { autobind } from "../../lib/autobind";
+import { GridColumn, GridRow } from "../../components/layout";
 import { HumanTime } from "../../components/ui/humanDate";
-import { IState } from "../../reducers";
-import { refresh, join } from "../games/ladders.actions";
+import { Title } from "../../components/ui/typography";
+import { LadderSummary } from "../../external/imperaClients";
+import { autobind } from "../../lib/autobind";
 import { setDocumentTitle } from "../../lib/title";
+import { IState } from "../../reducers";
+import { join, refresh } from "../games/ladders.actions";
 
 export interface ILaddersProps {
     refresh: () => void;

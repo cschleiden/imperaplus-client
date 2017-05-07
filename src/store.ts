@@ -4,23 +4,23 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import { browserHistory } from "react-router";
 import { routerMiddleware } from "react-router-redux";
 
-import thunkMiddleware from "redux-thunk";
 import * as createLogger from "redux-logger";
+import thunkMiddleware from "redux-thunk";
 import promiseMiddleware from "./middleware/promise-middleware";
 
-import { IAsyncActionDependencies, pending, failed, success } from "./lib/action";
-import { getCachedClient, createClientWithToken, setOnUnauthorized } from "./clients/clientFactory";
+import { createClientWithToken, getCachedClient, setOnUnauthorized } from "./clients/clientFactory";
 import { getSignalRClient } from "./clients/signalrFactory";
+import { failed, IAsyncActionDependencies, pending, success } from "./lib/action";
 
 // Reducers
 import { makeImmutable } from "immuts";
 import rootReducer, { IState } from "./reducers";
 
+import { loadingBarMiddleware } from "react-redux-loading-bar";
 import { ISessionState } from "./common/session/session.reducer";
 import { SessionService } from "./common/session/session.service";
 import { debounce } from "./lib/debounce";
 import { UserProvider } from "./services/userProvider";
-import { loadingBarMiddleware } from "react-redux-loading-bar";
 
 // Create main store
 const compose = composeWithDevTools({

@@ -1,12 +1,12 @@
 import "./MessageList.scss"
 
 import * as React from "react";
-import { FolderInformation, MessageFolder, Message } from "../../../external/imperaClients";
-import { Table, Button } from "react-bootstrap";
-import { FolderName } from "./FolderName";
+import { Button, Table } from "react-bootstrap";
 import { HumanDate } from "../../../components/ui/humanDate";
-import { css } from "../../../lib/css";
+import { FolderInformation, Message, MessageFolder } from "../../../external/imperaClients";
 import { autobind } from "../../../lib/autobind";
+import { css } from "../../../lib/css";
+import { FolderName } from "./FolderName";
 
 export interface IMessageListProps {
     messages: Message[];

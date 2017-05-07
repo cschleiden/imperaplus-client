@@ -5,11 +5,11 @@ import { connect } from "react-redux";
 import { IState } from "../../reducers";
 
 import { ChannelInformation } from "../../external/chatModel";
-import { showHide, close, message, switchChannel } from "./chat.actions";
+import { close, message, showHide, switchChannel } from "./chat.actions";
 
 
-import { Grid, GridRow, GridColumn } from "../../components/layout";
 import { Button, FormControl } from "react-bootstrap";
+import { Grid, GridColumn, GridRow } from "../../components/layout";
 import { autobind } from "../../lib/autobind";
 
 interface IChatProps {

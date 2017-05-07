@@ -1,7 +1,7 @@
-import { IAction, makePromiseAction } from "../../lib/action";
-import { GameClient, GameCreationOptions, MapClient } from "../../external/imperaClients";
-import { show, MessageType } from "../../common/message/message.actions";
 import { lookupSet } from "../../common/general/general.actions";
+import { MessageType, show } from "../../common/message/message.actions";
+import { GameClient, GameCreationOptions, MapClient } from "../../external/imperaClients";
+import { IAction, makePromiseAction } from "../../lib/action";
 
 export const CREATE = "games-create";
 export const create = makePromiseAction<GameCreationOptions, void>((input, dispatch, getState, deps) =>

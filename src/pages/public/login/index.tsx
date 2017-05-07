@@ -7,10 +7,10 @@ import { login } from "../../../common/session/session.actions";
 
 import Form, { IFormState } from "../../../common/forms/form";
 
-import { ControlledCheckBox, ControlledTextField } from "../../../common/forms/inputs";
 import { Button } from "react-bootstrap";
+import { ControlledCheckBox, ControlledTextField } from "../../../common/forms/inputs";
+import { Grid, GridColumn, GridRow } from "../../../components/layout";
 import { ProgressButton } from "../../../components/ui/progressButton";
-import { Grid, GridRow, GridColumn } from "../../../components/layout";
 import LinkString from "../../../components/ui/strLink";
 import { setDocumentTitle } from "../../../lib/title";
 

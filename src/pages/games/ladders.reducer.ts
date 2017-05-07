@@ -1,8 +1,8 @@
-import { makeImmutable, IImmutable } from "immuts";
+import { IImmutable, makeImmutable } from "immuts";
+import { LadderStanding, LadderSummary } from "../../external/imperaClients";
+import { failed, IAction, pending, success } from "../../lib/action";
 import reducerMap from "../../lib/reducerMap";
-import { LadderSummary, LadderStanding } from "../../external/imperaClients";
-import { IAction, success, pending, failed } from "../../lib/action";
-import { REFRESH, JOIN } from "./ladders.actions";
+import { JOIN, REFRESH } from "./ladders.actions";
 
 const initialState = makeImmutable({
     isLoading: false,

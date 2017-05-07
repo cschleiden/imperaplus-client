@@ -1,14 +1,14 @@
 import * as React from "react";
 
-import { connect } from "react-redux";
-import { GameSummary, GameType } from "../../external/imperaClients";
-import { Grid, GridRow, GridColumn } from "../../components/layout";
-import { Title, Section } from "../../components/ui/typography";
 // import { Create } from "../../components/ui/alliance/information";
 import { Button, ButtonGroup } from "react-bootstrap";
+import { connect } from "react-redux";
+import { Grid, GridColumn, GridRow } from "../../components/layout";
+import { Section, Title } from "../../components/ui/typography";
+import { GameSummary, GameType } from "../../external/imperaClients";
 
-import { IState } from "../../reducers";
 import { setDocumentTitle } from "../../lib/title";
+import { IState } from "../../reducers";
 
 export interface IAllianceInfoProps {
     refresh: () => void;

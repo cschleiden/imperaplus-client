@@ -2,11 +2,11 @@ import * as React from "react";
 
 import "./tournamentList.scss";
 
+import { Glyphicon, Table } from "react-bootstrap";
+import { IndexRoute, Link, Route, Router } from "react-router";
 import { TournamentSummary } from "../../../external/imperaClients";
+import { Grid, GridColumn, GridRow } from "../../layout";
 import { HumanDate } from "../humanDate";
-import { Grid, GridRow, GridColumn } from "../../layout";
-import { Table, Glyphicon } from "react-bootstrap";
-import { Router, Route, IndexRoute, Link } from "react-router";
 
 
 interface ITournamentListProps {

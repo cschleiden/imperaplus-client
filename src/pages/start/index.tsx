@@ -3,13 +3,13 @@ import * as ReactMarkdown from "react-markdown";
 import { connect } from "react-redux";
 
 import { ProgressBar } from "react-bootstrap";
-import { UserInfo, NewsItem, NewsContent } from "../../external/imperaClients";
-import { Grid, GridRow, GridColumn } from "../../components/layout";
-import { Title, Section } from "../../components/ui/typography";
+import { Grid, GridColumn, GridRow } from "../../components/layout";
 import { HumanDate } from "../../components/ui/humanDate";
+import { Section, Title } from "../../components/ui/typography";
+import { NewsContent, NewsItem, UserInfo } from "../../external/imperaClients";
 
-import { refresh } from "./news.actions";
 import { setDocumentTitle } from "../../lib/title";
+import { refresh } from "./news.actions";
 
 export interface IStartProps {
     userInfo: UserInfo;

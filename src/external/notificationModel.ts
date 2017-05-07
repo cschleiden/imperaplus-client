@@ -1,4 +1,4 @@
-import { UserReference, GameChatMessage } from "./imperaClients";
+import { GameChatMessage, UserReference } from "./imperaClients";
 
 export enum NotificationType {
     PlayerTurn = 0,

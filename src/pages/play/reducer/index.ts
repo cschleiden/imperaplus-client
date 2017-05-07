@@ -1,7 +1,7 @@
 import reducerMap from "../../../lib/reducerMap";
 
-import { IPlayState, ITwoCountry, initialState } from "./play.reducer.state";
-import { IAction, success, pending, failed } from "../../../lib/action";
+import { failed, IAction, pending, success } from "../../../lib/action";
+import { initialState, IPlayState, ITwoCountry } from "./play.reducer.state";
 
 import * as Actions from "../play.actions";
 import * as ActionHandlers from "./play.reducer";

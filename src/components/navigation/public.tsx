@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Link, IndexLink } from "react-router";
+import { IndexLink, Link } from "react-router";
 
 export default (): JSX.Element => {
     return <ul className="nav">

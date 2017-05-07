@@ -1,15 +1,15 @@
 import * as React from "react";
 import { Button } from "react-bootstrap";
 import { connect } from "react-redux";
-import { HistoryAction, HistoryEntry, Player, HistoryTurn, Game } from "../../../external/imperaClients";
-import { MapTemplateCacheEntry } from "../mapTemplateCache";
 import { format } from "../../../components/ui/format";
-import { IState } from "../../../reducers";
-import { autobind } from "../../../lib/autobind";
-import { getPlayer, getPlayerByPlayerId } from "../../../lib/game/utils";
-import { historyTurn, historyExit } from "../play.actions";
 import { SubSection } from "../../../components/ui/typography";
+import { Game, HistoryAction, HistoryEntry, HistoryTurn, Player } from "../../../external/imperaClients";
+import { autobind } from "../../../lib/autobind";
 import { css } from "../../../lib/css";
+import { getPlayer, getPlayerByPlayerId } from "../../../lib/game/utils";
+import { IState } from "../../../reducers";
+import { MapTemplateCacheEntry } from "../mapTemplateCache";
+import { historyExit, historyTurn } from "../play.actions";
 
 export interface IGameHistoryEntryProps {
     game: Game;

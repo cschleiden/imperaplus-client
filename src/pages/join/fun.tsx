@@ -1,15 +1,15 @@
 import * as React from "react";
 
-import { connect } from "react-redux";
-import { GameSummary, GameType } from "../../external/imperaClients";
-import { Grid, GridRow, GridColumn } from "../../components/layout";
-import { Title, Section } from "../../components/ui/typography";
-import { GameList } from "../../components/ui/games/gameList";
 import { Button, ButtonGroup } from "react-bootstrap";
+import { connect } from "react-redux";
+import { Grid, GridColumn, GridRow } from "../../components/layout";
+import { GameList } from "../../components/ui/games/gameList";
+import { Section, Title } from "../../components/ui/typography";
+import { GameSummary, GameType } from "../../external/imperaClients";
 
+import { setDocumentTitle } from "../../lib/title";
 import { IState } from "../../reducers";
 import { refreshFun } from "../games/games.actions";
-import { setDocumentTitle } from "../../lib/title";
 
 export interface IFunGamesProps {
     refreshFun: () => void;

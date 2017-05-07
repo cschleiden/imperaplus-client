@@ -1,12 +1,10 @@
-import * as React from "react";
-
-import { connect } from "react-redux";
-import { FormGroup } from "react-bootstrap";
 import { IImmutable } from "immuts";
-
+import * as React from "react";
+import { FormGroup } from "react-bootstrap";
+import { connect } from "react-redux";
 import { IPromiseAction } from "../../lib/action";
-import { submitForm, FormMode, resetForm, changeField } from "./forms.actions";
-import { IForms, IForm } from "./forms.reducer";
+import { changeField, FormMode, resetForm, submitForm } from "./forms.actions";
+import { IForm, IForms } from "./forms.reducer";
 import { contextTypes, IFormContext } from "./types";
 
 /** User provided input */
@@ -43,7 +41,7 @@ class Form extends React.Component<IFormProps & IInternalFormProps, void> {
         };
     }
 
-    constructor(props: IFormProps & IInternalFormProps, context: any)  {
+    constructor(props: IFormProps & IInternalFormProps, context: any) {
         super(props, context);
 
         this.props.reset();

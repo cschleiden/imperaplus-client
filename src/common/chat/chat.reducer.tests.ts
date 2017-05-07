@@ -1,5 +1,5 @@
-import { chat, IChatState } from "./chat.reducer";
 import * as Actions from "./chat.actions";
+import { chat, IChatState } from "./chat.reducer";
 
 const channelId = "123";
 const testUser = "testUser";

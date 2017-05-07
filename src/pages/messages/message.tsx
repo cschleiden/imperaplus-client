@@ -1,17 +1,17 @@
 import "./message.scss";
 
 import * as React from "react";
+import { Button } from "react-bootstrap";
 import { connect } from "react-redux";
-import { GridRow, GridColumn } from "../../components/layout/index";
-import { SendMessage, Message } from "../../external/imperaClients";
-import { sendMessage, loadMessage, openMessage } from "./messages.actions";
-import { Section } from "../../components/ui/typography";
+import { push } from "react-router-redux";
+import { GridColumn, GridRow } from "../../components/layout/index";
 import { HumanDate } from "../../components/ui/humanDate";
 import { Spinner } from "../../components/ui/spinner";
+import { Section } from "../../components/ui/typography";
+import { Message, SendMessage } from "../../external/imperaClients";
 import { autobind } from "../../lib/autobind";
-import { Button } from "react-bootstrap";
 import { IState } from "../../reducers";
-import { push } from "react-router-redux";
+import { loadMessage, openMessage, sendMessage } from "./messages.actions";
 
 interface IMessageProps {
     params: {

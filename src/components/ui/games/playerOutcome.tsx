@@ -2,8 +2,8 @@ import * as React from "react";
 
 import "./playerOutcome.scss";
 
-import { css } from "../../../lib/css";
 import { PlayerOutcome } from "../../../external/imperaClients";
+import { css } from "../../../lib/css";
 
 export const PlayerOutcomeDisplay: React.StatelessComponent<{ outcome: PlayerOutcome }> = (props: { outcome: PlayerOutcome }): JSX.Element => {
     const { outcome} = props;

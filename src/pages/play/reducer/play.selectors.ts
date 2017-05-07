@@ -1,6 +1,6 @@
-import { IPlayState } from "./play.reducer.state";
-import { UserProvider } from "../../../services/userProvider";
 import { Game, GameState } from "../../../external/imperaClients";
+import { UserProvider } from "../../../services/userProvider";
+import { IPlayState } from "./play.reducer.state";
 
 export function game(state: IPlayState): Game {
     const { game, historyTurn } = state.data;

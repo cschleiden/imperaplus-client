@@ -1,7 +1,7 @@
 import * as React from "react";
+import { PlayerOutcomeDisplay } from "../../../components/ui/games/playerOutcome";
 import { Game, PlayerOutcome } from "../../../external/imperaClients";
 import { css } from "../../../lib/css";
-import { PlayerOutcomeDisplay } from "../../../components/ui/games/playerOutcome";
 
 export interface IGameStatsProps {
     game: Game;

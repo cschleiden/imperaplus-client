@@ -1,8 +1,8 @@
 import * as React from "react";
 
-import { Slider } from "./slider";
-import { GridRow, GridColumn } from "../../../components/layout";
+import { GridColumn, GridRow } from "../../../components/layout";
 import { setDocumentTitle } from "../../../lib/title";
+import { Slider } from "./slider";
 
 export default class Home extends React.Component<{}, void> {
     public componentDidMount() {
