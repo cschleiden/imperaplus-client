@@ -9,7 +9,7 @@ import { Table, Glyphicon, Button } from "react-bootstrap";
 import { GameStateDisplay } from "./gameState";
 import { PlayerOutcomeDisplay } from "./playerOutcome";
 import { store } from "../../../store";
-import { Router, Route, IndexRoute, Link } from "react-router";
+import { Link } from "react-router";
 
 interface IGameListProps {
     games: GameSummary[];
@@ -62,7 +62,7 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
             <th className="hidden-xs">{__("Teams/Players")}</th>
             <th className={`timer ${classSwitch}`}>{__("Time")}</th>
             <th className={`state ${classSwitch}`}>{__("State")}</th>
-            <th>&nbsp;</th>
+            <th />
         </tr>;
     }
 

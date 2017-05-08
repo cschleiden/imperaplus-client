@@ -3,11 +3,15 @@ import { autobind } from "../../../lib/autobind";
 import { css } from "../../../lib/css";
 import { CountryTemplate } from "../../../external/imperaClients";
 
+const KeyBindings = {
+    "ABORT": 27, // Escape
+    "SUBMIT_ACTION": 13 // Enter
+};
+
 export interface ICountryInputFieldProps {
     countryTemplate: CountryTemplate;
-
     value: number;
-
+    onKeyUp: (event) => void;
     onChange: (value: number) => void;
 }
 
@@ -32,7 +36,9 @@ export class CountryInputField extends React.Component<ICountryInputFieldProps, 
             <input
                 type="number"
                 min={1}
+                className={`input-country-field ${this.props.countryTemplate.identifier}`}
                 defaultValue={value.toString(10)}
+                onKeyUp={this._onKeyUp}
                 onChange={this._onChange}
                 onFocus={this._onFocus}
                 ref={this._resolveInputElement} />
@@ -60,6 +66,11 @@ export class CountryInputField extends React.Component<ICountryInputFieldProps, 
         if (!isNaN(newValue)) {
             this.props.onChange(newValue);
         }
+    }
+
+    @autobind
+    private _onKeyUp(ev: React.KeyboardEvent<HTMLInputElement>) {
+        this.props.onKeyUp(ev);
     }
 
     @autobind
