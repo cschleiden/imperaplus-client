@@ -155,7 +155,7 @@ class GameDetails extends React.Component<IGameDetailsProps & IGameDetailsDispat
         const { game } = this.props;
         const player = this._player();
 
-        return game.state === GameState.Open && !!player;
+        return game.state === GameState.Open && !!player && game.createdByUserId !== player.userId;
     }
 
     private _canDelete(): boolean {
