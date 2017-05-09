@@ -23,8 +23,6 @@ export interface IMyGamesProps {
 export class MyGamesComponent extends React.Component<IMyGamesProps, void> {
     public componentDidMount() {
         this.props.refresh();
-
-        setDocumentTitle(__("My Games"));
     }
 
     public render(): JSX.Element {

@@ -15,21 +15,18 @@ export interface ITournamentGamesProps {
     refresh: () => void;
 
     openTournaments: TournamentSummary[];
-    groupTournaments: TournamentSummary[];
-    knockoutTournaments: TournamentSummary[];
+    inProgressTournaments: TournamentSummary[];
     closedTournaments: TournamentSummary[];
 }
 
 export class TournamentsComponent extends React.Component<ITournamentGamesProps, void> {
     public componentDidMount() {
         this.props.refresh();
-
-        setDocumentTitle(__("Tournaments"));
     }
 
     public render(): JSX.Element {
         let open: JSX.Element[];
-        let group: JSX.Element[];
+        let inProgress: JSX.Element[];
         let knockout: JSX.Element[];
         let closed: JSX.Element[];
 
@@ -38,14 +35,9 @@ export class TournamentsComponent extends React.Component<ITournamentGamesProps,
             <TournamentList tournaments={this.props.openTournaments} key="open" />];
         }
 
-        if (this.props.groupTournaments.length > 0) {
-            group = [<Section key="group-title">{__("Running Groups")}</Section>,
-            <TournamentList tournaments={this.props.groupTournaments} key="group" />];
-        }
-
-        if (this.props.knockoutTournaments.length > 0) {
-            knockout = [<Section key="knockout-title">{__("Running Knockouts")}</Section>,
-            <TournamentList tournaments={this.props.knockoutTournaments} key="knockout" />];
+        if (this.props.inProgressTournaments.length > 0) {
+            inProgress = [<Section key="in-progres-title">{__("In Progress")}</Section>,
+            <TournamentList tournaments={this.props.inProgressTournaments} key="inprogress" />];
         }
 
         if (this.props.closedTournaments.length > 0) {
@@ -62,8 +54,7 @@ export class TournamentsComponent extends React.Component<ITournamentGamesProps,
                 </div>
 
                 {open}
-                {group}
-                {knockout}
+                {inProgress}
                 {closed}
             </div>
         </GridColumn>;
@@ -76,8 +67,7 @@ export default connect((state: IState) => {
 
     return {
         openTournaments: tournaments.filter(t => t.state === TournamentState.Open),
-        groupTournaments: tournaments.filter(t => t.state === TournamentState.Groups),
-        knockoutTournaments: tournaments.filter(t => t.state === TournamentState.Knockout),
+        inProgressTournaments: tournaments.filter(t => t.state === TournamentState.Groups || t.state === TournamentState.Knockout),
         closedTournaments: tournaments.filter(t => t.state === TournamentState.Closed)
     };
 }, (dispatch) => ({

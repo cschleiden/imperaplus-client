@@ -23,8 +23,6 @@ export interface ILaddersProps {
 export class LaddersComponent extends React.Component<ILaddersProps, void> {
     public componentDidMount() {
         this.props.refresh();
-
-        setDocumentTitle(__("Join Ladder"));
     }
 
     public render(): JSX.Element {
@@ -39,7 +37,7 @@ export class LaddersComponent extends React.Component<ILaddersProps, void> {
                 </div>
                 <div className="col-xs-12">{__("Here you can queue up for a new game in one of the available ladders.")}</div>
                 <GridColumn className="vertical-boxes col-xs-12">
-                  {rows}
+                    {rows}
                 </GridColumn>
             </div>
         </GridColumn>;

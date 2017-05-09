@@ -1,6 +1,4 @@
 $spin-duration: 1.3s;
-$spin-dimensions: 20px;
-
 @keyframes progress-spin {
     0% {
         transform: rotate(0deg);
@@ -10,15 +8,12 @@ $spin-dimensions: 20px;
     }
 }
 
-@mixin spinner() {
+@mixin spinner($spin-dimensions, $border) {
     &:before {
         content: "";
         display: inline-block;
         width: $spin-dimensions;
         height: $spin-dimensions;
-        position: absolute;
-        left: 10px;
-        top: 25%;
         box-sizing: border-box;
         border-radius: 50%;
         border: 2px solid white;
@@ -27,12 +22,18 @@ $spin-dimensions: 20px;
     }
 }
 
+$spinnerDefault: 20px;
+$spinnerLarge: 35px;
 .spinner {
-    @include spinner();
-
-    width: 25px;
-    height: 25px;
-    line-height: 25px;
-
+    @include spinner($spinnerDefault, 2px);
     position: relative;
+    width: $spinnerDefault;
+    height: $spinnerDefault;
+    line-height: $spinnerDefault;
+    &.large {
+        @include spinner($spinnerLarge, 3px);
+        width: $spinnerLarge;
+        height: $spinnerLarge;
+        line-height: $spinnerLarge;
+    }
 }

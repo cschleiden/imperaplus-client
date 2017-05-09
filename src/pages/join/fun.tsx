@@ -20,8 +20,6 @@ export interface IFunGamesProps {
 export class FunGamesComponent extends React.Component<IFunGamesProps, void> {
     public componentDidMount() {
         this.props.refreshFun();
-
-        setDocumentTitle(__("Open FunGames"));
     }
 
     public render(): JSX.Element {

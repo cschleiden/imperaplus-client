@@ -14,12 +14,6 @@ export interface IAllianceAdminProps {
 }
 
 export class AllianceAdminComponent extends React.Component<IAllianceAdminProps, void> {
-    public componentDidMount() {
-        // this.props.refresh();
-
-        setDocumentTitle(__("Alliance Admin"));
-    }
-
     public render(): JSX.Element {
         let alliances: JSX.Element[];
 

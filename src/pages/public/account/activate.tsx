@@ -2,7 +2,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { activate } from "../../../common/session/session.actions";
 import { Grid, GridColumn, GridRow } from "../../../components/layout";
-import { Spinner } from "../../../components/ui/spinner";
+import { Spinner, SpinnerSize } from "../../../components/ui/spinner";
 import { Title } from "../../../components/ui/typography";
 
 interface IActivateProps {
@@ -29,7 +29,7 @@ class ActivateComponent extends React.Component<IActivateProps, void> {
                         {__("Activating account")}
                     </Title>
 
-                    <Spinner className="center-block" />
+                    <Spinner className="center-block" size={SpinnerSize.Large} />
                 </GridColumn>
             </GridRow>
         </Grid>;

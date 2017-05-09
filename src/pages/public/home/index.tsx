@@ -5,10 +5,6 @@ import { setDocumentTitle } from "../../../lib/title";
 import { Slider } from "./slider";
 
 export default class Home extends React.Component<{}, void> {
-    public componentDidMount() {
-        setDocumentTitle(__("ImperaOnline"));
-    }
-
     public render() {
         return <div>
             <div>

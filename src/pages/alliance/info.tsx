@@ -15,12 +15,6 @@ export interface IAllianceInfoProps {
 }
 
 export class AllianceInfoComponent extends React.Component<IAllianceInfoProps, void> {
-    public componentDidMount() {
-        // this.props.refresh();
-
-        setDocumentTitle(__("Information about alliances"));
-    }
-
     public render(): JSX.Element {
         let alliances: JSX.Element[];
 

@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { ProgressBar } from "react-bootstrap";
 import { Grid, GridColumn, GridRow } from "../../components/layout";
 import { HumanDate } from "../../components/ui/humanDate";
-import { Section, Title } from "../../components/ui/typography";
+import { Section, SubSection, Title } from "../../components/ui/typography";
 import { NewsContent, NewsItem, UserInfo } from "../../external/imperaClients";
 
 import { setDocumentTitle } from "../../lib/title";
@@ -21,8 +21,6 @@ export interface IStartProps {
 export class StartComponent extends React.Component<IStartProps, void> {
     public componentDidMount() {
         this.props.refresh();
-
-        setDocumentTitle(__("News"));
     }
 
     public render(): JSX.Element {
@@ -48,10 +46,14 @@ export class StartComponent extends React.Component<IStartProps, void> {
             <GridColumn className="col-md-3">
                 <Section>{__("Tournaments")}</Section>
 
+                <SubSection>{__("Registration open")}</SubSection>
+
                 {__("Champion's Cup March")}
                 <div className="progress progress-xxs">
                     <ProgressBar now={80} />
                 </div>
+
+                <SubSection>{__("In Progress")}</SubSection>
 
                 {__("Champion's Cup March")}
                 <div className="progress progress-xxs">

@@ -16,6 +16,7 @@ import { Alert, Button, ButtonProps, DropdownButton, Glyphicon, MenuItem, Modal 
 import LinkString from "../../components/ui/strLink";
 import { UserInfo } from "../../external/imperaClients";
 import { getStyleForMessage } from "../../lib/message";
+import { Title } from "../ui/typography";
 
 interface ILanguageSelectorProps {
     selectedLanguage: string;
@@ -86,12 +87,16 @@ interface ILayoutProps {
     language: string;
     userInfo: UserInfo;
 
+    title: string;
+
     openCloseNav: (state: boolean) => void;
     setLanguage: (language: string) => void;
 }
 
 export class Layout extends React.Component<ILayoutProps, void> {
     public render(): JSX.Element {
+        const { title } = this.props;
+
         let msg: JSX.Element;
         if (!!this.props.message) {
             msg = <Alert
@@ -163,7 +168,11 @@ export class Layout extends React.Component<ILayoutProps, void> {
                 </GridRow>
 
                 <GridRow className="content">
-                    {this.props.breadcrumbs}
+                    {
+                        title && <GridColumn className="col-xs-12 main-title">
+                            <Title>{title}</Title>
+                        </GridColumn>
+                    }
 
                     {this.props.commercials}
 
@@ -173,7 +182,9 @@ export class Layout extends React.Component<ILayoutProps, void> {
                 </GridRow>
 
                 <GridRow className="footer">
-                    {isAdmin && <a href="/toadmin">ADMIN&nbsp;</a>}
+                    {isAdmin && <span>
+                        <a href="/toadmin">ADMIN</a> |
+                    </span>}
                     <a href="#">{__("Privacy Policy")}</a> | <a href="#">{__("Terms of Service")}</a> | <a href="#">User Voice</a> | <a href="http://impera.ruesken.de/">{__("Forum")}</a>
                 </GridRow>
             </GridContainer>
@@ -191,12 +202,18 @@ export class Layout extends React.Component<ILayoutProps, void> {
     }
 }
 
-export default connect((state: IState) => ({
-    message: state.message.data.message,
-    isNavOpen: state.general.data.isNavOpen,
-    language: state.session.data.language,
-    userInfo: state.session.data.userInfo
-}), (dispatch) => ({
+export default connect((state: IState) => {
+    const session = state.session.data;
+    const general = state.general.data;
+
+    return {
+        message: state.message.data.message,
+        isNavOpen: general.isNavOpen,
+        title: general.title,
+        language: session.language,
+        userInfo: session.userInfo,
+    };
+}, (dispatch) => ({
     clear: () => { dispatch(clear(null)); },
     openCloseNav: (state: boolean) => { dispatch(openCloseNav(state)); },
     setLanguage: (language: string) => { dispatch(setLanguage(language)); }

@@ -19,12 +19,6 @@ export interface IJoinAllianceProps {
 }
 
 export class JoinAllianceComponent extends React.Component<IJoinAllianceProps, void> {
-    public componentDidMount() {
-        // this.props.refreshAlliance();
-
-        setDocumentTitle(__("Join Alliance"));
-    }
-
     public render(): JSX.Element {
         let alliances: JSX.Element[];
 

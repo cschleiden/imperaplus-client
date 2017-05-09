@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 import * as Redux from "redux";
 import { IState } from "./reducers";
 
-import { IndexRoute, Route, Router } from "react-router";
+import { EnterHook, IndexRoute, Route, Router } from "react-router";
 
 import { clear } from "./common/message/message.actions";
 
@@ -17,7 +17,6 @@ import PlayLayout from "./components/layouts/play";
 import PublicLayout from "./components/layouts/public";
 import Game from "./components/navigation/game";
 import PublicNav from "./components/navigation/public";
-import Breadcrumbs from "./components/ui/breadcrumbs";
 
 // Public
 import {
@@ -50,10 +49,10 @@ import Message from "./pages/messages/message";
 import Messages from "./pages/messages/messages";
 
 // profile
+import { setTitle } from "./common/general/general.actions";
 import { baseUri } from "./configuration";
 import { autobind } from "./lib/autobind";
 import UserProfile from "./pages/profile/profile";
-
 
 function checkLoggedIn(store: Redux.Store<IState>, nextState, replace) {
     const state = store.getState();
@@ -72,62 +71,66 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
                 <Route component={MainLayout}>
                     {/* public */}
                     <Route path="/" components={{ nav: PublicNav, content: PublicLayout }}>
-                        <IndexRoute component={Home} />
+                        <IndexRoute component={Home}  {...this._title(__("")) } />
 
-                        <Route path="signup" component={Signup} />
-                        <Route path="signup/confirmation" component={SignupConfirmation} />
+                        <Route path="signup" component={Signup}  {...this._title(__("Signup")) } />
+                        <Route path="signup/confirmation" component={SignupConfirmation}  {...this._title(__("Signup")) } />
 
                         {/* Activate account */}
-                        <Route path="activate/:userId/:code" component={Activate} />
-                        <Route path="activated" component={Activated} />
+                        <Route path="activate/:userId/:code" component={Activate}  {...this._title(__("Activate Account")) } />
+                        <Route path="activated" component={Activated}  {...this._title(__("Account Activated")) } />
 
                         {/* Reset password */}
-                        <Route path="reset" component={Reset} />
-                        <Route path="reset/triggered" component={ResetTriggered} />
+                        <Route path="reset" component={Reset}  {...this._title(__("Reset Password")) } />
+                        <Route path="reset/triggered" component={ResetTriggered}  {...this._title(__("Reset Password")) } />
 
-                        <Route path="reset/:userId/:code" component={ResetConfirmation} />
-                        <Route path="reset/done" component={ResetDone} />
+                        <Route path="reset/:userId/:code" component={ResetConfirmation}  {...this._title(__("Password Reset")) } />
+                        <Route path="reset/done" component={ResetDone}  {...this._title(__("Password Reset")) } />
 
-                        <Route path="login" component={Login} />
+                        <Route path="login" component={Login}  {...this._title(__("Login")) } />
 
-                        <Route path="tos" component={TOS} />
+                        <Route path="tos" component={TOS}  {...this._title(__("Terms of Service")) } />
                     </Route>
                 </Route>
 
                 <Route component={ChatLayout} onEnter={checkLoggedIn.bind(this, this.props.store)}>
                     <Route component={MainLayout}>
                         { /* in game */}
-                        <Route path="/game" components={{ nav: Game, content: GameLayout, breadcrumbs: Breadcrumbs, commercials: adTag }}>
-                            <IndexRoute component={Start} />
+                        <Route path="/game" components={{
+                            nav: Game,
+                            content: GameLayout,
+                            commercials: adTag
+                        }}>
+                            <IndexRoute component={Start} {...this._title(__("News")) } />
 
                             <Route path="/game/games">
-                                <IndexRoute component={My} />
+                                <IndexRoute component={My} {...this._title(__("My Games")) } />
 
-                                <Route path="/game/games/create" component={Create} />
-                                <Route path="/game/games/join" component={Join} />
-                                <Route path="/game/games/ladders" component={Ladders} />
+                                <Route path="/game/games/create" component={Create} {...this._title(__("Create Game")) } />
+                                <Route path="/game/games/join" component={Join}  {...this._title(__("Join Game")) } />
+                                <Route path="/game/games/ladders" component={Ladders}  {...this._title(__("Ladders")) } />
                             </Route>
 
                             <Route path="/game/tournaments">
-                                <IndexRoute component={Tournaments} />
+                                <IndexRoute component={Tournaments} {...this._title(__("Tournaments")) } />
                                 <Route path="/game/tournaments/:id" component={Tournament} />
                             </Route>
 
                             <Route path="/game/alliance">
-                                <Route path="/game/alliance/create" component={CreateAlliance} />
-                                <Route path="/game/alliance/admin" component={AllianceAdmin} />
-                                <Route path="/game/alliance/info" component={AllianceInfo} />
-                                <Route path="/game/alliance/join" component={JoinAlliance} />
+                                <Route path="/game/alliance/create" component={CreateAlliance}  {...this._title(__("Create Alliance")) } />
+                                <Route path="/game/alliance/admin" component={AllianceAdmin}  {...this._title(__("Alliance Admin")) } />
+                                <Route path="/game/alliance/info" component={AllianceInfo}  {...this._title(__("Alliance Info")) } />
+                                <Route path="/game/alliance/join" component={JoinAlliance}  {...this._title(__("Join Alliance")) } />
                             </Route>
 
                             <Route path="/game/messages">
-                                <IndexRoute component={Messages} />
+                                <IndexRoute component={Messages}  {...this._title(__("Messages")) } />
 
                                 <Route path="/game/messages/compose(/:replyId)" component={Compose} />
                                 <Route path="/game/messages/:id" component={Message} />
                             </Route>
 
-                            <Route path="/game/profile/profile" component={UserProfile} />
+                            <Route path="/game/profile/profile" component={UserProfile}  {...this._title(__("Your Profile")) } />
 
                         </Route>
                     </Route>
@@ -149,6 +152,13 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
     }
 
     @autobind
+    private _title(title: string): { onEnter: EnterHook } {
+        return {
+            onEnter: () => { this.props.store.dispatch(setTitle(title)); }
+        };
+    }
+
+    @autobind
     private _onAdmin() {
         const { store } = this.props;
 
@@ -156,6 +166,8 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
 
         // Move token to cookie
         document.cookie = `bearer_token=${token};path=/admin`;
+
+        // Navigate to admin 
         window.location.href = baseUri + "admin/news";
     }
 

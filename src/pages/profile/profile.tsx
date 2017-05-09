@@ -15,9 +15,6 @@ export interface IProfileProps {
 
 export class ProfileComponent extends React.Component<IProfileProps, void> {
     public componentDidMount() {
-        // this.props.refresh();
-
-        setDocumentTitle(__("Your profile"));
     }
 
     public render(): JSX.Element {
@@ -26,10 +23,10 @@ export class ProfileComponent extends React.Component<IProfileProps, void> {
 
         if (a !== "Loggedin by foreig account") {
             profile = <div><h2 className="headline"><span>{__("Set Password")}</span></h2>
-                <p>{ /* Show only if external account and no password set, yet */ }</p></div>
+                <p>{ /* Show only if external account and no password set, yet */}</p></div>
         } else {
             profile = <div><h2 className="headline"><span>{__("Change Password")}</span></h2>
-                <p>{ /* Show only password set */ }</p></div>
+                <p>{ /* Show only password set */}</p></div>
         }
 
         return <GridColumn className="col-xs-12">
@@ -39,8 +36,8 @@ export class ProfileComponent extends React.Component<IProfileProps, void> {
 
             <h2 className="headline"><span>{__("Associated Logins")}</span></h2>
 
-            <p>{ /* Show list of logins which are associated, local as well as external */ }</p>
-            <p>{ /* Show list of external logins which are not yet associated */ }</p>
+            <p>{ /* Show list of logins which are associated, local as well as external */}</p>
+            <p>{ /* Show list of external logins which are not yet associated */}</p>
 
             <h2 className="headline"><span>{__("Change Profile Data")}</span></h2>
 

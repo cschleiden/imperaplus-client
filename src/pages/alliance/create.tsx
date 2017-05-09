@@ -15,12 +15,6 @@ export interface ICreateAllianceProps {
 }
 
 export class CreateAllianceComponent extends React.Component<ICreateAllianceProps, void> {
-    public componentDidMount() {
-        // this.props.refresh();
-
-        setDocumentTitle(__("Create Alliance"));
-    }
-
     public render(): JSX.Element {
         let alliances: JSX.Element[];
 

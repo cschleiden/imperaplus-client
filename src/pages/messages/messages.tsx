@@ -29,8 +29,6 @@ export interface IMessagesProps {
 
 export class MessagesComponent extends React.Component<IMessagesProps, void> {
     public componentDidMount() {
-        setDocumentTitle(__("Messages"));
-
         this.props.init();
     }
 
@@ -94,7 +92,7 @@ export default connect((state: IState) => {
     },
     switchFolder: (folder: MessageFolder) => { dispatch(switchFolder(folder)); },
     compose: () => { dispatch(push("/game/messages/compose")); },
-    open: (message: Message) => {        
+    open: (message: Message) => {
         dispatch(push(`/game/messages/${message.id}`));
     },
     delete: (message: Message) => {

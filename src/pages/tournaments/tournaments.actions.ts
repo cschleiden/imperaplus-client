@@ -33,9 +33,24 @@ export const join = makePromiseAction<string, null>((tournamentId, dispatch, get
         type: JOIN,
         payload: {
             promise: deps.getCachedClient(TournamentClient).postJoin(tournamentId).then(() => {
-                // Refresh tournaments after hiding
-                dispatch(refresh(null));
-                dispatch(show(__("Game joined, you can find it now in [My Games](/game/games)."), MessageType.success));
+                dispatch(load(tournamentId));
+                dispatch(show(__("You are now registered for this tournament."), MessageType.success));
+            })
+        },
+        options: {
+            useMessage: true,
+            clearMessage: true
+        }
+    }));
+
+export const LEAVE = "tournament-leave";
+export const leave = makePromiseAction<string, null>((tournamentId, dispatch, getState, deps) =>
+    ({
+        type: LEAVE,
+        payload: {
+            promise: deps.getCachedClient(TournamentClient).leaveTournament(tournamentId).then(() => {
+                dispatch(load(tournamentId));
+                dispatch(show(__("You have left this tournament."), MessageType.success));
             })
         },
         options: {
