@@ -1,8 +1,7 @@
-import * as objectAssign from "object-assign";
 import { clear, MessageType, show } from "../common/message/message.actions";
 import { ErrorResponse } from "../external/imperaClients";
 import { ErrorCodes } from "../i18n/errorCodes";
-import { failed, IAsyncPayload, IPromiseAction, pending, success } from "../lib/action";
+import { failed, IApiActionOptions, IAsyncPayload, IPromiseAction, pending, success } from "../lib/action";
 
 export default function promiseMiddleware({ dispatch }) {
     return next => <TResult, TData>(action: IPromiseAction<TResult, TData>) => {
@@ -11,21 +10,31 @@ export default function promiseMiddleware({ dispatch }) {
             return next(action);
         }
 
-        const { type, payload, meta, options } = action;
+        const { type, payload } = action;
         const { promise, data } = payload;
+
+        const options: IApiActionOptions = {
+            // Default options
+            useMessage: true,
+            clearMessage: true,
+
+            // Custom options
+            ...action.options
+        };
 
         if (options && options.clearMessage) {
             dispatch(clear(null));
         }
 
+        const { customSuffix = "" } = options;
+
         /**
          * Dispatch the pending action
          */
-        dispatch(objectAssign({},
-            { type: pending(type) },
-            data ? { payload: data } : {},
-            meta ? { meta } : {}
-        ));
+        dispatch({
+            type: pending(type, customSuffix),
+            payload: data
+        });
 
         /**
          * If successful, dispatch the fulfilled action, otherwise dispatch
@@ -38,9 +47,8 @@ export default function promiseMiddleware({ dispatch }) {
                 }
 
                 dispatch({
-                    type: success(type),
-                    payload: result,
-                    meta,
+                    type: success(type, customSuffix),
+                    payload: result
                 });
 
                 if (options && options.afterSuccess) {
@@ -63,9 +71,8 @@ export default function promiseMiddleware({ dispatch }) {
                 }
 
                 dispatch({
-                    type: failed(type),
-                    payload: error,
-                    meta,
+                    type: failed(type, customSuffix),
+                    payload: error
                 });
 
                 if (options && options.afterError) {

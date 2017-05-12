@@ -25,10 +25,6 @@ class ActivateComponent extends React.Component<IActivateProps, void> {
         return <Grid>
             <GridRow>
                 <GridColumn className="col-xs-12">
-                    <Title>
-                        {__("Activating account")}
-                    </Title>
-
                     <Spinner className="center-block" size={SpinnerSize.Large} />
                 </GridColumn>
             </GridRow>

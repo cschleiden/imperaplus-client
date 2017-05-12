@@ -37,12 +37,14 @@ export class ControlledTextField extends React.Component<FormControlProps & ICon
     }
 
     public render() {
-        const { fieldName, label, ...remainingProps } = this.props;
+        const { fieldName, label, validate, ...remainingProps } = this.props;
 
         return <FormGroup controlId={this._id}>
             <ControlLabel>{label}</ControlLabel>
             <FormControl
-                {...remainingProps as any}
+                disabled={this.context.isPending()}
+                name={fieldName}
+                {...remainingProps}
                 id={this._id}
                 onChange={(ev) => {
                     const inputElement = ev.target as HTMLInputElement;
@@ -93,13 +95,15 @@ export class ControlledUserPicker extends React.Component<FormControlProps & ICo
 
         return <FormGroup controlId={this._id}>
             <ControlLabel>{label}</ControlLabel>
-            <UserPicker name={fieldName} onChange={(value) => {
-                if (value !== this._currentValue()) {
-                    if (this.context.changeField) {
-                        this.context.changeField(fieldName, value);
+            <UserPicker
+                name={fieldName}
+                onChange={(value) => {
+                    if (value !== this._currentValue()) {
+                        if (this.context.changeField) {
+                            this.context.changeField(fieldName, value);
+                        }
                     }
-                }
-            }} initialValue={initialValue} />
+                }} initialValue={initialValue} />
         </FormGroup>;
     }
 
@@ -114,23 +118,25 @@ export class ControlledUserPicker extends React.Component<FormControlProps & ICo
 }
 
 export const ControlledCheckBox = (props: CheckboxProps & IControlledFieldProps, context: IFormContext) => {
+    const { fieldName, validate, label, ...remainingProps } = props;
+
     const currentValue = (): boolean =>
         context.formState
         && context.formState.fields
-        && context.formState.fields[props.fieldName]
-        && context.formState.fields[props.fieldName].value as boolean || false;
+        && context.formState.fields[fieldName]
+        && context.formState.fields[fieldName].value as boolean || false;
 
     return <Checkbox
-        {...props}
+        {...remainingProps}
         onChange={(ev: React.FormEvent<Checkbox>) => {
             const inputElement = ev.target as HTMLInputElement;
             const updatedValue = inputElement.value === "on";
             if (updatedValue !== currentValue()) {
-                context.changeField(props.fieldName, updatedValue);
+                context.changeField(fieldName, updatedValue);
             }
         }}
         checked={currentValue()}>
-        {props.label}
+        {label}
     </Checkbox>;
 };
 
@@ -155,19 +161,21 @@ export class ControlledDropdown extends React.Component<FormControlProps & ICont
     }
 
     public render() {
+        const { fieldName, label, children, ...remainingProps } = this.props;
+
         return <FormGroup controlId={this._id}>
-            <ControlLabel>{this.props.label}</ControlLabel>
+            <ControlLabel>{label}</ControlLabel>
             <FormControl
                 componentClass="select"
-                {...this.props}
+                {...remainingProps}
                 onChange={(ev) => {
                     const inputElement = ev.target as HTMLSelectElement;
                     const value = inputElement.value;
 
-                    this.context.changeField(this.props.fieldName, value);
+                    this.context.changeField(fieldName, value);
                 }}
                 value={this._currentValue()}>
-                {this.props.children}
+                {children}
             </FormControl>
         </FormGroup>;
     }

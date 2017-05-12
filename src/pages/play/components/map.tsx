@@ -481,6 +481,6 @@ export default connect((state: IState) => {
     selectCountry: (countryIdentifier: string) => { dispatch(selectCountry(countryIdentifier)); },
     setUnits: (countryIdentifier: string, units: number) => { dispatch(setPlaceUnits(countryIdentifier, units)); },
     setActionUnits: (units: number) => { dispatch(setActionUnits(units)); },
-    attack: () => dispatch(attack(null)),
-    move: () => dispatch(move(null))
+    attack: () => { dispatch(attack(null)) },
+    move: () => { dispatch(move(null)) }
 }))(Map);

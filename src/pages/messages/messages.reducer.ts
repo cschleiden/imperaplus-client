@@ -2,7 +2,7 @@ import { IImmutable, makeImmutable } from "immuts";
 import { FolderInformation, Message, MessageFolder } from "../../external/imperaClients";
 import { failed, IAction, pending, success } from "../../lib/action";
 import reducerMap from "../../lib/reducerMap";
-import { DELETE, ISwitchFolderPayload, LOAD, LOAD_MESSAGE, MARK_READ, OPEN_MESSAGE, SWITCH_FOLDER } from "./messages.actions";
+import * as Actions from "./messages.actions";
 
 const initialState = makeImmutable({
     isLoading: false,
@@ -15,7 +15,7 @@ const initialState = makeImmutable({
 
 export type IMessagesState = typeof initialState;
 
-const switchFolder = (state: IMessagesState, action: IAction<ISwitchFolderPayload>) => {
+const switchFolder = (state: IMessagesState, action: IAction<Actions.ISwitchFolderPayload>) => {
     const { folder, messages } = action.payload;
 
     if (messages) {
@@ -69,14 +69,14 @@ export const messages = <TPayload>(
     action?: IAction<TPayload>) => {
 
     return reducerMap(action, state, {
-        [pending(SWITCH_FOLDER)]: loading,
-        [success(SWITCH_FOLDER)]: switchFolder,
+        [pending(Actions.switchFolder.TYPE)]: loading,
+        [success(Actions.switchFolder.TYPE)]: switchFolder,
 
-        [pending(LOAD)]: loadPending,
-        [success(LOAD)]: load,
+        [pending(Actions.load.TYPE)]: loadPending,
+        [success(Actions.load.TYPE)]: load,
 
-        [OPEN_MESSAGE]: openMessage,
+        [Actions.OPEN_MESSAGE]: openMessage,
 
-        [success(MARK_READ)]: markRead
+        [success(Actions.markRead.TYPE)]: markRead
     });
 };

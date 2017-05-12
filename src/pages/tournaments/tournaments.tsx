@@ -71,5 +71,5 @@ export default connect((state: IState) => {
         closedTournaments: tournaments.filter(t => t.state === TournamentState.Closed)
     };
 }, (dispatch) => ({
-    refresh: () => dispatch(refresh(null))
+    refresh: () => { dispatch(refresh(null)) }
 }))(TournamentsComponent);

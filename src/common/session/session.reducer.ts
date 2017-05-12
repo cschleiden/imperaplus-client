@@ -3,18 +3,18 @@ import reducerMap from "../../lib/reducerMap";
 
 import { UserInfo } from "../../external/imperaClients";
 import { failed, IAction, pending, success } from "../../lib/action";
-import { EXPIRE, ILoginPayload, IRefreshPayload, LOGIN, LOGOUT, REFRESH, SET_LANGUAGE } from "./session.actions";
+import * as Actions from "./session.actions";
 
 const initialState = makeImmutable({
     access_token: null as string,
     refresh_token: null as string,
     userInfo: null as UserInfo,
     isLoggedIn: false,
-    language: null as string
+    language: "en" as string
 });
 export type ISessionState = typeof initialState;
 
-const login = (state: ISessionState, action: IAction<ILoginPayload>) => {
+const login = (state: ISessionState, action: IAction<Actions.ILoginPayload>) => {
     return state.merge(x => x, {
         access_token: action.payload.access_token,
         refresh_token: action.payload.refresh_token,
@@ -24,7 +24,7 @@ const login = (state: ISessionState, action: IAction<ILoginPayload>) => {
 };
 
 /** Store updated tokens */
-const refresh = (state: ISessionState, action: IAction<IRefreshPayload>) => {
+const refresh = (state: ISessionState, action: IAction<Actions.IRefreshPayload>) => {
     return state.merge(x => x, {
         access_token: action.payload.access_token,
         refresh_token: action.payload.refresh_token
@@ -45,10 +45,10 @@ export const session = <TPayload>(
     action?: IAction<TPayload>): ISessionState => {
 
     return reducerMap(action, state, {
-        [success(LOGIN)]: login,
-        [REFRESH]: refresh,
-        [EXPIRE]: reset,
-        [success(LOGOUT)]: reset,
-        [SET_LANGUAGE]: setLanguage
+        [success(Actions.login.TYPE)]: login,
+        [Actions.REFRESH]: refresh,
+        [Actions.EXPIRE]: reset,
+        [success(Actions.logout.TYPE)]: reset,
+        [Actions.SET_LANGUAGE]: setLanguage
     });
 };

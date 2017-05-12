@@ -74,10 +74,10 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
                         <IndexRoute component={Home}  {...this._title(__("")) } />
 
                         <Route path="signup" component={Signup}  {...this._title(__("Signup")) } />
-                        <Route path="signup/confirmation" component={SignupConfirmation}  {...this._title(__("Signup")) } />
+                        <Route path="signup/confirmation" component={SignupConfirmation}  {...this._title(__("Registration successful")) } />
 
                         {/* Activate account */}
-                        <Route path="activate/:userId/:code" component={Activate}  {...this._title(__("Activate Account")) } />
+                        <Route path="activate/:userId/:code" component={Activate}  {...this._title(__("Activating Account")) } />
                         <Route path="activated" component={Activated}  {...this._title(__("Account Activated")) } />
 
                         {/* Reset password */}

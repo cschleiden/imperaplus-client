@@ -25,10 +25,6 @@ export default class ResetConfirmationComponent extends React.Component<IResetCo
         return <Grid>
             <GridRow>
                 <GridColumn className="col-xs-12">
-                    <Title>
-                        {__("Reset password")}
-                    </Title>
-
                     <Form
                         name="reset-password"
                         onSubmit={((formState, options) => {

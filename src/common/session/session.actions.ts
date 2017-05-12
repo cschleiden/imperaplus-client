@@ -35,27 +35,26 @@ export interface ILoginPayload {
     userInfo: UserInfo;
 }
 
-export const LOGIN = "login";
-export const login = makePromiseAction<ILoginInput, ILoginPayload>((input, dispatch, getState, deps) =>
-    ({
-        type: LOGIN,
-        payload: {
-            promise: deps.getCachedClient(AccountClient)
-                .exchange("password", input.username, input.password, scope, undefined)
-                .then(result => {
-                    let authenticatedClient = deps.createClientWithToken(AccountClient, result.access_token);
-                    return authenticatedClient.getUserInfo().then(userInfo => ({
-                        access_token: result.access_token,
-                        refresh_token: result.refresh_token,
-                        userInfo: userInfo
-                    }));
-                })
-        },
-        options: {
-            useMessage: true,
-            afterSuccess: d => d(push("game"))
-        }
-    }));
+export const login = makePromiseAction<ILoginInput, ILoginPayload>(
+    "login", (input, dispatch, getState, deps) =>
+        ({
+            payload: {
+                promise: deps.getCachedClient(AccountClient)
+                    .exchange("password", input.username, input.password, scope, undefined)
+                    .then(result => {
+                        let authenticatedClient = deps.createClientWithToken(AccountClient, result.access_token);
+                        return authenticatedClient.getUserInfo().then(userInfo => ({
+                            access_token: result.access_token,
+                            refresh_token: result.refresh_token,
+                            userInfo: userInfo
+                        }));
+                    })
+            },
+            options: {
+                useMessage: true,
+                afterSuccess: d => d(push("game"))
+            }
+        }));
 
 
 export interface IRefreshPayload {
@@ -72,16 +71,15 @@ export const refresh = (access_token: string, refresh_token: string): IAction<IR
     }
 });
 
-export const LOGOUT = "logout";
-export const logout = makePromiseAction<void, null>((_, dispatch, getState, deps) => ({
-    type: LOGOUT,
-    payload: {
-        promise: deps.getCachedClient(AccountClient).logout()
-    },
-    options: {
-        afterSuccess: d => d(push("/"))
-    }
-}));
+export const logout = makePromiseAction<void, null>(
+    "logout", (_, dispatch, getState, deps) => ({
+        payload: {
+            promise: deps.getCachedClient(AccountClient).logout()
+        },
+        options: {
+            afterSuccess: d => d(push("/"))
+        }
+    }));
 
 export const EXPIRE = "expire";
 export const expire = (): IAction<void> => ({
@@ -96,90 +94,85 @@ export interface ISignupInput {
     email: string;
 }
 
-export const SIGNUP = "signup";
-export const signup = makePromiseAction<ISignupInput, void>((input, dispatch, getState, deps) =>
-    ({
-        type: SIGNUP,
-        payload: {
-            promise: deps.getCachedClient(AccountClient).register({
-                userName: input.username,
-                password: input.password,
-                confirmPassword: input.passwordConfirm,
-                email: input.email,
-                language: getState().session.data.language || "en",
-                callbackUrl: `${baseUri}activate/userId/code`
-            })
-        },
-        options: {
-            useMessage: true,
-            afterSuccess: d => d(replace("/signup/confirmation"))
-        }
-    }));
+export const signup = makePromiseAction<ISignupInput, void>(
+    "signup", (input, dispatch, getState, deps) =>
+        ({
+            payload: {
+                promise: deps.getCachedClient(AccountClient).register({
+                    userName: input.username,
+                    password: input.password,
+                    confirmPassword: input.passwordConfirm,
+                    email: input.email,
+                    language: getState().session.data.language || "en",
+                    callbackUrl: `${baseUri}activate/userId/code`
+                })
+            },
+            options: {
+                useMessage: true,
+                afterSuccess: d => d(replace("/signup/confirmation"))
+            }
+        }));
 
-
-export const RESET_TRIGGER = "reset-trigger";
 export interface IResetTriggerInput {
     username: string;
     email: string;
 }
-export const resetTrigger = makePromiseAction<IResetTriggerInput, void>((input, dispatch, getState, deps) =>
-    ({
-        type: RESET_TRIGGER,
-        payload: {
-            promise: deps.getCachedClient(AccountClient).forgotPassword({
-                userName: input.username,
-                email: input.email,
-                language: getState().session.data.language,
-                callbackUrl: `${baseUri}reset/userId/code`
-            }).then<void>(null)
-        },
-        options: {
-            useMessage: true,
-            afterSuccess: d => d(replace("/reset/triggered"))
-        }
-    }));
+export const resetTrigger = makePromiseAction<IResetTriggerInput, void>(
+    "reset-trigger", (input, dispatch, getState, deps) =>
+        ({
+            payload: {
+                promise: deps.getCachedClient(AccountClient).forgotPassword({
+                    userName: input.username,
+                    email: input.email,
+                    language: getState().session.data.language,
+                    callbackUrl: `${baseUri}reset/userId/code`
+                }).then<void>(null)
+            },
+            options: {
+                useMessage: true,
+                afterSuccess: d => d(replace("/reset/triggered"))
+            }
+        }));
 
-export const RESET = "reset";
 export interface IResetInput {
     userId: string;
     code: string;
     password: string;
     confirmPassword: string;
 }
-export const reset = makePromiseAction<IResetInput, void>((input, dispatch, getState, deps) =>
-    ({
-        type: RESET,
-        payload: {
-            promise: deps.getCachedClient(AccountClient).resetPassword({
-                userId: input.userId,
-                code: input.code,
-                password: input.password,
-                confirmPassword: input.confirmPassword
-            }).then<void>(null)
-        },
-        options: {
-            useMessage: true,
-            afterSuccess: d => d(replace("/reset/done"))
-        }
-    }));
+export const reset = makePromiseAction<IResetInput, void>(
+    "reset", (input, dispatch, getState, deps) =>
+        ({
+            payload: {
+                promise: deps.getCachedClient(AccountClient).resetPassword({
+                    userId: input.userId,
+                    code: input.code,
+                    password: input.password,
+                    confirmPassword: input.confirmPassword
+                }).then<void>(null)
+            },
+            options: {
+                useMessage: true,
+                afterSuccess: d => d(replace("/reset/done"))
+            }
+        }));
 
 
 export interface IConfirmInput {
     userId: string;
     code: string;
 }
-export const ACTIVATE = "session-activate";
-export const activate = makePromiseAction<IConfirmInput, void>((input, dispatch, getState, deps) =>
-    ({
-        type: ACTIVATE,
-        payload: {
-            promise: deps.getCachedClient(AccountClient).confirmEmail({
-                userId: input.userId,
-                code: input.code
-            }).then<void>(null)
-        },
-        options: {
-            useMessage: true,
-            afterSuccess: d => d(replace("/activated"))
-        }
-    }));
+export const activate = makePromiseAction<IConfirmInput, void>(
+    "session-activate", (input, dispatch, getState, deps) =>
+        ({
+            payload: {
+                promise: deps.getCachedClient(AccountClient).confirmEmail({
+                    userId: input.userId,
+                    code: input.code
+                }).then<void>(null)
+            },
+            options: {
+                useMessage: true,
+                afterSuccess: d => d(replace("/activated"))
+            }
+        }));

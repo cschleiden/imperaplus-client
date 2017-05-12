@@ -3,7 +3,7 @@ import "./gameChat.scss";
 import * as React from "react";
 import { Button, Tab, Tabs } from "react-bootstrap";
 import { connect } from "react-redux";
-import HumanDate from "../../../components/ui/humanDate";
+import { HumanDate } from "../../../components/ui/humanDate";
 import { GameChatMessage } from "../../../external/imperaClients";
 import { autobind } from "../../../lib/autobind";
 import { IState } from "../../../reducers";

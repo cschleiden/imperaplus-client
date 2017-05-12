@@ -1,4 +1,5 @@
-// Hot reloading
+import "./external/polyfills";
+
 import * as React from "react";
 import { render, unmountComponentAtNode } from "react-dom";
 import { AppContainer } from "react-hot-loader";

@@ -101,6 +101,6 @@ export default connect((state: IState, ownProps: IPlayProps) => {
         sidebarOpen: playState.sidebarOpen
     };
 }, (dispatch) => ({
-    switchGame: (gameId: number, turnNo?: number) => dispatch(switchGame({ gameId, turnNo })),
-    refreshGame: () => dispatch(refreshGame(null))
+    switchGame: (gameId: number, turnNo?: number) => { dispatch(switchGame({ gameId, turnNo })) },
+    refreshGame: () => { dispatch(refreshGame(null)) }
 }))(Play);

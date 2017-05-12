@@ -2,7 +2,7 @@ import { IImmutable } from "immuts";
 import * as React from "react";
 import { FormGroup } from "react-bootstrap";
 import { connect } from "react-redux";
-import { IPromiseAction } from "../../lib/action";
+import { IApiActionOptions, IPromiseAction, IThunkAction } from "../../lib/action";
 import { changeField, FormMode, resetForm, submitForm } from "./forms.actions";
 import { IForm, IForms } from "./forms.reducer";
 import { contextTypes, IFormContext } from "./types";
@@ -17,7 +17,7 @@ interface IFormProps {
 
     name: string;
 
-    onSubmit?: <TResult, TData>(formState: IFormState, options) => any; // Should be thunk action
+    onSubmit?: <TResult, TInput>(formState: IFormState, options: IApiActionOptions) => IThunkAction;
     onSubmitSuccess?: <TResult>(result: TResult) => void;
     onSubmitFailed?: <TError>(error: TError) => void;
 }
@@ -26,7 +26,7 @@ interface IInternalFormProps {
     isPending: boolean;
     formState: IForm;
 
-    submit: (formState: IFormState) => any;
+    submit: <TResult, TInput>(formState: IFormState) => IThunkAction;
     reset: () => any;
     changeField: (fieldName: string, value: string | boolean | number) => any;
 }
@@ -37,13 +37,12 @@ class Form extends React.Component<IFormProps & IInternalFormProps, void> {
     public getChildContext(): IFormContext {
         return {
             formState: this.props.formState,
+            isPending: () => this.props.isPending,
             changeField: this.props.changeField
         };
     }
 
-    constructor(props: IFormProps & IInternalFormProps, context: any) {
-        super(props, context);
-
+    public componentDidMount() {
         this.props.reset();
     }
 
@@ -54,7 +53,7 @@ class Form extends React.Component<IFormProps & IInternalFormProps, void> {
     public render() {
         let formState = new FormState(this.props.formState);
 
-        return <form onSubmit={this._onSubmit} action="#">
+        return <form onSubmit={this._onSubmit} action="#" disabled={this.props.isPending}>
             <FormGroup>
                 {this.props.component({
                     isPending: this.props.isPending,

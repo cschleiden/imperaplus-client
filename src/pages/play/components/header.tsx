@@ -200,12 +200,12 @@ export default connect((state: IState, ownProps: IHeaderProps) => {
         operationInProgress
     };
 }, (dispatch) => ({
-    place: () => dispatch(place(null)),
-    exchangeCards: () => dispatch(exchange(null)),
-    attack: () => dispatch(attack(null)),
-    endAttack: () => dispatch(endAttack(null)),
-    move: () => dispatch(move(null)),
-    endTurn: () => dispatch(endTurn(null)),
+    place: () => { dispatch(place(null)) },
+    exchangeCards: () => { dispatch(exchange(null)) },
+    attack: () => { dispatch(attack(null)) },
+    endAttack: () => { dispatch(endAttack(null)) },
+    move: () => { dispatch(move(null)) },
+    endTurn: () => { dispatch(endTurn(null)) },
 
     toggleSidebar: () => { dispatch(toggleSidebar()); },
     exit: () => { dispatch(leave()); }

@@ -15,6 +15,7 @@ export interface IFunGamesProps {
     refreshFun: () => void;
 
     funGames: GameSummary[];
+    userId: string;
 }
 
 export class FunGamesComponent extends React.Component<IFunGamesProps, void> {
@@ -23,10 +24,12 @@ export class FunGamesComponent extends React.Component<IFunGamesProps, void> {
     }
 
     public render(): JSX.Element {
+        const { userId } = this.props;
+
         let fun: JSX.Element[];
 
         if (this.props.funGames.length > 0) {
-            fun = [<GameList games={this.props.funGames} key="fun" />];
+            fun = [<GameList games={this.props.funGames} userId={userId} key="fun" />];
         }
 
         return <GridColumn className="col-xs-12">
@@ -45,10 +48,12 @@ export class FunGamesComponent extends React.Component<IFunGamesProps, void> {
 export default connect((state: IState) => {
     const gamesMap = state.games.data.games;
     const games = Object.keys(gamesMap).map(id => gamesMap[id]);
+    const userInfo = state.session.data.userInfo;
 
     return {
-        funGames: games.filter(g => g.type === GameType.Fun)
+        funGames: games.filter(g => g.type === GameType.Fun),
+        userId: userInfo && userInfo.userId
     };
 }, (dispatch) => ({
-    refreshFun: () => dispatch(refreshFun(null))
+    refreshFun: () => { dispatch(refreshFun(null)) }
 }))(FunGamesComponent);

@@ -75,5 +75,5 @@ export default connect(state => ({
     userInfo: state.session.data.userInfo,
     news: state.news.data.news
 }), (dispatch) => ({
-    refresh: () => dispatch(refresh(null))
+    refresh: () => { dispatch(refresh(null)) }
 }))(StartComponent);

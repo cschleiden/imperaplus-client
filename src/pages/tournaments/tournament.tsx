@@ -1,18 +1,23 @@
 import * as React from "react";
 import { Button, ButtonGroup } from "react-bootstrap";
 import { connect } from "react-redux";
+import Form from "../../common/forms/form";
+import { ControlledCheckBox, ControlledDropdown, ControlledTextField } from "../../common/forms/inputs";
 import { setTitle } from "../../common/general/general.actions";
 import { Grid, GridColumn, GridRow } from "../../components/layout";
 import { HumanDate, HumanTime } from "../../components/ui/humanDate";
 import { Loading } from "../../components/ui/loading";
 import { ProgressButton, SimpleProgressButton } from "../../components/ui/progressButton";
-import { Section, Title } from "../../components/ui/typography";
-import { Tournament, TournamentState, TournamentSummary, UserReference } from "../../external/imperaClients";
+import { Section, SubSection, Title } from "../../components/ui/typography";
+import { Tournament, TournamentState, TournamentSummary, TournamentTeamState, UserReference } from "../../external/imperaClients";
 import { autobind } from "../../lib/autobind";
+import { css } from "../../lib/css";
 import { setDocumentTitle } from "../../lib/title";
 import { IState } from "../../reducers";
 import { TournamentBracket } from "./components/tournamentBracket";
-import { join, leave, load } from "./tournaments.actions";
+import { TournamentGroups } from "./components/tournamentGroups";
+import "./tournament.scss";
+import { createTeam, deleteTeam, join, joinTeam, leave, load } from "./tournaments.actions";
 
 export interface ITournamentProps {
     params: {
@@ -57,7 +62,7 @@ export class TournamentComponent extends React.Component<ITournamentProps, void>
             return <Loading />;
         }
 
-        const currentUserIsRegistered = tournament.teams.some(t => t.participants.some(p => p.id === userId));
+        const isGroupTournament = tournament.numberOfGroupGames > 0;
 
         return <GridColumn className="col-xs-12">
             <div className="tournament">
@@ -142,68 +147,32 @@ export class TournamentComponent extends React.Component<ITournamentProps, void>
                     </GridColumn>
                 </GridRow>
 
-                {
-                    tournament.state === TournamentState.Open && tournament.startOfRegistration <= new Date() &&
-                    <GridRow>
-                        <Section>{__("Registration")}</Section>
+                {this._renderRegistration()}
 
-                        {
-                            !currentUserIsRegistered &&
-                            <div>
-                                <SimpleProgressButton onClick={this._join}>{__("Join tournament")}</SimpleProgressButton>
-                            </div>
-                        }
-
-                        {
-                            currentUserIsRegistered &&
-                            <div>
-                                <SimpleProgressButton onClick={this._leave}>{__("Leave tournament")}</SimpleProgressButton>
-                            </div>
-                        }
-                    </GridRow>
-                }
-
-                <GridRow>
-                    <Section>{__("Participants")}</Section>
-                    <ul className="list-unstyled">
-                        {
-                            tournament.teams.map(team =>
-                                <li className="team" key={team.id}>
-                                    <ul>
-                                        {
-                                            team.participants.map(p => <li className="participant">
-                                                <span className="user" key={p.id}>
-                                                    {p.name}
-                                                </span>
-                                            </li>)
-                                        }
-                                    </ul>
-                                </li>)
-                        }
-                    </ul>
-                </GridRow>
+                {this._renderParticipants()}
 
                 {
-                    tournament.phase >= TournamentState.Groups
+                    isGroupTournament && (tournament.state !== TournamentState.Open)
                     && <div>
-                        <Section><span>{__("Group Phase")}</span></Section>
-                        <div className="tournament-bracket"></div>
+                        <Section>{__("Group Phase")}</Section>
+                        <div className="tournament-gropus">
+                            <TournamentGroups tournament={tournament} />
+                        </div>
                     </div>
                 }
 
                 {
-                    tournament.phase >= TournamentState.Knockout
+                    (tournament.state === TournamentState.Knockout || tournament.state === TournamentState.Closed)
                     && <div>
-                        <Section><span>{__("Knockout Phase")}</span></Section>
+                        <Section>{__("Knockout Phase")}</Section>
                         <div className="tournament-bracket">
                             <TournamentBracket tournament={tournament} />
                         </div>
                     </div>
                 }
 
-
                 {
-                    tournament.phase >= TournamentState.Knockout
+                    tournament.state === TournamentState.Closed
                     && <div>
                         <Section><span>{__("Winner")}</span></Section>
                         <div>
@@ -213,6 +182,179 @@ export class TournamentComponent extends React.Component<ITournamentProps, void>
                 }
             </div>
         </GridColumn>;
+    }
+
+    private _renderRegistration() {
+        const { tournament, userId } = this.props;
+
+        const registrationOpen = tournament.state === TournamentState.Open && tournament.startOfRegistration <= new Date();
+
+        const currentUserTeam = tournament.teams.find(t => t.participants.some(p => p.id === userId));
+        const currentUserIsRegistered = !!currentUserTeam;
+        const isTeamTournament = tournament.options.numberOfPlayersPerTeam > 1;
+        const canCreateTeam = isTeamTournament && tournament.teams.length < tournament.numberOfTeams;
+        const canLeaveTeam = isTeamTournament && currentUserIsRegistered && currentUserTeam.createdById !== userId;
+        const canDeleteTeam = isTeamTournament && currentUserIsRegistered && currentUserTeam.createdById === userId;
+        const teamsToJoinAvailable = isTeamTournament
+            && tournament.teams.some(t => t.participants.length < tournament.options.numberOfPlayersPerTeam);
+
+
+        return registrationOpen && <GridRow>
+            <Section>{__("Registration")}</Section>
+
+            {/* Single */}
+            {
+                !isTeamTournament && !currentUserIsRegistered &&
+                <div>
+                    <SimpleProgressButton onClick={this._join}>{__("Join tournament")}</SimpleProgressButton>
+                </div>
+            }
+
+            {
+                !isTeamTournament && currentUserIsRegistered &&
+                <div>
+                    <SimpleProgressButton onClick={this._leave}>{__("Leave tournament")}</SimpleProgressButton>
+                </div>
+            }
+
+            {/* Teams */}
+            {
+                isTeamTournament && <p>{__("This is a team tournament, you can either create a new team or join an existing one.")}</p>
+            }
+            {
+                isTeamTournament && !currentUserIsRegistered && canCreateTeam &&
+                <div>
+                    <SubSection>{__("Create Team")}</SubSection>
+                    <Form
+                        name="tournament-team-create"
+                        onSubmit={((formState, options) => {
+                            return createTeam({
+                                tournamentId: tournament.id,
+                                teamName: formState.getFieldValue("teamName"),
+                                teamPassword: formState.getFieldValue("teamPassword")
+                            }, options);
+                        })}
+                        component={({ isPending, submit, formState }) => (
+                            <div className="form">
+                                <ControlledTextField
+                                    label={__("Team Name")}
+                                    placeholder={__("Enter name for team")}
+                                    fieldName="teamName"
+                                    required={true} />
+                                <ControlledTextField
+                                    label={__("Password (Optional)")}
+                                    fieldName="teamPassword"
+                                    required={false} />
+
+                                <div>
+                                    <ProgressButton
+                                        type="submit"
+                                        disabled={(formState.getFieldValue("teamName") || "").trim() === ""}
+                                        isActive={isPending}
+                                        bsStyle="primary">
+                                        {__("Create")}
+                                    </ProgressButton>
+                                </div>
+                            </div>)} />
+                </div>
+            }
+
+            {
+                isTeamTournament && !currentUserIsRegistered && teamsToJoinAvailable &&
+                <div>
+                    <SubSection>{__("Join Team")}</SubSection>
+                    <Form
+                        name="tournament-team-join"
+                        onSubmit={((formState, options) => {
+                            return joinTeam({
+                                tournamentId: tournament.id,
+                                teamId: formState.getFieldValue("team"),
+                                teamPassword: formState.getFieldValue("password")
+                            }, options);
+                        })}
+                        component={({ isPending, submit, formState }) => (
+                            <div className="form">
+                                <ControlledDropdown
+                                    label={__("Team")}
+                                    placeholder={__("Select team")}
+                                    fieldName="team">
+                                    <option key="empty" value="" />
+                                    {
+                                        tournament.teams
+                                            .filter(t => t.participants.length < tournament.options.numberOfPlayersPerTeam)
+                                            .map(t => <option key={t.id} value={t.id}>{t.name}</option>)
+                                    }
+                                </ControlledDropdown>
+                                <ControlledTextField
+                                    type="password"
+                                    label={__("Password (if required)")}
+                                    fieldName="password"
+                                    required={false} />
+
+                                <div>
+                                    <ProgressButton
+                                        type="submit"
+                                        disabled={(formState.getFieldValue("team") || "").trim() === ""}
+                                        isActive={isPending}
+                                        bsStyle="primary">
+                                        {__("Join")}
+                                    </ProgressButton>
+                                </div>
+                            </div>)} />
+                </div>
+            }
+
+            {
+                isTeamTournament && currentUserIsRegistered && canLeaveTeam &&
+                <div>
+                    <SubSection>{__("Leave team")}</SubSection>
+                    <p>{__("You have joined a team, you can leave if you want.")}</p>
+                    <SimpleProgressButton onClick={this._leaveTeam}>{__("Leave Team")}</SimpleProgressButton>
+                </div>
+            }
+
+            {
+                isTeamTournament && currentUserIsRegistered && canDeleteTeam &&
+                <div>
+                    <SubSection>{__("Delete team")}</SubSection>
+                    <p>{__("You have created a team for this tournament. To leave, you have to delete it.")}</p>
+                    <SimpleProgressButton onClick={this._deleteTeam}>{__("Delete Team")}</SimpleProgressButton>
+                </div>
+            }
+        </GridRow>;
+    }
+
+    private _renderParticipants() {
+        const { tournament } = this.props;
+        const isTeamTournament = tournament.options.numberOfPlayersPerTeam > 1;
+
+        return <GridRow>
+            <Section>{__("Teams/Participants")}</Section>
+            <ul className="list-unstyled">
+                {
+                    tournament.teams.map(team => {
+                        const teamHasSlotOpen = team.participants.length < tournament.options.numberOfPlayersPerTeam;
+
+                        return <li className={css("team", {
+                            inactive: team.state === TournamentTeamState.InActive
+                        })} key={team.id}>
+                            {isTeamTournament && <b>{team.name}</b>}
+                            <ul>
+                                {
+                                    team.participants.map(p => {
+                                        return <li className={css("participant")} key={p.id}>
+                                            <span className="user">
+                                                {p.name}
+                                            </span>
+                                        </li>;
+                                    })
+                                }
+                            </ul>
+                        </li>;
+                    })
+                }
+            </ul>
+        </GridRow>;
     }
 
     @autobind
@@ -237,21 +379,51 @@ export class TournamentComponent extends React.Component<ITournamentProps, void>
             }
         }
     }
+
+    @autobind
+    private _deleteTeam() {
+        const { tournament, userId } = this.props;
+
+        const userTeam = tournament.teams.find(x => x.participants.some(p => p.id === userId));
+        if (userTeam) {
+            this.props.deleteTeam(tournament.id, userTeam.id);
+        }
+    }
+
+    @autobind
+    private _leaveTeam() {
+        const { tournament, userId } = this.props;
+
+        const userTeam = tournament.teams.find(x => x.participants.some(p => p.id === userId));
+        if (userTeam) {
+            this.props.leave(tournament.id);
+        }
+    }
 }
 
 export default connect((state: IState, ownProps: ITournamentProps) => {
     const tournament = state.tournaments.data.tournament;
+    const userInfo = state.session.data.userInfo;
 
     return {
         tournament: tournament && ownProps.params.id === tournament.id && tournament,
-        userId: state.session.data.userInfo.userId
+        userId: userInfo && userInfo.userId
     };
 }, (dispatch) => ({
-    load: (tournamentId: string) => dispatch(load(tournamentId)),
+    load: (tournamentId: string) => { dispatch(load(tournamentId)) },
     setTitle: (title: string) => { dispatch(setTitle(title)); },
     join: (tournamentId: string) => { dispatch(join(tournamentId)) },
     leave: (tournamentId: string) => { dispatch(leave(tournamentId)) },
-    createTeam: (tournamentId: string, teamName: string) => { },
-    joinTeam: (tournamentId: string, teamId: string) => { },
-    deleteTeam: (tournamentId: string, teamId: string) => { }
+    joinTeam: (tournamentId: string, teamId: string, teamPassword?: string) => {
+        dispatch(joinTeam({
+            tournamentId,
+            teamId,
+            teamPassword
+        }))
+    },
+    deleteTeam: (tournamentId: string, teamId: string) => {
+        dispatch(deleteTeam({
+            tournamentId, teamId
+        }));
+    }
 }))(TournamentComponent);

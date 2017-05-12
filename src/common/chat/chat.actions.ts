@@ -66,24 +66,26 @@ export const switchChannel = (channel: string): IAction<string> => ({
     payload: channel
 });
 
-export const MESSAGE = "chat-message";
 export interface IMessagePayload {
     channel: number;
     message: string;
 }
-export const message = makePromiseAction<string, IMessagePayload>((msg: string, dispatch, getState, deps) => {
+export const message = makePromiseAction<string, IMessagePayload>("chat-message", (msg: string, dispatch, getState, deps) => {
     let currentChannelId = getState().chat.data.activeChannelId;
 
     return {
-        type: MESSAGE,
         payload: {
             promise: deps.getSignalRClient("chat").invoke("sendMessage", currentChannelId, msg).then(null, (error) => {
                 if (error.context && error.context.status === 401) {
                     // Re-authorize
-
-                    // Re-try? 
+                    // Re-try?
+                    // TODO
                 }
             })
+        },
+        options: {
+            // Prevent loading bar from picking this up
+            customSuffix: "-chat"
         }
     };
 });

@@ -2,7 +2,7 @@ import { IImmutable, makeImmutable } from "immuts";
 import { LadderStanding, LadderSummary } from "../../external/imperaClients";
 import { failed, IAction, pending, success } from "../../lib/action";
 import reducerMap from "../../lib/reducerMap";
-import { JOIN, REFRESH } from "./ladders.actions";
+import * as Actions from "./ladders.actions";
 
 const initialState = makeImmutable({
     isLoading: false,
@@ -36,7 +36,7 @@ export const ladders = <TPayload>(
     action?: IAction<TPayload>) => {
 
     return reducerMap(action, state, {
-        [pending(REFRESH)]: loading,
-        [success(REFRESH)]: refresh
+        [pending(Actions.refresh.TYPE)]: loading,
+        [success(Actions.refresh.TYPE)]: refresh
     });
 };

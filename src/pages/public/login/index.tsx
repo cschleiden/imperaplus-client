@@ -71,11 +71,14 @@ class LoginComponent extends React.Component<{}, void> {
                     </p>
 
                     <ul className="list-unstyled">
-                        <li>
+                        {/*<li>
                             <Button block bsStyle="primary">Facebook</Button>
                         </li>
                         <li>
                             <Button block bsStyle="primary">Microsoft</Button>
+                        </li>*/}
+                        <li>
+                            {__("Coming soon..")}
                         </li>
                     </ul>
                 </GridColumn>

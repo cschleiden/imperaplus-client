@@ -2,7 +2,7 @@ import { IImmutable, makeImmutable } from "immuts";
 import { GameState, GameSummary, GameType } from "../../external/imperaClients";
 import { failed, IAction, pending, success } from "../../lib/action";
 import reducerMap from "../../lib/reducerMap";
-import { LEAVE, REFRESH, REMOVE, SURRENDER } from "./games.actions";
+import * as Actions from "./games.actions";
 
 const initialState = makeImmutable({
     isLoading: false,
@@ -48,10 +48,10 @@ export const games = <TPayload>(
     action?: IAction<TPayload>) => {
 
     return reducerMap(action, state, {
-        [pending(REFRESH)]: loading,
-        [success(REFRESH)]: refresh,
-        [success(SURRENDER)]: surrender,
-        [success(REMOVE)]: remove,
-        [success(LEAVE)]: remove
+        [pending(Actions.refresh.TYPE)]: loading,
+        [success(Actions.refresh.TYPE)]: refresh,
+        [success(Actions.surrender.TYPE)]: surrender,
+        [success(Actions.remove.TYPE)]: remove,
+        [success(Actions.leave.TYPE)]: remove
     });
 };

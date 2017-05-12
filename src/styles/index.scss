@@ -10,9 +10,7 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
 
 * {
-    font-family: 'Open Sans', sans-serif;
-	
-    // no rounded corners
+    font-family: 'Open Sans', sans-serif; // no rounded corners
     border-radius: 0 !important;
 }
 
@@ -44,17 +42,20 @@ a {
     }
 }
 
-p, li, li a {
+p,
+li,
+li a {
     color: $stdColor;
 }
 
 #root {
     &,
-    & > div {
+    &>div {
         width: 100%;
         height: 100%;
-    },
-    & > div > div.mainWrapper {
+    }
+    ,
+    &>div>div.mainWrapper {
         width: 100%;
         height: 100%;
     }
@@ -70,6 +71,10 @@ $fa-font-path: "~font-awesome/fonts";
 $brand-primary: $accent;
 $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
 @import "~bootstrap-sass/assets/stylesheets/bootstrap";
+
+.dl-horizontal dt {
+    width: auto;
+}
 
 // Main button style
 button.btn {
@@ -96,7 +101,7 @@ button.btn-default {
     position: relative;
     display: inline-block;
     text-decoration: none;
-    
+
     &:active,
     &:focus {
         background: lighten($accent, 10%);
@@ -146,7 +151,6 @@ button.btn-default {
 //
 // Headings
 //
-
 h1 {
     color: #666;
     font-size: 22px;
@@ -190,7 +194,7 @@ h3.headline {
     }
 
     li.active a {
-        &, 
+        &,
         &:active,
         &:hover,
         &:focus {
@@ -218,70 +222,75 @@ h3.headline {
 ------------------------------------*/
 
 .progress-bar {
-  box-shadow: none;
+    box-shadow: none;
 }
 
+
 /*progress-bar (sizes)*/
+
 .progress-lg {
-  height: 25px;
+    height: 25px;
 }
+
 .progress-lg p {
-  padding-top: 3px;
+    padding-top: 3px;
 }
 
 .progress-sm {
-  height: 12px;
+    height: 12px;
 }
 
 .progress-xs {
-  height: 7px;
+    height: 7px;
 }
 
 .progress-xxs {
-  height: 3px;
+    height: 3px;
 }
 
+
 /*progress-bar (colors)*/
+
 .progress {
-  background: #e5e5e5;
+    background: #e5e5e5;
 }
 
 .progress-bar-u {
-  background: #72c02c;
+    background: #72c02c;
 }
 
 .progress-bar-blue {
-  background: #3498db;
+    background: #3498db;
 }
 
 .progress-bar-orange {
-  background: #e67e22;
+    background: #e67e22;
 }
 
 .progress-bar-red {
-  background: #e74c3c;
+    background: #e74c3c;
 }
 
 .progress-bar-purple {
-  background: #9b6bcc;
+    background: #9b6bcc;
 }
 
 .progress-bar-aqua {
-  background: #27d7e7;
+    background: #27d7e7;
 }
 
 .progress-bar-brown {
-  background: #9c8061;
+    background: #9c8061;
 }
 
 .progress-bar-dark-blue {
-  background: #4765a0;
+    background: #4765a0;
 }
 
 .progress-bar-light-green {
-  background: #79d5b3;
+    background: #79d5b3;
 }
 
 .progress-bar-dark {
-  background: #555;
+    background: #555;
 }

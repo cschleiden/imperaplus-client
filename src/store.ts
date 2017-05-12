@@ -54,7 +54,8 @@ export let store = Redux.createStore<IState>(
     Redux.applyMiddleware(
       routerMiddleware(browserHistory as any),
       loadingBarMiddleware({
-        promiseTypeSuffixes: [pending(""), success(""), failed("")]
+        promiseTypeSuffixes: [pending(""), success(""), failed("")],
+
       }),
       promiseMiddleware as any,
       thunkMiddleware.withExtraArgument({
@@ -62,7 +63,7 @@ export let store = Redux.createStore<IState>(
         createClientWithToken: createClientWithToken,
         getSignalRClient: getSignalRClient
       } as IAsyncActionDependencies),
-        (createLogger as any)())));
+      (createLogger as any)())));
 
 // Persist session settings to session storage
 store.subscribe(debounce(() => {

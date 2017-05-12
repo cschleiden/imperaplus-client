@@ -54,7 +54,7 @@ export class ProfileComponent extends React.Component<IProfileProps, void> {
             <Form
                 name="account-delete"
                 onSubmit={(formState: IFormState, options) => {
-
+                    return null;
                     /* return deleteAccount({
                      name: formState.getFieldValue("confirmDelete")
                      }, options); */

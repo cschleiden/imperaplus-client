@@ -186,6 +186,10 @@ $headerHeight: 120px;
         margin: 0;
 
         li {
+            .fa-angle-down {
+                margin-left: 5px;
+            }
+
             margin: 10px;
 
             ul {
@@ -236,6 +240,10 @@ $footerHeight: 40px;
 
     padding: 0 $spacing;
     @include ellipsis;
+}
+
+.main-title {
+    padding-top: $spacing;
 }
 
 .main-content {
@@ -294,4 +302,10 @@ $footerHeight: 40px;
 .ads {
     margin: 10px auto;
     overflow: hidden;
+    text-align: center;
+
+    div {
+        // Temporary rule
+        display: inline-block;
+    }
 }

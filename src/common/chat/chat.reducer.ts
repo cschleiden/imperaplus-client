@@ -3,7 +3,7 @@ import { ChannelInformation, Message } from "../../external/chatModel";
 import { failed, IAction, pending, success } from "../../lib/action";
 import reducerMap from "../../lib/reducerMap";
 import {
-    CLOSE, IStartPayload, IUserEventPayload, JOIN, LEAVE, MESSAGE, RECEIVE_MESSAGE, SHOW_HIDE, START,
+    CLOSE, IStartPayload, IUserEventPayload, JOIN, LEAVE, RECEIVE_MESSAGE, SHOW_HIDE, START,
     SWITCH_CHANNEL
 } from "./chat.actions";
 
@@ -94,7 +94,7 @@ export const chat = <TPayload>(
     });
 };
 
-function getChannelIdxById(channels: ChannelInformation[], channelId: string): number {    
+function getChannelIdxById(channels: ChannelInformation[], channelId: string): number {
     let matchingChannels = channels.filter((c: ChannelInformation) => c.identifier === channelId);
     if (!matchingChannels.length) {
         throw new Error("No matching channel found");

@@ -2,7 +2,7 @@ import { IImmutable, makeImmutable } from "immuts";
 import { NewsClient, NewsItem } from "../../external/imperaClients";
 import { failed, IAction, pending, success } from "../../lib/action";
 import reducerMap from "../../lib/reducerMap";
-import { REFRESH } from "./news.actions";
+import * as Actions from "./news.actions";
 
 const initialState = makeImmutable({
     isLoading: false,
@@ -24,7 +24,7 @@ export const news = <TPayload>(
     action?: IAction<TPayload>) => {
 
     return reducerMap(action, state, {
-        [pending(REFRESH)]: loading,
-        [success(REFRESH)]: refresh
+        [pending(Actions.refresh.TYPE)]: loading,
+        [success(Actions.refresh.TYPE)]: refresh
     });
 };

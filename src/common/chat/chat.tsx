@@ -101,8 +101,8 @@ export class Chat extends React.Component<IChatProps, IChatState> {
                         <form onSubmit={this._onSend}>
                             <FormControl
                                 autoComplete="off"
-                                placeholder={__("Enter your message...")} 
-                                value={this.state.msg} 
+                                placeholder={__("Enter your message...")}
+                                value={this.state.msg}
                                 onChange={this._onChange} />
                             <Button
                                 disabled={!this._isValid()}
@@ -180,8 +180,8 @@ export default connect((state: IState) => {
         unreadCount: chat.unreadCount
     };
 }, (dispatch) => ({
-    showHide: (show: boolean) => dispatch(showHide(show)),
-    close: () => dispatch(close()),
-    send: (msg: string) => dispatch(message(msg)),
+    showHide: (show: boolean) => { dispatch(showHide(show)) },
+    close: () => { dispatch(close()) },
+    send: (msg: string) => { dispatch(message(msg)) },
     switchChannel: (id: string): void => { dispatch(switchChannel(id)); }
 }))(Chat);

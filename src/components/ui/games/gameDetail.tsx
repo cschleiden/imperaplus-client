@@ -6,7 +6,7 @@ import { Button, Glyphicon, Image } from "react-bootstrap";
 import { connect } from "react-redux";
 import { getCachedClient } from "../../../clients/clientFactory";
 import { Grid, GridColumn, GridRow } from "../../../components/layout";
-import { HumanDate, HumanTime} from "../../../components/ui/humanDate";
+import { HumanDate, HumanTime } from "../../../components/ui/humanDate";
 import { imageBaseUri } from "../../../configuration";
 import { GameState, GameSummary, GameType, MapClient, PlayerState, PlayerSummary } from "../../../external/imperaClients";
 import { autobind } from "../../../lib/autobind";
@@ -221,9 +221,9 @@ class GameDetails extends React.Component<IGameDetailsProps & IGameDetailsDispat
 }
 
 export default connect((state: IState, ownProps: IGameDetailsProps) => ownProps, (dispatch) => ({
-    hide: (gameId: number) => dispatch(hide(gameId)),
-    remove: (gameId: number) => dispatch(remove(gameId)),
-    surrender: (gameId: number) => dispatch(surrender(gameId)),
-    leave: (gameId: number) => dispatch(leave(gameId)),
-    join: (gameId: number) => dispatch(join(gameId))
+    hide: (gameId: number) => { dispatch(hide(gameId)) },
+    remove: (gameId: number) => { dispatch(remove(gameId)) },
+    surrender: (gameId: number) => { dispatch(surrender(gameId)) },
+    leave: (gameId: number) => { dispatch(leave(gameId)) },
+    join: (gameId: number) => { dispatch(join(gameId)) }
 }))(GameDetails);

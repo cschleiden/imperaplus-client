@@ -1,9 +1,3 @@
-export interface HumanDate {
-    HumanDate: () => void;
-    HumanTime: () => void;
-    HumanCountdown: () => void;
-}
-
 export const HumanDate = (date: Date): string => {
     let calculateDelta, day, hour, minute, month, week, year;
     minute = 60;
@@ -71,7 +65,6 @@ export const HumanDate = (date: Date): string => {
 };
 
 export const HumanTime = (time: number): string => {
-
     switch (false) {
         case !(time === 300):
             return __("5 Minutes");
@@ -94,7 +87,6 @@ export const HumanTime = (time: number): string => {
 };
 
 export const HumanCountdown = (secs: number): string => {
-
     let ms = secs * 1000;
     let days = Math.floor(secs / (60 * 60 * 24));
     let divisor_for_hours = secs % (60 * 60 * 24);
@@ -109,16 +101,14 @@ export const HumanCountdown = (secs: number): string => {
     let sString: string = seconds.toString();
 
     if (hString.length === 1) {
-      hString = "0" + hString;
+        hString = "0" + hString;
     }
     if (mString.length === 1) {
-      mString = "0" + mString;
+        mString = "0" + mString;
     }
     if (sString.length === 1) {
-      sString = "0" + sString;
+        sString = "0" + sString;
     }
 
     return days + " " + __("day(s)") + " | " + hString + ":" + mString + ":" + sString;
 };
-
-export default HumanDate;

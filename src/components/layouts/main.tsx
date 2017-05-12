@@ -94,19 +94,30 @@ interface ILayoutProps {
 }
 
 export class Layout extends React.Component<ILayoutProps, void> {
+    private _msg: HTMLDivElement;
+    private _resolveMsg = (element: HTMLDivElement) => this._msg = element;
+
+    public componentDidUpdate(prevProps: ILayoutProps) {
+        // Scroll message into view if it exists
+        const { message } = this.props;
+
+        if (!!message && prevProps.message !== message && this._msg) {
+            this._msg.scrollIntoView();
+        }
+    }
+
     public render(): JSX.Element {
-        const { title } = this.props;
+        const { title, message, userInfo } = this.props;
 
         let msg: JSX.Element;
-        if (!!this.props.message) {
+        if (!!message) {
             msg = <Alert
-                bsStyle={getStyleForMessage(this.props.message.type)}
+                bsStyle={getStyleForMessage(message.type)}
                 onDismiss={this._onClear}>
-                <LinkString link={this.props.message.message} />
+                <LinkString link={message.message} />
             </Alert>;
         }
 
-        const { userInfo } = this.props;
         let isAdmin = false;
         if (userInfo) {
             isAdmin = userInfo.roles
@@ -164,7 +175,9 @@ export class Layout extends React.Component<ILayoutProps, void> {
                 </GridRow>
 
                 <GridRow className="message">
-                    {msg}
+                    <div ref={this._resolveMsg}>
+                        {msg}
+                    </div>
                 </GridRow>
 
                 <GridRow className="content">

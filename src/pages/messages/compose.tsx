@@ -33,7 +33,7 @@ class ComposeComponent extends React.Component<IComposeProps & IOwnProps, void> 
                             to: formState.getFieldValue("user"),
                             subject: formState.getFieldValue("subject"),
                             text: formState.getFieldValue("text")
-                        });
+                        }, options);
                     }}
                     component={(({ isPending, submit, formState }) => (
                         <div>

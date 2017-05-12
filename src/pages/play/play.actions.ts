@@ -84,8 +84,7 @@ export const switchGame: IAsyncAction<ISwitchGameInput> = (input) =>
         }
     };
 
-export const REFRESH_GAME = "play-game-refresh";
-export const refreshGame = makePromiseAction<void, Game>((input, dispatch, getState, deps) => {
+export const refreshGame = makePromiseAction<void, Game>("play-game-refresh", (input, dispatch, getState, deps) => {
     const gameId = getState().play.data.gameId;
 
     if (!gameId) {
@@ -93,34 +92,32 @@ export const refreshGame = makePromiseAction<void, Game>((input, dispatch, getSt
     }
 
     return {
-        type: REFRESH_GAME,
         payload: {
             promise: deps.getCachedClient(GameClient).get(gameId)
         }
     };
 });
 
-export const GAME_CHAT_MESSAGES = "play-game-chat-messages";
 export interface IGameChatMessagesPayload {
     gameId: number;
     all: GameChatMessage[];
     team: GameChatMessage[];
 }
-export const gameChatMessages = makePromiseAction<number, IGameChatMessagesPayload>((gameId, dispatch, getState, deps) => ({
-    type: GAME_CHAT_MESSAGES,
-    payload: {
-        promise: Promise.all([
-            deps.getCachedClient(GameClient).getMessages(gameId, false),
-            deps.getCachedClient(GameClient).getMessages(gameId, true)
-        ]).then(messages => {
-            return {
-                gameId,
-                all: messages[1],
-                team: messages[0]
-            } as IGameChatMessagesPayload;
-        })
-    }
-}));
+export const gameChatMessages = makePromiseAction<number, IGameChatMessagesPayload>(
+    "play-game-chat-messages", (gameId, dispatch, getState, deps) => ({
+        payload: {
+            promise: Promise.all([
+                deps.getCachedClient(GameClient).getMessages(gameId, false),
+                deps.getCachedClient(GameClient).getMessages(gameId, true)
+            ]).then(messages => {
+                return {
+                    gameId,
+                    all: messages[1],
+                    team: messages[0]
+                } as IGameChatMessagesPayload;
+            })
+        }
+    }));
 
 export const GAME_CHAT_MESSAGE = "play-game-chat-message";
 export const gameChatMessage = (message: GameChatMessage): IAction<GameChatMessage> => ({
@@ -128,22 +125,25 @@ export const gameChatMessage = (message: GameChatMessage): IAction<GameChatMessa
     payload: message
 });
 
-export const GAME_CHAT_SEND_MESSAGE = "play-game-chat-send-message";
 export interface IGameChatSendMessageInput {
     message: string;
     isPublic: boolean;
 }
-export const gameChatSendMessage = makePromiseAction<IGameChatSendMessageInput, void>((input, dispatch, getState, deps) => {
-    const gameId = getState().play.data.gameId;
-    const client = deps.getSignalRClient("game");
+export const gameChatSendMessage = makePromiseAction<IGameChatSendMessageInput, void>(
+    "play-game-chat-send-message", (input, dispatch, getState, deps) => {
+        const gameId = getState().play.data.gameId;
+        const client = deps.getSignalRClient("game");
 
-    return {
-        type: GAME_CHAT_SEND_MESSAGE,
-        payload: {
-            promise: client.invoke<void>("sendGameMessage", gameId, input.message, input.isPublic)
-        }
-    };
-});
+        return {
+            payload: {
+                promise: client.invoke<void>("sendGameMessage", gameId, input.message, input.isPublic)
+            },
+            options: {
+                // Prevent loading bar from picking this up
+                customSuffix: "-chat"
+            }
+        };
+    });
 
 export const LEAVE = "play-leave";
 export const leave: IAsyncActionVoid = () =>
@@ -164,8 +164,7 @@ export const toggleSidebar = (): IAction<void> => ({
     type: TOGGLE_SIDEBAR
 });
 
-export const PLACE = "play-place";
-export const place = makePromiseAction<void, GameActionResult>((gameId, dispatch, getState, deps) => {
+export const place = makePromiseAction<void, GameActionResult>("play-place", (gameId, dispatch, getState, deps) => {
     const state = getState();
     const playState = getState().play.data;
     if (!inputActive(state.play)) {
@@ -178,7 +177,6 @@ export const place = makePromiseAction<void, GameActionResult>((gameId, dispatch
     } as PlaceUnitsOptions));
 
     return {
-        type: PLACE,
         payload: {
             promise: deps.getCachedClient(PlayClient).postPlace(playState.gameId, options)
         }
@@ -189,20 +187,19 @@ export const place = makePromiseAction<void, GameActionResult>((gameId, dispatch
 // Play actions
 //
 
-export const EXCHANGE = "play-exchange";
-export const exchange = makePromiseAction<void, GameActionResult>((gameId, dispatch, getState, deps) => {
-    const state = getState();
-    if (!inputActive(state.play)) {
-        return;
-    }
-
-    return {
-        type: EXCHANGE,
-        payload: {
-            promise: deps.getCachedClient(PlayClient).postExchange(getState().play.data.gameId)
+export const exchange = makePromiseAction<void, GameActionResult>(
+    "play-exchange", (gameId, dispatch, getState, deps) => {
+        const state = getState();
+        if (!inputActive(state.play)) {
+            return;
         }
-    };
-});
+
+        return {
+            payload: {
+                promise: deps.getCachedClient(PlayClient).postExchange(getState().play.data.gameId)
+            }
+        };
+    });
 
 export const SELECT_COUNTRY = "play-country-select";
 export const selectCountry = (countryIdentifier: string): IAction<string> => ({
@@ -229,98 +226,93 @@ export const setActionUnits = (units: number): IAction<number> => ({
     payload: units
 });
 
-export const ATTACK = "play-attack";
-export const attack = makePromiseAction<void, GameActionResult>((input, dispatch, getState, deps) => {
-    const state = getState();
-    const playState = getState().play.data;
+export const attack = makePromiseAction<void, GameActionResult>(
+    "play-attack", (input, dispatch, getState, deps) => {
+        const state = getState();
+        const playState = getState().play.data;
 
-    if (!inputActive(state.play)) {
-        return;
-    }
-
-    return {
-        type: ATTACK,
-        payload: {
-            promise: deps.getCachedClient(PlayClient).postAttack(playState.gameId, {
-                originCountryIdentifier: playState.twoCountry.originCountryIdentifier,
-                destinationCountryIdentifier: playState.twoCountry.destinationCountryIdentifier,
-                numberOfUnits: playState.twoCountry.numberOfUnits
-            })
+        if (!inputActive(state.play)) {
+            return;
         }
-    };
-});
 
-export const END_ATTACK = "play-end-attack";
-export const endAttack = makePromiseAction<void, GameActionResult>((_, dispatch, getState, deps) => {
-    const state = getState();
-    const playState = getState().play.data;
+        return {
+            payload: {
+                promise: deps.getCachedClient(PlayClient).postAttack(playState.gameId, {
+                    originCountryIdentifier: playState.twoCountry.originCountryIdentifier,
+                    destinationCountryIdentifier: playState.twoCountry.destinationCountryIdentifier,
+                    numberOfUnits: playState.twoCountry.numberOfUnits
+                })
+            }
+        };
+    });
 
-    if (!inputActive(state.play)) {
-        return;
-    }
+export const endAttack = makePromiseAction<void, GameActionResult>(
+    "play-end-attack", (_, dispatch, getState, deps) => {
+        const state = getState();
+        const playState = getState().play.data;
 
-    return {
-        type: END_ATTACK,
-        payload: {
-            promise: deps.getCachedClient(PlayClient).postEndAttack(playState.gameId)
+        if (!inputActive(state.play)) {
+            return;
         }
-    };
-});
 
-export const MOVE = "play-move";
-export const move = makePromiseAction<void, GameActionResult>((_, dispatch, getState, deps) => {
-    const state = getState();
-    const playState = getState().play.data;
+        return {
+            payload: {
+                promise: deps.getCachedClient(PlayClient).postEndAttack(playState.gameId)
+            }
+        };
+    });
 
-    if (!inputActive(state.play)) {
-        return;
-    }
+export const move = makePromiseAction<void, GameActionResult>(
+    "play-move", (_, dispatch, getState, deps) => {
+        const state = getState();
+        const playState = getState().play.data;
 
-    return {
-        type: MOVE,
-        payload: {
-            promise: deps.getCachedClient(PlayClient).postMove(playState.gameId, {
-                originCountryIdentifier: playState.twoCountry.originCountryIdentifier,
-                destinationCountryIdentifier: playState.twoCountry.destinationCountryIdentifier,
-                numberOfUnits: playState.twoCountry.numberOfUnits
-            })
+        if (!inputActive(state.play)) {
+            return;
         }
-    };
-});
 
-export const END_TURN = "play-end-turn";
-export const endTurn = makePromiseAction<void, Game>((_, dispatch, getState, deps) => {
-    const state = getState();
-    const playState = getState().play.data;
+        return {
+            payload: {
+                promise: deps.getCachedClient(PlayClient).postMove(playState.gameId, {
+                    originCountryIdentifier: playState.twoCountry.originCountryIdentifier,
+                    destinationCountryIdentifier: playState.twoCountry.destinationCountryIdentifier,
+                    numberOfUnits: playState.twoCountry.numberOfUnits
+                })
+            }
+        };
+    });
 
-    if (!inputActive(state.play)) {
-        return;
-    }
+export const endTurn = makePromiseAction<void, Game>(
+    "play-end-turn", (_, dispatch, getState, deps) => {
+        const state = getState();
+        const playState = getState().play.data;
 
-    return {
-        type: END_TURN,
-        payload: {
-            promise: deps.getCachedClient(PlayClient).postEndTurn(playState.gameId)
+        if (!inputActive(state.play)) {
+            return;
         }
-    };
-});
+
+        return {
+            payload: {
+                promise: deps.getCachedClient(PlayClient).postEndTurn(playState.gameId)
+            }
+        };
+    });
 
 //
 // History actions
 //
-export const HISTORY_TURN = "play-history-turn";
-export const historyTurn = makePromiseAction<number, HistoryTurn>((turnId, dispatch, getState, deps) => {
-    const { gameId } = getState().play.data;
+export const historyTurn = makePromiseAction<number, HistoryTurn>(
+    "play-history-turn", (turnId, dispatch, getState, deps) => {
+        const { gameId } = getState().play.data;
 
-    dispatch(push(`/play/${gameId}/history/${turnId}`));
+        dispatch(push(`/play/${gameId}/history/${turnId}`));
 
-    return {
-        type: HISTORY_TURN,
-        payload: {
-            promise: deps.getCachedClient(HistoryClient).getTurn(gameId, turnId)
-        }
-    };
-});
+        return {
+            payload: {
+                promise: deps.getCachedClient(HistoryClient).getTurn(gameId, turnId)
+            }
+        };
+    });
 
 export const HISTORY_EXIT = "play-history-exit";
 export const historyExit: IAsyncAction<void> = () =>

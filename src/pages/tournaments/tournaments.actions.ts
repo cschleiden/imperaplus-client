@@ -1,60 +1,107 @@
 import { MessageType, show } from "../../common/message/message.actions";
-import { Tournament, TournamentClient, TournamentSummary } from "../../external/imperaClients";
+import { Tournament, TournamentClient, TournamentSummary, TournamentTeamSummary } from "../../external/imperaClients";
 import { IAction, makePromiseAction } from "../../lib/action";
 
-export const REFRESH = "tournaments-refresh";
-export const refresh = makePromiseAction<void, TournamentSummary[]>((input, dispatch, getState, deps) =>
-    ({
-        type: REFRESH,
-        payload: {
-            promise: deps.getCachedClient(TournamentClient).getAll()
-        },
-        options: {
-            useMessage: true
-        }
-    }));
+export const refresh = makePromiseAction<void, TournamentSummary[]>(
+    "tournaments-refresh", (input, dispatch, getState, deps) =>
+        ({
+            payload: {
+                promise: deps.getCachedClient(TournamentClient).getAll()
+            },
+            options: {
+                useMessage: true
+            }
+        }));
 
-export const LOAD = "tournaments-load";
-export const load = makePromiseAction<string, Tournament>((tournamentId, dispatch, getState, deps) =>
-    ({
-        type: LOAD,
-        payload: {
-            promise: deps.getCachedClient(TournamentClient).getById(tournamentId)
-        },
-        options: {
-            useMessage: true
-        }
-    }));
+export const load = makePromiseAction<string, Tournament>(
+    "tournaments-load", (tournamentId, dispatch, getState, deps) =>
+        ({
+            payload: {
+                promise: deps.getCachedClient(TournamentClient).getById(tournamentId)
+            },
+            options: {
+                useMessage: true
+            }
+        }));
+
+export const join = makePromiseAction<string, null>(
+    "tournament-join", (tournamentId, dispatch, getState, deps) =>
+        ({
+            payload: {
+                promise: deps.getCachedClient(TournamentClient).postJoin(tournamentId).then(() => {
+                    dispatch(load(tournamentId));
+                    dispatch(show(__("You are now registered for this tournament."), MessageType.success));
+                })
+            },
+            options: {
+                useMessage: true,
+                clearMessage: true
+            }
+        }));
+
+export const leave = makePromiseAction<string, null>(
+    "tournament-leave", (tournamentId, dispatch, getState, deps) =>
+        ({
+            payload: {
+                promise: deps.getCachedClient(TournamentClient).leaveTournament(tournamentId).then(() => {
+                    dispatch(load(tournamentId));
+                    dispatch(show(__("You have left this tournament."), MessageType.success));
+                })
+            },
+            options: {
+                useMessage: true,
+                clearMessage: true
+            }
+        }));
+
+export const createTeam = makePromiseAction<{
+    tournamentId: string;
+    teamName: string;
+    teamPassword?: string;
+}, TournamentTeamSummary>(
+    "tournament-create-team", (input, dispatch, getState, deps) => {
+        return {
+            payload: {
+                promise: deps.getCachedClient(TournamentClient).postCreateTeam(
+                    input.tournamentId,
+                    input.teamName,
+                    input.teamPassword
+                )
+            }
+        };
+    });
+
+export const joinTeam = makePromiseAction<{
+    tournamentId: string;
+    teamId: string;
+    teamPassword?: string;
+}, void>(
+    "tournament-join-team", (input, dispatch, getState, deps) => {
+        return {
+            payload: {
+                promise: deps.getCachedClient(TournamentClient).postJoinTeam(
+                    input.tournamentId,
+                    input.teamId,
+                    input.teamPassword
+                ).then<void>(null)
+            }
+        };
+    });
 
 
-export const JOIN = "tournament-join";
-export const join = makePromiseAction<string, null>((tournamentId, dispatch, getState, deps) =>
-    ({
-        type: JOIN,
-        payload: {
-            promise: deps.getCachedClient(TournamentClient).postJoin(tournamentId).then(() => {
-                dispatch(load(tournamentId));
-                dispatch(show(__("You are now registered for this tournament."), MessageType.success));
-            })
-        },
-        options: {
-            useMessage: true,
-            clearMessage: true
-        }
-    }));
-
-export const LEAVE = "tournament-leave";
-export const leave = makePromiseAction<string, null>((tournamentId, dispatch, getState, deps) =>
-    ({
-        type: LEAVE,
-        payload: {
-            promise: deps.getCachedClient(TournamentClient).leaveTournament(tournamentId).then(() => {
-                dispatch(load(tournamentId));
-                dispatch(show(__("You have left this tournament."), MessageType.success));
-            })
-        },
-        options: {
-            useMessage: true,
-            clearMessage: true
-        }
-    }));
+export const deleteTeam = makePromiseAction<{
+    tournamentId: string;
+    teamId: string;
+}, string>(
+    "tournament-delete-team", (input, dispatch, getState, deps) => {
+        return {
+            payload: {
+                promise: deps.getCachedClient(TournamentClient).deleteTeam(
+                    input.tournamentId,
+                    input.teamId
+                ).then<string>(() => {
+                    return input.teamId;
+                })
+            }
+        };
+    });

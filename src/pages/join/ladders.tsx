@@ -92,6 +92,6 @@ export default connect((state: IState) => {
         ladders: games
     };
 }, (dispatch) => ({
-    refresh: () => dispatch(refresh(null)),
-    join: (ladderId: string) => dispatch(join(ladderId))
+    refresh: () => { dispatch(refresh(null)) },
+    join: (ladderId: string) => { dispatch(join(ladderId)) }
 }))(LaddersComponent);

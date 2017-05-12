@@ -14,7 +14,7 @@ export const play = <TPayload>(
     action?: IAction<TPayload>) => {
 
     const userActions = [
-        Actions.SELECT_COUNTRY, 
+        Actions.SELECT_COUNTRY,
         Actions.SET_PLACE_UNITS,
         Actions.SET_ACTION_UNITS
     ];
@@ -28,19 +28,19 @@ export const play = <TPayload>(
         [Actions.TOGGLE_SIDEBAR]: ActionHandlers.toggleSidebar,
         [success(Actions.SWITCH_GAME)]: ActionHandlers.switchGame,
         [pending(Actions.SWITCH_GAME)]: ActionHandlers.pendingOperation,
-        [success(Actions.REFRESH_GAME)]: ActionHandlers.refreshGame,
-        [pending(Actions.REFRESH_GAME)]: ActionHandlers.pendingOperation,
+        [success(Actions.refreshGame.TYPE)]: ActionHandlers.refreshGame,
+        [pending(Actions.refreshGame.TYPE)]: ActionHandlers.pendingOperation,
 
         [Actions.LEAVE]: ActionHandlers.leave,
 
         // Game chat
         [Actions.GAME_CHAT_MESSAGE]: ActionHandlers.gameChatMessage,
-        [pending(Actions.GAME_CHAT_SEND_MESSAGE)]: ActionHandlers.gameChatSendMessagePending,
-        [success(Actions.GAME_CHAT_SEND_MESSAGE)]: ActionHandlers.gameChatSendMessageSuccess,
-        [success(Actions.GAME_CHAT_MESSAGES)]: ActionHandlers.gameChatMessages,
+        [pending(Actions.gameChatSendMessage.TYPE)]: ActionHandlers.gameChatSendMessagePending,
+        [success(Actions.gameChatSendMessage.TYPE)]: ActionHandlers.gameChatSendMessageSuccess,
+        [success(Actions.gameChatMessages.TYPE)]: ActionHandlers.gameChatMessages,
 
         // History
-        [success(Actions.HISTORY_TURN)]: ActionHandlers.historyTurn,
+        [success(Actions.historyTurn.TYPE)]: ActionHandlers.historyTurn,
         [Actions.HISTORY_EXIT]: ActionHandlers.historyExit,
 
         // Play actions
@@ -48,28 +48,28 @@ export const play = <TPayload>(
         [Actions.SET_PLACE_UNITS]: ActionHandlers.setPlaceUnits,
         [Actions.SET_ACTION_UNITS]: ActionHandlers.setActionUnits,
 
-        [pending(Actions.PLACE)]: ActionHandlers.pendingOperation,
-        [success(Actions.PLACE)]: ActionHandlers.updateFromResult,
-        [failed(Actions.PLACE)]: ActionHandlers.error,
+        [pending(Actions.place.TYPE)]: ActionHandlers.pendingOperation,
+        [success(Actions.place.TYPE)]: ActionHandlers.updateFromResult,
+        [failed(Actions.place.TYPE)]: ActionHandlers.error,
 
-        [pending(Actions.EXCHANGE)]: ActionHandlers.pendingOperation,
-        [success(Actions.EXCHANGE)]: ActionHandlers.updateFromResult,
-        [failed(Actions.EXCHANGE)]: ActionHandlers.error,
+        [pending(Actions.exchange.TYPE)]: ActionHandlers.pendingOperation,
+        [success(Actions.exchange.TYPE)]: ActionHandlers.updateFromResult,
+        [failed(Actions.exchange.TYPE)]: ActionHandlers.error,
 
-        [pending(Actions.ATTACK)]: ActionHandlers.pendingOperation,
-        [success(Actions.ATTACK)]: ActionHandlers.updateFromResult,
-        [failed(Actions.ATTACK)]: ActionHandlers.error,
+        [pending(Actions.attack.TYPE)]: ActionHandlers.pendingOperation,
+        [success(Actions.attack.TYPE)]: ActionHandlers.updateFromResult,
+        [failed(Actions.attack.TYPE)]: ActionHandlers.error,
 
-        [pending(Actions.END_ATTACK)]: ActionHandlers.pendingOperation,
-        [success(Actions.END_ATTACK)]: ActionHandlers.updateFromResult,
-        [failed(Actions.END_ATTACK)]: ActionHandlers.error,
+        [pending(Actions.endAttack.TYPE)]: ActionHandlers.pendingOperation,
+        [success(Actions.endAttack.TYPE)]: ActionHandlers.updateFromResult,
+        [failed(Actions.endAttack.TYPE)]: ActionHandlers.error,
 
-        [pending(Actions.MOVE)]: ActionHandlers.pendingOperation,
-        [success(Actions.MOVE)]: ActionHandlers.updateFromResult,
-        [failed(Actions.MOVE)]: ActionHandlers.error,
+        [pending(Actions.move.TYPE)]: ActionHandlers.pendingOperation,
+        [success(Actions.move.TYPE)]: ActionHandlers.updateFromResult,
+        [failed(Actions.move.TYPE)]: ActionHandlers.error,
 
-        [pending(Actions.END_TURN)]: ActionHandlers.pendingOperation,
-        [success(Actions.END_TURN)]: ActionHandlers.updateFromResult,
-        [failed(Actions.END_TURN)]: ActionHandlers.error
+        [pending(Actions.endTurn.TYPE)]: ActionHandlers.pendingOperation,
+        [success(Actions.endTurn.TYPE)]: ActionHandlers.updateFromResult,
+        [failed(Actions.endTurn.TYPE)]: ActionHandlers.error
     });
 };

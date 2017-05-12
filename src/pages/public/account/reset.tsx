@@ -6,7 +6,6 @@ import { ControlledTextField } from "../../../common/forms/inputs";
 import { resetTrigger } from "../../../common/session/session.actions";
 import { Grid, GridColumn, GridRow } from "../../../components/layout";
 import { ProgressButton } from "../../../components/ui/progressButton";
-import { Title } from "../../../components/ui/typography";
 import { setDocumentTitle } from "../../../lib/title";
 
 export default class ResetComponent extends React.Component<void, void> {
@@ -18,10 +17,6 @@ export default class ResetComponent extends React.Component<void, void> {
         return <Grid className="recover">
             <GridRow>
                 <GridColumn className="col-xs-12">
-                    <Title>
-                        {__("Reset password")}
-                    </Title>
-
                     <Form
                         name="recover"
                         onSubmit={((formState, options) => {

@@ -13,6 +13,7 @@ import { PlayerOutcomeDisplay } from "./playerOutcome";
 
 interface IGameListProps {
     games: GameSummary[];
+    userId: string;
 }
 
 interface IGameListState {
@@ -44,13 +45,13 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
 
     private _renderHeader() {
         // TODO: This has to change
-        let area = store.getState().routing.locationBeforeTransitions.pathname        
+        let area = store.getState().routing.locationBeforeTransitions.pathname
         let classSwitch: string = "";
         let userText: string = __("Active");
 
         if (area.match("join")) {
-          classSwitch = "hidden";
-          userText = __("Owner");
+            classSwitch = "hidden";
+            userText = __("Owner");
         }
 
         return <tr>
@@ -76,8 +77,8 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
         let classSwitch: string = "";
 
         if (area.match("join")) {
-          classSwitch = "hidden";
-          playerName = <span>{game.createdByName}</span>;
+            classSwitch = "hidden";
+            playerName = <span>{game.createdByName}</span>;
         }
 
         if (!!player) {
@@ -137,7 +138,7 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
     private _playerForGame(game: GameSummary): PlayerSummary | null {
         for (let team of game.teams) {
             for (let player of team.players) {
-                if (player.userId === store.getState().session.data.userInfo.userId) {
+                if (player.userId === this.props.userId) {
                     return player;
                 }
             }
