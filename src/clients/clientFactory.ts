@@ -4,6 +4,7 @@ import { TokenProvider } from "../services/tokenProvider";
 import { SessionService } from "../common/session/session.service";
 import { AccountClient, ErrorResponse } from "../external/imperaClients";
 import jsonParseReviver from "../lib/jsonReviver";
+import { UserProvider } from "../services/userProvider";
 
 export interface IClient<TClient> {
     new (baseUri: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }): TClient;
@@ -30,6 +31,8 @@ export function createClientWithToken<TClient>(
 
     return createClient(clientType, () => access_token);
 }
+
+let miniProfilerInitialized = false;
 
 let onUnauthorized: () => Promise<any>;
 
@@ -66,6 +69,34 @@ const fetchWrapper = (tokenProvider: () => string, url: string, init) => {
                 result400 = responseText === "" ? null : <ErrorResponse>JSON.parse(responseText, this.jsonParseReviver);
                 throw result400;
             });
+        }
+
+        if (UserProvider.isAdmin()) {
+            if (!miniProfilerInitialized) {
+                miniProfilerInitialized = true;
+
+                // Initialize mini profiler
+                const scriptTag = $("<script>").attr({
+                    "type": "text/javascript",
+                    "id": "mini-profiler",
+                    "src": baseUri + "/admin/profiler/includes.js",
+                    "data-path": baseUri + "/admin/profiler/",
+                    "data-position": "top",
+                    "data-authorized": "true",
+                    "data-controls": "true",
+                    "data-ids": "abc"
+                });
+                $("head").append(scriptTag);
+            }
+
+            const miniProfiler = (<any>window).MiniProfiler;
+            if (miniProfiler) {
+                const miniProfilerIds = response.headers.get("X-MiniProfiler-Ids");
+                if (miniProfilerIds && miniProfiler) {
+                    // tslint:disable-next-line:no-eval
+                    miniProfiler.fetchResults(eval(miniProfilerIds));
+                }
+            }
         }
 
         return response;

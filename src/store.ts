@@ -84,3 +84,8 @@ UserProvider.userProvider = () => {
   const userInfo = store.getState().session.data.userInfo;
   return userInfo && userInfo.userId;
 };
+
+UserProvider.isAdminProvider = () => {
+  const userInfo = store.getState().session.data.userInfo;
+  return userInfo && userInfo.roles && userInfo.roles.some(x => x.toLowerCase() === "admin");
+};

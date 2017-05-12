@@ -41,7 +41,9 @@ export class TournamentGroups extends React.Component<ITournamentGroupProps, voi
             <div className="group-standings">
                 <ol>
                     {teams.map(team =>
-                        <li key={team.id} value={team.groupOrder + 1}>
+                        <li key={team.id} value={team.groupOrder + 1} className={css({
+                            "tournament-teams-cutoff": (team.groupOrder + 1) === 2 // first two teams proceed
+                        })}>
                             {team.name}
                         </li>)}
                 </ol>
