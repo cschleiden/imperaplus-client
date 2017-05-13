@@ -45,8 +45,8 @@ export class TournamentGroups extends React.Component<ITournamentGroupProps, voi
                 <div className="group-standings vertical-box-content">
                     <ol>
                         {teams.map(team =>
-                            <li key={team.id} value={team.groupOrder + 1} className={css({
-                                "tournament-teams-cutoff": (team.groupOrder + 1) === 2 // first two teams proceed
+                            <li key={team.id} value={team.groupOrder} className={css({
+                                "tournament-teams-cutoff": (team.groupOrder) === 2 // first two teams proceed
                             })}>
                                 {team.name}
                             </li>)}
