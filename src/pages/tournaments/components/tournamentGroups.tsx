@@ -59,28 +59,35 @@ export class TournamentGroups extends React.Component<ITournamentGroupProps, voi
 
                 <div className="group-pairings vertical-box-content">
                     <Table className="group-table" striped>
-                        {pairings.map(p =>
-                            <tr key={p.order}>
-                                <td className="text-right">
-                                    {p.teamA.name}
-                                    <span className={css("badge label", {
-                                        "label-success": p.teamAWon >= tournament.numberOfGroupGames / 2
-                                    })}> {p.teamAWon}</span>
-                                </td>
-                                <td className="text-center">
-                                    <span className="label label-info">{tournament.numberOfGroupGames}</span>
-                                </td>
-                                <td>
-                                    <span className={css("badge label", {
-                                        "label-success": p.teamBWon >= tournament.numberOfGroupGames / 2
-                                    })}> {p.teamBWon}</span>
-                                    {p.teamB.name}
-                                </td>
-                            </tr>
-                        )}
+                        <tbody>
+                            {pairings.map(p =>
+                                <tr key={p.order}>
+                                    <td className="text-right">
+                                        {p.teamA.name}
+                                        {this._renderLabel(p, true)}
+                                    </td>
+                                    <td className="text-center">
+                                        <span className="label label-info">{p.numberOfGames - (p.teamAWon + p.teamBWon)}</span>
+                                    </td>
+                                    <td>
+                                        {this._renderLabel(p, false)}
+                                        {p.teamB.name}
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
                     </Table>
                 </div>
             </div>
         </GridColumn>;
+    }
+
+    private _renderLabel(p: TournamentPairing, isTeamA: boolean) {
+        const won = isTeamA ? p.teamAWon : p.teamBWon;
+
+        return <span className={css("label", {
+            "label-default": won < p.numberOfGames / 2,
+            "label-success": won >= p.numberOfGames / 2
+        })}>{won}</span>;
     }
 }
