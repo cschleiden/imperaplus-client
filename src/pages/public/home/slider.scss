@@ -11,13 +11,11 @@
         left: 10%;
 
         h2 {
-            margin: 5px 0;
+            margin: 15px 0;
 
             i {
                 color: white;
                 background: rgba($accent, 0.5);
-                //@include ms-font-su;
-
                 font-style: normal;
                 padding: 0 5px;
 
@@ -40,7 +38,6 @@
 
                 font-style: normal;
                 padding: 2px;
-                //@include ms-font-l;
             }
         }
     }

@@ -1,5 +1,6 @@
-import * as React from "react";
+import "./home.scss";
 
+import * as React from "react";
 import { GridColumn, GridRow } from "../../../components/layout";
 import { setDocumentTitle } from "../../../lib/title";
 import { Slider } from "./slider";
@@ -27,27 +28,27 @@ export default class Home extends React.Component<{}, void> {
             </div>
             <GridRow>
                 <GridColumn className="col-md-4">
-                    <div>
-                        <i className="fa fa-compress service-icon"></i>
-                        <div>
+                    <div className="feature">
+                        <i className="fa fa-compress feature-icon"></i>
+                        <div className="feature-desc">
                             <h4><span>{__("Many Different Maps")}</span></h4>
-                            <p><span>{__("Play on up to 40 different maps against opponents from all over the world...")}</span></p>
+                            <p><span>{__("Play on up to 80 different maps against opponents from all over the world...")}</span></p>
                         </div>
                     </div>
                 </GridColumn>
                 <GridColumn className="col-md-4">
-                    <div>
-                        <i className="fa fa-cogs service-icon"></i>
-                        <div>
+                    <div className="feature">
+                        <i className="fa fa-cogs feature-icon"></i>
+                        <div className="feature-desc">
                             <h4><span>{__("Great Community")}</span></h4>
                             <p><span>{__("Tournaments, Leagues: Impera is not limited to simple one vs one games, it offers a wide variety of challenges")}</span></p>
                         </div>
                     </div>
                 </GridColumn>
                 <GridColumn className="col-md-4">
-                    <div>
-                        <i className="fa fa-rocket service-icon"></i>
-                        <div>
+                    <div className="feature">
+                        <i className="fa fa-rocket feature-icon"></i>
+                        <div className="feature-desc">
                             <h4><span>{__("Free As In Beer")}</span></h4>
                             <p><span>{__("Impera is completely free, no hidden fees, no \"in-app\" purchases...")}</span></p>
                         </div>
