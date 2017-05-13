@@ -169,9 +169,6 @@ export class CreateGameComponent extends React.Component<ICreateGameProps, void>
                                             </ControlledDropdown>
 
                                         </GridColumn>
-                                        <GridColumn className="col-md-6">
-                                            <Image className="game-details-map" id="mapPreview" src="/assets/logo_150.png" responsive />
-                                        </GridColumn>
                                     </GridRow>
                                 </Tab>
 
