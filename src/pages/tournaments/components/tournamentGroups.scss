@@ -1,3 +1,13 @@
+@import "../../../styles/vars.scss";
+
 .tournament-teams-cutoff {
     border-bottom: 1px solid black;
+}
+
+.group-table {
+    margin: 0;
+
+    .badge {
+        margin: 0 ($spacing / 2);
+    }
 }

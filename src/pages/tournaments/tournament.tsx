@@ -174,7 +174,7 @@ export class TournamentComponent extends React.Component<ITournamentProps, void>
                 {
                     tournament.state === TournamentState.Closed
                     && <div>
-                        <Section><span>{__("Winner")}</span></Section>
+                        <Section>{__("Winner")}</Section>
                         <div>
                             {tournament.winner && tournament.winner.name}
                         </div>

@@ -1,8 +1,8 @@
-// TODO: Include bootstrap
 @import "./utils";
 @import "./vars";
 @import "./colors";
 @import "./game";
+@import "./vertical-boxes";
 
 // 
 // Fonts
@@ -54,7 +54,7 @@ li a {
         width: 100%;
         height: 100%;
     }
-    ,
+
     &>div>div.mainWrapper {
         width: 100%;
         height: 100%;
@@ -226,6 +226,10 @@ h3.headline {
 }
 
 
+
+
+
+
 /*progress-bar (sizes)*/
 
 .progress-lg {
@@ -247,6 +251,10 @@ h3.headline {
 .progress-xxs {
     height: 3px;
 }
+
+
+
+
 
 
 /*progress-bar (colors)*/

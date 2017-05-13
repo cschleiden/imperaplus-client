@@ -213,6 +213,7 @@ $headerHeight: 120px;
 
 .content {
     background: url('/assets/background.png') repeat-x #fff;
+    padding-top: $spacing;
     padding-bottom: 50px;
     min-height: 500px;
 

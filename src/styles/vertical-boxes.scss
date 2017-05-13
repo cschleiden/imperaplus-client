@@ -1,0 +1,16 @@
+.vertical-box {
+    border: 2px solid $accent;
+    margin-left: -15px;
+
+    .vertical-box-content {
+        padding: $spacing;
+    }
+
+    .vertical-box-header {
+        background: $accent;
+        text-align: center;
+
+        padding: $spacing;
+        margin: 0;
+    }
+}

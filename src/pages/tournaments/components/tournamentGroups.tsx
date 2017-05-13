@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Table } from "react-bootstrap";
 import { GridColumn } from "../../../components/layout/index";
 import { Tournament, TournamentGroup, TournamentPairing } from "../../../external/imperaClients";
 import { css } from "../../../lib/css";
@@ -35,28 +36,50 @@ export class TournamentGroups extends React.Component<ITournamentGroupProps, voi
         });
         pairings.sort((a, b) => a.order - b.order);
 
-        return <GridColumn className="col-xs-4 vertical-box" key={group.id}>
-            <h3>{`${__("Group")} ${index + 1}`}</h3>
+        return <GridColumn className="col-sm-6 col-md-4" key={group.id}>
+            <div className="vertical-box">
+                <h4 className="vertical-box-header">
+                    {`${__("Group")} ${index + 1}`}
+                </h4>
 
-            <div className="group-standings">
-                <ol>
-                    {teams.map(team =>
-                        <li key={team.id} value={team.groupOrder + 1} className={css({
-                            "tournament-teams-cutoff": (team.groupOrder + 1) === 2 // first two teams proceed
-                        })}>
-                            {team.name}
-                        </li>)}
-                </ol>
-            </div>
+                <div className="group-standings vertical-box-content">
+                    <ol>
+                        {teams.map(team =>
+                            <li key={team.id} value={team.groupOrder + 1} className={css({
+                                "tournament-teams-cutoff": (team.groupOrder + 1) === 2 // first two teams proceed
+                            })}>
+                                {team.name}
+                            </li>)}
+                    </ol>
+                </div>
 
-            <div className="group-pairings">
-                <ul className="list-unstyled">
-                    {pairings.map(p =>
-                        <li key={p.order}>
-                            {p.teamA.name} {__("vs")} {p.teamB.name}
-                        </li>
-                    )}
-                </ul>
+                <h5 className="vertical-box-header">
+                    {__("Pairings")}
+                </h5>
+
+                <div className="group-pairings vertical-box-content">
+                    <Table className="group-table" striped>
+                        {pairings.map(p =>
+                            <tr key={p.order}>
+                                <td className="text-right">
+                                    {p.teamA.name}
+                                    <span className={css("badge label", {
+                                        "label-success": p.teamAWon >= tournament.numberOfGroupGames / 2
+                                    })}> {p.teamAWon}</span>
+                                </td>
+                                <td className="text-center">
+                                    <span className="label label-info">{tournament.numberOfGroupGames}</span>
+                                </td>
+                                <td>
+                                    <span className={css("badge label", {
+                                        "label-success": p.teamBWon >= tournament.numberOfGroupGames / 2
+                                    })}> {p.teamBWon}</span>
+                                    {p.teamB.name}
+                                </td>
+                            </tr>
+                        )}
+                    </Table>
+                </div>
             </div>
         </GridColumn>;
     }
