@@ -33,6 +33,7 @@ export const GameNavigation = ({ dispatch, userName }): JSX.Element => {
                 </li>
             </ul>
         </li>
+        {/*
         <li>
             <Link to="/game/alliance" activeClassName="active">
                 {__("Alliance")}
@@ -53,6 +54,7 @@ export const GameNavigation = ({ dispatch, userName }): JSX.Element => {
                 </li>
             </ul>
         </li>
+        */}
         <li>
             <Link to="/game/messages" activeClassName="active">
                 <i className="fa fa-envelope" aria-hidden="true" />
@@ -65,7 +67,7 @@ export const GameNavigation = ({ dispatch, userName }): JSX.Element => {
                 <span className="visible-xs-inline">&nbsp;{__("Account")}</span>
             </Link>
             <ul className="nav-dropdown">
-                <li className="text-center">
+                <li>
                     {userName}
                 </li>
                 <li>
