@@ -5,6 +5,7 @@ import "./gameList.scss";
 import { Button, Glyphicon, Table } from "react-bootstrap";
 import { IndexRoute, Link, Route, Router } from "react-router";
 import { GameState, GameSummary, PlayerSummary } from "../../../external/imperaClients";
+import { css } from "../../../lib/css";
 import { store } from "../../../store";
 import { HumanCountdown } from "../humanDate";
 import GameDetails from "./gameDetail";
@@ -13,7 +14,12 @@ import { PlayerOutcomeDisplay } from "./playerOutcome";
 
 interface IGameListProps {
     games: GameSummary[];
+
     userId: string;
+
+    showCreatedBy?: boolean;
+
+    showActive?: boolean;
 }
 
 interface IGameListState {
@@ -44,75 +50,52 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
     }
 
     private _renderHeader() {
-        // TODO: This has to change
-        let area = store.getState().routing.locationBeforeTransitions.pathname
-        let classSwitch: string = "";
-        let userText: string = __("Active");
-
-        if (area.match("join")) {
-            classSwitch = "hidden";
-            userText = __("Owner");
-        }
+        const { showActive = true, showCreatedBy = false } = this.props;
 
         return <tr>
-            <th>{__("Id")}</th>
+            <th className="hidden-xs">{__("Id")}</th>
             <th>{__("Name")}</th>
             <th className="hidden-xs">{__("Map")}</th>
             <th className="hidden-xs">{__("Mode")}</th>
-            <th className="hidden-xs username">{userText}</th>
-            <th className="hidden-xs">{__("Teams/Players")}</th>
-            <th className={`timer ${classSwitch}`}>{__("Time")}</th>
-            <th className={`state ${classSwitch}`}>{__("State")}</th>
+            {showCreatedBy && <th className="hidden-xs username">{__("Created By")}</th>}
+            {showActive && <th className="hidden-xs username">{__("Active")}</th>}
+            <th className="hidden-xs text-center">{__("Teams/Players")}</th>
+            {showActive && <th className="timer">{__("Time")}</th>}
+            {showActive && <th className="state">{__("State")}</th>}
             <th>&nbsp;</th>
         </tr>;
     }
 
     private _renderGameRow(game: GameSummary): JSX.Element[] {
+        const { showActive = true, showCreatedBy = false, userId } = this.props;
+
         const player = this._playerForGame(game);
-        let playerState: JSX.Element = null;
-        let playerName: JSX.Element = null;
-
-        // TODO: This has to change
-        let area = store.getState().routing.locationBeforeTransitions.pathname;
-        let classSwitch: string = "";
-
-        if (area.match("join")) {
-            classSwitch = "hidden";
-            playerName = <span>{game.createdByName}</span>;
-        }
-
-        if (!!player) {
-            playerState = <span>&nbsp;-&nbsp;<PlayerOutcomeDisplay outcome={player.outcome} /></span>;
-
-            if ((game.currentPlayer && game.currentPlayer.name) === player.name) {
-                playerName = <b>{game.currentPlayer && game.currentPlayer.name}</b>;
-            } else {
-                playerName = <span>{game.currentPlayer && game.currentPlayer.name}</span>;
-            }
-        }
 
         let name: JSX.Element;
-        let timer = __("not started");
         if (game.state !== GameState.Open) {
             name = <Link to={`/play/${game.id}`}>{game.name}</Link>;
-            timer = HumanCountdown(game.timeoutSecondsLeft);
         } else {
             name = <span>{game.name}</span>;
         }
 
         const rows = [<tr key={`game-${game.id}`}>
-            <td>{game.id}</td>
-            <td>
-                {name}
-            </td>
+            <td className="hidden-xs">{game.id}</td>
+            <td>{name}</td>
             <td className="hidden-xs">{game.mapTemplate}</td>
             <td className="hidden-xs">{game.options.mapDistribution}</td>
-            <td className="hidden-xs">{playerName}</td>
-            <td className="hidden-xs">{`${game.options.numberOfTeams}/${game.options.numberOfPlayersPerTeam}`}</td>
-            <td className={classSwitch}>{timer}</td>
-            <td className={classSwitch}>
-                <GameStateDisplay gameState={game.state} />{playerState}
-            </td>
+            {showCreatedBy && <td className="hidden-xs">{game.createdByName}</td>}
+            {showActive && <td className={css("hidden-xs", {
+                "players-turn": game.currentPlayer && game.currentPlayer.userId === userId
+            })}>{game.currentPlayer && game.currentPlayer.name}</td>}
+            <td className="hidden-xs text-center">{`${game.options.numberOfTeams}/${game.options.numberOfPlayersPerTeam}`}</td>
+            {showActive && <td>{HumanCountdown(game.timeoutSecondsLeft)}</td>}
+            {/* Game state */}
+            {showActive && <td>
+                <GameStateDisplay gameState={game.state} />
+                {player && <span>
+                    &nbsp;-&nbsp;<PlayerOutcomeDisplay outcome={player.outcome} />
+                </span>}
+            </td>}
             <td>
                 <Button
                     bsSize="xsmall" bsStyle="info"
@@ -123,6 +106,7 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
             </td>
         </tr>];
 
+        // Show detailed information        
         if (this.state.expandedGames[game.id]) {
             rows.push(<tr key={`game-${game.id}-detail`}>
                 <td colSpan={9}>

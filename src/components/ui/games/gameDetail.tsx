@@ -8,11 +8,12 @@ import { getCachedClient } from "../../../clients/clientFactory";
 import { Grid, GridColumn, GridRow } from "../../../components/layout";
 import { HumanDate, HumanTime } from "../../../components/ui/humanDate";
 import { imageBaseUri } from "../../../configuration";
-import { GameState, GameSummary, GameType, MapClient, PlayerState, PlayerSummary } from "../../../external/imperaClients";
+import { GameState, GameSummary, GameType, PlayerState, PlayerSummary } from "../../../external/imperaClients";
 import { autobind } from "../../../lib/autobind";
 import { hide, join, leave, remove, surrender } from "../../../pages/games/games.actions";
 import { IState } from "../../../reducers";
 import { store } from "../../../store";
+import { MapPreview } from "./mapPreview";
 import { PlayerOutcomeDisplay } from "./playerOutcome";
 
 export interface IGameDetailsProps {
@@ -27,27 +28,7 @@ export interface IGameDetailsDispatchProps {
     join: (gameId: number) => void;
 }
 
-export interface IGameDetailsState {
-    imageSrc: string;
-}
-
-class GameDetails extends React.Component<IGameDetailsProps & IGameDetailsDispatchProps, IGameDetailsState> {
-    constructor(props, context) {
-        super(props, context);
-
-        this.state = {
-            imageSrc: null
-        };
-    }
-
-    public componentDidMount() {
-        getCachedClient(MapClient).getMapTemplate(this.props.game.mapTemplate).then(template => {
-            this.setState({
-                imageSrc: template.image
-            });
-        });
-    }
-
+class GameDetails extends React.Component<IGameDetailsProps & IGameDetailsDispatchProps, void> {
     public render() {
         return <GridRow>
             <GridColumn className="col-md-6">
@@ -118,8 +99,7 @@ class GameDetails extends React.Component<IGameDetailsProps & IGameDetailsDispat
             </GridColumn>
 
             <GridColumn className="col-md-6">
-                {this.state.imageSrc
-                    && <Image className="game-details-map" src={`${imageBaseUri}${this.state.imageSrc}`} responsive />}
+                <MapPreview mapTemplateName={this.props.game.mapTemplate} responsive />
             </GridColumn>
         </GridRow>;
     }

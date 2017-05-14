@@ -26,20 +26,24 @@ export class FunGamesComponent extends React.Component<IFunGamesProps, void> {
     public render(): JSX.Element {
         const { userId } = this.props;
 
-        let fun: JSX.Element[];
-
-        if (this.props.funGames.length > 0) {
-            fun = [<GameList games={this.props.funGames} userId={userId} key="fun" />];
-        }
-
         return <GridColumn className="col-xs-12">
             <div>
                 <div className="pull-right">
                     <ButtonGroup>
-                        <Button key="refresh" onClick={this.props.refreshFun} title={__("Refresh")}><span className="glyphicon glyphicon-refresh" /></Button>
+                        <Button
+                            key="refresh"
+                            onClick={this.props.refreshFun}
+                            title={__("Refresh")}>
+                            <span className="glyphicon glyphicon-refresh" />
+                        </Button>
                     </ButtonGroup>
                 </div>
-                {fun}
+
+                <GameList
+                    showCreatedBy={true}
+                    showActive={false}
+                    games={this.props.funGames}
+                    userId={userId} key="fun" />
             </div>
         </GridColumn>;
     }

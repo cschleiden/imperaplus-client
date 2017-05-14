@@ -25,6 +25,8 @@ $spin-duration: 1.3s;
 $spinnerDefault: 20px;
 $spinnerLarge: 35px;
 .spinner {
+    display: inline-block;
+
     @include spinner($spinnerDefault, 2px);
     position: relative;
     width: $spinnerDefault;

@@ -14,7 +14,10 @@ import { Image, Tab, Tabs } from "react-bootstrap";
 import Form, { IFormState } from "../../common/forms/form";
 import { ControlledDropdown, ControlledTextField } from "../../common/forms/inputs";
 
-import { MapDistribution, MapTemplate, VictoryConditionType, VisibilityModifierType } from "../../external/imperaClients";
+import { MapPreview } from "../../components/ui/games/mapPreview";
+import {
+    MapDistribution, MapTemplate, MapTemplateDescriptor, VictoryConditionType, VisibilityModifierType
+} from "../../external/imperaClients";
 import { create, getMaps } from "./create.actions";
 
 function getPlayerAndTeams() {
@@ -52,7 +55,9 @@ function getPlayerAndTeams() {
 interface ICreateGameProps {
     getMaps: () => void;
 
-    maps: MapTemplate[];
+    getMap: () => MapTemplate;
+
+    maps: MapTemplateDescriptor[];
 }
 
 export class CreateGameComponent extends React.Component<ICreateGameProps, void> {
@@ -113,9 +118,9 @@ export class CreateGameComponent extends React.Component<ICreateGameProps, void>
                     component={(({ isPending, submit, formState }) => (
                         <div>
                             <Tabs defaultActiveKey={1}>
-                                <Tab eventKey={1} title={__("Simple")}>
+                                <Tab id="simple" eventKey={1} title={__("Simple")}>
                                     <GridRow>
-                                        <GridColumn className="col-md-6">
+                                        <GridColumn className="col-xs-12 col-md-7">
                                             <ControlledTextField
                                                 label={__("Name")}
                                                 placeholder={__("Name")}
@@ -134,8 +139,9 @@ export class CreateGameComponent extends React.Component<ICreateGameProps, void>
                                                 label={__("Map")}
                                                 fieldName="map"
                                                 value={""}>
-                                                <option value=""></option>
-                                                {this.props.maps && this.props.maps.map(m => <option value={m.name} data-map-url={`${imageBaseUri}${m.image}`}>{m.name}</option>)}
+                                                <option value="" key="empty-map"></option>
+                                                {this.props.maps && this.props.maps.map(m =>
+                                                    <option key={m.name} value={m.name}>{m.name}</option>)}
                                             </ControlledDropdown>
 
                                             <ControlledDropdown
@@ -169,10 +175,17 @@ export class CreateGameComponent extends React.Component<ICreateGameProps, void>
                                             </ControlledDropdown>
 
                                         </GridColumn>
+
+                                        <GridColumn className="hidden-xs hidden-sm col-md-5">
+                                            {formState.getFieldValue("map")
+                                                && <MapPreview
+                                                    mapTemplateName={formState.getFieldValue("map")}
+                                                    responsive />}
+                                        </GridColumn>
                                     </GridRow>
                                 </Tab>
 
-                                <Tab eventKey={2} title={__("Advanced")}>
+                                <Tab id="advanced" eventKey={2} title={__("Advanced")}>
                                     <GridRow>
                                         <GridColumn className="col-md-6">
                                             <ControlledTextField
