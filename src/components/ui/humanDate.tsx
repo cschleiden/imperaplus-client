@@ -110,5 +110,12 @@ export const HumanCountdown = (secs: number): string => {
         sString = "0" + sString;
     }
 
-    return days + " " + __("day(s)") + " | " + hString + ":" + mString + ":" + sString;
+    let day = "";
+    if (days === 1) {
+        day = `${day} ${__("day")} `;
+    } else if (days > 1) {
+        day = `${day} ${__("days")} `;
+    }
+
+    return day + hString + ":" + mString + ":" + sString;
 };

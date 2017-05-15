@@ -8,6 +8,7 @@ import { GameState, GameSummary, PlayerSummary } from "../../../external/imperaC
 import { css } from "../../../lib/css";
 import { store } from "../../../store";
 import { HumanCountdown } from "../humanDate";
+import { Timer } from "../timer";
 import GameDetails from "./gameDetail";
 import { GameStateDisplay } from "./gameState";
 import { PlayerOutcomeDisplay } from "./playerOutcome";
@@ -88,7 +89,9 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
                 "players-turn": game.currentPlayer && game.currentPlayer.userId === userId
             })}>{game.currentPlayer && game.currentPlayer.name}</td>}
             <td className="hidden-xs text-center">{`${game.options.numberOfTeams}/${game.options.numberOfPlayersPerTeam}`}</td>
-            {showActive && <td>{HumanCountdown(game.timeoutSecondsLeft)}</td>}
+            {showActive && <td>
+                {this._renderTimer(game)}
+            </td>}
             {/* Game state */}
             {showActive && <td>
                 <GameStateDisplay gameState={game.state} />
@@ -117,6 +120,18 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
         }
 
         return rows;
+    }
+
+    private _renderTimer(game: GameSummary) {
+        if (game.state !== GameState.Active) {
+            return <span>{__("Not started")}</span>;
+        }
+
+        if (game.timeoutSecondsLeft > 0) {
+            return <Timer startInMs={game.timeoutSecondsLeft * 1000} />;
+        }
+
+        return <span>{__("Time out")}</span>;
     }
 
     private _playerForGame(game: GameSummary): PlayerSummary | null {
