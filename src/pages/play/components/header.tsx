@@ -207,6 +207,6 @@ export default connect((state: IState, ownProps: IHeaderProps) => {
     move: () => { dispatch(move(null)) },
     endTurn: () => { dispatch(endTurn(null)) },
 
-    toggleSidebar: () => { dispatch(toggleSidebar()); },
+    toggleSidebar: () => { dispatch(toggleSidebar(null)); },
     exit: () => { dispatch(leave()); }
 }))(Header);

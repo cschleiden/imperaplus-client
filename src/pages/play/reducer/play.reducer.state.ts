@@ -44,7 +44,7 @@ export const initialState = makeImmutable({
     attacksLeftPerTurn: 0,
     movesLeftPerTurn: 0,
 
-    sidebarOpen: false,
+    sidebarOpen: localStorage.getItem("impera-sidebar") === "true",
     operationInProgress: true,
 
     /** Value indicating whether current turn is displayed or history */

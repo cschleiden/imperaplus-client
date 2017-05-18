@@ -160,9 +160,15 @@ export const leave: IAsyncActionVoid = () =>
     };
 
 export const TOGGLE_SIDEBAR = "play-toggle-sidebar";
-export const toggleSidebar = (): IAction<void> => ({
-    type: TOGGLE_SIDEBAR
-});
+
+export const toggleSidebar: IAsyncAction<void> = () => (dispatch, getState, deps) => {
+    const sidebarOpen = getState().play.data.sidebarOpen;
+    localStorage.setItem("impera-sidebar", (!sidebarOpen).toString());
+
+    dispatch({
+        type: TOGGLE_SIDEBAR
+    });
+};
 
 export const place = makePromiseAction<void, GameActionResult>("play-place", (gameId, dispatch, getState, deps) => {
     const state = getState();

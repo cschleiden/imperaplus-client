@@ -18,7 +18,7 @@ export interface IStatPlayer {
 
 export interface IGameStatsState {
     players: IStatPlayer[];
-    
+
     isTeamGame: boolean;
 }
 
@@ -72,6 +72,13 @@ export class GameStats extends React.Component<IGameStatsProps, IGameStatsState>
 
     private _getState(props: IGameStatsProps): IGameStatsState {
         const { game } = props;
+        if (!game) {
+            return {
+                players: [],
+                isTeamGame: false
+            };
+        }
+
         const isTeamGame = game.options.numberOfPlayersPerTeam > 1;
 
         let numberOfTeams = 0;
