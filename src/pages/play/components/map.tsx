@@ -7,7 +7,7 @@ import { Game, HistoryAction, HistoryEntry, HistoryTurn, PlayState } from "../..
 import { autobind } from "../../../lib/autobind";
 import { css } from "../../../lib/css";
 import { IState } from "../../../reducers";
-import { attack, move, selectCountry, setActionUnits, setPlaceUnits } from "../play.actions";
+import { attack, move, place, selectCountry, setActionUnits, setPlaceUnits } from "../play.actions";
 import { ITwoCountry } from "../reducer";
 
 // Used for displaying connections
@@ -36,7 +36,11 @@ interface IMapProps {
     selectCountry: (countryIdentifier: string) => void;
     setUnits: (countryIdentifier: string, units: number) => void;
     setActionUnits: (units: number) => void;
+
+    place: () => void;
+
     attack: () => void;
+
     move: () => void;
 }
 
@@ -46,9 +50,14 @@ interface IMapState {
 }
 
 class Map extends React.Component<IMapProps, IMapState> {
+    private _unitInputFocus: boolean = false;
+
     private _jsPlumb: jsPlumbInstance;
     private _connection: Connection;
     private _inputElement: HTMLInputElement;
+
+
+    private _inputElementPlaceholder: HTMLDivElement;
     private _inputElementWrapper: HTMLDivElement;
 
     private _selectionOrigin: string = null;
@@ -99,6 +108,7 @@ class Map extends React.Component<IMapProps, IMapState> {
             {historyTurn && mapTemplate && this._renderHistory(mapTemplate, historyTurn.actions)}
 
             {this._renderUnitInput()}
+            {this._renderUnitInputPlaceholder()}
         </div>;
     }
 
@@ -118,13 +128,15 @@ class Map extends React.Component<IMapProps, IMapState> {
         // Focus input element if an entry box is shown
         const showConnection = !!twoCountry.originCountryIdentifier && !!twoCountry.destinationCountryIdentifier;
         if (showConnection) {
-            this._inputElement.select();
-            this._inputElement.focus();
+            // Only focus/select if not already the active/focused element
+            if (!this._unitInputFocus) {
+                this._inputElement.focus();
+            }
         }
     }
 
     private _renderCountries() {
-        const { game, placeCountries, mapTemplate } = this.props;
+        const { game, placeCountries, mapTemplate, operationInProgress } = this.props;
         const { map } = game;
         const { hoveredCountry } = this.state;
 
@@ -138,7 +150,7 @@ class Map extends React.Component<IMapProps, IMapState> {
             const isHighlighted = hoveredCountry && mapTemplate.areConnected(hoveredCountry, countryTemplate.identifier);
 
             const placeUnits = placeCountries[countryTemplate.identifier];
-            const hasInput = placeUnits !== undefined;
+            const hasInput = !operationInProgress && placeUnits !== undefined;
 
             let units = "?";
             if (country && country.units != null) {
@@ -165,6 +177,7 @@ class Map extends React.Component<IMapProps, IMapState> {
                 key={`p${countryTemplate.identifier}`}
                 countryTemplate={countryTemplate}
                 value={placeUnits}
+                onKeyUp={this._onKeyUp}
                 onChange={(inputUnits) => this.props.setUnits(countryTemplate.identifier, inputUnits)} />
             ];
         });
@@ -279,7 +292,7 @@ class Map extends React.Component<IMapProps, IMapState> {
             overlays: [
                 ["Custom", {
                     create: (component) => {
-                        return $(this._inputElementWrapper);
+                        return $(this._inputElementPlaceholder);
                     },
                     location: 0.4,
                     id: "unit-input"
@@ -287,6 +300,10 @@ class Map extends React.Component<IMapProps, IMapState> {
                 ["PlainArrow", { location: 1, width: 20, length: 12 }]
             ]
         } as any);
+
+        // Update real input element with placeholder position        
+        this._inputElementWrapper.style.left = this._inputElementPlaceholder.style.left;
+        this._inputElementWrapper.style.top = this._inputElementPlaceholder.style.top;
     }
 
     private _renderUnitInput(): JSX.Element {
@@ -298,9 +315,11 @@ class Map extends React.Component<IMapProps, IMapState> {
                 type="number"
                 min={minUnits}
                 max={maxUnits}
-                value={numberOfUnits}
+                value={!isNaN(numberOfUnits) ? numberOfUnits : ""}
                 onChange={this._changeUnits}
                 onKeyUp={this._onKeyUp}
+                onFocus={this._onUnitInputFocus}
+                onBlur={this._onUnitInputBlur}
                 style={{
                     display: !destinationCountryIdentifier ? "none" : "block"
                 }}
@@ -308,9 +327,29 @@ class Map extends React.Component<IMapProps, IMapState> {
         </div>;
     }
 
+    private _renderUnitInputPlaceholder(): JSX.Element {
+        return <div className="action-overlay-placeholder" ref={this._resolveInputPlaceholder} />;
+    }
+
+    @autobind
+    private _onUnitInputFocus() {
+        this._unitInputFocus = true;
+        this._inputElement.select();
+    }
+
+    @autobind
+    private _onUnitInputBlur() {
+        this._unitInputFocus = false;
+    }
+
     @autobind
     private _resolveInputWrapper(element: HTMLDivElement) {
         this._inputElementWrapper = element;
+    }
+
+    @autobind
+    private _resolveInputPlaceholder(element: HTMLDivElement) {
+        this._inputElementPlaceholder = element;
     }
 
     @autobind
@@ -389,10 +428,18 @@ class Map extends React.Component<IMapProps, IMapState> {
     private _performAction() {
         const { game } = this.props;
 
-        if (game.playState === PlayState.Attack) {
-            this.props.attack();
-        } else if (game.playState === PlayState.Move) {
-            this.props.move();
+        switch (game.playState) {
+            case PlayState.PlaceUnits:
+                this.props.place();
+                break;
+
+            case PlayState.Attack:
+                this.props.attack();
+                break;
+
+            case PlayState.Move:
+                this.props.move();
+                break;
         }
     }
 
@@ -481,6 +528,7 @@ export default connect((state: IState) => {
     selectCountry: (countryIdentifier: string) => { dispatch(selectCountry(countryIdentifier)); },
     setUnits: (countryIdentifier: string, units: number) => { dispatch(setPlaceUnits(countryIdentifier, units)); },
     setActionUnits: (units: number) => { dispatch(setActionUnits(units)); },
+    place: () => { dispatch(place(null)) },
     attack: () => { dispatch(attack(null)) },
     move: () => { dispatch(move(null)) }
 }))(Map);

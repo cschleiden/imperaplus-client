@@ -81,10 +81,13 @@ const fetchWrapper = (tokenProvider: () => string, url: string, init) => {
                     "id": "mini-profiler",
                     "src": baseUri + "/admin/profiler/includes.js",
                     "data-path": baseUri + "/admin/profiler/",
-                    "data-position": "top",
+                    "data-position": "bottomleft",
                     "data-authorized": "true",
                     "data-controls": "true",
-                    "data-ids": "abc"
+                    "data-ids": "abc",
+                    "data-max-traces": 10,
+                    "data-start-hidden": true,
+                    "data-toggle-shortcut": "Alt+P"
                 });
                 $("head").append(scriptTag);
             }

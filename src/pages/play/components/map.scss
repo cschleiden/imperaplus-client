@@ -197,8 +197,21 @@ $input-country-animation-speed: 0.3s;
 //
 //
 //
+.action-overlay-wrapper {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    z-index: 5000;
+}
+
+$inputWidth: 30px;
+$inputHeight: 21px;
+.action-overlay-placeholder {
+    width: $inputWidth;
+    height: $inputHeight;
+}
+
 .action-overlay-input {
-    width: 30px;
+    width: $inputWidth;
     border-radius: 5px !important;
     border: 1px solid black;
     text-align: center;
@@ -208,11 +221,16 @@ $input-country-animation-speed: 0.3s;
 }
 
 
+
+
+
 /* hides the spin-button for firefox */
 
 input[type=number] {
     -moz-appearance: textfield;
 }
+
+
 
 
 /* hides the spin-button for chrome*/

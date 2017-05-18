@@ -124,7 +124,13 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
 
     private _renderTimer(game: GameSummary) {
         if (game.state !== GameState.Active) {
-            return <span>{__("Not started")}</span>;
+            switch (game.state) {
+                case GameState.Active:
+                    return <span>{__("Not started")}</span>;
+
+                case GameState.Ended:
+                    return <span>{__("Ended")}</span>;
+            }
         }
 
         if (game.timeoutSecondsLeft > 0) {
