@@ -32,7 +32,7 @@ export class Timer extends React.Component<ITimerProps, ITimerState> {
         this._handle = setInterval(this._timerHandler, 1000);
     }
 
-    public componentWillMount() {
+    public componentWillUnmount() {
         if (this._handle) {
             clearInterval(this._handle);
             this._handle = null;
