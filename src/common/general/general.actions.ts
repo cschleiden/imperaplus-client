@@ -1,4 +1,4 @@
-import { IAction } from "../../lib/action";
+import { IAction, IAsyncAction } from "../../lib/action";
 import { setDocumentTitle } from "../../lib/title";
 
 export const OPEN_CLOSE = "nav-open";
@@ -21,11 +21,19 @@ export const lookupSet = <T>(key: string, data: T[]) => ({
 });
 
 export const SET_TITLE = "general-set-title";
-export const setTitle = (title: string): IAction<string> => {
-    setDocumentTitle(title);
+export const setTitle: IAsyncAction<string> = (title: string) =>
+    (dispatch, getState, deps) => {
+        const session = getState().session.data;
+        if (session.isLoggedIn) {
+            const gameCount = session && session.notifications && session.notifications.numberOfGames || 0;
 
-    return {
-        type: SET_TITLE,
-        payload: title
+            setDocumentTitle(`${title} (${gameCount})`);
+        } else {
+            setDocumentTitle(title);
+        }
+
+        return {
+            type: SET_TITLE,
+            payload: title
+        };
     };
-};

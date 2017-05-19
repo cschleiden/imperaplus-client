@@ -6,8 +6,6 @@ import { Grid, GridColumn, GridRow } from "../../components/layout";
 import { TournamentList } from "../../components/ui/games/tournamentList";
 import { Section, Title } from "../../components/ui/typography";
 import { TournamentState, TournamentSummary } from "../../external/imperaClients";
-
-import { setDocumentTitle } from "../../lib/title";
 import { IState } from "../../reducers";
 import { join, refresh } from "../tournaments/tournaments.actions";
 

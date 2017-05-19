@@ -2,8 +2,12 @@ import { push } from "react-router-redux";
 import { Game, GameActionResult, GameChatMessage, GameClient, HistoryClient, HistoryTurn, PlaceUnitsOptions, PlayClient } from "../../external/imperaClients";
 import { IGameChatMessageNotification, IGameNotification, INotification, NotificationType } from "../../external/notificationModel";
 import { IAction, IApiActionOptions, IAsyncAction, IAsyncActionVoid, makePromiseAction } from "../../lib/action";
+import { NotificationService } from "../../services/notificationService";
 import { getMapTemplate, MapTemplateCacheEntry } from "./mapTemplateCache";
 import { inputActive } from "./reducer/play.selectors";
+
+// TODO: Move this to another place?
+let initialized = false;
 
 //
 //  General actions
@@ -21,11 +25,33 @@ export const switchGame: IAsyncAction<ISwitchGameInput> = (input) =>
     (dispatch, getState, deps) => {
         const { gameId, turnNo } = input;
 
-        const finish = () => ({
-            type: SWITCH_GAME,
-            payload: {
-                promise: client.invoke("switchGame", oldGameId, gameId)
-                    .then(() => deps.getCachedClient(GameClient)
+        const client = NotificationService.getInstance();
+
+        if (!initialized) {
+            initialized = true;
+
+            client.attachHandler(NotificationType.GameChatMessage, notification => {
+                const gameChatNotification = notification as IGameChatMessageNotification;
+                const message = gameChatNotification.message;
+
+                dispatch(gameChatMessage(message));
+            });
+
+            client.attachHandler(NotificationType.PlayerTurn, notification => {
+                const turnNotification = notification as IGameNotification;
+
+                if (turnNotification.gameId === getState().play.data.gameId) {
+                    (dispatch as any)(refreshGame(null));
+                }
+            });
+        }
+
+        const oldGameId = getState().play.data.gameId;
+        client.switchGame(oldGameId || 0, gameId).then(() => {
+            dispatch({
+                type: SWITCH_GAME,
+                payload: {
+                    promise: deps.getCachedClient(GameClient)
                         .get(gameId)
                         .then(game => {
                             return getMapTemplate(game.mapTemplate)
@@ -34,54 +60,20 @@ export const switchGame: IAsyncAction<ISwitchGameInput> = (input) =>
                                     mapTemplate
                                 }));
                         })
-                    )
-            },
-            options: {
-                afterSuccess: (d) => {
-                    // Retrieve game chat
-                    d(gameChatMessages(gameId));
+                },
+                options: {
+                    afterSuccess: (d) => {
+                        // Retrieve game chat
+                        d(gameChatMessages(gameId));
 
-                    // Go to history, if requested
-                    if (turnNo > 0) {
-                        (dispatch as any)(historyTurn(turnNo));
+                        // Go to history, if requested
+                        if (turnNo > 0) {
+                            (dispatch as any)(historyTurn(turnNo));
+                        }
                     }
-                }
-            } as IApiActionOptions
+                } as IApiActionOptions
+            });
         });
-
-        const client = deps.getSignalRClient("game");
-
-        const oldGameId = getState().play.data.gameId;
-        if (!oldGameId && !client.isConnected()) {
-            client.detachAllHandlers();
-
-            client.on("notification", (notification: INotification) => {
-                if (notification.type === NotificationType.GameChatMessage) {
-                    const gameChatNotification = notification as IGameChatMessageNotification;
-                    const message = gameChatNotification.message;
-
-                    dispatch(gameChatMessage(message));
-                }
-
-                if (notification.type === NotificationType.PlayerTurn) {
-                    const turnNotification = notification as IGameNotification;
-
-                    if (turnNotification.gameId === getState().play.data.gameId) {
-                        (dispatch as any)(refreshGame(null));
-                    }
-                }
-            });
-
-            client.onInit(() => {
-                return client.invoke("switchGame", oldGameId || 0, gameId).then(() => {
-                    dispatch(finish());
-                });
-            });
-
-            client.start();
-        } else {
-            dispatch(finish());
-        }
     };
 
 export const refreshGame = makePromiseAction<void, Game>("play-game-refresh", (input, dispatch, getState, deps) => {
@@ -132,11 +124,10 @@ export interface IGameChatSendMessageInput {
 export const gameChatSendMessage = makePromiseAction<IGameChatSendMessageInput, void>(
     "play-game-chat-send-message", (input, dispatch, getState, deps) => {
         const gameId = getState().play.data.gameId;
-        const client = deps.getSignalRClient("game");
 
         return {
             payload: {
-                promise: client.invoke<void>("sendGameMessage", gameId, input.message, input.isPublic)
+                promise: NotificationService.getInstance().sendGameMessage(gameId, input.message, input.isPublic)
             },
             options: {
                 // Prevent loading bar from picking this up
@@ -148,9 +139,9 @@ export const gameChatSendMessage = makePromiseAction<IGameChatSendMessageInput, 
 export const LEAVE = "play-leave";
 export const leave: IAsyncActionVoid = () =>
     (dispatch, getState, deps) => {
-        // Stop notification hub
-        let client = deps.getSignalRClient("notification");
-        client.stop();
+        // Stop notification hub        
+        const gameId = getState().play.data.gameId;
+        NotificationService.getInstance().leaveGame(gameId);
 
         dispatch(<IAction<void>>{
             type: LEAVE

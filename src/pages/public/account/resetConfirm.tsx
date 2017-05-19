@@ -7,7 +7,6 @@ import { Grid, GridColumn, GridRow } from "../../../components/layout";
 import { ProgressButton } from "../../../components/ui/progressButton";
 import { Spinner } from "../../../components/ui/spinner";
 import { Title } from "../../../components/ui/typography";
-import { setDocumentTitle } from "../../../lib/title";
 
 interface IResetConfirmationProps {
     params: {
@@ -17,10 +16,6 @@ interface IResetConfirmationProps {
 }
 
 export default class ResetConfirmationComponent extends React.Component<IResetConfirmationProps, void> {
-    public componentDidMount() {
-        setDocumentTitle(__("Reset password"));
-    }
-
     public render() {
         return <Grid>
             <GridRow>

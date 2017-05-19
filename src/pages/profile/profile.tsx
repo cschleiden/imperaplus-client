@@ -6,7 +6,6 @@ import { ControlledCheckBox } from "../../common/forms/inputs";
 import { GridColumn } from "../../components/layout";
 import { ProgressButton } from "../../components/ui/progressButton";
 import { Title } from "../../components/ui/typography";
-import { setDocumentTitle } from "../../lib/title";
 import { IState } from "../../reducers";
 
 export interface IProfileProps {

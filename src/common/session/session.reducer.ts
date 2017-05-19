@@ -1,7 +1,7 @@
 import { IImmutable, makeImmutable } from "immuts";
 import reducerMap from "../../lib/reducerMap";
 
-import { UserInfo } from "../../external/imperaClients";
+import { NotificationSummary, UserInfo } from "../../external/imperaClients";
 import { failed, IAction, pending, success } from "../../lib/action";
 import * as Actions from "./session.actions";
 
@@ -10,7 +10,8 @@ const initialState = makeImmutable({
     refresh_token: null as string,
     userInfo: null as UserInfo,
     isLoggedIn: false,
-    language: "en" as string
+    language: "en" as string,
+    notifications: null as NotificationSummary
 });
 export type ISessionState = typeof initialState;
 
@@ -19,7 +20,8 @@ const login = (state: ISessionState, action: IAction<Actions.ILoginPayload>) => 
         access_token: action.payload.access_token,
         refresh_token: action.payload.refresh_token,
         isLoggedIn: true,
-        userInfo: action.payload.userInfo
+        userInfo: action.payload.userInfo,
+        notifications: action.payload.notifications
     });
 };
 

@@ -85,9 +85,12 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
             <td className="hidden-xs">{game.mapTemplate}</td>
             <td className="hidden-xs">{game.options.mapDistribution}</td>
             {showCreatedBy && <td className="hidden-xs">{game.createdByName}</td>}
-            {showActive && <td className={css("hidden-xs", {
-                "players-turn": game.currentPlayer && game.currentPlayer.userId === userId
-            })}>{game.currentPlayer && game.currentPlayer.name}</td>}
+            {showActive && <td
+                className={
+                    css("hidden-xs", {
+                        "players-turn": game.state === GameState.Active && game.currentPlayer && game.currentPlayer.userId === userId
+                    })
+                }>{game.currentPlayer && game.currentPlayer.name}</td>}
             <td className="hidden-xs text-center">{`${game.options.numberOfTeams}/${game.options.numberOfPlayersPerTeam}`}</td>
             {showActive && <td>
                 {this._renderTimer(game)}

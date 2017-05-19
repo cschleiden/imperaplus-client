@@ -1,24 +1,18 @@
 import "./signup.scss";
 
+import { IImmutable } from "immuts";
 import * as React from "react";
+import { Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import { push } from "react-router-redux";
-
-import { IImmutable } from "immuts";
-
-import { AccountClient, ErrorResponse } from "../../../external/imperaClients";
-import { ErrorCodes } from "../../../i18n/errorCodes";
-
-import { signup } from "../../../common/session/session.actions";
-
-import { Button } from "react-bootstrap";
-import { Grid, GridColumn, GridRow } from "../../../components/layout";
-import { ProgressButton } from "../../../components/ui/progressButton";
-
 import Form from "../../../common/forms/form";
 import { ControlledCheckBox, ControlledTextField } from "../../../common/forms/inputs";
+import { signup } from "../../../common/session/session.actions";
+import { Grid, GridColumn, GridRow } from "../../../components/layout";
+import { ProgressButton } from "../../../components/ui/progressButton";
 import LinkString from "../../../components/ui/strLink";
-import { setDocumentTitle } from "../../../lib/title";
+import { AccountClient, ErrorResponse } from "../../../external/imperaClients";
+import { ErrorCodes } from "../../../i18n/errorCodes";
 
 interface ISignupFields {
     username: string;
@@ -34,10 +28,6 @@ interface ISignupProps {
 }
 
 export class SignupComponent extends React.Component<ISignupProps, void> {
-    public componentDidMount() {
-        setDocumentTitle(__("Signup"));
-    }
-
     public render(): JSX.Element {
         return <Grid className="signup">
             <GridRow>

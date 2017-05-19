@@ -8,7 +8,6 @@ import { Section, Title } from "../../components/ui/typography";
 
 import { FolderInformation, Message, MessageFolder } from "../../external/imperaClients";
 import { autobind } from "../../lib/autobind";
-import { setDocumentTitle } from "../../lib/title";
 import { IState } from "../../reducers";
 import { FolderList } from "./components/FolderList";
 import { FolderName } from "./components/FolderName";

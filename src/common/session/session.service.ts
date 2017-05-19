@@ -2,7 +2,7 @@ import { createClientWithToken, getCachedClient } from "../../clients/clientFact
 import { AccountClient, UserInfo } from "../../external/imperaClients";
 
 import { push } from "react-router-redux";
-import { stopAllConnections } from "../../clients/signalrFactory";
+import { EventService } from "../../services/eventService";
 import { store } from "../../store";
 import { close } from "../chat/chat.actions";
 import { expire, refresh } from "./session.actions";
@@ -32,12 +32,12 @@ export class SessionService {
             // Successful, save new tokens
             store.dispatch(refresh(result.access_token, result.refresh_token));
         }, () => {
-            // Unsuccessful, clear all tokens and redirect to login
+            // Unsuccessful, clear all tokens
             store.dispatch(expire());
 
             // Close chat and close all other signalr connections
             store.dispatch(close());
-            stopAllConnections();
+            EventService.getInstance().fire("signalr.stop");
 
             // Navigate to login
             store.dispatch(push("/login"));

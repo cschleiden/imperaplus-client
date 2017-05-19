@@ -7,8 +7,6 @@ import { Grid, GridColumn, GridRow } from "../../components/layout";
 import { HumanDate } from "../../components/ui/humanDate";
 import { Section, SubSection, Title } from "../../components/ui/typography";
 import { NewsContent, NewsItem, UserInfo } from "../../external/imperaClients";
-
-import { setDocumentTitle } from "../../lib/title";
 import { refresh } from "./news.actions";
 
 export interface IStartProps {

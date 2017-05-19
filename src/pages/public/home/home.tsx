@@ -2,7 +2,6 @@ import "./home.scss";
 
 import * as React from "react";
 import { GridColumn, GridRow } from "../../../components/layout";
-import { setDocumentTitle } from "../../../lib/title";
 import { Slider } from "./slider";
 
 export default class Home extends React.Component<{}, void> {

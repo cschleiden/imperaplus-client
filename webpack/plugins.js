@@ -8,10 +8,14 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const WebpackGitHash = require('webpack-git-hash');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const CircularDependencyPlugin = require('circular-dependency-plugin');
 
-const sourceMap = process.env.TEST || process.env.NODE_ENV !== "production"
-    ? [new webpack.SourceMapDevToolPlugin({ filename: null, test: /\.tsx?$/ })]
-    : [];
+const sourceMap = process.env.TEST || process.env.NODE_ENV !== "production" ? [
+    new webpack.SourceMapDevToolPlugin({
+        filename: null,
+        test: /\.tsx?$/
+    })
+] : [];
 
 const basePlugins = [
     new webpack.DefinePlugin({
@@ -23,14 +27,22 @@ const basePlugins = [
         jQuery: "jquery"
     }),
     new ProgressBarPlugin(),
-    new CopyWebpackPlugin([
-        { from: './src/assets', to: './assets' },
-        { from: './src/assets', to: 'assets2' },
-    ])
+    new CopyWebpackPlugin([{
+            from: './src/assets',
+            to: './assets'
+        },
+        {
+            from: './src/assets',
+            to: 'assets2'
+        },
+    ]),
+    new CircularDependencyPlugin({
+        exclude: /node_modules/
+    })
 ].concat(sourceMap);
 
 const devPlugins = [
-    new webpack.NoErrorsPlugin(),    
+    new webpack.NoErrorsPlugin(),
     new WebpackGitHash()
 ];
 

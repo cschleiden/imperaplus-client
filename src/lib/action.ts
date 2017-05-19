@@ -1,6 +1,7 @@
 import { IClient } from "../clients/clientFactory";
 import { ISignalRClient } from "../clients/signalrFactory";
 import { IState } from "../reducers";
+import { NotificationService } from "../services/notificationService";
 
 export interface IAction<T> {
     type: string;
@@ -45,7 +46,9 @@ export interface IApiActionOptions {
 
 export interface IAsyncActionDependencies {
     getCachedClient: <TClient>(clientType: IClient<TClient>) => TClient;
+
     createClientWithToken: <TClient>(clientType: IClient<TClient>, token: string) => TClient;
+
     getSignalRClient: (hubName: string, options?) => ISignalRClient;
 }
 

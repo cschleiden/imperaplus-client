@@ -4,6 +4,7 @@ import { TokenProvider } from "../services/tokenProvider";
 import { SessionService } from "../common/session/session.service";
 import { AccountClient, ErrorResponse } from "../external/imperaClients";
 import jsonParseReviver from "../lib/jsonReviver";
+import { onUnauthorized } from "../services/authProvider";
 import { UserProvider } from "../services/userProvider";
 
 export interface IClient<TClient> {
@@ -33,12 +34,6 @@ export function createClientWithToken<TClient>(
 }
 
 let miniProfilerInitialized = false;
-
-let onUnauthorized: () => Promise<any>;
-
-export const setOnUnauthorized = (callback: () => Promise<any>) => {
-    onUnauthorized = callback;
-};
 
 const fetchWrapper = (tokenProvider: () => string, url: string, init) => {
     const accessToken = tokenProvider();

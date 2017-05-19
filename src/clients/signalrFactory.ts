@@ -1,11 +1,10 @@
 import * as $ from "jquery";
 import "ms-signalr-client";
-import * as Q from "q";
-
-import { SessionService } from "../common/session/session.service";
 import { baseUri } from "../configuration";
 import jsonParseReviver from "../lib/jsonReviver";
 import { log } from "../lib/log";
+import { onUnauthorized } from "../services/authProvider";
+import { EventService } from "../services/eventService";
 import { TokenProvider } from "../services/tokenProvider";
 
 const cachedClients: { [hubName: string]: ISignalRClient } = {};
@@ -19,14 +18,14 @@ export interface ISignalRClient {
     onInit(callback: () => void);
     off(eventName: string, callback: Function);
 
-    invoke<TResult>(methodName: string, ...args): Promise<TResult>;
+    invoke<TResult>(methodName: string, ...args: any[]): Promise<TResult>;
 
     isConnected(): boolean;
 
     connection: SignalR.Hub.Connection;
 }
 
-export function getSignalRClient(hubName: string, onUnauthorized: () => Promise<void>): ISignalRClient {
+export function getSignalRClient(hubName: string): ISignalRClient {
     if (cachedClients[hubName]) {
         let cachedClient = cachedClients[hubName];
 
@@ -45,7 +44,7 @@ export function getSignalRClient(hubName: string, onUnauthorized: () => Promise<
 }
 
 /** Close all open SignalR connections */
-export function stopAllConnections() {
+function stopAllConnections() {
     const clientKeys = Object.keys(cachedClients);
 
     for (let clientKey of clientKeys) {
@@ -54,6 +53,10 @@ export function stopAllConnections() {
         client.stop();
     }
 }
+
+EventService.getInstance().attachHandler("signalr.stop", () => {
+    stopAllConnections();
+});
 
 class SignalRClient implements ISignalRClient {
     private _proxy: SignalR.Hub.Proxy;
@@ -207,21 +210,13 @@ class SignalRClient implements ISignalRClient {
             return this._reconnect;
         }
 
-        return SessionService.getInstance().reAuthorize().then(() => {
-            // Reconnect before retrying
-            this.connection.stop(false, false);
-
-            /*for (let callback of this._eventCallbacks) {
-                this._proxy.on(callback[0], callback[1]);
-            }*/
-
-            return this.start().then(() => {
-                this._reconnect = null;
-            }, () => {
-                this._reconnect = null;
-            });
-        }, () => {
+        const reset = () => {
             this._reconnect = null;
-        });
+        };
+
+        return onUnauthorized().then(() => {
+            this.connection.stop(false, false);
+            return this.start().then(reset, reset);
+        }, reset);
     }
 }

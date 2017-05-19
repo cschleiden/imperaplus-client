@@ -9,7 +9,6 @@ import { HumanTime } from "../../components/ui/humanDate";
 import { Title } from "../../components/ui/typography";
 import { LadderSummary } from "../../external/imperaClients";
 import { autobind } from "../../lib/autobind";
-import { setDocumentTitle } from "../../lib/title";
 import { IState } from "../../reducers";
 import { join, refresh } from "../games/ladders.actions";
 

@@ -1,9 +1,9 @@
 import { push, replace } from "react-router-redux";
-import { IAction, IAsyncAction, makePromiseAction } from "../../lib/action";
-
-import { AccountClient, UserInfo } from "../../external/imperaClients";
-
 import { baseUri } from "../../configuration";
+import { AccountClient, NotificationClient, NotificationSummary, UserInfo } from "../../external/imperaClients";
+import { IAction, IAsyncAction, makePromiseAction } from "../../lib/action";
+import { EventService } from "../../services/eventService";
+import { NotificationService } from "../../services/notificationService";
 import { TokenProvider } from "../../services/tokenProvider";
 
 const scope = "openid offline_access roles";
@@ -33,6 +33,8 @@ export interface ILoginPayload {
     access_token: string;
     refresh_token: string;
     userInfo: UserInfo;
+
+    notifications: NotificationSummary;
 }
 
 export const login = makePromiseAction<ILoginInput, ILoginPayload>(
@@ -42,17 +44,28 @@ export const login = makePromiseAction<ILoginInput, ILoginPayload>(
                 promise: deps.getCachedClient(AccountClient)
                     .exchange("password", input.username, input.password, scope, undefined)
                     .then(result => {
-                        let authenticatedClient = deps.createClientWithToken(AccountClient, result.access_token);
-                        return authenticatedClient.getUserInfo().then(userInfo => ({
-                            access_token: result.access_token,
-                            refresh_token: result.refresh_token,
-                            userInfo: userInfo
-                        }));
+                        let authenticatedAccountClient = deps.createClientWithToken(AccountClient, result.access_token);
+                        let authenticatedNotificationClient = deps.createClientWithToken(NotificationClient, result.access_token);
+
+                        return Promise.all([
+                            authenticatedAccountClient.getUserInfo(),
+                            authenticatedNotificationClient.getSummary()
+                        ]).then(results => {
+                            return {
+                                access_token: result.access_token,
+                                refresh_token: result.refresh_token,
+                                userInfo: results[0],
+                                notifications: results[1]
+                            };
+                        });
                     })
             },
             options: {
-                useMessage: true,
-                afterSuccess: d => d(push("game"))
+                afterSuccess: d => {
+                    NotificationService.getInstance().init().then(() => {
+                        d(push("game"));
+                    });
+                }
             }
         }));
 
@@ -77,7 +90,11 @@ export const logout = makePromiseAction<void, null>(
             promise: deps.getCachedClient(AccountClient).logout()
         },
         options: {
-            afterSuccess: d => d(push("/"))
+            afterSuccess: d => {
+                // Stop all connections
+                EventService.getInstance().fire("signalr.stop");
+                d(push("/"));
+            }
         }
     }));
 

@@ -12,7 +12,6 @@ import { Section, SubSection, Title } from "../../components/ui/typography";
 import { Tournament, TournamentState, TournamentSummary, TournamentTeamState, UserReference } from "../../external/imperaClients";
 import { autobind } from "../../lib/autobind";
 import { css } from "../../lib/css";
-import { setDocumentTitle } from "../../lib/title";
 import { IState } from "../../reducers";
 import { TournamentBracket } from "./components/tournamentBracket";
 import { TournamentGroups } from "./components/tournamentGroups";

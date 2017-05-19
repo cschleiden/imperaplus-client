@@ -1,13 +1,8 @@
 import * as React from "react";
 import { Grid, GridColumn, GridRow } from "../../../components/layout";
 import LinkStr from "../../../components/ui/strLink";
-import { setDocumentTitle } from "../../../lib/title";
 
 export default class ResetDoneComponent extends React.Component<void, void> {
-    public componentDidMount() {
-        setDocumentTitle(__("Reset password"));
-    }
-
     public render() {
         return <Grid>
             <GridRow>

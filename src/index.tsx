@@ -6,6 +6,8 @@ import { AppContainer } from "react-hot-loader";
 import { browserHistory, IndexRoute, Route, Router } from "react-router";
 import { routerMiddleware, syncHistoryWithStore } from "react-router-redux";
 import App from "./app";
+import { NotificationType } from "./external/notificationModel";
+import { NotificationService } from "./services/notificationService";
 import { TokenProvider } from "./services/tokenProvider";
 import { store } from "./store";
 
@@ -27,7 +29,9 @@ render(
   <AppContainer>
     <App store={store} history={syncHistoryWithStore(browserHistory as any, store)} />
   </AppContainer>,
-  rootElement);
+  rootElement, () => {
+    appInit();
+  });
 
 if (module.hot) {
   module.hot.accept(["./app"], () => {
@@ -39,4 +43,21 @@ if (module.hot) {
       rootElement
     );
   });
+}
+
+function appInit() {
+  if (store.getState().session.data.isLoggedIn) {
+    const service = NotificationService.getInstance();
+    service.init();
+
+    service.attachHandler(NotificationType.PlayerTurn, () => {
+      // Update count
+
+    });
+
+    service.attachHandler(NotificationType.NewMessage, () => {
+      // Update count
+
+    });
+  }
 }

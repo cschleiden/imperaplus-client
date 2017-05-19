@@ -12,7 +12,6 @@ import { ControlledCheckBox, ControlledTextField } from "../../../common/forms/i
 import { Grid, GridColumn, GridRow } from "../../../components/layout";
 import { ProgressButton } from "../../../components/ui/progressButton";
 import LinkString from "../../../components/ui/strLink";
-import { setDocumentTitle } from "../../../lib/title";
 
 const _formValid = (formState): boolean => {
     return formState.getFieldValue("username")
@@ -20,10 +19,6 @@ const _formValid = (formState): boolean => {
 };
 
 class LoginComponent extends React.Component<{}, void> {
-    public componentDidMount() {
-        setDocumentTitle(__("Login"));
-    }
-
     public render() {
         return <Grid className="login">
             <GridRow>

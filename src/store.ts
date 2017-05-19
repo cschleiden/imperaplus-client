@@ -8,18 +8,16 @@ import * as createLogger from "redux-logger";
 import thunkMiddleware from "redux-thunk";
 import promiseMiddleware from "./middleware/promise-middleware";
 
-import { createClientWithToken, getCachedClient, setOnUnauthorized } from "./clients/clientFactory";
-import { getSignalRClient } from "./clients/signalrFactory";
-import { failed, IAsyncActionDependencies, pending, success } from "./lib/action";
-
-// Reducers
 import { makeImmutable } from "immuts";
-import rootReducer, { IState } from "./reducers";
-
 import { loadingBarMiddleware } from "react-redux-loading-bar";
+import { createClientWithToken, getCachedClient } from "./clients/clientFactory";
+import { getSignalRClient } from "./clients/signalrFactory";
 import { ISessionState } from "./common/session/session.reducer";
 import { SessionService } from "./common/session/session.service";
+import { failed, IAsyncActionDependencies, pending, success } from "./lib/action";
 import { debounce } from "./lib/debounce";
+import rootReducer, { IState } from "./reducers";
+import { setOnUnauthorized } from "./services/authProvider";
 import { UserProvider } from "./services/userProvider";
 
 // Create main store
@@ -31,6 +29,7 @@ const compose = composeWithDevTools({
     session: makeImmutable(state.session),
     create: makeImmutable(state.create)
   }),
+  // Dev feature
   shouldHotReload: true
 }) || Redux.compose;
 
@@ -54,8 +53,7 @@ export let store = Redux.createStore<IState>(
     Redux.applyMiddleware(
       routerMiddleware(browserHistory as any),
       loadingBarMiddleware({
-        promiseTypeSuffixes: [pending(""), success(""), failed("")],
-
+        promiseTypeSuffixes: [pending(""), success(""), failed("")]
       }),
       promiseMiddleware as any,
       thunkMiddleware.withExtraArgument({

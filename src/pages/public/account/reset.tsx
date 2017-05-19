@@ -6,13 +6,8 @@ import { ControlledTextField } from "../../../common/forms/inputs";
 import { resetTrigger } from "../../../common/session/session.actions";
 import { Grid, GridColumn, GridRow } from "../../../components/layout";
 import { ProgressButton } from "../../../components/ui/progressButton";
-import { setDocumentTitle } from "../../../lib/title";
 
 export default class ResetComponent extends React.Component<void, void> {
-    public componentDidMount() {
-        setDocumentTitle(__("Reset password"));
-    }
-
     public render(): JSX.Element {
         return <Grid className="recover">
             <GridRow>

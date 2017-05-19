@@ -64,7 +64,7 @@ function checkLoggedIn(store: Redux.Store<IState>, nextState, replace) {
 }
 
 export default class App extends React.Component<{ store: Redux.Store<IState>, history }, void> {
-    public render() {
+    render() {
         return <Provider store={this.props.store}>
             <Router history={this.props.history} onUpdate={this._onRouteUpdate}>
                 {/* main layout */}

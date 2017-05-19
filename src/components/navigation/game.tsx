@@ -1,11 +1,21 @@
 import * as React from "react";
-import { connect } from "react-redux";
+import { connect, Dispatch } from "react-redux";
 import { IndexLink, Link } from "react-router";
 
 import { logout } from "../../common/session/session.actions";
 import { IState } from "../../reducers";
 
-export const GameNavigation = ({ dispatch, userName }): JSX.Element => {
+interface IGameNavigation {
+    dispatch: (args: any) => void;
+
+    userName: string;
+
+    gameCount: number;
+}
+
+const GameNavigation = (props: IGameNavigation): JSX.Element => {
+    const { userName, gameCount, dispatch } = props;
+
     return <ul className="nav">
         <li>
             <IndexLink to="/game" activeClassName="active">{__("News")}</IndexLink>
@@ -13,6 +23,7 @@ export const GameNavigation = ({ dispatch, userName }): JSX.Element => {
         <li>
             <Link to="/game/games" activeClassName="active">
                 {__("Games")}
+                {gameCount > 0 && <span>&nbsp;({gameCount})</span>}
                 <i className="fa fa-angle-down" aria-hidden="true" />
             </Link>
             <ul className="nav-dropdown">
@@ -90,9 +101,11 @@ export const GameNavigation = ({ dispatch, userName }): JSX.Element => {
 };
 
 export default connect((state: IState) => {
-    const sessionState = state.session.data;
+    const session = state.session.data;
+    const gameCount = session && session.notifications && session.notifications.numberOfGames || 0;
 
     return {
-        userName: sessionState && sessionState.userInfo && sessionState.userInfo.userName
+        userName: session && session.userInfo && session.userInfo.userName,
+        gameCount
     };
 })(GameNavigation);

@@ -6,8 +6,6 @@ import { Grid, GridColumn, GridRow } from "../../components/layout";
 import { GameList } from "../../components/ui/games/gameList";
 import { Section, Title } from "../../components/ui/typography";
 import { GameSummary, GameType } from "../../external/imperaClients";
-
-import { setDocumentTitle } from "../../lib/title";
 import { IState } from "../../reducers";
 import { hideAll, refresh } from "./games.actions";
 
