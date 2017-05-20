@@ -128,7 +128,7 @@ export class TournamentBracket extends React.Component<ITournamentBracketProps, 
         if (hasGroupPhase) {
             const numberOfTeamsInGroup = 4;
             const winnersPerTeam = 2;
-            numberOfKoTeams /= numberOfKoTeams;
+            numberOfKoTeams /= numberOfTeamsInGroup;
             numberOfKoTeams *= winnersPerTeam;
         }
 
@@ -143,7 +143,7 @@ export class TournamentBracket extends React.Component<ITournamentBracketProps, 
         let parents = [root];
 
         for (let i = 0; i < numberOfRounds; ++i) {
-            const phase = numberOfRounds - i - 1;
+            const phase = numberOfRounds - i - 1 + (hasGroupPhase ? 1 : 0);
             const pairings = tournament.pairings.filter(x => x.phase === phase);
             pairings.sort((a, b) => a.order - b.order);
 

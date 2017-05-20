@@ -152,32 +152,32 @@ export class TournamentComponent extends React.Component<ITournamentProps, void>
 
                 {
                     isGroupTournament && (tournament.state !== TournamentState.Open)
-                    && <div>
+                    && <GridRow>
                         <Section>{__("Group Phase")}</Section>
                         <div className="tournament-gropus">
                             <TournamentGroups tournament={tournament} />
                         </div>
-                    </div>
+                    </GridRow>
                 }
 
                 {
                     (tournament.state === TournamentState.Knockout || tournament.state === TournamentState.Closed)
-                    && <div>
+                    && <GridRow>
                         <Section>{__("Knockout Phase")}</Section>
                         <div className="tournament-bracket">
                             <TournamentBracket tournament={tournament} />
                         </div>
-                    </div>
+                    </GridRow>
                 }
 
                 {
                     tournament.state === TournamentState.Closed
-                    && <div>
+                    && <GridRow>
                         <Section>{__("Winner")}</Section>
                         <div>
                             {tournament.winner && tournament.winner.name}
                         </div>
-                    </div>
+                    </GridRow>
                 }
             </div>
         </GridColumn>;

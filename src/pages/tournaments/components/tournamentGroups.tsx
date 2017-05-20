@@ -13,8 +13,6 @@ export class TournamentGroups extends React.Component<ITournamentGroupProps, voi
     public render() {
         const { tournament } = this.props;
 
-
-
         return <div>
             {tournament.groups.map((group, index) => this._renderGroup(group, index))}
         </div>;
@@ -32,7 +30,10 @@ export class TournamentGroups extends React.Component<ITournamentGroupProps, voi
         }
 
         const pairings = tournament.pairings.filter(p => {
-            return teamIds[p.teamA.id] || teamIds[p.teamB.id];
+            const pairingContainsCurrentTeams = teamIds[p.teamA.id] || teamIds[p.teamB.id];
+            const isGroupPairing = p.phase === 0;
+
+            return pairingContainsCurrentTeams && isGroupPairing;
         });
         pairings.sort((a, b) => a.order - b.order);
 
