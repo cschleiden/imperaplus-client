@@ -21,12 +21,17 @@ export interface ISwitchGameInput {
     gameId: number;
     turnNo?: number;
 }
+
+/**
+ * Switch to a game, also used for displaying a game the first time
+ */
 export const switchGame: IAsyncAction<ISwitchGameInput> = (input) =>
     (dispatch, getState, deps) => {
         const { gameId, turnNo } = input;
 
         const client = NotificationService.getInstance();
 
+        // TODO: Should find a better place.. for now hook up event the first time we join a game        
         if (!initialized) {
             initialized = true;
 

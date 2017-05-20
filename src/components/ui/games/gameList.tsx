@@ -79,7 +79,11 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
             name = <span>{game.name}</span>;
         }
 
-        const rows = [<tr key={`game-${game.id}`}>
+        const isPlayersTurn = game.state === GameState.Active && game.currentPlayer && game.currentPlayer.userId === userId;
+
+        const rows = [<tr className={css({
+            "game-players-turn": isPlayersTurn
+        })} key={`game-${game.id}`}>
             <td className="hidden-xs">{game.id}</td>
             <td>{name}</td>
             <td className="hidden-xs">{game.mapTemplate}</td>
@@ -88,7 +92,7 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
             {showActive && <td
                 className={
                     css("hidden-xs", {
-                        "players-turn": game.state === GameState.Active && game.currentPlayer && game.currentPlayer.userId === userId
+                        "players-turn": isPlayersTurn
                     })
                 }>{game.currentPlayer && game.currentPlayer.name}</td>}
             <td className="hidden-xs text-center">{`${game.options.numberOfTeams}/${game.options.numberOfPlayersPerTeam}`}</td>

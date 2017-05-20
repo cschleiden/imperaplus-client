@@ -1,4 +1,15 @@
+@import "../../../styles/vars";
+
 .game-list {
+    .game-players-turn {
+        background-color: lighten($accent, 20%);
+
+        a {
+            color: black;
+            font-weight: bold;
+        }
+    }
+
     .players-turn {
         font-weight: bold;
     }

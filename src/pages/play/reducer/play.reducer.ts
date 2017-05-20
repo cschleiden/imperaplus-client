@@ -23,7 +23,8 @@ export const switchGame = (state: IPlayState, action: IAction<ISwitchGamePayload
             gameId: game.id,
             game,
             mapTemplate,
-            player
+            player,
+            sidebarOpen: localStorage.getItem("impera-sidebar") === "true"
         })
         .set(x => x.operationInProgress, false)
         .set(x => x.error, null);
