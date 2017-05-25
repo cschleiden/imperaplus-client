@@ -37,7 +37,7 @@ const GameNavigation = (props: IGameNavigation): JSX.Element => {
                     <Link to="/game/games/join" activeClassName="active">{__("Join Fun Game")}</Link>
                 </li>
                 <li>
-                    <Link to="/game/games/ladders" activeClassName="active">{__("Ladders")}</Link>
+                    <Link to="/game/ladders" activeClassName="active">{__("Ladders")}</Link>
                 </li>
                 <li>
                     <Link to="/game/tournaments" activeClassName="active">{__("Tournaments")}</Link>

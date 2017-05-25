@@ -70,7 +70,7 @@ export class LaddersComponent extends React.Component<ILaddersProps, void> {
             <div className="vertical-box ladder">
                 <div className="vertical-box-header">
                     <h4>
-                        <Link to={`/game/ladder/:${ladder.id}`}>
+                        <Link to={`/game/ladders/${ladder.id}`}>
                             {ladder.name}
                         </Link>
                     </h4>

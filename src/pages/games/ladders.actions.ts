@@ -1,5 +1,5 @@
 import { MessageType, show } from "../../common/message/message.actions";
-import { LadderClient, LadderSummary } from "../../external/imperaClients";
+import { Ladder, LadderClient, LadderSummary } from "../../external/imperaClients";
 import { IAction, makePromiseAction } from "../../lib/action";
 
 export const refresh = makePromiseAction<void, LadderSummary[]>(
@@ -13,6 +13,13 @@ export const refresh = makePromiseAction<void, LadderSummary[]>(
             }
         }));
 
+export const open = makePromiseAction<string, Ladder>(
+    "ladders-show", (ladderId, dispatch, getState, deps) =>
+        ({
+            payload: {
+                promise: deps.getCachedClient(LadderClient).get(ladderId)
+            }
+        }));
 
 export const join = makePromiseAction<string, null>(
     "ladder-join", (ladderId, dispatch, getState, deps) =>

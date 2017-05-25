@@ -52,13 +52,13 @@ export class AccountClient {
         const status = response.status;
         if (status === 200) {
             return response.text().then((responseText) => {
-            let result200: LoginResponseModel | null = null;
-            result200 = responseText === "" ? null : <LoginResponseModel>JSON.parse(responseText, this.jsonParseReviver);
-            return result200;
+                let result200: LoginResponseModel | null = null;
+                result200 = responseText === "" ? null : <LoginResponseModel>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<LoginResponseModel | null>(<any>null);
@@ -74,13 +74,13 @@ export class AccountClient {
         if (userName === undefined)
             throw new Error("The parameter 'userName' must be defined.");
         else
-            url_ += "userName=" + encodeURIComponent("" + userName) + "&"; 
+            url_ += "userName=" + encodeURIComponent("" + userName) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
             method: "GET",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json; charset=UTF-8"
             }
         };
@@ -94,11 +94,11 @@ export class AccountClient {
         const status = response.status;
         if (status === 200) {
             return response.text().then((responseText) => {
-            return;
+                return;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<void>(<any>null);
@@ -114,7 +114,7 @@ export class AccountClient {
         let options_ = <RequestInit>{
             method: "GET",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json; charset=UTF-8"
             }
         };
@@ -128,13 +128,13 @@ export class AccountClient {
         const status = response.status;
         if (status === 200) {
             return response.text().then((responseText) => {
-            let result200: UserInfo | null = null;
-            result200 = responseText === "" ? null : <UserInfo>JSON.parse(responseText, this.jsonParseReviver);
-            return result200;
+                let result200: UserInfo | null = null;
+                result200 = responseText === "" ? null : <UserInfo>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<UserInfo | null>(<any>null);
@@ -150,7 +150,7 @@ export class AccountClient {
         let options_ = <RequestInit>{
             method: "GET",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json; charset=UTF-8"
             }
         };
@@ -164,13 +164,13 @@ export class AccountClient {
         const status = response.status;
         if (status === 200) {
             return response.text().then((responseText) => {
-            let result200: UserInfo | null = null;
-            result200 = responseText === "" ? null : <UserInfo>JSON.parse(responseText, this.jsonParseReviver);
-            return result200;
+                let result200: UserInfo | null = null;
+                result200 = responseText === "" ? null : <UserInfo>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<UserInfo | null>(<any>null);
@@ -186,7 +186,7 @@ export class AccountClient {
             body: content_,
             method: "POST",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
             }
         };
 
@@ -201,7 +201,7 @@ export class AccountClient {
             return response.blob();
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<Blob | null>(<any>null);
@@ -212,17 +212,17 @@ export class AccountClient {
         if (returnUrl === undefined)
             throw new Error("The parameter 'returnUrl' must be defined.");
         else
-            url_ += "returnUrl=" + encodeURIComponent("" + returnUrl) + "&"; 
+            url_ += "returnUrl=" + encodeURIComponent("" + returnUrl) + "&";
         if (generateState === null)
             throw new Error("The parameter 'generateState' cannot be null.");
         else if (generateState !== undefined)
-            url_ += "generateState=" + encodeURIComponent("" + generateState) + "&"; 
+            url_ += "generateState=" + encodeURIComponent("" + generateState) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
             method: "GET",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json; charset=UTF-8"
             }
         };
@@ -236,13 +236,13 @@ export class AccountClient {
         const status = response.status;
         if (status === 200) {
             return response.text().then((responseText) => {
-            let result200: ManageInfoViewModel | null = null;
-            result200 = responseText === "" ? null : <ManageInfoViewModel>JSON.parse(responseText, this.jsonParseReviver);
-            return result200;
+                let result200: ManageInfoViewModel | null = null;
+                result200 = responseText === "" ? null : <ManageInfoViewModel>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<ManageInfoViewModel | null>(<any>null);
@@ -258,7 +258,7 @@ export class AccountClient {
             body: content_,
             method: "POST",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
             }
         };
 
@@ -273,7 +273,7 @@ export class AccountClient {
             return response.blob();
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<Blob | null>(<any>null);
@@ -289,7 +289,7 @@ export class AccountClient {
             body: content_,
             method: "POST",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
             }
         };
 
@@ -304,7 +304,7 @@ export class AccountClient {
             return response.blob();
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<Blob | null>(<any>null);
@@ -320,7 +320,7 @@ export class AccountClient {
             body: content_,
             method: "POST",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
             }
         };
 
@@ -335,7 +335,7 @@ export class AccountClient {
             return response.blob();
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<Blob | null>(<any>null);
@@ -348,7 +348,7 @@ export class AccountClient {
         let options_ = <RequestInit>{
             method: "GET",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json; charset=UTF-8"
             }
         };
@@ -362,13 +362,13 @@ export class AccountClient {
         const status = response.status;
         if (status === 200) {
             return response.text().then((responseText) => {
-            let result200: ExternalLoginViewModel[] | null = null;
-            result200 = responseText === "" ? null : <ExternalLoginViewModel[]>JSON.parse(responseText, this.jsonParseReviver);
-            return result200;
+                let result200: ExternalLoginViewModel[] | null = null;
+                result200 = responseText === "" ? null : <ExternalLoginViewModel[]>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<ExternalLoginViewModel[] | null>(<any>null);
@@ -384,7 +384,7 @@ export class AccountClient {
             body: content_,
             method: "POST",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json; charset=UTF-8"
             }
         };
@@ -398,17 +398,17 @@ export class AccountClient {
         const status = response.status;
         if (status === 200) {
             return response.text().then((responseText) => {
-            return;
+                return;
             });
         } else if (status === 400) {
             return response.text().then((responseText) => {
-            let result400: ErrorResponse | null = null;
-            result400 = responseText === "" ? null : <ErrorResponse>JSON.parse(responseText, this.jsonParseReviver);
-            return throwException("A server error occurred.", status, responseText, result400);
+                let result400: ErrorResponse | null = null;
+                result400 = responseText === "" ? null : <ErrorResponse>JSON.parse(responseText, this.jsonParseReviver);
+                return throwException("A server error occurred.", status, responseText, result400);
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<void>(<any>null);
@@ -427,7 +427,7 @@ export class AccountClient {
             body: content_,
             method: "POST",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
             }
         };
 
@@ -442,7 +442,7 @@ export class AccountClient {
             return response.blob();
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<Blob | null>(<any>null);
@@ -463,7 +463,7 @@ export class AccountClient {
             body: content_,
             method: "POST",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
             }
         };
 
@@ -478,7 +478,7 @@ export class AccountClient {
             return response.blob();
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<Blob | null>(<any>null);
@@ -497,7 +497,7 @@ export class AccountClient {
             body: content_,
             method: "POST",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
             }
         };
 
@@ -512,7 +512,7 @@ export class AccountClient {
             return response.blob();
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<Blob | null>(<any>null);
@@ -531,7 +531,7 @@ export class AccountClient {
             body: content_,
             method: "POST",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
             }
         };
 
@@ -546,7 +546,7 @@ export class AccountClient {
             return response.blob();
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<Blob | null>(<any>null);
@@ -565,7 +565,7 @@ export class AccountClient {
             body: content_,
             method: "POST",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
             }
         };
 
@@ -580,7 +580,7 @@ export class AccountClient {
             return response.blob();
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<Blob | null>(<any>null);
@@ -608,7 +608,7 @@ export class GameClient {
         let options_ = <RequestInit>{
             method: "GET",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json; charset=UTF-8"
             }
         };
@@ -622,13 +622,13 @@ export class GameClient {
         const status = response.status;
         if (status === 200) {
             return response.text().then((responseText) => {
-            let result200: GameSummary[] | null = null;
-            result200 = responseText === "" ? null : <GameSummary[]>JSON.parse(responseText, this.jsonParseReviver);
-            return result200;
+                let result200: GameSummary[] | null = null;
+                result200 = responseText === "" ? null : <GameSummary[]>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<GameSummary[] | null>(<any>null);
@@ -645,7 +645,7 @@ export class GameClient {
         let options_ = <RequestInit>{
             method: "GET",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json; charset=UTF-8"
             }
         };
@@ -659,13 +659,13 @@ export class GameClient {
         const status = response.status;
         if (status === 200) {
             return response.text().then((responseText) => {
-            let result200: GameSummary[] | null = null;
-            result200 = responseText === "" ? null : <GameSummary[]>JSON.parse(responseText, this.jsonParseReviver);
-            return result200;
+                let result200: GameSummary[] | null = null;
+                result200 = responseText === "" ? null : <GameSummary[]>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<GameSummary[] | null>(<any>null);
@@ -682,7 +682,7 @@ export class GameClient {
         let options_ = <RequestInit>{
             method: "GET",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json; charset=UTF-8"
             }
         };
@@ -696,13 +696,13 @@ export class GameClient {
         const status = response.status;
         if (status === 200) {
             return response.text().then((responseText) => {
-            let result200: GameSummary[] | null = null;
-            result200 = responseText === "" ? null : <GameSummary[]>JSON.parse(responseText, this.jsonParseReviver);
-            return result200;
+                let result200: GameSummary[] | null = null;
+                result200 = responseText === "" ? null : <GameSummary[]>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<GameSummary[] | null>(<any>null);
@@ -723,7 +723,7 @@ export class GameClient {
             body: content_,
             method: "POST",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json; charset=UTF-8"
             }
         };
@@ -737,13 +737,13 @@ export class GameClient {
         const status = response.status;
         if (status === 200) {
             return response.text().then((responseText) => {
-            let result200: GameSummary | null = null;
-            result200 = responseText === "" ? null : <GameSummary>JSON.parse(responseText, this.jsonParseReviver);
-            return result200;
+                let result200: GameSummary | null = null;
+                result200 = responseText === "" ? null : <GameSummary>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<GameSummary | null>(<any>null);
@@ -758,13 +758,13 @@ export class GameClient {
         let url_ = this.baseUrl + "/api/games/{gameId}";
         if (gameId === undefined || gameId === null)
             throw new Error("The parameter 'gameId' must be defined.");
-        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId)); 
+        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
             method: "GET",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json; charset=UTF-8"
             }
         };
@@ -778,13 +778,13 @@ export class GameClient {
         const status = response.status;
         if (status === 200) {
             return response.text().then((responseText) => {
-            let result200: Game | null = null;
-            result200 = responseText === "" ? null : <Game>JSON.parse(responseText, this.jsonParseReviver);
-            return result200;
+                let result200: Game | null = null;
+                result200 = responseText === "" ? null : <Game>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<Game | null>(<any>null);
@@ -799,7 +799,7 @@ export class GameClient {
         let url_ = this.baseUrl + "/api/games/{gameId}";
         if (gameId === undefined || gameId === null)
             throw new Error("The parameter 'gameId' must be defined.");
-        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId)); 
+        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId));
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = "";
@@ -808,7 +808,7 @@ export class GameClient {
             body: content_,
             method: "DELETE",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
             }
         };
 
@@ -823,7 +823,7 @@ export class GameClient {
             return response.blob();
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<Blob | null>(<any>null);
@@ -839,17 +839,17 @@ export class GameClient {
         let url_ = this.baseUrl + "/api/games/{gameId}/messages?";
         if (gameId === undefined || gameId === null)
             throw new Error("The parameter 'gameId' must be defined.");
-        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId)); 
+        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId));
         if (isPublic === null)
             throw new Error("The parameter 'isPublic' cannot be null.");
         else if (isPublic !== undefined)
-            url_ += "isPublic=" + encodeURIComponent("" + isPublic) + "&"; 
+            url_ += "isPublic=" + encodeURIComponent("" + isPublic) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
             method: "GET",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json; charset=UTF-8"
             }
         };
@@ -863,13 +863,13 @@ export class GameClient {
         const status = response.status;
         if (status === 200) {
             return response.text().then((responseText) => {
-            let result200: GameChatMessage[] | null = null;
-            result200 = responseText === "" ? null : <GameChatMessage[]>JSON.parse(responseText, this.jsonParseReviver);
-            return result200;
+                let result200: GameChatMessage[] | null = null;
+                result200 = responseText === "" ? null : <GameChatMessage[]>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<GameChatMessage[] | null>(<any>null);
@@ -883,7 +883,7 @@ export class GameClient {
         let url_ = this.baseUrl + "/api/games/{gameId}/join";
         if (gameId === undefined || gameId === null)
             throw new Error("The parameter 'gameId' must be defined.");
-        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId)); 
+        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId));
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = "";
@@ -892,7 +892,7 @@ export class GameClient {
             body: content_,
             method: "POST",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
             }
         };
 
@@ -907,7 +907,7 @@ export class GameClient {
             return response.blob();
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<Blob | null>(<any>null);
@@ -922,7 +922,7 @@ is not the creator.
         let url_ = this.baseUrl + "/api/games/{gameId}/leave";
         if (gameId === undefined || gameId === null)
             throw new Error("The parameter 'gameId' must be defined.");
-        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId)); 
+        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId));
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = "";
@@ -931,7 +931,7 @@ is not the creator.
             body: content_,
             method: "POST",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
             }
         };
 
@@ -946,7 +946,7 @@ is not the creator.
             return response.blob();
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<Blob | null>(<any>null);
@@ -961,7 +961,7 @@ and game are still active.
         let url_ = this.baseUrl + "/api/games/{gameId}/surrender";
         if (gameId === undefined || gameId === null)
             throw new Error("The parameter 'gameId' must be defined.");
-        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId)); 
+        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId));
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = "";
@@ -970,7 +970,7 @@ and game are still active.
             body: content_,
             method: "POST",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json; charset=UTF-8"
             }
         };
@@ -984,13 +984,13 @@ and game are still active.
         const status = response.status;
         if (status === 200) {
             return response.text().then((responseText) => {
-            let result200: GameSummary | null = null;
-            result200 = responseText === "" ? null : <GameSummary>JSON.parse(responseText, this.jsonParseReviver);
-            return result200;
+                let result200: GameSummary | null = null;
+                result200 = responseText === "" ? null : <GameSummary>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<GameSummary | null>(<any>null);
@@ -1004,7 +1004,7 @@ and game are still active.
         let url_ = this.baseUrl + "/api/games/{gameId}/hide";
         if (gameId === undefined || gameId === null)
             throw new Error("The parameter 'gameId' must be defined.");
-        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId)); 
+        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId));
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = "";
@@ -1013,7 +1013,7 @@ and game are still active.
             body: content_,
             method: "PATCH",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
             }
         };
 
@@ -1028,7 +1028,7 @@ and game are still active.
             return response.blob();
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<Blob | null>(<any>null);
@@ -1047,7 +1047,7 @@ and game are still active.
             body: content_,
             method: "PATCH",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
             }
         };
 
@@ -1062,7 +1062,7 @@ and game are still active.
             return response.blob();
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<Blob | null>(<any>null);
@@ -1086,16 +1086,16 @@ export class HistoryClient {
         let url_ = this.baseUrl + "/api/games/{gameId}/history/{turnId}";
         if (gameId === undefined || gameId === null)
             throw new Error("The parameter 'gameId' must be defined.");
-        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId)); 
+        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId));
         if (turnId === undefined || turnId === null)
             throw new Error("The parameter 'turnId' must be defined.");
-        url_ = url_.replace("{turnId}", encodeURIComponent("" + turnId)); 
+        url_ = url_.replace("{turnId}", encodeURIComponent("" + turnId));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
             method: "GET",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json; charset=UTF-8"
             }
         };
@@ -1109,13 +1109,13 @@ export class HistoryClient {
         const status = response.status;
         if (status === 200) {
             return response.text().then((responseText) => {
-            let result200: HistoryTurn | null = null;
-            result200 = responseText === "" ? null : <HistoryTurn>JSON.parse(responseText, this.jsonParseReviver);
-            return result200;
+                let result200: HistoryTurn | null = null;
+                result200 = responseText === "" ? null : <HistoryTurn>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<HistoryTurn | null>(<any>null);
@@ -1143,7 +1143,7 @@ export class LadderClient {
         let options_ = <RequestInit>{
             method: "GET",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json; charset=UTF-8"
             }
         };
@@ -1157,13 +1157,13 @@ export class LadderClient {
         const status = response.status;
         if (status === 200) {
             return response.text().then((responseText) => {
-            let result200: LadderSummary[] | null = null;
-            result200 = responseText === "" ? null : <LadderSummary[]>JSON.parse(responseText, this.jsonParseReviver);
-            return result200;
+                let result200: LadderSummary[] | null = null;
+                result200 = responseText === "" ? null : <LadderSummary[]>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<LadderSummary[] | null>(<any>null);
@@ -1177,13 +1177,13 @@ export class LadderClient {
         let url_ = this.baseUrl + "/api/ladder/{ladderId}";
         if (ladderId === undefined || ladderId === null)
             throw new Error("The parameter 'ladderId' must be defined.");
-        url_ = url_.replace("{ladderId}", encodeURIComponent("" + ladderId)); 
+        url_ = url_.replace("{ladderId}", encodeURIComponent("" + ladderId));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
             method: "GET",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json; charset=UTF-8"
             }
         };
@@ -1197,13 +1197,13 @@ export class LadderClient {
         const status = response.status;
         if (status === 200) {
             return response.text().then((responseText) => {
-            let result200: Ladder | null = null;
-            result200 = responseText === "" ? null : <Ladder>JSON.parse(responseText, this.jsonParseReviver);
-            return result200;
+                let result200: Ladder | null = null;
+                result200 = responseText === "" ? null : <Ladder>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<Ladder | null>(<any>null);
@@ -1217,7 +1217,7 @@ export class LadderClient {
         let url_ = this.baseUrl + "/api/ladder/{ladderId}/queue";
         if (ladderId === undefined || ladderId === null)
             throw new Error("The parameter 'ladderId' must be defined.");
-        url_ = url_.replace("{ladderId}", encodeURIComponent("" + ladderId)); 
+        url_ = url_.replace("{ladderId}", encodeURIComponent("" + ladderId));
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = "";
@@ -1226,7 +1226,7 @@ export class LadderClient {
             body: content_,
             method: "POST",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
             }
         };
 
@@ -1241,7 +1241,7 @@ export class LadderClient {
             return response.blob();
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<Blob | null>(<any>null);
@@ -1255,7 +1255,7 @@ export class LadderClient {
         let url_ = this.baseUrl + "/api/ladder/{ladderId}/queue";
         if (ladderId === undefined || ladderId === null)
             throw new Error("The parameter 'ladderId' must be defined.");
-        url_ = url_.replace("{ladderId}", encodeURIComponent("" + ladderId)); 
+        url_ = url_.replace("{ladderId}", encodeURIComponent("" + ladderId));
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = "";
@@ -1264,7 +1264,7 @@ export class LadderClient {
             body: content_,
             method: "DELETE",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
             }
         };
 
@@ -1279,60 +1279,10 @@ export class LadderClient {
             return response.blob();
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<Blob | null>(<any>null);
-    }
-
-    /**
-     * Gets ladder standings
-     * @ladderId Id of ladder
-     * @start Items to skip before returning
-     * @count Count of standings to return
-     */
-    getStandings(ladderId: string, start: number, count: number): Promise<LadderStanding[] | null> {
-        let url_ = this.baseUrl + "/api/ladder/{ladderId}/standings?";
-        if (ladderId === undefined || ladderId === null)
-            throw new Error("The parameter 'ladderId' must be defined.");
-        url_ = url_.replace("{ladderId}", encodeURIComponent("" + ladderId)); 
-        if (start === null)
-            throw new Error("The parameter 'start' cannot be null.");
-        else if (start !== undefined)
-            url_ += "start=" + encodeURIComponent("" + start) + "&"; 
-        if (count === null)
-            throw new Error("The parameter 'count' cannot be null.");
-        else if (count !== undefined)
-            url_ += "count=" + encodeURIComponent("" + count) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ = <RequestInit>{
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
-                "Accept": "application/json; charset=UTF-8"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processGetStandings(_response);
-        });
-    }
-
-    protected processGetStandings(response: Response): Promise<LadderStanding[] | null> {
-        const status = response.status;
-        if (status === 200) {
-            return response.text().then((responseText) => {
-            let result200: LadderStanding[] | null = null;
-            result200 = responseText === "" ? null : <LadderStanding[]>JSON.parse(responseText, this.jsonParseReviver);
-            return result200;
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
-            });
-        }
-        return Promise.resolve<LadderStanding[] | null>(<any>null);
     }
 }
 
@@ -1353,7 +1303,7 @@ export class MapClient {
         let options_ = <RequestInit>{
             method: "GET",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json; charset=UTF-8"
             }
         };
@@ -1367,13 +1317,13 @@ export class MapClient {
         const status = response.status;
         if (status === 200) {
             return response.text().then((responseText) => {
-            let result200: MapTemplateDescriptor[] | null = null;
-            result200 = responseText === "" ? null : <MapTemplateDescriptor[]>JSON.parse(responseText, this.jsonParseReviver);
-            return result200;
+                let result200: MapTemplateDescriptor[] | null = null;
+                result200 = responseText === "" ? null : <MapTemplateDescriptor[]>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<MapTemplateDescriptor[] | null>(<any>null);
@@ -1386,13 +1336,13 @@ export class MapClient {
         let url_ = this.baseUrl + "/api/map/{name}";
         if (name === undefined || name === null)
             throw new Error("The parameter 'name' must be defined.");
-        url_ = url_.replace("{name}", encodeURIComponent("" + name)); 
+        url_ = url_.replace("{name}", encodeURIComponent("" + name));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
             method: "GET",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json; charset=UTF-8"
             }
         };
@@ -1406,13 +1356,13 @@ export class MapClient {
         const status = response.status;
         if (status === 200) {
             return response.text().then((responseText) => {
-            let result200: MapTemplate | null = null;
-            result200 = responseText === "" ? null : <MapTemplate>JSON.parse(responseText, this.jsonParseReviver);
-            return result200;
+                let result200: MapTemplate | null = null;
+                result200 = responseText === "" ? null : <MapTemplate>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<MapTemplate | null>(<any>null);
@@ -1433,13 +1383,13 @@ export class MessageClient {
         let url_ = this.baseUrl + "/api/messages/folder/{messageFolder}";
         if (messageFolder === undefined || messageFolder === null)
             throw new Error("The parameter 'messageFolder' must be defined.");
-        url_ = url_.replace("{messageFolder}", encodeURIComponent("" + messageFolder)); 
+        url_ = url_.replace("{messageFolder}", encodeURIComponent("" + messageFolder));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
             method: "GET",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json; charset=UTF-8"
             }
         };
@@ -1453,13 +1403,13 @@ export class MessageClient {
         const status = response.status;
         if (status === 200) {
             return response.text().then((responseText) => {
-            let result200: Message[] | null = null;
-            result200 = responseText === "" ? null : <Message[]>JSON.parse(responseText, this.jsonParseReviver);
-            return result200;
+                let result200: Message[] | null = null;
+                result200 = responseText === "" ? null : <Message[]>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<Message[] | null>(<any>null);
@@ -1469,13 +1419,13 @@ export class MessageClient {
         let url_ = this.baseUrl + "/api/messages/{messageId}";
         if (messageId === undefined || messageId === null)
             throw new Error("The parameter 'messageId' must be defined.");
-        url_ = url_.replace("{messageId}", encodeURIComponent("" + messageId)); 
+        url_ = url_.replace("{messageId}", encodeURIComponent("" + messageId));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
             method: "GET",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json; charset=UTF-8"
             }
         };
@@ -1489,13 +1439,13 @@ export class MessageClient {
         const status = response.status;
         if (status === 200) {
             return response.text().then((responseText) => {
-            let result200: Message | null = null;
-            result200 = responseText === "" ? null : <Message>JSON.parse(responseText, this.jsonParseReviver);
-            return result200;
+                let result200: Message | null = null;
+                result200 = responseText === "" ? null : <Message>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<Message | null>(<any>null);
@@ -1505,7 +1455,7 @@ export class MessageClient {
         let url_ = this.baseUrl + "/api/messages/{messageId}";
         if (messageId === undefined || messageId === null)
             throw new Error("The parameter 'messageId' must be defined.");
-        url_ = url_.replace("{messageId}", encodeURIComponent("" + messageId)); 
+        url_ = url_.replace("{messageId}", encodeURIComponent("" + messageId));
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = "";
@@ -1514,7 +1464,7 @@ export class MessageClient {
             body: content_,
             method: "PATCH",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
             }
         };
 
@@ -1529,7 +1479,7 @@ export class MessageClient {
             return response.blob();
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<Blob | null>(<any>null);
@@ -1539,7 +1489,7 @@ export class MessageClient {
         let url_ = this.baseUrl + "/api/messages/{messageId}";
         if (messageId === undefined || messageId === null)
             throw new Error("The parameter 'messageId' must be defined.");
-        url_ = url_.replace("{messageId}", encodeURIComponent("" + messageId)); 
+        url_ = url_.replace("{messageId}", encodeURIComponent("" + messageId));
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = "";
@@ -1548,7 +1498,7 @@ export class MessageClient {
             body: content_,
             method: "DELETE",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
             }
         };
 
@@ -1563,7 +1513,7 @@ export class MessageClient {
             return response.blob();
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<Blob | null>(<any>null);
@@ -1576,7 +1526,7 @@ export class MessageClient {
         let options_ = <RequestInit>{
             method: "GET",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json; charset=UTF-8"
             }
         };
@@ -1590,13 +1540,13 @@ export class MessageClient {
         const status = response.status;
         if (status === 200) {
             return response.text().then((responseText) => {
-            let result200: FolderInformation[] | null = null;
-            result200 = responseText === "" ? null : <FolderInformation[]>JSON.parse(responseText, this.jsonParseReviver);
-            return result200;
+                let result200: FolderInformation[] | null = null;
+                result200 = responseText === "" ? null : <FolderInformation[]>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<FolderInformation[] | null>(<any>null);
@@ -1612,7 +1562,7 @@ export class MessageClient {
             body: content_,
             method: "POST",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
             }
         };
 
@@ -1627,7 +1577,7 @@ export class MessageClient {
             return response.blob();
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<Blob | null>(<any>null);
@@ -1655,7 +1605,7 @@ export class NewsClient {
         let options_ = <RequestInit>{
             method: "GET",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json; charset=UTF-8"
             }
         };
@@ -1669,13 +1619,13 @@ export class NewsClient {
         const status = response.status;
         if (status === 200) {
             return response.text().then((responseText) => {
-            let result200: NewsItem[] | null = null;
-            result200 = responseText === "" ? null : <NewsItem[]>JSON.parse(responseText, this.jsonParseReviver);
-            return result200;
+                let result200: NewsItem[] | null = null;
+                result200 = responseText === "" ? null : <NewsItem[]>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<NewsItem[] | null>(<any>null);
@@ -1702,7 +1652,7 @@ export class NotificationClient {
         let options_ = <RequestInit>{
             method: "GET",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json; charset=UTF-8"
             }
         };
@@ -1716,13 +1666,13 @@ export class NotificationClient {
         const status = response.status;
         if (status === 200) {
             return response.text().then((responseText) => {
-            let result200: NotificationSummary | null = null;
-            result200 = responseText === "" ? null : <NotificationSummary>JSON.parse(responseText, this.jsonParseReviver);
-            return result200;
+                let result200: NotificationSummary | null = null;
+                result200 = responseText === "" ? null : <NotificationSummary>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<NotificationSummary | null>(<any>null);
@@ -1749,7 +1699,7 @@ export class PlayClient {
         let url_ = this.baseUrl + "/api/games/{gameId}/play/place";
         if (gameId === undefined || gameId === null)
             throw new Error("The parameter 'gameId' must be defined.");
-        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId)); 
+        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId));
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(placeUnitsOptions);
@@ -1758,7 +1708,7 @@ export class PlayClient {
             body: content_,
             method: "POST",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json; charset=UTF-8"
             }
         };
@@ -1772,13 +1722,13 @@ export class PlayClient {
         const status = response.status;
         if (status === 200) {
             return response.text().then((responseText) => {
-            let result200: GameActionResult | null = null;
-            result200 = responseText === "" ? null : <GameActionResult>JSON.parse(responseText, this.jsonParseReviver);
-            return result200;
+                let result200: GameActionResult | null = null;
+                result200 = responseText === "" ? null : <GameActionResult>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<GameActionResult | null>(<any>null);
@@ -1793,7 +1743,7 @@ export class PlayClient {
         let url_ = this.baseUrl + "/api/games/{gameId}/play/exchange";
         if (gameId === undefined || gameId === null)
             throw new Error("The parameter 'gameId' must be defined.");
-        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId)); 
+        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId));
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = "";
@@ -1802,7 +1752,7 @@ export class PlayClient {
             body: content_,
             method: "POST",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json; charset=UTF-8"
             }
         };
@@ -1816,13 +1766,13 @@ export class PlayClient {
         const status = response.status;
         if (status === 200) {
             return response.text().then((responseText) => {
-            let result200: GameActionResult | null = null;
-            result200 = responseText === "" ? null : <GameActionResult>JSON.parse(responseText, this.jsonParseReviver);
-            return result200;
+                let result200: GameActionResult | null = null;
+                result200 = responseText === "" ? null : <GameActionResult>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<GameActionResult | null>(<any>null);
@@ -1838,7 +1788,7 @@ export class PlayClient {
         let url_ = this.baseUrl + "/api/games/{gameId}/play/attack";
         if (gameId === undefined || gameId === null)
             throw new Error("The parameter 'gameId' must be defined.");
-        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId)); 
+        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId));
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(options);
@@ -1847,7 +1797,7 @@ export class PlayClient {
             body: content_,
             method: "POST",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json; charset=UTF-8"
             }
         };
@@ -1861,13 +1811,13 @@ export class PlayClient {
         const status = response.status;
         if (status === 200) {
             return response.text().then((responseText) => {
-            let result200: GameActionResult | null = null;
-            result200 = responseText === "" ? null : <GameActionResult>JSON.parse(responseText, this.jsonParseReviver);
-            return result200;
+                let result200: GameActionResult | null = null;
+                result200 = responseText === "" ? null : <GameActionResult>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<GameActionResult | null>(<any>null);
@@ -1882,7 +1832,7 @@ export class PlayClient {
         let url_ = this.baseUrl + "/api/games/{gameId}/play/endattack";
         if (gameId === undefined || gameId === null)
             throw new Error("The parameter 'gameId' must be defined.");
-        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId)); 
+        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId));
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = "";
@@ -1891,7 +1841,7 @@ export class PlayClient {
             body: content_,
             method: "POST",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json; charset=UTF-8"
             }
         };
@@ -1905,13 +1855,13 @@ export class PlayClient {
         const status = response.status;
         if (status === 200) {
             return response.text().then((responseText) => {
-            let result200: GameActionResult | null = null;
-            result200 = responseText === "" ? null : <GameActionResult>JSON.parse(responseText, this.jsonParseReviver);
-            return result200;
+                let result200: GameActionResult | null = null;
+                result200 = responseText === "" ? null : <GameActionResult>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<GameActionResult | null>(<any>null);
@@ -1928,7 +1878,7 @@ possible anymore after moving.
         let url_ = this.baseUrl + "/api/games/{gameId}/play/move";
         if (gameId === undefined || gameId === null)
             throw new Error("The parameter 'gameId' must be defined.");
-        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId)); 
+        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId));
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(options);
@@ -1937,7 +1887,7 @@ possible anymore after moving.
             body: content_,
             method: "POST",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json; charset=UTF-8"
             }
         };
@@ -1951,13 +1901,13 @@ possible anymore after moving.
         const status = response.status;
         if (status === 200) {
             return response.text().then((responseText) => {
-            let result200: GameActionResult | null = null;
-            result200 = responseText === "" ? null : <GameActionResult>JSON.parse(responseText, this.jsonParseReviver);
-            return result200;
+                let result200: GameActionResult | null = null;
+                result200 = responseText === "" ? null : <GameActionResult>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<GameActionResult | null>(<any>null);
@@ -1972,7 +1922,7 @@ possible anymore after moving.
         let url_ = this.baseUrl + "/api/games/{gameId}/play/endturn";
         if (gameId === undefined || gameId === null)
             throw new Error("The parameter 'gameId' must be defined.");
-        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId)); 
+        url_ = url_.replace("{gameId}", encodeURIComponent("" + gameId));
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = "";
@@ -1981,7 +1931,7 @@ possible anymore after moving.
             body: content_,
             method: "POST",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json; charset=UTF-8"
             }
         };
@@ -1995,13 +1945,13 @@ possible anymore after moving.
         const status = response.status;
         if (status === 200) {
             return response.text().then((responseText) => {
-            let result200: Game | null = null;
-            result200 = responseText === "" ? null : <Game>JSON.parse(responseText, this.jsonParseReviver);
-            return result200;
+                let result200: Game | null = null;
+                result200 = responseText === "" ? null : <Game>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<Game | null>(<any>null);
@@ -2029,7 +1979,7 @@ export class TournamentClient {
         let options_ = <RequestInit>{
             method: "GET",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json; charset=UTF-8"
             }
         };
@@ -2043,13 +1993,13 @@ export class TournamentClient {
         const status = response.status;
         if (status === 200) {
             return response.text().then((responseText) => {
-            let result200: TournamentSummary[] | null = null;
-            result200 = responseText === "" ? null : <TournamentSummary[]>JSON.parse(responseText, this.jsonParseReviver);
-            return result200;
+                let result200: TournamentSummary[] | null = null;
+                result200 = responseText === "" ? null : <TournamentSummary[]>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<TournamentSummary[] | null>(<any>null);
@@ -2063,13 +2013,13 @@ export class TournamentClient {
         let url_ = this.baseUrl + "/api/tournaments/{tournamentId}";
         if (tournamentId === undefined || tournamentId === null)
             throw new Error("The parameter 'tournamentId' must be defined.");
-        url_ = url_.replace("{tournamentId}", encodeURIComponent("" + tournamentId)); 
+        url_ = url_.replace("{tournamentId}", encodeURIComponent("" + tournamentId));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
             method: "GET",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json; charset=UTF-8"
             }
         };
@@ -2083,13 +2033,13 @@ export class TournamentClient {
         const status = response.status;
         if (status === 200) {
             return response.text().then((responseText) => {
-            let result200: Tournament | null = null;
-            result200 = responseText === "" ? null : <Tournament>JSON.parse(responseText, this.jsonParseReviver);
-            return result200;
+                let result200: Tournament | null = null;
+                result200 = responseText === "" ? null : <Tournament>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<Tournament | null>(<any>null);
@@ -2103,7 +2053,7 @@ export class TournamentClient {
         let url_ = this.baseUrl + "/api/tournaments/{tournamentId}";
         if (tournamentId === undefined || tournamentId === null)
             throw new Error("The parameter 'tournamentId' must be defined.");
-        url_ = url_.replace("{tournamentId}", encodeURIComponent("" + tournamentId)); 
+        url_ = url_.replace("{tournamentId}", encodeURIComponent("" + tournamentId));
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = "";
@@ -2112,7 +2062,7 @@ export class TournamentClient {
             body: content_,
             method: "POST",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json; charset=UTF-8"
             }
         };
@@ -2126,13 +2076,13 @@ export class TournamentClient {
         const status = response.status;
         if (status === 200) {
             return response.text().then((responseText) => {
-            let result200: TournamentTeam | null = null;
-            result200 = responseText === "" ? null : <TournamentTeam>JSON.parse(responseText, this.jsonParseReviver);
-            return result200;
+                let result200: TournamentTeam | null = null;
+                result200 = responseText === "" ? null : <TournamentTeam>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<TournamentTeam | null>(<any>null);
@@ -2146,13 +2096,13 @@ export class TournamentClient {
         let url_ = this.baseUrl + "/api/tournaments/{tournamentId}/teams";
         if (tournamentId === undefined || tournamentId === null)
             throw new Error("The parameter 'tournamentId' must be defined.");
-        url_ = url_.replace("{tournamentId}", encodeURIComponent("" + tournamentId)); 
+        url_ = url_.replace("{tournamentId}", encodeURIComponent("" + tournamentId));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
             method: "GET",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json; charset=UTF-8"
             }
         };
@@ -2166,13 +2116,13 @@ export class TournamentClient {
         const status = response.status;
         if (status === 200) {
             return response.text().then((responseText) => {
-            let result200: TournamentTeam[] | null = null;
-            result200 = responseText === "" ? null : <TournamentTeam[]>JSON.parse(responseText, this.jsonParseReviver);
-            return result200;
+                let result200: TournamentTeam[] | null = null;
+                result200 = responseText === "" ? null : <TournamentTeam[]>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<TournamentTeam[] | null>(<any>null);
@@ -2189,13 +2139,13 @@ export class TournamentClient {
         let url_ = this.baseUrl + "/api/tournaments/{tournamentId}/teams?";
         if (tournamentId === undefined || tournamentId === null)
             throw new Error("The parameter 'tournamentId' must be defined.");
-        url_ = url_.replace("{tournamentId}", encodeURIComponent("" + tournamentId)); 
+        url_ = url_.replace("{tournamentId}", encodeURIComponent("" + tournamentId));
         if (name === undefined)
             throw new Error("The parameter 'name' must be defined.");
         else
-            url_ += "name=" + encodeURIComponent("" + name) + "&"; 
+            url_ += "name=" + encodeURIComponent("" + name) + "&";
         if (password !== undefined)
-            url_ += "password=" + encodeURIComponent("" + password) + "&"; 
+            url_ += "password=" + encodeURIComponent("" + password) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = "";
@@ -2204,7 +2154,7 @@ export class TournamentClient {
             body: content_,
             method: "POST",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json; charset=UTF-8"
             }
         };
@@ -2218,13 +2168,13 @@ export class TournamentClient {
         const status = response.status;
         if (status === 200) {
             return response.text().then((responseText) => {
-            let result200: TournamentTeam | null = null;
-            result200 = responseText === "" ? null : <TournamentTeam>JSON.parse(responseText, this.jsonParseReviver);
-            return result200;
+                let result200: TournamentTeam | null = null;
+                result200 = responseText === "" ? null : <TournamentTeam>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<TournamentTeam | null>(<any>null);
@@ -2240,12 +2190,12 @@ export class TournamentClient {
         let url_ = this.baseUrl + "/api/tournaments/{tournamentId}/teams/{teamId}?";
         if (tournamentId === undefined || tournamentId === null)
             throw new Error("The parameter 'tournamentId' must be defined.");
-        url_ = url_.replace("{tournamentId}", encodeURIComponent("" + tournamentId)); 
+        url_ = url_.replace("{tournamentId}", encodeURIComponent("" + tournamentId));
         if (teamId === undefined || teamId === null)
             throw new Error("The parameter 'teamId' must be defined.");
-        url_ = url_.replace("{teamId}", encodeURIComponent("" + teamId)); 
+        url_ = url_.replace("{teamId}", encodeURIComponent("" + teamId));
         if (password !== undefined)
-            url_ += "password=" + encodeURIComponent("" + password) + "&"; 
+            url_ += "password=" + encodeURIComponent("" + password) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = "";
@@ -2254,7 +2204,7 @@ export class TournamentClient {
             body: content_,
             method: "POST",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json; charset=UTF-8"
             }
         };
@@ -2268,13 +2218,13 @@ export class TournamentClient {
         const status = response.status;
         if (status === 200) {
             return response.text().then((responseText) => {
-            let result200: TournamentTeam | null = null;
-            result200 = responseText === "" ? null : <TournamentTeam>JSON.parse(responseText, this.jsonParseReviver);
-            return result200;
+                let result200: TournamentTeam | null = null;
+                result200 = responseText === "" ? null : <TournamentTeam>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<TournamentTeam | null>(<any>null);
@@ -2289,10 +2239,10 @@ export class TournamentClient {
         let url_ = this.baseUrl + "/api/tournaments/{tournamentId}/teams/{teamId}";
         if (tournamentId === undefined || tournamentId === null)
             throw new Error("The parameter 'tournamentId' must be defined.");
-        url_ = url_.replace("{tournamentId}", encodeURIComponent("" + tournamentId)); 
+        url_ = url_.replace("{tournamentId}", encodeURIComponent("" + tournamentId));
         if (teamId === undefined || teamId === null)
             throw new Error("The parameter 'teamId' must be defined.");
-        url_ = url_.replace("{teamId}", encodeURIComponent("" + teamId)); 
+        url_ = url_.replace("{teamId}", encodeURIComponent("" + teamId));
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = "";
@@ -2301,7 +2251,7 @@ export class TournamentClient {
             body: content_,
             method: "DELETE",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
             }
         };
 
@@ -2316,7 +2266,7 @@ export class TournamentClient {
             return response.blob();
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<Blob | null>(<any>null);
@@ -2330,7 +2280,7 @@ export class TournamentClient {
         let url_ = this.baseUrl + "/api/tournaments/{tournamentId}/teams/me";
         if (tournamentId === undefined || tournamentId === null)
             throw new Error("The parameter 'tournamentId' must be defined.");
-        url_ = url_.replace("{tournamentId}", encodeURIComponent("" + tournamentId)); 
+        url_ = url_.replace("{tournamentId}", encodeURIComponent("" + tournamentId));
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = "";
@@ -2339,7 +2289,7 @@ export class TournamentClient {
             body: content_,
             method: "DELETE",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
             }
         };
 
@@ -2354,7 +2304,7 @@ export class TournamentClient {
             return response.blob();
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<Blob | null>(<any>null);
@@ -2379,13 +2329,13 @@ export class UserClient {
         let url_ = this.baseUrl + "/api/users/find/{query}";
         if (query === undefined || query === null)
             throw new Error("The parameter 'query' must be defined.");
-        url_ = url_.replace("{query}", encodeURIComponent("" + query)); 
+        url_ = url_.replace("{query}", encodeURIComponent("" + query));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
             method: "GET",
             headers: {
-                "Content-Type": "application/json; charset=UTF-8", 
+                "Content-Type": "application/json; charset=UTF-8",
                 "Accept": "application/json; charset=UTF-8"
             }
         };
@@ -2399,13 +2349,13 @@ export class UserClient {
         const status = response.status;
         if (status === 200) {
             return response.text().then((responseText) => {
-            let result200: UserReference[] | null = null;
-            result200 = responseText === "" ? null : <UserReference[]>JSON.parse(responseText, this.jsonParseReviver);
-            return result200;
+                let result200: UserReference[] | null = null;
+                result200 = responseText === "" ? null : <UserReference[]>JSON.parse(responseText, this.jsonParseReviver);
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((responseText) => {
-            return throwException("An unexpected server error occurred.", status, responseText);
+                return throwException("An unexpected server error occurred.", status, responseText);
             });
         }
         return Promise.resolve<UserReference[] | null>(<any>null);
@@ -2471,7 +2421,7 @@ export interface RegisterBindingModel {
 export interface ErrorResponse {
     error?: string | undefined;
     error_Description?: string | undefined;
-    parameter_Errors?: { [key: string] : string[]; } | undefined;
+    parameter_Errors?: { [key: string]: string[]; } | undefined;
 }
 
 export interface ResendConfirmationModel {
@@ -2524,9 +2474,9 @@ export interface GameSummary {
 }
 
 export enum GameType {
-    Fun = <any>"Fun", 
-    Ranking = <any>"Ranking", 
-    Tournament = <any>"Tournament", 
+    Fun = <any>"Fun",
+    Ranking = <any>"Ranking",
+    Tournament = <any>"Tournament",
 }
 
 export interface GameOptions {
@@ -2546,26 +2496,26 @@ export interface GameOptions {
 }
 
 export enum MapDistribution {
-    Default = <any>"Default", 
-    Malibu = <any>"Malibu", 
-    TeamCluster = <any>"TeamCluster", 
+    Default = <any>"Default",
+    Malibu = <any>"Malibu",
+    TeamCluster = <any>"TeamCluster",
 }
 
 export enum VictoryConditionType {
-    Survival = <any>"Survival", 
-    ControlContinent = <any>"ControlContinent", 
+    Survival = <any>"Survival",
+    ControlContinent = <any>"ControlContinent",
 }
 
 export enum VisibilityModifierType {
-    None = <any>"None", 
-    Fog = <any>"Fog", 
+    None = <any>"None",
+    Fog = <any>"Fog",
 }
 
 export enum GameState {
-    None = <any>"None", 
-    Open = <any>"Open", 
-    Active = <any>"Active", 
-    Ended = <any>"Ended", 
+    None = <any>"None",
+    Open = <any>"Open",
+    Active = <any>"Active",
+    Ended = <any>"Ended",
 }
 
 export interface PlayerSummary {
@@ -2580,17 +2530,17 @@ export interface PlayerSummary {
 }
 
 export enum PlayerState {
-    None = <any>"None", 
-    Active = <any>"Active", 
-    InActive = <any>"InActive", 
+    None = <any>"None",
+    Active = <any>"Active",
+    InActive = <any>"InActive",
 }
 
 export enum PlayerOutcome {
-    None = <any>"None", 
-    Won = <any>"Won", 
-    Defeated = <any>"Defeated", 
-    Surrendered = <any>"Surrendered", 
-    Timeout = <any>"Timeout", 
+    None = <any>"None",
+    Won = <any>"Won",
+    Defeated = <any>"Defeated",
+    Surrendered = <any>"Surrendered",
+    Timeout = <any>"Timeout",
 }
 
 export interface TeamSummary {
@@ -2638,17 +2588,17 @@ export interface Player extends PlayerSummary {
 }
 
 export enum BonusCard {
-    A = <any>"A", 
-    B = <any>"B", 
-    C = <any>"C", 
+    A = <any>"A",
+    B = <any>"B",
+    C = <any>"C",
 }
 
 export enum PlayState {
-    None = <any>"None", 
-    PlaceUnits = <any>"PlaceUnits", 
-    Attack = <any>"Attack", 
-    Move = <any>"Move", 
-    Done = <any>"Done", 
+    None = <any>"None",
+    PlaceUnits = <any>"PlaceUnits",
+    Attack = <any>"Attack",
+    Move = <any>"Move",
+    Done = <any>"Done",
 }
 
 export interface Map {
@@ -2699,19 +2649,19 @@ export interface HistoryEntry {
 }
 
 export enum HistoryAction {
-    None = <any>"None", 
-    StartGame = <any>"StartGame", 
-    EndGame = <any>"EndGame", 
-    PlaceUnits = <any>"PlaceUnits", 
-    Attack = <any>"Attack", 
-    Move = <any>"Move", 
-    ExchangeCards = <any>"ExchangeCards", 
-    PlayerLost = <any>"PlayerLost", 
-    PlayerWon = <any>"PlayerWon", 
-    PlayerTimeout = <any>"PlayerTimeout", 
-    OwnerChange = <any>"OwnerChange", 
-    EndTurn = <any>"EndTurn", 
-    PlayerSurrendered = <any>"PlayerSurrendered", 
+    None = <any>"None",
+    StartGame = <any>"StartGame",
+    EndGame = <any>"EndGame",
+    PlaceUnits = <any>"PlaceUnits",
+    Attack = <any>"Attack",
+    Move = <any>"Move",
+    ExchangeCards = <any>"ExchangeCards",
+    PlayerLost = <any>"PlayerLost",
+    PlayerWon = <any>"PlayerWon",
+    PlayerTimeout = <any>"PlayerTimeout",
+    OwnerChange = <any>"OwnerChange",
+    EndTurn = <any>"EndTurn",
+    PlayerSurrendered = <any>"PlayerSurrendered",
 }
 
 export interface LadderSummary {
@@ -2772,9 +2722,9 @@ export interface Continent {
 }
 
 export enum MessageFolder {
-    None = <any>"None", 
-    Inbox = <any>"Inbox", 
-    Sent = <any>"Sent", 
+    None = <any>"None",
+    Inbox = <any>"Inbox",
+    Sent = <any>"Sent",
 }
 
 export interface SendMessage {
@@ -2834,9 +2784,9 @@ export interface GameActionResult {
 }
 
 export enum ActionResult {
-    None = <any>"None", 
-    Successful = <any>"Successful", 
-    NotSuccessful = <any>"NotSuccessful", 
+    None = <any>"None",
+    Successful = <any>"Successful",
+    NotSuccessful = <any>"NotSuccessful",
 }
 
 export interface AttackOptions {
@@ -2867,10 +2817,10 @@ export interface TournamentSummary {
 }
 
 export enum TournamentState {
-    Open = <any>"Open", 
-    Groups = <any>"Groups", 
-    Knockout = <any>"Knockout", 
-    Closed = <any>"Closed", 
+    Open = <any>"Open",
+    Groups = <any>"Groups",
+    Knockout = <any>"Knockout",
+    Closed = <any>"Closed",
 }
 
 export interface Tournament extends TournamentSummary {
@@ -2895,9 +2845,9 @@ export interface TournamentTeam extends TournamentTeamSummary {
 }
 
 export enum TournamentTeamState {
-    Open = <any>"Open", 
-    Active = <any>"Active", 
-    InActive = <any>"InActive", 
+    Open = <any>"Open",
+    Active = <any>"Active",
+    InActive = <any>"InActive",
 }
 
 export interface TournamentGroup {
@@ -2917,9 +2867,9 @@ export interface TournamentPairing {
 
 export class SwaggerException extends Error {
     message: string;
-    status: number; 
-    response: string; 
-    result: any; 
+    status: number;
+    response: string;
+    result: any;
 
     constructor(message: string, status: number, response: string, result: any) {
         super();
@@ -2932,7 +2882,7 @@ export class SwaggerException extends Error {
 }
 
 function throwException(message: string, status: number, response: string, result?: any): any {
-    if(result !== null && result !== undefined)
+    if (result !== null && result !== undefined)
         throw result;
     else
         throw new SwaggerException(message, status, response, null);
