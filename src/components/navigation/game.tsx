@@ -79,10 +79,7 @@ const GameNavigation = (props: IGameNavigation): JSX.Element => {
             </Link>
             <ul className="nav-dropdown">
                 <li>
-                    {userName}
-                </li>
-                <li>
-                    <Link to="/game/profile/profile" activeClassName="active">{__("Profile")}</Link>
+                    <Link to="/game/profile/profile" activeClassName="active">{userName}</Link>
                 </li>
                 <li>
                     <a href="http://impera.ruesken.de/" target="_blank">{__("Forum")}</a>
