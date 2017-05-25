@@ -37,7 +37,7 @@ export class ControlledTextField extends React.Component<FormControlProps & ICon
     }
 
     public render() {
-        const { fieldName, label, validate, ...remainingProps } = this.props;
+        const { fieldName, label, validate, initialValue, ...remainingProps } = this.props;
 
         return <FormGroup controlId={this._id}>
             <ControlLabel>{label}</ControlLabel>
