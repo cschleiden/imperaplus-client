@@ -21,11 +21,27 @@ export const join = makePromiseAction<string, null>(
                 promise: deps.getCachedClient(LadderClient).postJoin(ladderId).then(() => {
                     // Refresh ladders after hiding
                     dispatch(refresh(null));
-                    dispatch(show(__("Game joined, you can find it now in [My Games](/game/games)."), MessageType.success));
+                    dispatch(show(__("You are now in the queue"), MessageType.success));
                 })
             },
             options: {
-                useMessage: true,
                 clearMessage: true
             }
         }));
+
+export const leave = makePromiseAction<string, null>(
+    "ladder-leave", (ladderId, dispatch, getState, deps) =>
+        ({
+            payload: {
+                promise: deps.getCachedClient(LadderClient).deleteJoin(ladderId).then(() => {
+                    // Refresh ladders after hiding
+                    dispatch(refresh(null));
+                    dispatch(show(__("You have left the queue"), MessageType.success));
+                })
+            },
+            options: {
+                clearMessage: true
+            }
+        }));
+
+

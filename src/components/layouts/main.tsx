@@ -196,7 +196,7 @@ export class Layout extends React.Component<ILayoutProps, void> {
 
                 <GridRow className="footer">
                     {isAdmin && <span>
-                        <a href="/toadmin">ADMIN</a> |
+                        <a href="/toadmin">ADMIN</a>&nbsp;|&nbsp;
                     </span>}
                     <a href="#">{__("Privacy Policy")}</a> | <a href="#">{__("Terms of Service")}</a> | <a href="#">User Voice</a> | <a href="http://impera.ruesken.de/">{__("Forum")}</a>
                 </GridRow>

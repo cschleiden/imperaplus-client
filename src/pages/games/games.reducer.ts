@@ -6,7 +6,8 @@ import * as Actions from "./games.actions";
 
 const initialState = makeImmutable({
     isLoading: false,
-    games: {} as { [gameId: number]: GameSummary }
+    games: {} as { [gameId: number]: GameSummary },
+    openGames: [] as GameSummary[]
 });
 
 export type IMyGamesState = typeof initialState;
@@ -24,6 +25,13 @@ const refresh = (state: IMyGamesState, action: IAction<GameSummary[]>) => {
     return state.merge(x => x, {
         isLoading: false,
         games: gameMap
+    });
+};
+
+const refreshOpen = (state: IMyGamesState, action: IAction<GameSummary[]>) => {
+    return state.merge(x => x, {
+        isLoading: false,
+        openGames: action.payload
     });
 };
 
@@ -52,6 +60,9 @@ export const games = <TPayload>(
         [success(Actions.refresh.TYPE)]: refresh,
         [success(Actions.surrender.TYPE)]: surrender,
         [success(Actions.remove.TYPE)]: remove,
-        [success(Actions.leave.TYPE)]: remove
+        [success(Actions.leave.TYPE)]: remove,
+
+        [pending(Actions.refreshOpen.TYPE)]: loading,
+        [success(Actions.refreshOpen.TYPE)]: refreshOpen,
     });
 };

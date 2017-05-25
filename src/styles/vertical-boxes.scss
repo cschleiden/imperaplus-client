@@ -12,5 +12,15 @@
 
         padding: $spacing;
         margin: 0;
+
+        h5 {
+            font-style: italic;
+
+            font-size: medium;
+        }
+
+        h6 {
+            font-size: small;
+        }
     }
 }

@@ -7,7 +7,7 @@ import { GameList } from "../../components/ui/games/gameList";
 import { Section, Title } from "../../components/ui/typography";
 import { GameSummary, GameType } from "../../external/imperaClients";
 import { IState } from "../../reducers";
-import { refreshFun } from "../games/games.actions";
+import { refreshOpen } from "../games/games.actions";
 
 export interface IFunGamesProps {
     refreshFun: () => void;
@@ -41,21 +41,20 @@ export class FunGamesComponent extends React.Component<IFunGamesProps, void> {
                     showCreatedBy={true}
                     showActive={false}
                     games={this.props.funGames}
-                    userId={userId} key="fun" />
+                    userId={userId}
+                    key="fun" />
             </div>
         </GridColumn>;
     }
 }
 
 export default connect((state: IState) => {
-    const gamesMap = state.games.data.games;
-    const games = Object.keys(gamesMap).map(id => gamesMap[id]);
     const userInfo = state.session.data.userInfo;
 
     return {
-        funGames: games.filter(g => g.type === GameType.Fun),
+        funGames: state.games.data.openGames,
         userId: userInfo && userInfo.userId
     };
 }, (dispatch) => ({
-    refreshFun: () => { dispatch(refreshFun(null)) }
+    refreshFun: () => { dispatch(refreshOpen(null)) }
 }))(FunGamesComponent);

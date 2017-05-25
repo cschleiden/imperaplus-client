@@ -28,8 +28,9 @@ import GameLayout from "./components/layouts/game";
 import GameNav from "./components/navigation/game";
 import Create from "./pages/create/create";
 import My from "./pages/games/games";
-import Join from "./pages/join/fun";
-import Ladders from "./pages/join/ladders";
+import Join from "./pages/join/open";
+import Ladder from "./pages/ladders/ladder";
+import Ladders from "./pages/ladders/ladders";
 import Start from "./pages/start";
 import Tournament from "./pages/tournaments/tournament";
 import Tournaments from "./pages/tournaments/tournaments";
@@ -108,7 +109,12 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
 
                                 <Route path="/game/games/create" component={Create} {...this._title(__("Create Game")) } />
                                 <Route path="/game/games/join" component={Join}  {...this._title(__("Join Game")) } />
-                                <Route path="/game/games/ladders" component={Ladders}  {...this._title(__("Ladders")) } />
+                            </Route>
+
+                            <Route path="/game/ladders">
+                                <IndexRoute component={Ladders}  {...this._title(__("Ladders")) } />
+
+                                <Route path="/game/ladders/:id" component={Ladder} />
                             </Route>
 
                             <Route path="/game/tournaments">

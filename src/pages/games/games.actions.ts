@@ -13,7 +13,7 @@ export const refresh = makePromiseAction<void, GameSummary[]>(
             }
         }));
 
-export const refreshFun = makePromiseAction<void, GameSummary[]>(
+export const refreshOpen = makePromiseAction<void, GameSummary[]>(
     "games-refresh-fun", (input, dispatch, getState, deps) =>
         ({
             payload: {
@@ -22,7 +22,6 @@ export const refreshFun = makePromiseAction<void, GameSummary[]>(
             options: {
                 useMessage: true
             }
-
         }));
 
 export const hide = makePromiseAction<number, void>(
@@ -98,7 +97,7 @@ export const join = makePromiseAction<number, null>(
             payload: {
                 promise: deps.getCachedClient(GameClient).postJoin(gameId).then(() => {
                     // Refresh games after hiding
-                    dispatch(refreshFun(null));
+                    dispatch(refreshOpen(null));
                     dispatch(show(__("Game joined, you can find it now in [My Games](/game/games)."), MessageType.success));
                 })
             },

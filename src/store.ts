@@ -1,9 +1,7 @@
-import * as Redux from "redux";
-import { composeWithDevTools } from "redux-devtools-extension";
-
 import { browserHistory } from "react-router";
 import { routerMiddleware } from "react-router-redux";
-
+import * as Redux from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
 import * as createLogger from "redux-logger";
 import thunkMiddleware from "redux-thunk";
 import promiseMiddleware from "./middleware/promise-middleware";
