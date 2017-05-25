@@ -66,6 +66,12 @@ export class TournamentComponent extends React.Component<ITournamentProps, void>
         return <GridColumn className="col-xs-12">
             <div className="tournament">
                 <GridRow>
+                    <GridColumn className="col-xs-12">
+                        <Title>{tournament.name}</Title>
+                    </GridColumn>
+                </GridRow>
+
+                <GridRow>
                     <GridColumn className="col-md-5 col-md-offset-1">
                         <dl className="dl-horizontal clearfix">
                             <dt><span>{__("Start of registration")}</span></dt>
