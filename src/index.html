@@ -2,35 +2,35 @@
 <html lang="en" dir="ltr">
 
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta http-equiv="x-ua-compatible" content="ie=edge">
-	<title>Impera</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Impera</title>
 </head>
 
 <body>
-	<div id="root"></div>
+    <div id="root"></div>
 
-	<script type="text/javascript">
-		var hash = "[hash]";
+    <script type="text/javascript">
+        var hash = "[hash]";
 
-		var language = "en";
+        var language = "de";
 
-		var fallback = (window.navigator.userLanguage || window.navigator.language).substr(0, 2);
-		if (fallback) {
-			language = fallback;
-		}
+        var fallback = (window.navigator.userLanguage || window.navigator.language).substr(0, 2);
+        if (fallback) {
+            language = fallback;
+        }
 
-		var storedLanguage = window.localStorage.getItem("impera-lang");
-		if (storedLanguage) {
-			language = storedLanguage;
-		}
+        var storedLanguage = window.localStorage.getItem("impera-lang");
+        if (storedLanguage) {
+            language = storedLanguage;
+        }
 
-		var script = document.createElement("script");
-		script.type = "text/javascript";
-		script.src = "/" + language + ".app." + (hash !== "[hash]" ? hash + "." : "") + "js";
-		document.body.appendChild(script);
-	</script>
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = "/" + language + ".app." + (hash !== "[hash]" ? hash + "." : "") + "js";
+        document.body.appendChild(script);
+    </script>
 </body>
 
 </html>
