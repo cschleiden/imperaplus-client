@@ -41,7 +41,7 @@ export class StartComponent extends React.Component<IStartProps, void> {
                 </div>
             </GridColumn>
 
-            <GridColumn className="col-md-3">
+            {/*<GridColumn className="col-md-3">
                 <Section>{__("Tournaments")}</Section>
 
                 <SubSection>{__("Registration open")}</SubSection>
@@ -57,7 +57,7 @@ export class StartComponent extends React.Component<IStartProps, void> {
                 <div className="progress progress-xxs">
                     <ProgressBar now={80} />
                 </div>
-            </GridColumn>
+            </GridColumn>*/}
         </GridRow>;
     };
 
