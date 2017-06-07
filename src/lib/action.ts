@@ -80,14 +80,16 @@ export const makePromiseAction = <TInput, TResult>(
         return (dispatch: Function, getState: () => IState, deps: IAsyncActionDependencies) => {
             let asyncAction = action(data, dispatch, getState, deps);
 
-            dispatch({
-                type: type,
-                ...asyncAction,
-                options: {
-                    ...asyncAction.options,
-                    ...options
-                }
-            } as IPromiseAction<TResult, TInput>);
+            if (asyncAction) {
+                dispatch({
+                    type: type,
+                    ...asyncAction,
+                    options: {
+                        ...asyncAction.options,
+                        ...options
+                    }
+                } as IPromiseAction<TResult, TInput>);
+            }
         };
     };
 

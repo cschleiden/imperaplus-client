@@ -40,7 +40,7 @@ export class ControlledTextField extends React.Component<FormControlProps & ICon
         const { fieldName, label, validate, initialValue, ...remainingProps } = this.props;
 
         return <FormGroup controlId={this._id}>
-            <ControlLabel>{label}</ControlLabel>
+            {label && <ControlLabel>{label}</ControlLabel>}
             <FormControl
                 disabled={this.context.isPending()}
                 name={fieldName}
@@ -94,7 +94,7 @@ export class ControlledUserPicker extends React.Component<FormControlProps & ICo
         const { fieldName, label, initialValue, ...remainingProps } = this.props;
 
         return <FormGroup controlId={this._id}>
-            <ControlLabel>{label}</ControlLabel>
+            {label && <ControlLabel>{label}</ControlLabel>}
             <UserPicker
                 name={fieldName}
                 onChange={(value) => {
@@ -130,7 +130,7 @@ export const ControlledCheckBox = (props: CheckboxProps & IControlledFieldProps,
         {...remainingProps}
         onChange={(ev: React.FormEvent<Checkbox>) => {
             const inputElement = ev.target as HTMLInputElement;
-            const updatedValue = inputElement.value === "on";
+            const updatedValue = inputElement.checked;
             if (updatedValue !== currentValue()) {
                 context.changeField(fieldName, updatedValue);
             }
@@ -164,7 +164,7 @@ export class ControlledDropdown extends React.Component<FormControlProps & ICont
         const { fieldName, label, children, ...remainingProps } = this.props;
 
         return <FormGroup controlId={this._id}>
-            <ControlLabel>{label}</ControlLabel>
+            {label && <ControlLabel>{label}</ControlLabel>}
             <FormControl
                 componentClass="select"
                 {...remainingProps}

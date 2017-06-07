@@ -5,6 +5,7 @@ import { IAction, IAsyncAction, makePromiseAction } from "../../lib/action";
 import { EventService } from "../../services/eventService";
 import { NotificationService } from "../../services/notificationService";
 import { TokenProvider } from "../../services/tokenProvider";
+import { MessageType, show } from "../message/message.actions";
 
 const scope = "openid offline_access roles";
 
@@ -109,11 +110,34 @@ export interface ISignupInput {
     password: string;
     passwordConfirm: string;
     email: string;
+    day: number;
+    month: number;
+    year: number;
 }
 
 export const signup = makePromiseAction<ISignupInput, void>(
-    "signup", (input, dispatch, getState, deps) =>
-        ({
+    "signup", (input, dispatch, getState, deps) => {
+        const birthdate = new Date(input.year, input.month, input.day);
+        const ageDiffMs = Date.now() - birthdate.getTime();
+        const ageDate = new Date(ageDiffMs);
+        const age = Math.abs(ageDate.getUTCFullYear() - 1970);
+
+        if (age < 13) {
+            dispatch(replace({
+                pathname: "/",
+                state: {
+                    keepMessage: true
+                }
+            }));
+            dispatch(show(__("You have to be 13 years or older to play Impera."), MessageType.error));
+
+            // Set cookie
+            document.cookie = `age_block=${input.username};path=/`;
+
+            return;
+        }
+
+        return {
             payload: {
                 promise: deps.getCachedClient(AccountClient).register({
                     userName: input.username,
@@ -128,7 +152,8 @@ export const signup = makePromiseAction<ISignupInput, void>(
                 useMessage: true,
                 afterSuccess: d => d(replace("/signup/confirmation"))
             }
-        }));
+        };
+    });
 
 export interface IResetTriggerInput {
     username: string;

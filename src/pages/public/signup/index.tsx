@@ -2,17 +2,24 @@ import "./signup.scss";
 
 import { IImmutable } from "immuts";
 import * as React from "react";
-import { Button } from "react-bootstrap";
+import { Button, ControlLabel, FormGroup } from "react-bootstrap";
 import { connect } from "react-redux";
 import { push } from "react-router-redux";
 import Form from "../../../common/forms/form";
-import { ControlledCheckBox, ControlledTextField } from "../../../common/forms/inputs";
+import { ControlledCheckBox, ControlledDropdown, ControlledTextField } from "../../../common/forms/inputs";
 import { signup } from "../../../common/session/session.actions";
 import { Grid, GridColumn, GridRow } from "../../../components/layout";
 import { ProgressButton } from "../../../components/ui/progressButton";
 import LinkString from "../../../components/ui/strLink";
 import { AccountClient, ErrorResponse } from "../../../external/imperaClients";
 import { ErrorCodes } from "../../../i18n/errorCodes";
+
+function range(start: number, count: number) {
+    return Array.apply(0, Array(count))
+        .map(function (element, index) {
+            return index + start;
+        });
+}
 
 interface ISignupFields {
     username: string;
@@ -29,6 +36,16 @@ interface ISignupProps {
 
 export class SignupComponent extends React.Component<ISignupProps, void> {
     public render(): JSX.Element {
+        if (document.cookie.indexOf("age_block=") !== -1) {
+            return <Grid className="signup">
+                <GridRow>
+                    <GridColumn className="col-xs-12">
+                        {__("You have to be 13 years or older to play Impera.")}
+                    </GridColumn>
+                </GridRow>
+            </Grid>;
+        }
+
         return <Grid className="signup">
             <GridRow>
                 <GridColumn className="col-md-6 col-xs-12 col-border-right">
@@ -43,7 +60,10 @@ export class SignupComponent extends React.Component<ISignupProps, void> {
                                 username: formState.getFieldValue("username"),
                                 password: formState.getFieldValue("password"),
                                 passwordConfirm: formState.getFieldValue("passwordconfirm"),
-                                email: formState.getFieldValue("email")
+                                email: formState.getFieldValue("email"),
+                                day: formState.getFieldValue("day"),
+                                month: formState.getFieldValue("month"),
+                                year: formState.getFieldValue("year")
                             }, options);
                         })}
                         component={({ isPending, submit, formState }) => (
@@ -73,6 +93,42 @@ export class SignupComponent extends React.Component<ISignupProps, void> {
                                         }
                                     }}
                                     required={true} />
+
+                                <div className="form-inline">
+                                    <div className="form-group">
+                                        <ControlLabel>{__("Birthdate")}</ControlLabel>
+                                        <div>
+                                            <ControlledDropdown
+                                                fieldName="day">
+                                                <option value=""></option>
+                                                {
+                                                    range(1, 31).map(x =>
+                                                        <option value={x} key={x}>{x}</option>
+                                                    )
+                                                }
+                                            </ControlledDropdown>
+                                            <ControlledDropdown
+                                                fieldName="month">
+                                                <option value=""></option>
+                                                {
+                                                    range(1, 12).map(x =>
+                                                        <option value={x} key={x}>{x}</option>
+                                                    )
+                                                }
+                                            </ControlledDropdown>
+                                            <ControlledDropdown
+                                                fieldName="year">
+                                                <option value=""></option>
+                                                {
+                                                    range(new Date().getFullYear() - 85, 85).map(x =>
+                                                        <option value={x} key={x}>{x}</option>
+                                                    )
+                                                }
+                                            </ControlledDropdown>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <ControlledCheckBox
                                     label={__("I agree to the TOS")}
                                     fieldName="accepttos" />
@@ -117,6 +173,7 @@ export class SignupComponent extends React.Component<ISignupProps, void> {
     private _formValid(formState): boolean {
         return formState.getFieldValue("username")
             && formState.getFieldValue("password") && formState.getFieldValue("passwordconfirm") && formState.getFieldValue("password") !== "" && formState.getFieldValue("password") === formState.getFieldValue("passwordconfirm")
+            && formState.getFieldValue("day") > 0 && formState.getFieldValue("month") > 0 && formState.getFieldValue("year")
             && formState.getFieldValue("accepttos", false);
     }
 

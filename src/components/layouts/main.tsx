@@ -4,6 +4,7 @@ import "./main.scss";
 import * as React from "react";
 import { connect } from "react-redux";
 import LoadingBar from "react-redux-loading-bar";
+import { Link } from "react-router";
 import { Grid, GridColumn, GridContainer, GridRow } from "../layout";
 
 import { openCloseNav } from "../../common/general/general.actions";
@@ -198,7 +199,7 @@ export class Layout extends React.Component<ILayoutProps, void> {
                     {isAdmin && <span>
                         <a href="/toadmin">ADMIN</a>&nbsp;|&nbsp;
                     </span>}
-                    <a href="#">{__("Privacy Policy")}</a> | <a href="#">{__("Terms of Service")}</a> | <a href="#">User Voice</a> | <a href="http://impera.ruesken.de/">{__("Forum")}</a>
+                    <Link to="/privacy">{__("Privacy Policy")}</Link> | <Link to="/tos">{__("Terms of Service")}</Link> | <a href="#">User Voice</a> | <a href="http://impera.ruesken.de/">{__("Forum")}</a>
                 </GridRow>
             </GridContainer>
 

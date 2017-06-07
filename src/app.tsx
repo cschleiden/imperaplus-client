@@ -67,9 +67,13 @@ function checkLoggedIn(store: Redux.Store<IState>, nextState, replace) {
 export default class App extends React.Component<{ store: Redux.Store<IState>, history }, void> {
     render() {
         return <Provider store={this.props.store}>
-            <Router history={this.props.history} onUpdate={this._onRouteUpdate}>
+            <Router history={this.props.history} onUpdate={(() => {
+                // Bind the app, the method needs this
+                const app = this;
+                return function (...args) { App._onRouteUpdate.call(this, app, ...args); }
+            })()}>
                 {/* main layout */}
-                <Route component={MainLayout}>
+                < Route component={MainLayout}>
                     {/* public */}
                     <Route path="/" components={{ nav: PublicNav, content: PublicLayout }}>
                         <IndexRoute component={Home}  {...this._title(__("")) } />
@@ -154,7 +158,7 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
                 <Route path="/toadmin" onEnter={this._onAdmin}>
                 </Route>
             </Router>
-        </Provider>;
+        </Provider >;
     }
 
     @autobind
@@ -177,9 +181,12 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
         window.location.href = baseUri + "admin/news";
     }
 
-    @autobind
-    private _onRouteUpdate() {
-        this._clearMessage();
+    private static _onRouteUpdate(app: App) {
+        const state = (this as any).state.location.state;
+
+        if (!state || !state.keepMessage) {
+            app._clearMessage();
+        }
     };
 
     private _clearMessage() {
