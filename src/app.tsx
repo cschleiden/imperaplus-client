@@ -140,7 +140,7 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
                                 <Route path="/game/messages/:id" component={Message} />
                             </Route>
 
-                            <Route path="/game/profile/profile" component={UserProfile}  {...this._title(__("Your Profile")) } />
+                            <Route path="/game/profile" component={UserProfile}  {...this._title(__("Your Profile")) } />
 
                         </Route>
                     </Route>

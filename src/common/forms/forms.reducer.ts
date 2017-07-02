@@ -35,7 +35,10 @@ const submitForm = (state: IImmutable<IForms>, action: IAction<FormActions.ISubm
             return state.set(x => x.forms[action.payload.form].isPending, true);
 
         case FormActions.FormMode.Success:
-            return state.set(x => x.forms[action.payload.form].isPending, false);
+            return state.merge(x => x.forms[action.payload.form], {
+                isPending: false,
+                fields: {}
+            });
 
         case FormActions.FormMode.Failed:
             return state.set(x => x.forms[action.payload.form].isPending, false);
@@ -45,8 +48,9 @@ const submitForm = (state: IImmutable<IForms>, action: IAction<FormActions.ISubm
 const resetForm = (state: IImmutable<IForms>, action: IAction<string>) => {
     return state.set(x => x.forms[action.payload], {
         name: action.payload,
-        fields: {}
-    });
+        fields: {},
+        isPending: false
+    } as IForm);
 };
 
 const changeField = (state: IImmutable<IForms>, action: IAction<FormActions.IChangeFieldPayload>) => {

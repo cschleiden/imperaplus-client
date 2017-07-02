@@ -2,10 +2,11 @@ import * as React from "react";
 
 import { connect } from "react-redux";
 import Form, { IFormState } from "../../common/forms/form";
-import { ControlledCheckBox } from "../../common/forms/inputs";
+import { ControlledCheckBox, ControlledTextField } from "../../common/forms/inputs";
+import { changePassword } from "../../common/session/session.actions";
 import { GridColumn } from "../../components/layout";
 import { ProgressButton } from "../../components/ui/progressButton";
-import { Title } from "../../components/ui/typography";
+import { Section, SubSection, Title } from "../../components/ui/typography";
 import { IState } from "../../reducers";
 
 export interface IProfileProps {
@@ -13,41 +14,63 @@ export interface IProfileProps {
 }
 
 export class ProfileComponent extends React.Component<IProfileProps, void> {
-    public componentDidMount() {
-    }
-
     public render(): JSX.Element {
-        let profile: JSX.Element = null;
-        let a = "";
-
-        if (a !== "Loggedin by foreig account") {
-            profile = <div><h2 className="headline"><span>{__("Set Password")}</span></h2>
-                <p>{ /* Show only if external account and no password set, yet */}</p></div>
-        } else {
-            profile = <div><h2 className="headline"><span>{__("Change Password")}</span></h2>
-                <p>{ /* Show only password set */}</p></div>
-        }
-
         return <GridColumn className="col-xs-12">
             <p className="lead"><span>{__("Here you can manage your profile and settings")}</span></p>
 
-            {profile}
-
+            {/*
             <h2 className="headline"><span>{__("Associated Logins")}</span></h2>
+            */}
 
-            <p>{ /* Show list of logins which are associated, local as well as external */}</p>
-            <p>{ /* Show list of external logins which are not yet associated */}</p>
+            <SubSection>{__("Change Password")}</SubSection>
 
-            <h2 className="headline"><span>{__("Change Profile Data")}</span></h2>
+            <Form
+                name="account-change-password"
+                onSubmit={(formState: IFormState, options) => {
+                    return changePassword({
+                        oldPassword: formState.getFieldValue<string>("oldPassword"),
+                        password: formState.getFieldValue<string>("password"),
+                        passwordConfirmation: formState.getFieldValue<string>("passwordConfirmation")
+                    }, options);
+                }}
+                component={(({ isPending, submit, formState }) => (
+                    <div>
+                        <ControlledTextField
+                            type="password"
+                            label={__("Old Password")}
+                            fieldName="oldPassword" />
 
-            <p>Email etc.</p>
+                        <ControlledTextField
+                            type="password"
+                            label={__("Password")}
+                            fieldName="password" />
 
-            <h2 className="headline"><span>{__("Remove Account")}</span></h2>
+                        <ControlledTextField
+                            type="password"
+                            label={__("Password confirmation")}
+                            fieldName="passwordConfirmation" />
 
-            <p><span>{__("If you do not want to play Impera anymore, you can delete your account here. Otherwise, if you do not login for three months, your account will be automatically deleted.")}</span></p>
+                        <ProgressButton
+                            type="submit"
+                            bsStyle="primary"
+                            disabled={!this._changePasswordFormValid(formState)}
+                            isActive={isPending}>
+                            {__("Change password")}
+                        </ProgressButton>
+                    </div>
+                ))} />
+
+            <SubSection>{__("Delete Account")}</SubSection>
+
+            <p>
+                <span>{__("Here you can delete your account. Otherwise, if you do not login for three months, your account will be automatically deleted.")}</span>
+            </p>
 
             <div className="tag-box-v3">
-                <p><strong><span>{__("Note")}: </span></strong><span>{__("After deletion, your username will be locked for one month in order to prevent new accounts to pose as you.")}</span></p>
+                <strong>
+                    {__("Note")}:
+                </strong>
+                <span>{__("After deletion, your username will be locked for one month in order to prevent other players to pose as you.")}</span>
             </div>
 
             <Form
@@ -69,18 +92,23 @@ export class ProfileComponent extends React.Component<IProfileProps, void> {
                         <ProgressButton
                             type="submit"
                             bsStyle="primary"
-                            disabled={!this._formValid(formState)}
+                            disabled={!this._changePasswordFormValid(formState)}
                             isActive={isPending}>
                             {__("Delete Account")}
                         </ProgressButton>
                     </div>
                 ))} />
-        </GridColumn>;
-    }
-    private _formValid(formState: IFormState): boolean {
-        return formState.getFieldValue("confirmDelete");
+        </GridColumn >;
     }
 
+    private _changePasswordFormValid(formState: IFormState): boolean {
+        const oldPassword = formState.getFieldValue("oldPassword") || "";
+        const password = formState.getFieldValue("password") || "";
+
+        return oldPassword.trim() !== ""
+            && password.trim() !== ""
+            && password === formState.getFieldValue("passwordConfirmation");
+    }
 }
 
 export default connect((state: IState) => {

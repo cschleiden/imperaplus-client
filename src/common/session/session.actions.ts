@@ -204,17 +204,52 @@ export interface IConfirmInput {
     userId: string;
     code: string;
 }
-export const activate = makePromiseAction<IConfirmInput, void>(
+
+export const activate = makePromiseAction<IConfirmInput, {}>(
     "session-activate", (input, dispatch, getState, deps) =>
         ({
             payload: {
                 promise: deps.getCachedClient(AccountClient).confirmEmail({
                     userId: input.userId,
                     code: input.code
-                }).then<void>(null)
+                })
             },
             options: {
                 useMessage: true,
                 afterSuccess: d => d(replace("/activated"))
             }
         }));
+
+export interface IChangePasswordInput {
+    oldPassword: string;
+    password: string;
+    passwordConfirmation: string;
+}
+export const changePassword = makePromiseAction<IChangePasswordInput, {}>(
+    "change-password", (input, dispatch, getState, deps) => {
+        return {
+            payload: {
+                promise: deps.getCachedClient(AccountClient).changePassword({
+                    oldPassword: input.oldPassword,
+                    newPassword: input.password,
+                    confirmPassword: input.passwordConfirmation
+                })
+            },
+            options: {
+                useMessage: true,
+                afterSuccess: d => d(show(__("Password changed."), MessageType.success))
+            }
+        };
+    }
+);
+
+export const deleteAccount = makePromiseAction<{}, {}>(
+    "delete-account", (input, dispatch, getState, deps) => ({
+        payload: {
+            promise: deps.getCachedClient(AccountClient).deleteAccount()
+        },
+        options: {
+            afterSuccess: d => d(logout(null))
+        }
+    })
+);
