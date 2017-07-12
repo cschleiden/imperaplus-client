@@ -3,7 +3,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import Form, { IFormState } from "../../common/forms/form";
 import { ControlledCheckBox, ControlledTextField } from "../../common/forms/inputs";
-import { changePassword } from "../../common/session/session.actions";
+import { changePassword, deleteAccount } from "../../common/session/session.actions";
 import { GridColumn } from "../../components/layout";
 import { ProgressButton } from "../../components/ui/progressButton";
 import { Section, SubSection, Title } from "../../components/ui/typography";
@@ -68,31 +68,34 @@ export class ProfileComponent extends React.Component<IProfileProps, void> {
 
             <div className="tag-box-v3">
                 <strong>
-                    {__("Note")}:
+                    {__("Note")}:&nbsp;
                 </strong>
-                <span>{__("After deletion, your username will be locked for one month in order to prevent other players to pose as you.")}</span>
+                <span>{__("This action cannot be undone.")}</span>
             </div>
 
             <Form
                 name="account-delete"
                 onSubmit={(formState: IFormState, options) => {
-                    return null;
-                    /* return deleteAccount({
-                     name: formState.getFieldValue("confirmDelete")
-                     }, options); */
+                    return deleteAccount(
+                        formState.getFieldValue<string>("password"),
+                        options);
                 }}
                 component={(({ isPending, submit, formState }) => (
                     <div>
+                        <ControlledTextField
+                            type="password"
+                            label={__("Password")}
+                            fieldName="password" />
+
                         <ControlledCheckBox
-                            label={__("Yes, I would really like to delete my Impera account")}
-                            placeholder={__("Yes, I would really like to delete my Impera account")}
+                            label={__("Yes, I really want to delete my Impera account")}
                             fieldName="confirmDelete"
                             required={true} />
 
                         <ProgressButton
                             type="submit"
                             bsStyle="primary"
-                            disabled={!this._changePasswordFormValid(formState)}
+                            disabled={!this._deleteAccountFormValid(formState)}
                             isActive={isPending}>
                             {__("Delete Account")}
                         </ProgressButton>
@@ -108,6 +111,13 @@ export class ProfileComponent extends React.Component<IProfileProps, void> {
         return oldPassword.trim() !== ""
             && password.trim() !== ""
             && password === formState.getFieldValue("passwordConfirmation");
+    }
+
+    private _deleteAccountFormValid(formState: IFormState): boolean {
+        const password = formState.getFieldValue("password") || "";
+
+        return password.trim() !== ""
+            && formState.getFieldValue("confirmDelete", false);
     }
 }
 

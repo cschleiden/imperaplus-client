@@ -6,99 +6,138 @@ declare var language: string;
 
 const tos = {
     "de": () => <div>
-        <h2>Datenschutzerkl&auml;rung</h2>
+        <h3>Impera ist ein nicht-kommerzielles Hobby Projekt und ist komplett kostenlos.</h3>
 
+        <h2>Datenschutzerklärung</h2>
         <p>
-            Wir nehmen den Schutz Ihrer pers&ouml;nlichen Daten sehr ernst und halten uns strikt an die Regeln der Datenschutzgesetze. Personenbezogene Daten werden auf dieser Webseite nur im technisch notwendigen Umfang erhoben. In keinem Fall werden die erhobenen Daten verkauft oder aus anderen Gr&uuml;nden an Dritte weitergegeben.
+            Die Nutzung unserer Seite ist ohne eine Angabe von personenbezogenen Daten möglich. Für die Nutzung einzelner Services unserer Seite können sich hierfür abweichende Regelungen ergeben, die in diesem Falle nachstehend gesondert erläutert werden. Ihre personenbezogenen Daten (z.B. Name, Anschrift, E-Mail, Telefonnummer, u.ä.) werden von uns nur gemäß den Bestimmungen des deutschen Datenschutzrechts verarbeitet. Daten sind dann personenbezogen, wenn sie eindeutig einer bestimmten natürlichen Person zugeordnet werden können. Die rechtlichen Grundlagen des Datenschutzes finden Sie im Bundesdatenschutzgesetz (BDSG) und dem Telemediengesetz (TMG). Nachstehende Regelungen informieren Sie insoweit über die Art, den Umfang und Zweck der Erhebung, die Nutzung und die Verarbeitung von personenbezogenen Daten durch den Anbieter
         </p>
-        <p>
-            Die nachfolgende Erkl&auml;rung gibt Ihnen einen &Uuml;berblick dar&uuml;ber, wie wir diesen Schutz gew&auml;hrleisten und welche Art von Daten zu welchem Zweck erhoben werden.
-        </p>
+        <p><strong>Christopher Schleiden</strong></p>
+        <p><strong>[Telefonnummer des Betreibers]</strong></p>
+        <p><strong>info@imperaonline.de</strong></p>
 
-        <h4>Datenverarbeitung auf dieser Internetseite</h4>
-        <p>
-            Um ein faires und ausgeglichenes Spiel f&uuml;r alle Spieler zu erm&ouml;glichen, werden die Logins f&uuml;r einen Zeitraum von 24 Stunden protokolliert. Dabei werden folgende Daten gespeichert und nach Ablauf der 24 Stunden r&uuml;ckstandslos gel&ouml;scht:
-        </p>
-        <ol>
-            <li>Benutzername</li>
-            <li>Uhrzeit</li>
-            <li>IP-Adresse als Hash-Wert (dies erlaubt keinerlei R&uuml;ckschl&uuml;&szlig;e auf den Besitzer der IP)</li>
-        </ol>
-        <p>
-            Diese Daten werden innerhalb der 24 Stunden nur intern verwendet und <b>niemals</b> an Dritte weitergegeben.
-        </p>
+        <p>Wir weisen darauf hin, dass die internetbasierte Datenübertragung Sicherheitslücken aufweist, ein lückenloser Schutz vor Zugriffen durch Dritte somit unmöglich ist.</p>
 
         <h4>Cookies</h4>
         <p>
-            Die Internetseiten verwenden an mehreren Stellen so genannte Cookies. Sie dienen dazu, unser Angebot nutzerfreundlicher, effektiver und sicherer zu machen. Cookies sind kleine Textdateien, die auf Ihrem Rechner abgelegt werden und die Ihr Browser speichert. Die meisten der von uns verwendeten Cookies sind so genannte "Session-Cookies". Sie werden nach Ende Ihres Besuchs bzw. mit dem Ausloggen automatisch gel&ouml;scht. Cookies richten auf Ihrem Rechner keinen Schaden an und enthalten keine Viren.
-        </p>
-        <p>
-            Da auf dieser Seite Werbung durch Google Adsense angezeigt wird, speichert Ihr Browser eventuell ein von Google Inc. oder Dritten gesendetes Cookie. Dieses Cookie kann durch Google Inc. oder Dritten ausgelesen werden. Um dieses Cookie zu l&ouml;schen oder die Cookiebehandlung generell zu ver&auml;ndern, konsultieren Sie bitte die Hilfe Ihres Browsers. In der Regel finden sich diese Einstellungen unter Extras -&gt; Einstellungen Datenschutz (Firefox) oder unter Extras -&gt; Internetoptionen -&gt; Datenschutz (Internet Explorer).
-        </p>
-        <p>
-            Wir greifen auf Drittanbieter zur&uuml;ck, um Anzeigen zu schalten, wenn Sie unsere Webseite besuchen. Diese Unternehmen nutzen m�glicherweise Informationen �ber Besucher dieser und anderer Webseiten, damit Anzeigen zu Produkten und Diensten geschaltet werden k�nnen, die Besucher interessieren. Daten wie Name, Adresse, Telefonnummer und Emailadresse werden jedoch nicht weitergegeben. Falls Sie mehr �ber die Methoden der Drittanbieter erfahren m�chten oder wissen m�chten, welche M�glichkeiten Sie haben, damit diese Informationen nicht von diesen verwendet werden k�nnen, besuchen Sie bitte die Webseite der <a href="http://www.networkadvertising.org/">Network Advertising Initiative (NAI)</a>.
+            Wir verwenden auf unserer Seite sog. Cookies zum Wiedererkennen mehrfacher Nutzung unseres Angebots, durch denselben Nutzer/Internetanschlussinhaber. Cookies sind kleine Textdateien, die Ihr Internet-Browser auf Ihrem Rechner ablegt und speichert. Sie dienen dazu, unseren Internetauftritt und unsere Angebote zu optimieren. Es handelt sich dabei zumeist um sog. "Session-Cookies", die nach dem Ende Ihres Besuches wieder gelöscht werden.<br />
+            Teilweise geben diese Cookies jedoch Informationen ab, um Sie automatisch wieder zu erkennen. Diese Wiedererkennung erfolgt aufgrund der in den Cookies gespeicherten IP-Adresse. Die so erlangten Informationen dienen dazu, unsere Angebote zu optimieren und Ihnen einen leichteren Zugang auf unsere Seite zu ermöglichen.<br />
+            Sie können die Installation der Cookies durch eine entsprechende Einstellung Ihres Browsers verhindern; wir weisen Sie jedoch darauf hin, dass Sie in diesem Fall gegebenenfalls nicht sämtliche Funktionen unserer Website vollumfänglich nutzen können.
         </p>
 
-        <h4>Auskunftsrecht</h4>
+        <h4>Serverdaten</h4>
         <p>
-            Sie haben jederzeit das Recht auf Auskunft &uuml;ber die bez&uuml;glich Ihrer Person gespeicherten Daten, deren Herkunft und Empf&auml;nger sowie den Zweck der Speicherung. Auskunft &uuml;ber die gespeicherten Daten k&ouml;nnen Sie per E-Mail unter <i>info@imperaonline.de</i> erhalten.
+            Aus technischen Gründen werden u.a. folgende Daten, die Ihr Internet-Browser an uns bzw. an unseren Webspace-Provider übermittelt, erfasst (sogenannte Serverlogfiles): <br />
+            <br />
+            - Browsertyp und -version <br />
+            - verwendetes Betriebssystem <br />
+            - Webseite, von der aus Sie uns besuchen (Referrer URL) <br />
+            - Webseite, die Sie besuchen <br />
+            - Datum und Uhrzeit Ihres Zugriffs <br />
+            - Ihre Internet Protokoll (IP)-Adresse. <br />
+            <br />
+            Diese anonymen Daten werden getrennt von Ihren eventuell angegebenen personenbezogenen Daten gespeichert und lassen so keine Rückschlüsse auf eine bestimmte Person zu. Sie werden zu statistischen Zwecken ausgewertet, um unseren Internetauftritt und unsere Angebote optimieren zu können.
         </p>
 
-        <h4>Weitere Informationen</h4>
+        <h4>Registrierungsfunktion</h4>
+        <p>Wir bieten Ihnen auf unserer Seite die Möglichkeit, sich dort zu registrieren. Die im Zuge dieser Registrierung eingegebenen Daten, die aus der Eingabemaske des Registrierungsformular ersichtlich sind </p>
+        <ul>
+            <li>Benutzername</li>
+            <li>Email Adresse</li>
+        </ul>
+        <p>werden ausschließlich für die Verwendung unseres Angebots erhoben und gespeichert. Mit Ihrer Registrierung auf unserer Seite werden wir zudem Ihre IP-Adresse und das Datum sowie die Uhrzeit Ihrer Registrierung speichern. Dies dient in dem Fall, dass ein Dritter Ihre Daten missbraucht und sich mit diesen Daten ohne Ihr Wissen auf unserer Seite registriert, als Absicherung unsererseits.&nbsp; Eine Weitergabe an Dritte erfolgt nicht. Ein Abgleich der so erhobenen Daten mit Daten, die möglicherweise durch andere Komponenten unserer Seite erhoben werden, erfolgt ebenfalls nicht.</p>
+
+        <h3>Auskunft/Widerruf/Löschung</h3>
+        <p>Sie können sich aufgrund des Bundesdatenschutzgesetzes bei Fragen zur Erhebung, Verarbeitung oder Nutzung Ihrer personenbezogenen Daten und deren Berichtigung, Sperrung, Löschung oder einem Widerruf einer erteilten Einwilligung unentgeltlich an uns wenden. Wir weisen darauf hin, dass Ihnen ein Recht auf Berichtigung falscher Daten oder Löschung personenbezogener Daten zusteht, sollte diesem Anspruch keine gesetzliche Aufbewahrungspflicht entgegenstehen.</p>
         <p>
-            Ihr Vertrauen ist uns wichtig. Daher m&ouml;chten wir Ihnen jederzeit Rede und Antwort bez&uuml;glich der Verarbeitung Ihrer personenbezogenen Daten stehen. Wenn Sie Fragen haben, die Ihnen diese Datenschutzerkl&auml;rung nicht beantworten konnte oder wenn Sie zu einem Punkt vertiefte Informationen w&uuml;nschen, wenden Sie sich bitte jederzeit an das Impera Team (z.B. per E-Mail an info@imperaonline.de).
+            Basierend auf <a target="_blank" href="https://www.ratgeberrecht.eu/leistungen/muster-datenschutzerklaerung.html">Muster-Datenschutzerklärung</a> der <a target="_blank" href="https://www.ratgeberrecht.eu/">Anwaltskanzlei Weiß &amp; Partner</a>
+        </p>
+        <p>
+            Diese Erkl&auml;rung wurde zuletzt am 7. Juli 2017 upgedated.
         </p>
 
-        <h2>Nutzungsbedingungen</h2>
-
-        &sect;1 <b>Angebot</b>
-        &sect;1.1 Um an Impera Online, im folgenden IO genannt, teilzunehmen, ist es notwendig den Nutzungsbedingungen zuzustimmen. Diese Nutzungsbedingungen beziehen sich auf das gesamte Angebot von Impera Online<br />
-        &sect;1.1 Die Nutzung des Angebots bei IO ist kostenfrei!<br />
-        <br />
-        &sect;2 <b>Mitgliedschaft</b> <br />
-        &sect;2.1 Beginn der Mitgliedschaft: Die Mitgliedschaft beginnt, nachdem ein Spielaccount angelegt wurde. Der Nutzer ist verpflichtet, eine g&uuml;ltige E-mail Adresse anzugeben. IO beh&auml;lt sich das Recht vor, dieses zu jeder Zeit zu &uuml;berpr&uuml;fen.<br />
-        &sect;2.2 K&uuml;ndigung der Mitgliedschaft: Die Mitgliedschaft kann jederzeit durch den Nutzer in den Profileinstellungen gek&uuml;ndigt werden.<br />
-        &sect;2.3 Automatische K&uuml;ndigung: Nach einer dreimonatigen Inaktivit&auml;t des Nutzers wird die Mitgliedschaft automatisch gek&uuml;ndigt.<br />
-        &sect;2.4 Nutzer m&uuml;ssen das 13. Lebensjahr vollendet haben um bei IO Mitglied zu werden.<br />
-        <br />
-        &sect;3 <b>Datenschutz</b> <br />
-        &sect;3.1 Der Betreiber beh&auml;lt sich das Recht vor, Daten der Nutzer zu speichern, um die Einhaltung der Regeln und des geltenden Rechtes zu &uuml;berwachen. Es werden IPs in Verbindung mit Nutzungszeiten, die bei der Anmeldung angegebene e-mail Adresse und die auf freiwilliger Basis vom Benutzer im Profil eingetragenen Daten gespeichert.<br />
-        &sect;3.2 Die gespeicherten Nutzerdaten dienen allein der Spielorganisation und werden in keiner Weise und Form an Dritte weitergegeben.<br />
-        &sect;3.3 Bei der K&uuml;ndigung der Mitgliedschaft werden alle Zugangs- und Benutzerdaten restlos gel&ouml;scht.<br />
-        <br />
-        &sect;4 <b>Inhalte/Verantwortlichkeit</b> <br />
-        &sect;4.1 Hinsichtlich der Kommunikation zwischen den Nutzern, stellt IO nur eine Plattform zur Verf&uuml;gung, &uuml;ber die sich die Nutzer untereinander verst&auml;ndigen k&ouml;nnen. F&uuml;r den Inhalt dieser Kommunikation sind die Nutzer selbst verantwortlich. Pornographische, rassistische, beleidigende, oder gegen geltendes Recht verstossende Inhalte liegen nicht in der Verantwortung des Betreibers. Verst&ouml;&szlig;e werden zur sofortigen Sperrung oder L&ouml;schung f&uuml;hren!<br />
-        &sect;4.2 Spielernamen d&uuml;rfen weder beleidigend noch anst&ouml;&szlig;ig sein. Insbesondere politische, pornographische, rassistische oder gegen geltendes Recht versto&szlig;ende Namen f&uuml;hren zur Sperrung oder L&ouml;schung des Accounts.<br />
-        &sect;4.3 Von jedem Spieler wird gutes Benehmen und Anstand erwartet.<br />
-        <br />
-        &sect;5 <b>Nicht genehmigte Eingriffe</b> <br />
-        &sect;5.1 Der Nutzer ist nicht berechtigt, Ma&szlig;nahmen, Mechanismen oder Software in Verbindung mit IO zu verwenden, die die Funktion und den Spielablauf st&ouml;ren k&ouml;nnen. Der Nutzer darf keine Ma&szlig;nahmen ergreifen, die eine unzumutbare oder &uuml;berm&auml;&szlig;ige Belastung der technischen Kapazit&auml;ten zur Folge haben k&ouml;nnen.<br />
-        &sect;5.2 Der Missbrauch der PN- und Chat-Funktion durch Spamming, Flooding, Scripting oder anderen Formen der Bel&auml;stigung anderer Spieler ist untersagt.<br />
-        <br />
-        &sect;6 <b>Nutzungsbeschr&auml;nkung</b> <br />
-        &sect;6.1 Jeder Nutzer verpflichtet sich, nur einen Account zu nutzen. Sogenannte 'Multis' sind nicht erlaubt und k&ouml;nnen ohne Warnung gel&ouml;scht werden!<br />
-        &sect;6.2 Kein Nutzer hat Anspruch auf eine Teilnahme bei IO. Der Betreiber beh&auml;lt sich das Recht vor, Spieler ohne genauere Begr&uuml;ndung vom Spiel auszuschlie&szlig;en.<br />
-        &sect;6.3 Die gemeinsame Nutzung eines Accounts durch zwei oder mehr Nutzer ist nicht gestattet. Eine Ausnahme davon stellt die Urlaubsvertretung dar (siehe &sect;7).<br />
-        &sect;6.4 Sperrungen k&ouml;nnen nach Ermessen des Betreibers dauerhaft oder tempor&auml;r sein.<br />
-        &sect;6.5 Verboten in Einzelspielen sind: Nichtangriffspakte, Spielabsprachen und Teambildungen in denen zwei oder mehr Spieler gemeinsam die anderen Mitspieler angreifen, um diese vom Spielfeld zu nehmen, um  den Spielsieg unter sich auszumachen.<br />
-        <br />
-        &sect;7 <b>Urlaubsvertretung</b> <br />
-        &sect;7.1 Die Laufzeit einer Urlaubsvertretung hat mindestens 1 Tag zu betragen. Die maximale Dauer einer Urlaubsvertretung betr&auml;gt vier Wochen. <br />
-        &sect;7.2 Die Urlaubsvertretung ist im Forum im Bereich 'Urlaubsvertretung' vom zu vertretenden Spieler, mit Angabe von Grund und Laufzeit einzutragen und muss vom vertretenden Spieler best&auml;tigt werden. <br />
-        &sect;7.3 Dem Vertreter ist es nicht gestattet, w&auml;hrend der Urlaubsvertretung mit dem zu vertretenden Account Spielen beizutreten, Spiele  zu erstellen oder &Auml;nderungen an den Einstellungen des Profils vorzunehmen. Eine Ausnahme stellt das Beitreten von Teamturnieren und der Teamliga dar, denen nach Absprache mit den Admins, beigetreten werden darf. <br />
-        <br />
-        &sect;8 <b>Haftung</b> <br />
-        &sect;8.1 IO &uuml;bernimmt grunds&auml;tzlich keine Haftung f&uuml;r Sch&auml;den, die durch die Benutzung des Spieles entstanden sind.<br />
-        <br />
-        &sect;9 <b>&Auml;nderungsklausel</b> <br />
-        &sect;9.1 Sollte einer dieser &sect;&sect; ung&uuml;ltig sein, wird die Wirksamkeit der anderen &sect;&sect; dadurch nicht ber&uuml;hrt. <br />
-        &sect;9.2 Der Betreiber beh&auml;lt sich das Recht vor, diese Nutzungsbedingungen jederzeit zu &auml;ndern oder zu erweitern.
+        <h2>Regeln</h2>
+        <ol>
+            <li>Du musst eine g&uuml;ltige Email Adresse angeben.</li>
+            <li>Du kannst deinen Account jederzeit l&ouml;schen.</li>
+            <li>Wenn du dich 3 Monate lang nicht einloggst, wird dein Account automatisch gel&ouml;scht.</li>
+            <li>Du musst mindestens 13 Jahre alt sein um Impera zu spielen.</li>
+            <li>Jeder Spieler darf nur einen aktiven Account haben.</li>
+            <li>Accounts k&ouml;nnen jederzeit ohne Angeben von Gr&uuml;nden gel&ouml;scht werden.</li>
+            <li>Account Namen d&uuml;rfen nicht anst&ouml;ssig sein.</li>
+            <li>Nutzer sind selbst verantwortlich f&uum;r Nachrichten die sie senden.</li>
+        </ol>
     </div>,
 
     "en": () => <div>
-        <p>
-            english test
-        </p>
+        <h3>Impera is a non-commercial hobby project and is completely free.</h3>
+
+        <h2>Priacy Policy</h2>
+
+        <p>This Privacy Policy governs the manner in which Impera Online collects, uses, maintains and discloses information collected from users (each, a "User") of the https://www.imperaonline.de website ("Site").</p>
+
+        <h3>Personal identification information</h3>
+        <p>We may collect personal identification information from Users in a variety of ways, including, but not limited to, when Users visit our site, register on the site, and in connection with other activities, services, features or resources we make available on our Site. Users may be asked for, as appropriate, name, email address. We will collect personal identification information from Users only if they voluntarily submit such information to us. Users can always refuse to supply personally identification information, except that it may prevent them from engaging in certain Site related activities.</p>
+
+        <h3>Non-personal identification information</h3>
+        <p>We may collect non-personal identification information about Users whenever they interact with our Site. Non-personal identification information may include the browser name, the type of computer and technical information about Users means of connection to our Site, such as the operating system and the Internet service providers utilized and other similar information.</p>
+
+        <h3>Web browser cookies</h3>
+        <p>Our Site may use "cookies" to enhance User experience. User's web browser places cookies on their hard drive for record-keeping purposes and sometimes to track information about them. User may choose to set their web browser to refuse cookies, or to alert you when cookies are being sent. If they do so, note that some parts of the Site may not function properly.</p>
+
+        <h3>How we use collected information</h3>
+        <p>Impera Online may collect and use Users personal information for the following purposes:</p>
+
+        <ul>
+            <li>
+                <i>To run and operate our Site</i><br />
+                We may need your information display content on the Site correctly.
+            </li>
+            <li>
+                <i>To improve our Site</i><br />
+                We may use feedback you provide to improve our products and services.
+            </li>
+            <li>
+                <i>To send periodic emails</i><br />
+                We may use the email address to respond to their inquiries, questions, and/or other requests.
+            </li>
+        </ul>
+
+        <h3>How we protect your information</h3>
+        <p>We adopt appropriate data collection, storage and processing practices and security measures to protect against unauthorized access, alteration, disclosure or destruction of your personal information, username, password, transaction information and data stored on our Site.</p>
+
+        <h3>Sharing your personal information</h3>
+        <p>We do not sell, trade, or rent Users personal identification information to others. We may share generic aggregated demographic information not linked to any personal identification information regarding visitors and users with our business partners, trusted affiliates and advertisers for the purposes outlined above. </p>
+
+        <h3>Compliance with children's online privacy protection act</h3>
+        <p>Protecting the privacy of the very young is especially important. For that reason, we never collect or maintain information at our Site from those we actually know are under 13, and no part of our website is structured to attract anyone under 13.</p>
+
+        <h3>Changes to this privacy policy</h3>
+        <p>Impera Online has the discretion to update this privacy policy at any time. When we do, we will post a notification on the main page of our Site. We encourage Users to frequently check this page for any changes to stay informed about how we are helping to protect the personal information we collect. You acknowledge and agree that it is your responsibility to review this privacy policy periodically and become aware of modifications.</p>
+
+        <h3>Your acceptance of these terms</h3>
+        <p>By using this Site, you signify your acceptance of this policy. If you do not agree to this policy, please do not use our Site. Your continued use of the Site following the posting of changes to this policy will be deemed your acceptance of those changes. This privacy policy was built <a href="http://privacypolicies.com/" target="_blank">using the generator at http://PrivacyPolicies.com</a>.</p>
+
+        <h3>Contacting us</h3>
+        <p>If you have any questions about this Privacy Policy, the practices of this site, or your dealings with this site, please contact <a href="mailto:info@imperaonline.de">us</a>.</p>
+
+        <p>This document was last updated on July 12, 2017</p>
+
+        <h2>Rules</h2>
+        <ol>
+            <li>You have to enter a valid email address to play.</li>
+            <li>You can delete your account at any time.</li>
+            <li>If you haven't logged in for 3 months, your account will be deleted automatically.</li>
+            <li>You have to be at least 13 years old to play Impera.</li>
+            <li>Every player may only have on account at the same time.</li>
+            <li>Accounts may be deleted without prior notice.</li>
+            <li>Account names must not be offensive.</li>
+        </ol>
+
+        <h2>Content</h2>
+        <ol>
+            <li>Impera is only a platform, users are responsible for any messages they send or content they post.</li>
+        </ol>
     </div>
 };
 

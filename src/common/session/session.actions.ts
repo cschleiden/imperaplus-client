@@ -243,10 +243,12 @@ export const changePassword = makePromiseAction<IChangePasswordInput, {}>(
     }
 );
 
-export const deleteAccount = makePromiseAction<{}, {}>(
+export const deleteAccount = makePromiseAction<string, {}>(
     "delete-account", (input, dispatch, getState, deps) => ({
         payload: {
-            promise: deps.getCachedClient(AccountClient).deleteAccount()
+            promise: deps.getCachedClient(AccountClient).deleteAccount({
+                password: input
+            })
         },
         options: {
             afterSuccess: d => d(logout(null))

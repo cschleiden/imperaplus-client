@@ -48,7 +48,6 @@ export class AccountClient {
             return this.processExchange(response);
         });
     }
-
     protected processExchange(response: Response): Promise<LoginResponseModel | null> {
         const status = response.status;
         if (status === 200) {
@@ -310,11 +309,14 @@ export class AccountClient {
         return Promise.resolve<Blob | null>(<any>null);
     }
 
-    deleteAccount(): Promise<Blob | null> {
+    deleteAccount(model: DeleteAccountBindingModel): Promise<Blob | null> {
         let url_ = this.baseUrl + "/api/Account/Delete";
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = JSON.stringify(model);
+
         let options_ = <RequestInit>{
+            body: content_,
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -2427,6 +2429,10 @@ export interface ChangePasswordBindingModel {
 export interface SetPasswordBindingModel {
     newPassword: string;
     confirmPassword?: string | undefined;
+}
+
+export interface DeleteAccountBindingModel {
+    password: string;
 }
 
 export interface RemoveLoginBindingModel {
