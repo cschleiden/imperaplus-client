@@ -15,7 +15,7 @@ interface IResetConfirmationProps {
     };
 }
 
-export default class ResetConfirmationComponent extends React.Component<IResetConfirmationProps, void> {
+export default class ResetConfirmationComponent extends React.Component<IResetConfirmationProps> {
     public render() {
         return <Grid>
             <GridRow>

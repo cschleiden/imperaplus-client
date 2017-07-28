@@ -15,7 +15,7 @@ export interface IMessageListProps {
     onMessageDelete: (message: Message) => void;
 }
 
-export class MessageList extends React.Component<IMessageListProps, void> {
+export class MessageList extends React.Component<IMessageListProps> {
     public render() {
         const { messages } = this.props;
 

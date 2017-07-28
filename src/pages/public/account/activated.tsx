@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Grid, GridColumn, GridRow } from "../../../components/layout";
 
-export default class ActivatedComponent extends React.Component<void, void> {
+export default class ActivatedComponent extends React.Component {
     public render() {
         return <Grid>
             <GridRow>

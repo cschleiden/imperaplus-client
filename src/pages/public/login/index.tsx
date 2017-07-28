@@ -1,7 +1,7 @@
 import "./login.scss";
 
 import * as React from "react";
-import { connect } from "react-redux";
+import { connect, DispatchProp } from "react-redux";
 
 import { login } from "../../../common/session/session.actions";
 
@@ -18,7 +18,7 @@ const _formValid = (formState): boolean => {
         && formState.getFieldValue("password");
 };
 
-class LoginComponent extends React.Component<{}, void> {
+class LoginComponent extends React.Component<DispatchProp<any>> {
     public render() {
         return <Grid className="login">
             <GridRow>

@@ -16,7 +16,7 @@ export interface IStartProps {
     refresh: () => void;
 }
 
-export class StartComponent extends React.Component<IStartProps, void> {
+export class StartComponent extends React.Component<IStartProps> {
     public componentDidMount() {
         this.props.refresh();
     }

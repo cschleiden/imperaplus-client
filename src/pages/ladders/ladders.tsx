@@ -21,7 +21,7 @@ export interface ILaddersProps {
     ladders: LadderSummary[];
 }
 
-export class LaddersComponent extends React.Component<ILaddersProps, void> {
+export class LaddersComponent extends React.Component<ILaddersProps> {
     public componentDidMount() {
         this.props.refresh();
     }

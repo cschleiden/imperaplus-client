@@ -23,7 +23,7 @@ interface IMessageProps {
     reply: (messageId: string) => void;
 }
 
-class MessageComponent extends React.Component<IMessageProps, void> {
+class MessageComponent extends React.Component<IMessageProps> {
     public componentDidMount() {
         this.props.openMessage(this.props.params.id);
     }

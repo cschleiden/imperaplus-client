@@ -115,8 +115,8 @@ export interface ISignupInput {
     year: number;
 }
 
-export const signup = makePromiseAction<ISignupInput, void>(
-    "signup", (input, dispatch, getState, deps) => {
+export const signup = makePromiseAction(
+    "signup", (input: ISignupInput, dispatch, getState, deps) => {
         const birthdate = new Date(input.year, input.month, input.day);
         const ageDiffMs = Date.now() - birthdate.getTime();
         const ageDate = new Date(ageDiffMs);
@@ -159,8 +159,8 @@ export interface IResetTriggerInput {
     username: string;
     email: string;
 }
-export const resetTrigger = makePromiseAction<IResetTriggerInput, void>(
-    "reset-trigger", (input, dispatch, getState, deps) =>
+export const resetTrigger = makePromiseAction(
+    "reset-trigger", (input: IResetTriggerInput, dispatch, getState, deps) =>
         ({
             payload: {
                 promise: deps.getCachedClient(AccountClient).forgotPassword({
@@ -182,8 +182,8 @@ export interface IResetInput {
     password: string;
     confirmPassword: string;
 }
-export const reset = makePromiseAction<IResetInput, void>(
-    "reset", (input, dispatch, getState, deps) =>
+export const reset = makePromiseAction(
+    "reset", (input: IResetInput, dispatch, getState, deps) =>
         ({
             payload: {
                 promise: deps.getCachedClient(AccountClient).resetPassword({

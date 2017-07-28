@@ -36,8 +36,8 @@ export const load = makePromiseAction<void, FolderInformation[]>(
             }
         }));
 
-export const loadMessage = makePromiseAction<string, void>(
-    "messages-load-single", (messageId, dispatch, getState, deps) =>
+export const loadMessage = makePromiseAction(
+    "messages-load-single", (messageId: string, dispatch, getState, deps) =>
         ({
             payload: {
                 promise: deps.getCachedClient(MessageClient).get(messageId).then(message => {
@@ -53,8 +53,8 @@ export const loadMessage = makePromiseAction<string, void>(
         }));
 
 
-export const markRead = makePromiseAction<string, string>(
-    "messages-mark-read", (messageId, dispatch, getState, deps) =>
+export const markRead = makePromiseAction(
+    "messages-mark-read", (messageId: string, dispatch, getState, deps) =>
         ({
             payload: {
                 promise: deps.getCachedClient(MessageClient).patchMarkRead(messageId).then(() => {
@@ -66,8 +66,8 @@ export const markRead = makePromiseAction<string, string>(
             }
         }));
 
-export const sendMessage = makePromiseAction<SendMessage, void>(
-    "messages-send", (message, dispatch, getState, deps) =>
+export const sendMessage = makePromiseAction(
+    "messages-send", (message: SendMessage, dispatch, getState, deps) =>
         ({
             payload: {
                 promise: deps.getCachedClient(MessageClient).postSend(message).then(() => {
@@ -79,8 +79,8 @@ export const sendMessage = makePromiseAction<SendMessage, void>(
             }
         }));
 
-export const deleteMessage = makePromiseAction<string, void>(
-    "messages-delete", (messageId, dispatch, getState, deps) =>
+export const deleteMessage = makePromiseAction(
+    "messages-delete", (messageId: string, dispatch, getState, deps) =>
         ({
             payload: {
                 promise: deps.getCachedClient(MessageClient).delete(messageId).then(() => {

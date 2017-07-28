@@ -1,4 +1,3 @@
-
 import "./main.scss";
 
 import * as React from "react";
@@ -24,7 +23,7 @@ interface ILanguageSelectorProps {
     onLanguageSelect: (language: string) => void;
 }
 
-class LanguageSelector extends React.Component<ILanguageSelectorProps, void> {
+class LanguageSelector extends React.Component<ILanguageSelectorProps> {
     public render() {
         return <div>
             <div className="language">
@@ -46,7 +45,7 @@ class LanguageSelector extends React.Component<ILanguageSelectorProps, void> {
 }
 
 
-class MobileLanguageSelector extends React.Component<ILanguageSelectorProps, void> {
+class MobileLanguageSelector extends React.Component<ILanguageSelectorProps> {
     public render() {
         return <ul className="nav">
             <li>
@@ -94,7 +93,7 @@ interface ILayoutProps {
     setLanguage: (language: string) => void;
 }
 
-export class Layout extends React.Component<ILayoutProps, void> {
+export class Layout extends React.Component<ILayoutProps> {
     private _msg: HTMLDivElement;
     private _resolveMsg = (element: HTMLDivElement) => this._msg = element;
 

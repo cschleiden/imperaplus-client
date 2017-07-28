@@ -26,7 +26,7 @@ export interface IMessagesProps {
     folderInformation: FolderInformation[];
 }
 
-export class MessagesComponent extends React.Component<IMessagesProps, void> {
+export class MessagesComponent extends React.Component<IMessagesProps> {
     public componentDidMount() {
         this.props.init();
     }

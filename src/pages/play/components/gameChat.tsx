@@ -113,7 +113,7 @@ interface IGameChatProps {
     send: (message: string, isPublic: boolean) => void;
 }
 
-class GameChat extends React.Component<IGameChatProps, void> {
+class GameChat extends React.Component<IGameChatProps> {
     render() {
         const { publicMessages, teamMessages, isPending } = this.props;
 

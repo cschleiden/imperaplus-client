@@ -4,7 +4,7 @@ import * as React from "react";
 import { GridColumn, GridRow } from "../../../components/layout";
 import { Slider } from "./slider";
 
-export default class Home extends React.Component<{}, void> {
+export default class Home extends React.Component {
     public render() {
         return <div>
             <div>

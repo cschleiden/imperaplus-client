@@ -71,12 +71,12 @@ export const createTeam = makePromiseAction<{
         };
     });
 
-export const joinTeam = makePromiseAction<{
-    tournamentId: string;
-    teamId: string;
-    teamPassword?: string;
-}, void>(
-    "tournament-join-team", (input, dispatch, getState, deps) => {
+export const joinTeam = makePromiseAction(
+    "tournament-join-team", (input: {
+        tournamentId: string;
+        teamId: string;
+        teamPassword?: string;
+    }, dispatch, getState, deps) => {
         return {
             payload: {
                 promise: deps.getCachedClient(TournamentClient).postJoinTeam(

@@ -34,7 +34,7 @@ interface ISignupProps {
     dispatch: Function;
 }
 
-export class SignupComponent extends React.Component<ISignupProps, void> {
+export class SignupComponent extends React.Component<ISignupProps> {
     public render(): JSX.Element {
         if (document.cookie.indexOf("age_block=") !== -1) {
             return <Grid className="signup">

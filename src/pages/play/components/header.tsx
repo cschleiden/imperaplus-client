@@ -40,7 +40,7 @@ interface IHeaderDispatchProps {
     exit: () => void;
 }
 
-class Header extends React.Component<IHeaderProps & IHeaderDispatchProps, void> {
+class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
     render() {
         const {
             game, remainingPlaceUnits, player, inputActive, canPlace, canMoveOrAttack, operationInProgress

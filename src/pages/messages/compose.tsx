@@ -20,7 +20,7 @@ interface IComposeProps {
     replyTo: Message;
 }
 
-class ComposeComponent extends React.Component<IComposeProps & IOwnProps, void> {
+class ComposeComponent extends React.Component<IComposeProps & IOwnProps> {
     public render() {
         const { replyTo } = this.props;
 

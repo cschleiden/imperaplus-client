@@ -28,7 +28,7 @@ export interface IGameDetailsDispatchProps {
     join: (gameId: number) => void;
 }
 
-class GameDetails extends React.Component<IGameDetailsProps & IGameDetailsDispatchProps, void> {
+class GameDetails extends React.Component<IGameDetailsProps & IGameDetailsDispatchProps> {
     public render() {
         return <GridRow>
             <GridColumn className="col-md-6">

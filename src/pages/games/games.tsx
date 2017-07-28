@@ -20,7 +20,7 @@ export interface IMyGamesProps {
     userId: string;
 }
 
-export class MyGamesComponent extends React.Component<IMyGamesProps, void> {
+export class MyGamesComponent extends React.Component<IMyGamesProps> {
     public componentDidMount() {
         this.props.refresh();
     }

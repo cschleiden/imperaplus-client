@@ -3,8 +3,8 @@ import { MessageType, show } from "../../common/message/message.actions";
 import { GameClient, GameCreationOptions, MapClient } from "../../external/imperaClients";
 import { IAction, makePromiseAction } from "../../lib/action";
 
-export const create = makePromiseAction<GameCreationOptions, void>(
-    "games-create", (input, dispatch, getState, deps) =>
+export const create = makePromiseAction(
+    "games-create", (input: GameCreationOptions, dispatch, getState, deps) =>
         ({
             payload: {
                 promise: deps.getCachedClient(GameClient).post(input).then<void>((game) => {
@@ -17,8 +17,8 @@ export const create = makePromiseAction<GameCreationOptions, void>(
             }
         }));
 
-export const getMaps = makePromiseAction<void, void>(
-    "MAPS_GET", (input, dispatch, getState, deps) =>
+export const getMaps = makePromiseAction(
+    "MAPS_GET", (input: {}, dispatch, getState, deps) =>
         ({
             payload: {
                 promise: deps.getCachedClient(MapClient).getAllSummary().then(mapTemplates => {

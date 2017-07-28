@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { Grid, GridColumn, GridRow } from "../../../components/layout";
 
-export default class SignupConfirmation extends React.Component<{}, void> {
+export default class SignupConfirmation extends React.Component {
     public render() {
         return <Grid>
             <GridRow>

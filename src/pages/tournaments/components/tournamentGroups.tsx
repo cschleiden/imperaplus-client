@@ -9,7 +9,7 @@ export interface ITournamentGroupProps {
     tournament: Tournament;
 }
 
-export class TournamentGroups extends React.Component<ITournamentGroupProps, void> {
+export class TournamentGroups extends React.Component<ITournamentGroupProps> {
     public render() {
         const { tournament } = this.props;
 

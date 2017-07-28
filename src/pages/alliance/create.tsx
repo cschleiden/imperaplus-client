@@ -13,7 +13,7 @@ export interface ICreateAllianceProps {
     refresh: () => void;
 }
 
-export class CreateAllianceComponent extends React.Component<ICreateAllianceProps, void> {
+export class CreateAllianceComponent extends React.Component<ICreateAllianceProps> {
     public render(): JSX.Element {
         let alliances: JSX.Element[];
 

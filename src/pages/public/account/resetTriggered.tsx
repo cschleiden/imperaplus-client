@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Grid, GridColumn, GridRow } from "../../../components/layout";
 import { Title } from "../../../components/ui/typography";
 
-export default class ResetTriggeredComponent extends React.Component<void, void> {
+export default class ResetTriggeredComponent extends React.Component {
     public render() {
         return <Grid>
             <GridRow>

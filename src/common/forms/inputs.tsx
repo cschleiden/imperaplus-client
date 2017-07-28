@@ -18,7 +18,7 @@ const getId = () => {
     return `field-${++id}`;
 };
 
-export class ControlledTextField extends React.Component<FormControlProps & IControlledFieldProps & { initialValue?: string }, void> {
+export class ControlledTextField extends React.Component<FormControlProps & IControlledFieldProps & { initialValue?: string }> {
     private _id: string;
 
     public context: IFormContext;
@@ -72,7 +72,7 @@ export class ControlledTextField extends React.Component<FormControlProps & ICon
 }
 
 
-export class ControlledUserPicker extends React.Component<FormControlProps & IControlledFieldProps & { initialValue?: UserReference }, void> {
+export class ControlledUserPicker extends React.Component<FormControlProps & IControlledFieldProps & { initialValue?: UserReference }> {
     private _id: string;
 
     public context: IFormContext;
@@ -142,7 +142,7 @@ export const ControlledCheckBox = (props: CheckboxProps & IControlledFieldProps,
 
 ControlledCheckBox["contextTypes"] = contextTypes;
 
-export class ControlledDropdown extends React.Component<FormControlProps & IControlledFieldProps, void> {
+export class ControlledDropdown extends React.Component<FormControlProps & IControlledFieldProps> {
     private _id: string;
 
     public context: IFormContext;

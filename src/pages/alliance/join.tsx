@@ -15,7 +15,7 @@ export interface IJoinAllianceProps {
     // alliances: GameSummary[];
 }
 
-export class JoinAllianceComponent extends React.Component<IJoinAllianceProps, void> {
+export class JoinAllianceComponent extends React.Component<IJoinAllianceProps> {
     public render(): JSX.Element {
         let alliances: JSX.Element[];
 

@@ -2,7 +2,7 @@ import * as React from "react";
 import { Grid, GridColumn, GridRow } from "../../../components/layout";
 import LinkStr from "../../../components/ui/strLink";
 
-export default class ResetDoneComponent extends React.Component<void, void> {
+export default class ResetDoneComponent extends React.Component {
     public render() {
         return <Grid>
             <GridRow>

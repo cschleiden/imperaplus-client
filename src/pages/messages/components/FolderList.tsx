@@ -11,7 +11,7 @@ export interface IFolderListProps {
     onFolderSelect: (folder: FolderInformation) => void;
 }
 
-export class FolderList extends React.Component<IFolderListProps, void> {
+export class FolderList extends React.Component<IFolderListProps> {
     public render() {
         const { folders } = this.props;
 

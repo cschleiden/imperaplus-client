@@ -37,7 +37,7 @@ export interface ITournamentProps {
     userId: string;
 }
 
-export class TournamentComponent extends React.Component<ITournamentProps, void> {
+export class TournamentComponent extends React.Component<ITournamentProps> {
     public componentDidMount() {
         const { params, tournament, load } = this.props;
 

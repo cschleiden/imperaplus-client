@@ -7,7 +7,7 @@ import { resetTrigger } from "../../../common/session/session.actions";
 import { Grid, GridColumn, GridRow } from "../../../components/layout";
 import { ProgressButton } from "../../../components/ui/progressButton";
 
-export default class ResetComponent extends React.Component<void, void> {
+export default class ResetComponent extends React.Component {
     public render(): JSX.Element {
         return <Grid className="recover">
             <GridRow>

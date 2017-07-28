@@ -12,7 +12,7 @@ import { IState } from "../../reducers";
 export interface IAllianceAdminProps {
 }
 
-export class AllianceAdminComponent extends React.Component<IAllianceAdminProps, void> {
+export class AllianceAdminComponent extends React.Component<IAllianceAdminProps> {
     public render(): JSX.Element {
         let alliances: JSX.Element[];
 

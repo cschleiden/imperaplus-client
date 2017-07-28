@@ -60,7 +60,7 @@ interface ICreateGameProps {
     maps: MapTemplateDescriptor[];
 }
 
-export class CreateGameComponent extends React.Component<ICreateGameProps, void> {
+export class CreateGameComponent extends React.Component<ICreateGameProps> {
     public componentDidMount() {
         if (!this.props.maps) {
             this.props.getMaps();
@@ -133,7 +133,7 @@ export class CreateGameComponent extends React.Component<ICreateGameProps, void>
                                                 type="password"
                                                 fieldName="password"
                                                 required={false}
-                                                autoComplete="new-password" />
+                                                autocomplete="new-password" />
 
                                             <ControlledDropdown
                                                 label={__("Map")}

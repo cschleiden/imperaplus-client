@@ -126,8 +126,9 @@ export interface IGameChatSendMessageInput {
     message: string;
     isPublic: boolean;
 }
-export const gameChatSendMessage = makePromiseAction<IGameChatSendMessageInput, void>(
-    "play-game-chat-send-message", (input, dispatch, getState, deps) => {
+export const gameChatSendMessage = makePromiseAction(
+    "play-game-chat-send-message",
+    (input: IGameChatSendMessageInput, dispatch, getState, deps) => {
         const gameId = getState().play.data.gameId;
 
         return {

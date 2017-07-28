@@ -13,7 +13,7 @@ export interface ICountryInputFieldProps {
     onKeyUp?: (evt: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
-export class CountryInputField extends React.Component<ICountryInputFieldProps, void> {
+export class CountryInputField extends React.Component<ICountryInputFieldProps> {
     private _element: HTMLDivElement;
     private _resolveElement = (elem: HTMLDivElement) => { this._element = elem; };
 

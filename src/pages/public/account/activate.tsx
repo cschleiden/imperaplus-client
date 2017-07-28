@@ -14,7 +14,7 @@ interface IActivateProps {
     activate: (userId: string, code: string) => void;
 }
 
-class ActivateComponent extends React.Component<IActivateProps, void> {
+class ActivateComponent extends React.Component<IActivateProps> {
     public componentDidMount() {
         const { params } = this.props;
 

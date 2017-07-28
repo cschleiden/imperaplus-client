@@ -13,7 +13,7 @@ export interface IAllianceInfoProps {
     refresh: () => void;
 }
 
-export class AllianceInfoComponent extends React.Component<IAllianceInfoProps, void> {
+export class AllianceInfoComponent extends React.Component<IAllianceInfoProps> {
     public render(): JSX.Element {
         let alliances: JSX.Element[];
 

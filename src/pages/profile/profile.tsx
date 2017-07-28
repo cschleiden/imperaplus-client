@@ -13,7 +13,7 @@ export interface IProfileProps {
     refresh: () => void;
 }
 
-export class ProfileComponent extends React.Component<IProfileProps, void> {
+export class ProfileComponent extends React.Component<IProfileProps> {
     public render(): JSX.Element {
         return <GridColumn className="col-xs-12">
             <p className="lead"><span>{__("Here you can manage your profile and settings")}</span></p>

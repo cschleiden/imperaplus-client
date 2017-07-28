@@ -31,7 +31,7 @@ interface IPlayDispatchProps {
     refreshGame: () => void;
 }
 
-class Play extends React.Component<IPlayProps & IPlayDispatchProps, void> {
+class Play extends React.Component<IPlayProps & IPlayDispatchProps> {
     componentDidMount() {
         const gameId = parseInt(this.props.params.id, 10);
         if (!gameId) {

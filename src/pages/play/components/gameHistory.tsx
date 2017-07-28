@@ -17,7 +17,7 @@ export interface IGameHistoryEntryProps {
     entry: HistoryEntry;
 }
 
-export class GameHistoryEntry extends React.Component<IGameHistoryEntryProps, void> {
+export class GameHistoryEntry extends React.Component<IGameHistoryEntryProps> {
     render(): JSX.Element {
         const { game, mapTemplate } = this.props;
         const { action, actorId, originIdentifier, destinationIdentifier, units, result } = this.props.entry;
@@ -96,7 +96,7 @@ interface IGameHistoryProps {
     exitHistory: () => void;
 }
 
-class GameHistory extends React.Component<IGameHistoryProps, void> {
+class GameHistory extends React.Component<IGameHistoryProps> {
     render() {
         const { gameTurn, historyTurn } = this.props;
         const historyTurnId = historyTurn && historyTurn.turnId;

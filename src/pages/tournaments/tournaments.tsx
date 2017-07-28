@@ -17,7 +17,7 @@ export interface ITournamentGamesProps {
     closedTournaments: TournamentSummary[];
 }
 
-export class TournamentsComponent extends React.Component<ITournamentGamesProps, void> {
+export class TournamentsComponent extends React.Component<ITournamentGamesProps> {
     public componentDidMount() {
         this.props.refresh();
     }

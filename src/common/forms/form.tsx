@@ -31,7 +31,7 @@ interface IInternalFormProps {
     changeField: (fieldName: string, value: string | boolean | number) => any;
 }
 
-class Form extends React.Component<IFormProps & IInternalFormProps, void> {
+class Form extends React.Component<IFormProps & IInternalFormProps> {
     public static childContextTypes = contextTypes;
 
     public getChildContext(): IFormContext {
@@ -53,8 +53,8 @@ class Form extends React.Component<IFormProps & IInternalFormProps, void> {
     public render() {
         let formState = new FormState(this.props.formState);
 
-        return <form onSubmit={this._onSubmit} action="#" disabled={this.props.isPending}>
-            <FormGroup>
+        return <form onSubmit={this._onSubmit} action="#">
+            <FormGroup disabled={this.props.isPending}>
                 {this.props.component({
                     isPending: this.props.isPending,
                     formState: formState,

@@ -16,7 +16,7 @@ export interface IFunGamesProps {
     userId: string;
 }
 
-export class FunGamesComponent extends React.Component<IFunGamesProps, void> {
+export class FunGamesComponent extends React.Component<IFunGamesProps> {
     public componentDidMount() {
         this.props.refreshFun();
     }

@@ -14,7 +14,7 @@ interface ISidebarProps {
     game: Game;
 }
 
-class Sidebar extends React.Component<ISidebarProps, void> {
+class Sidebar extends React.Component<ISidebarProps> {
     render(): JSX.Element {
         const { game } = this.props;
 

@@ -24,8 +24,8 @@ export const refreshOpen = makePromiseAction<void, GameSummary[]>(
             }
         }));
 
-export const hide = makePromiseAction<number, void>(
-    "games-hide", (gameId, dispatch, getState, deps) =>
+export const hide = makePromiseAction(
+    "games-hide", (gameId: number, dispatch, getState, deps) =>
         ({
             payload: {
                 promise: deps.getCachedClient(GameClient).patchHide(gameId).then<void>(() => {
@@ -38,8 +38,8 @@ export const hide = makePromiseAction<number, void>(
             }
         }));
 
-export const hideAll = makePromiseAction<void, void>(
-    "games-hide-all", (input, dispatch, getState, deps) =>
+export const hideAll = makePromiseAction(
+    "games-hide-all", (_, dispatch, getState, deps) =>
         ({
             payload: {
                 promise: deps.getCachedClient(GameClient).patchHideAll().then<void>(() => {
