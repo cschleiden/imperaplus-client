@@ -48,6 +48,7 @@ export class AccountClient {
             return this.processExchange(response);
         });
     }
+
     protected processExchange(response: Response): Promise<LoginResponseModel | null> {
         const status = response.status;
         if (status === 200) {
@@ -309,7 +310,7 @@ export class AccountClient {
         return Promise.resolve<Blob | null>(<any>null);
     }
 
-    deleteAccount(model: DeleteAccountBindingModel): Promise<Blob | null> {
+    deleteAccount(model: DeleteAccountBindingModel): Promise<void> {
         let url_ = this.baseUrl + "/api/Account/Delete";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -317,10 +318,9 @@ export class AccountClient {
 
         let options_ = <RequestInit>{
             body: content_,
-            method: "DELETE",
+            method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Accept": "application/json"
             }
         };
 
@@ -329,16 +329,24 @@ export class AccountClient {
         });
     }
 
-    protected processDeleteAccount(response: Response): Promise<Blob | null> {
+    protected processDeleteAccount(response: Response): Promise<void> {
         const status = response.status;
         if (status === 200) {
-            return response.blob();
+            return response.text().then((_responseText) => {
+                return;
+            });
+        } else if (status === 400) {
+            return response.text().then((_responseText) => {
+                let result400: ErrorResponse | null = null;
+                result400 = _responseText === "" ? null : <ErrorResponse>JSON.parse(_responseText, this.jsonParseReviver);
+                return throwException("A server error occurred.", status, _responseText, result400);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
                 return throwException("An unexpected server error occurred.", status, _responseText);
             });
         }
-        return Promise.resolve<Blob | null>(<any>null);
+        return Promise.resolve<void>(<any>null);
     }
 
     setLanguage(language: string): Promise<Blob | null> {
@@ -2435,6 +2443,12 @@ export interface DeleteAccountBindingModel {
     password: string;
 }
 
+export interface ErrorResponse {
+    error?: string | undefined;
+    error_Description?: string | undefined;
+    parameter_Errors?: { [key: string]: string[]; } | undefined;
+}
+
 export interface RemoveLoginBindingModel {
     loginProvider: string;
     providerKey: string;
@@ -2447,12 +2461,6 @@ export interface RegisterBindingModel {
     email: string;
     language: string;
     callbackUrl: string;
-}
-
-export interface ErrorResponse {
-    error?: string | undefined;
-    error_Description?: string | undefined;
-    parameter_Errors?: { [key: string]: string[]; } | undefined;
 }
 
 export interface ResendConfirmationModel {
