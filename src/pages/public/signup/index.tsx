@@ -96,7 +96,7 @@ export class SignupComponent extends React.Component<ISignupProps> {
 
                                 <div className="form-inline">
                                     <div className="form-group">
-                                        <ControlLabel>{__("Birthdate")}</ControlLabel>
+                                        <ControlLabel>{__("Date of birth")}</ControlLabel>
                                         <div>
                                             <ControlledDropdown
                                                 fieldName="day">
