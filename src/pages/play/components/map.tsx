@@ -485,7 +485,7 @@ class Map extends React.Component<IMapProps, IMapState> {
     private _clearHistoryConnections() {
         if (this._historyConnections.length) {
             for (let connection of this._historyConnections) {
-                (this._jsPlumb.deleteEndpoint as any).deleteConnection(connection);
+                (this._jsPlumb as any).deleteConnection(connection);
             }
 
             this._historyConnections = [];
