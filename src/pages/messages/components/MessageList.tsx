@@ -3,6 +3,7 @@ import "./MessageList.scss"
 import * as React from "react";
 import { Button, Table } from "react-bootstrap";
 import { HumanDate } from "../../../components/ui/humanDate";
+import { UserRef } from "../../../components/ui/userReference";
 import { FolderInformation, Message, MessageFolder } from "../../../external/imperaClients";
 import { autobind } from "../../../lib/autobind";
 import { css } from "../../../lib/css";
@@ -41,7 +42,9 @@ export class MessageList extends React.Component<IMessageListProps> {
         return <tr key={message.id} className={css({
             "unread": !message.isRead
         })} onClick={() => this._openMessage(message)}>
-            <td>{message.from.name}</td>
+            <td>
+                <UserRef userRef={message.from} />
+            </td>
             <td>{message.subject}</td>
             <td>{HumanDate(message.sentAt)}</td>
             <td className="text-right">

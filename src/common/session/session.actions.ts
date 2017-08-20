@@ -85,7 +85,7 @@ export const refresh = (access_token: string, refresh_token: string): IAction<IR
     }
 });
 
-export const logout = makePromiseAction<void, null>(
+export const logout = makePromiseAction(
     "logout", (_, dispatch, getState, deps) => ({
         payload: {
             promise: deps.getCachedClient(AccountClient).logout()
@@ -243,8 +243,8 @@ export const changePassword = makePromiseAction<IChangePasswordInput, {}>(
     }
 );
 
-export const deleteAccount = makePromiseAction<string, {}>(
-    "delete-account", (input, dispatch, getState, deps) => ({
+export const deleteAccount = makePromiseAction(
+    "delete-account", (input: string, dispatch, getState, deps) => ({
         payload: {
             promise: deps.getCachedClient(AccountClient).deleteAccount({
                 password: input

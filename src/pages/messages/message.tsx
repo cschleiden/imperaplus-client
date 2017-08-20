@@ -8,6 +8,7 @@ import { GridColumn, GridRow } from "../../components/layout/index";
 import { HumanDate } from "../../components/ui/humanDate";
 import { Spinner } from "../../components/ui/spinner";
 import { Section } from "../../components/ui/typography";
+import { UserRef } from "../../components/ui/userReference";
 import { Message, SendMessage } from "../../external/imperaClients";
 import { autobind } from "../../lib/autobind";
 import { IState } from "../../reducers";
@@ -50,7 +51,7 @@ class MessageComponent extends React.Component<IMessageProps> {
                 </Section>
 
                 <p>
-                    <i className="fa fa-calendar" />&nbsp;{HumanDate(message.sentAt)}&nbsp;-&nbsp;{message.from.name}
+                    <i className="fa fa-calendar" />&nbsp;{HumanDate(message.sentAt)}&nbsp;-&nbsp;<UserRef userRef={message.from} />
                 </p>
 
                 <p className="message-text">

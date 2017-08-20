@@ -13,6 +13,7 @@ import { autobind } from "../../../lib/autobind";
 import { hide, join, leave, remove, surrender } from "../../../pages/games/games.actions";
 import { IState } from "../../../reducers";
 import { store } from "../../../store";
+import { UserName } from "../userReference";
 import { MapPreview } from "./mapPreview";
 import { PlayerOutcomeDisplay } from "./playerOutcome";
 
@@ -108,14 +109,14 @@ class GameDetails extends React.Component<IGameDetailsProps & IGameDetailsDispat
         const sortedTeams = this.props.game.teams.slice(0).sort((a, b) => a.playOrder - b.playOrder);
 
         let result: JSX.Element[] = [];
-        for (let team of sortedTeams) {
+        for (const team of sortedTeams) {
             result.push(<dt key={`dt-${team.id}`}>
                 <span>{__("Team")}</span>&nbsp;{team.playOrder + 1}
             </dt>);
             result.push(<dd key={`dd-${team.id}`}>
                 <ul className="list-unstyled">
                     {team.players.map(player => <li key={player.id}>
-                        <PlayerOutcomeDisplay outcome={player.outcome} />&nbsp;<span className={`label player player-${player.playOrder + 1}`}>{player.name}</span>&nbsp;-&nbsp;<span>{__("Timeouts")}: {player.timeouts}</span>
+                        <PlayerOutcomeDisplay outcome={player.outcome} />&nbsp;<span className={`label player player-${player.playOrder + 1}`}><UserName userName={player.name} /></span>&nbsp;-&nbsp;<span>{__("Timeouts")}: {player.timeouts}</span>
                     </li>)}
                 </ul>
             </dd>);
