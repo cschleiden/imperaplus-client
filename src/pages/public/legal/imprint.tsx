@@ -4,7 +4,7 @@ import { Grid, GridColumn, GridRow } from "../../../components/layout";
 
 declare var language: string;
 
-const tos = {
+const privacy = {
     "de": () => <div>
         <h3>Impera ist ein nicht-kommerzielles Hobby Projekt und ist komplett kostenlos.</h3>
 
@@ -146,9 +146,20 @@ export default (() =>
         <GridRow>
             <GridColumn className="col-xs-12">
                 <h1>
-                    {__("Terms of service")}
+                    {__("Imprint")}
                 </h1>
-                {tos[language]()}
+
+                {__("Impera is a non-commercial private project run by: ")}
+
+                <address>
+                    Christopher Schleiden
+
+                    6672 161st Ave SE Unit A
+                    WA, 98006, Bellevue
+                    USA
+                    +1 206 861 9203
+                    info@imperaonline.de
+                    </address>
             </GridColumn>
         </GridRow>
     </Grid>

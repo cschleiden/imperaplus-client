@@ -20,7 +20,18 @@ import PublicNav from "./components/navigation/public";
 
 // Public
 import {
-    Activate, Activated, Home, Login, Reset, ResetConfirmation, ResetDone, ResetTriggered, Signup, SignupConfirmation, TOS
+    Activate,
+    Activated,
+    Home,
+    Login,
+    Privacy,
+    Reset,
+    ResetConfirmation,
+    ResetDone,
+    ResetTriggered,
+    Signup,
+    SignupConfirmation,
+    TOS
 } from "./pages/public";
 
 // Game
@@ -95,6 +106,7 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
                         <Route path="login" component={Login}  {...this._title(__("Login")) } />
 
                         <Route path="tos" component={TOS}  {...this._title(__("Terms of Service")) } />
+                        <Route path="privacy" component={Privacy}  {...this._title(__("Privacy Policy")) } />
                     </Route>
                 </Route>
 
@@ -104,7 +116,7 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
                         <Route path="/game" components={{
                             nav: Game,
                             content: GameLayout,
-                            commercials: adTag
+                            commercials: null
                         }}>
                             <IndexRoute component={Start} {...this._title(__("News")) } />
 
@@ -161,6 +173,7 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
         </Provider >;
     }
 
+    /** Generate handler to update title when navigating to page */
     @autobind
     private _title(title: string): { onEnter: EnterHook } {
         return {
@@ -168,6 +181,7 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
         };
     }
 
+    /** Flow to navigate to MVC hosted admin page */
     @autobind
     private _onAdmin() {
         const { store } = this.props;

@@ -9,11 +9,8 @@
         "i18n:compile": "po2json ./src/po/messages.de.po ./loc/de.json --format mf --pretty --fallback-to-msgid",
         "clean": "rimraf dist",
         "dev": "cross-env NODE_ENV=development webpack-dev-server -d --inline --hot --progress --no-info",
-        "lint": "npm run lint-ts && npm run lint-css",
-        "lint-css": "stylelint './src/**/*.css'",
-        "lint-ts": "tslint 'src/**/*.tsx' 'src/**/*.ts' 'test/**/*.tsx' 'test/**/*.ts'",
+        "lint": "tslint 'src/**/*.tsx' 'src/**/*.ts' 'test/**/*.tsx' 'test/**/*.ts'",
         "postinstall": "npm run build",
-        "pretest2": "npm run lint",
         "test": "karma start --singleRun true",
         "test:watch": "karma start --singleRun false"
     },

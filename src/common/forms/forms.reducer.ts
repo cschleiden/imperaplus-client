@@ -22,7 +22,7 @@ export interface IForm {
 }
 
 export interface IField {
-    value: string | number | boolean;
+    value: string | number | boolean | any;
 }
 
 const initialState = makeImmutable(<IForms>{

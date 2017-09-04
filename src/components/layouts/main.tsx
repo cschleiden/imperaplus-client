@@ -195,10 +195,12 @@ export class Layout extends React.Component<ILayoutProps> {
                 </GridRow>
 
                 <GridRow className="footer">
-                    {isAdmin && <span>
-                        <a href="/toadmin">ADMIN</a>&nbsp;|&nbsp;
-                    </span>}
-                    <Link to="/privacy">{__("Privacy Policy")}</Link> | <Link to="/tos">{__("Terms of Service")}</Link> | <a href="#">User Voice</a> | <a href="http://impera.ruesken.de/">{__("Forum")}</a>
+                    {
+                        isAdmin && <span>
+                            <a href="/toadmin">ADMIN</a>&nbsp;|&nbsp;
+                        </span>
+                    }
+                    <Link to="/privacy">{__("Privacy Policy")}</Link> | <Link to="/tos">{__("Terms of Service")}</Link> | <a href="http://impera.ruesken.de/">{__("Forum (external)")}</a> | <Link to="/imprint">{__("Imprint")}</Link>
                 </GridRow>
             </GridContainer>
 

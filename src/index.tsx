@@ -33,6 +33,7 @@ render(
     appInit();
   });
 
+// Dev hot module reloading
 if (module.hot) {
   module.hot.accept(["./app"], () => {
     // tslint:disable-next-line:no-require-imports
@@ -52,12 +53,12 @@ function appInit() {
 
     service.attachHandler(NotificationType.PlayerTurn, () => {
       // Update count
-
+      // TODO: CS: 
     });
 
     service.attachHandler(NotificationType.NewMessage, () => {
       // Update count
-
+      // TODO: CS: 
     });
   }
 }

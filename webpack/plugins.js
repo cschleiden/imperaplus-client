@@ -27,13 +27,14 @@ const basePlugins = [
         jQuery: "jquery"
     }),
     new ProgressBarPlugin(),
-    new CopyWebpackPlugin([{
+    new CopyWebpackPlugin([
+        {
             from: './src/assets',
             to: './assets'
         },
         {
-            from: './src/assets',
-            to: 'assets2'
+            from: './src/favicon.ico',
+            to: './favicon.ico'
         },
     ]),
     new CircularDependencyPlugin({
@@ -53,7 +54,7 @@ const prodPlugins = [
         }
     }),
     new WebpackGitHash({
-        callback: function(hash) {
+        callback: function (hash) {
             var indexHtml = fs.readFileSync('./src/index.html', 'utf8');
             indexHtml = indexHtml.replace(/\[hash\]/, hash);
             fs.writeFileSync('./dist/index.html', indexHtml);

@@ -129,9 +129,14 @@ export class SignupComponent extends React.Component<ISignupProps> {
                                     </div>
                                 </div>
 
-                                <ControlledCheckBox
-                                    label={__("I agree to the TOS")}
-                                    fieldName="accepttos" />
+                                <div className="form-inline">
+                                    <div className="form-group tos">
+                                        <ControlledCheckBox
+                                            fieldName="accepttos" />
+
+                                        <LinkString link={__("By selecting you agree to our [Terms of Services](/tos) and [Privacy Policy](/privacy).")} />
+                                    </div>
+                                </div>
 
                                 <div>
                                     <ProgressButton

@@ -35,9 +35,7 @@ const config = (lang) => {
             sourceMapFilename: "[name].[hash].js.map"
         },
 
-        devtool: process.env.NODE_ENV === "production" ?
-            "source-map" :
-            "source-map",
+        devtool: "source-map",
 
         resolve: {
             extensions: ["", ".webpack.js", ".web.js", ".tsx", ".ts", ".js"]
