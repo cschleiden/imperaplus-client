@@ -88,7 +88,7 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
                 < Route component={MainLayout}>
                     {/* public */}
                     <Route path="/" components={{ nav: PublicNav, content: PublicLayout }}>
-                        <IndexRoute component={Home}  {...this._title(__("")) } />
+                        <IndexRoute component={Home}  {...this._title("") } />
 
                         <Route path="signup" component={Signup}  {...this._title(__("Signup")) } />
                         <Route path="signup/confirmation" component={SignupConfirmation}  {...this._title(__("Registration successful")) } />

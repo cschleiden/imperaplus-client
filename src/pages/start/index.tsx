@@ -6,13 +6,18 @@ import { ProgressBar } from "react-bootstrap";
 import { Grid, GridColumn, GridRow } from "../../components/layout";
 import { HumanDate } from "../../components/ui/humanDate";
 import { Section, SubSection, Title } from "../../components/ui/typography";
-import { NewsContent, NewsItem, UserInfo } from "../../external/imperaClients";
+import { NewsContent, NewsItem, UserInfo, TournamentState, TournamentSummary } from "../../external/imperaClients";
 import { refresh } from "./news.actions";
+import { refresh as tournamentsRefresh } from "../tournaments/tournaments.actions";
+import { IState } from "../../reducers";
+import { Link } from "react-router";
 
 export interface IStartProps {
     userInfo: UserInfo;
     language: string;
     news: NewsItem[];
+
+    openTournaments: TournamentSummary[];
 
     refresh: () => void;
 }
@@ -42,23 +47,16 @@ export class StartComponent extends React.Component<IStartProps> {
                 </div>
             </GridColumn>
 
-            {/*<GridColumn className="col-md-3">
+            <GridColumn className="col-md-3">
                 <Section>{__("Tournaments")}</Section>
 
-                <SubSection>{__("Registration open")}</SubSection>
-
-                {__("Champion's Cup March")}
-                <div className="progress progress-xxs">
-                    <ProgressBar now={80} />
-                </div>
-
-                <SubSection>{__("In Progress")}</SubSection>
-
-                {__("Champion's Cup March")}
-                <div className="progress progress-xxs">
-                    <ProgressBar now={80} />
-                </div>
-            </GridColumn>*/}
+                <SubSection>{__("Open")}</SubSection>
+                {
+                    this.props.openTournaments.map(tournament => {
+                        return <Link to={`/game/tournaments/${tournament.id}`}>{tournament.name}</Link>
+                    })
+                }
+            </GridColumn>
         </GridRow>;
     };
 
@@ -70,10 +68,20 @@ export class StartComponent extends React.Component<IStartProps> {
     }
 }
 
-export default connect(state => ({
-    userInfo: state.session.data.userInfo,
-    language: state.session.data.language,
-    news: state.news.data.news
-}), (dispatch) => ({
-    refresh: () => { dispatch(refresh(null)) }
+export default connect((state: IState) => {
+    const tournaments = state.tournaments.data.tournaments || [];
+
+    const openTournaments = tournaments.filter(x => x.state === TournamentState.Open);
+
+    return {
+        userInfo: state.session.data.userInfo,
+        language: state.session.data.language,
+        news: state.news.data.news,
+        openTournaments: openTournaments
+    };
+}, (dispatch) => ({
+    refresh: () => {
+        dispatch(refresh(null));
+        dispatch(tournamentsRefresh(null));
+    }
 }))(StartComponent);
