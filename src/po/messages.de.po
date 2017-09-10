@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: Sat Sep 09 2017 16:45:08 GMT-0700 (Pacific Daylight "
+"POT-Creation-Date: Sun Sep 10 2017 10:34:02 GMT-0700 (Pacific Daylight "
 "Time)\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christopher Schleiden <cschleiden@live.de>\n"
@@ -47,7 +47,6 @@ msgid "Terms of Service"
 msgstr "Nutzungsbedingungen"
 
 #: temp/src/app.js:109 temp/src/components/layouts/main.js:129
-#: temp/src/pages/public/legal/privacy.js:91
 msgid "Privacy Policy"
 msgstr "Datenschutzerklärung"
 
@@ -81,6 +80,7 @@ msgstr "Ranglisten"
 
 #: temp/src/app.js:127 temp/src/components/navigation/game.js:30
 #: temp/src/components/ui/breadcrumbs.js:34 temp/src/pages/games/games.js:43
+#: temp/src/pages/start/index.js:49
 msgid "Tournaments"
 msgstr "Turniere"
 
@@ -377,6 +377,7 @@ msgid "Time out"
 msgstr "Time out"
 
 #: temp/src/components/ui/games/gameState.js:19
+#: temp/src/pages/start/index.js:50
 #: temp/src/pages/tournaments/tournaments.js:35
 msgid "Open"
 msgstr "Offen"
@@ -609,7 +610,6 @@ msgid "1 vs Bot"
 msgstr "1 vs Computer"
 
 #: temp/src/pages/create/create.js:38 temp/src/pages/ladders/ladders.js:61
-#: temp/src/pages/ladders/ladders.js:72
 msgid "Players"
 msgstr "Spieler"
 
@@ -631,8 +631,8 @@ msgstr ""
 msgid "Simple"
 msgstr "Einfach"
 
-#: temp/src/pages/create/create.js:113 temp/src/pages/profile/profile.js:42
-#: temp/src/pages/profile/profile.js:59
+#: temp/src/pages/create/create.js:113 temp/src/pages/profile/profile.js:41
+#: temp/src/pages/profile/profile.js:58
 #: temp/src/pages/public/account/resetConfirm.js:39
 #: temp/src/pages/public/login/index.js:45
 #: temp/src/pages/public/signup/index.js:65
@@ -858,9 +858,13 @@ msgstr ""
 msgid "Teams"
 msgstr "Teams"
 
-#: temp/src/pages/ladders/ladders.js:70
+#: temp/src/pages/ladders/ladders.js:68
 msgid "with"
 msgstr "mit"
+
+#: temp/src/pages/ladders/ladders.js:72
+msgid "Players each"
+msgstr "Spielern jeweils"
 
 #: temp/src/pages/ladders/ladders.js:89
 msgid "Standing"
@@ -1055,31 +1059,31 @@ msgstr "Spielen"
 msgid "An error occured, please refresh."
 msgstr "Ein Fehler trat auf, bitte lade die Seite neu."
 
-#: temp/src/pages/profile/profile.js:30
+#: temp/src/pages/profile/profile.js:29
 msgid "Here you can manage your profile and settings"
 msgstr "Hier kannst du dein Profil und deine Einstellungen ändern"
 
-#: temp/src/pages/profile/profile.js:31
+#: temp/src/pages/profile/profile.js:30
 msgid "Change Password"
 msgstr "Passwort ändern"
 
-#: temp/src/pages/profile/profile.js:41
+#: temp/src/pages/profile/profile.js:40
 msgid "Old Password"
 msgstr "Bisheriges Passwort"
 
-#: temp/src/pages/profile/profile.js:43
+#: temp/src/pages/profile/profile.js:42
 msgid "Password confirmation"
 msgstr "Passwort Bestätigung"
 
-#: temp/src/pages/profile/profile.js:44
+#: temp/src/pages/profile/profile.js:43
 msgid "Change password"
 msgstr "Passwort ändern"
 
-#: temp/src/pages/profile/profile.js:46 temp/src/pages/profile/profile.js:61
+#: temp/src/pages/profile/profile.js:45 temp/src/pages/profile/profile.js:60
 msgid "Delete Account"
 msgstr "Account löschen"
 
-#: temp/src/pages/profile/profile.js:48
+#: temp/src/pages/profile/profile.js:47
 msgid ""
 "Here you can delete your account. Otherwise, if you do not login for three "
 "months, your account will be automatically deleted."
@@ -1087,15 +1091,15 @@ msgstr ""
 "Hier kannst du deinen Impera Account löschen. Alternativ, wenn du dich für "
 "drei Monate nicht einloggst wird dein Account automatisch gelöscht."
 
-#: temp/src/pages/profile/profile.js:51
+#: temp/src/pages/profile/profile.js:50
 msgid "Note"
 msgstr "Anmerkung"
 
-#: temp/src/pages/profile/profile.js:53
+#: temp/src/pages/profile/profile.js:52
 msgid "This action cannot be undone."
 msgstr "Diese Aktion kann nicht rückgängig gemacht werden."
 
-#: temp/src/pages/profile/profile.js:60
+#: temp/src/pages/profile/profile.js:59
 msgid "Yes, I really want to delete my Impera account"
 msgstr "Ja, ich möchte meinen Impera Account löschen"
 
@@ -1268,11 +1272,7 @@ msgid "Impera is a non-commercial, private hobby project run by: "
 msgstr ""
 "Impera ist ein nicht-kommerzielles, privates Hobby Projekt, betrieben von: "
 
-#: temp/src/pages/public/legal/tos.js:57
-msgid "Terms of service"
-msgstr "Nutzungsbedingungen"
-
-#: temp/src/pages/public/legal/tos.js:59
+#: temp/src/pages/public/legal/tos.js:56
 msgid "Terms of service were last updated on September 9th 2017."
 msgstr "Nutzungsbedingungen zuletzt aktualisiert am 9. September 2017."
 
@@ -1495,6 +1495,9 @@ msgstr "Aktiv"
 #: temp/src/pages/tournaments/tournaments.js:43
 msgid "Closed"
 msgstr "Beendet"
+
+#~ msgid "Terms of service"
+#~ msgstr "Nutzungsbedingungen"
 
 #~ msgid "Set Password"
 #~ msgstr "Passwort festlegen"

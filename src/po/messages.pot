@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
-"POT-Creation-Date: Sat Sep 09 2017 16:45:08 GMT-0700 (Pacific Daylight "
+"POT-Creation-Date: Sun Sep 10 2017 10:34:02 GMT-0700 (Pacific Daylight "
 "Time)\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -46,7 +46,6 @@ msgstr ""
 
 #: temp/src/app.js:109
 #: temp/src/components/layouts/main.js:129
-#: temp/src/pages/public/legal/privacy.js:91
 msgid "Privacy Policy"
 msgstr ""
 
@@ -86,6 +85,7 @@ msgstr ""
 #: temp/src/components/navigation/game.js:30
 #: temp/src/components/ui/breadcrumbs.js:34
 #: temp/src/pages/games/games.js:43
+#: temp/src/pages/start/index.js:49
 msgid "Tournaments"
 msgstr ""
 
@@ -387,6 +387,7 @@ msgid "Time out"
 msgstr ""
 
 #: temp/src/components/ui/games/gameState.js:19
+#: temp/src/pages/start/index.js:50
 #: temp/src/pages/tournaments/tournaments.js:35
 msgid "Open"
 msgstr ""
@@ -616,7 +617,6 @@ msgstr ""
 
 #: temp/src/pages/create/create.js:38
 #: temp/src/pages/ladders/ladders.js:61
-#: temp/src/pages/ladders/ladders.js:72
 msgid "Players"
 msgstr ""
 
@@ -637,8 +637,8 @@ msgid "Simple"
 msgstr ""
 
 #: temp/src/pages/create/create.js:113
-#: temp/src/pages/profile/profile.js:42
-#: temp/src/pages/profile/profile.js:59
+#: temp/src/pages/profile/profile.js:41
+#: temp/src/pages/profile/profile.js:58
 #: temp/src/pages/public/account/resetConfirm.js:39
 #: temp/src/pages/public/login/index.js:45
 #: temp/src/pages/public/signup/index.js:65
@@ -855,8 +855,12 @@ msgstr ""
 msgid "Teams"
 msgstr ""
 
-#: temp/src/pages/ladders/ladders.js:70
+#: temp/src/pages/ladders/ladders.js:68
 msgid "with"
+msgstr ""
+
+#: temp/src/pages/ladders/ladders.js:72
+msgid "Players each"
 msgstr ""
 
 #: temp/src/pages/ladders/ladders.js:89
@@ -1052,46 +1056,46 @@ msgstr ""
 msgid "An error occured, please refresh."
 msgstr ""
 
-#: temp/src/pages/profile/profile.js:30
+#: temp/src/pages/profile/profile.js:29
 msgid "Here you can manage your profile and settings"
 msgstr ""
 
-#: temp/src/pages/profile/profile.js:31
+#: temp/src/pages/profile/profile.js:30
 msgid "Change Password"
 msgstr ""
 
-#: temp/src/pages/profile/profile.js:41
+#: temp/src/pages/profile/profile.js:40
 msgid "Old Password"
 msgstr ""
 
-#: temp/src/pages/profile/profile.js:43
+#: temp/src/pages/profile/profile.js:42
 msgid "Password confirmation"
 msgstr ""
 
-#: temp/src/pages/profile/profile.js:44
+#: temp/src/pages/profile/profile.js:43
 msgid "Change password"
 msgstr ""
 
-#: temp/src/pages/profile/profile.js:46
-#: temp/src/pages/profile/profile.js:61
+#: temp/src/pages/profile/profile.js:45
+#: temp/src/pages/profile/profile.js:60
 msgid "Delete Account"
 msgstr ""
 
-#: temp/src/pages/profile/profile.js:48
+#: temp/src/pages/profile/profile.js:47
 msgid ""
 "Here you can delete your account. Otherwise, if you do not login for three "
 "months, your account will be automatically deleted."
 msgstr ""
 
-#: temp/src/pages/profile/profile.js:51
+#: temp/src/pages/profile/profile.js:50
 msgid "Note"
 msgstr ""
 
-#: temp/src/pages/profile/profile.js:53
+#: temp/src/pages/profile/profile.js:52
 msgid "This action cannot be undone."
 msgstr ""
 
-#: temp/src/pages/profile/profile.js:60
+#: temp/src/pages/profile/profile.js:59
 msgid "Yes, I really want to delete my Impera account"
 msgstr ""
 
@@ -1254,11 +1258,7 @@ msgstr ""
 msgid "Impera is a non-commercial, private hobby project run by: "
 msgstr ""
 
-#: temp/src/pages/public/legal/tos.js:57
-msgid "Terms of service"
-msgstr ""
-
-#: temp/src/pages/public/legal/tos.js:59
+#: temp/src/pages/public/legal/tos.js:56
 msgid "Terms of service were last updated on September 9th 2017."
 msgstr ""
 

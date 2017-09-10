@@ -85,7 +85,7 @@ export class LaddersComponent extends React.Component<ILaddersProps> {
                     {
                         ladder.options.numberOfPlayersPerTeam > 1 &&
                         <h5>
-                            {ladder.options.numberOfTeams}&nbsp;{__("Teams")}&nbsp;{ladder.options.numberOfPlayersPerTeam}&nbsp;{__("with")}&nbsp;{__("Players")}
+                            {ladder.options.numberOfTeams}&nbsp;{__("Teams")}&nbsp;{__("with")}&nbsp;{ladder.options.numberOfPlayersPerTeam}&nbsp;{__("Players each")}
                         </h5>
                     }
                 </div>
