@@ -9,7 +9,6 @@ export const UserRef: React.StatelessComponent<{ userRef: UserReference }> = (pr
     return UserName({ userName: userRef && userRef.name });
 }
 
-
 export const UserName: React.StatelessComponent<{ userName: string }> = (props: { userName: string }): JSX.Element => {
     const { userName } = props;
 

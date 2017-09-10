@@ -1,13 +1,13 @@
+import { loadingBarMiddleware } from "react-redux-loading-bar";
 import { browserHistory } from "react-router";
 import { routerMiddleware } from "react-router-redux";
 import * as Redux from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import * as createLogger from "redux-logger";
 import thunkMiddleware from "redux-thunk";
-import promiseMiddleware from "./middleware/promise-middleware";
-
 import { makeImmutable } from "immuts";
-import { loadingBarMiddleware } from "react-redux-loading-bar";
+
+import promiseMiddleware from "./middleware/promise-middleware";
 import { createClientWithToken, getCachedClient } from "./clients/clientFactory";
 import { getSignalRClient } from "./clients/signalrFactory";
 import { ISessionState } from "./common/session/session.reducer";
@@ -73,7 +73,7 @@ store.subscribe(debounce(() => {
 
 // Setup handler for 401 resposes
 setOnUnauthorized(() => {
-  return SessionService.getInstance().reAuthorize();
+  return SessionService.getInstance().reAuthorize(store.getState().session, store.dispatch);
 });
 
 UserProvider.userProvider = () => {

@@ -1,7 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2017-06-01 21:26-0700\n"
+"POT-Creation-Date: Sat Sep 09 2017 16:45:08 GMT-0700 (Pacific Daylight "
+"Time)\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christopher Schleiden <cschleiden@live.de>\n"
 "Language-Team: \n"
@@ -10,90 +11,100 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.0.1\n"
+"X-Generator: Poedit 2.0.3\n"
 
-#: temp/src/app.js:89 temp/src/components/navigation/public.js:10
+#: temp/src/app.js:99 temp/src/components/navigation/public.js:10
 msgid "Signup"
 msgstr "Registrieren"
 
-#: temp/src/app.js:90
+#: temp/src/app.js:100
 msgid "Registration successful"
 msgstr "Anmeldung erfolgreich"
 
-#: temp/src/app.js:91
+#: temp/src/app.js:101
 msgid "Activating Account"
 msgstr "Aktiviert Account"
 
-#: temp/src/app.js:92
+#: temp/src/app.js:102
 msgid "Account Activated"
 msgstr "Account aktiviert"
 
-#: temp/src/app.js:93 temp/src/app.js:94
+#: temp/src/app.js:103 temp/src/app.js:104
 msgid "Reset Password"
 msgstr "Passwort zurücksetzen"
 
-#: temp/src/app.js:95 temp/src/app.js:96
+#: temp/src/app.js:105 temp/src/app.js:106
 msgid "Password Reset"
 msgstr "Passwort zurücksetzen"
 
-#: temp/src/app.js:97 temp/src/components/navigation/public.js:12
+#: temp/src/app.js:107 temp/src/components/navigation/public.js:12
 #: temp/src/pages/public/login/index.js:47
 msgid "Login"
 msgstr "Einloggen"
 
-#: temp/src/app.js:98 temp/src/components/layouts/main.js:130
+#: temp/src/app.js:108 temp/src/components/layouts/main.js:131
 msgid "Terms of Service"
 msgstr "Nutzungsbedingungen"
 
-#: temp/src/app.js:106 temp/src/components/navigation/game.js:11
+#: temp/src/app.js:109 temp/src/components/layouts/main.js:129
+#: temp/src/pages/public/legal/privacy.js:91
+msgid "Privacy Policy"
+msgstr "Datenschutzerklärung"
+
+#: temp/src/app.js:110 temp/src/components/layouts/main.js:133
+#: temp/src/pages/public/legal/imprint.js:9
+msgid "Imprint"
+msgstr "Impressum"
+
+#: temp/src/app.js:118 temp/src/components/navigation/game.js:11
 #: temp/src/components/ui/breadcrumbs.js:54
 msgid "News"
 msgstr "News"
 
-#: temp/src/app.js:108 temp/src/components/navigation/game.js:22
+#: temp/src/app.js:120 temp/src/components/navigation/game.js:22
 #: temp/src/components/ui/breadcrumbs.js:27
 msgid "My Games"
 msgstr "Meine Spiele"
 
-#: temp/src/app.js:109
+#: temp/src/app.js:121
 msgid "Create Game"
 msgstr "Spiel erstellen"
 
-#: temp/src/app.js:110
+#: temp/src/app.js:122
 msgid "Join Game"
 msgstr "Spiel beitreten"
 
-#: temp/src/app.js:112 temp/src/components/navigation/game.js:28
+#: temp/src/app.js:124 temp/src/components/navigation/game.js:28
 #: temp/src/components/ui/breadcrumbs.js:33
 msgid "Ladders"
 msgstr "Ranglisten"
 
-#: temp/src/app.js:115 temp/src/components/navigation/game.js:30
+#: temp/src/app.js:127 temp/src/components/navigation/game.js:30
 #: temp/src/components/ui/breadcrumbs.js:34 temp/src/pages/games/games.js:43
 msgid "Tournaments"
 msgstr "Turniere"
 
-#: temp/src/app.js:118
+#: temp/src/app.js:130
 msgid "Create Alliance"
 msgstr "Allianz erstellen"
 
-#: temp/src/app.js:119 temp/src/components/ui/breadcrumbs.js:35
+#: temp/src/app.js:131 temp/src/components/ui/breadcrumbs.js:35
 msgid "Alliance Admin"
 msgstr "Allianz Adminbereich"
 
-#: temp/src/app.js:120
+#: temp/src/app.js:132
 msgid "Alliance Info"
 msgstr "Allianz Info"
 
-#: temp/src/app.js:121
+#: temp/src/app.js:133
 msgid "Join Alliance"
 msgstr "Allianz beitreten"
 
-#: temp/src/app.js:123 temp/src/components/navigation/game.js:36
+#: temp/src/app.js:135 temp/src/components/navigation/game.js:36
 msgid "Messages"
 msgstr "Nachrichten"
 
-#: temp/src/app.js:126
+#: temp/src/app.js:138
 msgid "Your Profile"
 msgstr "Profil"
 
@@ -118,39 +129,43 @@ msgstr "Nachricht eingeben..."
 msgid "Send"
 msgstr "Senden"
 
-#: temp/src/common/session/session.service.js:32
+#: temp/src/common/session/session.actions.js:92
+#: temp/src/pages/public/signup/index.js:44
+msgid "You have to be 13 years or older to play Impera."
+msgstr "Du must 13 Jahre oder älter sein um Impera zu spielen."
+
+#: temp/src/common/session/session.actions.js:171
+msgid "Password changed."
+msgstr "Passwort geändert."
+
+#: temp/src/common/session/session.service.js:31
 msgid "Your session expired. Please login again."
 msgstr "Deine Session ist abgelaufen. Bitte erneut einloggen."
 
-#: temp/src/components/layouts/main.js:34
+#: temp/src/components/layouts/main.js:35
 msgid "LANGUAGE"
 msgstr "SPRACHE"
 
-#: temp/src/components/layouts/main.js:35
-#: temp/src/components/layouts/main.js:51
+#: temp/src/components/layouts/main.js:36
+#: temp/src/components/layouts/main.js:52
 msgid "English"
 msgstr "Englisch"
 
-#: temp/src/components/layouts/main.js:36
-#: temp/src/components/layouts/main.js:53
+#: temp/src/components/layouts/main.js:37
+#: temp/src/components/layouts/main.js:54
 msgid "German"
 msgstr "Deutsch"
 
-#: temp/src/components/layouts/main.js:48
+#: temp/src/components/layouts/main.js:49
 msgid "Language"
 msgstr "Sprache"
 
-#: temp/src/components/layouts/main.js:128
-msgid "Privacy Policy"
-msgstr "Datenschutz"
-
-#: temp/src/components/layouts/main.js:134
-#: temp/src/components/navigation/game.js:47
-msgid "Forum"
-msgstr "Forum"
+#: temp/src/components/layouts/main.js:135
+msgid "Forum (external)"
+msgstr "Forum (external)"
 
 #: temp/src/components/misc/userPicker.js:38
-#: temp/src/pages/messages/components/MessageList.js:40
+#: temp/src/pages/messages/components/MessageList.js:41
 #: temp/src/pages/messages/compose.js:39
 msgid "User"
 msgstr "Benutzername"
@@ -185,6 +200,10 @@ msgstr "Fun Spiel beitreten"
 msgid "Account"
 msgstr "Account"
 
+#: temp/src/components/navigation/game.js:47
+msgid "Forum"
+msgstr "Forum"
+
 #: temp/src/components/navigation/game.js:53
 msgid "Logout"
 msgstr "Ausloggen"
@@ -217,87 +236,87 @@ msgstr "Allianz beitreten"
 msgid "Information about alliances"
 msgstr "Informationen über Allianzen"
 
-#: temp/src/components/ui/games/gameDetail.js:44
+#: temp/src/components/ui/games/gameDetail.js:45
 msgid "Started"
 msgstr "Begonnen am"
 
-#: temp/src/components/ui/games/gameDetail.js:46
+#: temp/src/components/ui/games/gameDetail.js:47
 msgid "Started By"
 msgstr "Erstellt von"
 
-#: temp/src/components/ui/games/gameDetail.js:48
+#: temp/src/components/ui/games/gameDetail.js:49
 msgid "Last action"
 msgstr "Letzte Aktion"
 
-#: temp/src/components/ui/games/gameDetail.js:50
+#: temp/src/components/ui/games/gameDetail.js:51
 #: temp/src/components/ui/games/playerOutcome.js:36
 #: temp/src/pages/create/create.js:119
 #: temp/src/pages/tournaments/tournament.js:97
 msgid "Timeout"
 msgstr "Timeout"
 
-#: temp/src/components/ui/games/gameDetail.js:52
+#: temp/src/components/ui/games/gameDetail.js:53
 #: temp/src/components/ui/games/gameList.js:46
 #: temp/src/pages/ladders/ladders.js:75
 #: temp/src/pages/tournaments/tournament.js:100
 msgid "Mode"
 msgstr "Modus"
 
-#: temp/src/components/ui/games/gameDetail.js:55
+#: temp/src/components/ui/games/gameDetail.js:56
 #: temp/src/pages/create/create.js:144 temp/src/pages/ladders/ladders.js:78
 #: temp/src/pages/tournaments/tournament.js:104
 msgid "Attacks"
 msgstr "Angriffe"
 
-#: temp/src/components/ui/games/gameDetail.js:57
+#: temp/src/components/ui/games/gameDetail.js:58
 #: temp/src/pages/create/create.js:145 temp/src/pages/ladders/ladders.js:80
 #: temp/src/pages/tournaments/tournament.js:107
 msgid "Moves"
 msgstr "Bewegungen"
 
-#: temp/src/components/ui/games/gameDetail.js:62
+#: temp/src/components/ui/games/gameDetail.js:63
 #: temp/src/pages/ladders/ladders.js:85
 #: temp/src/pages/tournaments/tournament.js:114
 msgid "Victory Conditions"
 msgstr "Siegbedingung"
 
-#: temp/src/components/ui/games/gameDetail.js:64
+#: temp/src/components/ui/games/gameDetail.js:65
 #: temp/src/pages/ladders/ladders.js:87
 #: temp/src/pages/tournaments/tournament.js:118
 msgid "Visibility Modifier"
 msgstr "Spielmodus"
 
-#: temp/src/components/ui/games/gameDetail.js:69
+#: temp/src/components/ui/games/gameDetail.js:70
 msgid "Actions"
 msgstr "Aktionen"
 
-#: temp/src/components/ui/games/gameDetail.js:74
+#: temp/src/components/ui/games/gameDetail.js:75
 msgid "Surrender"
 msgstr "Aufgeben"
 
-#: temp/src/components/ui/games/gameDetail.js:78
+#: temp/src/components/ui/games/gameDetail.js:79
 msgid "Leave game"
 msgstr "Spiel verlassen"
 
-#: temp/src/components/ui/games/gameDetail.js:82
+#: temp/src/components/ui/games/gameDetail.js:83
 msgid "Delete game"
 msgstr "Spiel löschen"
 
-#: temp/src/components/ui/games/gameDetail.js:86
+#: temp/src/components/ui/games/gameDetail.js:87
 msgid "Hide finished game"
 msgstr "Beendetes Spiel verstecken"
 
-#: temp/src/components/ui/games/gameDetail.js:90
+#: temp/src/components/ui/games/gameDetail.js:91
 msgid "Join game"
 msgstr "Fun Spiel beitreten"
 
-#: temp/src/components/ui/games/gameDetail.js:100
+#: temp/src/components/ui/games/gameDetail.js:101
 #: temp/src/pages/play/components/gameChat.js:109
 #: temp/src/pages/tournaments/tournament.js:198
 msgid "Team"
 msgstr "Teams"
 
-#: temp/src/components/ui/games/gameDetail.js:110
+#: temp/src/components/ui/games/gameDetail.js:112
 msgid "Timeouts"
 msgstr "Timeouts"
 
@@ -483,6 +502,10 @@ msgstr "Tage"
 msgid "Loading"
 msgstr "Loading"
 
+#: temp/src/components/ui/userReference.js:12
+msgid "Deleted"
+msgstr "Gelöscht"
+
 #: temp/src/i18n/errorCodes.js:7
 msgid ""
 "Username or password is not correct, did you [forget your password](/reset)?"
@@ -608,10 +631,11 @@ msgstr ""
 msgid "Simple"
 msgstr "Einfach"
 
-#: temp/src/pages/create/create.js:113
+#: temp/src/pages/create/create.js:113 temp/src/pages/profile/profile.js:42
+#: temp/src/pages/profile/profile.js:59
 #: temp/src/pages/public/account/resetConfirm.js:39
 #: temp/src/pages/public/login/index.js:45
-#: temp/src/pages/public/signup/index.js:50
+#: temp/src/pages/public/signup/index.js:65
 msgid "Password"
 msgstr "Passwort"
 
@@ -874,16 +898,16 @@ msgstr "Posteingang"
 msgid "Sent"
 msgstr "Gesendet"
 
-#: temp/src/pages/messages/components/MessageList.js:41
+#: temp/src/pages/messages/components/MessageList.js:42
 #: temp/src/pages/messages/compose.js:40
 msgid "Subject"
 msgstr "Betreff"
 
-#: temp/src/pages/messages/components/MessageList.js:42
+#: temp/src/pages/messages/components/MessageList.js:43
 msgid "Date"
 msgstr "Datum"
 
-#: temp/src/pages/messages/components/MessageList.js:58
+#: temp/src/pages/messages/components/MessageList.js:60
 msgid "Delete"
 msgstr "Löschen"
 
@@ -895,7 +919,7 @@ msgstr "AW:"
 msgid "Text"
 msgstr "Text"
 
-#: temp/src/pages/messages/message.js:53
+#: temp/src/pages/messages/message.js:54
 msgid "Reply"
 msgstr "Antworten"
 
@@ -1031,59 +1055,49 @@ msgstr "Spielen"
 msgid "An error occured, please refresh."
 msgstr "Ein Fehler trat auf, bitte lade die Seite neu."
 
-#: temp/src/pages/profile/profile.js:33
-msgid "Set Password"
-msgstr "Passwort festlegen"
-
-#: temp/src/pages/profile/profile.js:39
-msgid "Change Password"
-msgstr "Passwort ändern"
-
-#: temp/src/pages/profile/profile.js:44
+#: temp/src/pages/profile/profile.js:30
 msgid "Here you can manage your profile and settings"
 msgstr "Hier kannst du dein Profil und deine Einstellungen ändern"
 
-#: temp/src/pages/profile/profile.js:47
-msgid "Associated Logins"
-msgstr "Verknüpfte Accounts"
+#: temp/src/pages/profile/profile.js:31
+msgid "Change Password"
+msgstr "Passwort ändern"
+
+#: temp/src/pages/profile/profile.js:41
+msgid "Old Password"
+msgstr "Bisheriges Passwort"
+
+#: temp/src/pages/profile/profile.js:43
+msgid "Password confirmation"
+msgstr "Passwort Bestätigung"
+
+#: temp/src/pages/profile/profile.js:44
+msgid "Change password"
+msgstr "Passwort ändern"
+
+#: temp/src/pages/profile/profile.js:46 temp/src/pages/profile/profile.js:61
+msgid "Delete Account"
+msgstr "Account löschen"
+
+#: temp/src/pages/profile/profile.js:48
+msgid ""
+"Here you can delete your account. Otherwise, if you do not login for three "
+"months, your account will be automatically deleted."
+msgstr ""
+"Hier kannst du deinen Impera Account löschen. Alternativ, wenn du dich für "
+"drei Monate nicht einloggst wird dein Account automatisch gelöscht."
 
 #: temp/src/pages/profile/profile.js:51
-msgid "Change Profile Data"
-msgstr "Profildaten ändern"
-
-#: temp/src/pages/profile/profile.js:54
-msgid "Remove Account"
-msgstr "Account entfernen"
-
-#: temp/src/pages/profile/profile.js:56
-msgid ""
-"If you do not want to play Impera anymore, you can delete your account here. "
-"Otherwise, if you do not login for three months, your account will be "
-"automatically deleted."
-msgstr ""
-"Wenn du Impera nicht weiter spielen möchtest kannst du hier deinen Account "
-"löschen. Solltest du Dich innerhalb von drei Monaten nicht anmelden wird der "
-"Account ebenfalls gelöscht."
-
-#: temp/src/pages/profile/profile.js:61
 msgid "Note"
 msgstr "Anmerkung"
 
-#: temp/src/pages/profile/profile.js:63
-msgid ""
-"After deletion, your username will be locked for one month in order to "
-"prevent new accounts to pose as you."
-msgstr ""
-"Nach dem Löschen des Account wird der Username für einen Monat gesperrt und "
-"zu vermeiden, dass ein andere User sich für Dich ausgibt."
+#: temp/src/pages/profile/profile.js:53
+msgid "This action cannot be undone."
+msgstr "Diese Aktion kann nicht rückgängig gemacht werden."
 
-#: temp/src/pages/profile/profile.js:72
-msgid "Yes, I would really like to delete my Impera account"
-msgstr "Ja, ich möchte meinen Account wirklich löschen"
-
-#: temp/src/pages/profile/profile.js:73
-msgid "Delete Account"
-msgstr "Account löschen"
+#: temp/src/pages/profile/profile.js:60
+msgid "Yes, I really want to delete my Impera account"
+msgstr "Ja, ich möchte meinen Impera Account löschen"
 
 #: temp/src/pages/public/account/activated.js:24
 msgid "Your account has been successfully activated. You can login now."
@@ -1092,23 +1106,23 @@ msgstr ""
 
 #: temp/src/pages/public/account/reset.js:37
 #: temp/src/pages/public/login/index.js:44
-#: temp/src/pages/public/signup/index.js:48
+#: temp/src/pages/public/signup/index.js:63
 msgid "Username"
 msgstr "Benutzername"
 
 #: temp/src/pages/public/account/reset.js:37
 #: temp/src/pages/public/login/index.js:44
-#: temp/src/pages/public/signup/index.js:48
+#: temp/src/pages/public/signup/index.js:63
 msgid "Enter username"
 msgstr "Benutzername eingeben"
 
 #: temp/src/pages/public/account/reset.js:38
-#: temp/src/pages/public/signup/index.js:49
+#: temp/src/pages/public/signup/index.js:64
 msgid "Email"
 msgstr "Email"
 
 #: temp/src/pages/public/account/reset.js:38
-#: temp/src/pages/public/signup/index.js:49
+#: temp/src/pages/public/signup/index.js:64
 msgid "Enter email"
 msgstr "Email eingeben"
 
@@ -1118,22 +1132,22 @@ msgstr "Zurücksetzen"
 
 #: temp/src/pages/public/account/resetConfirm.js:39
 #: temp/src/pages/public/login/index.js:45
-#: temp/src/pages/public/signup/index.js:50
+#: temp/src/pages/public/signup/index.js:65
 msgid "Enter password"
 msgstr "Passwort eigeben"
 
 #: temp/src/pages/public/account/resetConfirm.js:40
-#: temp/src/pages/public/signup/index.js:51
+#: temp/src/pages/public/signup/index.js:66
 msgid "Password (repeat)"
 msgstr "Passwort (Wiederholung)"
 
 #: temp/src/pages/public/account/resetConfirm.js:40
-#: temp/src/pages/public/signup/index.js:51
+#: temp/src/pages/public/signup/index.js:66
 msgid "Repeat password"
 msgstr "Passwort wiederholen"
 
 #: temp/src/pages/public/account/resetConfirm.js:42
-#: temp/src/pages/public/signup/index.js:53
+#: temp/src/pages/public/signup/index.js:68
 msgid "Passwords do not match"
 msgstr "Passwörter stimmen nicht überein"
 
@@ -1249,6 +1263,19 @@ msgstr ""
 "Impera ist komplett kostenlos, keine versteckten Kosten, keine \"in-app\" "
 "Käufe..."
 
+#: temp/src/pages/public/legal/imprint.js:10
+msgid "Impera is a non-commercial, private hobby project run by: "
+msgstr ""
+"Impera ist ein nicht-kommerzielles, privates Hobby Projekt, betrieben von: "
+
+#: temp/src/pages/public/legal/tos.js:57
+msgid "Terms of service"
+msgstr "Nutzungsbedingungen"
+
+#: temp/src/pages/public/legal/tos.js:59
+msgid "Terms of service were last updated on September 9th 2017."
+msgstr "Nutzungsbedingungen zuletzt aktualisiert am 9. September 2017."
+
 #: temp/src/pages/public/login/index.js:35
 msgid "Sign in using your Impera account..."
 msgstr "Melde dich mit einem Impera Account an..."
@@ -1258,12 +1285,12 @@ msgid "...or with an external account."
 msgstr "... oder verwende einen existierenden Account."
 
 #: temp/src/pages/public/login/index.js:52
-#: temp/src/pages/public/signup/index.js:63
+#: temp/src/pages/public/signup/index.js:100
 msgid "Coming soon.."
 msgstr "Kommt in Kürze..."
 
 #: temp/src/pages/public/login/index.js:55
-#: temp/src/pages/public/signup/index.js:66
+#: temp/src/pages/public/signup/index.js:103
 msgid "[Reset](/reset) your password or [create](/signup) a new account."
 msgstr ""
 "Password [zurücksetzen](/reset) oder neuen Account [erstellen](/signup)"
@@ -1277,29 +1304,29 @@ msgstr ""
 "Bestätigungsmail mit einer URL zur noch nötigen Aktivierung gesendet, "
 "befolge einfach die darin geschilderten Schritte."
 
-#: temp/src/pages/public/signup/index.js:37
+#: temp/src/pages/public/signup/index.js:49
 msgid "Register a new account. It is completely free."
 msgstr "Erstelle einen neuen Account. Vollkommen kostenfrei und ohne Gebühren!"
 
-#: temp/src/pages/public/signup/index.js:56
-msgid "I agree to the TOS"
-msgstr "Ich stimme den Teilnahmebedingungen zu"
+#: temp/src/pages/public/signup/index.js:73
+msgid "Date of birth"
+msgstr "Geburtstag"
 
-#: temp/src/pages/public/signup/index.js:58
+#: temp/src/pages/public/signup/index.js:93
+msgid ""
+"By selecting you agree to our [Terms of Service](/tos) and [Privacy Policy](/"
+"privacy)."
+msgstr ""
+"Ja, ich stimme den [Nutzungsbedingungen](/tos) und der [Datenschutzerklärung]"
+"(/privacy) zu."
+
+#: temp/src/pages/public/signup/index.js:95
 msgid "Register"
 msgstr "Anmelden"
 
-#: temp/src/pages/public/signup/index.js:61
+#: temp/src/pages/public/signup/index.js:98
 msgid "Or sign in using an existing account."
 msgstr "Oder verwende einen existierenden Account zum Einloggen."
-
-#: temp/src/pages/public/tos/index.js:9
-msgid "Terms of service"
-msgstr "Nutzungsbedingungen"
-
-#: temp/src/pages/public/tos/index.js:10
-msgid "move here.."
-msgstr "hierher verschieben..."
 
 #: temp/src/pages/tournaments/components/tournamentGroups.js:46
 msgid "Group"
@@ -1468,6 +1495,43 @@ msgstr "Aktiv"
 #: temp/src/pages/tournaments/tournaments.js:43
 msgid "Closed"
 msgstr "Beendet"
+
+#~ msgid "Set Password"
+#~ msgstr "Passwort festlegen"
+
+#~ msgid "Associated Logins"
+#~ msgstr "Verknüpfte Accounts"
+
+#~ msgid "Change Profile Data"
+#~ msgstr "Profildaten ändern"
+
+#~ msgid "Remove Account"
+#~ msgstr "Account entfernen"
+
+#~ msgid ""
+#~ "If you do not want to play Impera anymore, you can delete your account "
+#~ "here. Otherwise, if you do not login for three months, your account will "
+#~ "be automatically deleted."
+#~ msgstr ""
+#~ "Wenn du Impera nicht weiter spielen möchtest kannst du hier deinen "
+#~ "Account löschen. Solltest du Dich innerhalb von drei Monaten nicht "
+#~ "anmelden wird der Account ebenfalls gelöscht."
+
+#~ msgid ""
+#~ "After deletion, your username will be locked for one month in order to "
+#~ "prevent new accounts to pose as you."
+#~ msgstr ""
+#~ "Nach dem Löschen des Account wird der Username für einen Monat gesperrt "
+#~ "und zu vermeiden, dass ein andere User sich für Dich ausgibt."
+
+#~ msgid "Yes, I would really like to delete my Impera account"
+#~ msgstr "Ja, ich möchte meinen Account wirklich löschen"
+
+#~ msgid "I agree to the TOS"
+#~ msgstr "Ich stimme den Teilnahmebedingungen zu"
+
+#~ msgid "move here.."
+#~ msgstr "hierher verschieben..."
 
 #~ msgid "Admin"
 #~ msgstr "Admin"

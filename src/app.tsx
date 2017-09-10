@@ -23,6 +23,7 @@ import {
     Activate,
     Activated,
     Home,
+    Imprint,
     Login,
     Privacy,
     Reset,
@@ -107,6 +108,7 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
 
                         <Route path="tos" component={TOS}  {...this._title(__("Terms of Service")) } />
                         <Route path="privacy" component={Privacy}  {...this._title(__("Privacy Policy")) } />
+                        <Route path="imprint" component={Imprint}  {...this._title(__("Imprint")) } />
                     </Route>
                 </Route>
 

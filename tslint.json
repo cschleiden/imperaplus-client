@@ -40,9 +40,7 @@
             true
         ],
         "no-require-imports": true,
-        "ordered-imports": [
-            true
-        ],
+        "ordered-imports": false,
         "no-use-before-declare": false,
         "no-var-keyword": true,
         "one-line": [

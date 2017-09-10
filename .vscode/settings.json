@@ -12,5 +12,16 @@
     ".vscode": true    
   },
 
-  "tslint.autoFixOnSave": true
+  "tslint.autoFixOnSave": true,
+  "sync.gist": "dba698568e2e28329bc868ffd28838ce",
+  "sync.lastUpload": "2017-09-09T19:56:28.633Z",
+  "sync.autoDownload": true,
+  "sync.autoUpload": true,
+  "sync.lastDownload": "2017-09-09T19:56:25.365Z",
+  "sync.forceDownload": false,
+  "sync.anonymousGist": false,
+  "sync.host": "",
+  "sync.pathPrefix": "",
+  "sync.quietSync": true,
+  "sync.askGistName": false
 }

@@ -134,7 +134,7 @@ export class SignupComponent extends React.Component<ISignupProps> {
                                         <ControlledCheckBox
                                             fieldName="accepttos" />
 
-                                        <LinkString link={__("By selecting you agree to our [Terms of Services](/tos) and [Privacy Policy](/privacy).")} />
+                                        <LinkString link={__("By selecting you agree to our [Terms of Service](/tos) and [Privacy Policy](/privacy).")} />
                                     </div>
                                 </div>
 

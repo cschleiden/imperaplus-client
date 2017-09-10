@@ -3,9 +3,11 @@ import { AccountClient, UserInfo } from "../../external/imperaClients";
 
 import { push } from "react-router-redux";
 import { EventService } from "../../services/eventService";
-import { store } from "../../store";
 import { close } from "../chat/chat.actions";
 import { expire, refresh } from "./session.actions";
+import { IState } from "../../reducers";
+import { ISessionState } from "./session.reducer";
+import { Dispatch } from "react-redux";
 
 const scope = "openid offline_access roles";
 
@@ -27,28 +29,26 @@ export class SessionService {
 
     private constructor() { }
 
-    public reAuthorize(): Promise<void> {
-        return this.refresh().then<void>((result) => {
+    public reAuthorize(state: ISessionState, dispatch: Dispatch<IState>): Promise<void> {
+        return this.refresh(state.data.refresh_token).then<void>((result) => {
             // Successful, save new tokens
-            store.dispatch(refresh(result.access_token, result.refresh_token));
+            dispatch(refresh(result.access_token, result.refresh_token));
         }, () => {
             // Unsuccessful, clear all tokens
-            store.dispatch(expire());
+            dispatch(expire());
 
             // Close chat and close all other signalr connections
-            store.dispatch(close());
+            dispatch(close());
             EventService.getInstance().fire("signalr.stop");
 
             // Navigate to login
-            store.dispatch(push("/login"));
+            dispatch(push("/login"));
 
             throw new Error(__("Your session expired. Please login again."));
         });
     }
 
-    public refresh(): Promise<IRefreshResult> {
-        const refresh_token = store.getState().session.data.refresh_token;
-
+    private refresh(refresh_token: string): Promise<IRefreshResult> {
         const client = getCachedClient(AccountClient);
 
         return client
