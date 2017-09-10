@@ -61,7 +61,8 @@ const prodPlugins = [
         }
     }),
     new BundleAnalyzerPlugin({
-        analyzerMode: 'static'
+        analyzerMode: 'static',
+        openAnalyzer: false
     })
 ];
 
