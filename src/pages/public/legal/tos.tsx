@@ -11,7 +11,6 @@ const tos = {
             Impera ist ein nicht-kommerzielles Hobby Projekt und ist komplett kostenlos.
         </p>
 
-        <h4>Nutzungsbedingungen</h4>
         <ol>
             <li>Du musst eine g&uuml;ltige Email Adresse angeben.</li>
             <li>Du kannst deinen Account jederzeit l&ouml;schen.</li>
@@ -44,7 +43,6 @@ const tos = {
             <b>Impera is a non-commercial hobby project and is completely free.</b>
         </p>
 
-        <h4>Terms of use</h4>
         <ol>
             <li>You have to enter a valid email address to play.</li>
             <li>You can delete your account at any time.</li>
@@ -76,11 +74,7 @@ export default (() =>
     <Grid>
         <GridRow>
             <GridColumn className="col-xs-12">
-                <h1>
-                    {__("Terms of service")}
-                </h1>
                 {tos[language]()}
-
 
                 <i>{__("Terms of service were last updated on September 9th 2017.")}</i>
             </GridColumn>

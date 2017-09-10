@@ -11,6 +11,7 @@ import { refresh } from "./news.actions";
 
 export interface IStartProps {
     userInfo: UserInfo;
+    language: string;
     news: NewsItem[];
 
     refresh: () => void;
@@ -62,7 +63,7 @@ export class StartComponent extends React.Component<IStartProps> {
     };
 
     private _getLanguageContent(content: NewsContent[]): NewsContent {
-        const userLanguage = this.props && this.props.userInfo && this.props.userInfo.language || "en";
+        const userLanguage = this.props && this.props.language || "en";
 
         let matches = content.filter(x => x.language === userLanguage);
         return matches && matches.length > 0 && matches[0];
@@ -71,6 +72,7 @@ export class StartComponent extends React.Component<IStartProps> {
 
 export default connect(state => ({
     userInfo: state.session.data.userInfo,
+    language: state.session.data.language,
     news: state.news.data.news
 }), (dispatch) => ({
     refresh: () => { dispatch(refresh(null)) }

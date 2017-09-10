@@ -128,10 +128,6 @@ export default (() =>
     <Grid>
         <GridRow>
             <GridColumn className="col-xs-12">
-                <h1>
-                    {__("Privacy Policy")}
-                </h1>
-
                 {privacy[language]()}
             </GridColumn>
         </GridRow>

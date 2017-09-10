@@ -16,7 +16,9 @@ export interface IProfileProps {
 export class ProfileComponent extends React.Component<IProfileProps> {
     public render(): JSX.Element {
         return <GridColumn className="col-xs-12">
-            <p className="lead"><span>{__("Here you can manage your profile and settings")}</span></p>
+            <p>
+                {__("Here you can manage your profile and settings")}
+            </p>
 
             {/*
             <h2 className="headline"><span>{__("Associated Logins")}</span></h2>

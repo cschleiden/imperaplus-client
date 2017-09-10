@@ -32,8 +32,8 @@ export const setTitle: IAsyncAction<string> = (title: string) =>
             setDocumentTitle(title);
         }
 
-        return {
+        dispatch({
             type: SET_TITLE,
             payload: title
-        };
+        });
     };
