@@ -1,5 +1,5 @@
 import { push } from "react-router-redux";
-import { Game, GameActionResult, GameChatMessage, GameClient, HistoryClient, HistoryTurn, PlaceUnitsOptions, PlayClient } from "../../external/imperaClients";
+import { Game, GameActionResult, GameChatMessage, GameClient, HistoryClient, HistoryTurn, PlaceUnitsOptions, PlayClient, GameSummary } from "../../external/imperaClients";
 import { IGameChatMessageNotification, IGameNotification, INotification, NotificationType } from "../../external/notificationModel";
 import { IAction, IApiActionOptions, IAsyncAction, IAsyncActionVoid, makePromiseAction } from "../../lib/action";
 import { NotificationService } from "../../services/notificationService";
@@ -21,6 +21,17 @@ export interface ISwitchGameInput {
     gameId: number;
     turnNo?: number;
 }
+
+/**
+ * Refresh other games it's the current player's turn
+ */
+export const refreshOtherGames = makePromiseAction<void, GameSummary[]>("play-other-games-refresh", (input, dispatch, getState, deps) => {
+    return {
+        payload: {
+            promise: deps.getCachedClient(GameClient).getMyTurn()
+        }
+    }
+});
 
 /**
  * Switch to a game, also used for displaying a game the first time
@@ -297,6 +308,9 @@ export const endTurn = makePromiseAction<void, Game>(
         return {
             payload: {
                 promise: deps.getCachedClient(PlayClient).postEndTurn(playState.gameId)
+            },
+            options: {
+                afterSuccess: () => dispatch(refreshOtherGames(null))
             }
         };
     });

@@ -3,7 +3,7 @@ import { Checkbox, CheckboxProps, ControlLabel, FormControl, FormControlProps, F
 import { UserPicker } from "../../components/misc/userPicker";
 import { UserReference } from "../../external/imperaClients";
 import { FormState, IFormState } from "./form";
-import { changeField, resetForm } from "./forms.actions";
+import { initialValue, resetForm } from "./forms.actions";
 import { IForm, IForms } from "./forms.reducer";
 import { contextTypes, IFormContext } from "./types";
 
@@ -32,7 +32,7 @@ export class ControlledTextField extends React.Component<FormControlProps & ICon
     public componentDidMount() {
         // Handle initial selection
         if (!this._currentValue() && this.props.initialValue) {
-            this.context.changeField(this.props.fieldName, this.props.initialValue);
+            this.context.initialValue(this.props.fieldName, this.props.initialValue);
         }
     }
 
@@ -86,7 +86,7 @@ export class ControlledUserPicker extends React.Component<FormControlProps & ICo
     public componentDidMount() {
         // Handle initial selection
         if (!this._currentValue() && this.props.initialValue) {
-            this.context.changeField(this.props.fieldName, this.props.initialValue);
+            this.context.initialValue(this.props.fieldName, this.props.initialValue);
         }
     }
 
@@ -156,7 +156,7 @@ export class ControlledDropdown extends React.Component<FormControlProps & ICont
     public componentDidMount() {
         // Handle initial selection
         if (this.props.value !== undefined) {
-            this.context.changeField(this.props.fieldName, this.props.value as string | number);
+            this.context.initialValue(this.props.fieldName, this.props.value as string | number);
         }
     }
 

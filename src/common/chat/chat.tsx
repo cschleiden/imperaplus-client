@@ -100,7 +100,7 @@ export class Chat extends React.Component<IChatProps, IChatState> {
                     <div className="chat-input">
                         <form onSubmit={this._onSend}>
                             <FormControl
-                                autocomplete="off"
+                                {...{ autoComplete: "new-password" } as any}
                                 placeholder={__("Enter your message...")}
                                 value={this.state.msg}
                                 onChange={this._onChange} />

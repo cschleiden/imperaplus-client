@@ -118,7 +118,7 @@ export class CreateGameComponent extends React.Component<ICreateGameProps> {
                     component={(({ isPending, submit, formState }) => (
                         <div>
                             <Tabs defaultActiveKey={1}>
-                                <Tab id="simple" eventKey={1} title={__("Simple")}>
+                                <Tab eventKey={1} title={__("Simple")}>
                                     <GridRow>
                                         <GridColumn className="col-xs-12 col-md-7">
                                             <ControlledTextField
@@ -133,7 +133,7 @@ export class CreateGameComponent extends React.Component<ICreateGameProps> {
                                                 type="password"
                                                 fieldName="password"
                                                 required={false}
-                                                autocomplete="new-password" />
+                                                {...{ autoComplete: "new-password" } as any} />
 
                                             <ControlledDropdown
                                                 label={__("Map")}
@@ -185,7 +185,7 @@ export class CreateGameComponent extends React.Component<ICreateGameProps> {
                                     </GridRow>
                                 </Tab>
 
-                                <Tab id="advanced" eventKey={2} title={__("Advanced")}>
+                                <Tab eventKey={2} title={__("Advanced")}>
                                     <GridRow>
                                         <GridColumn className="col-md-6">
                                             <ControlledTextField

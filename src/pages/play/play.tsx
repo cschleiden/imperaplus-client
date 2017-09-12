@@ -13,7 +13,7 @@ import { IState } from "../../reducers";
 import Header from "./components/header";
 import Map from "./components/map";
 import Sidebar from "./components/sidebar";
-import { refreshGame, switchGame } from "./play.actions";
+import { refreshGame, switchGame, refreshOtherGames } from "./play.actions";
 
 interface IPlayProps {
     params: {
@@ -29,24 +29,36 @@ interface IPlayProps {
 interface IPlayDispatchProps {
     switchGame: (gameId: number, turnNo?: number) => void;
     refreshGame: () => void;
+    refreshOtherGames: () => void;
 }
 
 class Play extends React.Component<IPlayProps & IPlayDispatchProps> {
     componentDidMount() {
-        const gameId = parseInt(this.props.params.id, 10);
-        if (!gameId) {
-            throw new Error("Game id is required");
-        }
-
+        const gameId = this._getGameIdFromProps(this.props);
         const turnNo = parseInt(this.props.params.turn, 10);
 
         this.props.switchGame(gameId, turnNo);
+        this.props.refreshOtherGames();
 
         this._setGameTitle(this.props);
     }
 
-    componentWillReceiveProps(props: IPlayProps & IPlayDispatchProps) {
-        this._setGameTitle(props);
+    componentWillReceiveProps(nextProps: IPlayProps & IPlayDispatchProps) {
+        const currentGameId = this._getGameIdFromProps(this.props);
+        const newGameId = this._getGameIdFromProps(nextProps);
+        if (currentGameId !== newGameId) {
+            this.props.switchGame(newGameId);
+            this._setGameTitle(nextProps);
+        }
+    }
+
+    private _getGameIdFromProps(props: IPlayProps) {
+        const gameId = parseInt(props.params.id, 10);
+        if (!gameId) {
+            throw new Error("Game id is required");
+        }
+
+        return gameId;
     }
 
     private _setGameTitle(props: IPlayProps) {
@@ -107,5 +119,6 @@ export default connect((state: IState, ownProps: IPlayProps) => {
     };
 }, (dispatch) => ({
     switchGame: (gameId: number, turnNo?: number) => { dispatch(switchGame({ gameId, turnNo })) },
-    refreshGame: () => { dispatch(refreshGame(null)) }
+    refreshGame: () => { dispatch(refreshGame(null)); },
+    refreshOtherGames: () => { dispatch(refreshOtherGames(null)); }
 }))(Play);

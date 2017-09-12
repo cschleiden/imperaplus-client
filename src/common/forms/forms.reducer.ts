@@ -15,13 +15,15 @@ const test = 2;
 export interface IForm {
     name: string;
 
-    fields: { [key: string]: IField };
+    fields: { [key: string]: IFieldValue };
+
+    initialValues: { [key: string]: IFieldValue };
 
     /** Is form being submitted */
     isPending: boolean;
 }
 
-export interface IField {
+export interface IFieldValue {
     value: string | number | boolean | any;
 }
 
@@ -37,7 +39,9 @@ const submitForm = (state: IImmutable<IForms>, action: IAction<FormActions.ISubm
         case FormActions.FormMode.Success:
             return state.merge(x => x.forms[action.payload.form], {
                 isPending: false,
-                fields: {}
+                fields: {
+                    ...(state.data.forms[action.payload.form] && state.data.forms[action.payload.form].initialValues)
+                }
             });
 
         case FormActions.FormMode.Failed:
@@ -48,7 +52,9 @@ const submitForm = (state: IImmutable<IForms>, action: IAction<FormActions.ISubm
 const resetForm = (state: IImmutable<IForms>, action: IAction<string>) => {
     return state.set(x => x.forms[action.payload], {
         name: action.payload,
-        fields: {},
+        fields: {
+            ...(state.data.forms[action.payload] && state.data.forms[action.payload].initialValues)
+        },
         isPending: false
     } as IForm);
 };
@@ -61,6 +67,18 @@ const changeField = (state: IImmutable<IForms>, action: IAction<FormActions.ICha
     });
 };
 
+const initialValue = (state: IImmutable<IForms>, action: IAction<FormActions.IInitialValuePayload>) => {
+    const payload = action.payload;
+
+    return state
+        .set(x => x.forms[payload.form].fields[payload.field], {
+            value: payload.value
+        })
+        .set(x => x.forms[payload.form].initialValues[payload.field], {
+            value: payload.value
+        });
+};
+
 export const forms = (
     state: IImmutable<IForms> = initialState,
     action?: any): IImmutable<IForms> => {
@@ -68,6 +86,7 @@ export const forms = (
     return reducerMap(action, state, {
         [FormActions.SUBMIT_FORM]: submitForm,
         [FormActions.RESET_FORM]: resetForm,
-        [FormActions.CHANGE_FIELD]: changeField
+        [FormActions.CHANGE_FIELD]: changeField,
+        [FormActions.INITIAL_VALUE]: initialValue
     });
 };

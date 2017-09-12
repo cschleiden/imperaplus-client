@@ -3,7 +3,7 @@ import * as React from "react";
 import { FormGroup } from "react-bootstrap";
 import { connect } from "react-redux";
 import { IApiActionOptions, IPromiseAction, IThunkAction } from "../../lib/action";
-import { changeField, FormMode, resetForm, submitForm } from "./forms.actions";
+import { initialValue, FormMode, resetForm, submitForm, changeField } from "./forms.actions";
 import { IForm, IForms } from "./forms.reducer";
 import { contextTypes, IFormContext } from "./types";
 
@@ -29,6 +29,7 @@ interface IInternalFormProps {
     submit: <TResult, TInput>(formState: IFormState) => IThunkAction;
     reset: () => any;
     changeField: (fieldName: string, value: string | boolean | number) => any;
+    initialValue: (fieldName: string, value: string | boolean | number) => any;
 }
 
 class Form extends React.Component<IFormProps & IInternalFormProps> {
@@ -38,7 +39,8 @@ class Form extends React.Component<IFormProps & IInternalFormProps> {
         return {
             formState: this.props.formState,
             isPending: () => this.props.isPending,
-            changeField: this.props.changeField
+            changeField: this.props.changeField,
+            initialValue: this.props.initialValue
         };
     }
 
@@ -58,17 +60,21 @@ class Form extends React.Component<IFormProps & IInternalFormProps> {
                 {this.props.component({
                     isPending: this.props.isPending,
                     formState: formState,
-                    submit: () => this.props.submit(formState)
+                    submit: this._submit
                 })}
             </FormGroup>
         </form>;
     }
 
     private _onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        this.props.submit(new FormState(this.props.formState));
+        this._submit();
 
         e.preventDefault();
         return false;
+    }
+
+    private _submit = () => {
+        this.props.submit(new FormState(this.props.formState));
     }
 }
 
@@ -113,5 +119,6 @@ export default connect((state: { forms: IImmutable<IForms> }, ownProps: IFormPro
         dispatch(submitAction);
     },
     reset: () => dispatch(resetForm(ownProps.name)),
-    changeField: (fieldName: string, value: string | boolean | number) => dispatch(changeField(ownProps.name, fieldName, value))
+    changeField: (fieldName: string, value: string | boolean | number) => dispatch(changeField(ownProps.name, fieldName, value)),
+    initialValue: (fieldName: string, value: string | boolean | number) => dispatch(initialValue(ownProps.name, fieldName, value))
 }))(Form);

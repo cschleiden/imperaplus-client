@@ -42,3 +42,19 @@ export const changeField = (form: string, field: string, value: string | number 
         value: value
     }
 });
+
+
+export const INITIAL_VALUE = "form-set-initial-value";
+export interface IInitialValuePayload {
+    form: string;
+    field: string;
+    value: string | number | boolean;
+};
+export const initialValue = (form: string, field: string, value: string | number | boolean): IAction<IInitialValuePayload> => ({
+    type: INITIAL_VALUE,
+    payload: {
+        form: form,
+        field: field,
+        value: value
+    }
+});

@@ -41,7 +41,7 @@ export class StartComponent extends React.Component<IStartProps> {
                             <h2 className="headline">{content.title}</h2>
                             <h5>{HumanDate(n.dateTime)} - {n.postedBy}</h5>
 
-                            <ReactMarkdown source={content.text} />
+                            <ReactMarkdown source={content.text || ""} />
                         </div>;
                     })}
                 </div>
@@ -54,7 +54,7 @@ export class StartComponent extends React.Component<IStartProps> {
                 {
                     this.props.openTournaments.map(tournament => {
                         return (
-                            <div>
+                            <div key={tournament.id}>
                                 <Link to={`/game/tournaments/${tournament.id}`}>{tournament.name}</Link>
                             </div>
                         );

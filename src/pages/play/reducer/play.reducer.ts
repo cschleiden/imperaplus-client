@@ -1,5 +1,5 @@
 import {
-    ActionResult, ErrorResponse, Game, GameActionResult, GameChatMessage, HistoryTurn, PlayState
+    ActionResult, ErrorResponse, Game, GameActionResult, GameChatMessage, HistoryTurn, PlayState, GameSummary
 } from "../../../external/imperaClients";
 import { IAction } from "../../../lib/action";
 import { countriesToMap, getPlayer, getPlayerFromTeams, getTeam } from "../../../lib/game/utils";
@@ -28,6 +28,10 @@ export const switchGame = (state: IPlayState, action: IAction<ISwitchGamePayload
         })
         .set(x => x.operationInProgress, false)
         .set(x => x.error, null);
+};
+
+export const refreshOtherGames = (state: IPlayState, action: IAction<GameSummary[]>) => {
+    return state.set(x => x.otherGames, action.payload);
 };
 
 export const refreshGame = (state: IPlayState, action: IAction<Game>) => {

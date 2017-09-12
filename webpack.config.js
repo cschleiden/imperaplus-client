@@ -70,8 +70,8 @@ const config = (lang) => {
 };
 
 // Uncomment to only build english
-// if (process.env.NODE_ENV === "development" || process.env.TEST) {
-//     module.exports = config("en");
-// } else {
-module.exports = Object.keys(languages).map(lang => config(lang));
-// }
+if (process.env.NODE_ENV === "development" || process.env.TEST) {
+    module.exports = config("en");
+} else {
+    module.exports = Object.keys(languages).map(lang => config(lang));
+}
