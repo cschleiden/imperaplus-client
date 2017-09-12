@@ -61,7 +61,12 @@ class Play extends React.Component<IPlayProps & IPlayDispatchProps> {
     }
 
     render() {
-        const { sidebarOpen, error } = this.props;
+        const { game, sidebarOpen, error } = this.props;
+
+        if (!game) {
+            // TODO: Loading indicator?
+            return null;
+        }
 
         return <div className="play-container">
             <div className="play-header-container">

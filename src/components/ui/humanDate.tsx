@@ -17,6 +17,9 @@ export const HumanDate = (date: Date): string => {
     }
 
     switch (false) {
+        case !(delta < 0):
+            return date.toLocaleString();
+
         case !(delta < 30):
             return __("just now");
 

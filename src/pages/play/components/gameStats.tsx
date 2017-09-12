@@ -34,11 +34,17 @@ export class GameStats extends React.Component<IGameStatsProps, IGameStatsState>
     }
 
     render() {
+        const { game } = this.props;
+        const isTeamGame = game.options.numberOfPlayersPerTeam > 1;
+
         return <div>
             <table className="table">
                 <thead>
                     <tr>
                         <th className="text-center" title={__("Player")}>#</th>
+                        {
+                            isTeamGame && <th className="text-center" title={__("Team")}>{__("T")}</th>
+                        }
                         <th title={__("Name")}>{__("Name")}</th>
                         <th className="text-center" title={__("Countries")}>{__("C")}</th>
                         <th className="text-center" title={__("Units")}>{__("U")}</th>
@@ -55,6 +61,13 @@ export class GameStats extends React.Component<IGameStatsProps, IGameStatsState>
                                 </span>}
                                 {player.outcome !== PlayerOutcome.None && <PlayerOutcomeDisplay outcome={player.outcome} />}
                             </td>
+                            {
+                                isTeamGame && <td className="text-center">
+                                    <span className={css("label", "team", `team-${player.team + 1}`)}>
+                                        {(player.team + 1)}
+                                    </span>
+                                </td>
+                            }
                             <td>
                                 {player.name}
                             </td>

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
-"POT-Creation-Date: Sun Sep 10 2017 10:34:02 GMT-0700 (Pacific Daylight "
+"POT-Creation-Date: Mon Sep 11 2017 18:23:08 GMT-0700 (Pacific Daylight "
 "Time)\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -322,6 +322,7 @@ msgstr ""
 
 #: temp/src/components/ui/games/gameDetail.js:101
 #: temp/src/pages/play/components/gameChat.js:109
+#: temp/src/pages/play/components/gameStats.js:35
 #: temp/src/pages/tournaments/tournament.js:198
 msgid "Team"
 msgstr ""
@@ -337,7 +338,7 @@ msgstr ""
 #: temp/src/components/ui/games/gameList.js:44
 #: temp/src/components/ui/games/tournamentList.js:32
 #: temp/src/pages/create/create.js:112
-#: temp/src/pages/play/components/gameStats.js:33
+#: temp/src/pages/play/components/gameStats.js:36
 msgid "Name"
 msgstr ""
 
@@ -425,92 +426,92 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: temp/src/components/ui/humanDate.js:20
+#: temp/src/components/ui/humanDate.js:22
 msgid "just now"
 msgstr ""
 
-#: temp/src/components/ui/humanDate.js:22
+#: temp/src/components/ui/humanDate.js:24
 msgid "{0} seconds ago"
 msgstr ""
 
-#: temp/src/components/ui/humanDate.js:24
+#: temp/src/components/ui/humanDate.js:26
 msgid "a minute ago"
 msgstr ""
 
-#: temp/src/components/ui/humanDate.js:26
+#: temp/src/components/ui/humanDate.js:28
 msgid "{0} minutes ago"
 msgstr ""
 
-#: temp/src/components/ui/humanDate.js:28
+#: temp/src/components/ui/humanDate.js:30
 msgid "an hour ago"
 msgstr ""
 
-#: temp/src/components/ui/humanDate.js:30
+#: temp/src/components/ui/humanDate.js:32
 msgid "{0} hours ago"
 msgstr ""
 
-#: temp/src/components/ui/humanDate.js:32
+#: temp/src/components/ui/humanDate.js:34
 msgid "yesterday"
 msgstr ""
 
-#: temp/src/components/ui/humanDate.js:34
+#: temp/src/components/ui/humanDate.js:36
 msgid "{0} days ago"
 msgstr ""
 
-#: temp/src/components/ui/humanDate.js:36
+#: temp/src/components/ui/humanDate.js:38
 msgid "a week ago"
 msgstr ""
 
-#: temp/src/components/ui/humanDate.js:38
+#: temp/src/components/ui/humanDate.js:40
 msgid "{0} weeks ago"
 msgstr ""
 
-#: temp/src/components/ui/humanDate.js:40
+#: temp/src/components/ui/humanDate.js:42
 msgid "a month ago"
 msgstr ""
 
-#: temp/src/components/ui/humanDate.js:42
+#: temp/src/components/ui/humanDate.js:44
 msgid "{0} months ago"
 msgstr ""
 
-#: temp/src/components/ui/humanDate.js:44
+#: temp/src/components/ui/humanDate.js:46
 msgid "a year ago"
 msgstr ""
 
-#: temp/src/components/ui/humanDate.js:46
+#: temp/src/components/ui/humanDate.js:48
 msgid "over a year ago"
 msgstr ""
 
-#: temp/src/components/ui/humanDate.js:54
+#: temp/src/components/ui/humanDate.js:56
 #: temp/src/pages/create/create.js:122
 msgid "5 Minutes"
 msgstr ""
 
-#: temp/src/components/ui/humanDate.js:56
+#: temp/src/components/ui/humanDate.js:58
 #: temp/src/pages/create/create.js:123
 msgid "10 Minutes"
 msgstr ""
 
-#: temp/src/components/ui/humanDate.js:58
+#: temp/src/components/ui/humanDate.js:60
 #: temp/src/pages/create/create.js:130
 msgid "10 Hours"
 msgstr ""
 
-#: temp/src/components/ui/humanDate.js:60
+#: temp/src/components/ui/humanDate.js:62
 #: temp/src/pages/create/create.js:133
 msgid "1 Day"
 msgstr ""
 
-#: temp/src/components/ui/humanDate.js:62
+#: temp/src/components/ui/humanDate.js:64
 #: temp/src/pages/create/create.js:134
 msgid "2 Days"
 msgstr ""
 
-#: temp/src/components/ui/humanDate.js:90
+#: temp/src/components/ui/humanDate.js:92
 msgid "day"
 msgstr ""
 
-#: temp/src/components/ui/humanDate.js:93
+#: temp/src/components/ui/humanDate.js:95
 msgid "days"
 msgstr ""
 
@@ -992,23 +993,27 @@ msgstr ""
 msgid "of"
 msgstr ""
 
-#: temp/src/pages/play/components/gameStats.js:32
+#: temp/src/pages/play/components/gameStats.js:34
 msgid "Player"
 msgstr ""
 
-#: temp/src/pages/play/components/gameStats.js:34
+#: temp/src/pages/play/components/gameStats.js:35
+msgid "T"
+msgstr ""
+
+#: temp/src/pages/play/components/gameStats.js:37
 msgid "Countries"
 msgstr ""
 
-#: temp/src/pages/play/components/gameStats.js:34
+#: temp/src/pages/play/components/gameStats.js:37
 msgid "C"
 msgstr ""
 
-#: temp/src/pages/play/components/gameStats.js:35
+#: temp/src/pages/play/components/gameStats.js:38
 msgid "Units"
 msgstr ""
 
-#: temp/src/pages/play/components/gameStats.js:35
+#: temp/src/pages/play/components/gameStats.js:38
 msgid "U"
 msgstr ""
 
@@ -1052,7 +1057,7 @@ msgstr ""
 msgid "Play"
 msgstr ""
 
-#: temp/src/pages/play/play.js:68
+#: temp/src/pages/play/play.js:72
 msgid "An error occured, please refresh."
 msgstr ""
 

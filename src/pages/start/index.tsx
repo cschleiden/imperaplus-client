@@ -53,7 +53,11 @@ export class StartComponent extends React.Component<IStartProps> {
                 <SubSection>{__("Open")}</SubSection>
                 {
                     this.props.openTournaments.map(tournament => {
-                        return <Link to={`/game/tournaments/${tournament.id}`}>{tournament.name}</Link>
+                        return (
+                            <div>
+                                <Link to={`/game/tournaments/${tournament.id}`}>{tournament.name}</Link>
+                            </div>
+                        );
                     })
                 }
             </GridColumn>

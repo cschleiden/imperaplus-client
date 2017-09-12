@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: Sun Sep 10 2017 10:34:02 GMT-0700 (Pacific Daylight "
+"POT-Creation-Date: Mon Sep 11 2017 18:23:08 GMT-0700 (Pacific Daylight "
 "Time)\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christopher Schleiden <cschleiden@live.de>\n"
@@ -312,6 +312,7 @@ msgstr "Fun Spiel beitreten"
 
 #: temp/src/components/ui/games/gameDetail.js:101
 #: temp/src/pages/play/components/gameChat.js:109
+#: temp/src/pages/play/components/gameStats.js:35
 #: temp/src/pages/tournaments/tournament.js:198
 msgid "Team"
 msgstr "Teams"
@@ -327,7 +328,7 @@ msgstr "Id"
 #: temp/src/components/ui/games/gameList.js:44
 #: temp/src/components/ui/games/tournamentList.js:32
 #: temp/src/pages/create/create.js:112
-#: temp/src/pages/play/components/gameStats.js:33
+#: temp/src/pages/play/components/gameStats.js:36
 msgid "Name"
 msgstr "Name"
 
@@ -415,87 +416,87 @@ msgstr "Ja"
 msgid "No"
 msgstr "Nein"
 
-#: temp/src/components/ui/humanDate.js:20
+#: temp/src/components/ui/humanDate.js:22
 msgid "just now"
 msgstr "gerade jetzt"
 
-#: temp/src/components/ui/humanDate.js:22
+#: temp/src/components/ui/humanDate.js:24
 msgid "{0} seconds ago"
 msgstr "vor {0} Sekunden"
 
-#: temp/src/components/ui/humanDate.js:24
+#: temp/src/components/ui/humanDate.js:26
 msgid "a minute ago"
 msgstr "vor einer Minute"
 
-#: temp/src/components/ui/humanDate.js:26
+#: temp/src/components/ui/humanDate.js:28
 msgid "{0} minutes ago"
 msgstr "vor {0} Minuten"
 
-#: temp/src/components/ui/humanDate.js:28
+#: temp/src/components/ui/humanDate.js:30
 msgid "an hour ago"
 msgstr "vor einer Stunde"
 
-#: temp/src/components/ui/humanDate.js:30
+#: temp/src/components/ui/humanDate.js:32
 msgid "{0} hours ago"
 msgstr "vor {0} Stunden"
 
-#: temp/src/components/ui/humanDate.js:32
+#: temp/src/components/ui/humanDate.js:34
 msgid "yesterday"
 msgstr "gestern"
 
-#: temp/src/components/ui/humanDate.js:34
+#: temp/src/components/ui/humanDate.js:36
 msgid "{0} days ago"
 msgstr "vor {0} Tagen"
 
-#: temp/src/components/ui/humanDate.js:36
+#: temp/src/components/ui/humanDate.js:38
 msgid "a week ago"
 msgstr "vor einer Woche"
 
-#: temp/src/components/ui/humanDate.js:38
+#: temp/src/components/ui/humanDate.js:40
 msgid "{0} weeks ago"
 msgstr "vor {0} Wochen"
 
-#: temp/src/components/ui/humanDate.js:40
+#: temp/src/components/ui/humanDate.js:42
 msgid "a month ago"
 msgstr "vor einem Monat"
 
-#: temp/src/components/ui/humanDate.js:42
+#: temp/src/components/ui/humanDate.js:44
 msgid "{0} months ago"
 msgstr "vor {0} Monaten"
 
-#: temp/src/components/ui/humanDate.js:44
+#: temp/src/components/ui/humanDate.js:46
 msgid "a year ago"
 msgstr "vor einem Jahr"
 
-#: temp/src/components/ui/humanDate.js:46
+#: temp/src/components/ui/humanDate.js:48
 msgid "over a year ago"
 msgstr "vor mehr als einem Jahr"
 
-#: temp/src/components/ui/humanDate.js:54 temp/src/pages/create/create.js:122
+#: temp/src/components/ui/humanDate.js:56 temp/src/pages/create/create.js:122
 msgid "5 Minutes"
 msgstr "5 Minuten"
 
-#: temp/src/components/ui/humanDate.js:56 temp/src/pages/create/create.js:123
+#: temp/src/components/ui/humanDate.js:58 temp/src/pages/create/create.js:123
 msgid "10 Minutes"
 msgstr "10 Minuten"
 
-#: temp/src/components/ui/humanDate.js:58 temp/src/pages/create/create.js:130
+#: temp/src/components/ui/humanDate.js:60 temp/src/pages/create/create.js:130
 msgid "10 Hours"
 msgstr "10 Stunden"
 
-#: temp/src/components/ui/humanDate.js:60 temp/src/pages/create/create.js:133
+#: temp/src/components/ui/humanDate.js:62 temp/src/pages/create/create.js:133
 msgid "1 Day"
 msgstr "1 Tag"
 
-#: temp/src/components/ui/humanDate.js:62 temp/src/pages/create/create.js:134
+#: temp/src/components/ui/humanDate.js:64 temp/src/pages/create/create.js:134
 msgid "2 Days"
 msgstr "2 Tage"
 
-#: temp/src/components/ui/humanDate.js:90
+#: temp/src/components/ui/humanDate.js:92
 msgid "day"
 msgstr "Tag"
 
-#: temp/src/components/ui/humanDate.js:93
+#: temp/src/components/ui/humanDate.js:95
 msgid "days"
 msgstr "Tage"
 
@@ -713,19 +714,19 @@ msgstr "Starteinheiten pro Land"
 
 #: temp/src/pages/create/create.js:148
 msgid "Minimum units per country"
-msgstr "Minimale Anzahl Einheiten pro Land"
+msgstr "Min. Einheiten pro Land"
 
 #: temp/src/pages/create/create.js:148
 msgid "Minimium units per country"
-msgstr "Minimale Anzahl Einheiten pro Land"
+msgstr "Min. Einheiten pro Land"
 
 #: temp/src/pages/create/create.js:150
 msgid "Maximum number of cards"
-msgstr "Maximale Anzahl Bonuskarten"
+msgstr "Max Bonuskarten"
 
 #: temp/src/pages/create/create.js:151
 msgid "Maximum timeouts per player"
-msgstr "Maximale Anzahl Timeouts pro Spieler"
+msgstr "Max Timeouts pro Spieler"
 
 #: temp/src/pages/create/create.js:152
 msgid "Victory Condition"
@@ -995,23 +996,27 @@ msgstr "Zug"
 msgid "of"
 msgstr "von"
 
-#: temp/src/pages/play/components/gameStats.js:32
+#: temp/src/pages/play/components/gameStats.js:34
 msgid "Player"
 msgstr "Spieler"
 
-#: temp/src/pages/play/components/gameStats.js:34
+#: temp/src/pages/play/components/gameStats.js:35
+msgid "T"
+msgstr "T"
+
+#: temp/src/pages/play/components/gameStats.js:37
 msgid "Countries"
 msgstr "Länder"
 
-#: temp/src/pages/play/components/gameStats.js:34
+#: temp/src/pages/play/components/gameStats.js:37
 msgid "C"
 msgstr "L"
 
-#: temp/src/pages/play/components/gameStats.js:35
+#: temp/src/pages/play/components/gameStats.js:38
 msgid "Units"
 msgstr "Einheiten"
 
-#: temp/src/pages/play/components/gameStats.js:35
+#: temp/src/pages/play/components/gameStats.js:38
 msgid "U"
 msgstr "E"
 
@@ -1055,7 +1060,7 @@ msgstr "Weitere Spiele"
 msgid "Play"
 msgstr "Spielen"
 
-#: temp/src/pages/play/play.js:68
+#: temp/src/pages/play/play.js:72
 msgid "An error occured, please refresh."
 msgstr "Ein Fehler trat auf, bitte lade die Seite neu."
 
@@ -1402,7 +1407,7 @@ msgstr "Anmeldung"
 
 #: temp/src/pages/tournaments/tournament.js:164
 msgid "Join tournament"
-msgstr "Tournier beitreten"
+msgstr "Turnier beitreten"
 
 #: temp/src/pages/tournaments/tournament.js:167
 msgid "Leave tournament"
