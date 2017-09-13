@@ -38,8 +38,8 @@ const sessionData: any = sessionDataStringified && JSON.parse(sessionDataStringi
 // Get language preference from localStorage
 const language = localStorage.getItem("impera-lang") || "en";
 
-const initialState = Object.assign({}, sessionData, { language: language });
-const initialSessionState = sessionData && makeImmutable(initialState) as ISessionState || undefined;
+const sessionData = Object.assign({}, sessionData, { language: language });
+const initialSessionState = sessionData && makeImmutable(sessionData) as ISessionState || undefined;
 
 export let store = Redux.createStore<IState>(
   rootReducer,
