@@ -163,13 +163,16 @@ export const selectCountry = (state: IPlayState, action: IAction<string>) => {
 
                 const originSet = !!twoCountry.originCountryIdentifier;
                 const destinationSet = !!twoCountry.destinationCountryIdentifier;
+                
+                const player = getPlayer(game, UserProvider.getUserId());
+                const playerId = player.id;
 
                 if (game.playState === PlayState.Attack) {
                     if (originSet && !destinationSet) {
                         const originCountry = countriesByIdentifier[twoCountry.originCountryIdentifier];
 
-                        // Try to set destination country, has to belong to other team
-                        if (country.teamId !== teamId
+                        // Try to set destination country, has to belong to other player
+                        if (country.playerId !== playerId
                             && mapTemplate.areConnected(originCountry.identifier, countryIdentifier)) {
                             const maxUnits = originCountry.units - game.options.minUnitsPerCountry;
 
@@ -187,9 +190,10 @@ export const selectCountry = (state: IPlayState, action: IAction<string>) => {
                     } else {
                         // Origin country has to belong to current player's team
                         if (country.teamId === teamId) {
+                            // Destinations have to belong to other player
                             const allowedDestinations = mapTemplate
                                 .connections(countryIdentifier)
-                                .filter(c => countriesByIdentifier[c].teamId !== teamId);
+                                .filter(c => countriesByIdentifier[c].playerId !== playerId);
 
                             return state
                                 .merge(x => x.twoCountry, {
