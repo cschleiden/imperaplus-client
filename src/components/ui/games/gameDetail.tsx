@@ -63,6 +63,11 @@ class GameDetails extends React.Component<IGameDetailsProps & IGameDetailsDispat
                         {this.props.game.options.victoryConditions}
                     </dd>
 
+                    <dt>{__("Max bonus cards")}</dt>
+                    <dd>
+                        {this.props.game.options.maximumNumberOfCards}
+                    </dd>
+
                     <dt>{__("Visibility Modifier")}</dt>
                     <dd>
                         {this.props.game.options.visibilityModifier}

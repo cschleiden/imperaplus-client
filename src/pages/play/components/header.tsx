@@ -77,7 +77,7 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
             <div className="play-header-block hidden-xs">
                 <Button
                     className="btn btn-u"
-                    title={__("Exchange cards")}
+                    title={`${__("Exchange cards")} (${player && player.cards && player.cards.length || 0}/${game.options.maximumNumberOfCards})`}
                     onClick={this._onExchangeCards}
                     disabled={!inputActive || game.playState !== PlayState.PlaceUnits}>
                     <Cards cards={player && player.cards} />
