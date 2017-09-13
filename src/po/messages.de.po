@@ -1355,7 +1355,7 @@ msgstr "Anmeldung ab"
 
 #: temp/src/pages/tournaments/tournament.js:74
 msgid "Start of tournament"
-msgstr "Turnierestart"
+msgstr "Turnierstart"
 
 #: temp/src/pages/tournaments/tournament.js:77
 msgid "Number of teams"
