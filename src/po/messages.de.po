@@ -288,7 +288,7 @@ msgstr "Max Bonus Karten"
 #: temp/src/pages/ladders/ladders.js:87
 #: temp/src/pages/tournaments/tournament.js:118
 msgid "Visibility Modifier"
-msgstr "Spielmodus"
+msgstr "Sichtbarkeit"
 
 #: temp/src/components/ui/games/gameDetail.js:72
 msgid "Actions"
@@ -742,7 +742,7 @@ msgstr "Überleben"
 
 #: temp/src/pages/create/create.js:162
 msgid "Visibility modifier"
-msgstr "Spielmodus"
+msgstr "Sichtbarkeit"
 
 #: temp/src/pages/create/create.js:163
 msgid "Everything visible"
