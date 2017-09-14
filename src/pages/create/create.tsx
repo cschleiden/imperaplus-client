@@ -127,13 +127,15 @@ export class CreateGameComponent extends React.Component<ICreateGameProps> {
                                                 fieldName="name"
                                                 required={true} />
 
-                                            <ControlledTextField
+                                            {
+                                                /*<ControlledTextField
                                                 label={__("Password")}
                                                 placeholder={__("Optional: Password")}
                                                 type="password"
                                                 fieldName="password"
                                                 required={false}
-                                                {...{ autoComplete: "new-password" } as any} />
+                                                {...{ autoComplete: "new-password" } as any} />*/
+                                            }
 
                                             <ControlledDropdown
                                                 label={__("Map")}
