@@ -41,6 +41,10 @@ const config = (lang) => {
             extensions: ["", ".webpack.js", ".web.js", ".tsx", ".ts", ".js"]
         },
 
+        externals: [{
+            xmlhttprequest: '{XMLHttpRequest:XMLHttpRequest}'
+        }],
+
         plugins: plugins.concat([
             new I18nPlugin(languages[lang])]),
 
