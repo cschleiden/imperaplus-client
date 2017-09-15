@@ -93,6 +93,9 @@ class Map extends React.Component<IMapProps, IMapState> {
                 isLoading: false
             } as IMapState);
         }
+
+        // Clear position cache
+        (this._jsPlumb as any).deleteEveryEndpoint();
     }
 
     render(): JSX.Element {
@@ -200,9 +203,7 @@ class Map extends React.Component<IMapProps, IMapState> {
                 this._jsPlumb.unbind("click");
 
                 if (this._selectionConnections.length) {
-                    for (let conn of this._selectionConnections) {
-                        (this._jsPlumb as any).deleteConnection(conn);
-                    }
+                    (this._jsPlumb as any).deleteEveryConnection();
 
                     this._selectionConnections = [];
                 }
@@ -266,7 +267,7 @@ class Map extends React.Component<IMapProps, IMapState> {
 
         if (hasExistingConnection && (!showConnection || !existingConnectionMatches)) {
             // Remove existing connection
-            (this._jsPlumb as any).deleteConnection(this._connection);
+            (this._jsPlumb as any).deleteEveryConnection();
             this._connection = null;
         }
 
@@ -485,7 +486,7 @@ class Map extends React.Component<IMapProps, IMapState> {
     private _clearHistoryConnections() {
         if (this._historyConnections.length) {
             for (let connection of this._historyConnections) {
-                (this._jsPlumb as any).deleteConnection(connection);
+                (this._jsPlumb as any).deleteEveryConnection();
             }
 
             this._historyConnections = [];
