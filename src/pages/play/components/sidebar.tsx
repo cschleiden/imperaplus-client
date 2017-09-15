@@ -2,7 +2,7 @@ import "./sidebar.scss";
 
 import * as React from "react";
 import { connect } from "react-redux";
-import { SubSection } from "../../../components/ui/typography";
+import { SubSection, Title } from "../../../components/ui/typography";
 import { Game, GameSummary } from "../../../external/imperaClients";
 import { IState } from "../../../reducers";
 import { game } from "../reducer/play.selectors";
@@ -21,6 +21,8 @@ class Sidebar extends React.Component<ISidebarProps> {
         const { game, otherGames } = this.props;
 
         return <div className="play-sidebar">
+            <Title>{game.id} - {game.name}</Title>
+
             <GameChat />
 
             <GameHistory />
