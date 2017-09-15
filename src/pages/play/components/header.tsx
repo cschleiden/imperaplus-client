@@ -15,6 +15,7 @@ import { IState } from "../../../reducers";
 import { attack, endAttack, endTurn, exchange, leave, move, place, toggleSidebar } from "../play.actions";
 import { canMoveOrAttack, canPlace, game, inputActive } from "../reducer/play.selectors";
 import Cards from "./cards";
+import { Timer } from "../../../components/ui/timer";
 
 interface IHeaderProps {
 }
@@ -61,16 +62,16 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
                 </ToggleButton>
             </div>
 
-            <div className="play-header-block stacked visible-xs">
+            <div className="play-header-block stacked visible-xs text-center">
                 {currentPlayer}
-                <span>{/*<timer interval="1000" countdown="true" autostart="false" className="ng-binding ng-isolate-scope"><span className="ng-binding ng-scope">0:3:45:49</span></timer>*/}</span>
+                <Timer startInMs={game.timeoutSecondsLeft * 1000} />
             </div>
 
             <div className="play-header-block full-text hidden-xs">
                 {currentPlayer}
             </div>
             <div className="play-header-block full-text hidden-xs">
-                <span>{/*<timer interval="1000" countdown="true" autostart="false" className="ng-binding ng-isolate-scope"><span className="ng-binding ng-scope">0:3:45:49</span></timer>*/}</span>
+                <Timer startInMs={game.timeoutSecondsLeft * 1000} />
             </div>
 
             {/*<!-- Cards --> */}
