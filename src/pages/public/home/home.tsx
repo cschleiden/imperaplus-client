@@ -3,9 +3,23 @@ import "./home.scss";
 import * as React from "react";
 import { GridColumn, GridRow } from "../../../components/layout";
 import { Slider } from "./slider";
+import { Title } from "../../../components/ui/typography";
 
 export default class Home extends React.Component {
     public render() {
+        const isIE11 = navigator.userAgent.indexOf("Trident/7") > -1
+        if (isIE11) {
+            return (
+                <div className="text-center">
+                    <Title>{__("Warning: Outdated browser")}</Title>
+
+                    <p>
+                        {__("Unfortunately we don't support your browser right now. Please use either Safari, Chrome, Firefox or Edge.")}
+                    </p>
+                </div>
+            );
+        }
+
         return <div>
             <div>
                 <Slider background="/assets/slider/slider.gif" slides={[{

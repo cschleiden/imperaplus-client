@@ -39,12 +39,6 @@ export class Timer extends React.Component<ITimerProps, ITimerState> {
         }
     }
 
-    public componentWillReceiveProps(nextProps: ITimerProps) {
-        this.setState({
-            timeLeft: nextProps.startInMs
-        });
-    }
-
     @autobind
     private _timerHandler() {
         this.setState({

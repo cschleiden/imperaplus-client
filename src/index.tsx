@@ -11,6 +11,8 @@ import { NotificationService } from "./services/notificationService";
 import { TokenProvider } from "./services/tokenProvider";
 import { store } from "./store";
 
+const rootElement = document.getElementById("root");
+
 // Set token retriever for http clients from global state.
 TokenProvider.tokenRetriever = () => {
   let state = store && store.getState();
@@ -23,13 +25,12 @@ TokenProvider.tokenRetriever = () => {
 // Hot Module Replacement API
 declare var module: any;
 
-const rootElement = document.getElementById("root");
-
 render(
   <AppContainer>
     <App store={store} history={syncHistoryWithStore(browserHistory as any, store)} />
   </AppContainer>,
-  rootElement, () => {
+  rootElement,
+  () => {
     appInit();
   });
 

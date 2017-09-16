@@ -64,14 +64,14 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
 
             <div className="play-header-block stacked visible-xs text-center">
                 {currentPlayer}
-                <Timer startInMs={game.timeoutSecondsLeft * 1000} />
+                <Timer key={`${game.id}-${game.turnCounter}`} startInMs={game.timeoutSecondsLeft * 1000} />
             </div>
 
             <div className="play-header-block full-text hidden-xs">
                 {currentPlayer}
             </div>
             <div className="play-header-block full-text hidden-xs">
-                <Timer startInMs={game.timeoutSecondsLeft * 1000} />
+                <Timer key={`${game.id}-${game.turnCounter}`} startInMs={game.timeoutSecondsLeft * 1000} />
             </div>
 
             {/*<!-- Cards --> */}
