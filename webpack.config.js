@@ -35,7 +35,7 @@ const config = (lang) => {
             sourceMapFilename: "[name].[hash].js.map"
         },
 
-        devtool: "source-map",
+        devtool: "inline-source-map",
 
         resolve: {
             extensions: ["", ".webpack.js", ".web.js", ".tsx", ".ts", ".js"]

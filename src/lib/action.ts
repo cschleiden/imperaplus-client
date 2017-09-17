@@ -1,3 +1,4 @@
+import { Dispatch } from "react-redux";
 import { IClient } from "../clients/clientFactory";
 import { ISignalRClient } from "../clients/signalrFactory";
 import { IState } from "../reducers";
@@ -99,9 +100,9 @@ export const makePromiseAction = <TInput, TResult>(
 };
 
 export interface IAsyncActionVoid {
-    (): (dispatch?: Redux.Dispatch<IState>, getState?: () => IState, deps?: IAsyncActionDependencies) => void;
+    (): (dispatch?: Dispatch<IState>, getState?: () => IState, deps?: IAsyncActionDependencies) => void;
 }
 
 export interface IAsyncAction<TInput> {
-    (data: TInput): (dispatch?: Redux.Dispatch<IState>, getState?: () => IState, deps?: IAsyncActionDependencies) => void;
+    (data: TInput): (dispatch?: Dispatch<IState>, getState?: () => IState, deps?: IAsyncActionDependencies) => void;
 }

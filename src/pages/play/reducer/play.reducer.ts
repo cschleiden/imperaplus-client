@@ -104,12 +104,13 @@ export const gameChatMessages = (state: IPlayState, action: IAction<IGameChatMes
 };
 
 //
-//
+// Game history
 //
 export const historyTurn = (state: IPlayState, action: IAction<HistoryTurn>) => {
     const turn = action.payload;
 
     return state
+        .set(x => x.operationInProgress, false)
         .set(x => x.historyTurn, turn)
         .set(x => x.historyActive, true);
 };
@@ -163,7 +164,7 @@ export const selectCountry = (state: IPlayState, action: IAction<string>) => {
 
                 const originSet = !!twoCountry.originCountryIdentifier;
                 const destinationSet = !!twoCountry.destinationCountryIdentifier;
-                
+
                 const player = getPlayer(game, UserProvider.getUserId());
                 const playerId = player.id;
 

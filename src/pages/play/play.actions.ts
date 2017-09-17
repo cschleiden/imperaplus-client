@@ -1,10 +1,11 @@
 import { push } from "react-router-redux";
-import { Game, GameActionResult, GameChatMessage, GameClient, HistoryClient, HistoryTurn, PlaceUnitsOptions, PlayClient, GameSummary } from "../../external/imperaClients";
+import { Game, GameActionResult, GameChatMessage, GameClient, HistoryClient, HistoryTurn, PlaceUnitsOptions, PlayClient, GameSummary, NotificationClient } from "../../external/imperaClients";
 import { IGameChatMessageNotification, IGameNotification, INotification, NotificationType } from "../../external/notificationModel";
 import { IAction, IApiActionOptions, IAsyncAction, IAsyncActionVoid, makePromiseAction } from "../../lib/action";
 import { NotificationService } from "../../services/notificationService";
 import { getMapTemplate, MapTemplateCacheEntry } from "./mapTemplateCache";
 import { inputActive } from "./reducer/play.selectors";
+import { refreshNotifications } from "../../common/session/session.actions";
 
 // TODO: Move this to another place?
 let initialized = false;
@@ -83,8 +84,8 @@ export const switchGame: IAsyncAction<ISwitchGameInput> = (input) =>
                         d(gameChatMessages(gameId));
 
                         // Go to history, if requested
-                        if (turnNo > 0) {
-                            (dispatch as any)(historyTurn(turnNo));
+                        if (turnNo >= 0) {
+                            dispatch(historyTurn(turnNo));
                         }
                     }
                 } as IApiActionOptions
@@ -159,6 +160,8 @@ export const leave: IAsyncActionVoid = () =>
         // Stop notification hub        
         const gameId = getState().play.data.gameId;
         NotificationService.getInstance().leaveGame(gameId);
+
+        dispatch(refreshNotifications(null));
 
         dispatch(<IAction<void>>{
             type: LEAVE

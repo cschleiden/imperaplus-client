@@ -42,6 +42,10 @@ const setLanguage = (state: ISessionState, action: IAction<string>) => {
     return state.set(x => x.language, action.payload);
 };
 
+const refreshNotifications = (state: ISessionState, action: IAction<NotificationSummary>) => {
+    return state.set(x => x.notifications, action.payload);
+};
+
 export const session = <TPayload>(
     state = initialState,
     action?: IAction<TPayload>): ISessionState => {
@@ -51,6 +55,7 @@ export const session = <TPayload>(
         [Actions.REFRESH]: refresh,
         [Actions.EXPIRE]: reset,
         [success(Actions.logout.TYPE)]: reset,
-        [Actions.SET_LANGUAGE]: setLanguage
+        [Actions.SET_LANGUAGE]: setLanguage,
+        [Actions.refreshNotifications.TYPE]: refreshNotifications
     });
 };

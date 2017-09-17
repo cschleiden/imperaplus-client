@@ -43,6 +43,7 @@ export const play = <TPayload>(
         [success(Actions.gameChatMessages.TYPE)]: ActionHandlers.gameChatMessages,
 
         // History
+        [pending(Actions.historyTurn.TYPE)]: ActionHandlers.pendingOperation,
         [success(Actions.historyTurn.TYPE)]: ActionHandlers.historyTurn,
         [Actions.HISTORY_EXIT]: ActionHandlers.historyExit,
 

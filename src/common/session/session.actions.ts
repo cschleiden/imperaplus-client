@@ -255,3 +255,11 @@ export const deleteAccount = makePromiseAction(
         }
     })
 );
+
+export const refreshNotifications = makePromiseAction(
+    "refresh-notifications", (input: void, dispatch, getState, deps) => ({
+        payload: {
+            promise: deps.getCachedClient(NotificationClient).getSummary()
+        }
+    })
+);

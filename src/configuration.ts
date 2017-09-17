@@ -14,12 +14,12 @@ function getToken(name: string, defaultValue: string): string {
 }
 
 // Local
-// export const baseUri = getToken("baseUri", "http://localhost:57676/");
+export const baseUri = getToken("baseUri", "http://localhost:57676/");
 
 // Development
 // export const baseUri = getToken("baseUri", "https://dev.imperaonline.de/");
 
 // Production
-export const baseUri = getToken("baseUri", "https://www.imperaonline.de/");
+// export const baseUri = getToken("baseUri", "https://www.imperaonline.de/");
 
 export const imageBaseUri = getToken("imageBaseUri", "https://static.imperaonline.de/maps/");
