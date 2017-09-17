@@ -37,12 +37,7 @@ export class MessagesComponent extends React.Component<IMessagesProps> {
         let messages: JSX.Element[];
 
         return <GridRow>
-            <GridColumn className="col-xs-3">
-                <Section>{__("Folders")}</Section>
-                <FolderList onFolderSelect={this._changeFolder} folders={folderInformation} selectedFolder={currentFolder} />
-            </GridColumn>
-
-            <GridColumn className="col-xs-9">
+            <GridColumn className="col-md-9 col-md-push-3 col-xs-12">
                 <Section additionalContent={<div className="pull-right clearfix">
                     <Button onClick={this._compose}>
                         <i className="fa fa-envelope-o" />&nbsp;{__("Compose")}
@@ -52,6 +47,11 @@ export class MessagesComponent extends React.Component<IMessagesProps> {
                 </Section>
 
                 <MessageList messages={currentMessages} onMessageSelect={this._selectMessage} onMessageDelete={this._deleteMessage} />
+            </GridColumn>
+            
+            <GridColumn className="col-md-3 col-md-pull-9 col-xs-12">
+                <Section>{__("Folders")}</Section>
+                <FolderList onFolderSelect={this._changeFolder} folders={folderInformation} selectedFolder={currentFolder} />
             </GridColumn>
         </GridRow>;
     }
