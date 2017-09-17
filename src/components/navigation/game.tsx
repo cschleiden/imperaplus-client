@@ -82,9 +82,6 @@ const GameNavigation = (props: IGameNavigation): JSX.Element => {
                     <Link to="/game/profile" activeClassName="active">{userName}</Link>
                 </li>
                 <li>
-                    <a href="http://impera.ruesken.de/" target="_blank">{__("Forum")}</a>
-                </li>
-                <li>
                     <a href="#" onClick={((e) => {
                         dispatch(logout(null));
 
