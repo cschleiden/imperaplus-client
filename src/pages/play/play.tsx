@@ -13,7 +13,8 @@ import { IState } from "../../reducers";
 import Header from "./components/header";
 import Map from "./components/map";
 import Sidebar from "./components/sidebar";
-import { refreshGame, switchGame, refreshOtherGames } from "./play.actions";
+import { refreshGame, switchGame, refreshOtherGames, setGameOption } from "./play.actions";
+import { IGameUIOptions } from "./reducer/play.reducer.state";
 
 interface IPlayProps {
     params: {
@@ -30,6 +31,8 @@ interface IPlayDispatchProps {
     switchGame: (gameId: number, turnNo?: number) => void;
     refreshGame: () => void;
     refreshOtherGames: () => void;
+
+    setGameUiOption: (name: keyof IGameUIOptions, value: boolean) => void;
 }
 
 class Play extends React.Component<IPlayProps & IPlayDispatchProps> {
@@ -41,6 +44,14 @@ class Play extends React.Component<IPlayProps & IPlayDispatchProps> {
         this.props.refreshOtherGames();
 
         this._setGameTitle(this.props);
+
+        document.body.addEventListener("keydown", this._onKeyDown, true);
+        document.body.addEventListener("keyup", this._onKeyUp, true);
+    }
+
+    componentWillUnmount() {
+        document.body.removeEventListener("keydown", this._onKeyDown);
+        document.body.removeEventListener("keyup", this._onKeyUp);
     }
 
     componentWillReceiveProps(nextProps: IPlayProps & IPlayDispatchProps) {
@@ -107,6 +118,20 @@ class Play extends React.Component<IPlayProps & IPlayDispatchProps> {
     private _clearError() {
         this.props.refreshGame();
     }
+
+    @autobind
+    private _onKeyDown(evt: KeyboardEvent) {
+        if (evt.key === "Control") {
+            this.props.setGameUiOption("showTeamsOnMap", true);
+        }
+    }
+
+    @autobind
+    private _onKeyUp(evt: KeyboardEvent) {
+        if (evt.key === "Control") {
+            this.props.setGameUiOption("showTeamsOnMap", false);
+        }
+    }
 }
 
 export default connect((state: IState, ownProps: IPlayProps) => {
@@ -120,5 +145,13 @@ export default connect((state: IState, ownProps: IPlayProps) => {
 }, (dispatch) => ({
     switchGame: (gameId: number, turnNo?: number) => { dispatch(switchGame({ gameId, turnNo })) },
     refreshGame: () => { dispatch(refreshGame(null)); },
-    refreshOtherGames: () => { dispatch(refreshOtherGames(null)); }
+    refreshOtherGames: () => { dispatch(refreshOtherGames(null)); },
+
+    setGameUiOption: (name: keyof IGameUIOptions, value: boolean) => {
+        dispatch(setGameOption({
+            name,
+            value,
+            temporary: true
+        }));
+    }
 }))(Play);

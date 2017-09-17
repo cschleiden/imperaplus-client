@@ -155,7 +155,7 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
                     </Dropdown.Toggle>
                     <Dropdown.Menu className="super-colors">
                         <MenuItem eventKey="showTeamsOnMap" onSelect={this._toggleGameUiOption as any} active={gameUiOptions.showTeamsOnMap}>
-                            {__("Show teams on map")}
+                            {__("Show teams on map [CTRL]")}
                         </MenuItem>
                     </Dropdown.Menu>
                 </Dropdown>

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
-"POT-Creation-Date: Sun Sep 17 2017 14:51:15 GMT-0700 (Pacific Daylight "
+"POT-Creation-Date: Sun Sep 17 2017 15:53:28 GMT-0700 (Pacific Daylight "
 "Time)\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -208,11 +208,7 @@ msgstr ""
 msgid "Account"
 msgstr ""
 
-#: temp/src/components/navigation/game.js:47
-msgid "Forum"
-msgstr ""
-
-#: temp/src/components/navigation/game.js:53
+#: temp/src/components/navigation/game.js:51
 msgid "Logout"
 msgstr ""
 
@@ -1045,7 +1041,7 @@ msgid "End turn"
 msgstr ""
 
 #: temp/src/pages/play/components/header.js:107
-msgid "Show teams on map"
+msgid "Show teams on map [CTRL]"
 msgstr ""
 
 #: temp/src/pages/play/components/header.js:108
@@ -1060,11 +1056,11 @@ msgstr ""
 msgid "Other Games"
 msgstr ""
 
-#: temp/src/pages/play/play.js:63
+#: temp/src/pages/play/play.js:69
 msgid "Play"
 msgstr ""
 
-#: temp/src/pages/play/play.js:82
+#: temp/src/pages/play/play.js:88
 msgid "An error occured, please refresh."
 msgstr ""
 

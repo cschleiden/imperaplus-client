@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: Sun Sep 17 2017 14:51:15 GMT-0700 (Pacific Daylight "
+"POT-Creation-Date: Sun Sep 17 2017 15:53:28 GMT-0700 (Pacific Daylight "
 "Time)\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christopher Schleiden <cschleiden@live.de>\n"
@@ -200,11 +200,7 @@ msgstr "Fun Spiel beitreten"
 msgid "Account"
 msgstr "Account"
 
-#: temp/src/components/navigation/game.js:47
-msgid "Forum"
-msgstr "Forum"
-
-#: temp/src/components/navigation/game.js:53
+#: temp/src/components/navigation/game.js:51
 msgid "Logout"
 msgstr "Ausloggen"
 
@@ -1049,8 +1045,8 @@ msgid "End turn"
 msgstr "Zug beenden"
 
 #: temp/src/pages/play/components/header.js:107
-msgid "Show teams on map"
-msgstr "Zeige Teams auf Karte"
+msgid "Show teams on map [CTRL]"
+msgstr "Zeige Teams auf der Karte [STRG]"
 
 #: temp/src/pages/play/components/header.js:108
 msgid "Exit"
@@ -1064,11 +1060,11 @@ msgstr "Statistiken"
 msgid "Other Games"
 msgstr "Weitere Spiele"
 
-#: temp/src/pages/play/play.js:63
+#: temp/src/pages/play/play.js:69
 msgid "Play"
 msgstr "Spielen"
 
-#: temp/src/pages/play/play.js:82
+#: temp/src/pages/play/play.js:88
 msgid "An error occured, please refresh."
 msgstr "Ein Fehler trat auf, bitte lade die Seite neu."
 
@@ -1527,6 +1523,12 @@ msgstr "Aktiv"
 #: temp/src/pages/tournaments/tournaments.js:43
 msgid "Closed"
 msgstr "Beendet"
+
+#~ msgid "Forum"
+#~ msgstr "Forum"
+
+#~ msgid "Show teams on map"
+#~ msgstr "Zeige Teams auf Karte"
 
 #~ msgid "Optional: Password"
 #~ msgstr "Optional: Passwort"
