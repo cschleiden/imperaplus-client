@@ -117,7 +117,7 @@ export class CreateGameComponent extends React.Component<ICreateGameProps> {
                     }}
                     component={(({ isPending, submit, formState }) => (
                         <div>
-                            <Tabs defaultActiveKey={1}>
+                            <Tabs defaultActiveKey={1} id="create">
                                 <Tab eventKey={1} title={__("Simple")}>
                                     <GridRow>
                                         <GridColumn className="col-xs-12 col-md-7">
@@ -142,38 +142,40 @@ export class CreateGameComponent extends React.Component<ICreateGameProps> {
                                                 fieldName="map"
                                                 value={""}>
                                                 <option value="" key="empty-map"></option>
-                                                {this.props.maps && this.props.maps.map(m =>
-                                                    <option key={m.name} value={m.name}>{m.name}</option>)}
+                                                {
+                                                    this.props.maps && this.props.maps.map(m =>
+                                                        <option key={m.name} value={m.name}>{m.name}</option>)
+                                                }
                                             </ControlledDropdown>
 
                                             <ControlledDropdown
                                                 label={__("Timeout")}
                                                 fieldName="timeout"
                                                 value="86400">
-                                                <option value="120">{__("2 Minutes")}</option>
-                                                <option value="180">{__("3 Minutes")}</option>
-                                                <option value="300">{__("5 Minutes")}</option>
-                                                <option value="600">{__("10 Minutes")}</option>
-                                                <option value="900">{__("15 Minutes")}</option>
-                                                <option value="1800">{__("30 Minutes")}</option>
-                                                <option value="2700">{__("45 Minutes")}</option>
-                                                <option value="3600">{__("1 Hours")}</option>
-                                                <option value="7200">{__("2 Hours")}</option>
-                                                <option value="14400">{__("4 Hours")}</option>
-                                                <option value="36000">{__("10 Hours")}</option>
-                                                <option value="43200">{__("12 Hours")}</option>
-                                                <option value="54000">{__("15 Hours")}</option>
-                                                <option value="86400">{__("1 Day")}</option>
-                                                <option value="172800">{__("2 Days")}</option>
-                                                <option value="259200">{__("3 Days")}</option>
-                                                <option value="432000">{__("5 Days")}</option>
-                                                <option value="604800">{__("7 Days")}</option>
+                                                <option key="120" value="120">{__("2 Minutes")}</option>
+                                                <option key="180" value="180">{__("3 Minutes")}</option>
+                                                <option key="300" value="300">{__("5 Minutes")}</option>
+                                                <option key="600" value="600">{__("10 Minutes")}</option>
+                                                <option key="900" value="900">{__("15 Minutes")}</option>
+                                                <option key="1800" value="1800">{__("30 Minutes")}</option>
+                                                <option key="2700" value="2700">{__("45 Minutes")}</option>
+                                                <option key="3600" value="3600">{__("1 Hours")}</option>
+                                                <option key="7200" value="7200">{__("2 Hours")}</option>
+                                                <option key="14400" value="14400">{__("4 Hours")}</option>
+                                                <option key="36000" value="36000">{__("10 Hours")}</option>
+                                                <option key="43200" value="43200">{__("12 Hours")}</option>
+                                                <option key="54000" value="54000">{__("15 Hours")}</option>
+                                                <option key="86400" value="86400">{__("1 Day")}</option>
+                                                <option key="172800" value="172800">{__("2 Days")}</option>
+                                                <option key="259200" value="259200">{__("3 Days")}</option>
+                                                <option key="432000" value="432000">{__("5 Days")}</option>
+                                                <option key="604800" value="604800">{__("7 Days")}</option>
                                             </ControlledDropdown>
 
                                             <ControlledDropdown
                                                 label={__("Players & Teams")}
                                                 fieldName="players" value="1bot">
-                                                {getPlayerAndTeams().map(x => <option value={x.key}>{x.text}</option>)}
+                                                {getPlayerAndTeams().map(x => <option key={x.key} value={x.key}>{x.text}</option>)}
                                             </ControlledDropdown>
 
                                         </GridColumn>
@@ -260,22 +262,22 @@ export class CreateGameComponent extends React.Component<ICreateGameProps> {
                                             <ControlledDropdown
                                                 label={__("Victory Condition")}
                                                 fieldName="victoryCondition" value={VictoryConditionType.Survival}>
-                                                <option value={VictoryConditionType.Survival}>{__("Survival")}</option>
+                                                <option key={VictoryConditionType.Survival} value={VictoryConditionType.Survival}>{__("Survival")}</option>
                                             </ControlledDropdown>
 
                                             <ControlledDropdown
                                                 label={__("Visibility modifier")}
                                                 fieldName="visibilityModifier" value={VisibilityModifierType.None}>
-                                                <option value={VisibilityModifierType.None}>{__("Everything visible")}</option>
-                                                <option value={VisibilityModifierType.Fog}>{__("Fog of War")}</option>
+                                                <option key={VisibilityModifierType.None} value={VisibilityModifierType.None}>{__("Everything visible")}</option>
+                                                <option key={VisibilityModifierType.Fog} value={VisibilityModifierType.Fog}>{__("Fog of War")}</option>
                                             </ControlledDropdown>
 
                                             <ControlledDropdown
                                                 label={__("Distribution")}
                                                 fieldName="distribution"
                                                 value={MapDistribution.Default}>
-                                                <option value={MapDistribution.Default}>{__("Default")}</option>
-                                                <option value={MapDistribution.Malibu}>{__("Malibu")}</option>
+                                                <option key={MapDistribution.Default} value={MapDistribution.Default}>{__("Default")}</option>
+                                                <option key={MapDistribution.Malibu} value={MapDistribution.Malibu}>{__("Malibu")}</option>
                                             </ControlledDropdown>
                                         </GridColumn>
                                     </GridRow>
