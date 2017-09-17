@@ -36,7 +36,7 @@ class LadderComponent extends React.Component<ILadderProps, {}> {
         return <GridColumn className="col-xs-12">
             <Title>{ladder.name}</Title>
 
-            <Table striped hover>
+            <Table striped hover responsive>
                 <thead>
                     <tr>
                         <th>#</th>
@@ -61,19 +61,21 @@ class LadderComponent extends React.Component<ILadderProps, {}> {
                     </tr>
                 </thead>
                 <tbody>
-                    {standings && standings.map(s => <tr>
-                        <td>{s.position}</td>
+                    {standings && standings.map(s => (
+                        <tr key={s.userId}>
+                            <td>{s.position}</td>
 
-                        <td>{s.userName}</td>
+                            <td>{s.userName}</td>
 
-                        <td className="text-center">{s.gamesPlayed}</td>
-                        <td className="text-center">{s.gamesWon}</td>
-                        <td className="text-center">{s.gamesLost}</td>
+                            <td className="text-center">{s.gamesPlayed}</td>
+                            <td className="text-center">{s.gamesWon}</td>
+                            <td className="text-center">{s.gamesLost}</td>
 
-                        <td className="text-right">{HumanDate(s.lastGame)}</td>
+                            <td className="text-right">{HumanDate(s.lastGame)}</td>
 
-                        <td className="text-right">{s.rating}</td>
-                    </tr>)}
+                            <td className="text-right">{Math.round(s.rating)}</td>
+                        </tr>
+                    ))}
                 </tbody>
             </Table>
         </GridColumn>;

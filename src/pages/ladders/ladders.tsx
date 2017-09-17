@@ -12,6 +12,7 @@ import { LadderSummary } from "../../external/imperaClients";
 import { autobind } from "../../lib/autobind";
 import { IState } from "../../reducers";
 import { join, leave, refresh } from "../games/ladders.actions";
+import { format } from "../../components/ui/format";
 
 export interface ILaddersProps {
     refresh: () => void;
@@ -58,7 +59,7 @@ export class LaddersComponent extends React.Component<ILaddersProps> {
 
     private _renderLadder(ladder: LadderSummary): JSX.Element[] {
         const position = ladder.standing && ladder.standing.position || "-";
-        const rating = ladder.standing && ladder.standing.rating || "-";
+        const rating = ladder.standing && Math.floor(ladder.standing.rating || 0) || "-";
         const gamesPlayed = ladder.standing && ladder.standing.gamesPlayed || "-";
         const gamesWon = ladder.standing && ladder.standing.gamesWon || "-";
         const gamesLost = ladder.standing && ladder.standing.gamesLost || "-";
@@ -126,6 +127,14 @@ export class LaddersComponent extends React.Component<ILaddersProps> {
                         <dd>{gamesLost} | {gamesLost}</dd>
                     </dl>
                 </div>
+
+                <h5 className="vertical-box-header text-center">
+                    {
+                        ladder.queueCount > 1 ?
+                            format(__("{0} players in queue"), ladder.queueCount) :
+                            format(__("{0} player in queue"), ladder.queueCount)
+                    }
+                </h5>
 
                 <h5 className="vertical-box-content">
                     {

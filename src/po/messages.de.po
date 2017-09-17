@@ -835,7 +835,7 @@ msgstr "Letztes Spiel"
 
 #: temp/src/pages/ladders/ladder.js:46
 msgid "Rating"
-msgstr "Rate"
+msgstr "Rating"
 
 #: temp/src/pages/ladders/ladders.js:40
 msgid ""
