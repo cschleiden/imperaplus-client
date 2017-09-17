@@ -12,7 +12,7 @@
     vertical-align: middle;
     @include clearfix();
 
-    .btn {
+    .btn-u {
         margin: 10px 0 !important;
         border: none !important;
 
@@ -53,6 +53,10 @@
         }
         @media(min-width: $screen-tablet) {
             margin-left: 10px;
+        }
+
+        .options {
+            margin-right: 5px;
         }
     }
 

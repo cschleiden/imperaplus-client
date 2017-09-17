@@ -1,0 +1,31 @@
+$colorDefault: white;
+
+$playerColors: (
+    (#DEB284, $colorDefault),
+    (#FF0000, $colorDefault),
+    (#0000CC, $colorDefault),
+    (#FF8C00, $colorDefault),
+    (#00FF33, $colorDefault),
+    (#8B0A50, $colorDefault),
+    (#FFEE66, $colorDefault),
+    (#FF99FF, $colorDefault),
+    (#000000, $colorDefault),
+    (#528B8B, $colorDefault),
+    (#00FFCC, grey),
+    (#006600, $colorDefault),
+    (#FFFFFF, grey),
+    (#191970, yellow),
+    (#8B4513, yellow),
+    (#63B8FF, yellow),
+    (#AAAA44, yellow),
+    (#00ff00, $colorDefault),
+    (#CD8C95, $colorDefault)
+);
+
+$continentColors: (#DEB284, #009846, #E42130, #0000FF, #FF00FF, #000000, #676767, #407194, #FF6600, #800080, #BEC137, #AD3805, #90ee90, #ffd700, #AAAAAA, #01C0D6, #8a57ac, #00ff00, #6F0DBF);
+
+$teamColors: (blue, red, green, orange);
+
+@function team-shadow($color) {
+    @return 0 0 5px 4px $color
+}

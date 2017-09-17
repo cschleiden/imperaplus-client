@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
-"POT-Creation-Date: Fri Sep 15 2017 21:47:52 GMT-0700 (Pacific Daylight "
+"POT-Creation-Date: Sun Sep 17 2017 14:51:15 GMT-0700 (Pacific Daylight "
 "Time)\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -265,27 +265,27 @@ msgstr ""
 
 #: temp/src/components/ui/games/gameDetail.js:53
 #: temp/src/components/ui/games/gameList.js:46
-#: temp/src/pages/ladders/ladders.js:75
+#: temp/src/pages/ladders/ladders.js:76
 #: temp/src/pages/tournaments/tournament.js:100
 msgid "Mode"
 msgstr ""
 
 #: temp/src/components/ui/games/gameDetail.js:56
 #: temp/src/pages/create/create.js:143
-#: temp/src/pages/ladders/ladders.js:78
+#: temp/src/pages/ladders/ladders.js:79
 #: temp/src/pages/tournaments/tournament.js:104
 msgid "Attacks"
 msgstr ""
 
 #: temp/src/components/ui/games/gameDetail.js:58
 #: temp/src/pages/create/create.js:144
-#: temp/src/pages/ladders/ladders.js:80
+#: temp/src/pages/ladders/ladders.js:81
 #: temp/src/pages/tournaments/tournament.js:107
 msgid "Moves"
 msgstr ""
 
 #: temp/src/components/ui/games/gameDetail.js:63
-#: temp/src/pages/ladders/ladders.js:85
+#: temp/src/pages/ladders/ladders.js:86
 #: temp/src/pages/tournaments/tournament.js:114
 msgid "Victory Conditions"
 msgstr ""
@@ -295,7 +295,7 @@ msgid "Max bonus cards"
 msgstr ""
 
 #: temp/src/components/ui/games/gameDetail.js:67
-#: temp/src/pages/ladders/ladders.js:87
+#: temp/src/pages/ladders/ladders.js:88
 #: temp/src/pages/tournaments/tournament.js:118
 msgid "Visibility Modifier"
 msgstr ""
@@ -519,7 +519,7 @@ msgstr ""
 msgid "days"
 msgstr ""
 
-#: temp/src/components/ui/loading.js:25
+#: temp/src/components/ui/loading.js:26
 msgid "Loading"
 msgstr ""
 
@@ -621,7 +621,7 @@ msgid "1 vs Bot"
 msgstr ""
 
 #: temp/src/pages/create/create.js:38
-#: temp/src/pages/ladders/ladders.js:61
+#: temp/src/pages/ladders/ladders.js:62
 msgid "Players"
 msgstr ""
 
@@ -799,7 +799,7 @@ msgstr ""
 
 #: temp/src/pages/games/games.js:50
 #: temp/src/pages/join/open.js:33
-#: temp/src/pages/ladders/ladders.js:38
+#: temp/src/pages/ladders/ladders.js:39
 #: temp/src/pages/tournaments/tournaments.js:50
 msgid "Refresh"
 msgstr ""
@@ -836,50 +836,58 @@ msgstr ""
 msgid "Rating"
 msgstr ""
 
-#: temp/src/pages/ladders/ladders.js:40
+#: temp/src/pages/ladders/ladders.js:41
 msgid ""
 "Here you can queue up for a new game in one of the available ladders. Games "
 "in ladders are automatically created once enough players have joined the "
 "queue."
 msgstr ""
 
-#: temp/src/pages/ladders/ladders.js:66
+#: temp/src/pages/ladders/ladders.js:67
 msgid "Teams"
 msgstr ""
 
-#: temp/src/pages/ladders/ladders.js:68
+#: temp/src/pages/ladders/ladders.js:69
 msgid "with"
 msgstr ""
 
-#: temp/src/pages/ladders/ladders.js:72
+#: temp/src/pages/ladders/ladders.js:73
 msgid "Players each"
 msgstr ""
 
-#: temp/src/pages/ladders/ladders.js:89
+#: temp/src/pages/ladders/ladders.js:90
 msgid "Standing"
 msgstr ""
 
-#: temp/src/pages/ladders/ladders.js:93
+#: temp/src/pages/ladders/ladders.js:94
 msgid "Position | Rating"
 msgstr ""
 
-#: temp/src/pages/ladders/ladders.js:99
+#: temp/src/pages/ladders/ladders.js:100
 msgid "Games played"
 msgstr ""
 
-#: temp/src/pages/ladders/ladders.js:102
+#: temp/src/pages/ladders/ladders.js:103
 msgid "Wins | Losses"
 msgstr ""
 
-#: temp/src/pages/ladders/ladders.js:112
+#: temp/src/pages/ladders/ladders.js:109
+msgid "{0} players in queue"
+msgstr ""
+
+#: temp/src/pages/ladders/ladders.js:110
+msgid "{0} player in queue"
+msgstr ""
+
+#: temp/src/pages/ladders/ladders.js:116
 msgid "Join queue"
 msgstr ""
 
-#: temp/src/pages/ladders/ladders.js:115
+#: temp/src/pages/ladders/ladders.js:119
 msgid "You are currently in the queue"
 msgstr ""
 
-#: temp/src/pages/ladders/ladders.js:119
+#: temp/src/pages/ladders/ladders.js:123
 msgid "Leave queue"
 msgstr ""
 
@@ -916,71 +924,75 @@ msgstr ""
 msgid "Reply"
 msgstr ""
 
-#: temp/src/pages/messages/messages.js:46
-msgid "Folders"
+#: temp/src/pages/messages/messages.js:50
+msgid "Compose"
 msgstr ""
 
 #: temp/src/pages/messages/messages.js:53
-msgid "Compose"
+msgid "Folders"
 msgstr ""
 
 #: temp/src/pages/play/components/gameChat.js:107
 msgid "All"
 msgstr ""
 
-#: temp/src/pages/play/components/gameHistory.js:49
+#: temp/src/pages/play/components/gameHistory.js:50
+msgid "Game has started"
+msgstr ""
+
+#: temp/src/pages/play/components/gameHistory.js:52
 msgid "Game has ended"
 msgstr ""
 
-#: temp/src/pages/play/components/gameHistory.js:51
+#: temp/src/pages/play/components/gameHistory.js:54
 msgid "{0} placed {1} units on {2}"
 msgstr ""
 
-#: temp/src/pages/play/components/gameHistory.js:53
+#: temp/src/pages/play/components/gameHistory.js:56
 msgid "{0} attacked from {1} to {2} with {3} units and {4}"
 msgstr ""
 
-#: temp/src/pages/play/components/gameHistory.js:53
+#: temp/src/pages/play/components/gameHistory.js:56
 msgid "won"
 msgstr ""
 
-#: temp/src/pages/play/components/gameHistory.js:53
+#: temp/src/pages/play/components/gameHistory.js:56
 msgid "lost"
 msgstr ""
 
-#: temp/src/pages/play/components/gameHistory.js:55
+#: temp/src/pages/play/components/gameHistory.js:58
 msgid "{0} moved {1} units from {2} to {3}"
 msgstr ""
 
-#: temp/src/pages/play/components/gameHistory.js:57
+#: temp/src/pages/play/components/gameHistory.js:60
 msgid "{0} exchanged cards"
 msgstr ""
 
-#: temp/src/pages/play/components/gameHistory.js:59
+#: temp/src/pages/play/components/gameHistory.js:62
 msgid "{0} has lost"
 msgstr ""
 
-#: temp/src/pages/play/components/gameHistory.js:61
+#: temp/src/pages/play/components/gameHistory.js:64
 msgid "{0} has won"
 msgstr ""
 
-#: temp/src/pages/play/components/gameHistory.js:63
+#: temp/src/pages/play/components/gameHistory.js:66
 msgid "{0} had a timeout"
 msgstr ""
 
-#: temp/src/pages/play/components/gameHistory.js:65
+#: temp/src/pages/play/components/gameHistory.js:68
 msgid "{0} surrendered"
 msgstr ""
 
-#: temp/src/pages/play/components/gameHistory.js:88
+#: temp/src/pages/play/components/gameHistory.js:91
 msgid "History"
 msgstr ""
 
-#: temp/src/pages/play/components/gameHistory.js:90
+#: temp/src/pages/play/components/gameHistory.js:93
 msgid "Turn"
 msgstr ""
 
-#: temp/src/pages/play/components/gameHistory.js:94
+#: temp/src/pages/play/components/gameHistory.js:97
 msgid "of"
 msgstr ""
 
@@ -1008,31 +1020,35 @@ msgstr ""
 msgid "U"
 msgstr ""
 
-#: temp/src/pages/play/components/header.js:57
+#: temp/src/pages/play/components/header.js:62
 msgid "Exchange cards"
 msgstr ""
 
-#: temp/src/pages/play/components/header.js:60
+#: temp/src/pages/play/components/header.js:65
 msgid "Place"
 msgstr ""
 
-#: temp/src/pages/play/components/header.js:72
+#: temp/src/pages/play/components/header.js:77
 msgid "Attack"
 msgstr ""
 
-#: temp/src/pages/play/components/header.js:79
+#: temp/src/pages/play/components/header.js:84
 msgid "Change to move"
 msgstr ""
 
-#: temp/src/pages/play/components/header.js:81
+#: temp/src/pages/play/components/header.js:86
 msgid "Move"
 msgstr ""
 
-#: temp/src/pages/play/components/header.js:95
+#: temp/src/pages/play/components/header.js:100
 msgid "End turn"
 msgstr ""
 
-#: temp/src/pages/play/components/header.js:98
+#: temp/src/pages/play/components/header.js:107
+msgid "Show teams on map"
+msgstr ""
+
+#: temp/src/pages/play/components/header.js:108
 msgid "Exit"
 msgstr ""
 

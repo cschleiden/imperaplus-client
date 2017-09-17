@@ -1,3 +1,5 @@
+@import "../../../styles/_colors";
+
 @mixin unselectable {
     -moz-user-select: none;
     -webkit-user-select: none;
@@ -8,6 +10,7 @@
 // Map
 $country-width: 26px;
 $country-height: 24px;
+$country-inset-shadow: inset 0px 0px 2px 1px rgba(0, 0, 0, 1);
 .country {
     position: absolute;
     width: $country-width;
@@ -15,7 +18,7 @@ $country-height: 24px;
     border-radius: 50% !important;
     background: gray;
     border: 1px solid black;
-    box-shadow: inset 0px 0px 2px 1px rgba(0, 0, 0, 1);
+    box-shadow: $country-inset-shadow;
     text-align: center;
     z-index: 100;
     @include unselectable();
@@ -33,16 +36,27 @@ $country-height: 24px;
     -o-transition: background-color 500ms, box-shadow 200ms, border-color 200ms;
     -ms-transition: background-color 500ms, box-shadow 200ms, border-color 200ms;
     transition: background-color 500ms, box-shadow 200ms, border-color 200ms;
-    &:hover {}
+    
     .dimmed & {
         opacity: 0.5;
     }
+
     &-highlight {
         border-color: white;
-        box-shadow: 0px 0px 10px 5px rgba(255, 255, 255, 0.39);
+        box-shadow: 0px 0px 10px 5px rgba(255, 255, 255, 0.39) !important;
     }
+
     &-active {
         opacity: 1 !important;
+    }
+}
+
+// 
+// Team Country rules
+//
+@for $i from 1 through length($teamColors) {    
+    .country-team-#{$i} {
+        box-shadow: $country-inset-shadow, team-shadow(nth($teamColors, $i));
     }
 }
 
@@ -221,20 +235,11 @@ $inputHeight: 21px;
 }
 
 
-
-
-
 /* hides the spin-button for firefox */
-
 input[type=number] {
     -moz-appearance: textfield;
 }
-
-
-
-
 /* hides the spin-button for chrome*/
-
 input[type=number]::-webkit-outer-spin-button,
 input[type=number]::-webkit-inner-spin-button {
     -webkit-appearance: none;

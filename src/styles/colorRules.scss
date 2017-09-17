@@ -1,0 +1,97 @@
+@import "./_colors";
+
+@for $i from 0 through length($playerColors) - 1 {
+    $playerColor: nth($playerColors, $i + 1);
+
+    .player-#{$i} {
+        background-color: nth($playerColor, 1) !important;
+        color: nth($playerColor, 2) !important;
+    }
+}
+
+//
+// Teams 
+//
+@for $i from 1 through length($teamColors) {
+    .team-#{$i} {
+        background-color: nth($teamColors, $i) !important;
+    }
+
+    .player-team-#{$i} {        
+        box-shadow: team-shadow(nth($teamColors, $i));
+    }
+}
+
+// 
+// Continents
+//
+@for $i from 0 through length($playerColors) - 1 {
+    .continent-#{$i} {
+        background-color: nth($continentColors, $i + 1) !important;
+    }
+}
+
+//
+// Outcomes
+//
+.player-outcome-none {
+    color: lightgray !important;
+}
+
+.player-outcome-defeated {
+    color: darkred !important;
+}
+
+.player-outcome-surrendered {
+    color: darkorange !important;
+}
+
+.player-outcome-timeout {
+    color: gray !important;
+}
+
+.player-outcome-won {
+    color: green !important;
+}
+
+//
+// Game state
+//
+.game-state-active {
+    color: black !important;
+}
+
+.game-state-open {
+    color: gray !important;
+}
+
+.game-state-ended {
+    color: gray !important;
+}
+
+//
+// Player state
+//
+.player-state-active {
+    color: gray !important;
+}
+
+.player-state-inactive {
+    color: gray !important;
+}
+
+
+//
+// Cards
+//
+span.badge-blue {
+    background: #3498db !important;
+}
+
+span.badge-red {
+    background: #e74c3c !important;
+}
+
+span.badge-green {
+    background: #2ecc71 !important;
+}

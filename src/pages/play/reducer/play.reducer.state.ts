@@ -13,6 +13,12 @@ export interface ITwoCountry {
     allowedDestinations: string[];
 }
 
+export interface IGameUIOptions {
+    showTeamsOnMap: boolean;
+}
+
+const options = localStorage.getItem("impera-options");
+
 export const initialState = makeImmutable({
     gameId: 0,
     game: null as Game,
@@ -45,6 +51,12 @@ export const initialState = makeImmutable({
     movesLeftPerTurn: 0,
 
     sidebarOpen: false,
+    gameUiOptions: options && JSON.parse(options) || {
+        showTeamsOnMap: true
+    } as IGameUIOptions,
+    overrideGameUiOptions: {
+    } as Partial<IGameUIOptions>,
+
     operationInProgress: true,
 
     /** Value indicating whether current turn is displayed or history */

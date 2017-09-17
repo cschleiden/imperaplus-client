@@ -56,7 +56,13 @@ export class GameStats extends React.Component<IGameStatsProps, IGameStatsState>
                             "player-inactive": player.outcome !== -1
                         })} key={player.no}>
                             <td className="text-center">
-                                {player.outcome === PlayerOutcome.None && <span className={css("label", "player", "player-" + (player.no + 1))}>
+                                {player.outcome === PlayerOutcome.None && <span className={css(
+                                    "label",
+                                    "player",
+                                    "player-" + (player.no + 1),
+                                    {
+                                        ["player-team-" + (player.team + 1)]: isTeamGame
+                                    })}>
                                     {(player.no + 1)}
                                 </span>}
                                 {player.outcome !== PlayerOutcome.None && <PlayerOutcomeDisplay outcome={player.outcome} />}

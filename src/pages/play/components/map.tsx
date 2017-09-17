@@ -12,10 +12,11 @@ import { ITwoCountry } from "../reducer";
 
 // Used for displaying connections
 import "jsplumb";
-import { countriesToMap, getPlayerByPlayerId } from "../../../lib/game/utils";
+import { countriesToMap, getPlayerByPlayerId, getTeam } from "../../../lib/game/utils";
 import { MapTemplateCacheEntry } from "../mapTemplateCache";
 import { game } from "../reducer/play.selectors";
 import { CountryInputField } from "./countryInput";
+import { IGameUIOptions } from "../reducer/play.reducer.state";
 
 const KeyBindings = {
     "ABORT": 27, // Escape
@@ -33,14 +34,14 @@ interface IMapProps {
     twoCountry: ITwoCountry;
     operationInProgress: boolean;
 
+    gameUiOptions: IGameUIOptions;
+
     selectCountry: (countryIdentifier: string) => void;
     setUnits: (countryIdentifier: string, units: number) => void;
     setActionUnits: (units: number) => void;
 
     place: () => void;
-
     attack: () => void;
-
     move: () => void;
 }
 
@@ -139,16 +140,19 @@ class Map extends React.Component<IMapProps, IMapState> {
     }
 
     private _renderCountries() {
-        const { game, placeCountries, mapTemplate, operationInProgress } = this.props;
+        const { game, placeCountries, mapTemplate, operationInProgress, gameUiOptions } = this.props;
         const { map } = game;
         const { hoveredCountry } = this.state;
 
         const idToCountry = countriesToMap(map.countries);
 
+        const isTeamGame = game.options.numberOfPlayersPerTeam > 1;
+
         return mapTemplate.countries.map(countryTemplate => {
             const country = idToCountry[countryTemplate.identifier];
 
             const player = country && getPlayerByPlayerId(game, country.playerId);
+            const team = (country && player) && getTeam(game, player.userId);
 
             const isHighlighted = hoveredCountry && mapTemplate.areConnected(hoveredCountry, countryTemplate.identifier);
 
@@ -160,7 +164,7 @@ class Map extends React.Component<IMapProps, IMapState> {
                 units = country.units.toString(10);
             }
 
-            return [<div
+            const result = [<div
                 id={countryTemplate.identifier}
                 key={countryTemplate.identifier}
                 className={css(
@@ -168,14 +172,15 @@ class Map extends React.Component<IMapProps, IMapState> {
                     {
                         // only show player color when coountry is visible
                         ["player-" + (player ? (player.playOrder + 1) : 0)]: !!country,
-                        "country-highlight": isHighlighted
+                        "country-highlight": isHighlighted,
+                        ["country-team-" + (team ? (team.playOrder + 1) : 0)]: isTeamGame && gameUiOptions.showTeamsOnMap
                     })}
                 style={{
                     left: countryTemplate.x,
                     top: countryTemplate.y
                 }}>
                 {units}
-            </div >,
+            </div>,
             hasInput && <CountryInputField
                 key={`p${countryTemplate.identifier}`}
                 countryTemplate={countryTemplate}
@@ -183,6 +188,8 @@ class Map extends React.Component<IMapProps, IMapState> {
                 onKeyUp={this._onKeyUp}
                 onChange={(inputUnits) => this.props.setUnits(countryTemplate.identifier, inputUnits)} />
             ];
+
+            return result;
         });
     }
 
@@ -515,7 +522,7 @@ class Map extends React.Component<IMapProps, IMapState> {
 }
 
 export default connect((state: IState) => {
-    const { placeCountries, twoCountry, mapTemplate, historyTurn, operationInProgress } = state.play.data;
+    const { placeCountries, twoCountry, mapTemplate, historyTurn, operationInProgress, gameUiOptions, overrideGameUiOptions } = state.play.data;
 
     return {
         game: game(state.play),
@@ -523,8 +530,12 @@ export default connect((state: IState) => {
         mapTemplate: mapTemplate,
         placeCountries: placeCountries,
         twoCountry: twoCountry,
-        operationInProgress
-    };
+        operationInProgress,
+        gameUiOptions: {
+            ...gameUiOptions,
+            ...overrideGameUiOptions
+        }
+    } as IMapProps;
 }, (dispatch) => ({
     selectCountry: (countryIdentifier: string) => { dispatch(selectCountry(countryIdentifier)); },
     setUnits: (countryIdentifier: string, units: number) => { dispatch(setPlaceUnits(countryIdentifier, units)); },

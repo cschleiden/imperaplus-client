@@ -31,6 +31,8 @@ export const play = <TPayload>(
         [success(Actions.refreshGame.TYPE)]: ActionHandlers.refreshGame,
         [pending(Actions.refreshGame.TYPE)]: ActionHandlers.pendingOperation,
 
+        [Actions.SET_GAME_OPTION]: ActionHandlers.setUIOption,
+
         // Other games
         [success(Actions.refreshOtherGames.TYPE)]: ActionHandlers.refreshOtherGames,
 

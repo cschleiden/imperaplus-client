@@ -5,17 +5,19 @@ import "./header.scss";
 import { connect } from "react-redux";
 import { push } from "react-router-redux";
 
-import { Button, ButtonGroup } from "react-bootstrap";
+import { Button, ButtonGroup, DropdownButton, MenuItem, Dropdown } from "react-bootstrap";
 import { Spinner } from "../../../components/ui/spinner";
 import { ToggleButton } from "../../../components/ui/toggleButton";
 import { Game, Player, PlayState } from "../../../external/imperaClients";
 import { autobind } from "../../../lib/autobind";
 import { css } from "../../../lib/css";
 import { IState } from "../../../reducers";
-import { attack, endAttack, endTurn, exchange, leave, move, place, toggleSidebar } from "../play.actions";
+import { attack, endAttack, endTurn, exchange, leave, move, place, toggleSidebar, setGameOption } from "../play.actions";
 import { canMoveOrAttack, canPlace, game, inputActive } from "../reducer/play.selectors";
+import { IGameUIOptions } from "../reducer/play.reducer.state";
 import Cards from "./cards";
 import { Timer } from "../../../components/ui/timer";
+import { getTeam } from "../../../lib/game/utils";
 
 interface IHeaderProps {
 }
@@ -27,6 +29,7 @@ interface IHeaderDispatchProps {
 
     inputActive: boolean;
     operationInProgress: boolean;
+    gameUiOptions: IGameUIOptions;
     canPlace: boolean;
     canMoveOrAttack: boolean;
 
@@ -38,20 +41,31 @@ interface IHeaderDispatchProps {
     endTurn: () => void;
 
     toggleSidebar: () => void;
+    setGameUiOption: (name: keyof IGameUIOptions, value: boolean) => void;
     exit: () => void;
 }
 
 class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
     render() {
         const {
-            game, remainingPlaceUnits, player, inputActive, canPlace, canMoveOrAttack, operationInProgress
+            game, remainingPlaceUnits, player, inputActive, canPlace, canMoveOrAttack, operationInProgress, gameUiOptions
         } = this.props;
 
         if (!game) {
             return null;
         }
 
-        const currentPlayer = <span className={css("label", "current-player", "player", "player-" + (game.currentPlayer.playOrder + 1))}>
+        const isTeamGame = game.options.numberOfPlayersPerTeam > 1;
+        const team = getTeam(game, game.currentPlayer.userId);
+
+        const currentPlayer = <span className={css(
+            "label",
+            "current-player",
+            "player",
+            "player-" + (game.currentPlayer.playOrder + 1),
+            {
+                ["player-team-" + (team && team.playOrder + 1)]: isTeamGame
+            })}>
             {game.currentPlayer.name}
         </span>;
 
@@ -89,7 +103,7 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
             {inputActive && <div className="play-header-block">
                 {game.playState === PlayState.PlaceUnits && <Button
                     title={__("Place")}
-                    className={css({
+                    className={css("btn-u", {
                         "current": game.playState === PlayState.PlaceUnits,
                         "enabled": canPlace,
                         "hidden-xs": game.playState !== PlayState.PlaceUnits
@@ -134,16 +148,37 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
 
             {/*<!-- Right section -->*/}
             <div className="play-header-block right">
+                {/* Options */}
+                <Dropdown id="options" pullRight className="options">
+                    <Dropdown.Toggle noCaret>
+                        <span className="fa fa-cog" />
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu className="super-colors">
+                        <MenuItem eventKey="showTeamsOnMap" onSelect={this._toggleGameUiOption as any} active={gameUiOptions.showTeamsOnMap}>
+                            {__("Show teams on map")}
+                        </MenuItem>
+                    </Dropdown.Menu>
+                </Dropdown>
+
                 <Button className="btn-u" onClick={this._onExit} title={__("Exit")}>
                     <span className="fa fa-level-up" />
                 </Button>
             </div>
 
             {/*<!-- Spinner -->*/}
-            {operationInProgress && <div className="play-header-block right">
-                <Spinner className="btn" />
-            </div>}
-        </div>;
+            {
+                operationInProgress && <div className="play-header-block right">
+                    <Spinner className="btn" />
+                </div>
+            }
+        </div >;
+    }
+
+    @autobind
+    private _toggleGameUiOption(eventKey: keyof IGameUIOptions): void {
+        const { gameUiOptions } = this.props;
+
+        this.props.setGameUiOption(eventKey, !gameUiOptions[eventKey])
     }
 
     @autobind
@@ -188,7 +223,7 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
 }
 
 export default connect((state: IState, ownProps: IHeaderProps) => {
-    const { placeCountries, player, operationInProgress } = state.play.data;
+    const { placeCountries, player, operationInProgress, gameUiOptions } = state.play.data;
     const remainingPlaceUnits = Object.keys(placeCountries).reduce((sum, ci) => sum + placeCountries[ci], 0);
 
     return {
@@ -198,7 +233,8 @@ export default connect((state: IState, ownProps: IHeaderProps) => {
         inputActive: inputActive(state.play),
         canPlace: canPlace(state.play),
         canMoveOrAttack: canMoveOrAttack(state.play),
-        operationInProgress
+        operationInProgress,
+        gameUiOptions
     };
 }, (dispatch) => ({
     place: () => { dispatch(place(null)) },
@@ -209,5 +245,12 @@ export default connect((state: IState, ownProps: IHeaderProps) => {
     endTurn: () => { dispatch(endTurn(null)) },
 
     toggleSidebar: () => { dispatch(toggleSidebar(null)); },
+    setGameUiOption: (name: keyof IGameUIOptions, value: boolean) => {
+        dispatch(setGameOption({
+            name,
+            value,
+            temporary: false
+        }));
+    },
     exit: () => { dispatch(leave()); }
 }))(Header);

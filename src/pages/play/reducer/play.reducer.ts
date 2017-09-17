@@ -6,7 +6,7 @@ import { countriesToMap, getPlayer, getPlayerFromTeams, getTeam } from "../../..
 import { isEmptyGuid } from "../../../lib/guid";
 import { UserProvider } from "../../../services/userProvider";
 import {
-    IGameChatMessagesPayload, ISetPlaceUnitsPayload, ISwitchGamePayload
+    IGameChatMessagesPayload, ISetPlaceUnitsPayload, ISwitchGamePayload, ISetGameOptionPayload
 } from "../play.actions";
 import { initialState, IPlayState, ITwoCountry } from "./play.reducer.state";
 import { inputActive } from "./play.selectors";
@@ -53,6 +53,19 @@ export const refreshGame = (state: IPlayState, action: IAction<Game>) => {
 
 export const toggleSidebar = (state: IPlayState, action: IAction<void>) => {
     return state.set(x => x.sidebarOpen, !state.data.sidebarOpen);
+};
+
+export const setUIOption = (state: IPlayState, action: IAction<ISetGameOptionPayload>) => {
+    const { name, temporary, value } = action.payload;
+
+    return state.merge(
+        action.payload.temporary ?
+            x => x.overrideGameUiOptions :
+            x => x.gameUiOptions,
+        {
+            [name]: value
+        }
+    );
 };
 
 export const pendingOperation = (state: IPlayState) => {

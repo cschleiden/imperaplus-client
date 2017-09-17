@@ -6,6 +6,7 @@ import { NotificationService } from "../../services/notificationService";
 import { getMapTemplate, MapTemplateCacheEntry } from "./mapTemplateCache";
 import { inputActive } from "./reducer/play.selectors";
 import { refreshNotifications } from "../../common/session/session.actions";
+import { IGameUIOptions } from "./reducer/play.reducer.state";
 
 // TODO: Move this to another place?
 let initialized = false;
@@ -171,7 +172,6 @@ export const leave: IAsyncActionVoid = () =>
     };
 
 export const TOGGLE_SIDEBAR = "play-toggle-sidebar";
-
 export const toggleSidebar: IAsyncAction<void> = () => (dispatch, getState, deps) => {
     const sidebarOpen = getState().play.data.sidebarOpen;
     localStorage.setItem("impera-sidebar", (!sidebarOpen).toString());
@@ -179,6 +179,21 @@ export const toggleSidebar: IAsyncAction<void> = () => (dispatch, getState, deps
     dispatch({
         type: TOGGLE_SIDEBAR
     });
+};
+
+export interface ISetGameOptionPayload {
+    name: keyof IGameUIOptions;
+    value: boolean;
+    temporary?: boolean;
+}
+export const SET_GAME_OPTION = "play-set-game-option";
+export const setGameOption: IAsyncAction<ISetGameOptionPayload> = (payload) => (dispatch, getState) => {
+    dispatch({
+        type: SET_GAME_OPTION,
+        payload: payload
+    } as IAction<ISetGameOptionPayload>);
+
+    localStorage.setItem("impera-options", JSON.stringify(getState().play.data.gameUiOptions));
 };
 
 export const place = makePromiseAction<void, GameActionResult>("play-place", (gameId, dispatch, getState, deps) => {
