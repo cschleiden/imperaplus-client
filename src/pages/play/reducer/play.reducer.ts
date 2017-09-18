@@ -58,14 +58,27 @@ export const toggleSidebar = (state: IPlayState, action: IAction<void>) => {
 export const setUIOption = (state: IPlayState, action: IAction<ISetGameOptionPayload>) => {
     const { name, temporary, value } = action.payload;
 
-    return state.merge(
-        action.payload.temporary ?
-            x => x.overrideGameUiOptions :
-            x => x.gameUiOptions,
-        {
-            [name]: value
-        }
-    );
+    if (temporary && !value) {
+        return state.update(x => x.overrideGameUiOptions, oldValue => {
+            // Remove from overrides
+            const clone = {
+                ...oldValue
+            };
+
+            delete clone[name];
+
+            return clone;
+        });
+    } else {
+        return state.merge(
+            action.payload.temporary ?
+                x => x.overrideGameUiOptions :
+                x => x.gameUiOptions,
+            {
+                [name]: value
+            }
+        );
+    }
 };
 
 export const pendingOperation = (state: IPlayState) => {

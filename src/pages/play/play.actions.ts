@@ -188,6 +188,12 @@ export interface ISetGameOptionPayload {
 }
 export const SET_GAME_OPTION = "play-set-game-option";
 export const setGameOption: IAsyncAction<ISetGameOptionPayload> = (payload) => (dispatch, getState) => {
+    const state = getState().play.data;
+    const data = payload.temporary ? state.overrideGameUiOptions : state.gameUiOptions;
+    if (data[payload.name] === payload.value) { 
+        return;
+    }
+
     dispatch({
         type: SET_GAME_OPTION,
         payload: payload
