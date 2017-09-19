@@ -39,7 +39,7 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
         const header = this._renderHeader();
         const rows = this.props.games.map(game => this._renderGameRow(game));
 
-        return <Table className="game-list" responsive>
+        return <Table className="game-list">
             <thead>
                 {header}
             </thead>
