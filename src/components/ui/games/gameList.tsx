@@ -7,7 +7,6 @@ import { IndexRoute, Link, Route, Router } from "react-router";
 import { GameState, GameSummary, PlayerSummary } from "../../../external/imperaClients";
 import { css } from "../../../lib/css";
 import { store } from "../../../store";
-import { HumanCountdown } from "../humanDate";
 import { Timer } from "../timer";
 import GameDetails from "./gameDetail";
 import { GameStateDisplay } from "./gameState";

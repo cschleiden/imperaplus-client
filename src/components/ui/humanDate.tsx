@@ -1,3 +1,5 @@
+import { format } from "./format";
+
 export const HumanDate = (date: Date): string => {
     let calculateDelta, day, hour, minute, month, week, year;
     minute = 60;
@@ -67,25 +69,30 @@ export const HumanDate = (date: Date): string => {
     }
 };
 
-export const HumanTime = (time: number): string => {
+export const HumanTime = (seconds: number): string => {
+    const minutes = seconds / 60;
+    const hours = seconds / 3600;
+    const days = seconds / 86400;
+
     switch (false) {
-        case !(time === 300):
-            return __("5 Minutes");
-
-        case !(time === 600):
-            return __("10 Minutes");
-
-        case !(time === 18000):
-            return __("10 Hours");
-
-        case !(time === 86400):
-            return __("1 Day");
-
-        case !(time === 172800):
-            return __("2 Days");
-
-        default:
-            return "";
+        case !(seconds === 120): return __("2 Minutes");
+        case !(seconds === 180): return __("3 Minutes");
+        case !(seconds === 300): return __("5 Minutes");
+        case !(seconds === 600): return __("10 Minutes");
+        case !(seconds === 900): return __("15 Minutes");
+        case !(seconds === 1800): return __("30 Minutes");
+        case !(seconds === 2700): return __("45 Minutes");
+        case !(seconds === 3600): return __("1 Hours");
+        case !(seconds === 7200): return __("2 Hours");
+        case !(seconds === 14400): return __("4 Hours");
+        case !(seconds === 36000): return __("10 Hours");
+        case !(seconds === 43200): return __("12 Hours");
+        case !(seconds === 54000): return __("15 Hours");
+        case !(seconds === 86400): return __("1 Day");
+        case !(seconds === 172800): return __("2 Days");
+        case !(seconds === 259200): return __("3 Days");
+        case !(seconds === 432000): return __("5 Days");
+        case !(seconds === 604800): return __("7 Days");
     }
 };
 
