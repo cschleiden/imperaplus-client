@@ -39,7 +39,7 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
         const header = this._renderHeader();
         const rows = this.props.games.map(game => this._renderGameRow(game));
 
-        return <Table className="game-list">
+        return <Table className="game-list" responsive>
             <thead>
                 {header}
             </thead>
@@ -59,7 +59,7 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
             <th className="hidden-xs">{__("Mode")}</th>
             {showCreatedBy && <th className="hidden-xs username">{__("Created By")}</th>}
             {showActive && <th className="hidden-xs username">{__("Active")}</th>}
-            <th className="hidden-xs text-center">{__("Teams/Players")}</th>
+            <th className="hidden-xs hidden-sm text-center">{__("Teams/Players")}</th>
             {showActive && <th className="timer">{__("Time")}</th>}
             {showActive && <th className="state">{__("State")}</th>}
             <th>&nbsp;</th>
@@ -94,7 +94,7 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
                         "players-turn": isPlayersTurn
                     })
                 }>{game.currentPlayer && game.currentPlayer.name}</td>}
-            <td className="hidden-xs text-center">{`${game.options.numberOfTeams}/${game.options.numberOfPlayersPerTeam}`}</td>
+            <td className="hidden-xs hidden-sm text-center">{`${game.options.numberOfTeams}/${game.options.numberOfPlayersPerTeam}`}</td>
             {showActive && <td>
                 {this._renderTimer(game)}
             </td>}
