@@ -108,6 +108,11 @@ export class LaddersComponent extends React.Component<ILaddersProps> {
                         <dd>
                             {options.visibilityModifier}
                         </dd>
+
+                        <dt>{__("Timeout")}</dt>
+                        <dd>
+                            {HumanTime(options.timeoutInSeconds)}
+                        </dd>
                     </dl>
                 </div>
 
