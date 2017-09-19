@@ -124,7 +124,7 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
                     </Button>
                 </ButtonGroup>}
 
-                {game.playState === PlayState.Move && <Button title={__("Move")} className={css("btn-u", "hidden-xs", {
+                {game.playState === PlayState.Move && <Button title={__("Move")} className={css("btn-u", {
                     "current": game.playState === 3,
                     "enabled": canMoveOrAttack,
                     "hidden-xs": game.playState !== 3
