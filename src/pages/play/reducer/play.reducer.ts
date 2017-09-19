@@ -316,7 +316,8 @@ export const updateFromResult = (state: IPlayState, action: IAction<GameActionRe
             currentPlayer: result.currentPlayer,
             attacksInCurrentTurn: result.attacksInCurrentTurn,
             movesInCurrentTurn: result.movesInCurrentTurn,
-            unitsToPlace: result.unitsToPlace
+            unitsToPlace: result.unitsToPlace,
+            turnCounter: result.turnCounter
         })
         .update(x => x.game.map, map => {
             let newMap = {

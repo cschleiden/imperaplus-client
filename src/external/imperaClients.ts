@@ -2814,6 +2814,7 @@ export interface GameActionResult {
     state: GameState;
     playState: PlayState;
     countryUpdates?: Country[] | undefined;
+    turnCounter: number;
     actionResult: ActionResult;
     unitsToPlace: number;
     attacksInCurrentTurn: number;
