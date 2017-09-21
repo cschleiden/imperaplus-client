@@ -129,7 +129,7 @@ export class LaddersComponent extends React.Component<ILaddersProps> {
                         <dd>{gamesPlayed}</dd>
 
                         <dt><span>{__("Wins | Losses")}</span></dt>
-                        <dd>{gamesLost} | {gamesLost}</dd>
+                        <dd>{gamesWon} | {gamesLost}</dd>
                     </dl>
                 </div>
 
