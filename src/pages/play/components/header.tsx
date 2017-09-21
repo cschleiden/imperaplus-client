@@ -88,7 +88,7 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
                 <Timer key={`${game.id}-${game.turnCounter}`} startInMs={game.timeoutSecondsLeft * 1000} />
             </div>
 
-            {/*<!-- Cards --> */}
+            {/* Cards  */}
             <div className="play-header-block hidden-xs">
                 <Button
                     className="btn btn-u"
@@ -99,45 +99,59 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
                 </Button>
             </div>
 
-            {/*<!-- Actions -->*/}
+            {/* Actions */}
             {inputActive && <div className="play-header-block">
-                {game.playState === PlayState.PlaceUnits && <Button
-                    title={__("Place")}
-                    className={css("btn-u", {
-                        "current": game.playState === PlayState.PlaceUnits,
-                        "enabled": canPlace,
-                        "hidden-xs": game.playState !== PlayState.PlaceUnits
-                    })}
-                    onClick={this._onPlace}
-                    disabled={!canPlace}>
-                    <span className="fa fa-dot-circle-o"></span>&nbsp;<span>{remainingPlaceUnits}/{game.unitsToPlace}</span>
-                </Button>}
+                {
+                    game.playState === PlayState.PlaceUnits &&
+                    <Button
+                        title={__("Place")}
+                        className={css("btn-u", {
+                            "current": game.playState === PlayState.PlaceUnits,
+                            "enabled": canPlace,
+                            "hidden-xs": game.playState !== PlayState.PlaceUnits
+                        })}
+                        onClick={this._onPlace}
+                        disabled={!canPlace}>
+                        <span className="fa fa-dot-circle-o"></span>&nbsp;<span>{remainingPlaceUnits}/{game.unitsToPlace}</span>
+                    </Button>
+                }
 
-                {game.playState === PlayState.Attack && <ButtonGroup>
-                    <Button key="attack" title={__("Attack")} className={css("btn-u")} disabled={!canMoveOrAttack} onClick={this._onAttack}>
-                        <span className="fa fa-crosshairs" />&nbsp;<span>
-                            {game.attacksInCurrentTurn}/{game.options.attacksPerTurn}
+                {
+                    game.playState === PlayState.Attack &&
+                    <ButtonGroup>
+                        <Button key="attack" title={__("Attack")} className={css("btn-u", {
+                            "current": game.playState === PlayState.Attack,
+                            "enabled": true
+                        })}
+                            disabled={!canMoveOrAttack}
+                            onClick={this._onAttack}>
+                            <span className="fa fa-crosshairs" />&nbsp;<span>
+                                {game.attacksInCurrentTurn}/{game.options.attacksPerTurn}
+                            </span>
+                        </Button>
+                        <Button key="endattack" title={__("Change to move")} className="btn-u" onClick={this._onEndAttack}>
+                            <span className="fa fa-mail-forward"></span>
+                        </Button>
+                    </ButtonGroup>
+                }
+
+                {
+                    (game.playState === PlayState.Attack || game.playState === PlayState.Move) && <Button title={__("Move")} className={css("btn-u", {
+                        "current": game.playState === PlayState.Move,
+                        "enabled": canMoveOrAttack,
+                        "hidden-xs": game.playState !== PlayState.Move
+                    })
+                    }
+                        onClick={this._onMove}
+                        disabled={!canMoveOrAttack}>
+                        <span className="fa fa-mail-forward"></span>&nbsp;<span>
+                            {game.movesInCurrentTurn}/{game.options.movesPerTurn}
                         </span>
                     </Button>
-                    <Button key="endattack" title={__("Change to move")} className="btn-u" onClick={this._onEndAttack}>
-                        <span className="fa fa-mail-forward"></span>
-                    </Button>
-                </ButtonGroup>}
-
-                {game.playState === PlayState.Move && <Button title={__("Move")} className={css("btn-u", {
-                    "current": game.playState === PlayState.Move,
-                    "enabled": canMoveOrAttack,
-                    "hidden-xs": game.playState !== PlayState.Move
-                })}
-                    onClick={this._onMove}
-                    disabled={!canMoveOrAttack}>
-                    <span className="fa fa-mail-forward"></span>&nbsp;<span>
-                        {game.movesInCurrentTurn}/{game.options.movesPerTurn}
-                    </span>
-                </Button>}
+                }
             </div>}
 
-            {/*<!-- End Turn -->*/}
+            {/* End Turn */}
             {inputActive && game.playState !== PlayState.PlaceUnits && <div className="play-header-block">
                 <Button bsStyle="danger" className={css("btn-u", {
                     "enabled": game.playState !== PlayState.PlaceUnits
@@ -146,7 +160,7 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
                 </Button>
             </div>}
 
-            {/*<!-- Right section -->*/}
+            {/* Right section */}
             <div className="play-header-block right">
                 {/* Options */}
                 <Dropdown id="options" pullRight className="options">
@@ -165,10 +179,10 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
                 </Button>
             </div>
 
-            {/*<!-- Spinner -->*/}
+            {/* Spinner */}
             {
                 operationInProgress && <div className="play-header-block right">
-                    <Spinner className="btn" />
+                    <Spinner />
                 </div>
             }
         </div >;
