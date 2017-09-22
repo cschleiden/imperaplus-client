@@ -32,6 +32,7 @@ interface IHeaderDispatchProps {
     gameUiOptions: IGameUIOptions;
     canPlace: boolean;
     canMoveOrAttack: boolean;
+    sidebarOpen: boolean;
 
     place: () => void;
     exchangeCards: () => void;
@@ -48,7 +49,7 @@ interface IHeaderDispatchProps {
 class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
     render() {
         const {
-            game, remainingPlaceUnits, player, inputActive, canPlace, canMoveOrAttack, operationInProgress, gameUiOptions
+            game, remainingPlaceUnits, player, inputActive, canPlace, canMoveOrAttack, operationInProgress, gameUiOptions, sidebarOpen
         } = this.props;
 
         if (!game) {
@@ -71,7 +72,7 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
 
         return <div className="play-header">
             <div className="play-header-block">
-                <ToggleButton className="btn-u" onToggle={this._onToggleSidebar} initialIsToggled={false}>
+                <ToggleButton className="btn-u" onToggle={this._onToggleSidebar} initialIsToggled={sidebarOpen}>
                     <span className="fa fa-bars" />
                 </ToggleButton>
             </div>
@@ -105,11 +106,14 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
                     game.playState === PlayState.PlaceUnits &&
                     <Button
                         title={__("Place")}
-                        className={css("btn-u", {
-                            "current": game.playState === PlayState.PlaceUnits,
-                            "enabled": canPlace,
-                            "hidden-xs": game.playState !== PlayState.PlaceUnits
-                        })}
+                        className={css(
+                            "btn-u",
+                            "action-attack",
+                            {
+                                "current": game.playState === PlayState.PlaceUnits,
+                                "enabled": canPlace,
+                                "hidden-xs": game.playState !== PlayState.PlaceUnits
+                            })}
                         onClick={this._onPlace}
                         disabled={!canPlace}>
                         <span className="fa fa-dot-circle-o"></span>&nbsp;<span>{remainingPlaceUnits}/{game.unitsToPlace}</span>
@@ -118,11 +122,13 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
 
                 {
                     game.playState === PlayState.Attack &&
-                    <ButtonGroup>
-                        <Button key="attack" title={__("Attack")} className={css("btn-u", {
-                            "current": game.playState === PlayState.Attack,
-                            "enabled": true
-                        })}
+                    <ButtonGroup className="action">
+                        <Button key="attack" title={__("Attack")} className={css(
+                            "btn-u",
+                            {
+                                "current": game.playState === PlayState.Attack,
+                                "enabled": true
+                            })}
                             disabled={!canMoveOrAttack}
                             onClick={this._onAttack}>
                             <span className="fa fa-crosshairs" />&nbsp;<span>
@@ -136,14 +142,18 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
                 }
 
                 {
-                    (game.playState === PlayState.Attack || game.playState === PlayState.Move) && <Button title={__("Move")} className={css("btn-u", {
-                        "current": game.playState === PlayState.Move,
-                        "enabled": canMoveOrAttack,
-                        "hidden-xs": game.playState !== PlayState.Move
-                    })
+                    (game.playState === PlayState.Attack || game.playState === PlayState.Move) &&
+                    <Button title={__("Move")} className={css(
+                        "btn-u",
+                        "action-move",
+                        {
+                            "current": game.playState === PlayState.Move,
+                            "enabled": canMoveOrAttack && game.playState === PlayState.Move,
+                            "hidden-xs": game.playState !== PlayState.Move
+                        })
                     }
                         onClick={this._onMove}
-                        disabled={!canMoveOrAttack}>
+                        disabled={!canMoveOrAttack || game.playState !== PlayState.Move}>
                         <span className="fa fa-mail-forward"></span>&nbsp;<span>
                             {game.movesInCurrentTurn}/{game.options.movesPerTurn}
                         </span>
@@ -247,6 +257,7 @@ export default connect((state: IState, ownProps: IHeaderProps) => {
         inputActive: inputActive(state.play),
         canPlace: canPlace(state.play),
         canMoveOrAttack: canMoveOrAttack(state.play),
+        sidebarOpen: state.play.data.sidebarOpen,
         operationInProgress,
         gameUiOptions
     };

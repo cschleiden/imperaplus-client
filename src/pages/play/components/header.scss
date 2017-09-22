@@ -13,7 +13,7 @@
     @include clearfix();
 
     .btn-u {
-        margin: 10px 0 !important;
+        margin: 10px 0;
         border: none !important;
 
         &.current {
@@ -42,6 +42,10 @@
     }
     @media(min-width: $screen-tablet) {
         margin-right: 10px;
+    }    
+
+    & .action-attack + .action-move {
+        margin-left: 5px;
     }
 
     &.right {
