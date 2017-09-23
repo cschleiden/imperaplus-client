@@ -75,6 +75,10 @@
             display: block;
         }
     }
+
+    .spinner {        
+        line-height: $header-height;
+    }
 }
 
 .current-player {

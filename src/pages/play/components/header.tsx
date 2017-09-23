@@ -108,7 +108,6 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
                         title={__("Place")}
                         className={css(
                             "btn-u",
-                            "action-attack",
                             {
                                 "current": game.playState === PlayState.PlaceUnits,
                                 "enabled": canPlace,
@@ -122,7 +121,7 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
 
                 {
                     game.playState === PlayState.Attack &&
-                    <ButtonGroup className="action">
+                    <ButtonGroup className="action-attack">
                         <Button key="attack" title={__("Attack")} className={css(
                             "btn-u",
                             {
