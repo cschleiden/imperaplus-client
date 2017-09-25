@@ -5,7 +5,7 @@ import "./header.scss";
 import { connect } from "react-redux";
 import { push } from "react-router-redux";
 
-import { Button, ButtonGroup, DropdownButton, MenuItem, Dropdown } from "react-bootstrap";
+import { Button, ButtonGroup, DropdownButton, MenuItem, Dropdown, OverlayTrigger, Popover } from "react-bootstrap";
 import { Spinner } from "../../../components/ui/spinner";
 import { ToggleButton } from "../../../components/ui/toggleButton";
 import { Game, Player, PlayState } from "../../../external/imperaClients";
@@ -49,7 +49,7 @@ interface IHeaderDispatchProps {
 class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
     render() {
         const {
-            game, remainingPlaceUnits, player, inputActive, canPlace, canMoveOrAttack, operationInProgress, gameUiOptions, sidebarOpen
+            game, remainingPlaceUnits, player, inputActive, canPlace, canMoveOrAttack, operationInProgress, sidebarOpen
         } = this.props;
 
         if (!game) {
@@ -77,27 +77,25 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
                 </ToggleButton>
             </div>
 
+            {/* Mobile player + timeout */}
             <div className="play-header-block stacked visible-xs text-center">
                 {currentPlayer}
                 <Timer key={`${game.id}-${game.turnCounter}`} startInMs={game.timeoutSecondsLeft * 1000} />
             </div>
 
+            {/* Desktop current player */}
             <div className="play-header-block full-text hidden-xs">
                 {currentPlayer}
             </div>
+
+            {/* Desktop timeout */}
             <div className="play-header-block full-text hidden-xs">
                 <Timer key={`${game.id}-${game.turnCounter}`} startInMs={game.timeoutSecondsLeft * 1000} />
             </div>
 
-            {/* Cards  */}
+            {/* Cards */}
             <div className="play-header-block hidden-xs">
-                <Button
-                    className="btn btn-u"
-                    title={`${__("Exchange cards")} (${player && player.cards && player.cards.length || 0}/${game.options.maximumNumberOfCards})`}
-                    onClick={this._onExchangeCards}
-                    disabled={!inputActive || game.playState !== PlayState.PlaceUnits}>
-                    <Cards cards={player && player.cards} />
-                </Button>
+                {this._renderCards()}
             </div>
 
             {/* Actions */}
@@ -170,22 +168,19 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
             </div>}
 
             {/* Right section */}
-            <div className="play-header-block right">
-                {/* Options */}
-                <Dropdown id="options" pullRight className="options">
-                    <Dropdown.Toggle noCaret>
-                        <span className="fa fa-cog" />
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu className="super-colors">
-                        <MenuItem eventKey="showTeamsOnMap" onSelect={this._toggleGameUiOption as any} active={gameUiOptions.showTeamsOnMap}>
-                            {__("Show teams on map [CTRL]")}
-                        </MenuItem>
-                    </Dropdown.Menu>
-                </Dropdown>
+            <div className="play-header-block right hidden-xs">
+                {this._renderOptions()}
+                {this._renderExit()}
+            </div>
 
-                <Button className="btn-u" onClick={this._onExit} title={__("Exit")}>
-                    <span className="fa fa-level-up" />
-                </Button>
+            {/* Mobile right section */}
+            <div className="play-header-block right visible-xs">
+                <OverlayTrigger trigger="click" rootClose placement="bottom" overlay={this._mobileGameActions()}>
+                    <Button
+                        className="btn btn-u">
+                        <span className="fa fa-ellipsis-h" />
+                    </Button>
+                </OverlayTrigger>
             </div>
 
             {/* Spinner */}
@@ -195,6 +190,63 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
                 </div>
             }
         </div >;
+    }
+
+    private _mobileGameActions() {
+        return (
+            <Popover id="game-actions" className="mobile-actions">
+                <div className="mobile-action">
+                    {this._renderCards()}
+                </div>
+
+                <div className="mobile-action">
+                    {this._renderOptions()}
+                </div>
+
+                <div className="mobile-action">
+                    {this._renderExit()}
+                </div>
+            </Popover>
+        );
+    }
+
+    private _renderCards() {
+        const { game, player } = this.props;
+
+        return (
+            <Button
+                className="btn btn-u"
+                title={`${__("Exchange cards")} (${player && player.cards && player.cards.length || 0}/${game.options.maximumNumberOfCards})`}
+                onClick={this._onExchangeCards}
+                disabled={!inputActive || game.playState !== PlayState.PlaceUnits}>
+                <Cards cards={player && player.cards} />
+            </Button>
+        );
+    }
+
+    private _renderOptions() {
+        const { gameUiOptions } = this.props;
+
+        return (
+            <Dropdown id="options" pullRight className="options">
+                <Dropdown.Toggle noCaret>
+                    <span className="fa fa-cog" />
+                </Dropdown.Toggle>
+                <Dropdown.Menu className="super-colors">
+                    <MenuItem eventKey="showTeamsOnMap" onSelect={this._toggleGameUiOption as any} active={gameUiOptions.showTeamsOnMap}>
+                        {__("Show teams on map [CTRL]")}
+                    </MenuItem>
+                </Dropdown.Menu>
+            </Dropdown>
+        );
+    }
+
+    private _renderExit() {
+        return (
+            <Button className="btn-u" onClick={this._onExit} title={__("Exit")}>
+                <span className="fa fa-level-up" />
+            </Button>
+        );
     }
 
     @autobind

@@ -85,3 +85,15 @@
     font-weight: 400;
     font-size: 14px;
 }
+
+.mobile-actions {
+    .mobile-action {
+        &:not(:first-child) {
+            margin-top: 5px;
+        }
+
+        & .btn, & .btn-group {
+            width: 100%;
+        }
+    }
+}
