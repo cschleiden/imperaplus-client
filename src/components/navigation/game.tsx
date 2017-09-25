@@ -6,15 +6,17 @@ import { logout } from "../../common/session/session.actions";
 import { IState } from "../../reducers";
 
 interface IGameNavigation {
-    dispatch: (args: any) => void;
-
     userName: string;
 
     gameCount: number;
+
+    messageCount: number;
+
+    logout: () => void;
 }
 
 const GameNavigation = (props: IGameNavigation): JSX.Element => {
-    const { userName, gameCount, dispatch } = props;
+    const { userName, gameCount, messageCount, logout } = props;
 
     return <ul className="nav">
         <li>
@@ -70,6 +72,7 @@ const GameNavigation = (props: IGameNavigation): JSX.Element => {
             <Link to="/game/messages" activeClassName="active">
                 <i className="fa fa-envelope" aria-hidden="true" />
                 <span className="visible-xs-inline">&nbsp;{__("Messages")}</span>
+                {messageCount > 0 && <span>&nbsp;({messageCount})</span>}
             </Link>
         </li>
         <li>
@@ -83,7 +86,7 @@ const GameNavigation = (props: IGameNavigation): JSX.Element => {
                 </li>
                 <li>
                     <a href="#" onClick={((e) => {
-                        dispatch(logout(null));
+                        logout();
 
                         e.preventDefault();
                         return false;
@@ -97,9 +100,13 @@ const GameNavigation = (props: IGameNavigation): JSX.Element => {
 export default connect((state: IState) => {
     const session = state.session.data;
     const gameCount = session && session.notifications && session.notifications.numberOfGames || 0;
+    const messageCount = session && session.notifications && session.notifications.numberOfMessages || 0;
 
     return {
         userName: session && session.userInfo && session.userInfo.userName,
-        gameCount
+        gameCount,
+        messageCount
     };
-})(GameNavigation);
+}, (dispatch) => ({
+    logout: () => { dispatch(logout(null)); }
+}))(GameNavigation);

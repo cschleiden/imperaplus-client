@@ -2,6 +2,7 @@ import { push } from "react-router-redux";
 import { MessageType, show } from "../../common/message/message.actions";
 import { FolderInformation, Message, MessageClient, MessageFolder, SendMessage } from "../../external/imperaClients";
 import { IAction, IAsyncAction, makePromiseAction } from "../../lib/action";
+import { refreshNotifications } from "../../common/session/session.actions";
 
 export interface ISwitchFolderPayload {
     folder: MessageFolder;
@@ -62,7 +63,10 @@ export const markRead = makePromiseAction(
                 })
             },
             options: {
-                useMessage: true
+                useMessage: true,
+                afterSuccess: () => {
+                    dispatch(refreshNotifications(null));
+                }
             }
         }));
 
@@ -89,7 +93,10 @@ export const deleteMessage = makePromiseAction(
                 })
             },
             options: {
-                useMessage: true
+                useMessage: true,
+                afterSuccess: () => {
+                    dispatch(refreshNotifications(null));
+                }
             }
         }));
 

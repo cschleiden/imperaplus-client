@@ -56,6 +56,6 @@ export const session = <TPayload>(
         [Actions.EXPIRE]: reset,
         [success(Actions.logout.TYPE)]: reset,
         [Actions.SET_LANGUAGE]: setLanguage,
-        [Actions.refreshNotifications.TYPE]: refreshNotifications
+        [success(Actions.refreshNotifications.TYPE)]: refreshNotifications
     });
 };
