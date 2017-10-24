@@ -278,10 +278,10 @@ export const setPlaceUnits = (state: IPlayState, action: IAction<ISetPlaceUnitsP
 
     if (data.placeCountries[countryIdentifier]) {
         const unitsToPlace = Object.keys(data.placeCountries).filter(x => x !== countryIdentifier).reduce((sum, id) => sum + data.placeCountries[id], 0);
-        const remainingUnitsWithoutCurrentCountry = data.game.unitsToPlace - unitsToPlace;
+        const remainingUnits = data.game.unitsToPlace - unitsToPlace;
 
-        if (units > remainingUnitsWithoutCurrentCountry) {
-            units = remainingUnitsWithoutCurrentCountry;
+        if (units > remainingUnits) {
+            units = remainingUnits;
         }
 
         return state.merge(x => x.placeCountries, {

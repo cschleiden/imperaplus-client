@@ -1,3 +1,4 @@
+// Tokens will be replaced by build process for specific environments
 const config = {
     "baseUri": "#{BaseUri}#",
     "imageBaseUri": "#{ImageBaseUri}#"

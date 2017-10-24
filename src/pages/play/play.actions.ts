@@ -4,7 +4,7 @@ import { IGameChatMessageNotification, IGameNotification, INotification, Notific
 import { IAction, IApiActionOptions, IAsyncAction, IAsyncActionVoid, makePromiseAction } from "../../lib/action";
 import { NotificationService } from "../../services/notificationService";
 import { getMapTemplate, MapTemplateCacheEntry } from "./mapTemplateCache";
-import { inputActive } from "./reducer/play.selectors";
+import { inputActive, canPlace, canMoveOrAttack } from "./reducer/play.selectors";
 import { refreshNotifications } from "../../common/session/session.actions";
 import { IGameUIOptions } from "./reducer/play.reducer.state";
 
@@ -190,7 +190,7 @@ export const SET_GAME_OPTION = "play-set-game-option";
 export const setGameOption: IAsyncAction<ISetGameOptionPayload> = (payload) => (dispatch, getState) => {
     const state = getState().play.data;
     const data = payload.temporary ? state.overrideGameUiOptions : state.gameUiOptions;
-    if (data[payload.name] === payload.value) { 
+    if (data[payload.name] === payload.value) {
         return;
     }
 
@@ -202,6 +202,10 @@ export const setGameOption: IAsyncAction<ISetGameOptionPayload> = (payload) => (
     localStorage.setItem("impera-options", JSON.stringify(getState().play.data.gameUiOptions));
 };
 
+//
+// Play actions
+//
+
 export const place = makePromiseAction<void, GameActionResult>("play-place", (gameId, dispatch, getState, deps) => {
     const state = getState();
     const playState = getState().play.data;
@@ -209,10 +213,20 @@ export const place = makePromiseAction<void, GameActionResult>("play-place", (ga
         return;
     }
 
-    const options = Object.keys(playState.placeCountries).map(ci => ({
-        countryIdentifier: ci,
-        numberOfUnits: playState.placeCountries[ci]
-    } as PlaceUnitsOptions));
+    if (!canPlace(state.play)) {
+        return;
+    }
+
+    const options = Object.keys(playState.placeCountries)
+        .map(ci => ({
+            key: ci,
+            units: playState.placeCountries[ci]
+        }))
+        .filter(x => x.units > 0)
+        .map(x => ({
+            countryIdentifier: x.key,
+            numberOfUnits: x.units
+        } as PlaceUnitsOptions));
 
     return {
         payload: {
@@ -220,10 +234,6 @@ export const place = makePromiseAction<void, GameActionResult>("play-place", (ga
         }
     };
 });
-
-//
-// Play actions
-//
 
 export const exchange = makePromiseAction<void, GameActionResult>(
     "play-exchange", (gameId, dispatch, getState, deps) => {
@@ -273,6 +283,10 @@ export const attack = makePromiseAction<void, GameActionResult>(
             return;
         }
 
+        if (!canMoveOrAttack(state.play)) {
+            return;
+        }
+
         return {
             payload: {
                 promise: deps.getCachedClient(PlayClient).postAttack(playState.gameId, {
@@ -306,6 +320,10 @@ export const move = makePromiseAction<void, GameActionResult>(
         const playState = getState().play.data;
 
         if (!inputActive(state.play)) {
+            return;
+        }
+        
+        if (!canMoveOrAttack(state.play)) {
             return;
         }
 
