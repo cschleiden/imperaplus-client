@@ -2731,6 +2731,7 @@ export interface Ladder extends LadderSummary {
 
 export interface MapTemplateDescriptor {
     name?: string | undefined;
+    isActive: boolean;
 }
 
 export interface MapTemplate {
@@ -2810,11 +2811,11 @@ export interface PlaceUnitsOptions {
 
 export interface GameActionResult {
     id: number;
+    turnCounter: number;
     teams?: Team[] | undefined;
     state: GameState;
     playState: PlayState;
     countryUpdates?: Country[] | undefined;
-    turnCounter: number;
     actionResult: ActionResult;
     unitsToPlace: number;
     attacksInCurrentTurn: number;
