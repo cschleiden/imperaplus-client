@@ -321,8 +321,12 @@ export class CreateGameComponent extends React.Component<ICreateGameProps> {
     }
 }
 
-export default connect((state: IState) => ({
-    maps: state.general.data.lookup["maps"].filter((m: MapTemplateDescriptor) => m.isActive)
-}), (dispatch) => ({
+export default connect((state: IState) => {
+    const maps = state.general.data.lookup["maps"] || [];
+
+    return {
+        maps: maps.filter((m: MapTemplateDescriptor) => m.isActive)
+    };
+}, (dispatch) => ({
     getMaps: () => { dispatch(getMaps(null)); }
 }))(CreateGameComponent);
