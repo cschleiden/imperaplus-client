@@ -52,10 +52,9 @@ import Tournaments from "./pages/tournaments/tournaments";
 import Play from "./pages/play/play";
 
 // Alliances
-import AllianceAdmin from "./pages/alliance/admin";
+import Alliances from "./pages/alliance/alliances";
 import CreateAlliance from "./pages/alliance/create";
 import AllianceInfo from "./pages/alliance/info";
-import JoinAlliance from "./pages/alliance/join";
 
 // messages
 import Compose from "./pages/messages/compose";
@@ -93,17 +92,17 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
                     < Route component={MainLayout}>
                         {/* public */}
                         <Route path="/" components={{ nav: PublicNav, content: PublicLayout }}>
-                            <IndexRoute component={Home}  {...this._title("") } />
+                            <IndexRoute component={Home}  {...this._title("")} />
 
-                            <Route path="signup" component={Signup}  {...this._title(__("Signup")) } />
-                            <Route path="signup/confirmation" component={SignupConfirmation}  {...this._title(__("Registration successful")) } />
+                            <Route path="signup" component={Signup}  {...this._title(__("Signup"))} />
+                            <Route path="signup/confirmation" component={SignupConfirmation}  {...this._title(__("Registration successful"))} />
 
                             {/* Activate account */}
-                            <Route path="activate/:userId/:code" component={Activate}  {...this._title(__("Activating Account")) } />
-                            <Route path="activated" component={Activated}  {...this._title(__("Account Activated")) } />
+                            <Route path="activate/:userId/:code" component={Activate}  {...this._title(__("Activating Account"))} />
+                            <Route path="activated" component={Activated}  {...this._title(__("Account Activated"))} />
 
                             {/* Reset password */}
-                            <Route path="reset" component={Reset}  {...this._title(__("Reset Password")) } />
+                            <Route path="reset" component={Reset}  {...this._title(__("Reset Password"))} />
                             <Route path="reset/triggered" component={ResetTriggered}  {...this._title(__("Reset Password"))} />
 
                             <Route path="reset/:userId/:code" component={ResetConfirmation}  {...this._title(__("Password Reset"))} />
@@ -137,6 +136,12 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
                                     <Route path="/game/games/create" component={Create} {...this._title(__("Create Game"))} />
                                     <Route path="/game/games/join" component={Join}  {...this._title(__("Join Game"))} />
                                 </Route>
+                            <Route path="/game/alliances">
+                                <IndexRoute component={Alliances}  {...this._title(__("Alliances"))} />
+
+                                <Route path="/game/alliances/create" component={CreateAlliance}  {...this._title(__("Create Alliance"))} />
+                                <Route path="/game/alliances/:id" component={AllianceInfo}  {...this._title(__("Alliance Info"))} />
+                            </Route>
 
                                 <Route path="/game/ladders">
                                     <IndexRoute component={Ladders}  {...this._title(__("Ladders"))} />

@@ -76,6 +76,12 @@ export interface IRefreshPayload {
     refresh_token: string;
 }
 
+export const UPDATE_USER_INFO = "account-update-user-info";
+export const updateUserInfo = (userInfo: UserInfo) => ({
+    type: UPDATE_USER_INFO,
+    payload: userInfo
+});
+
 export const REFRESH = "refresh";
 export const refresh = (access_token: string, refresh_token: string): IAction<IRefreshPayload> => ({
     type: REFRESH,

@@ -46,6 +46,10 @@ const refreshNotifications = (state: ISessionState, action: IAction<Notification
     return state.set(x => x.notifications, action.payload);
 };
 
+const updateUserInfo = (state: ISessionState, action: IAction<UserInfo>) => {
+    return state.set(x => x.userInfo, action.payload);
+}
+
 export const session = <TPayload>(
     state = initialState,
     action?: IAction<TPayload>): ISessionState => {
@@ -56,6 +60,7 @@ export const session = <TPayload>(
         [Actions.EXPIRE]: reset,
         [success(Actions.logout.TYPE)]: reset,
         [Actions.SET_LANGUAGE]: setLanguage,
-        [success(Actions.refreshNotifications.TYPE)]: refreshNotifications
+        [success(Actions.refreshNotifications.TYPE)]: refreshNotifications,
+        [Actions.UPDATE_USER_INFO]: updateUserInfo
     });
 };
