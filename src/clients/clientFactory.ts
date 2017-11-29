@@ -35,13 +35,12 @@ export function createClientWithToken<TClient>(
 
 let miniProfilerInitialized = false;
 
-const fetchWrapper = (tokenProvider: () => string, url: string, init) => {
+const fetchWrapper = (tokenProvider: () => string, url: string, init: RequestInit) => {
     const accessToken = tokenProvider();
 
     if (accessToken) {
-        init.headers = Object.assign({}, init.headers, {
-            "Authorization": "Bearer " + accessToken
-        });
+        init.headers.set("Authorization", "Bearer " + accessToken);
+        init.mode = "cors";
     }
 
     return fetch(url, init).then((response) => {

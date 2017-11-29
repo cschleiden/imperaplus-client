@@ -11,16 +11,18 @@ import { ISessionState, session } from "./common/session/session.reducer";
 // Game
 import { chat, IChatState } from "./common/chat/chat.reducer";
 import { games, IMyGamesState } from "./pages/games/games.reducer";
-import { ILaddersState, ladders } from "./pages/games/ladders.reducer";
+import { ILaddersState, ladders } from "./pages/ladders/ladders.reducer";
 import { IMessagesState, messages } from "./pages/messages/messages.reducer";
 import { IPlayState, play } from "./pages/play/reducer";
 import { INewsState, news } from "./pages/start/news.reducer";
 import { ITournamentsState, tournaments } from "./pages/tournaments/tournaments.reducer";
+import { IAlliancesState, alliances } from "./pages/alliance/alliances.reducer";
 
 export interface IState {
     news: INewsState;
     chat: IChatState;
     games: IMyGamesState;
+    alliances: IAlliancesState;
     ladders: ILaddersState;
     tournaments: ITournamentsState;
     messages: IMessagesState;
@@ -38,6 +40,7 @@ const rootReducer = combineReducers<IState>({
     news,
     chat,
     games,
+    alliances,
     ladders,
     messages,
     tournaments,

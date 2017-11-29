@@ -1,26 +1,33 @@
 import * as React from "react";
-
-// import { Create } from "../../components/ui/alliance/information";
 import { Button, ButtonGroup } from "react-bootstrap";
 import { connect } from "react-redux";
 import { Grid, GridColumn, GridRow } from "../../components/layout";
 import { Section, Title } from "../../components/ui/typography";
-import { GameSummary, GameType } from "../../external/imperaClients";
+import { GameSummary, GameType, Alliance } from "../../external/imperaClients";
 
 import { IState } from "../../reducers";
 
 export interface IAllianceInfoProps {
-    refresh: () => void;
+    params?: {
+        id: string;
+    };
+
+    // refresh: () => void;
 }
 
 export class AllianceInfoComponent extends React.Component<IAllianceInfoProps> {
-    public render(): JSX.Element {
-        let alliances: JSX.Element[];
+    componentWillMount() {
+        // this.props.open(this.props.params.id);
+    }
 
-        return <GridColumn className="col-xs-12">
-            <div className="inProgress">
-            </div>
-        </GridColumn>;
+    render(): JSX.Element {
+        let alliance: Alliance;
+
+        return (
+            <GridColumn className="col-xs-12">
+                <Title>{alliance.name}</Title>
+            </GridColumn>
+        );
     }
 }
 

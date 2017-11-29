@@ -51,10 +51,9 @@ import Tournaments from "./pages/tournaments/tournaments";
 import Play from "./pages/play/play";
 
 // Alliances
-import AllianceAdmin from "./pages/alliance/admin";
+import Alliances from "./pages/alliance/alliances";
 import CreateAlliance from "./pages/alliance/create";
 import AllianceInfo from "./pages/alliance/info";
-import JoinAlliance from "./pages/alliance/join";
 
 // messages
 import Compose from "./pages/messages/compose";
@@ -140,11 +139,11 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
                                 <Route path="/game/tournaments/:id" component={Tournament} />
                             </Route>
 
-                            <Route path="/game/alliance">
-                                <Route path="/game/alliance/create" component={CreateAlliance}  {...this._title(__("Create Alliance")) } />
-                                <Route path="/game/alliance/admin" component={AllianceAdmin}  {...this._title(__("Alliance Admin")) } />
-                                <Route path="/game/alliance/info" component={AllianceInfo}  {...this._title(__("Alliance Info")) } />
-                                <Route path="/game/alliance/join" component={JoinAlliance}  {...this._title(__("Join Alliance")) } />
+                            <Route path="/game/alliances">
+                                <IndexRoute component={Alliances}  {...this._title(__("Alliances")) } />
+
+                                <Route path="/game/alliances/create" component={CreateAlliance}  {...this._title(__("Create Alliance")) } />
+                                <Route path="/game/alliances/:id" component={AllianceInfo}  {...this._title(__("Alliance Info")) } />
                             </Route>
 
                             <Route path="/game/messages">

@@ -11,7 +11,7 @@ import { Title } from "../../components/ui/typography";
 import { LadderSummary } from "../../external/imperaClients";
 import { autobind } from "../../lib/autobind";
 import { IState } from "../../reducers";
-import { join, leave, refresh } from "../games/ladders.actions";
+import { join, leave, refresh } from "./ladders.actions";
 import { format } from "../../components/ui/format";
 
 export interface ILaddersProps {
