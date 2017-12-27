@@ -1,7 +1,7 @@
 
 import { getCachedClient } from "../../clients/clientFactory";
 import { imageBaseUri } from "../../configuration";
-import { CountryTemplate, MapClient, MapTemplate } from "../../external/imperaClients";
+import { CountryTemplate, MapClient, MapTemplate, Continent } from "../../external/imperaClients";
 
 export function getMapTemplate(name: string): Promise<MapTemplateCacheEntry> {
     if (mapTemplateCache[name]) {
@@ -16,6 +16,7 @@ export function getMapTemplate(name: string): Promise<MapTemplateCacheEntry> {
 }
 
 export class MapTemplateCacheEntry {
+    private _continentsByCountryIdentifier: { [countryIdentifier: string]: Continent } = {};
     private _countries: { [id: string]: CountryTemplate } = {};
     private _connections: { [id: string]: { [id: string]: boolean } } = {};
 
@@ -31,6 +32,16 @@ export class MapTemplateCacheEntry {
                 this._connections[connection.origin] = { [connection.destination]: true };
             }
         }
+
+        let continentId = 0;
+        for (const continent of mapTemplate.continents) {
+            // Fix continent ids
+            continent.id = continentId++;
+
+            for (const country of continent.countries) {
+                this._continentsByCountryIdentifier[country] = continent;
+            }
+        }
     }
 
     get countries(): CountryTemplate[] {
@@ -43,6 +54,10 @@ export class MapTemplateCacheEntry {
 
     country(identifier: string): CountryTemplate {
         return this._countries[identifier];
+    }
+
+    continent(identifier: string): Readonly<Continent> {
+        return this._continentsByCountryIdentifier[identifier];
     }
 
     areConnected(origin: string, destination: string) {

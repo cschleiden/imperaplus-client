@@ -1,6 +1,10 @@
 {
+    "extends": ["tslint-react"],
+    "defaultSeverity": "warn",    
     "rules": {
         "class-name": true,
+        "jsx-no-multiline-js": false,
+        "jsx-no-lambda": false,
         "comment-format": [
             true,
             "check-space"
@@ -11,6 +15,7 @@
             true,
             "spaces"
         ],
+        "no-duplicate-super": true,
         "label-position": true,
         "no-arg": true,
         "no-bitwise": true,
@@ -52,6 +57,7 @@
         ],
         "radix": true,
         "semicolon": [
+            true,
             "always"
         ],
         "triple-equals": [

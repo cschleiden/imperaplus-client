@@ -102,18 +102,24 @@ class Map extends React.Component<IMapProps, IMapState> {
     render(): JSX.Element {
         const { mapTemplate, historyTurn, operationInProgress } = this.props;
 
-        return <div className={css(
-            "map",
-            {
-                "blocked": operationInProgress
-            })} onClick={this._onClick} onMouseMove={this._onMouseMove}>
-            {mapTemplate && <img src={mapTemplate.image} className="map" />}
-            {mapTemplate && this._renderCountries()}
-            {historyTurn && mapTemplate && this._renderHistory(mapTemplate, historyTurn.actions)}
+        return (
+            <div
+                className={css(
+                    "map",
+                    {
+                        "blocked": operationInProgress
+                    })}
+                onClick={this._onClick}
+                onMouseMove={this._onMouseMove}
+            >
+                {mapTemplate && <img src={mapTemplate.image} className="map" />}
+                {mapTemplate && this._renderCountries()}
+                {historyTurn && mapTemplate && this._renderHistory(mapTemplate, historyTurn.actions)}
 
-            {this._renderUnitInput()}
-            {this._renderUnitInputPlaceholder()}
-        </div>;
+                {this._renderUnitInput()}
+                {this._renderUnitInputPlaceholder()}
+            </div>
+        );
     }
 
     componentDidUpdate() {
@@ -164,29 +170,35 @@ class Map extends React.Component<IMapProps, IMapState> {
                 units = country.units.toString(10);
             }
 
-            const result = [<div
-                id={countryTemplate.identifier}
-                key={countryTemplate.identifier}
-                className={css(
-                    "country",
-                    {
-                        // only show player color when coountry is visible
-                        ["player-" + (player ? (player.playOrder + 1) : 0)]: !!country,
-                        "country-highlight": isHighlighted,
-                        ["country-team-" + (team ? (team.playOrder + 1) : 0)]: isTeamGame && gameUiOptions.showTeamsOnMap
-                    })}
-                style={{
-                    left: countryTemplate.x,
-                    top: countryTemplate.y
-                }}>
-                {units}
-            </div>,
-            hasInput && <CountryInputField
-                key={`p${countryTemplate.identifier}`}
-                countryTemplate={countryTemplate}
-                value={placeUnits}
-                onKeyUp={this._onKeyUp}
-                onChange={(inputUnits) => this.props.setUnits(countryTemplate.identifier, inputUnits)} />
+            const result = [
+                (
+                    <div
+                        id={countryTemplate.identifier}
+                        key={countryTemplate.identifier}
+                        className={css(
+                            "country",
+                            {
+                                // only show player color when country is visible
+                                ["player-" + (player ? (player.playOrder + 1) : 0)]: !!country,
+                                "country-highlight": isHighlighted,
+                                ["country-team-" + (team ? (team.playOrder + 1) : 0)]: isTeamGame && gameUiOptions.showTeamsOnMap
+                            })}
+                        style={{
+                            left: countryTemplate.x,
+                            top: countryTemplate.y
+                        }}>
+                        {units}
+                    </div>
+                ),
+                hasInput && (
+                    <CountryInputField
+                        key={`p${countryTemplate.identifier}`}
+                        countryTemplate={countryTemplate}
+                        value={placeUnits}
+                        onKeyUp={this._onKeyUp}
+                        onChange={(inputUnits) => this.props.setUnits(countryTemplate.identifier, inputUnits)}
+                    />
+                )
             ];
 
             return result;
@@ -540,7 +552,7 @@ export default connect((state: IState) => {
     selectCountry: (countryIdentifier: string) => { dispatch(selectCountry(countryIdentifier)); },
     setUnits: (countryIdentifier: string, units: number) => { dispatch(setPlaceUnits(countryIdentifier, units)); },
     setActionUnits: (units: number) => { dispatch(setActionUnits(units)); },
-    place: () => { dispatch(place(null)) },
-    attack: () => { dispatch(attack(null)) },
-    move: () => { dispatch(move(null)) }
+    place: () => { dispatch(place(null)); },
+    attack: () => { dispatch(attack(null)); },
+    move: () => { dispatch(move(null)); }
 }))(Map);

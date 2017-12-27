@@ -16,11 +16,13 @@ import { IMessagesState, messages } from "./pages/messages/messages.reducer";
 import { IPlayState, play } from "./pages/play/reducer";
 import { INewsState, news } from "./pages/start/news.reducer";
 import { ITournamentsState, tournaments } from "./pages/tournaments/tournaments.reducer";
+import { IMapPreviewState, mapPreview } from "./pages/mapPreview/mapPreview.reducer";
 
 export interface IState {
     news: INewsState;
     chat: IChatState;
     games: IMyGamesState;
+    mapPreview: IMapPreviewState;
     ladders: ILaddersState;
     tournaments: ITournamentsState;
     messages: IMessagesState;
@@ -38,6 +40,7 @@ const rootReducer = combineReducers<IState>({
     news,
     chat,
     games,
+    mapPreview,
     ladders,
     messages,
     tournaments,

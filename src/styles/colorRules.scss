@@ -25,7 +25,7 @@
 // 
 // Continents
 //
-@for $i from 0 through length($playerColors) - 1 {
+@for $i from 0 through length($continentColors) - 1 {
     .continent-#{$i} {
         background-color: nth($continentColors, $i + 1) !important;
     }
