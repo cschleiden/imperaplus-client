@@ -20,19 +20,21 @@ class Sidebar extends React.Component<ISidebarProps> {
     render(): JSX.Element {
         const { game, otherGames } = this.props;
 
-        return <div className="play-sidebar">
-            <Title>{game.id} - {game.name}</Title>
+        return (
+            <div className="play-sidebar">
+                <Title>{game.id} - {game.name}</Title>
 
-            <GameChat />
+                <GameChat />
 
-            <GameHistory />
+                <GameHistory />
 
-            <SubSection>{__("Stats")}</SubSection>
-            <GameStats game={game} />
+                <SubSection>{__("Stats")}</SubSection>
+                <GameStats game={game} />
 
-            <SubSection>{__("Other Games")}</SubSection>
-            <GameLinkList games={otherGames} />
-        </div>;
+                <SubSection>{__("Other Games")}</SubSection>
+                <GameLinkList games={otherGames} />
+            </div>
+        );
     }
 }
 

@@ -51,7 +51,11 @@ export class NotificationService {
     }
 
     switchGame(oldGameId: number, gameId: number): Promise<void> {
-        return this._ensureInit().then(() => this._client.invoke<void>("switchGame", oldGameId, gameId));
+        if (oldGameId !== gameId) {
+            return this._ensureInit().then(() => this._client.invoke<void>("switchGame", oldGameId, gameId));
+        }
+
+        return Promise.resolve(null);
     }
 
     leaveGame(gameId: number): Promise<void> {

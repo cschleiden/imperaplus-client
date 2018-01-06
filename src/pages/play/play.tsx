@@ -43,8 +43,6 @@ class Play extends React.Component<IPlayProps & IPlayDispatchProps> {
         this.props.switchGame(gameId, turnNo);
         this.props.refreshOtherGames();
 
-        this._setGameTitle(this.props);
-
         document.body.addEventListener("keydown", this._onKeyDown, true);
         document.body.addEventListener("keyup", this._onKeyUp, true);
     }
@@ -57,10 +55,13 @@ class Play extends React.Component<IPlayProps & IPlayDispatchProps> {
     componentWillReceiveProps(nextProps: IPlayProps & IPlayDispatchProps) {
         const currentGameId = this._getGameIdFromProps(this.props);
         const newGameId = this._getGameIdFromProps(nextProps);
+        const turnNo = parseInt(nextProps.params.turn, 10);
+
         if (currentGameId !== newGameId) {
-            this.props.switchGame(newGameId);
-            this._setGameTitle(nextProps);
-        }
+            this.props.switchGame(newGameId, turnNo);
+        } /* else if (turnNo >= 0 && this.props.params.turn !== nextProps.params.turn) {
+            this.props.switchGame(currentGameId, turnNo);
+        } */
     }
 
     private _getGameIdFromProps(props: IPlayProps) {
@@ -70,17 +71,6 @@ class Play extends React.Component<IPlayProps & IPlayDispatchProps> {
         }
 
         return gameId;
-    }
-
-    private _setGameTitle(props: IPlayProps) {
-        const { game } = props;
-
-        let title = __("Play");
-        if (game) {
-            title += `: ${game.id} - ${game.name}`;
-        }
-
-        setDocumentTitle(title);
     }
 
     render() {
@@ -143,7 +133,7 @@ export default connect((state: IState, ownProps: IPlayProps) => {
         sidebarOpen: playState.sidebarOpen
     };
 }, (dispatch) => ({
-    switchGame: (gameId: number, turnNo?: number) => { dispatch(switchGame({ gameId, turnNo })) },
+    switchGame: (gameId: number, turnNo?: number) => { dispatch(switchGame({ gameId, turnNo })); },
     refreshGame: () => { dispatch(refreshGame(null)); },
     refreshOtherGames: () => { dispatch(refreshOtherGames(null)); },
 

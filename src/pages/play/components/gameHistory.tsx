@@ -3,7 +3,7 @@ import { Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import { format } from "../../../components/ui/format";
 import { SubSection } from "../../../components/ui/typography";
-import { Game, HistoryAction, HistoryEntry, HistoryTurn, Player } from "../../../external/imperaClients";
+import { Game, HistoryAction, HistoryEntry, HistoryTurn, Player, GameState } from "../../../external/imperaClients";
 import { autobind } from "../../../lib/autobind";
 import { css } from "../../../lib/css";
 import { getPlayer, getPlayerByPlayerId } from "../../../lib/game/utils";
@@ -89,6 +89,7 @@ export class GameHistoryEntry extends React.Component<IGameHistoryEntryProps> {
 }
 
 interface IGameHistoryProps {
+    gameEnded: boolean;
     gameTurn: number;
     historyActive: boolean;
     historyTurn: HistoryTurn;
@@ -102,72 +103,80 @@ interface IGameHistoryProps {
 
 class GameHistory extends React.Component<IGameHistoryProps> {
     render() {
-        const { gameTurn, historyTurn, pending } = this.props;
-        const historyTurnDisplay = historyTurn && historyTurn.turnId != null ? historyTurn.turnId : gameTurn;
+        const { gameEnded, historyTurn, pending } = this.props;
+        const currentTurn = this._getCurrentTurn();
+        const historyTurnDisplay = historyTurn && historyTurn.turnId != null ? historyTurn.turnId : currentTurn;
 
-        return <div className="game-history">
-            <SubSection>{__("History")}&nbsp;-&nbsp;{__("Turn")}&nbsp;{historyTurnDisplay}&nbsp;{__("of")}&nbsp;{gameTurn}</SubSection>
+        return (
+            <div className="game-history">
+                <SubSection>{__("History")}&nbsp;-&nbsp;{__("Turn")}&nbsp;{historyTurnDisplay}&nbsp;{__("of")}&nbsp;{currentTurn}</SubSection>
 
-            {
-                pending && <div className="text-center">
-                    <Spinner className="center-block" size={SpinnerSize.Default} />
-                </div>
-            }
+                {
+                    pending && <div className="text-center">
+                        <Spinner className="center-block" size={SpinnerSize.Default} />
+                    </div>
+                }
 
-            {
-                !pending && this._renderControls()
-            }
+                {
+                    !pending && this._renderControls()
+                }
 
-            {
-                (!pending && historyTurn) && this._renderActions()
-            }
-        </div>;
+                {
+                    (!pending && historyTurn) && this._renderActions()
+                }
+            </div>
+        );
     }
 
     private _renderControls() {
-        const { gameTurn, historyTurn } = this.props;
+        const { historyTurn } = this.props;
+        const gameTurn = this._getCurrentTurn();
         const historyTurnId = (historyTurn && historyTurn.turnId != null) ? historyTurn.turnId : gameTurn;
 
-        return <ul className="list-unstyled list-inline narrow">
-            <li>
-                <Button disabled={historyTurnId === 0} onClick={this._onHistoryFirst}>
-                    <span className="fa fa-fast-backward" />
-                </Button>
-            </li>
+        return (
+            <ul className="list-unstyled list-inline narrow">
+                <li>
+                    <Button disabled={historyTurnId === 0} onClick={this._onHistoryFirst}>
+                        <span className="fa fa-fast-backward" />
+                    </Button>
+                </li>
 
-            <li>
-                <Button disabled={historyTurnId === 0} onClick={this._onHistoryPrevious}>
-                    <span className="fa fa-step-backward" />
-                </Button>
-            </li>
+                <li>
+                    <Button disabled={historyTurnId === 0} onClick={this._onHistoryPrevious}>
+                        <span className="fa fa-step-backward" />
+                    </Button>
+                </li>
 
-            <li>
-                <Button disabled={historyTurnId >= gameTurn} onClick={this._onHistoryNext}>
-                    <span className="fa fa-step-forward" />
-                </Button>
-            </li>
+                <li>
+                    <Button disabled={historyTurnId >= gameTurn} onClick={this._onHistoryNext}>
+                        <span className="fa fa-step-forward" />
+                    </Button>
+                </li>
 
-            <li>
-                <Button disabled={historyTurnId >= gameTurn} onClick={this._onHistoryExit}>
-                    <span className="fa fa-play" />
-                </Button>
-            </li>
-        </ul>;
+                <li>
+                    <Button disabled={historyTurnId >= gameTurn} onClick={this._onHistoryExit}>
+                        <span className="fa fa-play" />
+                    </Button>
+                </li>
+            </ul>
+        );
     }
 
     private _renderActions() {
         const { mapTemplate, historyTurn } = this.props;
         const { actions } = historyTurn;
 
-        return <ul className="list-unstyled">
-            {
-                actions.map(entry => (
-                    <li key={entry.id}>
-                        <GameHistoryEntry game={historyTurn.game} entry={entry} mapTemplate={mapTemplate} />
-                    </li>
-                ))
-            }
-        </ul>;
+        return (
+            <ul className="list-unstyled">
+                {
+                    actions.map(entry => (
+                        <li key={entry.id}>
+                            <GameHistoryEntry game={historyTurn.game} entry={entry} mapTemplate={mapTemplate} />
+                        </li>
+                    ))
+                }
+            </ul>
+        );
     }
 
     @autobind
@@ -177,23 +186,23 @@ class GameHistory extends React.Component<IGameHistoryProps> {
 
     @autobind
     private _onHistoryPrevious() {
-        const { gameTurn, historyTurn } = this.props;
+        const { historyTurn } = this.props;
         const historyTurnId = historyTurn && historyTurn.turnId || null;
 
         if (historyTurnId > 0) {
             this.props.showHistoryTurn(historyTurnId - 1);
         } else {
-            this.props.showHistoryTurn(gameTurn - 1);
+            this.props.showHistoryTurn(this._getCurrentTurn() - 1);
         }
     }
 
     @autobind
     private _onHistoryNext() {
-        const { historyTurn, gameTurn } = this.props;
+        const { historyTurn } = this.props;
         const historyTurnId = historyTurn && historyTurn.turnId || null;
         const newHistoryTurn = historyTurnId + 1;
 
-        if (newHistoryTurn === gameTurn) {
+        if (newHistoryTurn === this._getCurrentTurn()) {
             this.props.exitHistory();
         } else {
             this.props.showHistoryTurn(newHistoryTurn);
@@ -204,12 +213,23 @@ class GameHistory extends React.Component<IGameHistoryProps> {
     private _onHistoryExit() {
         this.props.exitHistory();
     }
+
+    private _getCurrentTurn(): number {
+        const { gameEnded, gameTurn } = this.props;
+
+        if (gameEnded) {
+            return gameTurn + 1;
+        }
+
+        return gameTurn;
+    }
 }
 
 export default connect((state: IState) => {
     const playState = state.play.data;
 
     return {
+        gameEnded: playState.game && playState.game.state === GameState.Ended,
         gameTurn: playState.game && playState.game.turnCounter,
         historyActive: playState.historyActive,
         historyTurn: playState.historyTurn,

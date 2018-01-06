@@ -7,6 +7,7 @@ import { getMapTemplate, MapTemplateCacheEntry } from "./mapTemplateCache";
 import { inputActive, canPlace, canMoveOrAttack } from "./reducer/play.selectors";
 import { refreshNotifications } from "../../common/session/session.actions";
 import { IGameUIOptions } from "./reducer/play.reducer.state";
+import { setDocumentTitle } from "../../lib/title";
 
 // TODO: Move this to another place?
 let initialized = false;
@@ -14,15 +15,6 @@ let initialized = false;
 //
 //  General actions
 //
-export const SWITCH_GAME = "play-switch-game";
-export interface ISwitchGamePayload {
-    game: Game;
-    mapTemplate: MapTemplateCacheEntry;
-}
-export interface ISwitchGameInput {
-    gameId: number;
-    turnNo?: number;
-}
 
 /**
  * Refresh other games it's the current player's turn
@@ -32,8 +24,18 @@ export const refreshOtherGames = makePromiseAction<void, GameSummary[]>("play-ot
         payload: {
             promise: deps.getCachedClient(GameClient).getMyTurn()
         }
-    }
+    };
 });
+
+export const SWITCH_GAME = "play-switch-game";
+export interface ISwitchGamePayload {
+    game: Game;
+    mapTemplate: MapTemplateCacheEntry;
+}
+export interface ISwitchGameInput {
+    gameId: number;
+    turnNo?: number;
+}
 
 /**
  * Switch to a game, also used for displaying a game the first time
@@ -81,12 +83,16 @@ export const switchGame: IAsyncAction<ISwitchGameInput> = (input) =>
                 },
                 options: {
                     afterSuccess: (d) => {
+                        // Update title
+                        const { game } = getState().play.data;
+                        setDocumentTitle(`${__("Play")}: ${game.id} - ${game.name}`);
+
                         // Retrieve game chat
                         d(gameChatMessages(gameId));
 
                         // Go to history, if requested
                         if (turnNo >= 0) {
-                            dispatch(historyTurn(turnNo));
+                            d(historyTurn(turnNo));
                         }
                     }
                 } as IApiActionOptions
@@ -259,7 +265,7 @@ export const SET_PLACE_UNITS = "play-place-set-units";
 export interface ISetPlaceUnitsPayload {
     countryIdentifier: string;
     units: number;
-};
+}
 export const setPlaceUnits = (countryIdentifier: string, units: number): IAction<ISetPlaceUnitsPayload> => ({
     type: SET_PLACE_UNITS,
     payload: {
@@ -322,7 +328,7 @@ export const move = makePromiseAction<void, GameActionResult>(
         if (!inputActive(state.play)) {
             return;
         }
-        
+
         if (!canMoveOrAttack(state.play)) {
             return;
         }
