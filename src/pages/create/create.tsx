@@ -95,6 +95,7 @@ export class CreateGameComponent extends React.Component<ICreateGameProps> {
 
                             return create({
                                 name: formState.getFieldValue("name"),
+                                password: formState.getFieldValue("password"),
                                 mapTemplate: formState.getFieldValue("map"),
                                 numberOfPlayersPerTeam: numPlayers,
                                 numberOfTeams: numTeams,
@@ -123,17 +124,17 @@ export class CreateGameComponent extends React.Component<ICreateGameProps> {
                                                         label={__("Name")}
                                                         placeholder={__("Name")}
                                                         fieldName="name"
-                                                        required={true} />
+                                                        required={true}
+                                                    />
 
-                                                    {
-                                                        /*<ControlledTextField
+                                                    <ControlledTextField
                                                         label={__("Password")}
                                                         placeholder={__("Optional: Password")}
                                                         type="password"
                                                         fieldName="password"
                                                         required={false}
-                                                        {...{ autoComplete: "new-password" } as any} />*/
-                                                    }
+                                                        {...{ autoComplete: "new-password" } as any}
+                                                    />
 
                                                     <ControlledDropdown
                                                         label={__("Map")}
@@ -296,7 +297,8 @@ export class CreateGameComponent extends React.Component<ICreateGameProps> {
                                         type="submit"
                                         bsStyle="primary"
                                         disabled={!this._formValid(formState)}
-                                        isActive={isPending}>
+                                        isActive={isPending}
+                                    >
                                         {__("Create")}
                                     </ProgressButton>
                                 </div>

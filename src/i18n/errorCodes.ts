@@ -25,6 +25,7 @@ export namespace ErrorCodes {
         // Game
         "CannotStartGame": __("Cannot start the game."),
         "NameAlreadyTaken": __("This name is already in use."),
-        "TeamAlreadyFull": __("Team is already full.")
+        "TeamAlreadyFull": __("Team is already full."),
+        "GamePasswordNotCorrect": __("Game is password protected and the given password is not correct")
     };
 }

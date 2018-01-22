@@ -20,6 +20,8 @@ interface IGameListProps {
     showCreatedBy?: boolean;
 
     showActive?: boolean;
+
+    additionalColumns?: { [columnKey: string]: (game: GameSummary) => JSX.Element };
 }
 
 interface IGameListState {
@@ -39,35 +41,44 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
         const header = this._renderHeader();
         const rows = this.props.games.map(game => this._renderGameRow(game));
 
-        return <Table className="game-list">
-            <thead>
-                {header}
-            </thead>
-            <tbody>
-                {rows}
-            </tbody>
-        </Table>;
+        return (
+            <Table className="game-list">
+                <thead>
+                    {header}
+                </thead>
+                <tbody>
+                    {rows}
+                </tbody>
+            </Table>
+        );
     }
 
     private _renderHeader() {
-        const { showActive = true, showCreatedBy = false } = this.props;
+        const { showActive = true, showCreatedBy = false, additionalColumns = {} } = this.props;
 
-        return <tr>
-            <th className="hidden-xs">{__("Id")}</th>
-            <th>{__("Name")}</th>
-            <th className="hidden-xs">{__("Map")}</th>
-            <th className="hidden-xs">{__("Mode")}</th>
-            {showCreatedBy && <th className="hidden-xs username">{__("Created By")}</th>}
-            {showActive && <th className="hidden-xs username">{__("Active")}</th>}
-            <th className="hidden-xs hidden-sm text-center">{__("Teams/Players")}</th>
-            {showActive && <th className="timer">{__("Time")}</th>}
-            {showActive && <th className="state">{__("State")}</th>}
-            <th>&nbsp;</th>
-        </tr>;
+        return (
+            <tr>
+                <th className="hidden-xs">{__("Id")}</th>
+                <th>{__("Name")}</th>
+                <th className="hidden-xs">{__("Map")}</th>
+                <th className="hidden-xs">{__("Mode")}</th>
+                {showCreatedBy && <th className="hidden-xs username">{__("Created By")}</th>}
+                {showActive && <th className="hidden-xs username">{__("Active")}</th>}
+                <th className="hidden-xs hidden-sm text-center">{__("Teams/Players")}</th>
+                {showActive && <th className="timer">{__("Time")}</th>}
+                {showActive && <th className="state">{__("State")}</th>}
+                {
+                    Object.keys(additionalColumns).map(ac => (
+                        <th key={ac}>&nbsp;</th>
+                    ))
+                }
+                <th>&nbsp;</th>
+            </tr>
+        );
     }
 
     private _renderGameRow(game: GameSummary): JSX.Element[] {
-        const { showActive = true, showCreatedBy = false, userId } = this.props;
+        const { showActive = true, showCreatedBy = false, userId, additionalColumns = {} } = this.props;
 
         const player = this._playerForGame(game);
 
@@ -80,49 +91,68 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
 
         const isPlayersTurn = game.state === GameState.Active && game.currentPlayer && game.currentPlayer.userId === userId;
 
-        const rows = [<tr className={css({
-            "game-players-turn": isPlayersTurn
-        })} key={`game-${game.id}`}>
-            <td className="hidden-xs">{game.id}</td>
-            <td>{name}</td>
-            <td className="hidden-xs">{game.mapTemplate}</td>
-            <td className="hidden-xs">{game.options.mapDistribution}</td>
-            {showCreatedBy && <td className="hidden-xs">{game.createdByName}</td>}
-            {showActive && <td
-                className={
-                    css("hidden-xs", {
-                        "players-turn": isPlayersTurn
-                    })
-                }>{game.currentPlayer && game.currentPlayer.name}</td>}
-            <td className="hidden-xs hidden-sm text-center">{`${game.options.numberOfTeams}/${game.options.numberOfPlayersPerTeam}`}</td>
-            {showActive && <td>
-                {this._renderTimer(game)}
-            </td>}
-            {/* Game state */}
-            {showActive && <td>
-                <GameStateDisplay gameState={game.state} />
-                {player && <span>
-                    &nbsp;-&nbsp;<PlayerOutcomeDisplay outcome={player.outcome} />
-                </span>}
-            </td>}
-            <td>
-                <Button
-                    bsSize="xsmall" bsStyle="info"
-                    title={__("Show details")}
-                    onClick={() => this._toggle(game.id)}>
-                    <Glyphicon glyph="info-sign" />
-                </Button>
-            </td>
-        </tr>];
+        const rows = [(
+            <tr
+                className={css({
+                    "game-players-turn": isPlayersTurn
+                })}
+                key={`game-${game.id}`}
+            >
+                <td className="hidden-xs">{game.id}</td>
+                <td>{name}</td>
+                <td className="hidden-xs">{game.mapTemplate}</td>
+                <td className="hidden-xs">{game.options.mapDistribution}</td>
+                {
+                    showCreatedBy && <td className="hidden-xs">{game.createdByName}</td>}
+                {
+                    showActive && <td
+                        className={
+                            css("hidden-xs", {
+                                "players-turn": isPlayersTurn
+                            })
+                        }
+                    >{game.currentPlayer && game.currentPlayer.name}
+                    </td>
+                }
+                <td className="hidden-xs hidden-sm text-center">{`${game.options.numberOfTeams}/${game.options.numberOfPlayersPerTeam}`}</td>
+                {showActive && <td>
+                    {this._renderTimer(game)}
+                </td>}
+                {/* Game state */}
+                {
+                    showActive && <td>
+                        <GameStateDisplay gameState={game.state} />
+                        {player && <span>
+                            &nbsp;-&nbsp;<PlayerOutcomeDisplay outcome={player.outcome} />
+                        </span>}
+                    </td>
+                }
+                {
+                    Object.keys(additionalColumns).map(ac => (
+                        <th key={ac}>{additionalColumns[ac](game)}</th>
+                    ))
+                }
+                <td>
+                    <Button
+                        bsSize="xsmall"
+                        bsStyle="info"
+                        title={__("Show details")}
+                        onClick={() => this._toggle(game.id)}>
+                        <Glyphicon glyph="info-sign" />
+                    </Button>
+                </td>
+            </tr>
+        )];
 
         // Show detailed information        
         if (this.state.expandedGames[game.id]) {
-            rows.push(<tr key={`game-${game.id}-detail`}>
-                <td colSpan={9}>
-                    <GameDetails
-                        game={game} />
-                </td>
-            </tr>);
+            rows.push(
+                <tr key={`game-${game.id}-detail`}>
+                    <td colSpan={9}>
+                        <GameDetails game={game} />
+                    </td>
+                </tr>
+            );
         }
 
         return rows;

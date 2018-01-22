@@ -24,27 +24,39 @@ export class FunGamesComponent extends React.Component<IFunGamesProps> {
     public render(): JSX.Element {
         const { userId } = this.props;
 
-        return <GridColumn className="col-xs-12">
-            <div>
-                <div className="pull-right">
-                    <ButtonGroup>
-                        <Button
-                            key="refresh"
-                            onClick={this.props.refreshFun}
-                            title={__("Refresh")}>
-                            <span className="glyphicon glyphicon-refresh" />
-                        </Button>
-                    </ButtonGroup>
-                </div>
+        return (
+            <GridColumn className="col-xs-12">
+                <div>
+                    <div className="pull-right">
+                        <ButtonGroup>
+                            <Button
+                                key="refresh"
+                                onClick={this.props.refreshFun}
+                                title={__("Refresh")}>
+                                <span className="glyphicon glyphicon-refresh" />
+                            </Button>
+                        </ButtonGroup>
+                    </div>
 
-                <GameList
-                    showCreatedBy={true}
-                    showActive={false}
-                    games={this.props.funGames}
-                    userId={userId}
-                    key="fun" />
-            </div>
-        </GridColumn>;
+                    <GameList
+                        showCreatedBy={true}
+                        showActive={false}
+                        games={this.props.funGames}
+                        userId={userId}
+                        additionalColumns={{
+                            "password": (game: GameSummary) => (
+                                <span>
+                                    {
+                                        game.hasPassword && <i className="fa fa-lock" />
+                                    }
+                                </span>
+                            )
+                        }}
+                        key="fun"
+                    />
+                </div>
+            </GridColumn>
+        );
     }
 }
 
@@ -56,5 +68,5 @@ export default connect((state: IState) => {
         userId: userInfo && userInfo.userId
     };
 }, (dispatch) => ({
-    refreshFun: () => { dispatch(refreshOpen(null)) }
+    refreshFun: () => { dispatch(refreshOpen(null)); }
 }))(FunGamesComponent);

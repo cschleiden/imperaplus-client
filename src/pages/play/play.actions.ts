@@ -86,7 +86,7 @@ export const switchGame: IAsyncAction<ISwitchGameInput> = (input) =>
                         // Update title
                         const { game } = getState().play.data;
                         setDocumentTitle(`${__("Play")}: ${game.id} - ${game.name}`);
-
+                        
                         // Retrieve game chat
                         d(gameChatMessages(gameId));
 

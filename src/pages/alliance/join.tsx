@@ -19,10 +19,12 @@ export class JoinAllianceComponent extends React.Component<IJoinAllianceProps> {
     public render(): JSX.Element {
         let alliances: JSX.Element[];
 
-        return <GridColumn className="col-xs-12">
-            <div className="inProgress">
-            </div>
-        </GridColumn>;
+        return (
+            <GridColumn className="col-xs-12">
+                <div className="inProgress">
+                </div>
+            </GridColumn>
+        );
     }
 }
 

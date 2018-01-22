@@ -39,25 +39,27 @@ export class ControlledTextField extends React.Component<FormControlProps & ICon
     public render() {
         const { fieldName, label, validate, initialValue, ...remainingProps } = this.props;
 
-        return <FormGroup controlId={this._id}>
-            {label && <ControlLabel>{label}</ControlLabel>}
-            <FormControl
-                disabled={this.context.isPending()}
-                name={fieldName}
-                {...remainingProps}
-                id={this._id}
-                onChange={(ev) => {
-                    const inputElement = ev.target as HTMLInputElement;
-                    const value = inputElement.value;
+        return (
+            <FormGroup controlId={this._id}>
+                {label && <ControlLabel>{label}</ControlLabel>}
+                <FormControl
+                    disabled={this.context.isPending()}
+                    name={fieldName}
+                    {...remainingProps}
+                    id={this._id}
+                    onChange={(ev) => {
+                        const inputElement = ev.target as HTMLInputElement;
+                        const value = inputElement.value;
 
-                    if (value !== this._currentValue()) {
-                        if (this.context.changeField) {
-                            this.context.changeField(fieldName, value);
+                        if (value !== this._currentValue()) {
+                            if (this.context.changeField) {
+                                this.context.changeField(fieldName, value);
+                            }
                         }
-                    }
-                }}
-                value={this._currentValue()} />
-        </FormGroup>;
+                    }}
+                    value={this._currentValue()} />
+            </FormGroup>
+        );
         // onGetErrorMessage={this.props.validate && ((value: string) => this.props.validate(value, new FormState(this.context.formState)))}
     }
 
