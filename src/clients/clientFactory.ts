@@ -39,6 +39,10 @@ const fetchWrapper = (tokenProvider: () => string, url: string, init: RequestIni
     const accessToken = tokenProvider();
 
     if (accessToken) {
+        if (!init.headers) {
+            init.headers = new Headers();
+        }
+
         init.headers.set("Authorization", "Bearer " + accessToken);
         init.mode = "cors";
     }
