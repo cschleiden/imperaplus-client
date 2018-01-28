@@ -37,10 +37,10 @@ export class AccountClient {
         let options_ = <RequestInit>{
             body: content_,
             method: "POST",
-            headers: {
+            headers: new Headers({
                 "Content-Type": "application/x-www-form-urlencoded",
                 "Accept": "application/json; charset=UTF-8"
-            }
+            })
         };
 
         return this.http.fetch(url_, options_).then((response: Response) => {
