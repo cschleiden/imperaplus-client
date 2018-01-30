@@ -27,20 +27,24 @@ function getPlayerAndTeams() {
     const maxPlayersPerTeam = 16;
     const maxPlayers = 16;
 
-    for (let playerPerTeam = 1; playerPerTeam <= maxPlayersPerTeam; ++playerPerTeam) {
-        for (let teams = 2; playerPerTeam * teams <= maxPlayers; ++teams) {
+    // 2 vs 2 vs 2
+
+    for (let playersPerTeam = 1; playersPerTeam <= maxPlayersPerTeam; ++playersPerTeam) {
+        for (let teams = 2; playersPerTeam * teams <= maxPlayers; ++teams) {
             let labels = [];
-            for (let i = 1; i <= playerPerTeam; ++i) {
-                if (playerPerTeam === 1) {
-                    labels.push("" + playerPerTeam * teams + " " + __("Players"));
-                } else {
-                    labels.push("" + teams);
+
+            if (playersPerTeam === 1) {
+                // FFA
+                labels.push("" + playersPerTeam * teams + " " + __("Players"));
+            } else {
+                for (let i = 1; i <= teams; ++i) {
+                    labels.push("" + playersPerTeam);
                 }
             }
 
             result.push({
                 text: labels.join(" " + __("vs") + " "),
-                key: teams + "t" + playerPerTeam
+                key: teams + "t" + playersPerTeam
             });
         }
     }
@@ -77,19 +81,19 @@ export class CreateGameComponent extends React.Component<ICreateGameProps> {
                             const players = formState.getFieldValue("players");
 
                             let numTeams: number;
-                            let numPlayers: number;
+                            let numberOfPlayersPerTeam: number;
                             let addBot: boolean = false;
 
                             if (players.indexOf("bot") !== -1) {
                                 // Bot play is restricted to 1vs1
                                 numTeams = 2;
-                                numPlayers = 1;
+                                numberOfPlayersPerTeam = 1;
                                 addBot = true;
                             } else if (players.indexOf("t") !== -1) {
                                 numTeams = players.split("t")[0];
-                                numPlayers = players.split("t")[1];
+                                numberOfPlayersPerTeam = players.split("t")[1];
                             } else {
-                                numPlayers = 1;
+                                numberOfPlayersPerTeam = 1;
                                 numTeams = parseInt(players, 10);
                             }
 
@@ -97,7 +101,7 @@ export class CreateGameComponent extends React.Component<ICreateGameProps> {
                                 name: formState.getFieldValue("name"),
                                 password: formState.getFieldValue("password"),
                                 mapTemplate: formState.getFieldValue("map"),
-                                numberOfPlayersPerTeam: numPlayers,
+                                numberOfPlayersPerTeam: numberOfPlayersPerTeam,
                                 numberOfTeams: numTeams,
                                 timeoutInSeconds: formState.getFieldValue("timeout"),
                                 attacksPerTurn: formState.getFieldValue("attacks", 3),
