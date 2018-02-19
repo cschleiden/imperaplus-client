@@ -63,130 +63,130 @@ export class TournamentComponent extends React.Component<ITournamentProps> {
 
         const isGroupTournament = tournament.numberOfGroupGames > 0;
 
-        return <GridColumn className="col-xs-12">
-            <div className="tournament">
-                <GridRow>
-                    <GridColumn className="col-xs-12">
-                        <Title>{tournament.name}</Title>
-                    </GridColumn>
-                </GridRow>
+        return (
+            <GridColumn className="col-xs-12">
+                <div className="tournament">
+                    <GridRow>
+                        <GridColumn className="col-xs-12">
+                            <Title>{tournament.name}</Title>
+                        </GridColumn>
+                    </GridRow>
 
-                <GridRow>
-                    <GridColumn className="col-md-5 col-md-offset-1">
-                        <dl className="dl-horizontal clearfix">
-                            <dt><span>{__("Start of registration")}</span></dt>
-                            <dd>{HumanDate(tournament.startOfRegistration)}</dd>
+                    <GridRow>
+                        <GridColumn className="col-md-5 col-md-offset-1">
+                            <dl className="dl-horizontal clearfix">
+                                <dt><span>{__("Start of registration")}</span></dt>
+                                <dd>{HumanDate(tournament.startOfRegistration)}</dd>
 
-                            <dt><span>{__("Start of tournament")}</span></dt>
-                            <dd>{HumanDate(tournament.startOfTournament)}</dd>
+                                <dt><span>{__("Start of tournament")}</span></dt>
+                                <dd>{HumanDate(tournament.startOfTournament)}</dd>
 
-                            <dt><span>{__("Number of teams")}</span></dt>
-                            <dd>{tournament.numberOfTeams}</dd>
+                                <dt><span>{__("Number of teams")}</span></dt>
+                                <dd>{tournament.numberOfTeams}</dd>
 
-                            <dt><span>{__("Players per Team")}</span></dt>
-                            <dd>{tournament.options.numberOfPlayersPerTeam}</dd>
+                                <dt><span>{__("Players per Team")}</span></dt>
+                                <dd>{tournament.options.numberOfPlayersPerTeam}</dd>
 
-                            <dt><span>{__("Games in group phase")}</span></dt>
-                            <dd>{tournament.numberOfGroupGames}</dd>
+                                <dt><span>{__("Games in group phase")}</span></dt>
+                                <dd>{tournament.numberOfGroupGames}</dd>
 
-                            <dt><span>{__("Games in knockout phase")}</span></dt>
-                            <dd>{tournament.numberOfKnockoutGames}</dd>
+                                <dt><span>{__("Games in knockout phase")}</span></dt>
+                                <dd>{tournament.numberOfKnockoutGames}</dd>
 
-                            <dt><span>{__("Games in final")}</span></dt>
-                            <dd>{tournament.numberOfFinalGames}</dd>
+                                <dt><span>{__("Games in final")}</span></dt>
+                                <dd>{tournament.numberOfFinalGames}</dd>
 
-                            <dt><span>{__("Maps")}</span></dt>
-                            <dd>
-                                {tournament.mapTemplates.join(", ")}
-                            </dd>
-                        </dl>
-                    </GridColumn>
+                                <dt><span>{__("Maps")}</span></dt>
+                                <dd>
+                                    {tournament.mapTemplates.join(", ")}
+                                </dd>
+                            </dl>
+                        </GridColumn>
 
-                    <GridColumn className="col-md-6">
-                        <dl className="dl-horizontal">
-                            <dt><span>{__("Timeout")}</span></dt>
-                            <dd>
-                                {HumanTime(tournament.options.timeoutInSeconds)}
-                            </dd>
+                        <GridColumn className="col-md-6">
+                            <dl className="dl-horizontal">
+                                <dt><span>{__("Timeout")}</span></dt>
+                                <dd>
+                                    {HumanTime(tournament.options.timeoutInSeconds)}
+                                </dd>
 
-                            <dt><span>{__("Mode")}</span></dt>
-                            <dd>
-                                {tournament.options.mapDistribution}
-                            </dd>
+                                <dt><span>{__("Mode")}</span></dt>
+                                <dd>
+                                    {tournament.options.mapDistribution}
+                                </dd>
 
-                            <dt><span><span>{__("Attacks")}</span></span> / <span><span>{__("Moves")}</span></span></dt>
-                            <dd>
-                                {tournament.options.attacksPerTurn} / {tournament.options.movesPerTurn}
-                            </dd>
+                                <dt><span><span>{__("Attacks")}</span></span> / <span><span>{__("Moves")}</span></span></dt>
+                                <dd>
+                                    {tournament.options.attacksPerTurn} / {tournament.options.movesPerTurn}
+                                </dd>
 
-                            <dt><span><span>{__("Victory Conditions")}</span></span></dt>
-                            <dd>
-                                {tournament.options.victoryConditions}
-                            </dd>
+                                <dt><span><span>{__("Victory Conditions")}</span></span></dt>
+                                <dd>
+                                    {tournament.options.victoryConditions}
+                                </dd>
 
-                            <dt><span><span>{__("Visibility Modifier")}</span></span></dt>
-                            <dd>
-                                {tournament.options.visibilityModifier}
-                            </dd>
+                                <dt><span><span>{__("Visibility Modifier")}</span></span></dt>
+                                <dd>
+                                    {tournament.options.visibilityModifier}
+                                </dd>
 
-                            <dt><span>{__("Initial units per country")}</span></dt>
-                            <dd>
-                                {tournament.options.initialCountryUnits}
-                            </dd>
+                                <dt><span>{__("Initial units per country")}</span></dt>
+                                <dd>
+                                    {tournament.options.initialCountryUnits}
+                                </dd>
 
-                            <dt><span>{__("Max timeouts")}</span></dt>
-                            <dd>
-                                {tournament.options.maximumTimeoutsPerPlayer}
-                            </dd>
+                                <dt><span>{__("Max timeouts")}</span></dt>
+                                <dd>
+                                    {tournament.options.maximumTimeoutsPerPlayer}
+                                </dd>
 
-                            <dt><span>{__("Max cards")}</span></dt>
-                            <dd>
-                                {tournament.options.maximumNumberOfCards}
-                            </dd>
+                                <dt><span>{__("Max cards")}</span></dt>
+                                <dd>
+                                    {tournament.options.maximumNumberOfCards}
+                                </dd>
 
-                            <dt><span>{__("New units per turn")}</span></dt>
-                            <dd>
-                                {tournament.options.newUnitsPerTurn}
-                            </dd>
-                        </dl>
-                    </GridColumn>
-                </GridRow>
+                                <dt><span>{__("New units per turn")}</span></dt>
+                                <dd>
+                                    {tournament.options.newUnitsPerTurn}
+                                </dd>
+                            </dl>
+                        </GridColumn>
+                    </GridRow>
 
-                {this._renderRegistration()}
+                    {this._renderRegistration()}
 
-                {this._renderParticipants()}
+                    {this._renderParticipants()}
 
-                {
-                    isGroupTournament && (tournament.state !== TournamentState.Open)
-                    && <GridRow>
-                        <Section>{__("Group Phase")}</Section>
-                        <div className="tournament-gropus">
+                    {
+                        isGroupTournament && (tournament.state !== TournamentState.Open)
+                        && <GridRow>
+                            <Section>{__("Group Phase")}</Section>                            
                             <TournamentGroups tournament={tournament} />
-                        </div>
-                    </GridRow>
-                }
+                        </GridRow>
+                    }
 
-                {
-                    (tournament.state === TournamentState.Knockout || tournament.state === TournamentState.Closed)
-                    && <GridRow>
-                        <Section>{__("Knockout Phase")}</Section>
-                        <div className="tournament-bracket">
-                            <TournamentBracket tournament={tournament} />
-                        </div>
-                    </GridRow>
-                }
+                    {
+                        (tournament.state === TournamentState.Knockout || tournament.state === TournamentState.Closed)
+                        && <GridRow>
+                            <Section>{__("Knockout Phase")}</Section>
+                            <div className="tournament-bracket">
+                                <TournamentBracket tournament={tournament} />
+                            </div>
+                        </GridRow>
+                    }
 
-                {
-                    tournament.state === TournamentState.Closed
-                    && <GridRow>
-                        <Section>{__("Winner")}</Section>
-                        <div>
-                            {tournament.winner && tournament.winner.name}
-                        </div>
-                    </GridRow>
-                }
-            </div>
-        </GridColumn>;
+                    {
+                        tournament.state === TournamentState.Closed
+                        && <GridRow>
+                            <Section>{__("Winner")}</Section>
+                            <div>
+                                {tournament.winner && tournament.winner.name}
+                            </div>
+                        </GridRow>
+                    }
+                </div>
+            </GridColumn>
+        );
     }
 
     private _renderRegistration() {
@@ -204,162 +204,168 @@ export class TournamentComponent extends React.Component<ITournamentProps> {
             && tournament.teams.some(t => t.participants.length < tournament.options.numberOfPlayersPerTeam);
 
 
-        return registrationOpen && <GridRow>
-            <Section>{__("Registration")}</Section>
+        return registrationOpen && (
+            <GridRow>
+                <Section>{__("Registration")}</Section>
 
-            {/* Single */}
-            {
-                !isTeamTournament && !currentUserIsRegistered &&
-                <div>
-                    <SimpleProgressButton onClick={this._join}>{__("Join tournament")}</SimpleProgressButton>
-                </div>
-            }
+                {/* Single */}
+                {
+                    !isTeamTournament && !currentUserIsRegistered &&
+                    <div>
+                        <SimpleProgressButton onClick={this._join}>{__("Join tournament")}</SimpleProgressButton>
+                    </div>
+                }
 
-            {
-                !isTeamTournament && currentUserIsRegistered &&
-                <div>
-                    <SimpleProgressButton onClick={this._leave}>{__("Leave tournament")}</SimpleProgressButton>
-                </div>
-            }
+                {
+                    !isTeamTournament && currentUserIsRegistered &&
+                    <div>
+                        <SimpleProgressButton onClick={this._leave}>{__("Leave tournament")}</SimpleProgressButton>
+                    </div>
+                }
 
-            {/* Teams */}
-            {
-                isTeamTournament && <p>{__("This is a team tournament, you can either create a new team or join an existing one.")}</p>
-            }
-            {
-                isTeamTournament && !currentUserIsRegistered && canCreateTeam &&
-                <div>
-                    <SubSection>{__("Create Team")}</SubSection>
-                    <Form
-                        name="tournament-team-create"
-                        onSubmit={((formState, options) => {
-                            return createTeam({
-                                tournamentId: tournament.id,
-                                teamName: formState.getFieldValue("teamName"),
-                                teamPassword: formState.getFieldValue("teamPassword")
-                            }, options);
-                        })}
-                        component={({ isPending, submit, formState }) => (
-                            <div className="form">
-                                <ControlledTextField
-                                    label={__("Team Name")}
-                                    placeholder={__("Enter name for team")}
-                                    fieldName="teamName"
-                                    required={true} />
-                                <ControlledTextField
-                                    label={__("Password (Optional)")}
-                                    fieldName="teamPassword"
-                                    required={false} />
+                {/* Teams */}
+                {
+                    isTeamTournament && <p>{__("This is a team tournament, you can either create a new team or join an existing one.")}</p>}
+                {
+                    isTeamTournament && !currentUserIsRegistered && canCreateTeam &&
+                    <div>
+                        <SubSection>{__("Create Team")}</SubSection>
+                        <Form
+                            name="tournament-team-create"
+                            onSubmit={((formState, options) => {
+                                return createTeam({
+                                    tournamentId: tournament.id,
+                                    teamName: formState.getFieldValue("teamName"),
+                                    teamPassword: formState.getFieldValue("teamPassword")
+                                }, options);
+                            })}
+                            component={({ isPending, submit, formState }) => (
+                                <div className="form">
+                                    <ControlledTextField
+                                        label={__("Team Name")}
+                                        placeholder={__("Enter name for team")}
+                                        fieldName="teamName"
+                                        required={true} />
+                                    <ControlledTextField
+                                        label={__("Password (Optional)")}
+                                        fieldName="teamPassword"
+                                        required={false} />
 
-                                <div>
-                                    <ProgressButton
-                                        type="submit"
-                                        disabled={(formState.getFieldValue("teamName") || "").trim() === ""}
-                                        isActive={isPending}
-                                        bsStyle="primary">
-                                        {__("Create")}
-                                    </ProgressButton>
-                                </div>
-                            </div>)} />
-                </div>
-            }
+                                    <div>
+                                        <ProgressButton
+                                            type="submit"
+                                            disabled={(formState.getFieldValue("teamName") || "").trim() === ""}
+                                            isActive={isPending}
+                                            bsStyle="primary">
+                                            {__("Create")}
+                                        </ProgressButton>
+                                    </div>
+                                </div>)} />
+                    </div>
+                }
 
-            {
-                isTeamTournament && !currentUserIsRegistered && teamsToJoinAvailable &&
-                <div>
-                    <SubSection>{__("Join Team")}</SubSection>
-                    <Form
-                        name="tournament-team-join"
-                        onSubmit={((formState, options) => {
-                            return joinTeam({
-                                tournamentId: tournament.id,
-                                teamId: formState.getFieldValue("team"),
-                                teamPassword: formState.getFieldValue("password")
-                            }, options);
-                        })}
-                        component={({ isPending, submit, formState }) => (
-                            <div className="form">
-                                <ControlledDropdown
-                                    label={__("Team")}
-                                    placeholder={__("Select team")}
-                                    fieldName="team">
-                                    <option key="empty" value="" />
-                                    {
-                                        tournament.teams
-                                            .filter(t => t.participants.length < tournament.options.numberOfPlayersPerTeam)
-                                            .map(t => <option key={t.id} value={t.id}>{t.name}</option>)
-                                    }
-                                </ControlledDropdown>
-                                <ControlledTextField
-                                    type="password"
-                                    label={__("Password (if required)")}
-                                    fieldName="password"
-                                    required={false} />
+                {
+                    isTeamTournament && !currentUserIsRegistered && teamsToJoinAvailable &&
+                    <div>
+                        <SubSection>{__("Join Team")}</SubSection>
+                        <Form
+                            name="tournament-team-join"
+                            onSubmit={((formState, options) => {
+                                return joinTeam({
+                                    tournamentId: tournament.id,
+                                    teamId: formState.getFieldValue("team"),
+                                    teamPassword: formState.getFieldValue("password")
+                                }, options);
+                            })}
+                            component={({ isPending, submit, formState }) => (
+                                <div className="form">
+                                    <ControlledDropdown
+                                        label={__("Team")}
+                                        placeholder={__("Select team")}
+                                        fieldName="team">
+                                        <option key="empty" value="" />
+                                        {
+                                            tournament.teams
+                                                .filter(t => t.participants.length < tournament.options.numberOfPlayersPerTeam)
+                                                .map(t => <option key={t.id} value={t.id}>{t.name}</option>)
+                                        }
+                                    </ControlledDropdown>
+                                    <ControlledTextField
+                                        type="password"
+                                        label={__("Password (if required)")}
+                                        fieldName="password"
+                                        required={false} />
 
-                                <div>
-                                    <ProgressButton
-                                        type="submit"
-                                        disabled={(formState.getFieldValue("team") || "").trim() === ""}
-                                        isActive={isPending}
-                                        bsStyle="primary">
-                                        {__("Join")}
-                                    </ProgressButton>
-                                </div>
-                            </div>)} />
-                </div>
-            }
+                                    <div>
+                                        <ProgressButton
+                                            type="submit"
+                                            disabled={(formState.getFieldValue("team") || "").trim() === ""}
+                                            isActive={isPending}
+                                            bsStyle="primary">
+                                            {__("Join")}
+                                        </ProgressButton>
+                                    </div>
+                                </div>)} />
+                    </div>
+                }
 
-            {
-                isTeamTournament && currentUserIsRegistered && canLeaveTeam &&
-                <div>
-                    <SubSection>{__("Leave team")}</SubSection>
-                    <p>{__("You have joined a team, you can leave if you want.")}</p>
-                    <SimpleProgressButton onClick={this._leaveTeam}>{__("Leave Team")}</SimpleProgressButton>
-                </div>
-            }
+                {
+                    isTeamTournament && currentUserIsRegistered && canLeaveTeam &&
+                    <div>
+                        <SubSection>{__("Leave team")}</SubSection>
+                        <p>{__("You have joined a team, you can leave if you want.")}</p>
+                        <SimpleProgressButton onClick={this._leaveTeam}>{__("Leave Team")}</SimpleProgressButton>
+                    </div>
+                }
 
-            {
-                isTeamTournament && currentUserIsRegistered && canDeleteTeam &&
-                <div>
-                    <SubSection>{__("Delete team")}</SubSection>
-                    <p>{__("You have created a team for this tournament. To leave, you have to delete it.")}</p>
-                    <SimpleProgressButton onClick={this._deleteTeam}>{__("Delete Team")}</SimpleProgressButton>
-                </div>
-            }
-        </GridRow>;
+                {
+                    isTeamTournament && currentUserIsRegistered && canDeleteTeam &&
+                    <div>
+                        <SubSection>{__("Delete team")}</SubSection>
+                        <p>{__("You have created a team for this tournament. To leave, you have to delete it.")}</p>
+                        <SimpleProgressButton onClick={this._deleteTeam}>{__("Delete Team")}</SimpleProgressButton>
+                    </div>
+                }
+            </GridRow>
+        );
     }
 
     private _renderParticipants() {
         const { tournament } = this.props;
         const isTeamTournament = tournament.options.numberOfPlayersPerTeam > 1;
 
-        return <GridRow>
-            <Section>{__("Teams/Participants")}</Section>
-            <ul className="list-unstyled">
-                {
-                    tournament.teams.map(team => {
-                        const teamHasSlotOpen = team.participants.length < tournament.options.numberOfPlayersPerTeam;
+        return (
+            <GridRow>
+                <Section>{__("Teams/Participants")}</Section>
+                <ul className="list-unstyled">
+                    {
+                        tournament.teams.map(team => {
+                            const teamHasSlotOpen = team.participants.length < tournament.options.numberOfPlayersPerTeam;
 
-                        return <li className={css("team", {
-                            inactive: team.state === TournamentTeamState.InActive
-                        })} key={team.id}>
-                            {isTeamTournament && <b>{team.name}</b>}
-                            <ul>
-                                {
-                                    team.participants.map(p => {
-                                        return <li className={css("participant")} key={p.id}>
-                                            <span className="user">
-                                                {p.name}
-                                            </span>
-                                        </li>;
-                                    })
-                                }
-                            </ul>
-                        </li>;
-                    })
-                }
-            </ul>
-        </GridRow>;
+                            return <li
+                                className={css("team", {
+                                    inactive: team.state === TournamentTeamState.InActive
+                                })}
+                                key={team.id}
+                            >
+                                {isTeamTournament && <b>{team.name}</b>}
+                                <ul>
+                                    {
+                                        team.participants.map(p => {
+                                            return <li className={css("participant")} key={p.id}>
+                                                <span className="user">
+                                                    {p.name}
+                                                </span>
+                                            </li>;
+                                        })
+                                    }
+                                </ul>
+                            </li>;
+                        })
+                    }
+                </ul>
+            </GridRow>
+        );
     }
 
     @autobind
@@ -415,16 +421,16 @@ export default connect((state: IState, ownProps: ITournamentProps) => {
         userId: userInfo && userInfo.userId
     };
 }, (dispatch) => ({
-    load: (tournamentId: string) => { dispatch(load(tournamentId)) },
+    load: (tournamentId: string) => { dispatch(load(tournamentId)); },
     setTitle: (title: string) => { dispatch(setTitle(title)); },
-    join: (tournamentId: string) => { dispatch(join(tournamentId)) },
-    leave: (tournamentId: string) => { dispatch(leave(tournamentId)) },
+    join: (tournamentId: string) => { dispatch(join(tournamentId)); },
+    leave: (tournamentId: string) => { dispatch(leave(tournamentId)); },
     joinTeam: (tournamentId: string, teamId: string, teamPassword?: string) => {
         dispatch(joinTeam({
             tournamentId,
             teamId,
             teamPassword
-        }))
+        }));
     },
     deleteTeam: (tournamentId: string, teamId: string) => {
         dispatch(deleteTeam({

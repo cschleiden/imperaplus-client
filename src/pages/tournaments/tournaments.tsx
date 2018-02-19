@@ -43,19 +43,21 @@ export class TournamentsComponent extends React.Component<ITournamentGamesProps>
             <TournamentList tournaments={this.props.closedTournaments} key="closed" />];
         }
 
-        return <GridColumn className="col-xs-12">
-            <div>
-                <div className="pull-right">
-                    <ButtonGroup>
-                        <Button key="refresh" onClick={this.props.refresh} title={__("Refresh")}><span className="glyphicon glyphicon-refresh" /></Button>
-                    </ButtonGroup>
-                </div>
+        return (
+            <GridColumn className="col-xs-12">
+                <div>
+                    <div className="pull-right">
+                        <ButtonGroup>
+                            <Button key="refresh" onClick={this.props.refresh} title={__("Refresh")}><span className="glyphicon glyphicon-refresh" /></Button>
+                        </ButtonGroup>
+                    </div>
 
-                {open}
-                {inProgress}
-                {closed}
-            </div>
-        </GridColumn>;
+                    {open}
+                    {inProgress}
+                    {closed}
+                </div>
+            </GridColumn>
+        );
     }
 }
 
@@ -69,5 +71,5 @@ export default connect((state: IState) => {
         closedTournaments: tournaments.filter(t => t.state === TournamentState.Closed)
     };
 }, (dispatch) => ({
-    refresh: () => { dispatch(refresh(null)) }
+    refresh: () => { dispatch(refresh(null)); }
 }))(TournamentsComponent);
