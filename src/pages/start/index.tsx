@@ -18,6 +18,8 @@ export interface IStartProps {
     news: NewsItem[];
 
     openTournaments: TournamentSummary[];
+    activeTournaments: TournamentSummary[];
+    closedTournaments: TournamentSummary[];
 
     refresh: () => void;
 }
@@ -28,41 +30,65 @@ export class StartComponent extends React.Component<IStartProps> {
     }
 
     public render(): JSX.Element {
-        return <GridRow>
-            <GridColumn className="col-md-9">
-                <div>
-                    {this.props.news.map((n, i) => {
-                        let content = this._getLanguageContent(n.content);
-                        if (!content) {
-                            return null;
-                        }
+        return (
+            <GridRow>
+                <GridColumn className="col-md-9">
+                    <div>
+                        {this.props.news.map((n, i) => {
+                            let content = this._getLanguageContent(n.content);
+                            if (!content) {
+                                return null;
+                            }
 
-                        return <div key={i}>
-                            <h2 className="headline">{content.title}</h2>
-                            <h5>{HumanDate(n.dateTime)} - {n.postedBy}</h5>
+                            return <div key={i}>
+                                <h2 className="headline">{content.title}</h2>
+                                <h5>{HumanDate(n.dateTime)} - {n.postedBy}</h5>
 
-                            <ReactMarkdown source={content.text || ""} />
-                        </div>;
-                    })}
-                </div>
-            </GridColumn>
+                                <ReactMarkdown source={content.text || ""} />
+                            </div>;
+                        })}
+                    </div>
+                </GridColumn>
 
-            <GridColumn className="col-md-3">
-                <Section>{__("Tournaments")}</Section>
+                <GridColumn className="col-md-3">
+                    <Section>{__("Tournaments")}</Section>
 
-                <SubSection>{__("Open")}</SubSection>
-                {
-                    this.props.openTournaments.map(tournament => {
-                        return (
-                            <div key={tournament.id}>
-                                <Link to={`/game/tournaments/${tournament.id}`}>{tournament.name}</Link>
-                            </div>
-                        );
-                    })
-                }
-            </GridColumn>
-        </GridRow>;
-    };
+                    <SubSection>{__("Open")}</SubSection>
+                    {
+                        this.props.openTournaments.map(tournament => {
+                            return (
+                                <div key={tournament.id}>
+                                    <Link to={`/game/tournaments/${tournament.id}`}>{tournament.name}</Link>
+                                </div>
+                            );
+                        })
+                    }
+
+                    <SubSection>{__("Active")}</SubSection>
+                    {
+                        this.props.activeTournaments.map(tournament => {
+                            return (
+                                <div key={tournament.id}>
+                                    <Link to={`/game/tournaments/${tournament.id}`}>{tournament.name}</Link>
+                                </div>
+                            );
+                        })
+                    }
+
+                    <SubSection>{__("Closed")}</SubSection>
+                    {
+                        this.props.closedTournaments.map(tournament => {
+                            return (
+                                <div key={tournament.id}>
+                                    <Link to={`/game/tournaments/${tournament.id}`}>{tournament.name}</Link>
+                                </div>
+                            );
+                        })
+                    }
+                </GridColumn>
+            </GridRow>
+        );
+    }
 
     private _getLanguageContent(content: NewsContent[]): NewsContent {
         const userLanguage = this.props && this.props.language || "en";
@@ -76,12 +102,16 @@ export default connect((state: IState) => {
     const tournaments = state.tournaments.data.tournaments || [];
 
     const openTournaments = tournaments.filter(x => x.state === TournamentState.Open);
+    const activeTournaments = tournaments.filter(x => x.state === TournamentState.Knockout || x.state === TournamentState.Groups);
+    const closedTournaments = tournaments.filter(x => x.state === TournamentState.Closed);
 
     return {
         userInfo: state.session.data.userInfo,
         language: state.session.data.language,
         news: state.news.data.news,
-        openTournaments: openTournaments
+        openTournaments,
+        activeTournaments,
+        closedTournaments
     };
 }, (dispatch) => ({
     refresh: () => {
