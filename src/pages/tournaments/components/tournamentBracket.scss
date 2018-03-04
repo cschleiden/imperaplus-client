@@ -22,9 +22,14 @@
             min-width: 185px;
             color: #222222;
             border: 0px solid rgba(34, 34, 34, 0.1);
+            cursor: pointer;
+
+            &:hover {
+                background: $accent-highlight !important;
+            }
         }
         .table.played {
-            background-color: #e6c954;
+            background-color: $accent;
         }
         .tournament-row {
             display: flex;

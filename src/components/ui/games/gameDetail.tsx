@@ -51,6 +51,9 @@ class GameDetails extends React.Component<IGameDetailsProps & IGameDetailsDispat
                         <dt>{__("Last action")}</dt>
                         <dd>{HumanDate(this.props.game.lastActionAt)}</dd>
 
+                        <dt>{__("Turn")}</dt>
+                        <dd>{this.props.game.turnCounter}</dd>
+
                         <dt>{__("Timeout")}</dt>
                         <dd>
                             {HumanTime(this.props.game.options.timeoutInSeconds)}

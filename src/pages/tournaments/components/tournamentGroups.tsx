@@ -7,6 +7,8 @@ import "./tournamentGroups.scss";
 
 export interface ITournamentGroupProps {
     tournament: Tournament;
+
+    navigateToPairing(id: string): void;
 }
 
 export class TournamentGroups extends React.Component<ITournamentGroupProps> {
@@ -21,7 +23,7 @@ export class TournamentGroups extends React.Component<ITournamentGroupProps> {
     }
 
     private _renderGroup(group: TournamentGroup, index: number) {
-        const { tournament } = this.props;
+        const { tournament, navigateToPairing } = this.props;
 
         const teams = group.teams.slice(0);
         teams.sort((a, b) => a.groupOrder - b.groupOrder);
@@ -69,7 +71,7 @@ export class TournamentGroups extends React.Component<ITournamentGroupProps> {
                         <Table className="group-table" striped={true}>
                             <tbody>
                                 {pairings.map(p =>
-                                    <tr key={p.order}>
+                                    <tr className="group-pairing-rows" key={p.order} onClick={() => navigateToPairing(p.id)}>
                                         <td className="group-table--team">
                                             <div className="group-table--team-wrapper text-right">
                                                 <div className="group-table--team-name" title={p.teamA.name}>

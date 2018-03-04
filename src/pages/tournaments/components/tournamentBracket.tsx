@@ -7,6 +7,8 @@ import "./tournamentBracket.scss";
 
 export interface ITournamentBracketProps {
     tournament: Tournament;
+
+    navigateToPairing(id: string): void;
 }
 
 export interface ITournamentBracketState {
@@ -16,15 +18,17 @@ export interface ITournamentBracketState {
 }
 
 export interface IBracketPairing {
-    numberOfGames: number,
+    id: string;
 
-    nameA: string,
-    winsA: number,
+    numberOfGames: number;
 
-    nameB: string,
-    winsB: number,
+    nameA: string;
+    winsA: number;
 
-    winner: string,
+    nameB: string;
+    winsB: number;
+
+    winner: string;
 
     children?: IBracketPairing[];
 }
@@ -45,10 +49,12 @@ export class TournamentBracket extends React.Component<ITournamentBracketProps, 
 
 
     public render() {
-        return <div className="tournament-bracket-container" ref={this._resolveElement}>
-            <svg />
-            <div className="labels"></div>
-        </div>;
+        return (
+            <div className="tournament-bracket-container" ref={this._resolveElement}>
+                <svg />
+                <div className="labels" />
+            </div>
+        );
     }
 
     public componentDidMount() {
@@ -96,21 +102,17 @@ export class TournamentBracket extends React.Component<ITournamentBracketProps, 
                 .data(nodes.descendants())
                 .enter()
                 .append("div")
-                .style(
-                "max-width",
-                d => widthPerPhase + "px"
-                )
+                .style("max-width", d => widthPerPhase + "px")
                 .classed("table", true)
                 .classed("played", d => !!d.data.winner)
-                .style(
-                "left",
-                d => width - d.y + "px"
-                )
-                .style(
-                "top",
-                d => (d.x - heightPerPairing) + "px"
-                )
-                .html(d => this._gameTemplate(d));
+                .style("left", d => width - d.y + "px")
+                .style("top", d => (d.x - heightPerPairing) + "px")
+                .html(d => this._gameTemplate(d))
+                .on("click", (d) => {
+                    if (d.data.id) {
+                        this.props.navigateToPairing(d.data.id);
+                    }
+                });
         });
     }
 
@@ -176,7 +178,7 @@ export class TournamentBracket extends React.Component<ITournamentBracketProps, 
     }
 
     private _gameTemplate(d: HierarchyPointNode<IBracketPairing>) {
-        return `<div class="${css(" tournament-row", {
+        return `<div class="${css("tournament-row", {
             "winner": d.data.nameA === d.data.winner,
             "tbd": !d.data.nameA
         })}">
@@ -203,10 +205,11 @@ export class TournamentBracket extends React.Component<ITournamentBracketProps, 
 
             if (p.teamBWon >= p.numberOfGames / 2) {
                 winner = p.teamB.name;
-            };
+            }
         }
 
         return {
+            id: p && p.id,
             nameA: p && p.teamA.name || "",
             winsA: p && p.teamAWon,
             nameB: p && p.teamB.name || "",

@@ -1,5 +1,5 @@
 import { MessageType, show } from "../../common/message/message.actions";
-import { Tournament, TournamentClient, TournamentSummary, TournamentTeamSummary } from "../../external/imperaClients";
+import { Tournament, TournamentClient, TournamentSummary, TournamentTeamSummary, GameSummary } from "../../external/imperaClients";
 import { IAction, makePromiseAction } from "../../lib/action";
 
 export const refresh = makePromiseAction<void, TournamentSummary[]>(
@@ -102,6 +102,18 @@ export const deleteTeam = makePromiseAction<{
                 ).then<string>(() => {
                     return input.teamId;
                 })
+            }
+        };
+    });
+
+
+export const loadPairingGames = makePromiseAction<{
+    pairingId: string;
+}, GameSummary[]>(
+    "tournament-pairing-games", (input, dispatch, getState, deps) => {
+        return {
+            payload: {
+                promise: deps.getCachedClient(TournamentClient).getGamesForPairing(input.pairingId)
             }
         };
     });

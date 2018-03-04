@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Button, ButtonGroup } from "react-bootstrap";
 import { connect } from "react-redux";
+import { push } from "react-router-redux";
 import Form from "../../common/forms/form";
 import { ControlledCheckBox, ControlledDropdown, ControlledTextField } from "../../common/forms/inputs";
 import { setTitle } from "../../common/general/general.actions";
@@ -32,6 +33,7 @@ export interface ITournamentProps {
     createTeam: (tournamentId: string, teamName: string, password?: string) => void;
     joinTeam: (tournamentId: string, teamId: string, password?: string) => void;
     deleteTeam: (tournamentId: string, teamId: string) => void;
+    navigateToPairing: (id: string) => void;
 
     tournament: Tournament;
     userId: string;
@@ -160,8 +162,8 @@ export class TournamentComponent extends React.Component<ITournamentProps> {
                     {
                         isGroupTournament && (tournament.state !== TournamentState.Open)
                         && <GridRow>
-                            <Section>{__("Group Phase")}</Section>                            
-                            <TournamentGroups tournament={tournament} />
+                            <Section>{__("Group Phase")}</Section>
+                            <TournamentGroups tournament={tournament} navigateToPairing={this._navigateToPairing} />
                         </GridRow>
                     }
 
@@ -170,7 +172,7 @@ export class TournamentComponent extends React.Component<ITournamentProps> {
                         && <GridRow>
                             <Section>{__("Knockout Phase")}</Section>
                             <div className="tournament-bracket">
-                                <TournamentBracket tournament={tournament} />
+                                <TournamentBracket tournament={tournament} navigateToPairing={this._navigateToPairing} />
                             </div>
                         </GridRow>
                     }
@@ -410,6 +412,13 @@ export class TournamentComponent extends React.Component<ITournamentProps> {
             this.props.leave(tournament.id);
         }
     }
+
+    @autobind
+    private _navigateToPairing(id: string) {
+        const { navigateToPairing } = this.props;
+
+        navigateToPairing(id);
+    }
 }
 
 export default connect((state: IState, ownProps: ITournamentProps) => {
@@ -436,5 +445,8 @@ export default connect((state: IState, ownProps: ITournamentProps) => {
         dispatch(deleteTeam({
             tournamentId, teamId
         }));
+    },
+    navigateToPairing: (id: string) => {
+        dispatch(push(`/game/tournaments/pairings/${id}`));
     }
 }))(TournamentComponent);

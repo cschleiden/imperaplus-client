@@ -15,6 +15,11 @@
 
     margin: 0;
 
+    .group-pairing-rows:hover {
+        cursor: pointer;
+        background: $accent-highlight !important;
+    }    
+
     .group-table--count {
         width: 30px;
         text-align: center;

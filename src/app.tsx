@@ -45,8 +45,11 @@ import Join from "./pages/join/open";
 import Ladder from "./pages/ladders/ladder";
 import Ladders from "./pages/ladders/ladders";
 import Start from "./pages/start";
+
+// Tournaments
 import Tournament from "./pages/tournaments/tournament";
 import Tournaments from "./pages/tournaments/tournaments";
+import TournamentPairing from "./pages/tournaments/tournamentPairing";
 
 // Play
 import Play from "./pages/play/play";
@@ -147,6 +150,8 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
                                 <Route path="/game/tournaments">
                                     <IndexRoute component={Tournaments} {...this._title(__("Tournaments"))} />
                                     <Route path="/game/tournaments/:id" component={Tournament} />
+
+                                    <Route path="/game/tournaments/pairings/:id" component={TournamentPairing} {...this._title(__("Games"))} />
                                 </Route>
 
                                 <Route path="/game/alliance">

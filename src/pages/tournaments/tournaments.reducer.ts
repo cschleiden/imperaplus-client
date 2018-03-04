@@ -1,5 +1,5 @@
 import { IImmutable, makeImmutable } from "immuts";
-import { Tournament, TournamentClient, TournamentSummary, TournamentTeam } from "../../external/imperaClients";
+import { Tournament, TournamentClient, TournamentSummary, TournamentTeam, GameSummary } from "../../external/imperaClients";
 import { failed, IAction, pending, success } from "../../lib/action";
 import reducerMap from "../../lib/reducerMap";
 import * as Actions from "./tournaments.actions";
@@ -7,7 +7,8 @@ import * as Actions from "./tournaments.actions";
 const initialState = makeImmutable({
     isLoading: false,
     tournaments: [] as TournamentSummary[],
-    tournament: null as Tournament
+    tournament: null as Tournament,
+    pairingGames: [] as GameSummary[]
 });
 
 export type ITournamentsState = typeof initialState;
@@ -24,6 +25,10 @@ const load = (state: ITournamentsState, action: IAction<Tournament>) => {
         isLoading: false,
         tournament: action.payload
     });
+};
+
+const loadPairingGames = (state: ITournamentsState, action: IAction<GameSummary[]>) => {
+    return state.set(x => x.pairingGames, action.payload);
 };
 
 const loading = (state: ITournamentsState, action: IAction<void>) => {
@@ -65,6 +70,8 @@ export const tournaments = <TPayload>(
 
         [pending(Actions.load.TYPE)]: loading,
         [success(Actions.load.TYPE)]: load,
+
+        [success(Actions.loadPairingGames.TYPE)]: loadPairingGames,
 
         [success(Actions.createTeam.TYPE)]: createdTeam,
         [success(Actions.deleteTeam.TYPE)]: deletedTeam,
