@@ -46,7 +46,7 @@ class GameDetails extends React.Component<IGameDetailsProps & IGameDetailsDispat
                         </dd>
 
                         <dt>{__("Started By")}</dt>
-                        <dd>{this.props.game.createdByName}</dd>
+                        <dd>{this.props.game.createdByName || "System"}</dd>
 
                         <dt>{__("Last action")}</dt>
                         <dd>{HumanDate(this.props.game.lastActionAt)}</dd>
