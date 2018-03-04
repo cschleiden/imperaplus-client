@@ -4,6 +4,7 @@ import { getCachedClient } from "../../../clients/clientFactory";
 import { imageBaseUri } from "../../../configuration";
 import { MapClient, MapTemplate } from "../../../external/imperaClients";
 import { Spinner } from "../spinner";
+import { Link } from "react-router";
 
 export interface IMapPreviewProps extends ImageProps {
     mapTemplateName: string;
@@ -37,14 +38,21 @@ export class MapPreview extends React.Component<IMapPreviewProps, IMapPreviewSta
         const { mapTemplate } = this.state;
 
         if (mapTemplate) {
-            return <Image
-                src={mapTemplate && `${imageBaseUri}${mapTemplate.image}`}
-                {...nativeProps} />;
+            return (
+                <Link to={`/game/mapPreview/${mapTemplate.name}`}>
+                    <Image
+                        src={mapTemplate && `${imageBaseUri}${mapTemplate.image}`}
+                        {...nativeProps}
+                    />
+                </Link>
+            );
         }
 
-        return <div className="text-center">
-            <Spinner className="center-block" />
-        </div>;
+        return (
+            <div className="text-center">
+                <Spinner className="center-block" />
+            </div>
+        );
     }
 
     private _updateState(mapTemplateName: string) {
