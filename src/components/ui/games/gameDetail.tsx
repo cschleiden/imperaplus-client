@@ -34,8 +34,6 @@ class GameDetails extends React.Component<IGameDetailsProps & IGameDetailsDispat
     public render() {
         const { game } = this.props;
 
-        const player = this._player();
-
         return (
             <GridRow>
                 <GridColumn className="col-md-6">
@@ -88,65 +86,62 @@ class GameDetails extends React.Component<IGameDetailsProps & IGameDetailsDispat
 
                         <br />
 
-                        {player && <dt > {__("Actions")}</dt>}
-                        {
-                            player && <dd>
-                                {this._canSurrender() && <Button onClick={this._onSurrender} bsStyle="warning" bsSize="small">
-                                    <Glyphicon glyph="flag" />&nbsp;{__("Surrender")}
-                                </Button>}
+                        <dt > {__("Actions")}</dt>
+                        <dd>
+                            {this._canSurrender() && <Button onClick={this._onSurrender} bsStyle="warning" bsSize="small">
+                                <Glyphicon glyph="flag" />&nbsp;{__("Surrender")}
+                            </Button>}
 
-                                {this._canLeave() && <Button onClick={this._onLeave} bsStyle="warning" bsSize="small">
-                                    <Glyphicon glyph="flag" />&nbsp;{__("Leave game")}
-                                </Button>}
+                            {this._canLeave() && <Button onClick={this._onLeave} bsStyle="warning" bsSize="small">
+                                <Glyphicon glyph="flag" />&nbsp;{__("Leave game")}
+                            </Button>}
 
-                                {this._canDelete() && <Button onClick={this._onRemove} bsStyle="danger" bsSize="small">
-                                    <Glyphicon glyph="remove" />&nbsp;{__("Delete game")}
-                                </Button>}
+                            {this._canDelete() && <Button onClick={this._onRemove} bsStyle="danger" bsSize="small">
+                                <Glyphicon glyph="remove" />&nbsp;{__("Delete game")}
+                            </Button>}
 
-                                {this._canHide() && <Button onClick={this._onHide} bsStyle="info" bsSize="small">
-                                    <Glyphicon glyph="eye-close" />&nbsp;{__("Hide finished game")}
-                                </Button>}
+                            {this._canHide() && <Button onClick={this._onHide} bsStyle="info" bsSize="small">
+                                <Glyphicon glyph="eye-close" />&nbsp;{__("Hide finished game")}
+                            </Button>}
 
-                                {
-                                    this._canJoin() && (
-                                        <Form
-                                            name="join-game"
-                                            onSubmit={
-                                                (formState: IFormState, options) => join({
-                                                    gameId: game.id,
-                                                    password: formState.getFieldValue("password") || undefined
-                                                }, options)
-                                            }
-                                            component={
-                                                ({ isPending, submit, formState }) =>
-                                                    (
-                                                        <div>
-                                                            {
-                                                                game.hasPassword && (
-                                                                    <ControlledTextField
-                                                                        placeholder={__("Password")}
-                                                                        type="password"
-                                                                        fieldName="password"
-                                                                        required={false}
-                                                                        {...{ autoComplete: "new-password" } as any}
-                                                                    />
-                                                                )
-                                                            }
+                            {
+                                this._canJoin() && (
+                                    <Form
+                                        name="join-game"
+                                        onSubmit={
+                                            (formState: IFormState, options) => join({
+                                                gameId: game.id,
+                                                password: formState.getFieldValue("password") || undefined
+                                            }, options)
+                                        }
+                                        component={
+                                            ({ isPending, submit, formState }) =>
+                                                (
+                                                    <div>
+                                                        {
+                                                            game.hasPassword && (
+                                                                <ControlledTextField
+                                                                    placeholder={__("Password")}
+                                                                    type="password"
+                                                                    fieldName="password"
+                                                                    required={false}
+                                                                    {...{ autoComplete: "new-password" } as any}
+                                                                />
+                                                            )
+                                                        }
 
-                                                            <Button
-                                                                disabled={!this._formValid(formState)}
-                                                                onClick={submit}
-                                                                bsStyle="primary"
-                                                                bsSize="small">
-                                                                <Glyphicon glyph="plus-sign" />&nbsp;{__("Join game")}
-                                                            </Button>
-                                                        </div>
-                                                    )}
-                                        />
-                                    )
-                                }
-                            </dd>
-                        }
+                                                        <Button
+                                                            disabled={!this._formValid(formState)}
+                                                            onClick={submit}
+                                                            bsStyle="primary"
+                                                            bsSize="small">
+                                                            <Glyphicon glyph="plus-sign" />&nbsp;{__("Join game")}
+                                                        </Button>
+                                                    </div>
+                                                )}
+                                    />
+                                )
+                        </dd>
                     </dl>
                 </GridColumn>
 
@@ -191,21 +186,21 @@ class GameDetails extends React.Component<IGameDetailsProps & IGameDetailsDispat
         const { game } = this.props;
         const player = this._player();
 
-        return game.state === GameState.Active && player.state === PlayerState.Active;
+        return player && game.state === GameState.Active && player.state === PlayerState.Active;
     }
 
     private _canLeave(): boolean {
         const { game } = this.props;
         const player = this._player();
 
-        return game.state === GameState.Open && !!player && game.createdByUserId !== player.userId;
+        return player && game.state === GameState.Open && !!player && game.createdByUserId !== player.userId;
     }
 
     private _canDelete(): boolean {
         const { game } = this.props;
         const player = this._player();
 
-        return game.state === GameState.Open && !!player && game.createdByUserId === player.userId;
+        return player && game.state === GameState.Open && !!player && game.createdByUserId === player.userId;
     }
 
     private _canHide(): boolean {
