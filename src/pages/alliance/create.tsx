@@ -19,43 +19,46 @@ export interface ICreateAllianceProps {
 
 export class CreateAllianceComponent extends React.Component<ICreateAllianceProps> {
     public render(): JSX.Element {
-        return <GridColumn className="col-xs-12">
-            <p>
-                <LinkString link={__("Here you can create a new alliance. You also might want to [join](/game/alliances) an existing alliance.")} />
-            </p>
+        return (
+            <GridColumn className="col-xs-12">
+                <p>
+                    <LinkString link={__("Here you can create a new alliance. You also might want to [join](/game/alliances) an existing alliance.")} />
+                </p>
 
-            <Form
-                name="alliance-create"
-                onSubmit={(formState: IFormState, options) => {
-                    return create({
-                        name: formState.getFieldValue("name"),
-                        description: formState.getFieldValue("description")
-                    }, options);
-                }}
-                component={(({ isPending, submit, formState }) => (
-                    <div>
-                        <ControlledTextField
-                            label={__("Name")}
-                            placeholder={__("Name")}
-                            fieldName="name"
-                            required={true} />
+                <Form
+                    name="alliance-create"
+                    onSubmit={(formState: IFormState, options) => {
+                        return create({
+                            name: formState.getFieldValue("name"),
+                            description: formState.getFieldValue("description")
+                        }, options);
+                    }}
+                    component={(({ isPending, submit, formState }) => (
+                        <div>
+                            <ControlledTextField
+                                label={__("Name")}
+                                placeholder={__("Name")}
+                                fieldName="name"
+                                required={true} />
 
-                        <ControlledTextField
-                            label={__("Description")}
-                            placeholder={__("Description")}
-                            fieldName="description"
-                            required={true} />
+                            <ControlledTextField
+                                label={__("Description")}
+                                placeholder={__("Description")}
+                                fieldName="description"
+                                required={true} />
 
-                        <ProgressButton
-                            type="submit"
-                            bsStyle="primary"
-                            disabled={!this._formValid(formState)}
-                            isActive={isPending}>
-                            {__("Create")}
-                        </ProgressButton>
-                    </div>
-                ))} />
-        </GridColumn>;
+                            <ProgressButton
+                                type="submit"
+                                bsStyle="primary"
+                                disabled={!this._formValid(formState)}
+                                isActive={isPending}>
+                                {__("Create")}
+                            </ProgressButton>
+                        </div>
+                    ))}
+                />
+            </GridColumn>
+        );
     }
 
     private _formValid(formState: IFormState): boolean {

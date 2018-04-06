@@ -19,7 +19,7 @@ export const create = makePromiseAction(
         ({
             payload: {
                 promise: deps.getCachedClient(AllianceClient).post(input).then(alliance => {
-                    // Refresh profile, the user is now a mamber of an alliance
+                    // Refresh profile, the user is now a member of an alliance
                     deps.getCachedClient(AccountClient).getUserInfo().then(userInfo => {
                         dispatch(updateUserInfo(userInfo));
                     });

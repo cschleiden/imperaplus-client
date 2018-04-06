@@ -27,36 +27,38 @@ export class AllianceAdminComponent extends React.Component<IAllianceAdminProps>
             return <Loading />;
         }
 
-        return <GridColumn className="col-xs-12">
-            <Table striped hover responsive>
-                <thead>
-                    <tr>
-                        <th>
-                            {__("Name")}
-                        </th>
-                        <th className="text-center">
-                            {__("Members")}
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        alliances.map(alliance =>
-                            <tr key={alliance.id}>
-                                <td>
-                                    <Link to={`/game/alliances/${alliance.id}`}>
-                                        {alliance.name}
-                                    </Link>
-                                </td>
-                                <td className="text-center">
-                                    {alliance.numberOfMembers}
-                                </td>
-                            </tr>
-                        )
-                    }
-                </tbody>
-            </Table>
-        </GridColumn>;
+        return (
+            <GridColumn className="col-xs-12">
+                <Table striped hover responsive>
+                    <thead>
+                        <tr>
+                            <th>
+                                {__("Name")}
+                            </th>
+                            <th className="text-center">
+                                {__("Members")}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            alliances.map(alliance =>
+                                <tr key={alliance.id}>
+                                    <td>
+                                        <Link to={`/game/alliances/${alliance.id}`}>
+                                            {alliance.name}
+                                        </Link>
+                                    </td>
+                                    <td className="text-center">
+                                        {alliance.numberOfMembers}
+                                    </td>
+                                </tr>
+                            )
+                        }
+                    </tbody>
+                </Table>
+            </GridColumn>
+        );
     }
 }
 
