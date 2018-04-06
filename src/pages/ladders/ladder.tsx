@@ -7,7 +7,7 @@ import { Loading } from "../../components/ui/loading";
 import { Title } from "../../components/ui/typography";
 import { Ladder } from "../../external/imperaClients";
 import { IState } from "../../reducers";
-import { open } from "../games/ladders.actions";
+import { open } from "./ladders.actions";
 
 interface ILadderProps {
     params?: {

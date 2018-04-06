@@ -21,7 +21,7 @@ export const open = makePromiseAction<string, Ladder>(
             }
         }));
 
-export const join = makePromiseAction<string, null>(
+export const join = makePromiseAction<string, void>(
     "ladder-join", (ladderId, dispatch, getState, deps) =>
         ({
             payload: {
@@ -36,7 +36,7 @@ export const join = makePromiseAction<string, null>(
             }
         }));
 
-export const leave = makePromiseAction<string, null>(
+export const leave = makePromiseAction<string, void>(
     "ladder-leave", (ladderId, dispatch, getState, deps) =>
         ({
             payload: {

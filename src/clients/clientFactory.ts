@@ -8,7 +8,7 @@ import { onUnauthorized } from "../services/authProvider";
 import { UserProvider } from "../services/userProvider";
 
 export interface IClient<TClient> {
-    new (baseUri: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }): TClient;
+    new(baseUri: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }): TClient;
 }
 
 const clientCache: [IClient<any>, any][] = [];

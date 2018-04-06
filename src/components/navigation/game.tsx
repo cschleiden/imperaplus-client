@@ -12,11 +12,25 @@ interface IGameNavigation {
 
     messageCount: number;
 
+    memberOfAlliance: boolean;
+
+    allianceAdmin: boolean;
+
+    allianceId: string;
+
     logout: () => void;
 }
 
 const GameNavigation = (props: IGameNavigation): JSX.Element => {
-    const { userName, gameCount, messageCount, logout } = props;
+    const {
+        userName,
+        gameCount,
+        messageCount,
+        logout,
+        memberOfAlliance,
+        allianceAdmin,
+        allianceId
+    } = props;
 
     return <ul className="nav">
         <li>
@@ -46,7 +60,6 @@ const GameNavigation = (props: IGameNavigation): JSX.Element => {
                 </li>
             </ul>
         </li>
-        {/*
         <li>
             <Link to="/game/alliance" activeClassName="active">
                 {__("Alliance")}
@@ -54,20 +67,25 @@ const GameNavigation = (props: IGameNavigation): JSX.Element => {
             </Link>
             <ul className="nav-dropdown">
                 <li>
-                    <Link to="/game/alliance/create" activeClassName="active">{__("Create alliance")}</Link>
+                    <Link to="/game/alliances" activeClassName="active">{__("Alliances")}</Link>
                 </li>
-                <li>
-                    <Link to="/game/alliance/join" activeClassName="active">{__("Join alliance")}</Link>
-                </li>
-                <li>
-                    <Link to="/game/alliance/admin" activeClassName="active">{__("Admin")}</Link>
-                </li>
-                <li>
-                    <Link to="/game/alliance/info" activeClassName="active">{__("Information")}</Link>
-                </li>
+                {
+                    !memberOfAlliance && <li>
+                        <Link to="/game/alliances/create" activeClassName="active">{__("Create alliance")}</Link>
+                    </li>
+                }
+                {
+                    !memberOfAlliance && <li>
+                        <Link to="/game/alliances/join" activeClassName="active">{__("Join alliance")}</Link>
+                    </li>
+                }
+                {
+                    memberOfAlliance && <li>
+                        <Link to={`/game/alliances/${allianceId}`} activeClassName="active">{__("Your alliance")}</Link>
+                    </li>
+                }
             </ul>
-        </li>
-        */}
+        </li >
         <li>
             <Link to="/game/messages" activeClassName="active">
                 <i className="fa fa-envelope" aria-hidden="true" />
@@ -94,18 +112,24 @@ const GameNavigation = (props: IGameNavigation): JSX.Element => {
                 </li>
             </ul>
         </li>
-    </ul>;
+    </ul >;
 };
 
 export default connect((state: IState) => {
     const session = state.session.data;
     const gameCount = session && session.notifications && session.notifications.numberOfGames || 0;
     const messageCount = session && session.notifications && session.notifications.numberOfMessages || 0;
+    const allianceId = session.userInfo.allianceId;
+    const memberOfAlliance = !!session.userInfo.allianceId;
+    const allianceAdmin = memberOfAlliance && session.userInfo.allianceAdmin;
 
     return {
         userName: session && session.userInfo && session.userInfo.userName,
         gameCount,
-        messageCount
+        messageCount,
+        memberOfAlliance,
+        allianceAdmin,
+        allianceId
     };
 }, (dispatch) => ({
     logout: () => { dispatch(logout(null)); }

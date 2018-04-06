@@ -24,7 +24,7 @@ export const load = makePromiseAction<string, Tournament>(
             }
         }));
 
-export const join = makePromiseAction<string, null>(
+export const join = makePromiseAction<string, void>(
     "tournament-join", (tournamentId, dispatch, getState, deps) =>
         ({
             payload: {
@@ -39,7 +39,7 @@ export const join = makePromiseAction<string, null>(
             }
         }));
 
-export const leave = makePromiseAction<string, null>(
+export const leave = makePromiseAction<string, void>(
     "tournament-leave", (tournamentId, dispatch, getState, deps) =>
         ({
             payload: {

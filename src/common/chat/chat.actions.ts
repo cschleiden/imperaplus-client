@@ -75,13 +75,13 @@ export const message = makePromiseAction<string, IMessagePayload>("chat-message"
 
     return {
         payload: {
-            promise: deps.getSignalRClient("chat").invoke("sendMessage", currentChannelId, msg).then(null, (error) => {
+            promise: deps.getSignalRClient("chat").invoke<IMessagePayload>("sendMessage", currentChannelId, msg) /*.then(null, (error) => {
                 if (error.context && error.context.status === 401) {
                     // Re-authorize
                     // Re-try?
                     // TODO
                 }
-            })
+            })*/
         },
         options: {
             // Prevent loading bar from picking this up

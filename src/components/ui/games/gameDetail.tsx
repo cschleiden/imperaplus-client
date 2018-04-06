@@ -141,7 +141,7 @@ class GameDetails extends React.Component<IGameDetailsProps & IGameDetailsDispat
                                                 )}
                                     />
                                 )
-                              }
+                            }
                         </dd>
                     </dl>
                 </GridColumn>
