@@ -43,8 +43,7 @@ export class GameStats extends React.Component<IGameStatsProps, IGameStatsState>
                     <tr>
                         <th className="text-center" title={__("Player")}>#</th>
                         {
-                            isTeamGame && <th className="text-center" title={__("Team")}>{__("T")}</th>
-                        }
+                            isTeamGame && <th className="text-center" title={__("Team")}>{__("T")}</th>}
                         <th title={__("Name")}>{__("Name")}</th>
                         <th className="text-center" title={__("Countries")}>{__("C")}</th>
                         <th className="text-center" title={__("Units")}>{__("U")}</th>
@@ -53,7 +52,7 @@ export class GameStats extends React.Component<IGameStatsProps, IGameStatsState>
                 <tbody>
                     {this.state.players.map(player =>
                         <tr className={css({
-                            "player-inactive": player.outcome !== -1
+                            "player-inactive": player.outcome !== PlayerOutcome.None
                         })} key={player.no}>
                             <td className="text-center">
                                 {player.outcome === PlayerOutcome.None && <span className={css(

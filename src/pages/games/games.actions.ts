@@ -67,7 +67,7 @@ export const surrender = makePromiseAction<number, GameSummary>(
             }
         }));
 
-export const leave = makePromiseAction<number, null>(
+export const leave = makePromiseAction<number, void>(
     "game-leave", (gameId, dispatch, getState, deps) =>
         ({
             payload: {
@@ -81,7 +81,7 @@ export const leave = makePromiseAction<number, null>(
             }
         }));
 
-export const remove = makePromiseAction<number, null>(
+export const remove = makePromiseAction<number, void>(
     "game-remove", (gameId, dispatch, getState, deps) =>
         ({
             payload: {
@@ -95,11 +95,11 @@ export const remove = makePromiseAction<number, null>(
             }
         }));
 
-export const join = makePromiseAction<number, null>(
-    "game-join", (gameId, dispatch, getState, deps) =>
+export const join = makePromiseAction<{ gameId: number, password?: string }, void>(
+    "game-join", ({ gameId, password }, dispatch, getState, deps) =>
         ({
             payload: {
-                promise: deps.getCachedClient(GameClient).postJoin(gameId).then(() => {
+                promise: deps.getCachedClient(GameClient).postJoin(gameId, password || null).then(() => {
                     // Refresh games after hiding
                     dispatch(refreshOpen(null));
                     dispatch(show(__("Game joined, you can find it now in [My Games](/game/games)."), MessageType.success));

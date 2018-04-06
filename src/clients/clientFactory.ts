@@ -8,7 +8,7 @@ import { onUnauthorized } from "../services/authProvider";
 import { UserProvider } from "../services/userProvider";
 
 export interface IClient<TClient> {
-    new (baseUri: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }): TClient;
+    new(baseUri: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }): TClient;
 }
 
 const clientCache: [IClient<any>, any][] = [];
@@ -39,7 +39,7 @@ const fetchWrapper = (tokenProvider: () => string, url: string, init: RequestIni
     const accessToken = tokenProvider();
 
     if (accessToken) {
-        init.headers.set("Authorization", "Bearer " + accessToken);
+        init.headers["Authorization"] = "Bearer " + accessToken;
         init.mode = "cors";
     }
 

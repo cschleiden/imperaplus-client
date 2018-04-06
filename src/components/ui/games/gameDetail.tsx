@@ -207,9 +207,9 @@ class GameDetails extends React.Component<IGameDetailsProps & IGameDetailsDispat
 }
 
 export default connect((state: IState, ownProps: IGameDetailsProps) => ownProps, (dispatch) => ({
-    hide: (gameId: number) => { dispatch(hide(gameId)) },
-    remove: (gameId: number) => { dispatch(remove(gameId)) },
-    surrender: (gameId: number) => { dispatch(surrender(gameId)) },
-    leave: (gameId: number) => { dispatch(leave(gameId)) },
-    join: (gameId: number) => { dispatch(join(gameId)) }
+    hide: (gameId: number) => { dispatch(hide(gameId)); },
+    remove: (gameId: number) => { dispatch(remove(gameId)); },
+    surrender: (gameId: number) => { dispatch(surrender(gameId)); },
+    leave: (gameId: number) => { dispatch(leave(gameId)); },
+    join: (gameId: number) => { dispatch(join(gameId)); }
 }))(GameDetails);

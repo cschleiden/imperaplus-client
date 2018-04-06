@@ -15,7 +15,7 @@ export interface ISignalRClient {
     detachAllHandlers(): void;
 
     on(eventName: string, callback: Function);
-    onInit(callback: () => void);
+    onInit(callback: () => Promise<void>);
     off(eventName: string, callback: Function);
 
     invoke<TResult>(methodName: string, ...args: any[]): Promise<TResult>;
