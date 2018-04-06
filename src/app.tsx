@@ -136,12 +136,12 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
                                     <Route path="/game/games/create" component={Create} {...this._title(__("Create Game"))} />
                                     <Route path="/game/games/join" component={Join}  {...this._title(__("Join Game"))} />
                                 </Route>
-                            <Route path="/game/alliances">
-                                <IndexRoute component={Alliances}  {...this._title(__("Alliances"))} />
+                                <Route path="/game/alliances">
+                                    <IndexRoute component={Alliances}  {...this._title(__("Alliances"))} />
 
-                                <Route path="/game/alliances/create" component={CreateAlliance}  {...this._title(__("Create Alliance"))} />
-                                <Route path="/game/alliances/:id" component={AllianceInfo}  {...this._title(__("Alliance Info"))} />
-                            </Route>
+                                    <Route path="/game/alliances/create" component={CreateAlliance}  {...this._title(__("Create Alliance"))} />
+                                    <Route path="/game/alliances/:id" component={AllianceInfo}  {...this._title(__("Alliance Info"))} />
+                                </Route>
 
                                 <Route path="/game/ladders">
                                     <IndexRoute component={Ladders}  {...this._title(__("Ladders"))} />
@@ -154,11 +154,11 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
                                     <Route path="/game/tournaments/:id" component={Tournament} />
                                 </Route>
 
-                                <Route path="/game/alliance">
-                                    <Route path="/game/alliance/create" component={CreateAlliance} {...this._title(__("Create Alliance"))} />
-                                    <Route path="/game/alliance/admin" component={AllianceAdmin} {...this._title(__("Alliance Admin"))} />
-                                    <Route path="/game/alliance/info" component={AllianceInfo} {...this._title(__("Alliance Info"))} />
-                                    <Route path="/game/alliance/join" component={JoinAlliance} {...this._title(__("Join Alliance"))} />
+                                <Route path="/game/alliances">
+                                    <IndexRoute component={Alliances}  {...this._title(__("Alliances"))} />
+
+                                    <Route path="/game/alliances/create" component={CreateAlliance}  {...this._title(__("Create Alliance"))} />
+                                    <Route path="/game/alliances/:id" component={AllianceInfo}  {...this._title(__("Alliance Info"))} />
                                 </Route>
 
                                 <Route path="/game/messages">
