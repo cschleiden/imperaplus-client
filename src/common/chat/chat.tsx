@@ -170,7 +170,7 @@ export class Chat extends React.Component<IChatProps, IChatState> {
 }
 
 export default connect((state: IState) => {
-    const chat = state.chat.data;
+    const chat = state.chat;
 
     return {
         isVisible: chat.isVisible,

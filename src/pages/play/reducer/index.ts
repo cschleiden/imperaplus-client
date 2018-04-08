@@ -19,7 +19,7 @@ export const play = <TPayload>(
         Actions.SET_ACTION_UNITS
     ];
 
-    if (state.data.operationInProgress && action && userActions.some(a => a === action.type)) {
+    if (state.operationInProgress && action && userActions.some(a => a === action.type)) {
         // No input allowed while operation is in progress
         return state;
     }

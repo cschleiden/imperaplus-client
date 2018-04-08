@@ -68,7 +68,7 @@ class MessageComponent extends React.Component<IMessageProps> {
 }
 
 export default connect((state: IState) => {
-    const messages = state.messages.data;
+    const messages = state.messages;
 
     return {
         message: messages.currentMessage

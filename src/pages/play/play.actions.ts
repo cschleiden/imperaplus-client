@@ -60,13 +60,13 @@ export const switchGame: IAsyncAction<ISwitchGameInput> = (input) =>
             client.attachHandler(NotificationType.PlayerTurn, notification => {
                 const turnNotification = notification as IGameNotification;
 
-                if (turnNotification.gameId === getState().play.data.gameId) {
+                if (turnNotification.gameId === getState().play.gameId) {
                     (dispatch as any)(refreshGame(null));
                 }
             });
         }
 
-        const oldGameId = getState().play.data.gameId;
+        const oldGameId = getState().play.gameId;
         client.switchGame(oldGameId || 0, gameId).then(() => {
             dispatch({
                 type: SWITCH_GAME,
@@ -84,9 +84,9 @@ export const switchGame: IAsyncAction<ISwitchGameInput> = (input) =>
                 options: {
                     afterSuccess: (d) => {
                         // Update title
-                        const { game } = getState().play.data;
+                        const { game } = getState().play;
                         setDocumentTitle(`${__("Play")}: ${game.id} - ${game.name}`);
-                        
+
                         // Retrieve game chat
                         d(gameChatMessages(gameId));
 
@@ -101,7 +101,7 @@ export const switchGame: IAsyncAction<ISwitchGameInput> = (input) =>
     };
 
 export const refreshGame = makePromiseAction<void, Game>("play-game-refresh", (input, dispatch, getState, deps) => {
-    const gameId = getState().play.data.gameId;
+    const gameId = getState().play.gameId;
 
     if (!gameId) {
         throw new Error("Cannot refresh without game");
@@ -148,7 +148,7 @@ export interface IGameChatSendMessageInput {
 export const gameChatSendMessage = makePromiseAction(
     "play-game-chat-send-message",
     (input: IGameChatSendMessageInput, dispatch, getState, deps) => {
-        const gameId = getState().play.data.gameId;
+        const gameId = getState().play.gameId;
 
         return {
             payload: {
@@ -165,7 +165,7 @@ export const LEAVE = "play-leave";
 export const leave: IAsyncActionVoid = () =>
     (dispatch, getState, deps) => {
         // Stop notification hub        
-        const gameId = getState().play.data.gameId;
+        const gameId = getState().play.gameId;
         NotificationService.getInstance().leaveGame(gameId);
 
         dispatch(refreshNotifications(null));
@@ -179,7 +179,7 @@ export const leave: IAsyncActionVoid = () =>
 
 export const TOGGLE_SIDEBAR = "play-toggle-sidebar";
 export const toggleSidebar: IAsyncAction<void> = () => (dispatch, getState, deps) => {
-    const sidebarOpen = getState().play.data.sidebarOpen;
+    const sidebarOpen = getState().play.sidebarOpen;
     localStorage.setItem("impera-sidebar", (!sidebarOpen).toString());
 
     dispatch({
@@ -194,7 +194,7 @@ export interface ISetGameOptionPayload {
 }
 export const SET_GAME_OPTION = "play-set-game-option";
 export const setGameOption: IAsyncAction<ISetGameOptionPayload> = (payload) => (dispatch, getState) => {
-    const state = getState().play.data;
+    const state = getState().play;
     const data = payload.temporary ? state.overrideGameUiOptions : state.gameUiOptions;
     if (data[payload.name] === payload.value) {
         return;
@@ -205,7 +205,7 @@ export const setGameOption: IAsyncAction<ISetGameOptionPayload> = (payload) => (
         payload: payload
     } as IAction<ISetGameOptionPayload>);
 
-    localStorage.setItem("impera-options", JSON.stringify(getState().play.data.gameUiOptions));
+    localStorage.setItem("impera-options", JSON.stringify(getState().play.gameUiOptions));
 };
 
 //
@@ -214,7 +214,7 @@ export const setGameOption: IAsyncAction<ISetGameOptionPayload> = (payload) => (
 
 export const place = makePromiseAction<void, GameActionResult>("play-place", (gameId, dispatch, getState, deps) => {
     const state = getState();
-    const playState = getState().play.data;
+    const playState = getState().play;
     if (!inputActive(state.play)) {
         return;
     }
@@ -250,7 +250,7 @@ export const exchange = makePromiseAction<void, GameActionResult>(
 
         return {
             payload: {
-                promise: deps.getCachedClient(PlayClient).postExchange(getState().play.data.gameId)
+                promise: deps.getCachedClient(PlayClient).postExchange(getState().play.gameId)
             }
         };
     });
@@ -283,7 +283,7 @@ export const setActionUnits = (units: number): IAction<number> => ({
 export const attack = makePromiseAction<void, GameActionResult>(
     "play-attack", (input, dispatch, getState, deps) => {
         const state = getState();
-        const playState = getState().play.data;
+        const playState = getState().play;
 
         if (!inputActive(state.play)) {
             return;
@@ -307,7 +307,7 @@ export const attack = makePromiseAction<void, GameActionResult>(
 export const endAttack = makePromiseAction<void, GameActionResult>(
     "play-end-attack", (_, dispatch, getState, deps) => {
         const state = getState();
-        const playState = getState().play.data;
+        const playState = getState().play;
 
         if (!inputActive(state.play)) {
             return;
@@ -323,7 +323,7 @@ export const endAttack = makePromiseAction<void, GameActionResult>(
 export const move = makePromiseAction<void, GameActionResult>(
     "play-move", (_, dispatch, getState, deps) => {
         const state = getState();
-        const playState = getState().play.data;
+        const playState = getState().play;
 
         if (!inputActive(state.play)) {
             return;
@@ -347,7 +347,7 @@ export const move = makePromiseAction<void, GameActionResult>(
 export const endTurn = makePromiseAction<void, Game>(
     "play-end-turn", (_, dispatch, getState, deps) => {
         const state = getState();
-        const playState = getState().play.data;
+        const playState = getState().play;
 
         if (!inputActive(state.play)) {
             return;
@@ -368,7 +368,7 @@ export const endTurn = makePromiseAction<void, Game>(
 //
 export const historyTurn = makePromiseAction<number, HistoryTurn>(
     "play-history-turn", (turnId, dispatch, getState, deps) => {
-        const { gameId } = getState().play.data;
+        const { gameId } = getState().play;
 
         dispatch(push(`/play/${gameId}/history/${turnId}`));
 
@@ -382,7 +382,7 @@ export const historyTurn = makePromiseAction<number, HistoryTurn>(
 export const HISTORY_EXIT = "play-history-exit";
 export const historyExit: IAsyncAction<void> = () =>
     (dispatch, getState, deps) => {
-        const gameId = getState().play.data.gameId;
+        const gameId = getState().play.gameId;
 
         dispatch(push(`/play/${gameId}`));
 

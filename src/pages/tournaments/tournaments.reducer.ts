@@ -1,4 +1,4 @@
-import { IImmutable, makeImmutable } from "immuts";
+import { IImmutable, makeImmutable, push, remove } from "immuts";
 import { Tournament, TournamentClient, TournamentSummary, TournamentTeam, GameSummary } from "../../external/imperaClients";
 import { failed, IAction, pending, success } from "../../lib/action";
 import reducerMap from "../../lib/reducerMap";
@@ -14,50 +14,48 @@ const initialState = makeImmutable({
 export type ITournamentsState = typeof initialState;
 
 const refresh = (state: ITournamentsState, action: IAction<TournamentSummary[]>) => {
-    return state.merge(x => x, {
+    return state.__set(x => x, {
         isLoading: false,
         tournaments: action.payload
     });
 };
 
 const load = (state: ITournamentsState, action: IAction<Tournament>) => {
-    return state.merge(x => x, {
+    return state.__set(x => x, {
         isLoading: false,
         tournament: action.payload
     });
 };
 
 const loadPairingGames = (state: ITournamentsState, action: IAction<GameSummary[]>) => {
-    return state.set(x => x.pairingGames, action.payload);
+    return state.__set(x => x.pairingGames, action.payload);
 };
 
 const loading = (state: ITournamentsState, action: IAction<void>) => {
-    return state.set(x => x.isLoading, true);
+    return state.__set(x => x.isLoading, true);
 };
 
 const createdTeam = (state: ITournamentsState, action: IAction<TournamentTeam>) => {
-    return state.array.insert(x => x.tournament.teams, action.payload);
+    return state.__set(x => x.tournament.teams, x => push(x, action.payload));
 };
 
 const joinedTeam = (state: ITournamentsState, action: IAction<TournamentTeam>) => {
     const team = action.payload;
-    const idx = state.data.tournament.teams.findIndex(t => t.id === team.id);
+    const idx = state.tournament.teams.findIndex(t => t.id === team.id);
 
-    return state
-        .array.remove(x => x.tournament.teams, idx)
-        .array.insert(x => x.tournament.teams, team);
+    return state.__set(x => x.tournament.teams, x => push(remove(x, idx), team));
 };
 
 const deletedTeam = (state: ITournamentsState, action: IAction<string>) => {
     const teamId = action.payload;
 
-    const idx = state.data.tournament.teams.findIndex(t => t.id === teamId);
+    const idx = state.tournament.teams.findIndex(t => t.id === teamId);
 
     if (idx === -1) {
         return state;
     }
 
-    return state.array.remove(x => x.tournament.teams, idx);
+    return state.__set(x => x.tournament.teams, x => remove(x, idx));
 };
 
 export const tournaments = <TPayload>(

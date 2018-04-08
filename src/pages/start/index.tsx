@@ -99,16 +99,15 @@ export class StartComponent extends React.Component<IStartProps> {
 }
 
 export default connect((state: IState) => {
-    const tournaments = state.tournaments.data.tournaments || [];
-
+    const tournaments = state.tournaments.tournaments || [];
     const openTournaments = tournaments.filter(x => x.state === TournamentState.Open);
     const activeTournaments = tournaments.filter(x => x.state === TournamentState.Knockout || x.state === TournamentState.Groups);
     const closedTournaments = tournaments.filter(x => x.state === TournamentState.Closed);
 
     return {
-        userInfo: state.session.data.userInfo,
-        language: state.session.data.language,
-        news: state.news.data.news,
+        userInfo: state.session.userInfo,
+        language: state.session.language,
+        news: state.news.news,
         openTournaments,
         activeTournaments,
         closedTournaments

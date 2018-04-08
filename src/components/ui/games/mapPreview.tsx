@@ -62,7 +62,7 @@ export class MapPreview extends React.Component<IMapPreviewProps, IMapPreviewSta
             getCachedClient(MapClient).getMapTemplate(mapTemplateName).then(mapTemplate => {
                 this.setState({
                     mapTemplate
-                })
+                });
             });
         });
     }

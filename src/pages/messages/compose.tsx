@@ -85,7 +85,7 @@ class ComposeComponent extends React.Component<IComposeProps & IOwnProps> {
 }
 
 export default connect((state: IState, ownProps: IOwnProps) => {
-    const messages = state.messages.data;
+    const messages = state.messages;
 
     let replyTo: Message;
     if (ownProps && ownProps.params && ownProps.params.replyId) {

@@ -64,7 +64,7 @@ export let store = Redux.createStore<IState>(
 // Persist session settings to session storage
 store.subscribe(debounce(() => {
   const state = store.getState();
-  const sessionState = state && state.session && state.session.toJS();
+  const sessionState = state && state.session;
 
   if (sessionState) {
     sessionStorage.setItem("impera", JSON.stringify(sessionState));
@@ -77,11 +77,11 @@ setOnUnauthorized(() => {
 });
 
 UserProvider.userProvider = () => {
-  const userInfo = store.getState().session.data.userInfo;
+  const userInfo = store.getState().session.userInfo;
   return userInfo && userInfo.userId;
 };
 
 UserProvider.isAdminProvider = () => {
-  const userInfo = store.getState().session.data.userInfo;
+  const userInfo = store.getState().session.userInfo;
   return userInfo && userInfo.roles && userInfo.roles.some(x => x.toLowerCase() === "admin");
 };

@@ -23,28 +23,28 @@ const refresh = (state: ILaddersState, action: IAction<LadderSummary[]>) => {
         }
     }
 
-    return state.merge(x => x, {
+    return state.__set(x => x, {
         isLoading: false,
         ladders: ladderMap
     });
 };
 
 const pendingOpen = (state: ILaddersState, action: IAction<void>) => {
-    return state.merge(x => x, {
+    return state.__set(x => x, {
         isLoading: true,
         ladder: null
     });
 };
 
 const open = (state: ILaddersState, action: IAction<Ladder>) => {
-    return state.merge(x => x, {
+    return state.__set(x => x, {
         isLoading: false,
         ladder: action.payload
     });
 };
 
 const loading = (state: ILaddersState, action: IAction<void>) => {
-    return state.set(x => x.isLoading, true);
+    return state.__set(x => x.isLoading, true);
 };
 
 export const ladders = <TPayload>(

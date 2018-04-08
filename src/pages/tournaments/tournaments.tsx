@@ -62,7 +62,7 @@ export class TournamentsComponent extends React.Component<ITournamentGamesProps>
 }
 
 export default connect((state: IState) => {
-    const tournamentMap = state.tournaments.data.tournaments;
+    const tournamentMap = state.tournaments.tournaments;
     const tournaments = Object.keys(tournamentMap).map(id => tournamentMap[id]);
 
     return {

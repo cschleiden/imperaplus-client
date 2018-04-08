@@ -48,7 +48,7 @@ export class MessagesComponent extends React.Component<IMessagesProps> {
 
                 <MessageList messages={currentMessages} onMessageSelect={this._selectMessage} onMessageDelete={this._deleteMessage} />
             </GridColumn>
-            
+
             <GridColumn className="col-md-3 col-md-pull-9 col-xs-12">
                 <Section>{__("Folders")}</Section>
                 <FolderList onFolderSelect={this._changeFolder} folders={folderInformation} selectedFolder={currentFolder} />
@@ -78,7 +78,7 @@ export class MessagesComponent extends React.Component<IMessagesProps> {
 }
 
 export default connect((state: IState) => {
-    const messages = state.messages.data;
+    const messages = state.messages;
 
     return {
         currentFolder: messages.currentFolder,

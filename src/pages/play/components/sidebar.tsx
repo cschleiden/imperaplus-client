@@ -40,6 +40,6 @@ class Sidebar extends React.Component<ISidebarProps> {
 
 export default connect((state: IState) => ({
     game: game(state.play),
-    otherGames: state.play.data.otherGames
+    otherGames: state.play.otherGames
 }), (dispatch) => ({
 }))(Sidebar);

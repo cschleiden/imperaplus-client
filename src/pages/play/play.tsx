@@ -125,7 +125,7 @@ class Play extends React.Component<IPlayProps & IPlayDispatchProps> {
 }
 
 export default connect((state: IState, ownProps: IPlayProps) => {
-    const playState = state.play.data;
+    const playState = state.play;
 
     return {
         game: playState.game,

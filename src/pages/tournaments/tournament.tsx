@@ -205,7 +205,6 @@ export class TournamentComponent extends React.Component<ITournamentProps> {
         const teamsToJoinAvailable = isTeamTournament
             && tournament.teams.some(t => t.participants.length < tournament.options.numberOfPlayersPerTeam);
 
-
         return registrationOpen && (
             <GridRow>
                 <Section>{__("Registration")}</Section>
@@ -262,7 +261,8 @@ export class TournamentComponent extends React.Component<ITournamentProps> {
                                             {__("Create")}
                                         </ProgressButton>
                                     </div>
-                                </div>)} />
+                                </div>)}
+                        />
                     </div>
                 }
 
@@ -307,7 +307,8 @@ export class TournamentComponent extends React.Component<ITournamentProps> {
                                             {__("Join")}
                                         </ProgressButton>
                                     </div>
-                                </div>)} />
+                                </div>)}
+                        />
                     </div>
                 }
 
@@ -422,8 +423,8 @@ export class TournamentComponent extends React.Component<ITournamentProps> {
 }
 
 export default connect((state: IState, ownProps: ITournamentProps) => {
-    const tournament = state.tournaments.data.tournament;
-    const userInfo = state.session.data.userInfo;
+    const tournament = state.tournaments.tournament;
+    const userInfo = state.session.userInfo;
 
     return {
         tournament: tournament && ownProps.params.id === tournament.id && tournament,

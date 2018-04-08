@@ -19,7 +19,7 @@ export const switchGame = (state: IPlayState, action: IAction<ISwitchGamePayload
     const player = getPlayer(game, UserProvider.getUserId());
 
     return state
-        .merge(x => x, {
+        .__set(x => x, {
             gameId: game.id,
             game,
             mapTemplate,
@@ -28,40 +28,40 @@ export const switchGame = (state: IPlayState, action: IAction<ISwitchGamePayload
             historyActive: false,
             sidebarOpen: localStorage.getItem("impera-sidebar") === "true"
         })
-        .set(x => x.operationInProgress, false)
-        .set(x => x.error, null);
+        .__set(x => x.operationInProgress, false)
+        .__set(x => x.error, null);
 };
 
 export const refreshOtherGames = (state: IPlayState, action: IAction<GameSummary[]>) => {
-    return state.set(x => x.otherGames, action.payload);
+    return state.__set(x => x.otherGames, action.payload);
 };
 
 export const refreshGame = (state: IPlayState, action: IAction<Game>) => {
-    const currentState = state.data;
+    const currentState = state;
 
     const game = action.payload;
     const player = getPlayer(game, UserProvider.getUserId());
 
     return state
-        .merge(x => x, {
+        .__set(x => x, {
             gameId: game.id,
             game,
             mapTemplate: currentState.mapTemplate,
             player
         })
-        .set(x => x.operationInProgress, false)
-        .set(x => x.error, null);
+        .__set(x => x.operationInProgress, false)
+        .__set(x => x.error, null);
 };
 
 export const toggleSidebar = (state: IPlayState, action: IAction<void>) => {
-    return state.set(x => x.sidebarOpen, !state.data.sidebarOpen);
+    return state.__set(x => x.sidebarOpen, !state.sidebarOpen);
 };
 
 export const setUIOption = (state: IPlayState, action: IAction<ISetGameOptionPayload>) => {
     const { name, temporary, value } = action.payload;
 
     if (temporary && !value) {
-        return state.update(x => x.overrideGameUiOptions, oldValue => {
+        return state.__set(x => x.overrideGameUiOptions, oldValue => {
             // Remove from overrides
             const clone = {
                 ...oldValue
@@ -72,7 +72,7 @@ export const setUIOption = (state: IPlayState, action: IAction<ISetGameOptionPay
             return clone;
         });
     } else {
-        return state.merge(
+        return state.__set(
             action.payload.temporary ?
                 x => x.overrideGameUiOptions :
                 x => x.gameUiOptions,
@@ -84,11 +84,11 @@ export const setUIOption = (state: IPlayState, action: IAction<ISetGameOptionPay
 };
 
 export const pendingOperation = (state: IPlayState) => {
-    return state.set(x => x.operationInProgress, true);
+    return state.__set(x => x.operationInProgress, true);
 };
 
 export const error = (state: IPlayState, action: IAction<ErrorResponse>) => {
-    return state.set(x => x.error, action.payload);
+    return state.__set(x => x.error, action.payload);
 };
 
 export const leave = (state: IPlayState) => {
@@ -102,29 +102,29 @@ export const gameChatMessage = (state: IPlayState, action: IAction<GameChatMessa
     const message = action.payload;
 
     if (isEmptyGuid(message.teamId)) {
-        return state.update(x => x.gameChat.all, messages => messages.concat([message]));
+        return state.__set(x => x.gameChat.all, messages => messages.concat([message]));
     } else {
-        return state.update(x => x.gameChat.team, messages => messages.concat([message]));
+        return state.__set(x => x.gameChat.team, messages => messages.concat([message]));
     }
 };
 
 export const gameChatSendMessagePending = (state: IPlayState, action: IAction<void>) => {
-    return state.set(x => x.gameChat.isPending, true);
+    return state.__set(x => x.gameChat.isPending, true);
 };
 
 export const gameChatSendMessageSuccess = (state: IPlayState, action: IAction<void>) => {
-    return state.set(x => x.gameChat.isPending, false);
+    return state.__set(x => x.gameChat.isPending, false);
 };
 
 export const gameChatMessages = (state: IPlayState, action: IAction<IGameChatMessagesPayload>) => {
     const { gameId, all, team, } = action.payload;
 
-    if (state.data.gameId !== gameId) {
+    if (state.gameId !== gameId) {
         // Game might have changed, ignore result
         return state;
     }
 
-    return state.merge(x => x.gameChat, {
+    return state.__set(x => x.gameChat, {
         isPending: false,
         all,
         team
@@ -138,22 +138,22 @@ export const historyTurn = (state: IPlayState, action: IAction<HistoryTurn>) => 
     const turn = action.payload;
 
     return state
-        .set(x => x.operationInProgress, false)
-        .set(x => x.historyTurn, turn)
-        .set(x => x.historyActive, true);
+        .__set(x => x.operationInProgress, false)
+        .__set(x => x.historyTurn, turn)
+        .__set(x => x.historyActive, true);
 };
 
 export const historyExit = (state: IPlayState, action: IAction<void>) => {
     return state
-        .set(x => x.historyActive, false)
-        .set(x => x.historyTurn, null);
+        .__set(x => x.historyActive, false)
+        .__set(x => x.historyTurn, null);
 };
 
 //
 // Play actions
 //
 export const selectCountry = (state: IPlayState, action: IAction<string>) => {
-    const { game, placeCountries, twoCountry, mapTemplate } = state.data;
+    const { game, placeCountries, twoCountry, mapTemplate } = state;
     const currentUserId = UserProvider.getUserId();
     const teamId = getTeam(game, currentUserId).id;
 
@@ -169,14 +169,14 @@ export const selectCountry = (state: IPlayState, action: IAction<string>) => {
                 if (placeCountries[countryIdentifier]) {
                     // Country was selected, de-select
                     const { [countryIdentifier]: _, ...newPlaceCountries } = placeCountries;
-                    return state.set(x => x.placeCountries, newPlaceCountries);
+                    return state.__set(x => x.placeCountries, newPlaceCountries);
                 }
 
                 // Select country
                 if (country && country.teamId === teamId) {
                     const remainingUnits = game.unitsToPlace - Object.keys(placeCountries).reduce((sum, id) => sum + placeCountries[id], 0);
 
-                    return state.merge(x => x.placeCountries, {
+                    return state.__set(x => x.placeCountries, {
                         [countryIdentifier]: remainingUnits
                     });
                 }
@@ -187,7 +187,7 @@ export const selectCountry = (state: IPlayState, action: IAction<string>) => {
             case PlayState.Attack:
             case PlayState.Move: {
                 if (countryIdentifier === null) {
-                    return state.set(x => x.twoCountry, initialState.data.twoCountry);
+                    return state.__set(x => x.twoCountry, initialState.twoCountry);
                 }
 
                 const originSet = !!twoCountry.originCountryIdentifier;
@@ -206,15 +206,15 @@ export const selectCountry = (state: IPlayState, action: IAction<string>) => {
                             const maxUnits = originCountry.units - game.options.minUnitsPerCountry;
 
                             return state
-                                .set(x => x.twoCountry.destinationCountryIdentifier, countryIdentifier)
-                                .merge(x => x.twoCountry, {
+                                .__set(x => x.twoCountry.destinationCountryIdentifier, countryIdentifier)
+                                .__set(x => x.twoCountry, {
                                     minUnits: 1,
                                     maxUnits,
                                     numberOfUnits: Math.max(0, maxUnits)
                                 });
                         } else {
                             // Reset
-                            state.set(x => x.twoCountry, initialState.data.twoCountry);
+                            state.__set(x => x.twoCountry, initialState.twoCountry);
                         }
                     } else {
                         // Origin country has to belong to current player's team
@@ -225,7 +225,7 @@ export const selectCountry = (state: IPlayState, action: IAction<string>) => {
                                 .filter(c => countriesByIdentifier[c].playerId !== playerId);
 
                             return state
-                                .merge(x => x.twoCountry, {
+                                .__set(x => x.twoCountry, {
                                     originCountryIdentifier: countryIdentifier,
                                     destinationCountryIdentifier: null,
                                     allowedDestinations
@@ -240,7 +240,7 @@ export const selectCountry = (state: IPlayState, action: IAction<string>) => {
                             const maxUnits = originCountry.units - game.options.minUnitsPerCountry;
 
                             return state
-                                .merge(x => x.twoCountry, {
+                                .__set(x => x.twoCountry, {
                                     destinationCountryIdentifier: countryIdentifier,
                                     minUnits: 1,
                                     maxUnits,
@@ -253,14 +253,14 @@ export const selectCountry = (state: IPlayState, action: IAction<string>) => {
                                 .filter(c => countriesByIdentifier[c].teamId === teamId);
 
                             return state
-                                .merge(x => x.twoCountry, {
+                                .__set(x => x.twoCountry, {
                                     originCountryIdentifier: countryIdentifier,
                                     allowedDestinations
                                 } as ITwoCountry);
                         }
                     } else {
                         // Reset
-                        state.set(x => x.twoCountry, initialState.data.twoCountry);
+                        state.__set(x => x.twoCountry, initialState.twoCountry);
                     }
                 }
 
@@ -274,7 +274,7 @@ export const selectCountry = (state: IPlayState, action: IAction<string>) => {
 };
 
 export const setPlaceUnits = (state: IPlayState, action: IAction<ISetPlaceUnitsPayload>) => {
-    const data = state.data;
+    const data = state;
 
     let { countryIdentifier, units = 0 } = action.payload;
 
@@ -286,7 +286,7 @@ export const setPlaceUnits = (state: IPlayState, action: IAction<ISetPlaceUnitsP
             units = remainingUnits;
         }
 
-        return state.merge(x => x.placeCountries, {
+        return state.__set(x => x.placeCountries, {
             [countryIdentifier]: units
         });
     }
@@ -295,13 +295,13 @@ export const setPlaceUnits = (state: IPlayState, action: IAction<ISetPlaceUnitsP
 };
 
 export const setActionUnits = (state: IPlayState, action: IAction<number>) => {
-    const data = state.data;
+    const data = state;
     const { minUnits, maxUnits } = data.twoCountry;
     const inputUnits = action.payload;
 
     const units = Math.min(Math.max(minUnits, inputUnits), maxUnits);
 
-    return state.set(x => x.twoCountry.numberOfUnits, units);
+    return state.__set(x => x.twoCountry.numberOfUnits, units);
 };
 
 export const updateFromResult = (state: IPlayState, action: IAction<GameActionResult>) => {
@@ -309,10 +309,11 @@ export const updateFromResult = (state: IPlayState, action: IAction<GameActionRe
     const currentUserId = UserProvider.getUserId();
 
     return state
-        .set(x => x.operationInProgress, false)
-        .set(x => x.placeCountries, {})
-        .set(x => x.twoCountry, initialState.data.twoCountry)
-        .merge(x => x.game, {
+        .__set(x => x.operationInProgress, false)
+        .__set(x => x.placeCountries, {})
+        .__set(x => x.twoCountry, initialState.twoCountry)
+        .__set(x => x.game, x => ({
+            ...x,
             state: result.state,
             playState: result.playState,
             currentPlayer: result.currentPlayer,
@@ -320,8 +321,8 @@ export const updateFromResult = (state: IPlayState, action: IAction<GameActionRe
             movesInCurrentTurn: result.movesInCurrentTurn,
             unitsToPlace: result.unitsToPlace,
             turnCounter: result.turnCounter
-        })
-        .update(x => x.game.map, map => {
+        }))
+        .__set(x => x.game.map, map => {
             let newMap = {
                 countries: map.countries.slice(0)
             };
@@ -345,8 +346,8 @@ export const updateFromResult = (state: IPlayState, action: IAction<GameActionRe
 
             return newMap;
         })
-        .set(x => x.game.teams, result.teams)
-        .merge(x => x.player, getPlayerFromTeams(result.teams, currentUserId));
+        .__set(x => x.game.teams, result.teams)
+        .__set(x => x.player, getPlayerFromTeams(result.teams, currentUserId));
 };
 
 export const attack = (state: IPlayState, action: IAction<GameActionResult>) => {

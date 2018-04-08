@@ -102,7 +102,7 @@ export const deleteMessage = makePromiseAction(
 
 export const OPEN_MESSAGE = "messages-open";
 export const openMessage: IAsyncAction<string> = (messageId: string) => (dispatch, getState, deps) => {
-    const state = getState().messages.data;
+    const state = getState().messages;
 
     const idx = state.currentMessages.findIndex(m => m.id === messageId);
     if (idx !== -1) {

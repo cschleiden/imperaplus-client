@@ -23,7 +23,7 @@ export const lookupSet = <T>(key: string, data: T[]) => ({
 export const SET_TITLE = "general-set-title";
 export const setTitle: IAsyncAction<string> = (title: string) =>
     (dispatch, getState, deps) => {
-        const session = getState().session.data;
+        const session = getState().session;
         if (session.isLoggedIn) {
             const gameCount = session && session.notifications && session.notifications.numberOfGames || 0;
 

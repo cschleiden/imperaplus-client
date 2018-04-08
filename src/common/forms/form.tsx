@@ -96,11 +96,11 @@ export class FormState implements IFormState {
 
 export default connect((state: { forms: IImmutable<IForms> }, ownProps: IFormProps) => {
     return {
-        formState: state.forms.data.forms[ownProps.name] || {
+        formState: state.forms.forms[ownProps.name] || {
             name: ownProps.name,
             fields: {}
         } as IForm,
-        isPending: state.forms.data.forms[ownProps.name] && state.forms.data.forms[ownProps.name].isPending || false
+        isPending: state.forms.forms[ownProps.name] && state.forms.forms[ownProps.name].isPending || false
     };
 }, (dispatch, ownProps: IFormProps) => ({
     submit: (formState: IFormState) => {

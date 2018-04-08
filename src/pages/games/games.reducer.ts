@@ -22,33 +22,33 @@ const refresh = (state: IMyGamesState, action: IAction<GameSummary[]>) => {
         }
     }
 
-    return state.merge(x => x, {
+    return state.__set(x => x, {
         isLoading: false,
         games: gameMap
     });
 };
 
 const refreshOpen = (state: IMyGamesState, action: IAction<GameSummary[]>) => {
-    return state.merge(x => x, {
+    return state.__set(x => x, {
         isLoading: false,
         openGames: action.payload
     });
 };
 
 const loading = (state: IMyGamesState, action: IAction<void>) => {
-    return state.set(x => x.isLoading, true);
+    return state.__set(x => x.isLoading, true);
 };
 
 const surrender = (state: IMyGamesState, action: IAction<GameSummary>) => {
     const game = action.payload;
 
-    return state.merge(x => x.games[game.id], game);
+    return state.__set(x => x.games[game.id], game);
 };
 
 const remove = (state: IMyGamesState, action: IAction<GameSummary>) => {
     const game = action.payload;
-    const { [game.id]: _, ...newGames } = state.data.games;
-    return state.set(x => x.games, newGames);
+    const { [game.id]: _, ...newGames } = state.games;
+    return state.__set(x => x.games, newGames);
 };
 
 export const games = <TPayload>(

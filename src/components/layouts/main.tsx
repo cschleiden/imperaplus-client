@@ -228,11 +228,11 @@ export class Layout extends React.Component<ILayoutProps> {
 }
 
 export default connect((state: IState) => {
-    const session = state.session.data;
-    const general = state.general.data;
+    const session = state.session;
+    const general = state.general;
 
     return {
-        message: state.message.data.message,
+        message: state.message.message,
         isNavOpen: general.isNavOpen,
         title: general.title,
         language: session.language,

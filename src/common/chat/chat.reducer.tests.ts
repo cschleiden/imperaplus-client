@@ -8,18 +8,18 @@ describe("Chat:reducer", () => {
     let state: IChatState = chat();
 
     it("Opening resets unread count", () => {
-        let s = state.set(x => x.unreadCount, 42);
+        let s = state.__set(x => x.unreadCount, 42);
 
         s = chat(s, {
             type: Actions.SHOW_HIDE,
             payload: true
         });
 
-        expect(s.data.isVisible).toBe(true);
-        expect(s.data.unreadCount).toBeNull();
+        expect(s.isVisible).toBe(true);
+        expect(s.unreadCount).toBeNull();
     });
 
-    const channelState = state.merge(x => x, {
+    const channelState = state.__set(x => x, {
         channels: [{
             identifier: channelId,
             title: "Channel",
@@ -34,17 +34,17 @@ describe("Chat:reducer", () => {
     it("Joining user is added to channel", () => {
         let s = chat(channelState, Actions.join(channelId, testUser));
 
-        expect(s.data.channels[0].users.map(u => u.name)).toContain(testUser);
+        expect(s.channels[0].users.map(u => u.name)).toContain(testUser);
     });
 
     it("Leaving user is removed from channel", () => {
-        let joinedState = channelState.set(x => x.channels[0].users, [{
+        let joinedState = channelState.__set(x => x.channels[0].users, [{
             name: testUser,
             type: 0
         }]);
 
         let s = chat(joinedState, Actions.leave(channelId, testUser));
 
-        expect(s.data.channels[0].users.map(u => u.name)).not.toContain(testUser);
+        expect(s.channels[0].users.map(u => u.name)).not.toContain(testUser);
     });
 });

@@ -38,7 +38,7 @@ export class TournamentPairingComponent extends React.Component<ITournamentPairi
 }
 
 export default connect((state: IState) => {
-    const games = state.tournaments.data.pairingGames;
+    const games = state.tournaments.pairingGames;
 
     return {
         games

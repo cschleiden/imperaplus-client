@@ -34,26 +34,26 @@ const initialState = makeImmutable(<IForms>{
 const submitForm = (state: IImmutable<IForms>, action: IAction<FormActions.ISubmitPayload>) => {
     switch (action.payload.mode) {
         case FormActions.FormMode.Pending:
-            return state.set(x => x.forms[action.payload.form].isPending, true);
+            return state.__set(x => x.forms[action.payload.form].isPending, true);
 
         case FormActions.FormMode.Success:
-            return state.merge(x => x.forms[action.payload.form], {
+            return state.__set(x => x.forms[action.payload.form], {
                 isPending: false,
                 fields: {
-                    ...(state.data.forms[action.payload.form] && state.data.forms[action.payload.form].initialValues)
+                    ...(state.forms[action.payload.form] && state.forms[action.payload.form].initialValues)
                 }
             });
 
         case FormActions.FormMode.Failed:
-            return state.set(x => x.forms[action.payload.form].isPending, false);
+            return state.__set(x => x.forms[action.payload.form].isPending, false);
     }
 };
 
 const resetForm = (state: IImmutable<IForms>, action: IAction<string>) => {
-    return state.set(x => x.forms[action.payload], {
+    return state.__set(x => x.forms[action.payload], {
         name: action.payload,
         fields: {
-            ...(state.data.forms[action.payload] && state.data.forms[action.payload].initialValues)
+            ...(state.forms[action.payload] && state.forms[action.payload].initialValues)
         },
         isPending: false
     } as IForm);
@@ -62,7 +62,7 @@ const resetForm = (state: IImmutable<IForms>, action: IAction<string>) => {
 const changeField = (state: IImmutable<IForms>, action: IAction<FormActions.IChangeFieldPayload>) => {
     const payload = action.payload;
 
-    return state.set(x => x.forms[payload.form].fields[payload.field], {
+    return state.__set(x => x.forms[payload.form].fields[payload.field], {
         value: payload.value
     });
 };
@@ -71,10 +71,10 @@ const initialValue = (state: IImmutable<IForms>, action: IAction<FormActions.IIn
     const payload = action.payload;
 
     return state
-        .set(x => x.forms[payload.form].fields[payload.field], {
+        .__set(x => x.forms[payload.form].fields[payload.field], {
             value: payload.value
         })
-        .set(x => x.forms[payload.form].initialValues[payload.field], {
+        .__set(x => x.forms[payload.form].initialValues[payload.field], {
             value: payload.value
         });
 };

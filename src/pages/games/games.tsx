@@ -47,27 +47,29 @@ export class MyGamesComponent extends React.Component<IMyGamesProps> {
             <GameList games={this.props.tournamentGames} userId={userId} key="tournaments" />];
         }
 
-        return <GridColumn className="col-xs-12">
-            <div>
-                <div className="pull-right">
-                    <ButtonGroup>
-                        <Button key="refresh" onClick={this.props.refresh} title={__("Refresh")}><span className="glyphicon glyphicon-refresh" /></Button>
-                        <Button key="hideAll" onClick={this.props.hideAll} title={__("Hide completed games")}><span className="glyphicon glyphicon-eye-close" /></Button>
-                    </ButtonGroup>
-                </div>
+        return (
+            <GridColumn className="col-xs-12">
+                <div>
+                    <div className="pull-right">
+                        <ButtonGroup>
+                            <Button key="refresh" onClick={this.props.refresh} title={__("Refresh")}><span className="glyphicon glyphicon-refresh" /></Button>
+                            <Button key="hideAll" onClick={this.props.hideAll} title={__("Hide completed games")}><span className="glyphicon glyphicon-eye-close" /></Button>
+                        </ButtonGroup>
+                    </div>
 
-                {fun}
-                {ranking}
-                {tournament}
-            </div>
-        </GridColumn>;
+                    {fun}
+                    {ranking}
+                    {tournament}
+                </div>
+            </GridColumn>
+        );
     }
 }
 
 export default connect((state: IState) => {
-    const gamesMap = state.games.data.games;
+    const gamesMap = state.games.games;
     const games = Object.keys(gamesMap).map(id => gamesMap[id]);
-    const userInfo = state.session.data.userInfo;
+    const userInfo = state.session.userInfo;
 
     return {
         funGames: games.filter(g => g.type === GameType.Fun),
@@ -76,6 +78,6 @@ export default connect((state: IState) => {
         userId: userInfo && userInfo.userId
     };
 }, (dispatch) => ({
-    refresh: () => { dispatch(refresh(null)) },
-    hideAll: () => { dispatch(hideAll(null)) }
+    refresh: () => { dispatch(refresh(null)); },
+    hideAll: () => { dispatch(hideAll(null)); }
 }))(MyGamesComponent);

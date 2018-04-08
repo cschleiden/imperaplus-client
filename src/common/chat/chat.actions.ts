@@ -71,7 +71,7 @@ export interface IMessagePayload {
     message: string;
 }
 export const message = makePromiseAction<string, IMessagePayload>("chat-message", (msg: string, dispatch, getState, deps) => {
-    let currentChannelId = getState().chat.data.activeChannelId;
+    let currentChannelId = getState().chat.activeChannelId;
 
     return {
         payload: {

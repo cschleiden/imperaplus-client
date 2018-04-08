@@ -224,7 +224,7 @@ class GameDetails extends React.Component<IGameDetailsProps & IGameDetailsDispat
     private _player(): PlayerSummary | null {
         for (let team of this.props.game.teams) {
             for (let player of team.players) {
-                if (player.userId === store.getState().session.data.userInfo.userId) {
+                if (player.userId === store.getState().session.userInfo.userId) {
                     return player;
                 }
             }

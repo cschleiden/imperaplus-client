@@ -339,7 +339,7 @@ export class CreateGameComponent extends React.Component<ICreateGameProps> {
 }
 
 export default connect((state: IState) => {
-    const maps = state.general.data.lookup["maps"];
+    const maps = state.general.lookup["maps"];
 
     return {
         maps: maps && maps.filter((m: MapTemplateDescriptor) => m.isActive)

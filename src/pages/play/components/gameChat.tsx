@@ -48,33 +48,36 @@ class GameChatTab extends React.Component<IGameChatTabProps, IGameChatTabState> 
     render() {
         const { messages, isPending } = this.props;
 
-        return <div>
-            <div className="game-chat-list" ref={this._resolveListElement}>
-                <ul>
-                    {messages.map(message => <li key={message.id}>
-                        <div>
-                            <strong className="game-chat-user">{message.user.name}</strong>
-                            <span className="game-chat-message">{message.text}</span>
-                        </div>
-                        <div className="game-chat-date">
-                            {HumanDate(message.dateTime)}
-                        </div>
-                    </li>)}
-                </ul>
-            </div>
-            <form className="form-inline" onSubmit={this._onSubmit}>
-                <div className="input-group">
-                    <input
-                        className="form-control game-chat-input"
-                        disabled={isPending}
-                        type="text"
-                        value={this.state.value}
-                        onChange={this._onChange}
-                        ref={this._resolveInputElement} />
-                    <Button className="game-chat-button" disabled={isPending} onClick={this._send}>{__("Send")}</Button>
+        return (
+            <div>
+                <div className="game-chat-list" ref={this._resolveListElement}>
+                    <ul>
+                        {messages.map(message => <li key={message.id}>
+                            <div>
+                                <strong className="game-chat-user">{message.user.name}</strong>
+                                <span className="game-chat-message">{message.text}</span>
+                            </div>
+                            <div className="game-chat-date">
+                                {HumanDate(message.dateTime)}
+                            </div>
+                        </li>)}
+                    </ul>
                 </div>
-            </form>
-        </div>;
+                <form className="form-inline" onSubmit={this._onSubmit}>
+                    <div className="input-group">
+                        <input
+                            className="form-control game-chat-input"
+                            disabled={isPending}
+                            type="text"
+                            value={this.state.value}
+                            onChange={this._onChange}
+                            ref={this._resolveInputElement}
+                        />
+                        <Button className="game-chat-button" disabled={isPending} onClick={this._send}>{__("Send")}</Button>
+                    </div>
+                </form>
+            </div>
+        );
     }
 
     @autobind
@@ -117,15 +120,17 @@ class GameChat extends React.Component<IGameChatProps> {
     render() {
         const { publicMessages, teamMessages, isPending } = this.props;
 
-        return <Tabs id="game-chat" defaultActiveKey={1} className="game-chat">
-            <Tab eventKey={1} title={__("All")}>
-                <GameChatTab onSend={this._onSendPublic} messages={publicMessages} isPending={isPending} />
-            </Tab>
+        return (
+            <Tabs id="game-chat" defaultActiveKey={1} className="game-chat">
+                <Tab eventKey={1} title={__("All")}>
+                    <GameChatTab onSend={this._onSendPublic} messages={publicMessages} isPending={isPending} />
+                </Tab>
 
-            <Tab eventKey={2} title={__("Team")}>
-                <GameChatTab onSend={this._onSend} messages={teamMessages} isPending={isPending} />
-            </Tab>
-        </Tabs>;
+                <Tab eventKey={2} title={__("Team")}>
+                    <GameChatTab onSend={this._onSend} messages={teamMessages} isPending={isPending} />
+                </Tab>
+            </Tabs>
+        );
     }
 
     @autobind
@@ -144,7 +149,7 @@ class GameChat extends React.Component<IGameChatProps> {
 }
 
 export default connect((state: IState) => {
-    const gameChat = state.play.data.gameChat;
+    const gameChat = state.play.gameChat;
 
     return {
         publicMessages: gameChat.all,

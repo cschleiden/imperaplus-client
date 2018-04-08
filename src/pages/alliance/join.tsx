@@ -29,7 +29,7 @@ export class JoinAllianceComponent extends React.Component<IJoinAllianceProps> {
 }
 
 export default connect((state: IState) => {
-    /* const gamesMap = state.games.data.games;
+    /* const gamesMap = state.gamesgames;
     const games = Object.keys(gamesMap).map(id => gamesMap[id]); */
 
     return {

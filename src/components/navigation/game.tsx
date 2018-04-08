@@ -116,7 +116,7 @@ const GameNavigation = (props: IGameNavigation): JSX.Element => {
 };
 
 export default connect((state: IState) => {
-    const session = state.session.data;
+    const session = state.session;
     const gameCount = session && session.notifications && session.notifications.numberOfGames || 0;
     const messageCount = session && session.notifications && session.notifications.numberOfMessages || 0;
     const allianceId = session.userInfo.allianceId;

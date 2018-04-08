@@ -19,7 +19,7 @@ export type IChatState = typeof initialState;
 
 const showHide = (state: IChatState, action: IAction<boolean>) => {
     const isVisible = action.payload;
-    return state.merge(x => x, {
+    return state.__set(x => x, {
         isVisible: isVisible,
         unreadCount: null as number
     });
@@ -30,11 +30,11 @@ const close = (state: IChatState, action: IAction<void>) => {
 };
 
 const switchChannel = (state: IChatState, action: IAction<string>) => {
-    return state.set(x => x.activeChannelId, action.payload);
+    return state.__set(x => x.activeChannelId, action.payload);
 };
 
 const start = (state: IChatState, action: IAction<IStartPayload>) => {
-    return state.merge(x => x, {
+    return state.__set(x => x, {
         isActive: true,
         channels: action.payload.channels,
         activeChannelId: action.payload.channels && action.payload.channels.length && action.payload.channels[0].identifier
@@ -44,25 +44,27 @@ const start = (state: IChatState, action: IAction<IStartPayload>) => {
 const receiveMessage = (state: IChatState, action: IAction<Message>) => {
     const message = action.payload;
 
-    const channels = state.data.channels;
+    const channels = state.channels;
     let matchingChannels = channels.filter((c: ChannelInformation) => c.identifier === message.channelIdentifier);
     if (!matchingChannels.length) {
         return;
     }
 
     const matchingChannel = matchingChannels[0];
-    const idx = state.data.channels.indexOf(matchingChannel);
+    const idx = state.channels.indexOf(matchingChannel);
 
-    return state.merge(x => x.channels[idx], {
-        messages: matchingChannel.messages.concat([message])
-    }).set(x => x.unreadCount, !state.data.isVisible ? (state.data.unreadCount || 0) + 1 : null);
+    return state
+        .__set(x => x.channels[idx], {
+            messages: matchingChannel.messages.concat([message])
+        })
+        .__set(x => x.unreadCount, !state.isVisible ? (state.unreadCount || 0) + 1 : null);
 };
 
 const join = (state: IChatState, action: IAction<IUserEventPayload>) => {
-    const channelIdx = getChannelIdxById(state.data.channels, action.payload.channelId);
-    const channel = state.data.channels[channelIdx];
+    const channelIdx = getChannelIdxById(state.channels, action.payload.channelId);
+    const channel = state.channels[channelIdx];
 
-    return state.merge(x => x.channels[channelIdx], {
+    return state.__set(x => x.channels[channelIdx], {
         users: channel.users.concat([{
             name: action.payload.userName,
             type: 0
@@ -71,10 +73,10 @@ const join = (state: IChatState, action: IAction<IUserEventPayload>) => {
 };
 
 const leave = (state: IChatState, action: IAction<IUserEventPayload>) => {
-    const channelIdx = getChannelIdxById(state.data.channels, action.payload.channelId);
-    const channel = state.data.channels[channelIdx];
+    const channelIdx = getChannelIdxById(state.channels, action.payload.channelId);
+    const channel = state.channels[channelIdx];
 
-    return state.merge(x => x.channels[channelIdx], {
+    return state.__set(x => x.channels[channelIdx], {
         users: channel.users.filter(u => u.name !== action.payload.userName)
     });
 };

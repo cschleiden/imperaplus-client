@@ -3,7 +3,7 @@ import { UserProvider } from "../../../services/userProvider";
 import { IPlayState } from "./play.reducer.state";
 
 export function game(state: IPlayState): Game {
-    const { game, historyTurn } = state.data;
+    const { game, historyTurn } = state;
 
     if (historyTurn) {
         return historyTurn.game;
@@ -13,14 +13,14 @@ export function game(state: IPlayState): Game {
 }
 
 export function canPlace(state: IPlayState): boolean {
-    const { game, placeCountries } = state.data;
+    const { game, placeCountries } = state;
 
     return game
         && game.unitsToPlace === Object.keys(placeCountries).reduce((sum, id) => sum + placeCountries[id], 0);
 }
 
 export function canMoveOrAttack(state: IPlayState): boolean {
-    const { twoCountry, game } = state.data;
+    const { twoCountry, game } = state;
 
     return twoCountry.originCountryIdentifier
         && twoCountry.destinationCountryIdentifier
@@ -29,7 +29,7 @@ export function canMoveOrAttack(state: IPlayState): boolean {
 }
 
 export function inputActive(state: IPlayState) {
-    const { game, historyTurn } = state.data;
+    const { game, historyTurn } = state;
 
     // - When history is active, no input is allowed
     // - Current player has to be the user

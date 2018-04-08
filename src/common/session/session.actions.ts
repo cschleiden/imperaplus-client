@@ -150,7 +150,7 @@ export const signup = makePromiseAction(
                     password: input.password,
                     confirmPassword: input.passwordConfirm,
                     email: input.email,
-                    language: getState().session.data.language || "en",
+                    language: getState().session.language || "en",
                     callbackUrl: `${baseUri}activate/userId/code`
                 })
             },
@@ -172,7 +172,7 @@ export const resetTrigger = makePromiseAction(
                 promise: deps.getCachedClient(AccountClient).forgotPassword({
                     userName: input.username,
                     email: input.email,
-                    language: getState().session.data.language,
+                    language: getState().session.language,
                     callbackUrl: `${baseUri}reset/userId/code`
                 }).then<void>(null)
             },

@@ -24,7 +24,7 @@ export const show = (message: string, type: MessageType = MessageType.info): IAc
 export const MESSAGE_CLEAR = "message-clear";
 export const clear: IAsyncAction<void> = () =>
     (dispatch, getState, deps) => {
-        if (!getState().message.data.message) {
+        if (!getState().message.message) {
             // No message, nothing to clear
             return;
         }

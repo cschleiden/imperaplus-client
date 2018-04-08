@@ -30,7 +30,7 @@ export class SessionService {
     private constructor() { }
 
     public reAuthorize(state: ISessionState, dispatch: Dispatch<IState>): Promise<void> {
-        return this.refresh(state.data.refresh_token).then<void>((result) => {
+        return this.refresh(state.refresh_token).then<void>((result) => {
             // Successful, save new tokens
             dispatch(refresh(result.access_token, result.refresh_token));
         }, () => {

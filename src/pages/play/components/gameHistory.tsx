@@ -96,7 +96,6 @@ interface IGameHistoryProps {
     mapTemplate: MapTemplateCacheEntry;
     pending: boolean;
 
-    getPlayer: (userId: string) => Player;
     showHistoryTurn: (turnId: number) => void;
     exitHistory: () => void;
 }
@@ -226,7 +225,7 @@ class GameHistory extends React.Component<IGameHistoryProps> {
 }
 
 export default connect((state: IState) => {
-    const playState = state.play.data;
+    const playState = state.play;
 
     return {
         gameEnded: playState.game && playState.game.state === GameState.Ended,

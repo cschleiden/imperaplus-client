@@ -14,14 +14,14 @@ const initialState = makeImmutable({
 export type IAlliancesState = typeof initialState;
 
 const refresh = (state: IAlliancesState, action: IAction<AllianceSummary[]>) => {
-    return state.merge(x => x, {
+    return state.__set(x => x, {
         isLoading: false,
         alliances: action.payload
     });
 };
 
 const loading = (state: IAlliancesState, action: IAction<void>) => {
-    return state.set(x => x.isLoading, true);
+    return state.__set(x => x.isLoading, true);
 };
 
 export const alliances = <TPayload>(

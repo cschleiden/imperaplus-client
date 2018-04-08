@@ -12,14 +12,14 @@ const initialState = makeImmutable({
 export type IMapPreviewState = typeof initialState;
 
 const done = (state: IMapPreviewState, action: IAction<MapTemplateCacheEntry>) => {
-    return state.merge(x => x, {
+    return state.__set(x => x, {
         isLoading: false,
         mapTemplate: action.payload
     });
 };
 
 const loading = (state: IMapPreviewState, action: IAction<void>) => {
-    return state.set(x => x.isLoading, true);
+    return state.__set(x => x.isLoading, true);
 };
 
 export const mapPreview = <TPayload>(

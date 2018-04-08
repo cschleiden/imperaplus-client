@@ -17,7 +17,7 @@ const rootElement = document.getElementById("root");
 TokenProvider.tokenRetriever = () => {
   let state = store && store.getState();
   if (state) {
-    const session = state.session.data;
+    const session = state.session;
     return session.access_token;
   }
 };
@@ -39,16 +39,17 @@ if (module.hot) {
   module.hot.accept(["./app"], () => {
     // tslint:disable-next-line:no-require-imports
     const NextApp = (require("./app") as any).default;
-    render(<AppContainer>
-      <NextApp store={store} />
-    </AppContainer>,
+    render(
+      <AppContainer>
+        <NextApp store={store} />
+      </AppContainer>,
       rootElement
     );
   });
 }
 
 function appInit() {
-  if (store.getState().session.data.isLoggedIn) {
+  if (store.getState().session.isLoggedIn) {
     const service = NotificationService.getInstance();
     service.init();
 

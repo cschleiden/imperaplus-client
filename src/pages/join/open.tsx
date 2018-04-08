@@ -61,10 +61,23 @@ export class FunGamesComponent extends React.Component<IFunGamesProps> {
 }
 
 export default connect((state: IState) => {
-    const userInfo = state.session.data.userInfo;
+    const userInfo = state.session.userInfo;
+
+    const sortedOpenGames = state.games.openGames.slice(0);
+    sortedOpenGames.sort((a, b) => {
+        if (!a.hasPassword && b.hasPassword) {
+            return -1;
+        }
+
+        if (a.hasPassword && !b.hasPassword) {
+            return 1;
+        }
+
+        return 0;
+    });
 
     return {
-        funGames: state.games.data.openGames,
+        funGames: sortedOpenGames,
         userId: userInfo && userInfo.userId
     };
 }, (dispatch) => ({

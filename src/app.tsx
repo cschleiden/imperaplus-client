@@ -72,7 +72,7 @@ import UserProfile from "./pages/profile/profile";
 
 function checkLoggedIn(store: Redux.Store<IState>, nextState, replace) {
     const state = store.getState();
-    const session = state.session.data;
+    const session = state.session;
 
     if (!session.isLoggedIn) {
         replace("/login");
@@ -88,7 +88,7 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
                     onUpdate={(() => {
                         // Bind the app, the method needs this
                         const app = this;
-                        return function (...args) { App._onRouteUpdate.call(this, app, ...args); }
+                        return function (...args) { App._onRouteUpdate.call(this, app, ...args); };
                     })()}
                 >
                     {/* main layout */}
@@ -128,63 +128,63 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
                                     nav: Game,
                                     content: GameLayout,
                                     commercials: null
-                                }}>
-                                <IndexRoute component={Start} {...this._title(__("News"))} />
+                                }}
+                            />
+                            <IndexRoute component={Start} {...this._title(__("News"))} />
 
-                                <Route path="/game/mapPreview/:name" component={MapPreview} />
+                            <Route path="/game/mapPreview/:name" component={MapPreview} />
 
-                                <Route path="/game/games">
-                                    <IndexRoute component={My} {...this._title(__("My Games"))} />
+                            <Route path="/game/games">
+                                <IndexRoute component={My} {...this._title(__("My Games"))} />
 
-                                    <Route path="/game/games/create" component={Create} {...this._title(__("Create Game"))} />
-                                    <Route path="/game/games/join" component={Join}  {...this._title(__("Join Game"))} />
-                                </Route>
-                                <Route path="/game/alliances">
-                                    <IndexRoute component={Alliances}  {...this._title(__("Alliances"))} />
-
-                                    <Route path="/game/alliances/create" component={CreateAlliance}  {...this._title(__("Create Alliance"))} />
-                                    <Route path="/game/alliances/:id" component={AllianceInfo}  {...this._title(__("Alliance Info"))} />
-                                </Route>
-
-                                <Route path="/game/ladders">
-                                    <IndexRoute component={Ladders}  {...this._title(__("Ladders"))} />
-
-                                    <Route path="/game/ladders/:id" component={Ladder} />
-                                </Route>
-
-                                <Route path="/game/tournaments">
-                                    <IndexRoute component={Tournaments} {...this._title(__("Tournaments"))} />
-                                    <Route path="/game/tournaments/:id" component={Tournament} />
-
-                                    <Route path="/game/tournaments/pairings/:id" component={TournamentPairing} {...this._title(__("Games"))} />
-                                </Route>
-
-                                <Route path="/game/alliances">
-                                    <IndexRoute component={Alliances}  {...this._title(__("Alliances"))} />
-
-                                    <Route path="/game/alliances/create" component={CreateAlliance}  {...this._title(__("Create Alliance"))} />
-                                    <Route path="/game/alliances/:id" component={AllianceInfo}  {...this._title(__("Alliance Info"))} />
-                                </Route>
-
-                                <Route path="/game/messages">
-                                    <IndexRoute component={Messages}  {...this._title(__("Messages"))} />
-
-                                    <Route path="/game/messages/compose(/:replyId)" component={Compose} />
-                                    <Route path="/game/messages/:id" component={Message} />
-                                </Route>
-
-                                <Route path="/game/profile" component={UserProfile}  {...this._title(__("Your Profile"))} />
-
+                                <Route path="/game/games/create" component={Create} {...this._title(__("Create Game"))} />
+                                <Route path="/game/games/join" component={Join}  {...this._title(__("Join Game"))} />
                             </Route>
+                            <Route path="/game/alliances">
+                                <IndexRoute component={Alliances}  {...this._title(__("Alliances"))} />
+
+                                <Route path="/game/alliances/create" component={CreateAlliance}  {...this._title(__("Create Alliance"))} />
+                                <Route path="/game/alliances/:id" component={AllianceInfo}  {...this._title(__("Alliance Info"))} />
+                            </Route>
+
+                            <Route path="/game/ladders">
+                                <IndexRoute component={Ladders}  {...this._title(__("Ladders"))} />
+
+                                <Route path="/game/ladders/:id" component={Ladder} />
+                            </Route>
+
+                            <Route path="/game/tournaments">
+                                <IndexRoute component={Tournaments} {...this._title(__("Tournaments"))} />
+                                <Route path="/game/tournaments/:id" component={Tournament} />
+
+                                <Route path="/game/tournaments/pairings/:id" component={TournamentPairing} {...this._title(__("Games"))} />
+                            </Route>
+
+                            <Route path="/game/alliances">
+                                <IndexRoute component={Alliances}  {...this._title(__("Alliances"))} />
+
+                                <Route path="/game/alliances/create" component={CreateAlliance}  {...this._title(__("Create Alliance"))} />
+                                <Route path="/game/alliances/:id" component={AllianceInfo}  {...this._title(__("Alliance Info"))} />
+                            </Route>
+
+                            <Route path="/game/messages">
+                                <IndexRoute component={Messages}  {...this._title(__("Messages"))} />
+
+                                <Route path="/game/messages/compose(/:replyId)" component={Compose} />
+                                <Route path="/game/messages/:id" component={Message} />
+                            </Route>
+
+                            <Route path="/game/profile" component={UserProfile}  {...this._title(__("Your Profile"))} />
+
                         </Route>
+                    </Route>
 
-                        {/* play interface */}
-                        <Route path="/play" component={PlayLayout}>
-                            <Route path="/play/:id">
-                                <IndexRoute component={Play} />
+                    {/* play interface */}
+                    <Route path="/play" component={PlayLayout}>
+                        <Route path="/play/:id">
+                            <IndexRoute component={Play} />
 
-                                <Route path="/play/:id/history/:turn" component={Play} />
-                            </Route>
+                            <Route path="/play/:id/history/:turn" component={Play} />
                         </Route>
                     </Route>
 
@@ -207,7 +207,7 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
     private _onAdmin() {
         const { store } = this.props;
 
-        const token = store.getState().session.data.access_token;
+        const token = store.getState().session.access_token;
 
         // Move token to cookie
         document.cookie = `bearer_token=${token};path=/admin`;

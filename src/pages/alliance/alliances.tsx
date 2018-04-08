@@ -63,7 +63,7 @@ export class AllianceAdminComponent extends React.Component<IAllianceAdminProps>
 }
 
 export default connect((state: IState) => {
-    const s = state.alliances.data;
+    const s = state.alliances;
 
     return {
         alliances: s.alliances

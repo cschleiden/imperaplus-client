@@ -534,7 +534,7 @@ class Map extends React.Component<IMapProps, IMapState> {
 }
 
 export default connect((state: IState) => {
-    const { placeCountries, twoCountry, mapTemplate, historyTurn, operationInProgress, gameUiOptions, overrideGameUiOptions } = state.play.data;
+    const { placeCountries, twoCountry, mapTemplate, historyTurn, operationInProgress, gameUiOptions, overrideGameUiOptions } = state.play;
 
     return {
         game: game(state.play),

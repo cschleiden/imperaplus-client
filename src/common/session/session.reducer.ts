@@ -16,7 +16,7 @@ const initialState = makeImmutable({
 export type ISessionState = typeof initialState;
 
 const login = (state: ISessionState, action: IAction<Actions.ILoginPayload>) => {
-    return state.merge(x => x, {
+    return state.__set(x => x, {
         access_token: action.payload.access_token,
         refresh_token: action.payload.refresh_token,
         isLoggedIn: true,
@@ -27,7 +27,7 @@ const login = (state: ISessionState, action: IAction<Actions.ILoginPayload>) => 
 
 /** Store updated tokens */
 const refresh = (state: ISessionState, action: IAction<Actions.IRefreshPayload>) => {
-    return state.merge(x => x, {
+    return state.__set(x => x, {
         access_token: action.payload.access_token,
         refresh_token: action.payload.refresh_token
     });
@@ -39,15 +39,15 @@ const reset = (state: ISessionState, action: IAction<void>) => {
 };
 
 const setLanguage = (state: ISessionState, action: IAction<string>) => {
-    return state.set(x => x.language, action.payload);
+    return state.__set(x => x.language, action.payload);
 };
 
 const refreshNotifications = (state: ISessionState, action: IAction<NotificationSummary>) => {
-    return state.set(x => x.notifications, action.payload);
+    return state.__set(x => x.notifications, action.payload);
 };
 
 const updateUserInfo = (state: ISessionState, action: IAction<UserInfo>) => {
-    return state.set(x => x.userInfo, action.payload);
+    return state.__set(x => x.userInfo, action.payload);
 }
 
 export const session = <TPayload>(
