@@ -24,6 +24,10 @@ const loading = (state: IAlliancesState, action: IAction<void>) => {
     return state.__set(x => x.isLoading, true);
 };
 
+const get = (state: IAlliancesState, action: IAction<Alliance>) => {
+    return state.__set(x => x.alliance, action.payload);
+};
+
 export const alliances = <TPayload>(
     state = initialState,
     action?: IAction<TPayload>) => {
@@ -32,7 +36,7 @@ export const alliances = <TPayload>(
         [pending(Actions.refresh.TYPE)]: loading,
         [success(Actions.refresh.TYPE)]: refresh,
 
-        // [pending(Actions.open.TYPE)]: pendingOpen,
-        // [success(Actions.open.TYPE)]: open
+        [pending(Actions.get.TYPE)]: loading,
+        [success(Actions.get.TYPE)]: get
     });
 };

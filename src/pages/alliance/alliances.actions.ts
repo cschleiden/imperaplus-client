@@ -1,6 +1,6 @@
 import { push } from "react-router-redux";
 import { makePromiseAction } from "../../lib/action";
-import { AllianceCreationOptions, AllianceClient, AllianceSummary, AccountClient } from "../../external/imperaClients";
+import { AllianceCreationOptions, AllianceClient, AllianceSummary, AccountClient, Alliance } from "../../external/imperaClients";
 import { updateUserInfo } from "../../common/session/session.actions";
 
 export const refresh = makePromiseAction<void, AllianceSummary[]>(
@@ -29,3 +29,15 @@ export const create = makePromiseAction(
             }
         })
 );
+
+
+export const get = makePromiseAction<string, Alliance>(
+    "alliances-get", (id, dispatch, getState, deps) =>
+        ({
+            payload: {
+                promise: deps.getCachedClient(AllianceClient).get(id)
+            },
+            options: {
+                useMessage: true
+            }
+        }));

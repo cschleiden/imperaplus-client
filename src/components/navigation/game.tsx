@@ -32,87 +32,94 @@ const GameNavigation = (props: IGameNavigation): JSX.Element => {
         allianceId
     } = props;
 
-    return <ul className="nav">
-        <li>
-            <IndexLink to="/game" activeClassName="active">{__("News")}</IndexLink>
-        </li>
-        <li>
-            <Link to="/game/games" activeClassName="active">
-                {__("Games")}
-                {gameCount > 0 && <span>&nbsp;({gameCount})</span>}
-                <i className="fa fa-angle-down" aria-hidden="true" />
-            </Link>
-            <ul className="nav-dropdown">
-                <li>
-                    <IndexLink to="/game/games" activeClassName="active">{__("My Games")}</IndexLink>
-                </li>
-                <li>
-                    <Link to="/game/games/create" activeClassName="active">{__("Create Fun Game")}</Link>
-                </li>
-                <li>
-                    <Link to="/game/games/join" activeClassName="active">{__("Join Fun Game")}</Link>
-                </li>
-                <li>
-                    <Link to="/game/ladders" activeClassName="active">{__("Ladders")}</Link>
-                </li>
-                <li>
-                    <Link to="/game/tournaments" activeClassName="active">{__("Tournaments")}</Link>
-                </li>
-            </ul>
-        </li>
-        <li>
-            <Link to="/game/alliance" activeClassName="active">
-                {__("Alliance")}
-                <i className="fa fa-angle-down" aria-hidden="true" />
-            </Link>
-            <ul className="nav-dropdown">
-                <li>
-                    <Link to="/game/alliances" activeClassName="active">{__("Alliances")}</Link>
-                </li>
-                {
-                    !memberOfAlliance && <li>
-                        <Link to="/game/alliances/create" activeClassName="active">{__("Create alliance")}</Link>
+    return (
+        <ul className="nav">
+            <li>
+                <IndexLink to="/game" activeClassName="active">{__("News")}</IndexLink>
+            </li>
+            <li>
+                <Link to="/game/games" activeClassName="active">
+                    {__("Games")}
+                    {gameCount > 0 && <span>&nbsp;({gameCount})</span>}
+                    <i className="fa fa-angle-down" aria-hidden="true" />
+                </Link>
+                <ul className="nav-dropdown">
+                    <li>
+                        <IndexLink to="/game/games" activeClassName="active">{__("My Games")}</IndexLink>
                     </li>
-                }
-                {
-                    !memberOfAlliance && <li>
-                        <Link to="/game/alliances/join" activeClassName="active">{__("Join alliance")}</Link>
+                    <li>
+                        <Link to="/game/games/create" activeClassName="active">{__("Create Fun Game")}</Link>
                     </li>
-                }
-                {
-                    memberOfAlliance && <li>
-                        <Link to={`/game/alliances/${allianceId}`} activeClassName="active">{__("Your alliance")}</Link>
+                    <li>
+                        <Link to="/game/games/join" activeClassName="active">{__("Join Fun Game")}</Link>
                     </li>
-                }
-            </ul>
-        </li >
-        <li>
-            <Link to="/game/messages" activeClassName="active">
-                <i className="fa fa-envelope" aria-hidden="true" />
-                <span className="visible-xs-inline">&nbsp;{__("Messages")}</span>
-                {messageCount > 0 && <span>&nbsp;({messageCount})</span>}
-            </Link>
-        </li>
-        <li>
-            <Link to="/game/profile" activeClassName="active">
-                <i className="fa fa-user" aria-hidden="true" />
-                <span className="visible-xs-inline">&nbsp;{__("Account")}</span>
-            </Link>
-            <ul className="nav-dropdown">
-                <li>
-                    <Link to="/game/profile" activeClassName="active">{userName}</Link>
-                </li>
-                <li>
-                    <a href="#" onClick={((e) => {
-                        logout();
+                    <li>
+                        <Link to="/game/ladders" activeClassName="active">{__("Ladders")}</Link>
+                    </li>
+                    <li>
+                        <Link to="/game/tournaments" activeClassName="active">{__("Tournaments")}</Link>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <Link to="/game/alliance" activeClassName="active">
+                    {__("Alliance")}
+                    <i className="fa fa-angle-down" aria-hidden="true" />
+                </Link>
+                <ul className="nav-dropdown">
+                    <li>
+                        <Link to="/game/alliances" activeClassName="active">{__("Alliances")}</Link>
+                    </li>
+                    {
+                        !memberOfAlliance && <li>
+                            <Link to="/game/alliances/create" activeClassName="active">{__("Create alliance")}</Link>
+                        </li>
+                    }
+                    {
+                        !memberOfAlliance && <li>
+                            <Link to="/game/alliances/join" activeClassName="active">{__("Join alliance")}</Link>
+                        </li>
+                    }
+                    {
+                        memberOfAlliance && <li>
+                            <Link to={`/game/alliances/${allianceId}`} activeClassName="active">{__("Your alliance")}</Link>
+                        </li>
+                    }
+                </ul>
+            </li >
+            <li>
+                <Link to="/game/messages" activeClassName="active">
+                    <i className="fa fa-envelope" aria-hidden="true" />
+                    <span className="visible-xs-inline">&nbsp;{__("Messages")}</span>
+                    {messageCount > 0 && <span>&nbsp;({messageCount})</span>}
+                </Link>
+            </li>
+            <li>
+                <Link to="/game/profile" activeClassName="active">
+                    <i className="fa fa-user" aria-hidden="true" />
+                    <span className="visible-xs-inline">&nbsp;{__("Account")}</span>
+                </Link>
+                <ul className="nav-dropdown">
+                    <li>
+                        <Link to="/game/profile" activeClassName="active">{userName}</Link>
+                    </li>
+                    <li>
+                        <a
+                            href="#"
+                            onClick={((e) => {
+                                logout();
 
-                        e.preventDefault();
-                        return false;
-                    })}>{__("Logout")}</a>
-                </li>
-            </ul>
-        </li>
-    </ul >;
+                                e.preventDefault();
+                                return false;
+                            })}
+                        >
+                            {__("Logout")}
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    );
 };
 
 export default connect((state: IState) => {

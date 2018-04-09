@@ -1,4 +1,4 @@
-import { IImmutable, makeImmutable } from "immuts";
+import { IImmutable, makeImmutable, push } from "immuts";
 import { ChannelInformation, Message } from "../../external/chatModel";
 import { failed, IAction, pending, success } from "../../lib/action";
 import reducerMap from "../../lib/reducerMap";
@@ -54,9 +54,7 @@ const receiveMessage = (state: IChatState, action: IAction<Message>) => {
     const idx = state.channels.indexOf(matchingChannel);
 
     return state
-        .__set(x => x.channels[idx], {
-            messages: matchingChannel.messages.concat([message])
-        })
+        .__set(x => x.channels[idx].messages, x => push(x, message))
         .__set(x => x.unreadCount, !state.isVisible ? (state.unreadCount || 0) + 1 : null);
 };
 
