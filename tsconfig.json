@@ -9,14 +9,19 @@
     "experimentalDecorators": true,
     "noImplicitAny": false,
     "removeComments": false,
+    "noUnusedParameters": false,
+    "noUnusedLocals": true,
     "sourceMap": true,
     "jsx": "react",
     "typeRoots": [
       "node_modules/@types/"
     ],
     "lib": [
-      "es6", "dom", "es5", "scripthost"
-    ]    
+      "es6",
+      "dom",
+      "es5",
+      "scripthost"
+    ]
   },
   "filesGlob": [
     "src/**/*.ts",

@@ -2,16 +2,15 @@ import * as React from "react";
 import { Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import { format } from "../../../components/ui/format";
+import { Spinner, SpinnerSize } from "../../../components/ui/spinner";
 import { SubSection } from "../../../components/ui/typography";
-import { Game, HistoryAction, HistoryEntry, HistoryTurn, Player, GameState } from "../../../external/imperaClients";
+import { Game, GameState, HistoryAction, HistoryEntry, HistoryTurn } from "../../../external/imperaClients";
 import { autobind } from "../../../lib/autobind";
 import { css } from "../../../lib/css";
-import { getPlayer, getPlayerByPlayerId } from "../../../lib/game/utils";
+import { getPlayerByPlayerId } from "../../../lib/game/utils";
 import { IState } from "../../../reducers";
 import { MapTemplateCacheEntry } from "../mapTemplateCache";
 import { historyExit, historyTurn } from "../play.actions";
-import { Loading } from "../../../components/ui/loading";
-import { SpinnerSize, Spinner } from "../../../components/ui/spinner";
 
 export interface IGameHistoryEntryProps {
     game: Game;
@@ -102,7 +101,7 @@ interface IGameHistoryProps {
 
 class GameHistory extends React.Component<IGameHistoryProps> {
     render() {
-        const { gameEnded, historyTurn, pending } = this.props;
+        const { historyTurn, pending } = this.props;
         const currentTurn = this._getCurrentTurn();
         const historyTurnDisplay = historyTurn && historyTurn.turnId != null ? historyTurn.turnId : currentTurn;
 

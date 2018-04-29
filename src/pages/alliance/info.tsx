@@ -1,13 +1,16 @@
 import * as React from "react";
-import { Button, ButtonGroup, Well } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { connect } from "react-redux";
-import { Grid, GridColumn, GridRow } from "../../components/layout";
-import { Section, Title } from "../../components/ui/typography";
-import { GameSummary, GameType, Alliance } from "../../external/imperaClients";
-
-import { IState } from "../../reducers";
-import { get } from "./alliances.actions";
+import Form, { IFormState } from "../../common/forms/form";
+import { ControlledCheckBox, ControlledTextField } from "../../common/forms/inputs";
 import { setTitle } from "../../common/general/general.actions";
+import { Loading } from "../../components/ui/loading";
+import { ProgressButton } from "../../components/ui/progressButton";
+import { Section, SubSection } from "../../components/ui/typography";
+import { Alliance, AllianceJoinRequest, AllianceJoinRequestState } from "../../external/imperaClients";
+import { IState } from "../../reducers";
+import { deleteAlliance, get, requestJoin, updateRequest } from "./alliances.actions";
+import { HumanDate } from "../../components/ui/humanDate";
 
 export interface IAllianceInfoProps {
     params?: {
@@ -17,8 +20,19 @@ export interface IAllianceInfoProps {
     setTitle: (title: string) => void;
 
     alliance: Alliance;
+    requests: AllianceJoinRequest[];
+
+    /** Is the current user admin of the current alliance */
+    isAdmin: boolean;
+    /** Is the current user member of the current alliance */
+    isMember: boolean;
+    /** Can the current user join an alliance */
+    canJoin: boolean;
+    hasPendingRequest: boolean;
+    hasOtherPendingRequest: boolean;
 
     get: (id: string) => void;
+    updateRequest: (allianceId: string, requestId: string, state: AllianceJoinRequestState) => void;
 }
 
 export class AllianceInfoComponent extends React.Component<IAllianceInfoProps> {
@@ -35,28 +49,217 @@ export class AllianceInfoComponent extends React.Component<IAllianceInfoProps> {
     }
 
     render(): JSX.Element {
-        const { alliance } = this.props;
+        const { alliance, isAdmin, requests, canJoin, updateRequest, hasPendingRequest } = this.props;
+
+        if (!alliance) {
+            return (
+                <Loading />
+            );
+        }
 
         return (
-            <GridColumn className="col-xs-12">
+            <div>
                 {/* <Well>{alliance && alliance.description}</Well> */}
 
-                <Section>Members</Section>
+                <Section>{__("Members")}</Section>
                 <ul>
                     {alliance && alliance.members && alliance.members.map(member => (
-                        <li key={member.id}>{member.name}</li>
+                        <li key={member.id}>
+                            {member.name}
+                            {isAdmin && <span>
+                                <Button
+                                    bsSize="xsmall"
+                                    bsStyle="link"
+                                    title={__("Remove user from alliance")}
+                                >
+                                    {__("Remove")}
+                                </Button>
+                                {
+                                    !alliance.admins.some(a => a.id === member.id) ?
+                                        <Button
+                                            bsSize="xsmall"
+                                            bsStyle="link"
+                                        >
+                                            {__("Make admin")}
+                                        </Button>
+                                        :
+                                        <Button
+                                            bsSize="xsmall"
+                                            bsStyle="link"
+                                        >
+                                            {__("Remove admin")}
+                                        </Button>
+                                }
+                            </span>
+                            }
+                        </li>
                     ))}
                 </ul>
-            </GridColumn>
+
+                <Section>{__("Admins")}</Section>
+                <ul>
+                    {alliance && alliance.admins && alliance.admins.map(admin => (
+                        <li key={admin.id}>
+                            {admin.name}
+                        </li>
+                    ))}
+                </ul>
+
+                {
+                    (canJoin) && (
+                        <div>
+                            <Section>{__("Join")}</Section>
+                            {!hasPendingRequest && (
+                                <div>
+                                    <div>
+                                        {__("Here you can ask the administrators for permission to join.")}
+                                    </div>
+                                    <Form
+                                        name="alliance-request-join"
+                                        onSubmit={(formState: IFormState, options) => {
+                                            return requestJoin({
+                                                allianceId: alliance.id,
+                                                reason: formState.getFieldValue("reason")
+                                            },
+                                                options
+                                            );
+                                        }}
+                                        component={(({ isPending, formState }) => (
+                                            <div>
+                                                <ControlledTextField
+                                                    label={__("Reason")}
+                                                    fieldName="reason"
+                                                    required={true}
+                                                />
+
+                                                <ProgressButton
+                                                    type="submit"
+                                                    bsStyle="primary"
+                                                    disabled={!formState.getFieldValue("reason")}
+                                                    isActive={isPending}
+                                                >
+                                                    {__("Request to join")}
+                                                </ProgressButton>
+                                            </div>
+                                        ))}
+                                    />
+                                </div>
+                            )}
+                            {hasPendingRequest && (
+                                <div>
+                                    {__("You have a pending request to join this alliance")}
+                                </div>
+                            )}
+                        </div>
+                    )
+                }
+
+                {isAdmin && (
+                    <div>
+                        <Section>{__("Administration")}</Section>
+
+                        <SubSection>{__("Requests")}</SubSection>
+                        {(requests && requests.length > 0) ? (
+                            <ul>
+                                {requests.map(request => {
+                                    return (
+                                        <li key={request.id}>
+                                            {HumanDate(request.createdAt)} - {request.requestedByUser.name} - {request.reason} - {request.state} - {HumanDate(request.lastModifiedAt)}
+                                            {request.state !== AllianceJoinRequestState.Active && <span>
+                                                <Button
+                                                    bsSize="xsmall"
+                                                    bsStyle="link"
+                                                    onClick={() => { updateRequest(alliance.id, request.id, AllianceJoinRequestState.Approved); }}
+                                                >
+                                                    {__("Approve")}
+                                                </Button>
+                                                <Button
+                                                    bsSize="xsmall"
+                                                    bsStyle="link"
+                                                    onClick={() => { updateRequest(alliance.id, request.id, AllianceJoinRequestState.Denied); }}
+                                                >
+                                                    {__("Reject")}
+                                                </Button>
+                                            </span>}
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        ) : (
+                                <div>
+                                    {__("When users request to join your alliance, you will see their requests here, and you can then approve or deny.")}
+                                </div>
+                            )
+                        }
+
+                        <SubSection>{__("Delete Alliance")}</SubSection>
+                        <div className="tag-box-v3">
+                            <strong>{__("Warning")}:&nbsp;</strong>
+                            <span>{__("This action cannot be undone.")}</span>
+                        </div>
+
+                        <Form
+                            name="alliance-delete"
+                            onSubmit={(formState: IFormState, options) => {
+                                return deleteAlliance(
+                                    alliance.id,
+                                    options
+                                );
+                            }}
+                            component={(({ isPending, formState }) => (
+                                <div>
+                                    <ControlledCheckBox
+                                        label={__("Yes, I really want to delete the alliance")}
+                                        fieldName="confirmDelete"
+                                        required={true}
+                                    />
+
+                                    <ProgressButton
+                                        type="submit"
+                                        bsStyle="primary"
+                                        disabled={!formState.getFieldValue("confirmDelete")}
+                                        isActive={isPending}
+                                    >
+                                        {__("Delete")}
+                                    </ProgressButton>
+                                </div>
+                            ))}
+                        />
+                    </div>
+                )}
+            </div>
         );
     }
 }
 
 export default connect((state: IState) => {
+    const { alliance, requests, pendingRequests } = state.alliances;
+    const { allianceId, allianceAdmin, userId } = state.session.userInfo;
+
+    const notAMemberOfCurrentAlliance = alliance && !alliance.members.some(x => x.id === userId);
+    const notInAnyAlliance = !allianceId;
+    const hasPendingRequest = alliance && pendingRequests && pendingRequests.some(x => x.allianceId === alliance.id && x.state === AllianceJoinRequestState.Active);
+    const hasOtherPendingRequest = alliance && pendingRequests && pendingRequests.some(x => x.allianceId !== alliance.id && x.state === AllianceJoinRequestState.Active);
+
     return {
-        alliance: state.alliances.alliance
+        alliance: alliance,
+        requests: requests,
+        isAdmin: allianceAdmin,
+        // User can join this alliance:
+        // - not a member of any alliance
+        // - and, there is no active request
+        canJoin: alliance && pendingRequests && notAMemberOfCurrentAlliance && notInAnyAlliance && !hasPendingRequest,
+        hasPendingRequest,
+        hasOtherPendingRequest
     };
 }, (dispatch) => ({
     setTitle: (title: string) => { dispatch(setTitle(title)); },
-    get: (id: string) => { dispatch(get(id)); }
+    get: (id: string) => { dispatch(get(id)); },
+    updateRequest: (allianceId: string, requestId: string, state: AllianceJoinRequestState) => {
+        dispatch(updateRequest({
+            allianceId,
+            requestId,
+            state
+        }));
+    }
 }))(AllianceInfoComponent);

@@ -1,7 +1,6 @@
 import * as React from "react";
-import { connect, Dispatch } from "react-redux";
+import { connect } from "react-redux";
 import { IndexLink, Link } from "react-router";
-
 import { logout } from "../../common/session/session.actions";
 import { IState } from "../../reducers";
 
@@ -28,7 +27,6 @@ const GameNavigation = (props: IGameNavigation): JSX.Element => {
         messageCount,
         logout,
         memberOfAlliance,
-        allianceAdmin,
         allianceId
     } = props;
 
@@ -126,8 +124,8 @@ export default connect((state: IState) => {
     const session = state.session;
     const gameCount = session && session.notifications && session.notifications.numberOfGames || 0;
     const messageCount = session && session.notifications && session.notifications.numberOfMessages || 0;
-    const allianceId = session.userInfo.allianceId;
-    const memberOfAlliance = !!session.userInfo.allianceId;
+    const allianceId = session.userInfo && session.userInfo.allianceId;
+    const memberOfAlliance = session.userInfo && !!session.userInfo.allianceId;
     const allianceAdmin = memberOfAlliance && session.userInfo.allianceAdmin;
 
     return {

@@ -34,32 +34,40 @@ export class Slider extends React.Component<ISliderProps, ISliderState> {
     }
 
     public render(): JSX.Element {
-        return <div className="slider" style={{
-            backgroundPosition: `${this.state.currentSlide * 50}% 0%`,
-            backgroundImage: `url('${this.props.background}')`
-        }}>
-            <CSSTransitionGroup
-                transitionName="slide"
-                transitionEnterTimeout={600}
-                transitionLeaveTimeout={600}>
-                {this._renderSlide(this.props.slides[this.state.currentSlide])}
-            </CSSTransitionGroup>
-        </div>;
+        return (
+            <div
+                className="slider"
+                style={{
+                    backgroundPosition: `${this.state.currentSlide * 50}% 0%`,
+                    backgroundImage: `url('${this.props.background}')`
+                }}
+            >
+                <CSSTransitionGroup
+                    transitionName="slide"
+                    transitionEnterTimeout={600}
+                    transitionLeaveTimeout={600}
+                >
+                    {this._renderSlide(this.props.slides[this.state.currentSlide])}
+                </CSSTransitionGroup>
+            </div>
+        );
     }
 
     private _renderSlide(slide: ISlide) {
-        return <div key={slide.img}>
-            <div className="img">
-                <img src={slide.img} />
-            </div>
+        return (
+            <div key={slide.img}>
+                <div className="img">
+                    <img src={slide.img} />
+                </div>
 
-            <div className="headlines">
-                {slide.headLines.map((l, i) => <h2 key={i}><i>{l}</i></h2>)}
-            </div>
+                <div className="headlines">
+                    {slide.headLines.map((l, i) => <h2 key={i}><i>{l}</i></h2>)}
+                </div>
 
-            <div className="bodylines">
-                {slide.bodyLines.map((l, i) => <h4 key={i}><i>{l}</i></h4>)}
+                <div className="bodylines">
+                    {slide.bodyLines.map((l, i) => <h4 key={i}><i>{l}</i></h4>)}
+                </div>
             </div>
-        </div>;
+        );
     }
 }

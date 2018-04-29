@@ -1,11 +1,8 @@
-import { IImmutable, makeImmutable, push } from "immuts";
+import { makeImmutable, push } from "immuts";
 import { ChannelInformation, Message } from "../../external/chatModel";
-import { failed, IAction, pending, success } from "../../lib/action";
+import { IAction } from "../../lib/action";
 import reducerMap from "../../lib/reducerMap";
-import {
-    CLOSE, IStartPayload, IUserEventPayload, JOIN, LEAVE, RECEIVE_MESSAGE, SHOW_HIDE, START,
-    SWITCH_CHANNEL
-} from "./chat.actions";
+import { CLOSE, IStartPayload, IUserEventPayload, JOIN, LEAVE, RECEIVE_MESSAGE, SHOW_HIDE, START, SWITCH_CHANNEL } from "./chat.actions";
 
 const initialState = makeImmutable({
     isVisible: false,

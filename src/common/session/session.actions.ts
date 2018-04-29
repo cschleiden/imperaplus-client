@@ -1,10 +1,10 @@
 import { push, replace } from "react-router-redux";
 import { baseUri } from "../../configuration";
-import { AccountClient, NotificationClient, NotificationSummary, UserInfo } from "../../external/imperaClients";
+import { FixedAccountClient } from "../../external/accountClient";
+import { NotificationClient, NotificationSummary, UserInfo } from "../../external/imperaClients";
 import { IAction, IAsyncAction, makePromiseAction } from "../../lib/action";
 import { EventService } from "../../services/eventService";
 import { NotificationService } from "../../services/notificationService";
-import { TokenProvider } from "../../services/tokenProvider";
 import { MessageType, show } from "../message/message.actions";
 
 const scope = "openid offline_access roles";
@@ -42,10 +42,15 @@ export const login = makePromiseAction<ILoginInput, ILoginPayload>(
     "login", (input, dispatch, getState, deps) =>
         ({
             payload: {
-                promise: deps.getCachedClient(AccountClient)
-                    .exchange("password", input.username, input.password, scope, undefined)
+                promise: deps.getCachedClient(FixedAccountClient)
+                    .exchange({
+                        grant_type: "password",
+                        username: input.username,
+                        password: input.password,
+                        scope
+                    })
                     .then(result => {
-                        let authenticatedAccountClient = deps.createClientWithToken(AccountClient, result.access_token);
+                        let authenticatedAccountClient = deps.createClientWithToken(FixedAccountClient, result.access_token);
                         let authenticatedNotificationClient = deps.createClientWithToken(NotificationClient, result.access_token);
 
                         return Promise.all([
@@ -94,7 +99,7 @@ export const refresh = (access_token: string, refresh_token: string): IAction<IR
 export const logout = makePromiseAction(
     "logout", (_, dispatch, getState, deps) => ({
         payload: {
-            promise: deps.getCachedClient(AccountClient).logout()
+            promise: deps.getCachedClient(FixedAccountClient).logout()
         },
         options: {
             afterSuccess: d => {
@@ -145,7 +150,7 @@ export const signup = makePromiseAction(
 
         return {
             payload: {
-                promise: deps.getCachedClient(AccountClient).register({
+                promise: deps.getCachedClient(FixedAccountClient).register({
                     userName: input.username,
                     password: input.password,
                     confirmPassword: input.passwordConfirm,
@@ -169,7 +174,7 @@ export const resetTrigger = makePromiseAction(
     "reset-trigger", (input: IResetTriggerInput, dispatch, getState, deps) =>
         ({
             payload: {
-                promise: deps.getCachedClient(AccountClient).forgotPassword({
+                promise: deps.getCachedClient(FixedAccountClient).forgotPassword({
                     userName: input.username,
                     email: input.email,
                     language: getState().session.language,
@@ -192,7 +197,7 @@ export const reset = makePromiseAction(
     "reset", (input: IResetInput, dispatch, getState, deps) =>
         ({
             payload: {
-                promise: deps.getCachedClient(AccountClient).resetPassword({
+                promise: deps.getCachedClient(FixedAccountClient).resetPassword({
                     userId: input.userId,
                     code: input.code,
                     password: input.password,
@@ -215,7 +220,7 @@ export const activate = makePromiseAction<IConfirmInput, {}>(
     "session-activate", (input, dispatch, getState, deps) =>
         ({
             payload: {
-                promise: deps.getCachedClient(AccountClient).confirmEmail({
+                promise: deps.getCachedClient(FixedAccountClient).confirmEmail({
                     userId: input.userId,
                     code: input.code
                 })
@@ -235,7 +240,7 @@ export const changePassword = makePromiseAction<IChangePasswordInput, {}>(
     "change-password", (input, dispatch, getState, deps) => {
         return {
             payload: {
-                promise: deps.getCachedClient(AccountClient).changePassword({
+                promise: deps.getCachedClient(FixedAccountClient).changePassword({
                     oldPassword: input.oldPassword,
                     newPassword: input.password,
                     confirmPassword: input.passwordConfirmation
@@ -252,7 +257,7 @@ export const changePassword = makePromiseAction<IChangePasswordInput, {}>(
 export const deleteAccount = makePromiseAction(
     "delete-account", (input: string, dispatch, getState, deps) => ({
         payload: {
-            promise: deps.getCachedClient(AccountClient).deleteAccount({
+            promise: deps.getCachedClient(FixedAccountClient).deleteAccount({
                 password: input
             })
         },

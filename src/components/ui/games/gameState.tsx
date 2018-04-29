@@ -32,7 +32,9 @@ export const GameStateDisplay: React.StatelessComponent<{ gameState: GameState }
             break;
     }
 
-    return <span title={label} className={css("player-outcome", className)}>
-        <i className={css("fa", "fa-" + icon)} aria-hidden={true} />
-    </span>;
+    return (
+        <span title={label} className={css("player-outcome", className)}>
+            <i className={css("fa", "fa-" + icon)} aria-hidden={true} />
+        </span>
+    );
 };

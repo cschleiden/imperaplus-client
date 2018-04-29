@@ -1,6 +1,6 @@
 import { MessageType, show } from "../../common/message/message.actions";
 import { Ladder, LadderClient, LadderSummary } from "../../external/imperaClients";
-import { IAction, makePromiseAction } from "../../lib/action";
+import { makePromiseAction } from "../../lib/action";
 
 export const refresh = makePromiseAction<void, LadderSummary[]>(
     "ladders-refresh", (input, dispatch, getState, deps) =>

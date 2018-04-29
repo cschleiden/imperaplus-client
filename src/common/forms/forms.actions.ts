@@ -1,6 +1,3 @@
-import * as Redux from "redux";
-import { Action, createAction } from "redux-actions";
-
 import { IAction } from "../../lib/action";
 
 export const RESET_FORM = "reset-form";
@@ -33,7 +30,7 @@ export interface IChangeFieldPayload {
     form: string;
     field: string;
     value: string | number | boolean;
-};
+}
 export const changeField = (form: string, field: string, value: string | number | boolean): IAction<IChangeFieldPayload> => ({
     type: CHANGE_FIELD,
     payload: {
@@ -43,13 +40,12 @@ export const changeField = (form: string, field: string, value: string | number 
     }
 });
 
-
 export const INITIAL_VALUE = "form-set-initial-value";
 export interface IInitialValuePayload {
     form: string;
     field: string;
     value: string | number | boolean;
-};
+}
 export const initialValue = (form: string, field: string, value: string | number | boolean): IAction<IInitialValuePayload> => ({
     type: INITIAL_VALUE,
     payload: {

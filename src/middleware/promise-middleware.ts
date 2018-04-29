@@ -1,7 +1,7 @@
-import { clear, MessageType, show } from "../common/message/message.actions";
+import { MessageType, clear, show } from "../common/message/message.actions";
 import { ErrorResponse } from "../external/imperaClients";
 import { ErrorCodes } from "../i18n/errorCodes";
-import { failed, IApiActionOptions, IAsyncPayload, IPromiseAction, pending, success } from "../lib/action";
+import { IApiActionOptions, IPromiseAction, failed, pending, success } from "../lib/action";
 
 export default function promiseMiddleware({ dispatch }) {
     return next => <TResult, TData>(action: IPromiseAction<TResult, TData>) => {

@@ -1,6 +1,6 @@
 import { MessageType, show } from "../../common/message/message.actions";
-import { Tournament, TournamentClient, TournamentSummary, TournamentTeamSummary, GameSummary } from "../../external/imperaClients";
-import { IAction, makePromiseAction } from "../../lib/action";
+import { GameSummary, Tournament, TournamentClient, TournamentSummary, TournamentTeamSummary } from "../../external/imperaClients";
+import { makePromiseAction } from "../../lib/action";
 
 export const refresh = makePromiseAction<void, TournamentSummary[]>(
     "tournaments-refresh", (input, dispatch, getState, deps) =>

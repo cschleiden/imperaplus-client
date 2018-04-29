@@ -1,8 +1,8 @@
-import { IImmutable, makeImmutable } from "immuts";
-import { failed, IAction, pending, success } from "../../lib/action";
+import { makeImmutable } from "immuts";
+import { IAction, pending, success } from "../../lib/action";
 import reducerMap from "../../lib/reducerMap";
-import * as Actions from "./mapPreview.actions";
 import { MapTemplateCacheEntry } from "../play/mapTemplateCache";
+import * as Actions from "./mapPreview.actions";
 
 const initialState = makeImmutable({
     isLoading: true,

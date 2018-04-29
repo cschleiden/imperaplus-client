@@ -1,22 +1,22 @@
+// Used for displaying connections
+import "jsplumb";
 import * as React from "react";
-
-import "./map.scss";
-
 import { connect } from "react-redux";
 import { Game, HistoryAction, HistoryEntry, HistoryTurn, PlayState } from "../../../external/imperaClients";
 import { autobind } from "../../../lib/autobind";
 import { css } from "../../../lib/css";
+import { countriesToMap, getPlayerByPlayerId, getTeam } from "../../../lib/game/utils";
 import { IState } from "../../../reducers";
+import { MapTemplateCacheEntry } from "../mapTemplateCache";
 import { attack, move, place, selectCountry, setActionUnits, setPlaceUnits } from "../play.actions";
 import { ITwoCountry } from "../reducer";
-
-// Used for displaying connections
-import "jsplumb";
-import { countriesToMap, getPlayerByPlayerId, getTeam } from "../../../lib/game/utils";
-import { MapTemplateCacheEntry } from "../mapTemplateCache";
+import { IGameUIOptions } from "../reducer/play.reducer.state";
 import { game } from "../reducer/play.selectors";
 import { CountryInputField } from "./countryInput";
-import { IGameUIOptions } from "../reducer/play.reducer.state";
+import "./map.scss";
+
+
+
 
 const KeyBindings = {
     "ABORT": 27, // Escape
@@ -186,7 +186,8 @@ class Map extends React.Component<IMapProps, IMapState> {
                         style={{
                             left: countryTemplate.x,
                             top: countryTemplate.y
-                        }}>
+                        }}
+                    >
                         {units}
                     </div>
                 ),
@@ -329,22 +330,25 @@ class Map extends React.Component<IMapProps, IMapState> {
     private _renderUnitInput(): JSX.Element {
         const { destinationCountryIdentifier, numberOfUnits, minUnits, maxUnits } = this.props.twoCountry;
 
-        return <div className="action-overlay-wrapper" ref={this._resolveInputWrapper}>
-            <input
-                className="action-overlay-input"
-                type="number"
-                min={minUnits}
-                max={maxUnits}
-                value={!isNaN(numberOfUnits) ? numberOfUnits : ""}
-                onChange={this._changeUnits}
-                onKeyUp={this._onKeyUp}
-                onFocus={this._onUnitInputFocus}
-                onBlur={this._onUnitInputBlur}
-                style={{
-                    display: !destinationCountryIdentifier ? "none" : "block"
-                }}
-                ref={this._resolveInput} />
-        </div>;
+        return (
+            <div className="action-overlay-wrapper" ref={this._resolveInputWrapper}>
+                <input
+                    className="action-overlay-input"
+                    type="number"
+                    min={minUnits}
+                    max={maxUnits}
+                    value={!isNaN(numberOfUnits) ? numberOfUnits : ""}
+                    onChange={this._changeUnits}
+                    onKeyUp={this._onKeyUp}
+                    onFocus={this._onUnitInputFocus}
+                    onBlur={this._onUnitInputBlur}
+                    style={{
+                        display: !destinationCountryIdentifier ? "none" : "block"
+                    }}
+                    ref={this._resolveInput}
+                />
+            </div>
+        );
     }
 
     private _renderUnitInputPlaceholder(): JSX.Element {
@@ -469,15 +473,18 @@ class Map extends React.Component<IMapProps, IMapState> {
         for (let action of actions.filter(a => a.action === HistoryAction.PlaceUnits)) {
             const countryTemplate = mapTemplate.country(action.originIdentifier);
 
-            result.push(<div
-                key={`history-${action.id}`}
-                className="country-place"
-                style={{
-                    left: countryTemplate.x,
-                    top: countryTemplate.y
-                }}>
-                {action.units}
-            </div>);
+            result.push((
+                <div
+                    key={`history-${action.id}`}
+                    className="country-place"
+                    style={{
+                        left: countryTemplate.x,
+                        top: countryTemplate.y
+                    }}
+                >
+                    {action.units}
+                </div>
+            ));
         }
 
         return result;
@@ -504,9 +511,7 @@ class Map extends React.Component<IMapProps, IMapState> {
 
     private _clearHistoryConnections() {
         if (this._historyConnections.length) {
-            for (let connection of this._historyConnections) {
-                (this._jsPlumb as any).deleteEveryConnection();
-            }
+            (this._jsPlumb as any).deleteEveryConnection();
 
             this._historyConnections = [];
         }

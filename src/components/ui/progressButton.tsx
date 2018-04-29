@@ -1,9 +1,8 @@
-import "./progressButton.scss";
-
 import * as React from "react";
 import { Button, ButtonProps } from "react-bootstrap";
 import { autobind } from "../../lib/autobind";
 import { css } from "../../lib/css";
+import "./progressButton.scss";
 
 export interface IProgressButtonProps extends ButtonProps {
     isActive?: boolean;
@@ -12,9 +11,15 @@ export interface IProgressButtonProps extends ButtonProps {
 export const ProgressButton = (props: IProgressButtonProps) => {
     const { isActive, className, disabled, ...buttonProps } = props;
 
-    return <Button {...buttonProps} className={css(className, "progress-button", {
-        "progress-button-active": isActive
-    })} disabled={disabled || isActive} />;
+    return (
+        <Button
+            {...buttonProps}
+            className={css(className, "progress-button", {
+                "progress-button-active": isActive
+            })}
+            disabled={disabled || isActive}
+        />
+    );
 };
 
 export interface ISimpleProgressButtonState {
@@ -58,7 +63,5 @@ export interface IPromiseProgressButtonProps extends IProgressButtonProps {
 export const PromiseProgressButton = (props: IPromiseProgressButtonProps) => {
     const { promise, ...buttonProps } = props;
 
-
-
     return <ProgressButton {...buttonProps} />;
-}
+};

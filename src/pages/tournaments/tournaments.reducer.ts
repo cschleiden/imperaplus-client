@@ -1,8 +1,8 @@
-import { IImmutable, makeImmutable, push, remove } from "immuts";
-import { Tournament, TournamentClient, TournamentSummary, TournamentTeam, GameSummary } from "../../external/imperaClients";
-import { failed, IAction, pending, success } from "../../lib/action";
+import { GameSummary, Tournament, TournamentSummary, TournamentTeam } from "../../external/imperaClients";
+import { IAction, pending, success } from "../../lib/action";
 import reducerMap from "../../lib/reducerMap";
 import * as Actions from "./tournaments.actions";
+import { makeImmutable, push, remove } from "immuts";
 
 const initialState = makeImmutable({
     isLoading: false,

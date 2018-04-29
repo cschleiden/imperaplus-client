@@ -1,18 +1,15 @@
-import "./ladders.scss";
-
 import * as React from "react";
 import { Button, ButtonGroup, Glyphicon } from "react-bootstrap";
 import { connect } from "react-redux";
 import { Link } from "react-router";
 import { GridColumn, GridRow } from "../../components/layout";
+import { format } from "../../components/ui/format";
 import { HumanTime } from "../../components/ui/humanDate";
 import "../../components/ui/ladders.scss";
-import { Title } from "../../components/ui/typography";
 import { LadderSummary } from "../../external/imperaClients";
-import { autobind } from "../../lib/autobind";
 import { IState } from "../../reducers";
 import { join, leave, refresh } from "./ladders.actions";
-import { format } from "../../components/ui/format";
+import "./ladders.scss";
 
 export interface ILaddersProps {
     refresh: () => void;
@@ -66,7 +63,6 @@ export class LaddersComponent extends React.Component<ILaddersProps> {
         const gamesPlayed = ladder.standing && ladder.standing.gamesPlayed || "-";
         const gamesWon = ladder.standing && ladder.standing.gamesWon || "-";
         const gamesLost = ladder.standing && ladder.standing.gamesLost || "-";
-        const timer = HumanTime(ladder.options.timeoutInSeconds);
 
         const { options } = ladder;
 

@@ -1,16 +1,14 @@
 import * as React from "react";
 import * as ReactMarkdown from "react-markdown";
 import { connect } from "react-redux";
-
-import { ProgressBar } from "react-bootstrap";
-import { Grid, GridColumn, GridRow } from "../../components/layout";
-import { HumanDate } from "../../components/ui/humanDate";
-import { Section, SubSection, Title } from "../../components/ui/typography";
-import { NewsContent, NewsItem, UserInfo, TournamentState, TournamentSummary } from "../../external/imperaClients";
-import { refresh } from "./news.actions";
-import { refresh as tournamentsRefresh } from "../tournaments/tournaments.actions";
-import { IState } from "../../reducers";
 import { Link } from "react-router";
+import { GridColumn, GridRow } from "../../components/layout";
+import { HumanDate } from "../../components/ui/humanDate";
+import { Section, SubSection } from "../../components/ui/typography";
+import { NewsContent, NewsItem, TournamentState, TournamentSummary, UserInfo } from "../../external/imperaClients";
+import { IState } from "../../reducers";
+import { refresh as tournamentsRefresh } from "../tournaments/tournaments.actions";
+import { refresh } from "./news.actions";
 
 export interface IStartProps {
     userInfo: UserInfo;

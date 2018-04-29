@@ -1,5 +1,3 @@
-import { format } from "./format";
-
 export const HumanDate = (date: Date): string => {
     let calculateDelta, day, hour, minute, month, week, year;
     minute = 60;
@@ -70,10 +68,6 @@ export const HumanDate = (date: Date): string => {
 };
 
 export const HumanTime = (seconds: number): string => {
-    const minutes = seconds / 60;
-    const hours = seconds / 3600;
-    const days = seconds / 86400;
-
     switch (false) {
         case !(seconds === 120): return __("2 Minutes");
         case !(seconds === 180): return __("3 Minutes");
@@ -97,7 +91,6 @@ export const HumanTime = (seconds: number): string => {
 };
 
 export const HumanCountdown = (secs: number): string => {
-    let ms = secs * 1000;
     let days = Math.floor(secs / (60 * 60 * 24));
     let divisor_for_hours = secs % (60 * 60 * 24);
     let hours = Math.floor(divisor_for_hours / (60 * 60));

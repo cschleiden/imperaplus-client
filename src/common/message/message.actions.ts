@@ -1,4 +1,4 @@
-import { IAction, IAsyncAction, makePromiseAction } from "../../lib/action";
+import { IAction, IAsyncAction } from "../../lib/action";
 
 export enum MessageType {
     info,

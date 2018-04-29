@@ -1,16 +1,12 @@
 import * as React from "react";
-
-import { Button, ButtonGroup } from "react-bootstrap";
 import { connect } from "react-redux";
-import { Grid, GridColumn, GridRow } from "../../components/layout";
-import { Section, Title } from "../../components/ui/typography";
-import { GameSummary, GameType, AllianceCreationOptions } from "../../external/imperaClients";
-
-import { IState } from "../../reducers";
-import LinkString from "../../components/ui/strLink";
 import Form, { IFormState } from "../../common/forms/form";
-import { ProgressButton } from "../../components/ui/progressButton";
 import { ControlledTextField } from "../../common/forms/inputs";
+import { GridColumn } from "../../components/layout";
+import { ProgressButton } from "../../components/ui/progressButton";
+import LinkString from "../../components/ui/strLink";
+import { AllianceCreationOptions } from "../../external/imperaClients";
+import { IState } from "../../reducers";
 import { create } from "./alliances.actions";
 
 export interface ICreateAllianceProps {
@@ -39,19 +35,22 @@ export class CreateAllianceComponent extends React.Component<ICreateAllianceProp
                                 label={__("Name")}
                                 placeholder={__("Name")}
                                 fieldName="name"
-                                required={true} />
+                                required={true}
+                            />
 
                             <ControlledTextField
                                 label={__("Description")}
                                 placeholder={__("Description")}
                                 fieldName="description"
-                                required={true} />
+                                required={true}
+                            />
 
                             <ProgressButton
                                 type="submit"
                                 bsStyle="primary"
                                 disabled={!this._formValid(formState)}
-                                isActive={isPending}>
+                                isActive={isPending}
+                            >
                                 {__("Create")}
                             </ProgressButton>
                         </div>
@@ -71,5 +70,5 @@ export default connect((state: IState) => {
     return {
     };
 }, (dispatch) => ({
-    create: (options: AllianceCreationOptions) => { dispatch(create(options)) }
+    create: (options: AllianceCreationOptions) => { dispatch(create(options)); }
 }))(CreateAllianceComponent);

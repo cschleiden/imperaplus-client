@@ -20,7 +20,7 @@ export function canPlace(state: IPlayState): boolean {
 }
 
 export function canMoveOrAttack(state: IPlayState): boolean {
-    const { twoCountry, game } = state;
+    const { twoCountry } = state;
 
     return twoCountry.originCountryIdentifier
         && twoCountry.destinationCountryIdentifier

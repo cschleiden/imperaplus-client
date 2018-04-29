@@ -8,7 +8,11 @@
     "**/.hg": true,
     "**/.DS_Store": true,
     "node_modules": true,
-    ".vscode": true
+    ".vscode": false
   },
-  "tslint.autoFixOnSave": true
+  "tslint.autoFixOnSave": true,
+  "typescriptHero.imports.stringQuoteStyle": "\"",
+  "typescriptHero.imports.multiLineTrailingComma": false,
+  "typescriptHero.imports.grouping": [
+  ]
 }

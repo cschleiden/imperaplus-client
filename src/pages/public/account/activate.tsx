@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { activate } from "../../../common/session/session.actions";
 import { Grid, GridColumn, GridRow } from "../../../components/layout";
 import { Spinner, SpinnerSize } from "../../../components/ui/spinner";
-import { Title } from "../../../components/ui/typography";
 
 interface IActivateProps {
     params: {
@@ -22,13 +21,15 @@ class ActivateComponent extends React.Component<IActivateProps> {
     }
 
     public render() {
-        return <Grid>
-            <GridRow>
-                <GridColumn className="col-xs-12">
-                    <Spinner className="center-block" size={SpinnerSize.Large} />
-                </GridColumn>
-            </GridRow>
-        </Grid>;
+        return (
+            <Grid>
+                <GridRow>
+                    <GridColumn className="col-xs-12">
+                        <Spinner className="center-block" size={SpinnerSize.Large} />
+                    </GridColumn>
+                </GridRow>
+            </Grid>
+        );
     }
 }
 

@@ -1,9 +1,8 @@
 import * as React from "react";
-import { Button, ButtonGroup, Table } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 import { connect } from "react-redux";
-import { Grid, GridColumn, GridRow } from "../../components/layout";
-import { Section, Title } from "../../components/ui/typography";
-import { GameSummary, GameType, AllianceSummary } from "../../external/imperaClients";
+import { GridColumn } from "../../components/layout";
+import { AllianceSummary } from "../../external/imperaClients";
 import { IState } from "../../reducers";
 import { refresh } from "./alliances.actions";
 import { Link } from "react-router";
@@ -69,5 +68,5 @@ export default connect((state: IState) => {
         alliances: s.alliances
     };
 }, (dispatch) => ({
-    refresh: () => { dispatch(refresh(null)) },
+    refresh: () => { dispatch(refresh(null)); },
 }))(AllianceAdminComponent);

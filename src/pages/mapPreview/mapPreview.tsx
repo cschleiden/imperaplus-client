@@ -1,13 +1,13 @@
 import * as React from "react";
 import { connect } from "react-redux";
+import { setTitle } from "../../common/general/general.actions";
+import { GridRow } from "../../components/layout";
+import { Loading } from "../../components/ui/loading";
 import { IState } from "../../reducers";
-import { GridColumn, GridRow } from "../../components/layout";
 import { MapView } from "../play/components/mapView";
 import { MapTemplateCacheEntry } from "../play/mapTemplateCache";
 import { loadMapPreview } from "./mapPreview.actions";
-import { Loading } from "../../components/ui/loading";
 import "./mapPreview.scss";
-import { setTitle } from "../../common/general/general.actions";
 
 interface IMapPreviewerProps {
     params: {

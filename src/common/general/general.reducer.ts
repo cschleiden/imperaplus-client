@@ -1,8 +1,7 @@
-import { IImmutable, makeImmutable } from "immuts";
-import reducerMap from "../../lib/reducerMap";
-
+import { makeImmutable } from "immuts";
 import { LOCATION_CHANGE } from "react-router-redux";
 import { IAction } from "../../lib/action";
+import reducerMap from "../../lib/reducerMap";
 import { ILookupSetPayload, LOOKUP_SET, OPEN_CLOSE, SET_TITLE } from "./general.actions";
 
 const initialState = makeImmutable({
@@ -29,7 +28,7 @@ const setLookupData = <T>(state: IGeneralState, action: IAction<ILookupSetPayloa
 
 const setTitle = (state: IGeneralState, action: IAction<string>) => {
     return state.__set(x => x.title, action.payload);
-}
+};
 
 export const general = <TPayload>(
     state = initialState,

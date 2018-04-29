@@ -1,4 +1,3 @@
-import * as React from "react";
 import { MessageFolder } from "../../../external/imperaClients";
 
 export const FolderName = (folder: MessageFolder): string => {

@@ -1,10 +1,8 @@
 import * as React from "react";
-
 import { Button, ButtonGroup } from "react-bootstrap";
 import { connect } from "react-redux";
-import { Grid, GridColumn, GridRow } from "../../components/layout";
 import { GameList } from "../../components/ui/games/gameList";
-import { Section, Title } from "../../components/ui/typography";
+import { Section } from "../../components/ui/typography";
 import { GameSummary, GameType } from "../../external/imperaClients";
 import { IState } from "../../reducers";
 import { hideAll, refresh } from "./games.actions";
@@ -48,20 +46,18 @@ export class MyGamesComponent extends React.Component<IMyGamesProps> {
         }
 
         return (
-            <GridColumn className="col-xs-12">
-                <div>
-                    <div className="pull-right">
-                        <ButtonGroup>
-                            <Button key="refresh" onClick={this.props.refresh} title={__("Refresh")}><span className="glyphicon glyphicon-refresh" /></Button>
-                            <Button key="hideAll" onClick={this.props.hideAll} title={__("Hide completed games")}><span className="glyphicon glyphicon-eye-close" /></Button>
-                        </ButtonGroup>
-                    </div>
-
-                    {fun}
-                    {ranking}
-                    {tournament}
+            <div>
+                <div className="pull-right">
+                    <ButtonGroup>
+                        <Button key="refresh" onClick={this.props.refresh} title={__("Refresh")}><span className="glyphicon glyphicon-refresh" /></Button>
+                        <Button key="hideAll" onClick={this.props.hideAll} title={__("Hide completed games")}><span className="glyphicon glyphicon-eye-close" /></Button>
+                    </ButtonGroup>
                 </div>
-            </GridColumn>
+
+                {fun}
+                {ranking}
+                {tournament}
+            </div>
         );
     }
 }

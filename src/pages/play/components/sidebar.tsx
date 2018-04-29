@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { SubSection, Title } from "../../../components/ui/typography";
 import { Game, GameSummary } from "../../../external/imperaClients";
 import { IState } from "../../../reducers";
-import { game } from "../reducer/play.selectors";
+import { game as gameSelector } from "../reducer/play.selectors";
 import GameChat from "./gameChat";
 import GameHistory from "./gameHistory";
 import { GameStats } from "./gameStats";
@@ -39,7 +39,7 @@ class Sidebar extends React.Component<ISidebarProps> {
 }
 
 export default connect((state: IState) => ({
-    game: game(state.play),
+    game: gameSelector(state.play),
     otherGames: state.play.otherGames
 }), (dispatch) => ({
 }))(Sidebar);

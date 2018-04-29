@@ -1,19 +1,16 @@
-import "./play.scss";
-
 import * as React from "react";
 import { Alert } from "react-bootstrap";
 import { connect } from "react-redux";
-
 import { ErrorResponse, Game } from "../../external/imperaClients";
 import { ErrorCodes } from "../../i18n/errorCodes";
 import { autobind } from "../../lib/autobind";
 import { css } from "../../lib/css";
-import { setDocumentTitle } from "../../lib/title";
 import { IState } from "../../reducers";
 import Header from "./components/header";
 import Map from "./components/map";
 import Sidebar from "./components/sidebar";
-import { refreshGame, switchGame, refreshOtherGames, setGameOption } from "./play.actions";
+import { refreshGame, refreshOtherGames, setGameOption, switchGame } from "./play.actions";
+import "./play.scss";
 import { IGameUIOptions } from "./reducer/play.reducer.state";
 
 interface IPlayProps {
@@ -81,27 +78,32 @@ class Play extends React.Component<IPlayProps & IPlayDispatchProps> {
             return null;
         }
 
-        return <div className="play-container">
-            <div className="play-header-container">
-                <Header />
-            </div>
+        return (
+            <div className="play-container">
+                <div className="play-header-container">
+                    <Header />
+                </div>
 
-            <div className="play-sidebar-container">
-                {sidebarOpen && <Sidebar />}
-            </div>
+                <div className="play-sidebar-container">
+                    {sidebarOpen && <Sidebar />}
+                </div>
 
-            <div className={css("play-area", {
-                "sidebar": sidebarOpen
-            })}>
-                {error && <Alert
-                    bsStyle="danger"
-                    onDismiss={this._clearError}>
-                    {ErrorCodes.errorMessage[error.error] || error.error_Description || __("An error occured, please refresh.")}
-                </Alert>}
+                <div
+                    className={css("play-area", {
+                        "sidebar": sidebarOpen
+                    })}
+                >
+                    {error && <Alert
+                        bsStyle="danger"
+                        onDismiss={this._clearError}
+                    >
+                        {ErrorCodes.errorMessage[error.error] || error.error_Description || __("An error occured, please refresh.")}
+                    </Alert>}
 
-                <Map />
+                    <Map />
+                </div>
             </div>
-        </div>;
+        );
     }
 
     @autobind

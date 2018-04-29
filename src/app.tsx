@@ -1,74 +1,39 @@
-import "./styles/index.scss";
-
 import * as React from "react";
 import { Provider } from "react-redux";
-import * as Redux from "redux";
-import { IState } from "./reducers";
-
 import { EnterHook, IndexRoute, Route, Router } from "react-router";
-
+import * as Redux from "redux";
+import { setTitle } from "./common/general/general.actions";
 import { clear } from "./common/message/message.actions";
-
-// Components
-import adTag from "./components/commercial/adtag";
 import ChatLayout from "./components/layouts/chat";
+import GameLayout from "./components/layouts/game";
 import MainLayout from "./components/layouts/main";
 import PlayLayout from "./components/layouts/play";
 import PublicLayout from "./components/layouts/public";
 import Game from "./components/navigation/game";
 import PublicNav from "./components/navigation/public";
-
-// Public
-import {
-    Activate,
-    Activated,
-    Home,
-    Imprint,
-    Login,
-    Privacy,
-    Reset,
-    ResetConfirmation,
-    ResetDone,
-    ResetTriggered,
-    Signup,
-    SignupConfirmation,
-    TOS
-} from "./pages/public";
-
-// Game
-import GameLayout from "./components/layouts/game";
-import GameNav from "./components/navigation/game";
+import { baseUri } from "./configuration";
+import { autobind } from "./lib/autobind";
+import Alliances from "./pages/alliance/alliances";
+import CreateAlliance from "./pages/alliance/create";
+import AllianceInfo from "./pages/alliance/info";
 import Create from "./pages/create/create";
-import MapPreview from "./pages/mapPreview/mapPreview";
 import My from "./pages/games/games";
 import Join from "./pages/join/open";
 import Ladder from "./pages/ladders/ladder";
 import Ladders from "./pages/ladders/ladders";
-import Start from "./pages/start";
-
-// Tournaments
-import Tournament from "./pages/tournaments/tournament";
-import Tournaments from "./pages/tournaments/tournaments";
-import TournamentPairing from "./pages/tournaments/tournamentPairing";
-
-// Play
-import Play from "./pages/play/play";
-
-// Alliances
-import Alliances from "./pages/alliance/alliances";
-import CreateAlliance from "./pages/alliance/create";
-import AllianceInfo from "./pages/alliance/info";
-
-// messages
+import MapPreview from "./pages/mapPreview/mapPreview";
 import Compose from "./pages/messages/compose";
 import Message from "./pages/messages/message";
 import Messages from "./pages/messages/messages";
-
-// profile
-import { setTitle } from "./common/general/general.actions";
-import { baseUri } from "./configuration";
-import { autobind } from "./lib/autobind";
+import Play from "./pages/play/play";
 import UserProfile from "./pages/profile/profile";
+import { Activate, Activated, Home, Imprint, Login, Privacy, Reset, ResetConfirmation, ResetDone, ResetTriggered, Signup, SignupConfirmation, TOS } from "./pages/public";
+import Start from "./pages/start";
+import Tournament from "./pages/tournaments/tournament";
+import TournamentPairing from "./pages/tournaments/tournamentPairing";
+import Tournaments from "./pages/tournaments/tournaments";
+import { IState } from "./reducers";
+import "./styles/index.scss";
 
 function checkLoggedIn(store: Redux.Store<IState>, nextState, replace) {
     const state = store.getState();

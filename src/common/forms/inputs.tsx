@@ -2,10 +2,8 @@ import * as React from "react";
 import { Checkbox, CheckboxProps, ControlLabel, FormControl, FormControlProps, FormGroup } from "react-bootstrap";
 import { UserPicker } from "../../components/misc/userPicker";
 import { UserReference } from "../../external/imperaClients";
-import { FormState, IFormState } from "./form";
-import { initialValue, resetForm } from "./forms.actions";
-import { IForm, IForms } from "./forms.reducer";
-import { contextTypes, IFormContext } from "./types";
+import { IFormState } from "./form";
+import { IFormContext, contextTypes } from "./types";
 
 interface IControlledFieldProps {
     fieldName: string;
@@ -57,7 +55,8 @@ export class ControlledTextField extends React.Component<FormControlProps & ICon
                             }
                         }
                     }}
-                    value={this._currentValue()} />
+                    value={this._currentValue()}
+                />
             </FormGroup>
         );
         // onGetErrorMessage={this.props.validate && ((value: string) => this.props.validate(value, new FormState(this.context.formState)))}
@@ -93,20 +92,24 @@ export class ControlledUserPicker extends React.Component<FormControlProps & ICo
     }
 
     public render() {
-        const { fieldName, label, initialValue, ...remainingProps } = this.props;
+        const { fieldName, label, initialValue } = this.props;
 
-        return <FormGroup controlId={this._id}>
-            {label && <ControlLabel>{label}</ControlLabel>}
-            <UserPicker
-                name={fieldName}
-                onChange={(value) => {
-                    if (value !== this._currentValue()) {
-                        if (this.context.changeField) {
-                            this.context.changeField(fieldName, value);
+        return (
+            <FormGroup controlId={this._id}>
+                {label && <ControlLabel>{label}</ControlLabel>}
+                <UserPicker
+                    name={fieldName}
+                    onChange={(value) => {
+                        if (value !== this._currentValue()) {
+                            if (this.context.changeField) {
+                                this.context.changeField(fieldName, value);
+                            }
                         }
-                    }
-                }} initialValue={initialValue} />
-        </FormGroup>;
+                    }}
+                    initialValue={initialValue}
+                />
+            </FormGroup>
+        );
     }
 
     private _currentValue(): UserReference {
@@ -128,18 +131,21 @@ export const ControlledCheckBox = (props: CheckboxProps & IControlledFieldProps,
         && context.formState.fields[fieldName]
         && context.formState.fields[fieldName].value as boolean || false;
 
-    return <Checkbox
-        {...remainingProps}
-        onChange={(ev: React.FormEvent<Checkbox>) => {
-            const inputElement = ev.target as HTMLInputElement;
-            const updatedValue = inputElement.checked;
-            if (updatedValue !== currentValue()) {
-                context.changeField(fieldName, updatedValue);
-            }
-        }}
-        checked={currentValue()}>
-        {label}
-    </Checkbox>;
+    return (
+        <Checkbox
+            {...remainingProps}
+            onChange={(ev: React.FormEvent<Checkbox>) => {
+                const inputElement = ev.target as HTMLInputElement;
+                const updatedValue = inputElement.checked;
+                if (updatedValue !== currentValue()) {
+                    context.changeField(fieldName, updatedValue);
+                }
+            }}
+            checked={currentValue()}
+        >
+            {label}
+        </Checkbox>
+    );
 };
 
 ControlledCheckBox["contextTypes"] = contextTypes;
@@ -165,21 +171,24 @@ export class ControlledDropdown extends React.Component<FormControlProps & ICont
     public render() {
         const { fieldName, label, children, ...remainingProps } = this.props;
 
-        return <FormGroup controlId={this._id}>
-            {label && <ControlLabel>{label}</ControlLabel>}
-            <FormControl
-                componentClass="select"
-                {...remainingProps}
-                onChange={(ev) => {
-                    const inputElement = ev.target as HTMLSelectElement;
-                    const value = inputElement.value;
+        return (
+            <FormGroup controlId={this._id}>
+                {label && <ControlLabel>{label}</ControlLabel>}
+                <FormControl
+                    componentClass="select"
+                    {...remainingProps}
+                    onChange={(ev) => {
+                        const inputElement = ev.target as HTMLSelectElement;
+                        const value = inputElement.value;
 
-                    this.context.changeField(fieldName, value);
-                }}
-                value={this._currentValue()}>
-                {children}
-            </FormControl>
-        </FormGroup>;
+                        this.context.changeField(fieldName, value);
+                    }}
+                    value={this._currentValue()}
+                >
+                    {children}
+                </FormControl>
+            </FormGroup>
+        );
     }
 
     private _currentValue(): string {

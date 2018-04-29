@@ -28,23 +28,25 @@ export class UserPicker extends React.Component<IUserPickerProps, IUserPickerSta
     public render() {
         const { name, initialValue } = this.props;
 
-        return <AsyncTypeahead
-            allowNew={false}
-            multiple={false}
-            name={name}
-            onChange={this._onChange}
-            onSearch={this._handleSearch}
-            placeholder={__("User")}
-            labelKey="name"
-            renderMenuItemChildren={this._renderUsers}
-            promptText={__("Find users")}
-            searchText={__("Looking for users...")}
-            emptyLabel={__("No users found.")}
-            minLength={3}
-            delay={300}
-            options={this.state.users}
-            selected={initialValue && [initialValue]}
-        />;
+        return (
+            <AsyncTypeahead
+                allowNew={false}
+                multiple={false}
+                name={name}
+                onChange={this._onChange}
+                onSearch={this._handleSearch}
+                placeholder={__("User")}
+                labelKey="name"
+                renderMenuItemChildren={this._renderUsers}
+                promptText={__("Find users")}
+                searchText={__("Looking for users...")}
+                emptyLabel={__("No users found.")}
+                minLength={3}
+                delay={300}
+                options={this.state.users}
+                selected={initialValue && [initialValue]}
+            />
+        );
     }
 
     @autobind
@@ -56,9 +58,11 @@ export class UserPicker extends React.Component<IUserPickerProps, IUserPickerSta
 
     @autobind
     private _renderUsers(option: UserReference, props, index) {
-        return <div key={option.id}>
-            {option.name}
-        </div>
+        return (
+            <div key={option.id}>
+                {option.name}
+            </div>
+        );
     }
 
     @autobind
@@ -67,7 +71,7 @@ export class UserPicker extends React.Component<IUserPickerProps, IUserPickerSta
             getCachedClient(UserClient).findUsers(query).then(users => {
                 this.setState({
                     users
-                })
+                });
             });
         }
     }

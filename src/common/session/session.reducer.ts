@@ -1,8 +1,7 @@
-import { IImmutable, makeImmutable } from "immuts";
-import reducerMap from "../../lib/reducerMap";
-
+import { makeImmutable } from "immuts";
 import { NotificationSummary, UserInfo } from "../../external/imperaClients";
-import { failed, IAction, pending, success } from "../../lib/action";
+import { IAction, success } from "../../lib/action";
+import reducerMap from "../../lib/reducerMap";
 import * as Actions from "./session.actions";
 
 const initialState = makeImmutable({
@@ -48,7 +47,7 @@ const refreshNotifications = (state: ISessionState, action: IAction<Notification
 
 const updateUserInfo = (state: ISessionState, action: IAction<UserInfo>) => {
     return state.__set(x => x.userInfo, action.payload);
-}
+};
 
 export const session = <TPayload>(
     state = initialState,

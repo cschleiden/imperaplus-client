@@ -1,23 +1,19 @@
 import * as React from "react";
-
-import "./gameDetail.scss";
-
-import { Button, Glyphicon, Image } from "react-bootstrap";
+import { Button, Glyphicon } from "react-bootstrap";
 import { connect } from "react-redux";
-import { getCachedClient } from "../../../clients/clientFactory";
-import { Grid, GridColumn, GridRow } from "../../../components/layout";
+import Form, { IFormState } from "../../../common/forms/form";
+import { ControlledTextField } from "../../../common/forms/inputs";
+import { GridColumn, GridRow } from "../../../components/layout";
 import { HumanDate, HumanTime } from "../../../components/ui/humanDate";
-import { imageBaseUri } from "../../../configuration";
-import { GameState, GameSummary, GameType, PlayerState, PlayerSummary } from "../../../external/imperaClients";
+import { GameState, GameSummary, PlayerState, PlayerSummary } from "../../../external/imperaClients";
 import { autobind } from "../../../lib/autobind";
 import { hide, join, leave, remove, surrender } from "../../../pages/games/games.actions";
 import { IState } from "../../../reducers";
 import { store } from "../../../store";
 import { UserName } from "../userReference";
+import "./gameDetail.scss";
 import { MapPreview } from "./mapPreview";
 import { PlayerOutcomeDisplay } from "./playerOutcome";
-import Form, { IFormState } from "../../../common/forms/form";
-import { ControlledTextField } from "../../../common/forms/inputs";
 
 export interface IGameDetailsProps {
     game: GameSummary;
@@ -134,7 +130,8 @@ class GameDetails extends React.Component<IGameDetailsProps & IGameDetailsDispat
                                                             disabled={!this._formValid(formState)}
                                                             onClick={submit}
                                                             bsStyle="primary"
-                                                            bsSize="small">
+                                                            bsSize="small"
+                                                        >
                                                             <Glyphicon glyph="plus-sign" />&nbsp;{__("Join game")}
                                                         </Button>
                                                     </div>

@@ -25,7 +25,9 @@ export default (props: { link: string }): JSX.Element => {
         return <span key={idx}>{segment}</span>;
     });
 
-    return <span>
-        {children}
-    </span>;
+    return (
+        <span>
+            {children}
+        </span>
+    );
 };

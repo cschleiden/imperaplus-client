@@ -1,5 +1,5 @@
 import {
-    ActionResult, ErrorResponse, Game, GameActionResult, GameChatMessage, HistoryTurn, PlayState, GameSummary
+    ErrorResponse, Game, GameActionResult, GameChatMessage, HistoryTurn, PlayState, GameSummary, Result
 } from "../../../external/imperaClients";
 import { IAction } from "../../../lib/action";
 import { countriesToMap, getPlayer, getPlayerFromTeams, getTeam } from "../../../lib/game/utils";
@@ -353,7 +353,7 @@ export const updateFromResult = (state: IPlayState, action: IAction<GameActionRe
 export const attack = (state: IPlayState, action: IAction<GameActionResult>) => {
     const result = action.payload;
 
-    if (result.actionResult === ActionResult.Successful) {
+    if (result.actionResult === Result.Successful) {
         // Attack was successful
     } else {
         // Attack failed

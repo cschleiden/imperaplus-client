@@ -1,11 +1,10 @@
 import * as React from "react";
-
 import { connect } from "react-redux";
 import { GridColumn } from "../../components/layout";
-import { TournamentPairing, GameSummary } from "../../external/imperaClients";
+import GameDetails from "../../components/ui/games/gameDetail";
+import { GameSummary } from "../../external/imperaClients";
 import { IState } from "../../reducers";
 import { loadPairingGames } from "../tournaments/tournaments.actions";
-import GameDetails from "../../components/ui/games/gameDetail";
 
 export interface ITournamentPairingProps {
     params: {

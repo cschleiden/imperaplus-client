@@ -23,23 +23,27 @@ export class CountryInputField extends React.Component<ICountryInputFieldProps> 
     render() {
         const { countryTemplate, value, onKeyUp } = this.props;
 
-        return <div
-            id={`p${countryTemplate.identifier}`}
-            className={css("input-country")}
-            style={{
-                left: countryTemplate.x + 10,
-                top: countryTemplate.y + 3
-            }}
-            ref={this._resolveElement}>
-            <input
-                type="number"
-                min={1}
-                defaultValue={value.toString(10)}
-                onChange={this._onChange}
-                onFocus={this._onFocus}
-                onKeyUp={onKeyUp}
-                ref={this._resolveInputElement} />
-        </div>;
+        return (
+            <div
+                id={`p${countryTemplate.identifier}`}
+                className={css("input-country")}
+                style={{
+                    left: countryTemplate.x + 10,
+                    top: countryTemplate.y + 3
+                }}
+                ref={this._resolveElement}
+            >
+                <input
+                    type="number"
+                    min={1}
+                    defaultValue={value.toString(10)}
+                    onChange={this._onChange}
+                    onFocus={this._onFocus}
+                    onKeyUp={onKeyUp}
+                    ref={this._resolveInputElement}
+                />
+            </div>
+        );
     }
 
     componentDidMount() {

@@ -1,8 +1,7 @@
 import * as React from "react";
-
 import { Grid, GridColumn, GridRow } from "../../../components/layout";
 
-export default (() =>
+export default (() => (
     <Grid>
         <GridRow>
             <GridColumn className="col-xs-12">
@@ -28,4 +27,4 @@ export default (() =>
             </GridColumn>
         </GridRow>
     </Grid>
-) as React.StatelessComponent<void>;
+)) as React.StatelessComponent<void>;

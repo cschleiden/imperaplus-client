@@ -1,13 +1,13 @@
 import { push } from "react-router-redux";
-import { Game, GameActionResult, GameChatMessage, GameClient, HistoryClient, HistoryTurn, PlaceUnitsOptions, PlayClient, GameSummary, NotificationClient } from "../../external/imperaClients";
-import { IGameChatMessageNotification, IGameNotification, INotification, NotificationType } from "../../external/notificationModel";
-import { IAction, IApiActionOptions, IAsyncAction, IAsyncActionVoid, makePromiseAction } from "../../lib/action";
-import { NotificationService } from "../../services/notificationService";
-import { getMapTemplate, MapTemplateCacheEntry } from "./mapTemplateCache";
-import { inputActive, canPlace, canMoveOrAttack } from "./reducer/play.selectors";
 import { refreshNotifications } from "../../common/session/session.actions";
-import { IGameUIOptions } from "./reducer/play.reducer.state";
+import { Game, GameActionResult, GameChatMessage, GameClient, GameSummary, HistoryClient, HistoryTurn, PlaceUnitsOptions, PlayClient } from "../../external/imperaClients";
+import { IGameChatMessageNotification, IGameNotification, NotificationType } from "../../external/notificationModel";
+import { IAction, IApiActionOptions, IAsyncAction, IAsyncActionVoid, makePromiseAction } from "../../lib/action";
 import { setDocumentTitle } from "../../lib/title";
+import { NotificationService } from "../../services/notificationService";
+import { MapTemplateCacheEntry, getMapTemplate } from "./mapTemplateCache";
+import { IGameUIOptions } from "./reducer/play.reducer.state";
+import { canMoveOrAttack, canPlace, inputActive } from "./reducer/play.selectors";
 
 // TODO: Move this to another place?
 let initialized = false;

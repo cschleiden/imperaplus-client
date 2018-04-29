@@ -1,22 +1,18 @@
-import "./main.scss";
-
 import * as React from "react";
+import { Alert, Button, DropdownButton, Glyphicon, MenuItem } from "react-bootstrap";
 import { connect } from "react-redux";
 import LoadingBar from "react-redux-loading-bar";
 import { Link } from "react-router";
-import { Grid, GridColumn, GridContainer, GridRow } from "../layout";
-
 import { openCloseNav } from "../../common/general/general.actions";
-import { clear, MessageType } from "../../common/message/message.actions";
+import { clear } from "../../common/message/message.actions";
 import { setLanguage } from "../../common/session/session.actions";
-import { IState } from "../../reducers";
-
-import { Alert, Button, ButtonProps, DropdownButton, Glyphicon, MenuItem, Modal } from "react-bootstrap";
-
 import LinkString from "../../components/ui/strLink";
 import { UserInfo } from "../../external/imperaClients";
 import { getStyleForMessage } from "../../lib/message";
+import { IState } from "../../reducers";
+import { Grid, GridColumn, GridContainer, GridRow } from "../layout";
 import { Title } from "../ui/typography";
+import "./main.scss";
 
 interface ILanguageSelectorProps {
     selectedLanguage: string;
@@ -31,12 +27,14 @@ class LanguageSelector extends React.Component<ILanguageSelectorProps> {
                     <DropdownButton id="language" title={__("LANGUAGE")} bsStyle="link">
                         <MenuItem
                             onClick={() => this.props.onLanguageSelect("en")}
-                            active={this.props.selectedLanguage === "en"}>
+                            active={this.props.selectedLanguage === "en"}
+                        >
                             {__("English")}
                         </MenuItem>
                         <MenuItem
                             onClick={() => this.props.onLanguageSelect("de")}
-                            active={this.props.selectedLanguage === "de"}>
+                            active={this.props.selectedLanguage === "de"}
+                        >
                             {__("German")}
                         </MenuItem>
                     </DropdownButton>
@@ -118,7 +116,8 @@ export class Layout extends React.Component<ILayoutProps> {
             msg = (
                 <Alert
                     bsStyle={getStyleForMessage(message.type)}
-                    onDismiss={this._onClear}>
+                    onDismiss={this._onClear}
+                >
                     <LinkString link={message.message} />
                 </Alert>
             );
@@ -205,9 +204,7 @@ export class Layout extends React.Component<ILayoutProps> {
 
                     <GridRow className="footer">
                         {
-                            isAdmin && <span>
-                                <a href="/toadmin">ADMIN</a>&nbsp;|&nbsp;
-                        </span>
+                            isAdmin && <span><a href="/toadmin">ADMIN</a>&nbsp;|&nbsp;</span>
                         }
                         <Link to="/privacy">{__("Privacy Policy")}</Link> | <Link to="/tos">{__("Terms of Service")}</Link> | <Link to="/imprint">{__("Imprint")}</Link> | <a href="http://forum.imperaonline.de/">{__("Forum (external)")}</a> | <a href="https://www.imperaonline.de/swagger/ui/index.html">API</a>
                     </GridRow>

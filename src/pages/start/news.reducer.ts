@@ -1,6 +1,6 @@
-import { IImmutable, makeImmutable } from "immuts";
-import { NewsClient, NewsItem } from "../../external/imperaClients";
-import { failed, IAction, pending, success } from "../../lib/action";
+import { makeImmutable } from "immuts";
+import { NewsItem } from "../../external/imperaClients";
+import { IAction, pending, success } from "../../lib/action";
 import reducerMap from "../../lib/reducerMap";
 import * as Actions from "./news.actions";
 

@@ -1,13 +1,12 @@
-import { createClientWithToken, getCachedClient } from "../../clients/clientFactory";
-import { AccountClient, UserInfo } from "../../external/imperaClients";
-
+import { Dispatch } from "react-redux";
 import { push } from "react-router-redux";
+import { getCachedClient } from "../../clients/clientFactory";
+import { FixedAccountClient } from "../../external/accountClient";
+import { IState } from "../../reducers";
 import { EventService } from "../../services/eventService";
 import { close } from "../chat/chat.actions";
 import { expire, refresh } from "./session.actions";
-import { IState } from "../../reducers";
 import { ISessionState } from "./session.reducer";
-import { Dispatch } from "react-redux";
 
 const scope = "openid offline_access roles";
 
@@ -49,10 +48,14 @@ export class SessionService {
     }
 
     private refresh(refresh_token: string): Promise<IRefreshResult> {
-        const client = getCachedClient(AccountClient);
+        const client = getCachedClient(FixedAccountClient);
 
         return client
-            .exchange("refresh_token", undefined, undefined, scope, refresh_token)
+            .exchange({
+                grant_type: "refresh_token",
+                scope,
+                refresh_token
+            })
             .then(result => {
                 return {
                     access_token: result.access_token,

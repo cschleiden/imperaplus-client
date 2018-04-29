@@ -1,20 +1,17 @@
 import * as React from "react";
+import { Tab, Tabs } from "react-bootstrap";
 import { connect } from "react-redux";
-import { IState } from "../../reducers";
-import { GridColumn, GridRow } from "../../components/layout";
-import { ProgressButton } from "../../components/ui/progressButton";
-import LinkString from "../../components/ui/strLink";
-import { Section, SubSection, Title } from "../../components/ui/typography";
-import { imageBaseUri } from "../../configuration";
-import { Image, Tab, Tabs } from "react-bootstrap";
+import { Link } from "react-router";
 import Form, { IFormState } from "../../common/forms/form";
 import { ControlledDropdown, ControlledTextField } from "../../common/forms/inputs";
+import { GridColumn, GridRow } from "../../components/layout";
 import { MapPreview } from "../../components/ui/games/mapPreview";
-import {
-    MapDistribution, MapTemplate, MapTemplateDescriptor, VictoryConditionType, VisibilityModifierType
-} from "../../external/imperaClients";
+import { ProgressButton } from "../../components/ui/progressButton";
+import LinkString from "../../components/ui/strLink";
+import { Section, SubSection } from "../../components/ui/typography";
+import { MapDistribution, MapTemplate, MapTemplateDescriptor, VictoryConditionType, VisibilityModifierType } from "../../external/imperaClients";
+import { IState } from "../../reducers";
 import { create, getMaps } from "./create.actions";
-import { Link } from "react-router";
 
 function getPlayerAndTeams() {
     let result: { key: string, text: string }[] = [];
@@ -143,7 +140,8 @@ export class CreateGameComponent extends React.Component<ICreateGameProps> {
                                                     <ControlledDropdown
                                                         label={__("Map")}
                                                         fieldName="map"
-                                                        value={""}>
+                                                        value={""}
+                                                    >
                                                         <option value="" key="empty-map" />
                                                         {
                                                             this.props.maps && this.props.maps.map(m =>
@@ -213,7 +211,8 @@ export class CreateGameComponent extends React.Component<ICreateGameProps> {
                                                         initialValue={"5"}
                                                         min={1}
                                                         max={100}
-                                                        required={true} />
+                                                        required={true}
+                                                    />
 
                                                     <ControlledTextField
                                                         label={__("Moves")}
@@ -223,7 +222,8 @@ export class CreateGameComponent extends React.Component<ICreateGameProps> {
                                                         initialValue={"7"}
                                                         min={1}
                                                         max={100}
-                                                        required={true} />
+                                                        required={true}
+                                                    />
 
                                                     <ControlledTextField
                                                         label={__("Units per turn")}
@@ -233,7 +233,8 @@ export class CreateGameComponent extends React.Component<ICreateGameProps> {
                                                         initialValue={"3"}
                                                         min={1}
                                                         max={5}
-                                                        required={true} />
+                                                        required={true}
+                                                    />
 
                                                     <ControlledTextField
                                                         label={__("Initial country units")}
@@ -243,7 +244,8 @@ export class CreateGameComponent extends React.Component<ICreateGameProps> {
                                                         initialValue={"1"}
                                                         min={0}
                                                         max={5}
-                                                        required={true} />
+                                                        required={true}
+                                                    />
 
                                                     <ControlledTextField
                                                         label={__("Minimum units per country")}
@@ -251,7 +253,8 @@ export class CreateGameComponent extends React.Component<ICreateGameProps> {
                                                         type="number"
                                                         fieldName="minUnitsPerCountry"
                                                         initialValue={"1"}
-                                                        required={true} />
+                                                        required={true}
+                                                    />
                                                 </GridColumn>
 
                                                 <GridColumn className="col-md-6">
@@ -262,7 +265,8 @@ export class CreateGameComponent extends React.Component<ICreateGameProps> {
                                                         fieldName="maximumNumberOfCards"
                                                         initialValue={"5"}
                                                         max={10}
-                                                        required={false} />
+                                                        required={false}
+                                                    />
 
                                                     <ControlledTextField
                                                         label={__("Maximum timeouts per player")}
@@ -270,17 +274,22 @@ export class CreateGameComponent extends React.Component<ICreateGameProps> {
                                                         type="number"
                                                         fieldName="maximumTimeoutsPerPlayer"
                                                         initialValue={"2"}
-                                                        required={false} />
+                                                        required={false}
+                                                    />
 
                                                     <ControlledDropdown
                                                         label={__("Victory Condition")}
-                                                        fieldName="victoryCondition" value={VictoryConditionType.Survival}>
+                                                        fieldName="victoryCondition"
+                                                        value={VictoryConditionType.Survival}
+                                                    >
                                                         <option key={VictoryConditionType.Survival} value={VictoryConditionType.Survival}>{__("Survival")}</option>
                                                     </ControlledDropdown>
 
                                                     <ControlledDropdown
                                                         label={__("Visibility modifier")}
-                                                        fieldName="visibilityModifier" value={VisibilityModifierType.None}>
+                                                        fieldName="visibilityModifier"
+                                                        value={VisibilityModifierType.None}
+                                                    >
                                                         <option key={VisibilityModifierType.None} value={VisibilityModifierType.None}>{__("Everything visible")}</option>
                                                         <option key={VisibilityModifierType.Fog} value={VisibilityModifierType.Fog}>{__("Fog of War")}</option>
                                                     </ControlledDropdown>
@@ -288,7 +297,8 @@ export class CreateGameComponent extends React.Component<ICreateGameProps> {
                                                     <ControlledDropdown
                                                         label={__("Distribution")}
                                                         fieldName="distribution"
-                                                        value={MapDistribution.Default}>
+                                                        value={MapDistribution.Default}
+                                                    >
                                                         <option key={MapDistribution.Default} value={MapDistribution.Default}>{__("Default")}</option>
                                                         <option key={MapDistribution.Malibu} value={MapDistribution.Malibu}>{__("Malibu")}</option>
                                                     </ControlledDropdown>

@@ -1,7 +1,6 @@
 import { IImmutable, makeImmutable } from "immuts";
+import { IAction } from "../../lib/action";
 import reducerMap from "../../lib/reducerMap";
-
-import { failed, IAction, pending, success } from "../../lib/action";
 import * as FormActions from "./forms.actions";
 
 export interface IForms {
@@ -9,8 +8,6 @@ export interface IForms {
         [key: string]: IForm;
     };
 }
-
-const test = 2;
 
 export interface IForm {
     name: string;

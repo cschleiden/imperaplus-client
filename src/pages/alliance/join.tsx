@@ -1,11 +1,6 @@
 import * as React from "react";
-
-// import { JoinList } from "../../components/ui/alliance/joinList";
-import { Button, ButtonGroup } from "react-bootstrap";
 import { connect } from "react-redux";
-import { Grid, GridColumn, GridRow } from "../../components/layout";
-import { Section, Title } from "../../components/ui/typography";
-import { GameSummary, GameType } from "../../external/imperaClients";
+import { GridColumn } from "../../components/layout";
 import { IState } from "../../reducers";
 
 export interface IJoinAllianceProps {
@@ -17,12 +12,11 @@ export interface IJoinAllianceProps {
 
 export class JoinAllianceComponent extends React.Component<IJoinAllianceProps> {
     public render(): JSX.Element {
-        let alliances: JSX.Element[];
+        // let alliances: JSX.Element[];
 
         return (
             <GridColumn className="col-xs-12">
-                <div className="inProgress">
-                </div>
+                <div className="inProgress" />
             </GridColumn>
         );
     }

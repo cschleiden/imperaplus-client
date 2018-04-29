@@ -21,9 +21,11 @@ export default (props: ICardsProps): JSX.Element => {
 
 
         let addCardElement = (idx, count) => {
-            cardElements.push(<span key={colors[idx]} className={css("badge", "badge-" + colors[idx])}>
-                {count}
-            </span>);
+            cardElements.push(
+                <span key={colors[idx]} className={css("badge", "badge-" + colors[idx])}>
+                    {count}
+                </span>
+            );
         };
 
         let currentElement: BonusCard = null;
@@ -48,9 +50,11 @@ export default (props: ICardsProps): JSX.Element => {
     }
 
     if (cardElements && cardElements.length) {
-        return <span>
-            {cardElements}
-        </span>;
+        return (
+            <span>
+                {cardElements}
+            </span>
+        );
     }
 
     return <span>&nbsp;</span>;

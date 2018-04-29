@@ -1,6 +1,6 @@
-import { IImmutable, makeImmutable } from "immuts";
+import { makeImmutable } from "immuts";
 import { FolderInformation, Message, MessageFolder } from "../../external/imperaClients";
-import { failed, IAction, pending, success } from "../../lib/action";
+import { IAction, pending, success } from "../../lib/action";
 import reducerMap from "../../lib/reducerMap";
 import * as Actions from "./messages.actions";
 

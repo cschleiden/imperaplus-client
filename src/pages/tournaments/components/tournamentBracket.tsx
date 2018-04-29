@@ -86,7 +86,7 @@ export class TournamentBracket extends React.Component<ITournamentBracketProps, 
                 .append("g");
 
             // adds the links between the nodes
-            const link = g
+            g
                 .selectAll(".link")
                 .data(nodes.descendants().slice(1))
                 .enter()
@@ -96,7 +96,7 @@ export class TournamentBracket extends React.Component<ITournamentBracketProps, 
                 .classed("win", d => !!d.data.winner);
 
 
-            const labels = d3
+            d3
                 .select(this._element.querySelector(".labels"))
                 .selectAll("div")
                 .data(nodes.descendants())
@@ -121,10 +121,6 @@ export class TournamentBracket extends React.Component<ITournamentBracketProps, 
         let width: number;
         let height: number;
 
-        let ret: IBracketPairing[];
-        let retPrevious: IBracketPairing[];
-        let retCurrent: IBracketPairing[] = [];
-
         let numberOfKoTeams = tournament.numberOfTeams;
         const hasGroupPhase = tournament.numberOfGroupGames > 0;
         if (hasGroupPhase) {
@@ -148,11 +144,6 @@ export class TournamentBracket extends React.Component<ITournamentBracketProps, 
             const phase = numberOfRounds - i - 1 + (hasGroupPhase ? 1 : 0);
             const pairings = tournament.pairings.filter(x => x.phase === phase);
             pairings.sort((a, b) => a.order - b.order);
-
-            let numberOfGames = tournament.numberOfKnockoutGames;
-            if (phase === numberOfRounds) {
-                numberOfGames = tournament.numberOfFinalGames;
-            }
 
             let newParents = [];
             const entryCount = Math.pow(2, i);

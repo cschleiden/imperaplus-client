@@ -37,55 +37,62 @@ export class GameStats extends React.Component<IGameStatsProps, IGameStatsState>
         const { game } = this.props;
         const isTeamGame = game.options.numberOfPlayersPerTeam > 1;
 
-        return <div>
-            <table className="table">
-                <thead>
-                    <tr>
-                        <th className="text-center" title={__("Player")}>#</th>
-                        {
-                            isTeamGame && <th className="text-center" title={__("Team")}>{__("T")}</th>}
-                        <th title={__("Name")}>{__("Name")}</th>
-                        <th className="text-center" title={__("Countries")}>{__("C")}</th>
-                        <th className="text-center" title={__("Units")}>{__("U")}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {this.state.players.map(player =>
-                        <tr className={css({
-                            "player-inactive": player.outcome !== PlayerOutcome.None
-                        })} key={player.no}>
-                            <td className="text-center">
-                                {player.outcome === PlayerOutcome.None && <span className={css(
-                                    "label",
-                                    "player",
-                                    "player-" + (player.no + 1),
-                                    {
-                                        ["player-team-" + (player.team + 1)]: isTeamGame
-                                    })}>
-                                    {(player.no + 1)}
-                                </span>}
-                                {player.outcome !== PlayerOutcome.None && <PlayerOutcomeDisplay outcome={player.outcome} />}
-                            </td>
+        return (
+            <div>
+                <table className="table">
+                    <thead>
+                        <tr>
+                            <th className="text-center" title={__("Player")}>#</th>
                             {
-                                isTeamGame && <td className="text-center">
-                                    <span className={css("label", "team", `team-${player.team + 1}`)}>
-                                        {(player.team + 1)}
-                                    </span>
+                                isTeamGame && <th className="text-center" title={__("Team")}>{__("T")}</th>}
+                            <th title={__("Name")}>{__("Name")}</th>
+                            <th className="text-center" title={__("Countries")}>{__("C")}</th>
+                            <th className="text-center" title={__("Units")}>{__("U")}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.state.players.map(player =>
+                            <tr
+                                className={css({
+                                    "player-inactive": player.outcome !== PlayerOutcome.None
+                                })}
+                                key={player.no}
+                            >
+                                <td className="text-center">
+                                    {player.outcome === PlayerOutcome.None && <span
+                                        className={css(
+                                            "label",
+                                            "player",
+                                            "player-" + (player.no + 1),
+                                            {
+                                                ["player-team-" + (player.team + 1)]: isTeamGame
+                                            })}
+                                    >
+                                        {(player.no + 1)}
+                                    </span>}
+                                    {player.outcome !== PlayerOutcome.None && <PlayerOutcomeDisplay outcome={player.outcome} />}
                                 </td>
-                            }
-                            <td>
-                                {player.name}
-                            </td>
-                            <td className="text-center">
-                                {player.countries}
-                            </td>
-                            <td className="text-center">
-                                {player.units}
-                            </td>
-                        </tr>)}
-                </tbody>
-            </table>
-        </div>;
+                                {
+                                    isTeamGame && <td className="text-center">
+                                        <span className={css("label", "team", `team-${player.team + 1}`)}>
+                                            {(player.team + 1)}
+                                        </span>
+                                    </td>
+                                }
+                                <td>
+                                    {player.name}
+                                </td>
+                                <td className="text-center">
+                                    {player.countries}
+                                </td>
+                                <td className="text-center">
+                                    {player.units}
+                                </td>
+                            </tr>)}
+                    </tbody>
+                </table>
+            </div>
+        );
     }
 
     private _getState(props: IGameStatsProps): IGameStatsState {
@@ -99,18 +106,11 @@ export class GameStats extends React.Component<IGameStatsProps, IGameStatsState>
 
         const isTeamGame = game.options.numberOfPlayersPerTeam > 1;
 
-        let numberOfTeams = 0;
-        let numberOfPlayers = 0;
-
         let players: IStatPlayer[] = [];
 
         if (game.teams) {
             for (let team of game.teams) {
-                ++numberOfTeams;
-
                 for (let player of team.players) {
-                    ++numberOfPlayers;
-
                     players.push({
                         no: player.playOrder,
                         team: team.playOrder,

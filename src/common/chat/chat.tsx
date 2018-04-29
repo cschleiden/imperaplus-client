@@ -1,16 +1,11 @@
-import "./chat.scss";
-
 import * as React from "react";
-import { connect } from "react-redux";
-import { IState } from "../../reducers";
-
-import { ChannelInformation } from "../../external/chatModel";
-import { close, message, showHide, switchChannel } from "./chat.actions";
-
-
 import { Button, FormControl } from "react-bootstrap";
-import { Grid, GridColumn, GridRow } from "../../components/layout";
+import { connect } from "react-redux";
+import { ChannelInformation } from "../../external/chatModel";
 import { autobind } from "../../lib/autobind";
+import { IState } from "../../reducers";
+import { close, message, showHide, switchChannel } from "./chat.actions";
+import "./chat.scss";
 
 interface IChatProps {
     isVisible: boolean;
@@ -80,10 +75,16 @@ export class Chat extends React.Component<IChatProps, IChatState> {
                             <div className="chat-actions">
                                 <Button
                                     onClick={this._onHide}
-                                    title={__("Hide")}><span className="glyphicon glyphicon-menu-down" /></Button>
+                                    title={__("Hide")}
+                                >
+                                    <span className="glyphicon glyphicon-menu-down" />
+                                </Button>
                                 <Button
                                     onClick={this._onClose}
-                                    title={__("Close")}><span className="glyphicon glyphicon-remove" /></Button>
+                                    title={__("Close")}
+                                >
+                                    <span className="glyphicon glyphicon-remove" />
+                                </Button>
                             </div>
                         </div>
 

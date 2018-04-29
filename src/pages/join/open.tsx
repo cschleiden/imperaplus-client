@@ -1,11 +1,9 @@
 import * as React from "react";
-
 import { Button, ButtonGroup } from "react-bootstrap";
 import { connect } from "react-redux";
-import { Grid, GridColumn, GridRow } from "../../components/layout";
+import { GridColumn } from "../../components/layout";
 import { GameList } from "../../components/ui/games/gameList";
-import { Section, Title } from "../../components/ui/typography";
-import { GameSummary, GameType } from "../../external/imperaClients";
+import { GameSummary } from "../../external/imperaClients";
 import { IState } from "../../reducers";
 import { refreshOpen } from "../games/games.actions";
 
@@ -32,7 +30,8 @@ export class FunGamesComponent extends React.Component<IFunGamesProps> {
                             <Button
                                 key="refresh"
                                 onClick={this.props.refreshFun}
-                                title={__("Refresh")}>
+                                title={__("Refresh")}
+                            >
                                 <span className="glyphicon glyphicon-refresh" />
                             </Button>
                         </ButtonGroup>

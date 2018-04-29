@@ -1,13 +1,12 @@
-import "./MessageList.scss"
-
 import * as React from "react";
 import { Button, Table } from "react-bootstrap";
 import { HumanDate } from "../../../components/ui/humanDate";
 import { UserRef } from "../../../components/ui/userReference";
-import { FolderInformation, Message, MessageFolder } from "../../../external/imperaClients";
+import { Message } from "../../../external/imperaClients";
 import { autobind } from "../../../lib/autobind";
 import { css } from "../../../lib/css";
-import { FolderName } from "./FolderName";
+import "./MessageList.scss";
+
 
 export interface IMessageListProps {
     messages: Message[];
@@ -20,39 +19,47 @@ export class MessageList extends React.Component<IMessageListProps> {
     public render() {
         const { messages } = this.props;
 
-        return <div className="messages-list">
-            <Table responsive hover striped>
-                <thead>
-                    <tr>
-                        <td>{__("User")}</td>
-                        <td>{__("Subject")}</td>
-                        <td>{__("Date")}</td>
-                        <td>&nbsp;</td>
-                    </tr>
-                </thead>
+        return (
+            <div className="messages-list">
+                <Table responsive hover striped>
+                    <thead>
+                        <tr>
+                            <td>{__("User")}</td>
+                            <td>{__("Subject")}</td>
+                            <td>{__("Date")}</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                    </thead>
 
-                <tbody>
-                    {messages && messages.map(m => this._renderMessage(m))}
-                </tbody>
-            </Table>
-        </div>;
+                    <tbody>
+                        {messages && messages.map(m => this._renderMessage(m))}
+                    </tbody>
+                </Table>
+            </div>
+        );
     }
 
     private _renderMessage(message: Message) {
-        return <tr key={message.id} className={css({
-            "unread": !message.isRead
-        })} onClick={() => this._openMessage(message)}>
-            <td>
-                <UserRef userRef={message.from} />
-            </td>
-            <td>{message.subject}</td>
-            <td>{HumanDate(message.sentAt)}</td>
-            <td className="text-right">
-                <Button bsStyle="danger" bsSize="xs" onClick={(ev) => this._deleteMessage(ev, message)}>
-                    <i className="fa fa-trash-o" />&nbsp;{__("Delete")}
-                </Button>
-            </td>
-        </tr>;
+        return (
+            <tr
+                key={message.id}
+                className={css({
+                    "unread": !message.isRead
+                })}
+                onClick={() => this._openMessage(message)}
+            >
+                <td>
+                    <UserRef userRef={message.from} />
+                </td>
+                <td>{message.subject}</td>
+                <td>{HumanDate(message.sentAt)}</td>
+                <td className="text-right">
+                    <Button bsStyle="danger" bsSize="xs" onClick={(ev) => this._deleteMessage(ev, message)}>
+                        <i className="fa fa-trash-o" />&nbsp;{__("Delete")}
+                    </Button>
+                </td>
+            </tr>
+        );
     }
 
     @autobind

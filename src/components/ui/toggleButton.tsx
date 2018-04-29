@@ -25,11 +25,16 @@ export class ToggleButton extends React.Component<IToggleButtonProps, IToggleBut
     }
 
     render() {
-        return <Button className={css(this.props.className, {
-            "active": this.state.isToggled
-        })} onClick={this._onToggle}>
-            {this.props.children}
-        </Button>;
+        return (
+            <Button
+                className={css(this.props.className, {
+                    "active": this.state.isToggled
+                })}
+                onClick={this._onToggle}
+            >
+                {this.props.children}
+            </Button>
+        );
     }
 
     @autobind

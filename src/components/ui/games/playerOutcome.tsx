@@ -6,7 +6,7 @@ import { PlayerOutcome } from "../../../external/imperaClients";
 import { css } from "../../../lib/css";
 
 export const PlayerOutcomeDisplay: React.StatelessComponent<{ outcome: PlayerOutcome }> = (props: { outcome: PlayerOutcome }): JSX.Element => {
-    const { outcome} = props;
+    const { outcome } = props;
 
     let icon: string;
     let className: string;
@@ -44,7 +44,9 @@ export const PlayerOutcomeDisplay: React.StatelessComponent<{ outcome: PlayerOut
             break;
     }
 
-    return <span title={label} className={css("player-outcome", className)}>
-        <i className={css("fa", "fa-" + icon)} aria-hidden={true} />
-    </span>;
+    return (
+        <span title={label} className={css("player-outcome", className)}>
+            <i className={css("fa", "fa-" + icon)} aria-hidden={true} />
+        </span>
+    );
 };

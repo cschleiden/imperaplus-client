@@ -1,8 +1,8 @@
 import * as React from "react";
-import "./map.scss";
-import { MapTemplateCacheEntry } from "../mapTemplateCache";
 import { autobind } from "../../../lib/autobind";
 import { css } from "../../../lib/css";
+import { MapTemplateCacheEntry } from "../mapTemplateCache";
+import "./map.scss";
 
 export interface IMapViewProps {
     mapTemplate: MapTemplateCacheEntry;
@@ -57,9 +57,7 @@ export class MapView extends React.Component<IMapViewProps, IMapViewState> {
         const { hoveredCountry } = this.state;
 
         return mapTemplate.countries.map(countryTemplate => {
-            const country = mapTemplate.country(countryTemplate.identifier);
             const isHighlighted = hoveredCountry && mapTemplate.areConnected(hoveredCountry, countryTemplate.identifier);
-
             const continent = mapTemplate.continent(countryTemplate.identifier);
 
             return (
@@ -70,7 +68,7 @@ export class MapView extends React.Component<IMapViewProps, IMapViewState> {
                         "country",
                         `continent-${continent.id}`,
                         {
-                            "country-highlight": isHighlighted,                            
+                            "country-highlight": isHighlighted,
                         })}
                     style={{
                         left: countryTemplate.x,

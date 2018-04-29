@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Pagination, Table } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 import { connect } from "react-redux";
 import { GridColumn } from "../../components/layout/index";
 import { HumanDate } from "../../components/ui/humanDate";

@@ -1,16 +1,15 @@
 import * as React from "react";
-import { Button, ButtonGroup } from "react-bootstrap";
 import { connect } from "react-redux";
 import { push } from "react-router-redux";
 import Form from "../../common/forms/form";
-import { ControlledCheckBox, ControlledDropdown, ControlledTextField } from "../../common/forms/inputs";
+import { ControlledDropdown, ControlledTextField } from "../../common/forms/inputs";
 import { setTitle } from "../../common/general/general.actions";
-import { Grid, GridColumn, GridRow } from "../../components/layout";
+import { GridColumn, GridRow } from "../../components/layout";
 import { HumanDate, HumanTime } from "../../components/ui/humanDate";
 import { Loading } from "../../components/ui/loading";
 import { ProgressButton, SimpleProgressButton } from "../../components/ui/progressButton";
 import { Section, SubSection, Title } from "../../components/ui/typography";
-import { Tournament, TournamentState, TournamentSummary, TournamentTeamState, UserReference } from "../../external/imperaClients";
+import { Tournament, TournamentState, TournamentTeamState } from "../../external/imperaClients";
 import { autobind } from "../../lib/autobind";
 import { css } from "../../lib/css";
 import { IState } from "../../reducers";
@@ -41,7 +40,7 @@ export interface ITournamentProps {
 
 export class TournamentComponent extends React.Component<ITournamentProps> {
     public componentDidMount() {
-        const { params, tournament, load } = this.props;
+        const { params, load } = this.props;
 
         if (params && params.id) {
             load(params.id);
@@ -57,7 +56,7 @@ export class TournamentComponent extends React.Component<ITournamentProps> {
     }
 
     public render(): JSX.Element {
-        const { tournament, userId } = this.props;
+        const { tournament } = this.props;
 
         if (!tournament) {
             return <Loading />;
@@ -246,18 +245,21 @@ export class TournamentComponent extends React.Component<ITournamentProps> {
                                         label={__("Team Name")}
                                         placeholder={__("Enter name for team")}
                                         fieldName="teamName"
-                                        required={true} />
+                                        required={true}
+                                    />
                                     <ControlledTextField
                                         label={__("Password (Optional)")}
                                         fieldName="teamPassword"
-                                        required={false} />
+                                        required={false}
+                                    />
 
                                     <div>
                                         <ProgressButton
                                             type="submit"
                                             disabled={(formState.getFieldValue("teamName") || "").trim() === ""}
                                             isActive={isPending}
-                                            bsStyle="primary">
+                                            bsStyle="primary"
+                                        >
                                             {__("Create")}
                                         </ProgressButton>
                                     </div>
@@ -284,7 +286,8 @@ export class TournamentComponent extends React.Component<ITournamentProps> {
                                     <ControlledDropdown
                                         label={__("Team")}
                                         placeholder={__("Select team")}
-                                        fieldName="team">
+                                        fieldName="team"
+                                    >
                                         <option key="empty" value="" />
                                         {
                                             tournament.teams
@@ -296,14 +299,16 @@ export class TournamentComponent extends React.Component<ITournamentProps> {
                                         type="password"
                                         label={__("Password (if required)")}
                                         fieldName="password"
-                                        required={false} />
+                                        required={false}
+                                    />
 
                                     <div>
                                         <ProgressButton
                                             type="submit"
                                             disabled={(formState.getFieldValue("team") || "").trim() === ""}
                                             isActive={isPending}
-                                            bsStyle="primary">
+                                            bsStyle="primary"
+                                        >
                                             {__("Join")}
                                         </ProgressButton>
                                     </div>
@@ -343,27 +348,27 @@ export class TournamentComponent extends React.Component<ITournamentProps> {
                 <ul className="list-unstyled">
                     {
                         tournament.teams.map(team => {
-                            const teamHasSlotOpen = team.participants.length < tournament.options.numberOfPlayersPerTeam;
-
-                            return <li
-                                className={css("team", {
-                                    inactive: team.state === TournamentTeamState.InActive
-                                })}
-                                key={team.id}
-                            >
-                                {isTeamTournament && <b>{team.name}</b>}
-                                <ul>
-                                    {
-                                        team.participants.map(p => {
-                                            return <li className={css("participant")} key={p.id}>
-                                                <span className="user">
-                                                    {p.name}
-                                                </span>
-                                            </li>;
-                                        })
-                                    }
-                                </ul>
-                            </li>;
+                            return (
+                                <li
+                                    className={css("team", {
+                                        inactive: team.state === TournamentTeamState.InActive
+                                    })}
+                                    key={team.id}
+                                >
+                                    {isTeamTournament && <b>{team.name}</b>}
+                                    <ul>
+                                        {
+                                            team.participants.map(p => {
+                                                return <li className={css("participant")} key={p.id}>
+                                                    <span className="user">
+                                                        {p.name}
+                                                    </span>
+                                                </li>;
+                                            })
+                                        }
+                                    </ul>
+                                </li>
+                            );
                         })
                     }
                 </ul>

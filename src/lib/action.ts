@@ -2,7 +2,6 @@ import { Dispatch } from "react-redux";
 import { IClient } from "../clients/clientFactory";
 import { ISignalRClient } from "../clients/signalrFactory";
 import { IState } from "../reducers";
-import { NotificationService } from "../services/notificationService";
 
 export interface IAction<T> {
     type: string;
@@ -61,6 +60,7 @@ export interface IPromiseActionCreator<TInput, TResult> {
     (data: TInput, options?: IApiActionOptions): IThunkAction;
 
     TYPE: string;
+    PAYLOAD: TResult;
 }
 
 export interface IMadePromiseAction<TResult, TInput> {
@@ -86,6 +86,7 @@ export const makePromiseAction = <TInput, TResult>(
                     type: type,
                     ...asyncAction,
                     options: {
+                        useMessage: true,
                         ...asyncAction.options,
                         ...options
                     }

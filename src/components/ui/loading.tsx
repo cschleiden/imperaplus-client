@@ -13,11 +13,13 @@ export class Loading extends React.Component<ILoadingProps> {
             size = SpinnerSize.Large
         } = this.props;
 
-        return <div className="loading">
-            <div className="loading-spinner">
-                <Spinner className="center-block" size={size} />
+        return (
+            <div className="loading">
+                <div className="loading-spinner">
+                    <Spinner className="center-block" size={size} />
+                </div>
+                {__("Loading")}
             </div>
-            {__("Loading")}
-        </div>;
+        );
     }
 }

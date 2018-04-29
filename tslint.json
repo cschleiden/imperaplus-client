@@ -1,5 +1,7 @@
 {
-    "extends": ["tslint-react"],
+    "extends": [
+        "tslint-react"
+    ],
     "defaultSeverity": "warn",    
     "rules": {
         "class-name": true,
@@ -33,7 +35,7 @@
         "no-duplicate-variable": true,
         "no-empty": false,
         "no-eval": true,
-        "no-shadowed-variable": true,
+        "no-shadowed-variable": false,
         "no-string-literal": false,
         "no-switch-case-fall-through": false,
         "trailing-comma": [
@@ -41,9 +43,6 @@
         ],
         "no-trailing-whitespace": false,
         "no-unused-expression": true,
-        "no-unused-variable": [
-            true
-        ],
         "no-require-imports": true,
         "ordered-imports": false,
         "no-use-before-declare": false,
@@ -76,6 +75,7 @@
             true,
             "double",
             "jsx-double"
-        ]
+        ],
+        "jsx-boolean-value": false
     }
 }

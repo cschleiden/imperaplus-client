@@ -13,10 +13,12 @@ export const Spinner = (props: {
     className?: string;
 }): JSX.Element => {
     return (
-        <div className={css("spinner", {
-            "large": props.size === SpinnerSize.Large
-        }, props.className)}>
+        <div
+            className={css("spinner", {
+                "large": props.size === SpinnerSize.Large
+            }, props.className)}
+        >
             &nbsp;
-    </div>
+        </div>
     );
 };

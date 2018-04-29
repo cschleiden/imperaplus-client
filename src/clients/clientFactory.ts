@@ -1,10 +1,8 @@
 import { baseUri } from "../configuration";
-import { TokenProvider } from "../services/tokenProvider";
-
-import { SessionService } from "../common/session/session.service";
-import { AccountClient, ErrorResponse } from "../external/imperaClients";
+import { ErrorResponse } from "../external/imperaClients";
 import jsonParseReviver from "../lib/jsonReviver";
 import { onUnauthorized } from "../services/authProvider";
+import { TokenProvider } from "../services/tokenProvider";
 import { UserProvider } from "../services/userProvider";
 
 export interface IClient<TClient> {
@@ -43,7 +41,7 @@ const fetchWrapper = (tokenProvider: () => string, url: string, init: RequestIni
             init.headers = new Headers();
         }
 
-        (init.headers as Headers).set("Authorization", "Bearer " + accessToken);
+        init.headers["Authorization"] = "Bearer " + accessToken;
         init.mode = "cors";
     }
 

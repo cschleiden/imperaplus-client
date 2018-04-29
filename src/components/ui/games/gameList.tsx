@@ -1,14 +1,11 @@
 import * as React from "react";
-
-import "./gameList.scss";
-
 import { Button, Glyphicon, Table } from "react-bootstrap";
-import { IndexRoute, Link, Route, Router } from "react-router";
+import { Link } from "react-router";
 import { GameState, GameSummary, PlayerSummary } from "../../../external/imperaClients";
 import { css } from "../../../lib/css";
-import { store } from "../../../store";
 import { Timer } from "../timer";
 import GameDetails from "./gameDetail";
+import "./gameList.scss";
 import { GameStateDisplay } from "./gameState";
 import { PlayerOutcomeDisplay } from "./playerOutcome";
 
@@ -137,7 +134,8 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
                         bsSize="xsmall"
                         bsStyle="info"
                         title={__("Show details")}
-                        onClick={() => this._toggle(game.id)}>
+                        onClick={() => this._toggle(game.id)}
+                    >
                         <Glyphicon glyph="info-sign" />
                     </Button>
                 </td>

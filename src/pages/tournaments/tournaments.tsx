@@ -1,13 +1,12 @@
 import * as React from "react";
-
 import { Button, ButtonGroup } from "react-bootstrap";
 import { connect } from "react-redux";
-import { Grid, GridColumn, GridRow } from "../../components/layout";
+import { GridColumn } from "../../components/layout";
 import { TournamentList } from "../../components/ui/games/tournamentList";
-import { Section, Title } from "../../components/ui/typography";
+import { Section } from "../../components/ui/typography";
 import { TournamentState, TournamentSummary } from "../../external/imperaClients";
 import { IState } from "../../reducers";
-import { join, refresh } from "../tournaments/tournaments.actions";
+import { refresh } from "../tournaments/tournaments.actions";
 
 export interface ITournamentGamesProps {
     refresh: () => void;
@@ -25,7 +24,6 @@ export class TournamentsComponent extends React.Component<ITournamentGamesProps>
     public render(): JSX.Element {
         let open: JSX.Element[];
         let inProgress: JSX.Element[];
-        let knockout: JSX.Element[];
         let closed: JSX.Element[];
 
         if (this.props.openTournaments.length > 0) {

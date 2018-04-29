@@ -2,7 +2,7 @@ import { IImmutable } from "immuts";
 import * as React from "react";
 import { FormGroup } from "react-bootstrap";
 import { connect } from "react-redux";
-import { IApiActionOptions, IPromiseAction, IThunkAction } from "../../lib/action";
+import { IApiActionOptions, IThunkAction } from "../../lib/action";
 import { initialValue, FormMode, resetForm, submitForm, changeField } from "./forms.actions";
 import { IForm, IForms } from "./forms.reducer";
 import { contextTypes, IFormContext } from "./types";
@@ -12,12 +12,12 @@ interface IFormProps {
     component: (props: {
         isPending: boolean;
         formState: IFormState;
-        submit: () => void;
+        submit?: () => void;
     }) => JSX.Element;
 
     name: string;
 
-    onSubmit?: <TResult, TInput>(formState: IFormState, options: IApiActionOptions) => IThunkAction;
+    onSubmit?: (formState: IFormState, options: IApiActionOptions) => IThunkAction;
     onSubmitSuccess?: <TResult>(result: TResult) => void;
     onSubmitFailed?: <TError>(error: TError) => void;
 }
@@ -26,7 +26,7 @@ interface IInternalFormProps {
     isPending: boolean;
     formState: IForm;
 
-    submit: <TResult, TInput>(formState: IFormState) => IThunkAction;
+    submit: (formState: IFormState) => IThunkAction;
     reset: () => any;
     changeField: (fieldName: string, value: string | boolean | number) => any;
     initialValue: (fieldName: string, value: string | boolean | number) => any;
