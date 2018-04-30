@@ -167,7 +167,7 @@ export class AllianceInfoComponent extends React.Component<IAllianceInfoProps> {
                                     return (
                                         <li key={request.id}>
                                             {HumanDate(request.createdAt)} - {request.requestedByUser.name} - {request.reason} - {request.state} - {HumanDate(request.lastModifiedAt)}
-                                            {request.state !== AllianceJoinRequestState.Active && <span>
+                                            {request.state === AllianceJoinRequestState.Active && <span>
                                                 <Button
                                                     bsSize="xsmall"
                                                     bsStyle="link"
