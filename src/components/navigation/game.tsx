@@ -74,11 +74,6 @@ const GameNavigation = (props: IGameNavigation): JSX.Element => {
                         </li>
                     }
                     {
-                        !memberOfAlliance && <li>
-                            <Link to="/game/alliances/join" activeClassName="active">{__("Join alliance")}</Link>
-                        </li>
-                    }
-                    {
                         memberOfAlliance && <li>
                             <Link to={`/game/alliances/${allianceId}`} activeClassName="active">{__("Your alliance")}</Link>
                         </li>

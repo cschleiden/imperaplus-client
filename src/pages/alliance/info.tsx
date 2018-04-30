@@ -22,6 +22,8 @@ export interface IAllianceInfoProps {
     alliance: Alliance;
     requests: AllianceJoinRequest[];
 
+    userId: string;
+
     /** Is the current user admin of the current alliance */
     isAdmin: boolean;
     /** Is the current user member of the current alliance */
@@ -49,7 +51,7 @@ export class AllianceInfoComponent extends React.Component<IAllianceInfoProps> {
     }
 
     render(): JSX.Element {
-        const { alliance, isAdmin, requests, canJoin, updateRequest, hasPendingRequest } = this.props;
+        const { alliance, isAdmin, requests, canJoin, updateRequest, hasPendingRequest, userId } = this.props;
 
         if (!alliance) {
             return (
@@ -66,7 +68,7 @@ export class AllianceInfoComponent extends React.Component<IAllianceInfoProps> {
                     {alliance && alliance.members && alliance.members.map(member => (
                         <li key={member.id}>
                             {member.name}
-                            {isAdmin && <span>
+                            {isAdmin && (member.id !== userId) && <span>
                                 <Button
                                     bsSize="xsmall"
                                     bsStyle="link"
@@ -242,6 +244,7 @@ export default connect((state: IState) => {
     const hasOtherPendingRequest = alliance && pendingRequests && pendingRequests.some(x => x.allianceId !== alliance.id && x.state === AllianceJoinRequestState.Active);
 
     return {
+        userId: userId,
         alliance: alliance,
         requests: requests,
         isAdmin: allianceAdmin,
