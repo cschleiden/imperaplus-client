@@ -108,7 +108,7 @@ export class AllianceInfoComponent extends React.Component<IAllianceInfoProps> {
                 </ul>
 
                 {
-                    (canJoin) && (
+                    (canJoin || hasPendingRequest) && (
                         <div>
                             <Section>{__("Join")}</Section>
                             {!hasPendingRequest && (

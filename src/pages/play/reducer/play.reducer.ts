@@ -1,14 +1,10 @@
-import {
-    ErrorResponse, Game, GameActionResult, GameChatMessage, HistoryTurn, PlayState, GameSummary, Result
-} from "../../../external/imperaClients";
+import { ErrorResponse, Game, GameActionResult, GameChatMessage, GameSummary, HistoryTurn, PlayState, Result } from "../../../external/imperaClients";
 import { IAction } from "../../../lib/action";
 import { countriesToMap, getPlayer, getPlayerFromTeams, getTeam } from "../../../lib/game/utils";
 import { isEmptyGuid } from "../../../lib/guid";
 import { UserProvider } from "../../../services/userProvider";
-import {
-    IGameChatMessagesPayload, ISetPlaceUnitsPayload, ISwitchGamePayload, ISetGameOptionPayload
-} from "../play.actions";
-import { initialState, IPlayState, ITwoCountry } from "./play.reducer.state";
+import { IGameChatMessagesPayload, ISetGameOptionPayload, ISetPlaceUnitsPayload, ISwitchGamePayload } from "../play.actions";
+import { IPlayState, initialState } from "./play.reducer.state";
 import { inputActive } from "./play.selectors";
 
 //
@@ -176,9 +172,7 @@ export const selectCountry = (state: IPlayState, action: IAction<string>) => {
                 if (country && country.teamId === teamId) {
                     const remainingUnits = game.unitsToPlace - Object.keys(placeCountries).reduce((sum, id) => sum + placeCountries[id], 0);
 
-                    return state.__set(x => x.placeCountries, {
-                        [countryIdentifier]: remainingUnits
-                    });
+                    return state.__set(x => x.placeCountries[countryIdentifier], remainingUnits);
                 }
 
                 break;
@@ -206,12 +200,13 @@ export const selectCountry = (state: IPlayState, action: IAction<string>) => {
                             const maxUnits = originCountry.units - game.options.minUnitsPerCountry;
 
                             return state
-                                .__set(x => x.twoCountry.destinationCountryIdentifier, countryIdentifier)
-                                .__set(x => x.twoCountry, {
+                                .__set(x => x.twoCountry, x => ({
+                                    ...x,
+                                    destinationCountryIdentifier: countryIdentifier,
                                     minUnits: 1,
                                     maxUnits,
                                     numberOfUnits: Math.max(0, maxUnits)
-                                });
+                                }));
                         } else {
                             // Reset
                             state.__set(x => x.twoCountry, initialState.twoCountry);
@@ -225,11 +220,12 @@ export const selectCountry = (state: IPlayState, action: IAction<string>) => {
                                 .filter(c => countriesByIdentifier[c].playerId !== playerId);
 
                             return state
-                                .__set(x => x.twoCountry, {
+                                .__set(x => x.twoCountry, x => ({
+                                    ...x,
                                     originCountryIdentifier: countryIdentifier,
                                     destinationCountryIdentifier: null,
                                     allowedDestinations
-                                } as ITwoCountry);
+                                }));
                         }
                     }
                 } else if (game.playState === PlayState.Move) {
@@ -240,12 +236,13 @@ export const selectCountry = (state: IPlayState, action: IAction<string>) => {
                             const maxUnits = originCountry.units - game.options.minUnitsPerCountry;
 
                             return state
-                                .__set(x => x.twoCountry, {
+                                .__set(x => x.twoCountry, x => ({
+                                    ...x,
                                     destinationCountryIdentifier: countryIdentifier,
                                     minUnits: 1,
                                     maxUnits,
                                     numberOfUnits: Math.max(0, maxUnits)
-                                } as ITwoCountry);
+                                }));
                         } else if (!twoCountry.originCountryIdentifier || !!twoCountry.destinationCountryIdentifier) {
                             // Set destination
                             const allowedDestinations = mapTemplate
@@ -253,10 +250,11 @@ export const selectCountry = (state: IPlayState, action: IAction<string>) => {
                                 .filter(c => countriesByIdentifier[c].teamId === teamId);
 
                             return state
-                                .__set(x => x.twoCountry, {
+                                .__set(x => x.twoCountry, x => ({
+                                    ...x,
                                     originCountryIdentifier: countryIdentifier,
                                     allowedDestinations
-                                } as ITwoCountry);
+                                }));
                         }
                     } else {
                         // Reset
@@ -286,9 +284,7 @@ export const setPlaceUnits = (state: IPlayState, action: IAction<ISetPlaceUnitsP
             units = remainingUnits;
         }
 
-        return state.__set(x => x.placeCountries, {
-            [countryIdentifier]: units
-        });
+        return state.__set(x => x.placeCountries[countryIdentifier], units);
     }
 
     return state;
