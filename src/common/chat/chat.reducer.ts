@@ -31,11 +31,10 @@ const switchChannel = (state: IChatState, action: IAction<string>) => {
 };
 
 const start = (state: IChatState, action: IAction<IStartPayload>) => {
-    return state.__set(x => x, {
-        isActive: true,
-        channels: action.payload.channels,
-        activeChannelId: action.payload.channels && action.payload.channels.length && action.payload.channels[0].identifier
-    });
+    return state
+        .__set(x => x.isActive, true)
+        .__set(x => x.channels, action.payload.channels)
+        .__set(x => x.activeChannelId, action.payload.channels && action.payload.channels.length && action.payload.channels[0].identifier);
 };
 
 const receiveMessage = (state: IChatState, action: IAction<Message>) => {
@@ -57,23 +56,17 @@ const receiveMessage = (state: IChatState, action: IAction<Message>) => {
 
 const join = (state: IChatState, action: IAction<IUserEventPayload>) => {
     const channelIdx = getChannelIdxById(state.channels, action.payload.channelId);
-    const channel = state.channels[channelIdx];
 
-    return state.__set(x => x.channels[channelIdx], {
-        users: channel.users.concat([{
-            name: action.payload.userName,
-            type: 0
-        }])
-    });
+    return state.__set(x => x.channels[channelIdx].users, x => x.concat([{
+        name: action.payload.userName,
+        type: 0
+    }]));
 };
 
 const leave = (state: IChatState, action: IAction<IUserEventPayload>) => {
     const channelIdx = getChannelIdxById(state.channels, action.payload.channelId);
-    const channel = state.channels[channelIdx];
 
-    return state.__set(x => x.channels[channelIdx], {
-        users: channel.users.filter(u => u.name !== action.payload.userName)
-    });
+    return state.__set(x => x.channels[channelIdx].users, x => x.filter(u => u.name !== action.payload.userName));
 };
 
 export const chat = <TPayload>(

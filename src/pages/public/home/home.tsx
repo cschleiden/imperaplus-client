@@ -22,27 +22,23 @@ export default class Home extends React.Component {
 
         return (
             <div>
-                <div>
-                    <Slider
-                        background="/assets/slider/slider.gif"
-                        slides={[{
-                            headLines: [__("Conquer"), __("the world")],
-                            bodyLines: [__("Fight"), __("on more than"), __("80 maps")],
-                            img: "/assets/slider/map.png"
-                        }, {
-                            headLines: [__("Win in"), __("tournaments")],
-                            bodyLines: [__("with hundreds"), __("of players")],
-                            img: "/assets/slider/tournaments.png"
-                        }, {
-                            headLines: [__("Participate"), __("in"), __("leagues")],
-                            bodyLines: [__("Participate in different"), __("leagues, alone or"), __("in a team")],
-                            img: "/assets/slider/league.png"
-                        }]}
-                    />
-                </div>
-                <div className="container">
-                    <h2 className="headline">{__("Impera allows you to conquer the world! Or many others.")}</h2>
-                </div>
+                <Slider
+                    background="/assets/slider/slider.gif"
+                    slides={[{
+                        headLines: [__("Conquer"), __("the world")],
+                        bodyLines: [__("Fight"), __("on more than"), __("80 maps")],
+                        img: "/assets/slider/map.png"
+                    }, {
+                        headLines: [__("Win in"), __("tournaments")],
+                        bodyLines: [__("with hundreds"), __("of players")],
+                        img: "/assets/slider/tournaments.png"
+                    }, {
+                        headLines: [__("Participate"), __("in"), __("leagues")],
+                        bodyLines: [__("Participate in different"), __("leagues, alone or"), __("in a team")],
+                        img: "/assets/slider/league.png"
+                    }]}
+                />
+                <h2 className="headline">{__("Impera allows you to conquer the world! Or many others.")}</h2>
                 <GridRow>
                     <GridColumn className="col-md-4">
                         <div className="feature">

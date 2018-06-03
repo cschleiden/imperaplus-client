@@ -20,9 +20,8 @@ export const create = makePromiseAction(
                     // Refresh profile, the user is now a member of an alliance
                     deps.getCachedClient(FixedAccountClient).getUserInfo().then(userInfo => {
                         dispatch(updateUserInfo(userInfo));
+                        dispatch(push(`/game/alliances/${alliance.id}`));
                     });
-
-                    dispatch(push(`/game/alliances/${alliance.id}`));
                 })
             }
         })
@@ -95,6 +94,21 @@ export const requestJoin = makePromiseAction(
                     // Update the requests
                     dispatch(getAllRequests(null));
                 }
+            }
+        })
+);
+
+export const leave = makePromiseAction(
+    "alliance-leave", (allianceId: string, dispatch, getState, deps) =>
+        ({
+            payload: {
+                promise: deps.getCachedClient(AllianceClient).removeMember(allianceId, getState().session.userInfo.userId!).then(() => {
+                    // Refresh profile, the user is now a member of an alliance
+                    deps.getCachedClient(FixedAccountClient).getUserInfo().then(userInfo => {
+                        dispatch(updateUserInfo(userInfo));
+                        dispatch(push(`/game/alliances`));
+                    });
+                })
             }
         })
 );
