@@ -35,6 +35,9 @@ import Tournaments from "./pages/tournaments/tournaments";
 import { IState } from "./reducers";
 import "./styles/index.scss";
 
+// Import Open Sans font
+import "typeface-open-sans";
+
 function checkLoggedIn(store: Redux.Store<IState>, nextState, replace) {
     const state = store.getState();
     const session = state.session;
