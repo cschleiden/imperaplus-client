@@ -79,7 +79,7 @@ export class GameStats extends React.Component<IGameStatsProps, IGameStatsState>
                                         </span>
                                     </td>
                                 }
-                                <td>
+                                <td className="player-name">
                                     {player.name}
                                 </td>
                                 <td className="text-center">

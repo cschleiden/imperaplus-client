@@ -45,5 +45,9 @@
     &.sidebar {
         transform: translate3d($sidebarWidth, 0px, 0px);
         right: $sidebarWidth;
+
+        td.player-name {
+            word-break: break-all;
+        }
     }
 }
