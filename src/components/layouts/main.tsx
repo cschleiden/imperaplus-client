@@ -206,7 +206,7 @@ export class Layout extends React.Component<ILayoutProps> {
                         {
                             isAdmin && <span><a href="/toadmin">ADMIN</a>&nbsp;|&nbsp;</span>
                         }
-                        <Link to="/privacy">{__("Privacy Policy")}</Link> | <Link to="/tos">{__("Terms of Service")}</Link> | <Link to="/imprint">{__("Imprint")}</Link> | <a href="http://forum.imperaonline.de/">{__("Forum (external)")}</a> | <a href="https://www.imperaonline.de/swagger/ui/index.html">API</a>
+                        <Link to="/privacy">{__("Privacy Policy")}</Link> | <Link to="/tos">{__("Terms of Service")}</Link> | <Link to="/imprint">{__("Imprint")}</Link> | <a href="http://forum.imperaonline.de/">{__("Forum (external)")}</a> | <a href="https://www.imperaonline.de/swagger/">API</a>
                     </GridRow>
                 </GridContainer>
 
