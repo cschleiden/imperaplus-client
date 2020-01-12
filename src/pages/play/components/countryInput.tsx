@@ -13,12 +13,18 @@ export interface ICountryInputFieldProps {
     onKeyUp?: (evt: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
-export class CountryInputField extends React.Component<ICountryInputFieldProps> {
+export class CountryInputField extends React.Component<
+    ICountryInputFieldProps
+> {
     private _element: HTMLDivElement;
-    private _resolveElement = (elem: HTMLDivElement) => { this._element = elem; };
+    private _resolveElement = (elem: HTMLDivElement) => {
+        this._element = elem;
+    };
 
     private _inputElement: HTMLInputElement;
-    private _resolveInputElement = (elem: HTMLInputElement) => { this._inputElement = elem; };
+    private _resolveInputElement = (elem: HTMLInputElement) => {
+        this._inputElement = elem;
+    };
 
     render() {
         const { countryTemplate, value, onKeyUp } = this.props;
@@ -55,7 +61,10 @@ export class CountryInputField extends React.Component<ICountryInputFieldProps> 
     componentWillReceiveProps(props: ICountryInputFieldProps) {
         const newValue = props.value.toString(10);
 
-        if (this._inputElement.value !== "" && this._inputElement.value !== newValue) {
+        if (
+            this._inputElement.value !== "" &&
+            this._inputElement.value !== newValue
+        ) {
             this._inputElement.value = newValue;
         }
     }

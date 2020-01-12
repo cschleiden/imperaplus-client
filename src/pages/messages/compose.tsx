@@ -1,7 +1,10 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import Form, { IFormState } from "../../common/forms/form";
-import { ControlledTextField, ControlledUserPicker } from "../../common/forms/inputs";
+import {
+    ControlledTextField,
+    ControlledUserPicker
+} from "../../common/forms/inputs";
 import { GridColumn, GridRow } from "../../components/layout/index";
 import { ProgressButton } from "../../components/ui/progressButton";
 import { Message } from "../../external/imperaClients";
@@ -10,7 +13,7 @@ import { sendMessage } from "./messages.actions";
 
 interface IOwnProps {
     params: {
-        replyId?: string
+        replyId?: string;
     };
 }
 
@@ -28,13 +31,16 @@ class ComposeComponent extends React.Component<IComposeProps & IOwnProps> {
                     <Form
                         name="messages-compose"
                         onSubmit={(formState: IFormState, options) => {
-                            return sendMessage({
-                                to: formState.getFieldValue("user"),
-                                subject: formState.getFieldValue("subject"),
-                                text: formState.getFieldValue("text")
-                            }, options);
+                            return sendMessage(
+                                {
+                                    to: formState.getFieldValue("user"),
+                                    subject: formState.getFieldValue("subject"),
+                                    text: formState.getFieldValue("text")
+                                },
+                                options
+                            );
                         }}
-                        component={(({ isPending, submit, formState }) => (
+                        component={({ isPending, submit, formState }) => (
                             <div>
                                 <ControlledUserPicker
                                     label={__("User")}
@@ -47,7 +53,10 @@ class ComposeComponent extends React.Component<IComposeProps & IOwnProps> {
                                     placeholder={__("Subject")}
                                     fieldName="subject"
                                     required={true}
-                                    initialValue={replyTo && `${__("RE:")} ${replyTo.subject}`}
+                                    initialValue={
+                                        replyTo &&
+                                        `${__("RE:")} ${replyTo.subject}`
+                                    }
                                 />
 
                                 <ControlledTextField
@@ -57,10 +66,13 @@ class ComposeComponent extends React.Component<IComposeProps & IOwnProps> {
                                     required={true}
                                     componentClass="textarea"
                                     style={{
-                                        "resize": "vertical"
+                                        resize: "vertical"
                                     }}
                                     rows={10}
-                                    initialValue={replyTo && `\n\n---------\n${replyTo.text}`}
+                                    initialValue={
+                                        replyTo &&
+                                        `\n\n---------\n${replyTo.text}`
+                                    }
                                 />
 
                                 <div className="pull-right clearfix">
@@ -74,7 +86,7 @@ class ComposeComponent extends React.Component<IComposeProps & IOwnProps> {
                                     </ProgressButton>
                                 </div>
                             </div>
-                        ))}
+                        )}
                     />
                 </GridColumn>
             </GridRow>
@@ -82,24 +94,31 @@ class ComposeComponent extends React.Component<IComposeProps & IOwnProps> {
     }
 
     private _formValid(formState: IFormState): boolean {
-        return formState.getFieldValue("user")
-            && formState.getFieldValue("subject")
-            && formState.getFieldValue("text");
+        return (
+            formState.getFieldValue("user") &&
+            formState.getFieldValue("subject") &&
+            formState.getFieldValue("text")
+        );
     }
 }
 
-export default connect((state: IState, ownProps: IOwnProps) => {
-    const messages = state.messages;
+export default connect(
+    (state: IState, ownProps: IOwnProps) => {
+        const messages = state.messages;
 
-    let replyTo: Message;
-    if (ownProps && ownProps.params && ownProps.params.replyId) {
-        if (messages.currentMessage && messages.currentMessage.id === ownProps.params.replyId) {
-            replyTo = messages.currentMessage;
+        let replyTo: Message;
+        if (ownProps && ownProps.params && ownProps.params.replyId) {
+            if (
+                messages.currentMessage &&
+                messages.currentMessage.id === ownProps.params.replyId
+            ) {
+                replyTo = messages.currentMessage;
+            }
         }
-    }
 
-    return {
-        replyTo
-    };
-}, (dispatch) => ({
-}))(ComposeComponent);
+        return {
+            replyTo
+        };
+    },
+    dispatch => ({})
+)(ComposeComponent);

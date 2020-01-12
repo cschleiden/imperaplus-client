@@ -1,50 +1,67 @@
 import { push } from "react-router-redux";
 import { updateUserInfo } from "../../common/session/session.actions";
 import { FixedAccountClient } from "../../external/accountClient";
-import { AllianceClient, AllianceCreationOptions, AllianceSummary, AllianceJoinRequestState } from "../../external/imperaClients";
+import {
+    AllianceClient,
+    AllianceCreationOptions,
+    AllianceSummary,
+    AllianceJoinRequestState
+} from "../../external/imperaClients";
 import { makePromiseAction } from "../../lib/action";
 
 export const refresh = makePromiseAction<void, AllianceSummary[]>(
-    "alliances-refresh", (input, dispatch, getState, deps) =>
-        ({
-            payload: {
-                promise: deps.getCachedClient(AllianceClient).getAll()
-            }
-        }));
+    "alliances-refresh",
+    (input, dispatch, getState, deps) => ({
+        payload: {
+            promise: deps.getCachedClient(AllianceClient).getAll()
+        }
+    })
+);
 
 export const create = makePromiseAction(
-    "alliance-create", (input: AllianceCreationOptions, dispatch, getState, deps) =>
-        ({
-            payload: {
-                promise: deps.getCachedClient(AllianceClient).create(input).then(alliance => {
+    "alliance-create",
+    (input: AllianceCreationOptions, dispatch, getState, deps) => ({
+        payload: {
+            promise: deps
+                .getCachedClient(AllianceClient)
+                .create(input)
+                .then(alliance => {
                     // Refresh profile, the user is now a member of an alliance
-                    deps.getCachedClient(FixedAccountClient).getUserInfo().then(userInfo => {
-                        dispatch(updateUserInfo(userInfo));
-                        dispatch(push(`/game/alliances/${alliance.id}`));
-                    });
+                    deps.getCachedClient(FixedAccountClient)
+                        .getUserInfo()
+                        .then(userInfo => {
+                            dispatch(updateUserInfo(userInfo));
+                            dispatch(push(`/game/alliances/${alliance.id}`));
+                        });
                 })
-            }
-        })
+        }
+    })
 );
 
 export const deleteAlliance = makePromiseAction(
-    "alliance-delete", (allianceId: string, dispatch, getState, deps) =>
-        ({
-            payload: {
-                promise: deps.getCachedClient(AllianceClient).delete(allianceId).then(() => {
+    "alliance-delete",
+    (allianceId: string, dispatch, getState, deps) => ({
+        payload: {
+            promise: deps
+                .getCachedClient(AllianceClient)
+                .delete(allianceId)
+                .then(() => {
                     // Refresh profile, the user is not in an alliance anymore
-                    deps.getCachedClient(FixedAccountClient).getUserInfo().then(userInfo => {
-                        dispatch(updateUserInfo(userInfo));
-                    });
+                    deps.getCachedClient(FixedAccountClient)
+                        .getUserInfo()
+                        .then(userInfo => {
+                            dispatch(updateUserInfo(userInfo));
+                        });
 
                     dispatch(push(`/game/alliances`));
                 })
-            }
-        })
+        }
+    })
 );
 
 export const getRequests = makePromiseAction(
-    "alliance-get-requests", (allianceId: string, dispatch, getState, deps) => {
+    "alliance-get-requests",
+    (allianceId: string, dispatch, getState, deps) => {
         const client = deps.getCachedClient(AllianceClient);
 
         return {
@@ -52,11 +69,12 @@ export const getRequests = makePromiseAction(
                 promise: client.getRequests(allianceId)
             }
         };
-    });
-
+    }
+);
 
 export const get = makePromiseAction(
-    "alliance-get", (id: string, dispatch, getState, deps) => {
+    "alliance-get",
+    (id: string, dispatch, getState, deps) => {
         const client = deps.getCachedClient(AllianceClient);
 
         return {
@@ -77,49 +95,57 @@ export const get = makePromiseAction(
                 })
             }
         };
-    });
+    }
+);
 
 export interface IAllianceRequestOptions {
     allianceId: string;
     reason: string;
 }
 export const requestJoin = makePromiseAction(
-    "alliance-join", (input: IAllianceRequestOptions, dispatch, getState, deps) =>
-        ({
-            payload: {
-                promise: deps.getCachedClient(AllianceClient).requestJoin(input.allianceId, input.reason)
-            },
-            options: {
-                afterSuccess: () => {
-                    // Update the requests
-                    dispatch(getAllRequests(null));
-                }
+    "alliance-join",
+    (input: IAllianceRequestOptions, dispatch, getState, deps) => ({
+        payload: {
+            promise: deps
+                .getCachedClient(AllianceClient)
+                .requestJoin(input.allianceId, input.reason)
+        },
+        options: {
+            afterSuccess: () => {
+                // Update the requests
+                dispatch(getAllRequests(null));
             }
-        })
+        }
+    })
 );
 
 export const leave = makePromiseAction(
-    "alliance-leave", (allianceId: string, dispatch, getState, deps) =>
-        ({
-            payload: {
-                promise: deps.getCachedClient(AllianceClient).removeMember(allianceId, getState().session.userInfo.userId!).then(() => {
+    "alliance-leave",
+    (allianceId: string, dispatch, getState, deps) => ({
+        payload: {
+            promise: deps
+                .getCachedClient(AllianceClient)
+                .removeMember(allianceId, getState().session.userInfo.userId!)
+                .then(() => {
                     // Refresh profile, the user is now a member of an alliance
-                    deps.getCachedClient(FixedAccountClient).getUserInfo().then(userInfo => {
-                        dispatch(updateUserInfo(userInfo));
-                        dispatch(push(`/game/alliances`));
-                    });
+                    deps.getCachedClient(FixedAccountClient)
+                        .getUserInfo()
+                        .then(userInfo => {
+                            dispatch(updateUserInfo(userInfo));
+                            dispatch(push(`/game/alliances`));
+                        });
                 })
-            }
-        })
+        }
+    })
 );
 
 export const getAllRequests = makePromiseAction(
-    "alliance-get-all-requests", (_, dispatch, getState, deps) =>
-        ({
-            payload: {
-                promise: deps.getCachedClient(AllianceClient).getAllRequests()
-            }
-        })
+    "alliance-get-all-requests",
+    (_, dispatch, getState, deps) => ({
+        payload: {
+            promise: deps.getCachedClient(AllianceClient).getAllRequests()
+        }
+    })
 );
 
 export interface IUpdateRequestOptions {
@@ -128,19 +154,21 @@ export interface IUpdateRequestOptions {
     state: AllianceJoinRequestState;
 }
 export const updateRequest = makePromiseAction(
-    "alliance-update-request", (input: IUpdateRequestOptions, dispatch, getState, deps) =>
-        ({
-            payload: {
-                promise: deps.getCachedClient(AllianceClient).updateRequest(input.allianceId, input.requestId, input.state)
-            },
-            options: {
-                afterSuccess: () => {
-                    if (input.state === AllianceJoinRequestState.Approved) {
-                        // Update alliance if request was granted
-                        dispatch(get(input.allianceId));
-                    }
-                    dispatch(getRequests(input.allianceId));
+    "alliance-update-request",
+    (input: IUpdateRequestOptions, dispatch, getState, deps) => ({
+        payload: {
+            promise: deps
+                .getCachedClient(AllianceClient)
+                .updateRequest(input.allianceId, input.requestId, input.state)
+        },
+        options: {
+            afterSuccess: () => {
+                if (input.state === AllianceJoinRequestState.Approved) {
+                    // Update alliance if request was granted
+                    dispatch(get(input.allianceId));
                 }
+                dispatch(getRequests(input.allianceId));
             }
-        })
+        }
+    })
 );

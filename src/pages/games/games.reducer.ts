@@ -53,8 +53,8 @@ const remove = (state: IMyGamesState, action: IAction<GameSummary>) => {
 
 export const games = <TPayload>(
     state = initialState,
-    action?: IAction<TPayload>) => {
-
+    action?: IAction<TPayload>
+) => {
     return reducerMap(action, state, {
         [pending(Actions.refresh.TYPE)]: loading,
         [success(Actions.refresh.TYPE)]: refresh,
@@ -63,6 +63,6 @@ export const games = <TPayload>(
         [success(Actions.leave.TYPE)]: remove,
 
         [pending(Actions.refreshOpen.TYPE)]: loading,
-        [success(Actions.refreshOpen.TYPE)]: refreshOpen,
+        [success(Actions.refreshOpen.TYPE)]: refreshOpen
     });
 };

@@ -2,7 +2,11 @@ import * as React from "react";
 import { ControlLabel } from "react-bootstrap";
 import { connect } from "react-redux";
 import Form from "../../../common/forms/form";
-import { ControlledCheckBox, ControlledDropdown, ControlledTextField } from "../../../common/forms/inputs";
+import {
+    ControlledCheckBox,
+    ControlledDropdown,
+    ControlledTextField
+} from "../../../common/forms/inputs";
 import { signup } from "../../../common/session/session.actions";
 import { Grid, GridColumn, GridRow } from "../../../components/layout";
 import { ProgressButton } from "../../../components/ui/progressButton";
@@ -10,10 +14,9 @@ import LinkString from "../../../components/ui/strLink";
 import "./signup.scss";
 
 function range(start: number, count: number) {
-    return Array.apply(0, Array(count))
-        .map(function (element, index) {
-            return index + start;
-        });
+    return Array.apply(0, Array(count)).map(function(element, index) {
+        return index + start;
+    });
 }
 
 interface ISignupProps {
@@ -27,7 +30,9 @@ export class SignupComponent extends React.Component<ISignupProps> {
                 <Grid className="signup">
                     <GridRow>
                         <GridColumn className="col-xs-12">
-                            {__("You have to be 13 years or older to play Impera.")}
+                            {__(
+                                "You have to be 13 years or older to play Impera."
+                            )}
                         </GridColumn>
                     </GridRow>
                 </Grid>
@@ -39,22 +44,33 @@ export class SignupComponent extends React.Component<ISignupProps> {
                 <GridRow>
                     <GridColumn className="col-md-6 col-xs-12 col-border-right">
                         <p>
-                            {__("Register a new account. It is completely free.")}
+                            {__(
+                                "Register a new account. It is completely free."
+                            )}
                         </p>
 
                         <Form
                             name="signup"
-                            onSubmit={((formState, options) => {
-                                return signup({
-                                    username: formState.getFieldValue("username"),
-                                    password: formState.getFieldValue("password"),
-                                    passwordConfirm: formState.getFieldValue("passwordconfirm"),
-                                    email: formState.getFieldValue("email"),
-                                    day: formState.getFieldValue("day"),
-                                    month: formState.getFieldValue("month"),
-                                    year: formState.getFieldValue("year")
-                                }, options);
-                            })}
+                            onSubmit={(formState, options) => {
+                                return signup(
+                                    {
+                                        username: formState.getFieldValue(
+                                            "username"
+                                        ),
+                                        password: formState.getFieldValue(
+                                            "password"
+                                        ),
+                                        passwordConfirm: formState.getFieldValue(
+                                            "passwordconfirm"
+                                        ),
+                                        email: formState.getFieldValue("email"),
+                                        day: formState.getFieldValue("day"),
+                                        month: formState.getFieldValue("month"),
+                                        year: formState.getFieldValue("year")
+                                    },
+                                    options
+                                );
+                            }}
                             component={({ isPending, submit, formState }) => (
                                 <div className="form">
                                     <ControlledTextField
@@ -82,8 +98,14 @@ export class SignupComponent extends React.Component<ISignupProps> {
                                         type="password"
                                         fieldName="passwordconfirm"
                                         validate={(value: string, form) => {
-                                            if (form.getFieldValue("password") !== value) {
-                                                return __("Passwords do not match");
+                                            if (
+                                                form.getFieldValue(
+                                                    "password"
+                                                ) !== value
+                                            ) {
+                                                return __(
+                                                    "Passwords do not match"
+                                                );
                                             }
                                         }}
                                         required={true}
@@ -91,37 +113,46 @@ export class SignupComponent extends React.Component<ISignupProps> {
 
                                     <div className="form-inline">
                                         <div className="form-group">
-                                            <ControlLabel>{__("Date of birth")}</ControlLabel>
+                                            <ControlLabel>
+                                                {__("Date of birth")}
+                                            </ControlLabel>
                                             <div>
-                                                <ControlledDropdown
-                                                    fieldName="day"
-                                                >
+                                                <ControlledDropdown fieldName="day">
                                                     <option value="" />
-                                                    {
-                                                        range(1, 31).map(x =>
-                                                            <option value={x} key={x}>{x}</option>
-                                                        )
-                                                    }
+                                                    {range(1, 31).map(x => (
+                                                        <option
+                                                            value={x}
+                                                            key={x}
+                                                        >
+                                                            {x}
+                                                        </option>
+                                                    ))}
                                                 </ControlledDropdown>
-                                                <ControlledDropdown
-                                                    fieldName="month"
-                                                >
+                                                <ControlledDropdown fieldName="month">
                                                     <option value="" />
-                                                    {
-                                                        range(1, 12).map(x =>
-                                                            <option value={x} key={x}>{x}</option>
-                                                        )
-                                                    }
+                                                    {range(1, 12).map(x => (
+                                                        <option
+                                                            value={x}
+                                                            key={x}
+                                                        >
+                                                            {x}
+                                                        </option>
+                                                    ))}
                                                 </ControlledDropdown>
-                                                <ControlledDropdown
-                                                    fieldName="year"
-                                                >
+                                                <ControlledDropdown fieldName="year">
                                                     <option value="" />
-                                                    {
-                                                        range(new Date().getFullYear() - 85, 85).map(x =>
-                                                            <option value={x} key={x}>{x}</option>
-                                                        )
-                                                    }
+                                                    {range(
+                                                        new Date().getFullYear() -
+                                                            85,
+                                                        85
+                                                    ).map(x => (
+                                                        <option
+                                                            value={x}
+                                                            key={x}
+                                                        >
+                                                            {x}
+                                                        </option>
+                                                    ))}
                                                 </ControlledDropdown>
                                             </div>
                                         </div>
@@ -129,39 +160,40 @@ export class SignupComponent extends React.Component<ISignupProps> {
 
                                     <div className="form-inline">
                                         <div className="form-group tos">
-                                            <ControlledCheckBox
-                                                fieldName="accepttos"
-                                            />
+                                            <ControlledCheckBox fieldName="accepttos" />
 
-                                            <LinkString link={__("By selecting you agree to our [Terms of Service](/tos) and [Privacy Policy](/privacy).")} />
+                                            <LinkString
+                                                link={__(
+                                                    "By selecting you agree to our [Terms of Service](/tos) and [Privacy Policy](/privacy)."
+                                                )}
+                                            />
                                         </div>
                                     </div>
 
                                     <div>
                                         <ProgressButton
                                             type="submit"
-                                            disabled={!this._formValid(formState)}
+                                            disabled={
+                                                !this._formValid(formState)
+                                            }
                                             isActive={isPending}
                                             bsStyle="primary"
                                         >
                                             {__("Register")}
                                         </ProgressButton>
                                     </div>
-                                </div>)}
+                                </div>
+                            )}
                         />
                     </GridColumn>
                     <GridColumn className="col-md-6 col-xs-12 external">
-                        <p>
-                            {__("Or sign in using an existing account.")}
-                        </p>
+                        <p>{__("Or sign in using an existing account.")}</p>
 
                         <ul className="list-unstyled">
                             {/*<li>
                             <Button block bsStyle="primary">Facebook</Button>
                         </li>*/}
-                            <li>
-                                {__("Coming soon..")}
-                            </li>
+                            <li>{__("Coming soon..")}</li>
                         </ul>
                     </GridColumn>
                 </GridRow>
@@ -169,7 +201,9 @@ export class SignupComponent extends React.Component<ISignupProps> {
                 <GridRow className="text-center">
                     <GridColumn className="col-xs-12">
                         {LinkString({
-                            link: __("[Reset](/reset) your password or [create](/signup) a new account.")
+                            link: __(
+                                "[Reset](/reset) your password or [create](/signup) a new account."
+                            )
                         })}
                     </GridColumn>
                 </GridRow>
@@ -178,10 +212,18 @@ export class SignupComponent extends React.Component<ISignupProps> {
     }
 
     private _formValid(formState): boolean {
-        return formState.getFieldValue("username")
-            && formState.getFieldValue("password") && formState.getFieldValue("passwordconfirm") && formState.getFieldValue("password") !== "" && formState.getFieldValue("password") === formState.getFieldValue("passwordconfirm")
-            && formState.getFieldValue("day") > 0 && formState.getFieldValue("month") > 0 && formState.getFieldValue("year")
-            && formState.getFieldValue("accepttos", false);
+        return (
+            formState.getFieldValue("username") &&
+            formState.getFieldValue("password") &&
+            formState.getFieldValue("passwordconfirm") &&
+            formState.getFieldValue("password") !== "" &&
+            formState.getFieldValue("password") ===
+                formState.getFieldValue("passwordconfirm") &&
+            formState.getFieldValue("day") > 0 &&
+            formState.getFieldValue("month") > 0 &&
+            formState.getFieldValue("year") &&
+            formState.getFieldValue("accepttos", false)
+        );
     }
 }
 

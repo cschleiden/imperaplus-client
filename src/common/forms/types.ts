@@ -12,6 +12,12 @@ export interface IFormContext {
     formState: IForm;
 
     isPending(): boolean;
-    changeField: (fieldName: string, value: string | number | boolean | Object) => void;
-    initialValue: (fieldName: string, value: string | number | boolean | Object) => void;
+    changeField: (
+        fieldName: string,
+        value: string | number | boolean | Object
+    ) => void;
+    initialValue: (
+        fieldName: string,
+        value: string | number | boolean | Object
+    ) => void;
 }

@@ -11,7 +11,10 @@ const initialState = makeImmutable({
 
 export type IMapPreviewState = typeof initialState;
 
-const done = (state: IMapPreviewState, action: IAction<MapTemplateCacheEntry>) => {
+const done = (
+    state: IMapPreviewState,
+    action: IAction<MapTemplateCacheEntry>
+) => {
     return state.__set(x => x, {
         isLoading: false,
         mapTemplate: action.payload
@@ -24,8 +27,8 @@ const loading = (state: IMapPreviewState, action: IAction<void>) => {
 
 export const mapPreview = <TPayload>(
     state = initialState,
-    action?: IAction<TPayload>) => {
-
+    action?: IAction<TPayload>
+) => {
     return reducerMap(action, state, {
         [pending(Actions.loadMapPreview.TYPE)]: loading,
         [success(Actions.loadMapPreview.TYPE)]: done

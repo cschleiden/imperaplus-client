@@ -12,7 +12,9 @@ const initialState = makeImmutable({
 export type INewsState = typeof initialState;
 
 const refresh = (state: INewsState, action: IAction<NewsItem[]>) => {
-    return state.__set(x => x.news, action.payload).__set(x => x.isLoading, false);
+    return state
+        .__set(x => x.news, action.payload)
+        .__set(x => x.isLoading, false);
 };
 
 const loading = (state: INewsState, action: IAction<NewsItem[]>) => {
@@ -21,8 +23,8 @@ const loading = (state: INewsState, action: IAction<NewsItem[]>) => {
 
 export const news = <TPayload>(
     state = initialState,
-    action?: IAction<TPayload>) => {
-
+    action?: IAction<TPayload>
+) => {
     return reducerMap(action, state, {
         [pending(Actions.refresh.TYPE)]: loading,
         [success(Actions.refresh.TYPE)]: refresh

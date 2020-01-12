@@ -1,5 +1,9 @@
 import { makeImmutable } from "immuts";
-import { FolderInformation, Message, MessageFolder } from "../../external/imperaClients";
+import {
+    FolderInformation,
+    Message,
+    MessageFolder
+} from "../../external/imperaClients";
 import { IAction, pending, success } from "../../lib/action";
 import reducerMap from "../../lib/reducerMap";
 import * as Actions from "./messages.actions";
@@ -15,7 +19,10 @@ const initialState = makeImmutable({
 
 export type IMessagesState = typeof initialState;
 
-const switchFolder = (state: IMessagesState, action: IAction<Actions.ISwitchFolderPayload>) => {
+const switchFolder = (
+    state: IMessagesState,
+    action: IAction<Actions.ISwitchFolderPayload>
+) => {
     const { folder, messages } = action.payload;
 
     if (messages) {
@@ -28,7 +35,10 @@ const switchFolder = (state: IMessagesState, action: IAction<Actions.ISwitchFold
     });
 };
 
-const loadPending = (state: IMessagesState, action: IAction<FolderInformation[]>) => {
+const loadPending = (
+    state: IMessagesState,
+    action: IAction<FolderInformation[]>
+) => {
     return state
         .__set(x => x.folderInformation, null)
         .__set(x => x.currentMessages, []);
@@ -49,12 +59,15 @@ const markRead = (state: IMessagesState, action: IAction<string>) => {
     const idx = state.currentMessages.findIndex(m => m.id === messageId);
     if (-1 !== idx) {
         const message = state.currentMessages[idx];
-        state = state.__set(x => x.currentMessages, m => {
-            return m.slice(0).splice(idx, 1, {
-                ...message,
-                isRead: true
-            });
-        });
+        state = state.__set(
+            x => x.currentMessages,
+            m => {
+                return m.slice(0).splice(idx, 1, {
+                    ...message,
+                    isRead: true
+                });
+            }
+        );
     }
 
     return state.__set(x => x.currentMessage.isRead, true);
@@ -66,8 +79,8 @@ const loading = (state: IMessagesState, action: IAction<void>) => {
 
 export const messages = <TPayload>(
     state = initialState,
-    action?: IAction<TPayload>) => {
-
+    action?: IAction<TPayload>
+) => {
     return reducerMap(action, state, {
         [pending(Actions.switchFolder.TYPE)]: loading,
         [success(Actions.switchFolder.TYPE)]: switchFolder,

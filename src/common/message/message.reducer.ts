@@ -20,8 +20,8 @@ const clearMessage = (state: IMessageState, action: IAction<void>) => {
 
 export const message = <TPayload>(
     state = initialState,
-    action?: IAction<TPayload>): IMessageState => {
-
+    action?: IAction<TPayload>
+): IMessageState => {
     return reducerMap(action, state, {
         [MESSAGE_SHOW]: showMessage,
         [MESSAGE_CLEAR]: clearMessage

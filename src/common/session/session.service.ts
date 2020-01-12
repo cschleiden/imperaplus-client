@@ -26,25 +26,33 @@ export class SessionService {
         return SessionService._instance;
     }
 
-    private constructor() { }
+    private constructor() {}
 
-    public reAuthorize(state: ISessionState, dispatch: Dispatch<IState>): Promise<void> {
-        return this.refresh(state.refresh_token).then<void>((result) => {
-            // Successful, save new tokens
-            dispatch(refresh(result.access_token, result.refresh_token));
-        }, () => {
-            // Unsuccessful, clear all tokens
-            dispatch(expire());
+    public reAuthorize(
+        state: ISessionState,
+        dispatch: Dispatch<IState>
+    ): Promise<void> {
+        return this.refresh(state.refresh_token).then<void>(
+            result => {
+                // Successful, save new tokens
+                dispatch(refresh(result.access_token, result.refresh_token));
+            },
+            () => {
+                // Unsuccessful, clear all tokens
+                dispatch(expire());
 
-            // Close chat and close all other signalr connections
-            dispatch(close());
-            EventService.getInstance().fire("signalr.stop");
+                // Close chat and close all other signalr connections
+                dispatch(close());
+                EventService.getInstance().fire("signalr.stop");
 
-            // Navigate to login
-            dispatch(push("/login"));
+                // Navigate to login
+                dispatch(push("/login"));
 
-            throw new Error(__("Your session expired. Please login again."));
-        });
+                throw new Error(
+                    __("Your session expired. Please login again.")
+                );
+            }
+        );
     }
 
     private refresh(refresh_token: string): Promise<IRefreshResult> {

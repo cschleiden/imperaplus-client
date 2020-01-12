@@ -9,8 +9,10 @@ import LinkString from "../../../components/ui/strLink";
 import "./login.scss";
 
 const _formValid = (formState): boolean => {
-    return formState.getFieldValue("username")
-        && formState.getFieldValue("password");
+    return (
+        formState.getFieldValue("username") &&
+        formState.getFieldValue("password")
+    );
 };
 
 class LoginComponent extends React.Component<DispatchProp<any>> {
@@ -19,19 +21,24 @@ class LoginComponent extends React.Component<DispatchProp<any>> {
             <Grid className="login">
                 <GridRow>
                     <GridColumn className="col-md-6 col-xs-12 col-border-right">
-                        <p>
-                            {__("Sign in using your Impera account...")}
-                        </p>
+                        <p>{__("Sign in using your Impera account...")}</p>
 
                         <Form
                             name="login"
-                            onSubmit={((formState: IFormState, options) => {
-                                return login({
-                                    username: formState.getFieldValue("username"),
-                                    password: formState.getFieldValue("password")
-                                }, options);
-                            })}
-                            component={(({ isPending, submit, formState }) => (
+                            onSubmit={(formState: IFormState, options) => {
+                                return login(
+                                    {
+                                        username: formState.getFieldValue(
+                                            "username"
+                                        ),
+                                        password: formState.getFieldValue(
+                                            "password"
+                                        )
+                                    },
+                                    options
+                                );
+                            }}
+                            component={({ isPending, submit, formState }) => (
                                 <div className="form">
                                     <ControlledTextField
                                         label={__("Username")}
@@ -58,13 +65,11 @@ class LoginComponent extends React.Component<DispatchProp<any>> {
                                         </ProgressButton>
                                     </div>
                                 </div>
-                            ))}
+                            )}
                         />
                     </GridColumn>
                     <GridColumn className="col-md-6 col-xs-12 external">
-                        <p>
-                            {__("...or with an external account.")}
-                        </p>
+                        <p>{__("...or with an external account.")}</p>
 
                         <ul className="list-unstyled">
                             {/*<li>
@@ -73,9 +78,7 @@ class LoginComponent extends React.Component<DispatchProp<any>> {
                         <li>
                             <Button block bsStyle="primary">Microsoft</Button>
                         </li>*/}
-                            <li>
-                                {__("Coming soon..")}
-                            </li>
+                            <li>{__("Coming soon..")}</li>
                         </ul>
                     </GridColumn>
                 </GridRow>
@@ -83,7 +86,9 @@ class LoginComponent extends React.Component<DispatchProp<any>> {
                 <GridRow className="text-center">
                     <GridColumn className="col-xs-12">
                         {LinkString({
-                            link: __("[Reset](/reset) your password or [create](/signup) a new account.")
+                            link: __(
+                                "[Reset](/reset) your password or [create](/signup) a new account."
+                            )
                         })}
                     </GridColumn>
                 </GridRow>

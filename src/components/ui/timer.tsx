@@ -2,7 +2,6 @@ import * as React from "react";
 import { autobind } from "../../lib/autobind";
 import { HumanCountdown } from "./humanDate";
 
-
 export interface ITimerProps {
     startInMs: number;
 }
@@ -29,7 +28,7 @@ export class Timer extends React.Component<ITimerProps, ITimerState> {
     }
 
     public componentDidMount() {
-        this._handle = setInterval(this._timerHandler, 1000);
+        this._handle = window.setInterval(this._timerHandler, 1000);
     }
 
     public componentWillUnmount() {

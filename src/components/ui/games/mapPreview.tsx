@@ -14,7 +14,10 @@ export interface IMapPreviewState {
     mapTemplate: MapTemplate;
 }
 
-export class MapPreview extends React.Component<IMapPreviewProps, IMapPreviewState> {
+export class MapPreview extends React.Component<
+    IMapPreviewProps,
+    IMapPreviewState
+> {
     constructor(props: IMapPreviewProps) {
         super(props);
 
@@ -41,7 +44,9 @@ export class MapPreview extends React.Component<IMapPreviewProps, IMapPreviewSta
             return (
                 <Link to={`/game/mapPreview/${mapTemplate.name}`}>
                     <Image
-                        src={mapTemplate && `${imageBaseUri}${mapTemplate.image}`}
+                        src={
+                            mapTemplate && `${imageBaseUri}${mapTemplate.image}`
+                        }
                         {...nativeProps}
                     />
                 </Link>
@@ -56,14 +61,19 @@ export class MapPreview extends React.Component<IMapPreviewProps, IMapPreviewSta
     }
 
     private _updateState(mapTemplateName: string) {
-        this.setState({
-            mapTemplate: null
-        }, () => {
-            getCachedClient(MapClient).getMapTemplate(mapTemplateName).then(mapTemplate => {
-                this.setState({
-                    mapTemplate
-                });
-            });
-        });
+        this.setState(
+            {
+                mapTemplate: null
+            },
+            () => {
+                getCachedClient(MapClient)
+                    .getMapTemplate(mapTemplateName)
+                    .then(mapTemplate => {
+                        this.setState({
+                            mapTemplate
+                        });
+                    });
+            }
+        );
     }
 }

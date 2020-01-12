@@ -49,8 +49,8 @@ const loading = (state: ILaddersState, action: IAction<void>) => {
 
 export const ladders = <TPayload>(
     state = initialState,
-    action?: IAction<TPayload>) => {
-
+    action?: IAction<TPayload>
+) => {
     return reducerMap(action, state, {
         [pending(Actions.refresh.TYPE)]: loading,
         [success(Actions.refresh.TYPE)]: refresh,

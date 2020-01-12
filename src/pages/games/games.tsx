@@ -31,26 +31,56 @@ export class MyGamesComponent extends React.Component<IMyGamesProps> {
         let tournament: JSX.Element[];
 
         if (this.props.funGames.length > 0) {
-            fun = [<Section key="fun-title">{__("Fun")}</Section>,
-            <GameList games={this.props.funGames} userId={userId} key="fun" />];
+            fun = [
+                <Section key="fun-title">{__("Fun")}</Section>,
+                <GameList
+                    games={this.props.funGames}
+                    userId={userId}
+                    key="fun"
+                />
+            ];
         }
 
         if (this.props.rankingGames.length > 0) {
-            ranking = [<Section key="ranking-title">{__("Ranking")}</Section>,
-            <GameList games={this.props.rankingGames} userId={userId} key="ranking" />];
+            ranking = [
+                <Section key="ranking-title">{__("Ranking")}</Section>,
+                <GameList
+                    games={this.props.rankingGames}
+                    userId={userId}
+                    key="ranking"
+                />
+            ];
         }
 
         if (this.props.tournamentGames.length > 0) {
-            tournament = [<Section key="tournaments-title">{__("Tournaments")}</Section>,
-            <GameList games={this.props.tournamentGames} userId={userId} key="tournaments" />];
+            tournament = [
+                <Section key="tournaments-title">{__("Tournaments")}</Section>,
+                <GameList
+                    games={this.props.tournamentGames}
+                    userId={userId}
+                    key="tournaments"
+                />
+            ];
         }
 
         return (
             <div>
                 <div className="pull-right">
                     <ButtonGroup>
-                        <Button key="refresh" onClick={this.props.refresh} title={__("Refresh")}><span className="glyphicon glyphicon-refresh" /></Button>
-                        <Button key="hideAll" onClick={this.props.hideAll} title={__("Hide completed games")}><span className="glyphicon glyphicon-eye-close" /></Button>
+                        <Button
+                            key="refresh"
+                            onClick={this.props.refresh}
+                            title={__("Refresh")}
+                        >
+                            <span className="glyphicon glyphicon-refresh" />
+                        </Button>
+                        <Button
+                            key="hideAll"
+                            onClick={this.props.hideAll}
+                            title={__("Hide completed games")}
+                        >
+                            <span className="glyphicon glyphicon-eye-close" />
+                        </Button>
                     </ButtonGroup>
                 </div>
 
@@ -62,18 +92,25 @@ export class MyGamesComponent extends React.Component<IMyGamesProps> {
     }
 }
 
-export default connect((state: IState) => {
-    const gamesMap = state.games.games;
-    const games = Object.keys(gamesMap).map(id => gamesMap[id]);
-    const userInfo = state.session.userInfo;
+export default connect(
+    (state: IState) => {
+        const gamesMap = state.games.games;
+        const games = Object.keys(gamesMap).map(id => gamesMap[id]);
+        const userInfo = state.session.userInfo;
 
-    return {
-        funGames: games.filter(g => g.type === GameType.Fun),
-        rankingGames: games.filter(g => g.type === GameType.Ranking),
-        tournamentGames: games.filter(g => g.type === GameType.Tournament),
-        userId: userInfo && userInfo.userId
-    };
-}, (dispatch) => ({
-    refresh: () => { dispatch(refresh(null)); },
-    hideAll: () => { dispatch(hideAll(null)); }
-}))(MyGamesComponent);
+        return {
+            funGames: games.filter(g => g.type === GameType.Fun),
+            rankingGames: games.filter(g => g.type === GameType.Ranking),
+            tournamentGames: games.filter(g => g.type === GameType.Tournament),
+            userId: userInfo && userInfo.userId
+        };
+    },
+    dispatch => ({
+        refresh: () => {
+            dispatch(refresh(null));
+        },
+        hideAll: () => {
+            dispatch(hideAll(null));
+        }
+    })
+)(MyGamesComponent);

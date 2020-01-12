@@ -1,5 +1,9 @@
 import { makeImmutable } from "immuts";
-import { Alliance, AllianceJoinRequest, AllianceSummary } from "../../external/imperaClients";
+import {
+    Alliance,
+    AllianceJoinRequest,
+    AllianceSummary
+} from "../../external/imperaClients";
 import { IAction, pending, success } from "../../lib/action";
 import reducerMap from "../../lib/reducerMap";
 import * as Actions from "./alliances.actions";
@@ -17,7 +21,10 @@ const initialState = makeImmutable({
 
 export type IAlliancesState = typeof initialState;
 
-const refresh = (state: IAlliancesState, action: IAction<AllianceSummary[]>) => {
+const refresh = (
+    state: IAlliancesState,
+    action: IAction<AllianceSummary[]>
+) => {
     return state.__set(x => x, {
         isLoading: false,
         alliances: action.payload
@@ -28,22 +35,31 @@ const loading = (state: IAlliancesState, action: IAction<void>) => {
     return state.__set(x => x.isLoading, true);
 };
 
-const get = (state: IAlliancesState, action: IAction<typeof Actions.get.PAYLOAD>) => {
+const get = (
+    state: IAlliancesState,
+    action: IAction<typeof Actions.get.PAYLOAD>
+) => {
     return state.__set(x => x.alliance, action.payload);
 };
 
-const getRequests = (state: IAlliancesState, action: IAction<typeof Actions.getRequests.PAYLOAD>) => {
+const getRequests = (
+    state: IAlliancesState,
+    action: IAction<typeof Actions.getRequests.PAYLOAD>
+) => {
     return state.__set(x => x.requests, action.payload);
 };
 
-const getAllRequests = (state: IAlliancesState, action: IAction<typeof Actions.getAllRequests.PAYLOAD>) => {
+const getAllRequests = (
+    state: IAlliancesState,
+    action: IAction<typeof Actions.getAllRequests.PAYLOAD>
+) => {
     return state.__set(x => x.pendingRequests, action.payload);
 };
 
 export const alliances = <TPayload>(
     state = initialState,
-    action?: IAction<TPayload>) => {
-
+    action?: IAction<TPayload>
+) => {
     return reducerMap(action, state, {
         [pending(Actions.refresh.TYPE)]: loading,
         [success(Actions.refresh.TYPE)]: refresh,

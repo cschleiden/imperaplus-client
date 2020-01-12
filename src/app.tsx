@@ -27,7 +27,21 @@ import Message from "./pages/messages/message";
 import Messages from "./pages/messages/messages";
 import Play from "./pages/play/play";
 import UserProfile from "./pages/profile/profile";
-import { Activate, Activated, Home, Imprint, Login, Privacy, Reset, ResetConfirmation, ResetDone, ResetTriggered, Signup, SignupConfirmation, TOS } from "./pages/public";
+import {
+    Activate,
+    Activated,
+    Home,
+    Imprint,
+    Login,
+    Privacy,
+    Reset,
+    ResetConfirmation,
+    ResetDone,
+    ResetTriggered,
+    Signup,
+    SignupConfirmation,
+    TOS
+} from "./pages/public";
 import Start from "./pages/start";
 import Tournament from "./pages/tournaments/tournament";
 import TournamentPairing from "./pages/tournaments/tournamentPairing";
@@ -47,7 +61,10 @@ function checkLoggedIn(store: Redux.Store<IState>, nextState, replace) {
     }
 }
 
-export default class App extends React.Component<{ store: Redux.Store<IState>, history }> {
+export default class App extends React.Component<{
+    store: Redux.Store<IState>;
+    history;
+}> {
     render() {
         return (
             <Provider store={this.props.store}>
@@ -56,38 +73,97 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
                     onUpdate={(() => {
                         // Bind the app, the method needs this
                         const app = this;
-                        return function (...args) { App._onRouteUpdate.call(this, app, ...args); };
+                        return function(...args) {
+                            App._onRouteUpdate.call(this, app, ...args);
+                        };
                     })()}
                 >
                     {/* main layout */}
-                    < Route component={MainLayout}>
+                    <Route component={MainLayout}>
                         {/* public */}
-                        <Route path="/" components={{ nav: PublicNav, content: PublicLayout }}>
-                            <IndexRoute component={Home}  {...this._title("")} />
+                        <Route
+                            path="/"
+                            components={{
+                                nav: PublicNav,
+                                content: PublicLayout
+                            }}
+                        >
+                            <IndexRoute component={Home} {...this._title("")} />
 
-                            <Route path="signup" component={Signup}  {...this._title(__("Signup"))} />
-                            <Route path="signup/confirmation" component={SignupConfirmation}  {...this._title(__("Registration successful"))} />
+                            <Route
+                                path="signup"
+                                component={Signup}
+                                {...this._title(__("Signup"))}
+                            />
+                            <Route
+                                path="signup/confirmation"
+                                component={SignupConfirmation}
+                                {...this._title(__("Registration successful"))}
+                            />
 
                             {/* Activate account */}
-                            <Route path="activate/:userId/:code" component={Activate}  {...this._title(__("Activating Account"))} />
-                            <Route path="activated" component={Activated}  {...this._title(__("Account Activated"))} />
+                            <Route
+                                path="activate/:userId/:code"
+                                component={Activate}
+                                {...this._title(__("Activating Account"))}
+                            />
+                            <Route
+                                path="activated"
+                                component={Activated}
+                                {...this._title(__("Account Activated"))}
+                            />
 
                             {/* Reset password */}
-                            <Route path="reset" component={Reset}  {...this._title(__("Reset Password"))} />
-                            <Route path="reset/triggered" component={ResetTriggered}  {...this._title(__("Reset Password"))} />
+                            <Route
+                                path="reset"
+                                component={Reset}
+                                {...this._title(__("Reset Password"))}
+                            />
+                            <Route
+                                path="reset/triggered"
+                                component={ResetTriggered}
+                                {...this._title(__("Reset Password"))}
+                            />
 
-                            <Route path="reset/:userId/:code" component={ResetConfirmation}  {...this._title(__("Password Reset"))} />
-                            <Route path="reset/done" component={ResetDone}  {...this._title(__("Password Reset"))} />
+                            <Route
+                                path="reset/:userId/:code"
+                                component={ResetConfirmation}
+                                {...this._title(__("Password Reset"))}
+                            />
+                            <Route
+                                path="reset/done"
+                                component={ResetDone}
+                                {...this._title(__("Password Reset"))}
+                            />
 
-                            <Route path="login" component={Login}  {...this._title(__("Login"))} />
+                            <Route
+                                path="login"
+                                component={Login}
+                                {...this._title(__("Login"))}
+                            />
 
-                            <Route path="tos" component={TOS}  {...this._title(__("Terms of Service"))} />
-                            <Route path="privacy" component={Privacy}  {...this._title(__("Privacy Policy"))} />
-                            <Route path="imprint" component={Imprint}  {...this._title(__("Imprint"))} />
+                            <Route
+                                path="tos"
+                                component={TOS}
+                                {...this._title(__("Terms of Service"))}
+                            />
+                            <Route
+                                path="privacy"
+                                component={Privacy}
+                                {...this._title(__("Privacy Policy"))}
+                            />
+                            <Route
+                                path="imprint"
+                                component={Imprint}
+                                {...this._title(__("Imprint"))}
+                            />
                         </Route>
                     </Route>
 
-                    <Route component={ChatLayout} onEnter={checkLoggedIn.bind(this, this.props.store)}>
+                    <Route
+                        component={ChatLayout}
+                        onEnter={checkLoggedIn.bind(this, this.props.store)}
+                    >
                         <Route component={MainLayout}>
                             {/* in game */}
                             <Route
@@ -98,45 +174,102 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
                                     commercials: null
                                 }}
                             >
-                                <IndexRoute component={Start} {...this._title(__("News"))} />
+                                <IndexRoute
+                                    component={Start}
+                                    {...this._title(__("News"))}
+                                />
 
-                                <Route path="/game/mapPreview/:name" component={MapPreview} />
+                                <Route
+                                    path="/game/mapPreview/:name"
+                                    component={MapPreview}
+                                />
 
                                 <Route path="/game/games">
-                                    <IndexRoute component={My} {...this._title(__("My Games"))} />
+                                    <IndexRoute
+                                        component={My}
+                                        {...this._title(__("My Games"))}
+                                    />
 
-                                    <Route path="/game/games/create" component={Create} {...this._title(__("Create Game"))} />
-                                    <Route path="/game/games/join" component={Join}  {...this._title(__("Join Game"))} />
+                                    <Route
+                                        path="/game/games/create"
+                                        component={Create}
+                                        {...this._title(__("Create Game"))}
+                                    />
+                                    <Route
+                                        path="/game/games/join"
+                                        component={Join}
+                                        {...this._title(__("Join Game"))}
+                                    />
                                 </Route>
 
                                 <Route path="/game/alliances">
-                                    <IndexRoute component={Alliances}  {...this._title(__("Alliances"))} />
+                                    <IndexRoute
+                                        component={Alliances}
+                                        {...this._title(__("Alliances"))}
+                                    />
 
-                                    <Route path="/game/alliances/create" component={CreateAlliance}  {...this._title(__("Create Alliance"))} />
-                                    <Route path="/game/alliances/:id" component={AllianceInfo}  {...this._title(__("Alliance Info"))} />
+                                    <Route
+                                        path="/game/alliances/create"
+                                        component={CreateAlliance}
+                                        {...this._title(__("Create Alliance"))}
+                                    />
+                                    <Route
+                                        path="/game/alliances/:id"
+                                        component={AllianceInfo}
+                                        {...this._title(__("Alliance Info"))}
+                                    />
                                 </Route>
 
                                 <Route path="/game/ladders">
-                                    <IndexRoute component={Ladders}  {...this._title(__("Ladders"))} />
+                                    <IndexRoute
+                                        component={Ladders}
+                                        {...this._title(__("Ladders"))}
+                                    />
 
-                                    <Route path="/game/ladders/:id" component={Ladder} />
+                                    <Route
+                                        path="/game/ladders/:id"
+                                        component={Ladder}
+                                    />
                                 </Route>
 
                                 <Route path="/game/tournaments">
-                                    <IndexRoute component={Tournaments} {...this._title(__("Tournaments"))} />
-                                    <Route path="/game/tournaments/:id" component={Tournament} />
+                                    <IndexRoute
+                                        component={Tournaments}
+                                        {...this._title(__("Tournaments"))}
+                                    />
+                                    <Route
+                                        path="/game/tournaments/:id"
+                                        component={Tournament}
+                                    />
 
-                                    <Route path="/game/tournaments/pairings/:id" component={TournamentPairing} {...this._title(__("Games"))} />
+                                    <Route
+                                        path="/game/tournaments/pairings/:id"
+                                        component={TournamentPairing}
+                                        {...this._title(__("Games"))}
+                                    />
                                 </Route>
 
                                 <Route path="/game/messages">
-                                    <IndexRoute component={Messages}  {...this._title(__("Messages"))} />
+                                    <IndexRoute
+                                        component={Messages}
+                                        {...this._title(__("Messages"))}
+                                    />
 
-                                    <Route path="/game/messages/compose(/:replyId)" component={Compose} />
-                                    <Route path="/game/messages/:id" component={Message} />
+                                    <Route
+                                        path="/game/messages/compose(/:replyId)"
+                                        component={Compose}
+                                    />
+                                    <Route
+                                        path="/game/messages/:id"
+                                        component={Message}
+                                    />
                                 </Route>
 
-                                <Route path="/game/profile" component={UserProfile}  {...this._title(__("Your Profile"))} />
+                                <Route
+                                    path="/game/profile"
+                                    component={UserProfile}
+                                    {...this._title(__("Your Profile"))}
+                                />
                             </Route>
                         </Route>
 
@@ -145,7 +278,10 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
                             <Route path="/play/:id">
                                 <IndexRoute component={Play} />
 
-                                <Route path="/play/:id/history/:turn" component={Play} />
+                                <Route
+                                    path="/play/:id/history/:turn"
+                                    component={Play}
+                                />
                             </Route>
                         </Route>
                     </Route>
@@ -160,7 +296,9 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
     @autobind
     private _title(title: string): { onEnter: EnterHook } {
         return {
-            onEnter: () => { this.props.store.dispatch(setTitle(title)); }
+            onEnter: () => {
+                this.props.store.dispatch(setTitle(title));
+            }
         };
     }
 
@@ -174,7 +312,7 @@ export default class App extends React.Component<{ store: Redux.Store<IState>, h
         // Move token to cookie
         document.cookie = `bearer_token=${token};path=/admin`;
 
-        // Navigate to admin 
+        // Navigate to admin
         window.location.href = baseUri + "admin/news";
     }
 

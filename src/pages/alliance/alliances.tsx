@@ -14,7 +14,9 @@ export interface IAllianceAdminProps {
     refresh: () => void;
 }
 
-export class AllianceAdminComponent extends React.Component<IAllianceAdminProps> {
+export class AllianceAdminComponent extends React.Component<
+    IAllianceAdminProps
+> {
     public componentDidMount() {
         this.props.refresh();
     }
@@ -31,29 +33,23 @@ export class AllianceAdminComponent extends React.Component<IAllianceAdminProps>
                 <Table striped hover responsive>
                     <thead>
                         <tr>
-                            <th>
-                                {__("Name")}
-                            </th>
-                            <th className="text-center">
-                                {__("Members")}
-                            </th>
+                            <th>{__("Name")}</th>
+                            <th className="text-center">{__("Members")}</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {
-                            alliances.map(alliance =>
-                                <tr key={alliance.id}>
-                                    <td>
-                                        <Link to={`/game/alliances/${alliance.id}`}>
-                                            {alliance.name}
-                                        </Link>
-                                    </td>
-                                    <td className="text-center">
-                                        {alliance.numberOfMembers}
-                                    </td>
-                                </tr>
-                            )
-                        }
+                        {alliances.map(alliance => (
+                            <tr key={alliance.id}>
+                                <td>
+                                    <Link to={`/game/alliances/${alliance.id}`}>
+                                        {alliance.name}
+                                    </Link>
+                                </td>
+                                <td className="text-center">
+                                    {alliance.numberOfMembers}
+                                </td>
+                            </tr>
+                        ))}
                     </tbody>
                 </Table>
             </GridColumn>
@@ -61,12 +57,17 @@ export class AllianceAdminComponent extends React.Component<IAllianceAdminProps>
     }
 }
 
-export default connect((state: IState) => {
-    const s = state.alliances;
+export default connect(
+    (state: IState) => {
+        const s = state.alliances;
 
-    return {
-        alliances: s.alliances
-    };
-}, (dispatch) => ({
-    refresh: () => { dispatch(refresh(null)); },
-}))(AllianceAdminComponent);
+        return {
+            alliances: s.alliances
+        };
+    },
+    dispatch => ({
+        refresh: () => {
+            dispatch(refresh(null));
+        }
+    })
+)(AllianceAdminComponent);

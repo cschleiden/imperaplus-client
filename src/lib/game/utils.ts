@@ -1,6 +1,8 @@
 import { Country, Game, Player, Team } from "../../external/imperaClients";
 
-export function countriesToMap(countries: Country[]): { [id: string]: Country } {
+export function countriesToMap(
+    countries: Country[]
+): { [id: string]: Country } {
     let idToCountry = {};
 
     if (countries && countries.length) {
@@ -28,7 +30,10 @@ export function getPlayer(game: Game, userId: string): Player {
     return getPlayerFromTeams(game.teams, userId);
 }
 
-export function getPlayerFromTeamsByPlayerId(teams: Team[], playerId: string): Player {
+export function getPlayerFromTeamsByPlayerId(
+    teams: Team[],
+    playerId: string
+): Player {
     for (let team of teams) {
         for (let player of team.players) {
             if (player.id === playerId) {

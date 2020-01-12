@@ -1,6 +1,9 @@
 import * as React from "react";
 import { Badge, ListGroup, ListGroupItem } from "react-bootstrap";
-import { FolderInformation, MessageFolder } from "../../../external/imperaClients";
+import {
+    FolderInformation,
+    MessageFolder
+} from "../../../external/imperaClients";
 import { FolderName } from "./FolderName";
 
 export interface IFolderListProps {
@@ -18,7 +21,8 @@ export class FolderList extends React.Component<IFolderListProps> {
         return (
             <div className="folder-list">
                 <ListGroup>
-                    {folders && folders.map(folder => this._renderFolder(folder))}
+                    {folders &&
+                        folders.map(folder => this._renderFolder(folder))}
                 </ListGroup>
             </div>
         );
@@ -32,7 +36,9 @@ export class FolderList extends React.Component<IFolderListProps> {
                 active={folder.folder === this.props.selectedFolder}
             >
                 {FolderName(folder.folder)}
-                <Badge>{folder.unreadCount} / {folder.count}</Badge>
+                <Badge>
+                    {folder.unreadCount} / {folder.count}
+                </Badge>
             </ListGroupItem>
         );
     }

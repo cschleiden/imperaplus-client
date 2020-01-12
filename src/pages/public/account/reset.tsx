@@ -13,12 +13,17 @@ export default class ResetComponent extends React.Component {
                     <GridColumn className="col-xs-12">
                         <Form
                             name="recover"
-                            onSubmit={((formState, options) => {
-                                return resetTrigger({
-                                    username: formState.getFieldValue("username"),
-                                    email: formState.getFieldValue("email")
-                                }, options);
-                            })}
+                            onSubmit={(formState, options) => {
+                                return resetTrigger(
+                                    {
+                                        username: formState.getFieldValue(
+                                            "username"
+                                        ),
+                                        email: formState.getFieldValue("email")
+                                    },
+                                    options
+                                );
+                            }}
                             component={({ isPending, submit, formState }) => (
                                 <div className="form">
                                     <ControlledTextField
@@ -37,14 +42,17 @@ export default class ResetComponent extends React.Component {
                                     <div className="pull-right">
                                         <ProgressButton
                                             type="submit"
-                                            disabled={!this._formValid(formState)}
+                                            disabled={
+                                                !this._formValid(formState)
+                                            }
                                             isActive={isPending}
                                             bsStyle="primary"
                                         >
                                             {__("Recover")}
                                         </ProgressButton>
                                     </div>
-                                </div>)}
+                                </div>
+                            )}
                         />
                     </GridColumn>
                 </GridRow>
@@ -53,7 +61,9 @@ export default class ResetComponent extends React.Component {
     }
 
     private _formValid(formState): boolean {
-        return formState.getFieldValue("username")
-            && formState.getFieldValue("email");
+        return (
+            formState.getFieldValue("username") &&
+            formState.getFieldValue("email")
+        );
     }
 }

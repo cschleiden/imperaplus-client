@@ -14,7 +14,10 @@ const initialState = makeImmutable({
 });
 export type ISessionState = typeof initialState;
 
-const login = (state: ISessionState, action: IAction<Actions.ILoginPayload>) => {
+const login = (
+    state: ISessionState,
+    action: IAction<Actions.ILoginPayload>
+) => {
     return state.__set(x => x, {
         access_token: action.payload.access_token,
         refresh_token: action.payload.refresh_token,
@@ -25,7 +28,10 @@ const login = (state: ISessionState, action: IAction<Actions.ILoginPayload>) => 
 };
 
 /** Store updated tokens */
-const refresh = (state: ISessionState, action: IAction<Actions.IRefreshPayload>) => {
+const refresh = (
+    state: ISessionState,
+    action: IAction<Actions.IRefreshPayload>
+) => {
     return state.__set(x => x, {
         access_token: action.payload.access_token,
         refresh_token: action.payload.refresh_token
@@ -41,7 +47,10 @@ const setLanguage = (state: ISessionState, action: IAction<string>) => {
     return state.__set(x => x.language, action.payload);
 };
 
-const refreshNotifications = (state: ISessionState, action: IAction<NotificationSummary>) => {
+const refreshNotifications = (
+    state: ISessionState,
+    action: IAction<NotificationSummary>
+) => {
     return state.__set(x => x.notifications, action.payload);
 };
 
@@ -51,8 +60,8 @@ const updateUserInfo = (state: ISessionState, action: IAction<UserInfo>) => {
 
 export const session = <TPayload>(
     state = initialState,
-    action?: IAction<TPayload>): ISessionState => {
-
+    action?: IAction<TPayload>
+): ISessionState => {
     return reducerMap(action, state, {
         [success(Actions.login.TYPE)]: login,
         [Actions.REFRESH]: refresh,

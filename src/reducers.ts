@@ -2,7 +2,7 @@ import { combineReducers } from "redux";
 
 // General purpose
 import { loadingBarReducer } from "react-redux-loading-bar";
-import { routerReducer, } from "react-router-redux";
+import { routerReducer } from "react-router-redux";
 import { forms } from "./common/forms/forms.reducer";
 import { general, IGeneralState } from "./common/general/general.reducer";
 import { IMessageState, message } from "./common/message/message.reducer";
@@ -15,8 +15,14 @@ import { ILaddersState, ladders } from "./pages/ladders/ladders.reducer";
 import { IMessagesState, messages } from "./pages/messages/messages.reducer";
 import { IPlayState, play } from "./pages/play/reducer";
 import { INewsState, news } from "./pages/start/news.reducer";
-import { ITournamentsState, tournaments } from "./pages/tournaments/tournaments.reducer";
-import { IMapPreviewState, mapPreview } from "./pages/mapPreview/mapPreview.reducer";
+import {
+    ITournamentsState,
+    tournaments
+} from "./pages/tournaments/tournaments.reducer";
+import {
+    IMapPreviewState,
+    mapPreview
+} from "./pages/mapPreview/mapPreview.reducer";
 import { IAlliancesState, alliances } from "./pages/alliance/alliances.reducer";
 
 export interface IState {

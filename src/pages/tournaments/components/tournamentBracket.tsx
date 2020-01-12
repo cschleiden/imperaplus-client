@@ -37,9 +37,13 @@ const widthPerPhase = 200;
 const heightPerPairing = 50;
 const separationConstant = 1;
 
-export class TournamentBracket extends React.Component<ITournamentBracketProps, ITournamentBracketState> {
+export class TournamentBracket extends React.Component<
+    ITournamentBracketProps,
+    ITournamentBracketState
+> {
     private _element: HTMLElement;
-    private _resolveElement = (element: HTMLElement) => this._element = element;
+    private _resolveElement = (element: HTMLElement) =>
+        (this._element = element);
 
     constructor(props: ITournamentBracketProps) {
         super(props);
@@ -47,10 +51,12 @@ export class TournamentBracket extends React.Component<ITournamentBracketProps, 
         this.state = this._getState(props);
     }
 
-
     public render() {
         return (
-            <div className="tournament-bracket-container" ref={this._resolveElement}>
+            <div
+                className="tournament-bracket-container"
+                ref={this._resolveElement}
+            >
                 <svg />
                 <div className="labels" />
             </div>
@@ -58,21 +64,25 @@ export class TournamentBracket extends React.Component<ITournamentBracketProps, 
     }
 
     public componentDidMount() {
-        require.ensure(["d3"], require => {
+        // @ts-ignore
+        (require as any).ensure(["d3"], require => {
             // tslint:disable-next-line:no-require-imports
             const d3 = require("d3") as typeof d3type;
 
             const { pairings, width, height } = this.state;
 
-            const line = d3.line<HierarchyPointNode<IBracketPairing>>()
-                .x(d => width - d.y + (widthPerPhase / 2))
-                .y(d => d.x - (heightPerPairing / 2) + 6)
+            const line = d3
+                .line<HierarchyPointNode<IBracketPairing>>()
+                .x(d => width - d.y + widthPerPhase / 2)
+                .y(d => d.x - heightPerPairing / 2 + 6)
                 .curve(d3.curveStep);
 
             const treemap = d3
                 .tree<IBracketPairing>()
                 .size([height, width])
-                .separation((a, b) => (a.parent === b.parent ? 1 : separationConstant));
+                .separation((a, b) =>
+                    a.parent === b.parent ? 1 : separationConstant
+                );
 
             let nodes = treemap(d3.hierarchy(pairings));
 
@@ -82,12 +92,10 @@ export class TournamentBracket extends React.Component<ITournamentBracketProps, 
                 .attr("width", width)
                 .attr("height", height);
 
-            const g = svg
-                .append("g");
+            const g = svg.append("g");
 
             // adds the links between the nodes
-            g
-                .selectAll(".link")
+            g.selectAll(".link")
                 .data(nodes.descendants().slice(1))
                 .enter()
                 .append("path")
@@ -95,9 +103,7 @@ export class TournamentBracket extends React.Component<ITournamentBracketProps, 
                 .attr("d", d => line([d, d.parent]))
                 .classed("win", d => !!d.data.winner);
 
-
-            d3
-                .select(this._element.querySelector(".labels"))
+            d3.select(this._element.querySelector(".labels"))
                 .selectAll("div")
                 .data(nodes.descendants())
                 .enter()
@@ -106,9 +112,9 @@ export class TournamentBracket extends React.Component<ITournamentBracketProps, 
                 .classed("table", true)
                 .classed("played", d => !!d.data.winner)
                 .style("left", d => width - d.y + "px")
-                .style("top", d => (d.x - heightPerPairing) + "px")
+                .style("top", d => d.x - heightPerPairing + "px")
                 .html(d => this._gameTemplate(d))
-                .on("click", (d) => {
+                .on("click", d => {
                     if (d.data.id) {
                         this.props.navigateToPairing(d.data.id);
                     }
@@ -170,22 +176,30 @@ export class TournamentBracket extends React.Component<ITournamentBracketProps, 
 
     private _gameTemplate(d: HierarchyPointNode<IBracketPairing>) {
         return `<div class="${css("tournament-row", {
-            "winner": d.data.nameA === d.data.winner,
-            "tbd": !d.data.nameA
+            winner: d.data.nameA === d.data.winner,
+            tbd: !d.data.nameA
         })}">
             <span class="tournament-cell name">${d.data.nameA || "&nbsp"}</span>
-                        <span class="tournament-cell score">${d.data.winsA >= 0 ? d.data.winsA : ""}</span>
+                        <span class="tournament-cell score">${
+                            d.data.winsA >= 0 ? d.data.winsA : ""
+                        }</span>
         </div>
                     <div class="${css(" tournament-row", {
-                "winner": d.data.nameB === d.data.winner,
-                "tbd": !d.data.nameB
-            })}">
-            <span class="tournament-cell name">${d.data.nameB || "&nbsp;"}</span>
-                    <span class="tournament-cell score">${d.data.winsB >= 0 ? d.data.winsB : ""}</span>
+                        winner: d.data.nameB === d.data.winner,
+                        tbd: !d.data.nameB
+                    })}">
+            <span class="tournament-cell name">${d.data.nameB ||
+                "&nbsp;"}</span>
+                    <span class="tournament-cell score">${
+                        d.data.winsB >= 0 ? d.data.winsB : ""
+                    }</span>
         </div>`;
     }
 
-    private _mapPairing(pairings: TournamentPairing[], index: number): IBracketPairing {
+    private _mapPairing(
+        pairings: TournamentPairing[],
+        index: number
+    ): IBracketPairing {
         const p = pairings[index];
 
         let winner;
@@ -201,9 +215,9 @@ export class TournamentBracket extends React.Component<ITournamentBracketProps, 
 
         return {
             id: p && p.id,
-            nameA: p && p.teamA.name || "",
+            nameA: (p && p.teamA.name) || "",
             winsA: p && p.teamAWon,
-            nameB: p && p.teamB.name || "",
+            nameB: (p && p.teamB.name) || "",
             winsB: p && p.teamBWon,
             winner,
             numberOfGames: p && p.numberOfGames

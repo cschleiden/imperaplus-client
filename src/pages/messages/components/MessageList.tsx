@@ -7,7 +7,6 @@ import { autobind } from "../../../lib/autobind";
 import { css } from "../../../lib/css";
 import "./MessageList.scss";
 
-
 export interface IMessageListProps {
     messages: Message[];
 
@@ -44,7 +43,7 @@ export class MessageList extends React.Component<IMessageListProps> {
             <tr
                 key={message.id}
                 className={css({
-                    "unread": !message.isRead
+                    unread: !message.isRead
                 })}
                 onClick={() => this._openMessage(message)}
             >
@@ -54,8 +53,13 @@ export class MessageList extends React.Component<IMessageListProps> {
                 <td>{message.subject}</td>
                 <td>{HumanDate(message.sentAt)}</td>
                 <td className="text-right">
-                    <Button bsStyle="danger" bsSize="xs" onClick={(ev) => this._deleteMessage(ev, message)}>
-                        <i className="fa fa-trash-o" />&nbsp;{__("Delete")}
+                    <Button
+                        bsStyle="danger"
+                        bsSize="xs"
+                        onClick={ev => this._deleteMessage(ev, message)}
+                    >
+                        <i className="fa fa-trash-o" />
+                        &nbsp;{__("Delete")}
                     </Button>
                 </td>
             </tr>

@@ -1,7 +1,13 @@
 import { MessageType, clear, show } from "../common/message/message.actions";
 import { ErrorResponse } from "../external/imperaClients";
 import { ErrorCodes } from "../i18n/errorCodes";
-import { IApiActionOptions, IPromiseAction, failed, pending, success } from "../lib/action";
+import {
+    IApiActionOptions,
+    IPromiseAction,
+    failed,
+    pending,
+    success
+} from "../lib/action";
 
 export default function promiseMiddleware({ dispatch }) {
     return next => <TResult, TData>(action: IPromiseAction<TResult, TData>) => {
@@ -64,11 +70,15 @@ export default function promiseMiddleware({ dispatch }) {
                     // Dispatch generic message action
                     let message = ErrorCodes.errorMessage[error.error];
                     if (!message) {
-                        message = ErrorCodes.errorMessage[error.error_Description];
+                        message =
+                            ErrorCodes.errorMessage[error.error_Description];
                     }
 
                     if (!message) {
-                        message = error.error_Description || error.error || error.message;
+                        message =
+                            error.error_Description ||
+                            error.error ||
+                            error.message;
                     }
 
                     dispatch(show(message, MessageType.error));

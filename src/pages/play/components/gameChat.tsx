@@ -20,11 +20,16 @@ interface IGameChatTabState {
     value: string;
 }
 
-class GameChatTab extends React.Component<IGameChatTabProps, IGameChatTabState> {
-    private _resolveListElement = (element: HTMLDivElement) => this._element = element;
+class GameChatTab extends React.Component<
+    IGameChatTabProps,
+    IGameChatTabState
+> {
+    private _resolveListElement = (element: HTMLDivElement) =>
+        (this._element = element);
     private _element: HTMLDivElement;
 
-    private _resolveInputElement = (element: HTMLInputElement) => this._inputElement = element;
+    private _resolveInputElement = (element: HTMLInputElement) =>
+        (this._inputElement = element);
     private _inputElement: HTMLInputElement;
 
     constructor(props: IGameChatTabProps, context: any) {
@@ -52,15 +57,21 @@ class GameChatTab extends React.Component<IGameChatTabProps, IGameChatTabState> 
             <div>
                 <div className="game-chat-list" ref={this._resolveListElement}>
                     <ul>
-                        {messages.map(message => <li key={message.id}>
-                            <div>
-                                <strong className="game-chat-user">{message.user.name}</strong>
-                                <span className="game-chat-message">{message.text}</span>
-                            </div>
-                            <div className="game-chat-date">
-                                {HumanDate(message.dateTime)}
-                            </div>
-                        </li>)}
+                        {messages.map(message => (
+                            <li key={message.id}>
+                                <div>
+                                    <strong className="game-chat-user">
+                                        {message.user.name}
+                                    </strong>
+                                    <span className="game-chat-message">
+                                        {message.text}
+                                    </span>
+                                </div>
+                                <div className="game-chat-date">
+                                    {HumanDate(message.dateTime)}
+                                </div>
+                            </li>
+                        ))}
                     </ul>
                 </div>
                 <form className="form-inline" onSubmit={this._onSubmit}>
@@ -73,7 +84,13 @@ class GameChatTab extends React.Component<IGameChatTabProps, IGameChatTabState> 
                             onChange={this._onChange}
                             ref={this._resolveInputElement}
                         />
-                        <Button className="game-chat-button" disabled={isPending} onClick={this._send}>{__("Send")}</Button>
+                        <Button
+                            className="game-chat-button"
+                            disabled={isPending}
+                            onClick={this._send}
+                        >
+                            {__("Send")}
+                        </Button>
                     </div>
                 </form>
             </div>
@@ -123,11 +140,19 @@ class GameChat extends React.Component<IGameChatProps> {
         return (
             <Tabs id="game-chat" defaultActiveKey={1} className="game-chat">
                 <Tab eventKey={1} title={__("All")}>
-                    <GameChatTab onSend={this._onSendPublic} messages={publicMessages} isPending={isPending} />
+                    <GameChatTab
+                        onSend={this._onSendPublic}
+                        messages={publicMessages}
+                        isPending={isPending}
+                    />
                 </Tab>
 
                 <Tab eventKey={2} title={__("Team")}>
-                    <GameChatTab onSend={this._onSend} messages={teamMessages} isPending={isPending} />
+                    <GameChatTab
+                        onSend={this._onSend}
+                        messages={teamMessages}
+                        isPending={isPending}
+                    />
                 </Tab>
             </Tabs>
         );
@@ -148,14 +173,19 @@ class GameChat extends React.Component<IGameChatProps> {
     }
 }
 
-export default connect((state: IState) => {
-    const gameChat = state.play.gameChat;
+export default connect(
+    (state: IState) => {
+        const gameChat = state.play.gameChat;
 
-    return {
-        publicMessages: gameChat.all,
-        teamMessages: gameChat.team,
-        isPending: gameChat.isPending
-    };
-}, (dispatch) => ({
-    send: (message: string, isPublic: boolean) => { dispatch(gameChatSendMessage({ message, isPublic })); }
-}))(GameChat);
+        return {
+            publicMessages: gameChat.all,
+            teamMessages: gameChat.team,
+            isPending: gameChat.isPending
+        };
+    },
+    dispatch => ({
+        send: (message: string, isPublic: boolean) => {
+            dispatch(gameChatSendMessage({ message, isPublic }));
+        }
+    })
+)(GameChat);

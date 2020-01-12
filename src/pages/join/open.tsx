@@ -43,11 +43,11 @@ export class FunGamesComponent extends React.Component<IFunGamesProps> {
                         games={this.props.funGames}
                         userId={userId}
                         additionalColumns={{
-                            "password": (game: GameSummary) => (
+                            password: (game: GameSummary) => (
                                 <span>
-                                    {
-                                        game.hasPassword && <i className="fa fa-lock" />
-                                    }
+                                    {game.hasPassword && (
+                                        <i className="fa fa-lock" />
+                                    )}
                                 </span>
                             )
                         }}
@@ -59,26 +59,31 @@ export class FunGamesComponent extends React.Component<IFunGamesProps> {
     }
 }
 
-export default connect((state: IState) => {
-    const userInfo = state.session.userInfo;
+export default connect(
+    (state: IState) => {
+        const userInfo = state.session.userInfo;
 
-    const sortedOpenGames = state.games.openGames.slice(0);
-    sortedOpenGames.sort((a, b) => {
-        if (!a.hasPassword && b.hasPassword) {
-            return -1;
+        const sortedOpenGames = state.games.openGames.slice(0);
+        sortedOpenGames.sort((a, b) => {
+            if (!a.hasPassword && b.hasPassword) {
+                return -1;
+            }
+
+            if (a.hasPassword && !b.hasPassword) {
+                return 1;
+            }
+
+            return 0;
+        });
+
+        return {
+            funGames: sortedOpenGames,
+            userId: userInfo && userInfo.userId
+        };
+    },
+    dispatch => ({
+        refreshFun: () => {
+            dispatch(refreshOpen(null));
         }
-
-        if (a.hasPassword && !b.hasPassword) {
-            return 1;
-        }
-
-        return 0;
-    });
-
-    return {
-        funGames: sortedOpenGames,
-        userId: userInfo && userInfo.userId
-    };
-}, (dispatch) => ({
-    refreshFun: () => { dispatch(refreshOpen(null)); }
-}))(FunGamesComponent);
+    })
+)(FunGamesComponent);

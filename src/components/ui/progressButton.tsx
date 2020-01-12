@@ -29,7 +29,10 @@ export interface ISimpleProgressButtonState {
 /**
  * Simple progress button that starts showing progress when clicked
  */
-export class SimpleProgressButton extends React.Component<ButtonProps, ISimpleProgressButtonState> {
+export class SimpleProgressButton extends React.Component<
+    ButtonProps,
+    ISimpleProgressButtonState
+> {
     constructor(props: ButtonProps) {
         super(props);
 
@@ -39,7 +42,13 @@ export class SimpleProgressButton extends React.Component<ButtonProps, ISimplePr
     }
 
     public render() {
-        return <ProgressButton {...this.props} onClick={this._onClick} isActive={this.state.isActive} />;
+        return (
+            <ProgressButton
+                {...this.props}
+                onClick={this._onClick}
+                isActive={this.state.isActive}
+            />
+        );
     }
 
     @autobind

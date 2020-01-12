@@ -1,4 +1,3 @@
-
 export interface ICssMapping {
     [className: string]: boolean;
 }

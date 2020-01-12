@@ -12,7 +12,14 @@ export const HumanDate = (date: Date): string => {
 
     let delta = calculateDelta();
     if (delta > day && delta < week) {
-        date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0);
+        date = new Date(
+            date.getFullYear(),
+            date.getMonth(),
+            date.getDate(),
+            0,
+            0,
+            0
+        );
         delta = calculateDelta();
     }
 
@@ -30,31 +37,46 @@ export const HumanDate = (date: Date): string => {
             return __("a minute ago");
 
         case !(delta < hour):
-            return __("{0} minutes ago").replace("{0}", "" + Math.floor(delta / minute));
+            return __("{0} minutes ago").replace(
+                "{0}",
+                "" + Math.floor(delta / minute)
+            );
 
         case Math.floor(delta / hour) !== 1:
             return __("an hour ago");
 
         case !(delta < day):
-            return __("{0} hours ago").replace("{0}", "" + Math.floor(delta / hour));
+            return __("{0} hours ago").replace(
+                "{0}",
+                "" + Math.floor(delta / hour)
+            );
 
         case !(delta < day * 2):
             return __("yesterday");
 
         case !(delta < week):
-            return __("{0} days ago").replace("{0}", "" + Math.floor(delta / day));
+            return __("{0} days ago").replace(
+                "{0}",
+                "" + Math.floor(delta / day)
+            );
 
         case Math.floor(delta / week) !== 1:
             return __("a week ago");
 
         case !(delta < month):
-            return __("{0} weeks ago").replace("{0}", "" + (Math.floor(delta / week)));
+            return __("{0} weeks ago").replace(
+                "{0}",
+                "" + Math.floor(delta / week)
+            );
 
         case Math.floor(delta / month) !== 1:
             return __("a month ago");
 
         case !(delta < year):
-            return __("{0} months ago").replace("{0}", "" + (Math.floor(delta / month)));
+            return __("{0} months ago").replace(
+                "{0}",
+                "" + Math.floor(delta / month)
+            );
 
         case Math.floor(delta / year) !== 1:
             return __("a year ago");
@@ -69,24 +91,42 @@ export const HumanDate = (date: Date): string => {
 
 export const HumanTime = (seconds: number): string => {
     switch (false) {
-        case !(seconds === 120): return __("2 Minutes");
-        case !(seconds === 180): return __("3 Minutes");
-        case !(seconds === 300): return __("5 Minutes");
-        case !(seconds === 600): return __("10 Minutes");
-        case !(seconds === 900): return __("15 Minutes");
-        case !(seconds === 1800): return __("30 Minutes");
-        case !(seconds === 2700): return __("45 Minutes");
-        case !(seconds === 3600): return __("1 Hours");
-        case !(seconds === 7200): return __("2 Hours");
-        case !(seconds === 14400): return __("4 Hours");
-        case !(seconds === 36000): return __("10 Hours");
-        case !(seconds === 43200): return __("12 Hours");
-        case !(seconds === 54000): return __("15 Hours");
-        case !(seconds === 86400): return __("1 Day");
-        case !(seconds === 172800): return __("2 Days");
-        case !(seconds === 259200): return __("3 Days");
-        case !(seconds === 432000): return __("5 Days");
-        case !(seconds === 604800): return __("7 Days");
+        case !(seconds === 120):
+            return __("2 Minutes");
+        case !(seconds === 180):
+            return __("3 Minutes");
+        case !(seconds === 300):
+            return __("5 Minutes");
+        case !(seconds === 600):
+            return __("10 Minutes");
+        case !(seconds === 900):
+            return __("15 Minutes");
+        case !(seconds === 1800):
+            return __("30 Minutes");
+        case !(seconds === 2700):
+            return __("45 Minutes");
+        case !(seconds === 3600):
+            return __("1 Hours");
+        case !(seconds === 7200):
+            return __("2 Hours");
+        case !(seconds === 14400):
+            return __("4 Hours");
+        case !(seconds === 36000):
+            return __("10 Hours");
+        case !(seconds === 43200):
+            return __("12 Hours");
+        case !(seconds === 54000):
+            return __("15 Hours");
+        case !(seconds === 86400):
+            return __("1 Day");
+        case !(seconds === 172800):
+            return __("2 Days");
+        case !(seconds === 259200):
+            return __("3 Days");
+        case !(seconds === 432000):
+            return __("5 Days");
+        case !(seconds === 604800):
+            return __("7 Days");
     }
 };
 

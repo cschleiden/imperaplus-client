@@ -5,7 +5,9 @@ import "./playerOutcome.scss";
 import { PlayerOutcome } from "../../../external/imperaClients";
 import { css } from "../../../lib/css";
 
-export const PlayerOutcomeDisplay: React.StatelessComponent<{ outcome: PlayerOutcome }> = (props: { outcome: PlayerOutcome }): JSX.Element => {
+export const PlayerOutcomeDisplay: React.StatelessComponent<{
+    outcome: PlayerOutcome;
+}> = (props: { outcome: PlayerOutcome }): JSX.Element => {
     const { outcome } = props;
 
     let icon: string;

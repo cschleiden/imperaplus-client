@@ -5,7 +5,13 @@ import { Link } from "react-router";
 import { GridColumn, GridRow } from "../../components/layout";
 import { HumanDate } from "../../components/ui/humanDate";
 import { Section, SubSection } from "../../components/ui/typography";
-import { NewsContent, NewsItem, TournamentState, TournamentSummary, UserInfo } from "../../external/imperaClients";
+import {
+    NewsContent,
+    NewsItem,
+    TournamentState,
+    TournamentSummary,
+    UserInfo
+} from "../../external/imperaClients";
 import { IState } from "../../reducers";
 import { refresh as tournamentsRefresh } from "../tournaments/tournaments.actions";
 import { refresh } from "./news.actions";
@@ -38,12 +44,20 @@ export class StartComponent extends React.Component<IStartProps> {
                                 return null;
                             }
 
-                            return <div key={i}>
-                                <h2 className="headline">{content.title}</h2>
-                                <h5>{HumanDate(n.dateTime)} - {n.postedBy}</h5>
+                            return (
+                                <div key={i}>
+                                    <h2 className="headline">
+                                        {content.title}
+                                    </h2>
+                                    <h5>
+                                        {HumanDate(n.dateTime)} - {n.postedBy}
+                                    </h5>
 
-                                <ReactMarkdown source={content.text || ""} />
-                            </div>;
+                                    <ReactMarkdown
+                                        source={content.text || ""}
+                                    />
+                                </div>
+                            );
                         })}
                     </div>
                 </GridColumn>
@@ -52,67 +66,78 @@ export class StartComponent extends React.Component<IStartProps> {
                     <Section>{__("Tournaments")}</Section>
 
                     <SubSection>{__("Open")}</SubSection>
-                    {
-                        this.props.openTournaments.map(tournament => {
-                            return (
-                                <div key={tournament.id}>
-                                    <Link to={`/game/tournaments/${tournament.id}`}>{tournament.name}</Link>
-                                </div>
-                            );
-                        })
-                    }
+                    {this.props.openTournaments.map(tournament => {
+                        return (
+                            <div key={tournament.id}>
+                                <Link to={`/game/tournaments/${tournament.id}`}>
+                                    {tournament.name}
+                                </Link>
+                            </div>
+                        );
+                    })}
 
                     <SubSection>{__("Active")}</SubSection>
-                    {
-                        this.props.activeTournaments.map(tournament => {
-                            return (
-                                <div key={tournament.id}>
-                                    <Link to={`/game/tournaments/${tournament.id}`}>{tournament.name}</Link>
-                                </div>
-                            );
-                        })
-                    }
+                    {this.props.activeTournaments.map(tournament => {
+                        return (
+                            <div key={tournament.id}>
+                                <Link to={`/game/tournaments/${tournament.id}`}>
+                                    {tournament.name}
+                                </Link>
+                            </div>
+                        );
+                    })}
 
                     <SubSection>{__("Closed")}</SubSection>
-                    {
-                        this.props.closedTournaments.map(tournament => {
-                            return (
-                                <div key={tournament.id}>
-                                    <Link to={`/game/tournaments/${tournament.id}`}>{tournament.name}</Link>
-                                </div>
-                            );
-                        })
-                    }
+                    {this.props.closedTournaments.map(tournament => {
+                        return (
+                            <div key={tournament.id}>
+                                <Link to={`/game/tournaments/${tournament.id}`}>
+                                    {tournament.name}
+                                </Link>
+                            </div>
+                        );
+                    })}
                 </GridColumn>
             </GridRow>
         );
     }
 
     private _getLanguageContent(content: NewsContent[]): NewsContent {
-        const userLanguage = this.props && this.props.language || "en";
+        const userLanguage = (this.props && this.props.language) || "en";
 
         let matches = content.filter(x => x.language === userLanguage);
         return matches && matches.length > 0 && matches[0];
     }
 }
 
-export default connect((state: IState) => {
-    const tournaments = state.tournaments.tournaments || [];
-    const openTournaments = tournaments.filter(x => x.state === TournamentState.Open);
-    const activeTournaments = tournaments.filter(x => x.state === TournamentState.Knockout || x.state === TournamentState.Groups);
-    const closedTournaments = tournaments.filter(x => x.state === TournamentState.Closed);
+export default connect(
+    (state: IState) => {
+        const tournaments = state.tournaments.tournaments || [];
+        const openTournaments = tournaments.filter(
+            x => x.state === TournamentState.Open
+        );
+        const activeTournaments = tournaments.filter(
+            x =>
+                x.state === TournamentState.Knockout ||
+                x.state === TournamentState.Groups
+        );
+        const closedTournaments = tournaments.filter(
+            x => x.state === TournamentState.Closed
+        );
 
-    return {
-        userInfo: state.session.userInfo,
-        language: state.session.language,
-        news: state.news.news,
-        openTournaments,
-        activeTournaments,
-        closedTournaments
-    };
-}, (dispatch) => ({
-    refresh: () => {
-        dispatch(refresh(null));
-        dispatch(tournamentsRefresh(null));
-    }
-}))(StartComponent);
+        return {
+            userInfo: state.session.userInfo,
+            language: state.session.language,
+            news: state.news.news,
+            openTournaments,
+            activeTournaments,
+            closedTournaments
+        };
+    },
+    dispatch => ({
+        refresh: () => {
+            dispatch(refresh(null));
+            dispatch(tournamentsRefresh(null));
+        }
+    })
+)(StartComponent);

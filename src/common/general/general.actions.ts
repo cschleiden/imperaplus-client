@@ -21,19 +21,26 @@ export const lookupSet = <T>(key: string, data: T[]) => ({
 });
 
 export const SET_TITLE = "general-set-title";
-export const setTitle: IAsyncAction<string> = (title: string) =>
-    (dispatch, getState, deps) => {
-        const session = getState().session;
-        if (session.isLoggedIn) {
-            const gameCount = session && session.notifications && session.notifications.numberOfGames || 0;
+export const setTitle: IAsyncAction<string> = (title: string) => (
+    dispatch,
+    getState,
+    deps
+) => {
+    const session = getState().session;
+    if (session.isLoggedIn) {
+        const gameCount =
+            (session &&
+                session.notifications &&
+                session.notifications.numberOfGames) ||
+            0;
 
-            setDocumentTitle(`${title} (${gameCount})`);
-        } else {
-            setDocumentTitle(title);
-        }
+        setDocumentTitle(`${title} (${gameCount})`);
+    } else {
+        setDocumentTitle(title);
+    }
 
-        dispatch({
-            type: SET_TITLE,
-            payload: title
-        });
-    };
+    dispatch({
+        type: SET_TITLE,
+        payload: title
+    });
+};

@@ -1,7 +1,11 @@
 import * as React from "react";
 import { Button, Glyphicon, Table } from "react-bootstrap";
 import { Link } from "react-router";
-import { GameState, GameSummary, PlayerSummary } from "../../../external/imperaClients";
+import {
+    GameState,
+    GameSummary,
+    PlayerSummary
+} from "../../../external/imperaClients";
 import { css } from "../../../lib/css";
 import { Timer } from "../timer";
 import GameDetails from "./gameDetail";
@@ -18,7 +22,9 @@ interface IGameListProps {
 
     showActive?: boolean;
 
-    additionalColumns?: { [columnKey: string]: (game: GameSummary) => JSX.Element };
+    additionalColumns?: {
+        [columnKey: string]: (game: GameSummary) => JSX.Element;
+    };
 }
 
 interface IGameListState {
@@ -40,18 +46,18 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
 
         return (
             <Table className="game-list">
-                <thead>
-                    {header}
-                </thead>
-                <tbody>
-                    {rows}
-                </tbody>
+                <thead>{header}</thead>
+                <tbody>{rows}</tbody>
             </Table>
         );
     }
 
     private _renderHeader() {
-        const { showActive = true, showCreatedBy = false, additionalColumns = {} } = this.props;
+        const {
+            showActive = true,
+            showCreatedBy = false,
+            additionalColumns = {}
+        } = this.props;
 
         return (
             <tr>
@@ -59,23 +65,32 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
                 <th>{__("Name")}</th>
                 <th className="hidden-xs">{__("Map")}</th>
                 <th className="hidden-xs">{__("Mode")}</th>
-                {showCreatedBy && <th className="hidden-xs username">{__("Created By")}</th>}
-                {showActive && <th className="hidden-xs username">{__("Active")}</th>}
-                <th className="hidden-xs hidden-sm text-center">{__("Teams/Players")}</th>
+                {showCreatedBy && (
+                    <th className="hidden-xs username">{__("Created By")}</th>
+                )}
+                {showActive && (
+                    <th className="hidden-xs username">{__("Active")}</th>
+                )}
+                <th className="hidden-xs hidden-sm text-center">
+                    {__("Teams/Players")}
+                </th>
                 {showActive && <th className="timer">{__("Time")}</th>}
                 {showActive && <th className="state">{__("State")}</th>}
-                {
-                    Object.keys(additionalColumns).map(ac => (
-                        <th key={ac}>&nbsp;</th>
-                    ))
-                }
+                {Object.keys(additionalColumns).map(ac => (
+                    <th key={ac}>&nbsp;</th>
+                ))}
                 <th>&nbsp;</th>
             </tr>
         );
     }
 
     private _renderGameRow(game: GameSummary): JSX.Element[] {
-        const { showActive = true, showCreatedBy = false, userId, additionalColumns = {} } = this.props;
+        const {
+            showActive = true,
+            showCreatedBy = false,
+            userId,
+            additionalColumns = {}
+        } = this.props;
 
         const player = this._playerForGame(game);
 
@@ -86,9 +101,12 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
             name = <span>{game.name}</span>;
         }
 
-        const isPlayersTurn = game.state === GameState.Active && game.currentPlayer && game.currentPlayer.userId === userId;
+        const isPlayersTurn =
+            game.state === GameState.Active &&
+            game.currentPlayer &&
+            game.currentPlayer.userId === userId;
 
-        const rows = [(
+        const rows = [
             <tr
                 className={css({
                     "game-players-turn": isPlayersTurn
@@ -99,36 +117,37 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
                 <td>{name}</td>
                 <td className="hidden-xs">{game.mapTemplate}</td>
                 <td className="hidden-xs">{game.options.mapDistribution}</td>
-                {
-                    showCreatedBy && <td className="hidden-xs">{game.createdByName}</td>}
-                {
-                    showActive && <td
-                        className={
-                            css("hidden-xs", {
-                                "players-turn": isPlayersTurn
-                            })
-                        }
-                    >{game.currentPlayer && game.currentPlayer.name}
+                {showCreatedBy && (
+                    <td className="hidden-xs">{game.createdByName}</td>
+                )}
+                {showActive && (
+                    <td
+                        className={css("hidden-xs", {
+                            "players-turn": isPlayersTurn
+                        })}
+                    >
+                        {game.currentPlayer && game.currentPlayer.name}
                     </td>
-                }
+                )}
                 <td className="hidden-xs hidden-sm text-center">{`${game.options.numberOfTeams}/${game.options.numberOfPlayersPerTeam}`}</td>
-                {showActive && <td>
-                    {this._renderTimer(game)}
-                </td>}
+                {showActive && <td>{this._renderTimer(game)}</td>}
                 {/* Game state */}
-                {
-                    showActive && <td>
+                {showActive && (
+                    <td>
                         <GameStateDisplay gameState={game.state} />
-                        {player && <span>
-                            &nbsp;-&nbsp;<PlayerOutcomeDisplay outcome={player.outcome} />
-                        </span>}
+                        {player && (
+                            <span>
+                                &nbsp;-&nbsp;
+                                <PlayerOutcomeDisplay
+                                    outcome={player.outcome}
+                                />
+                            </span>
+                        )}
                     </td>
-                }
-                {
-                    Object.keys(additionalColumns).map(ac => (
-                        <th key={ac}>{additionalColumns[ac](game)}</th>
-                    ))
-                }
+                )}
+                {Object.keys(additionalColumns).map(ac => (
+                    <th key={ac}>{additionalColumns[ac](game)}</th>
+                ))}
                 <td>
                     <Button
                         bsSize="xsmall"
@@ -140,9 +159,9 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
                     </Button>
                 </td>
             </tr>
-        )];
+        ];
 
-        // Show detailed information        
+        // Show detailed information
         if (this.state.expandedGames[game.id]) {
             rows.push(
                 <tr key={`game-${game.id}-detail`}>

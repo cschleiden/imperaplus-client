@@ -1,6 +1,11 @@
 import { makeImmutable } from "immuts";
 import {
-    ErrorResponse, Game, GameChatMessage, GameSummary, HistoryTurn, Player
+    ErrorResponse,
+    Game,
+    GameChatMessage,
+    GameSummary,
+    HistoryTurn,
+    Player
 } from "../../../external/imperaClients";
 import { MapTemplateCacheEntry } from "../mapTemplateCache";
 
@@ -51,11 +56,12 @@ export const initialState = makeImmutable({
     movesLeftPerTurn: 0,
 
     sidebarOpen: false,
-    gameUiOptions: options && JSON.parse(options) || {
-        showTeamsOnMap: true
-    } as IGameUIOptions,
-    overrideGameUiOptions: {
-    } as Partial<IGameUIOptions>,
+    gameUiOptions:
+        (options && JSON.parse(options)) ||
+        ({
+            showTeamsOnMap: true
+        } as IGameUIOptions),
+    overrideGameUiOptions: {} as Partial<IGameUIOptions>,
 
     operationInProgress: true,
 

@@ -12,13 +12,13 @@ export class GameLinkList extends React.Component<IGameLinkListProps> {
 
         return (
             <ul className="list-unstyled">
-                {
-                    games.map(game => (
-                        <li key={game.id}>
-                            <Link to={`/play/${game.id}`}>{game.id} {game.name}</Link>
-                        </li>
-                    ))
-                }
+                {games.map(game => (
+                    <li key={game.id}>
+                        <Link to={`/play/${game.id}`}>
+                            {game.id} {game.name}
+                        </Link>
+                    </li>
+                ))}
             </ul>
         );
     }

@@ -20,11 +20,20 @@ interface IRegistration<T> {
 export class Container {
     private _registrations: { [name: string]: IRegistration<any> } = {};
 
-    public registerSingle<T>(name: string, activator: IActivator<T>, dependencies: string[]) {
+    public registerSingle<T>(
+        name: string,
+        activator: IActivator<T>,
+        dependencies: string[]
+    ) {
         this.register<T>(name, activator, dependencies, Lifetime.Singleton);
     }
 
-    public register<T>(name: string, activator: IActivator<T>, dependencies: string[] = [], lifetime: Lifetime = Lifetime.Default) {
+    public register<T>(
+        name: string,
+        activator: IActivator<T>,
+        dependencies: string[] = [],
+        lifetime: Lifetime = Lifetime.Default
+    ) {
         this._registrations[name] = {
             activator: activator,
             dependencies: dependencies,
@@ -39,14 +48,13 @@ export class Container {
         }
 
         switch (registration.lifetime) {
-            case Lifetime.Singleton:
-                {
-                    if (!registration.instance) {
-                        registration.instance = this._createInstance(registration);
-                    }
-
-                    return registration.instance;
+            case Lifetime.Singleton: {
+                if (!registration.instance) {
+                    registration.instance = this._createInstance(registration);
                 }
+
+                return registration.instance;
+            }
 
             default:
                 return this._createInstance<T>(registration);

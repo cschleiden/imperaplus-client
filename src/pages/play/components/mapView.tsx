@@ -57,19 +57,21 @@ export class MapView extends React.Component<IMapViewProps, IMapViewState> {
         const { hoveredCountry } = this.state;
 
         return mapTemplate.countries.map(countryTemplate => {
-            const isHighlighted = hoveredCountry && mapTemplate.areConnected(hoveredCountry, countryTemplate.identifier);
+            const isHighlighted =
+                hoveredCountry &&
+                mapTemplate.areConnected(
+                    hoveredCountry,
+                    countryTemplate.identifier
+                );
             const continent = mapTemplate.continent(countryTemplate.identifier);
 
             return (
                 <div
                     id={countryTemplate.identifier}
                     key={countryTemplate.identifier}
-                    className={css(
-                        "country",
-                        `continent-${continent.id}`,
-                        {
-                            "country-highlight": isHighlighted,
-                        })}
+                    className={css("country", `continent-${continent.id}`, {
+                        "country-highlight": isHighlighted
+                    })}
                     style={{
                         left: countryTemplate.x,
                         top: countryTemplate.y

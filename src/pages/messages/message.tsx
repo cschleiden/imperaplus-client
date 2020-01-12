@@ -44,13 +44,10 @@ class MessageComponent extends React.Component<IMessageProps> {
                 <GridColumn className="col-xs-12">
                     <Section
                         additionalContent={
-                            <div
-                                className="pull-right clearfix"
-                            >
-                                <Button
-                                    onClick={this._reply}
-                                >
-                                    <i className="fa fa-envelope-o" />&nbsp;{__("Reply")}
+                            <div className="pull-right clearfix">
+                                <Button onClick={this._reply}>
+                                    <i className="fa fa-envelope-o" />
+                                    &nbsp;{__("Reply")}
                                 </Button>
                             </div>
                         }
@@ -59,12 +56,12 @@ class MessageComponent extends React.Component<IMessageProps> {
                     </Section>
 
                     <p>
-                        <i className="fa fa-calendar" />&nbsp;{HumanDate(message.sentAt)}&nbsp;-&nbsp;<UserRef userRef={message.from} />
+                        <i className="fa fa-calendar" />
+                        &nbsp;{HumanDate(message.sentAt)}&nbsp;-&nbsp;
+                        <UserRef userRef={message.from} />
                     </p>
 
-                    <p className="message-text">
-                        {message.text}
-                    </p>
+                    <p className="message-text">{message.text}</p>
                 </GridColumn>
             </GridRow>
         );
@@ -76,17 +73,20 @@ class MessageComponent extends React.Component<IMessageProps> {
     }
 }
 
-export default connect((state: IState) => {
-    const messages = state.messages;
+export default connect(
+    (state: IState) => {
+        const messages = state.messages;
 
-    return {
-        message: messages.currentMessage
-    };
-}, (dispatch) => ({
-    openMessage: (messageId: string) => {
-        dispatch(openMessage(messageId));
+        return {
+            message: messages.currentMessage
+        };
     },
-    reply: (replyId: string) => {
-        dispatch(push(`/game/messages/compose/${replyId}`));
-    }
-}))(MessageComponent);
+    dispatch => ({
+        openMessage: (messageId: string) => {
+            dispatch(openMessage(messageId));
+        },
+        reply: (replyId: string) => {
+            dispatch(push(`/game/messages/compose/${replyId}`));
+        }
+    })
+)(MessageComponent);

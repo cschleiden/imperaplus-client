@@ -17,7 +17,10 @@ export interface ISubmitPayload {
     form: string;
     mode: FormMode;
 }
-export const submitForm = (form: string, mode: FormMode): IAction<ISubmitPayload> => ({
+export const submitForm = (
+    form: string,
+    mode: FormMode
+): IAction<ISubmitPayload> => ({
     type: SUBMIT_FORM,
     payload: {
         form: form,
@@ -31,7 +34,11 @@ export interface IChangeFieldPayload {
     field: string;
     value: string | number | boolean;
 }
-export const changeField = (form: string, field: string, value: string | number | boolean): IAction<IChangeFieldPayload> => ({
+export const changeField = (
+    form: string,
+    field: string,
+    value: string | number | boolean
+): IAction<IChangeFieldPayload> => ({
     type: CHANGE_FIELD,
     payload: {
         form: form,
@@ -46,7 +53,11 @@ export interface IInitialValuePayload {
     field: string;
     value: string | number | boolean;
 }
-export const initialValue = (form: string, field: string, value: string | number | boolean): IAction<IInitialValuePayload> => ({
+export const initialValue = (
+    form: string,
+    field: string,
+    value: string | number | boolean
+): IAction<IInitialValuePayload> => ({
     type: INITIAL_VALUE,
     payload: {
         form: form,

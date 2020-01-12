@@ -47,7 +47,9 @@ export class Slider extends React.Component<ISliderProps, ISliderState> {
                     transitionEnterTimeout={600}
                     transitionLeaveTimeout={600}
                 >
-                    {this._renderSlide(this.props.slides[this.state.currentSlide])}
+                    {this._renderSlide(
+                        this.props.slides[this.state.currentSlide]
+                    )}
                 </CSSTransitionGroup>
             </div>
         );
@@ -61,11 +63,19 @@ export class Slider extends React.Component<ISliderProps, ISliderState> {
                 </div>
 
                 <div className="headlines">
-                    {slide.headLines.map((l, i) => <h2 key={i}><i>{l}</i></h2>)}
+                    {slide.headLines.map((l, i) => (
+                        <h2 key={i}>
+                            <i>{l}</i>
+                        </h2>
+                    ))}
                 </div>
 
                 <div className="bodylines">
-                    {slide.bodyLines.map((l, i) => <h4 key={i}><i>{l}</i></h4>)}
+                    {slide.bodyLines.map((l, i) => (
+                        <h4 key={i}>
+                            <i>{l}</i>
+                        </h4>
+                    ))}
                 </div>
             </div>
         );

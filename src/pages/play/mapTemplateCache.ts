@@ -1,22 +1,32 @@
-
 import { getCachedClient } from "../../clients/clientFactory";
 import { imageBaseUri } from "../../configuration";
-import { CountryTemplate, MapClient, MapTemplate, Continent } from "../../external/imperaClients";
+import {
+    CountryTemplate,
+    MapClient,
+    MapTemplate,
+    Continent
+} from "../../external/imperaClients";
 
 export function getMapTemplate(name: string): Promise<MapTemplateCacheEntry> {
     if (mapTemplateCache[name]) {
         return mapTemplateCache[name];
     }
 
-    return getCachedClient(MapClient).getMapTemplate(name).then(mapTemplate => {
-        mapTemplateCache[name] = Promise.resolve(new MapTemplateCacheEntry(mapTemplate));
+    return getCachedClient(MapClient)
+        .getMapTemplate(name)
+        .then(mapTemplate => {
+            mapTemplateCache[name] = Promise.resolve(
+                new MapTemplateCacheEntry(mapTemplate)
+            );
 
-        return mapTemplateCache[name];
-    });
+            return mapTemplateCache[name];
+        });
 }
 
 export class MapTemplateCacheEntry {
-    private _continentsByCountryIdentifier: { [countryIdentifier: string]: Continent } = {};
+    private _continentsByCountryIdentifier: {
+        [countryIdentifier: string]: Continent;
+    } = {};
     private _countries: { [id: string]: CountryTemplate } = {};
     private _connections: { [id: string]: { [id: string]: boolean } } = {};
 
@@ -27,9 +37,13 @@ export class MapTemplateCacheEntry {
 
         for (let connection of mapTemplate.connections) {
             if (this._connections[connection.origin]) {
-                this._connections[connection.origin][connection.destination] = true;
+                this._connections[connection.origin][
+                    connection.destination
+                ] = true;
             } else {
-                this._connections[connection.origin] = { [connection.destination]: true };
+                this._connections[connection.origin] = {
+                    [connection.destination]: true
+                };
             }
         }
 

@@ -4,7 +4,11 @@ import { connect } from "react-redux";
 import { push } from "react-router-redux";
 import { GridColumn, GridRow } from "../../components/layout";
 import { Section } from "../../components/ui/typography";
-import { FolderInformation, Message, MessageFolder } from "../../external/imperaClients";
+import {
+    FolderInformation,
+    Message,
+    MessageFolder
+} from "../../external/imperaClients";
 import { autobind } from "../../lib/autobind";
 import { IState } from "../../reducers";
 import { FolderList } from "./components/FolderList";
@@ -30,29 +34,42 @@ export class MessagesComponent extends React.Component<IMessagesProps> {
     }
 
     public render(): JSX.Element {
-        const { folderInformation, currentFolder, currentMessages } = this.props;
+        const {
+            folderInformation,
+            currentFolder,
+            currentMessages
+        } = this.props;
 
         return (
             <GridRow>
                 <GridColumn className="col-md-9 col-md-push-3 col-xs-12">
                     <Section
-                        additionalContent={<div
-                            className="pull-right clearfix"
-                        >
-                            <Button onClick={this._compose}>
-                                <i className="fa fa-envelope-o" />&nbsp;{__("Compose")}
-                            </Button>
-                        </div>}
+                        additionalContent={
+                            <div className="pull-right clearfix">
+                                <Button onClick={this._compose}>
+                                    <i className="fa fa-envelope-o" />
+                                    &nbsp;{__("Compose")}
+                                </Button>
+                            </div>
+                        }
                     >
                         {FolderName(currentFolder)}
                     </Section>
 
-                    <MessageList messages={currentMessages} onMessageSelect={this._selectMessage} onMessageDelete={this._deleteMessage} />
+                    <MessageList
+                        messages={currentMessages}
+                        onMessageSelect={this._selectMessage}
+                        onMessageDelete={this._deleteMessage}
+                    />
                 </GridColumn>
 
                 <GridColumn className="col-md-3 col-md-pull-9 col-xs-12">
                     <Section>{__("Folders")}</Section>
-                    <FolderList onFolderSelect={this._changeFolder} folders={folderInformation} selectedFolder={currentFolder} />
+                    <FolderList
+                        onFolderSelect={this._changeFolder}
+                        folders={folderInformation}
+                        selectedFolder={currentFolder}
+                    />
                 </GridColumn>
             </GridRow>
         );
@@ -79,24 +96,31 @@ export class MessagesComponent extends React.Component<IMessagesProps> {
     }
 }
 
-export default connect((state: IState) => {
-    const messages = state.messages;
+export default connect(
+    (state: IState) => {
+        const messages = state.messages;
 
-    return {
-        currentFolder: messages.currentFolder,
-        currentMessages: messages.currentMessages,
-        folderInformation: messages.folderInformation
-    };
-}, (dispatch) => ({
-    init: () => {
-        dispatch(load(null));
+        return {
+            currentFolder: messages.currentFolder,
+            currentMessages: messages.currentMessages,
+            folderInformation: messages.folderInformation
+        };
     },
-    switchFolder: (folder: MessageFolder) => { dispatch(switchFolder(folder)); },
-    compose: () => { dispatch(push("/game/messages/compose")); },
-    open: (message: Message) => {
-        dispatch(push(`/game/messages/${message.id}`));
-    },
-    delete: (message: Message) => {
-        dispatch(deleteMessage(message.id));
-    }
-}))(MessagesComponent);
+    dispatch => ({
+        init: () => {
+            dispatch(load(null));
+        },
+        switchFolder: (folder: MessageFolder) => {
+            dispatch(switchFolder(folder));
+        },
+        compose: () => {
+            dispatch(push("/game/messages/compose"));
+        },
+        open: (message: Message) => {
+            dispatch(push(`/game/messages/${message.id}`));
+        },
+        delete: (message: Message) => {
+            dispatch(deleteMessage(message.id));
+        }
+    })
+)(MessagesComponent);

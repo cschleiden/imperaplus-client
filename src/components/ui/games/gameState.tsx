@@ -5,7 +5,9 @@ import "./playerOutcome.scss";
 import { GameState } from "../../../external/imperaClients";
 import { css } from "../../../lib/css";
 
-export const GameStateDisplay: React.StatelessComponent<{ gameState: GameState }> = (props: { gameState: GameState }): JSX.Element => {
+export const GameStateDisplay: React.StatelessComponent<{
+    gameState: GameState;
+}> = (props: { gameState: GameState }): JSX.Element => {
     const { gameState } = props;
 
     let icon: string;
