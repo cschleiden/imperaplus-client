@@ -24,9 +24,16 @@ jobs:
     needs: build
     runs-on: windows-latest
 
-    steps:
+    steps:      
+      - uses: actions/checkout@v2
       - uses: actions/download-artifact@v1
         with:
           name: build
-          path: ./
-      - run: dir
+          path: ./dist
+      - name: Replace base uris in deployment
+        uses: cschleiden/replace-tokens@master
+        with:
+          files: '["./dist/**/*.js"]'
+          BaseUri: https://dev.imperaonline.de/
+          ImageBaseUri: https://static.imperaonline.de/maps/
+      # - run: ./scripts/deployFrontend.ps1 -Source './dist' -Destination '$(Website)/$(DestFolder)' -AdditionalArguments "-verbose -enableRule:DoNotDeleteRule" -Username $(Login) -Password $(Password) -AuthType 'basic' -DestinationComputer 'https://imperaonline.de:8172/msdeploy.axd?site=$(Website)'
