@@ -1,5 +1,7 @@
 # ImperaPlus Client
 
+![Build](https://github.com/cschleiden/imperaplus-client/workflows/Build/badge.svg)
+
 ## Getting started
 
 1. npm install
