@@ -16,4 +16,4 @@ REST clients are generated using NSwagStudio, settings file is in the imperaplus
 
 ### SignalR
 
-SignalR clients (chat, game chat, notifications) are hand-rolled for now, same for the DTOs. 
+SignalR clients (chat, game chat, notifications) are hand-rolled for now, same for the DTOs.
