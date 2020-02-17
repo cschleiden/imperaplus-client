@@ -5,14 +5,18 @@ on:
     branches:
       - master
 
-jobs: 
+jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
-        with: 
+        with:
           node-version: 12.x
       - run: npm ci
       - run: npm run build
+      - uses: actions/upload-artifact@v1
+        with:
+          name: build
+          path: dist
