@@ -251,7 +251,15 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
                 onClick={this._onExchangeCards}
                 disabled={!inputActive || game.playState !== PlayState.PlaceUnits}
             >
-                <Cards cards={player && player.cards} />
+                <Cards cards={player && player.cards}/>
+                <span>
+                    <span>
+                        &nbsp;/&nbsp;
+                    </span>
+                        <span className="badge">
+                        {game.options.maximumNumberOfCards}
+                    </span>
+                </span>
             </Button>
         );
     }
