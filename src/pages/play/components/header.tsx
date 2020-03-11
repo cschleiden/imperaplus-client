@@ -101,11 +101,12 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
 
                 {/* Actions */}
                 <div className="play-header-block">
-                    {inputActive && game.playState === PlayState.PlaceUnits &&
+                    {(game.playState === PlayState.PlaceUnits || !inputActive) &&
                         <Button
                             title={__("Place")}
                             className={css(
-                                "btn-u",
+                                "action-place",
+                                    "btn-u",
                                 {
                                     "current": game.playState === PlayState.PlaceUnits,
                                     "enabled": canPlace,
@@ -118,70 +119,48 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
                         </Button>
                     }
 
-                    {inputActive && game.playState === PlayState.Attack &&
-                        <ButtonGroup className="action-attack">
-                            <Button
-                                key="attack"
-                                title={__("Attack")}
-                                className={css(
-                                    "btn-u",
-                                    {
-                                        "current": game.playState === PlayState.Attack,
-                                        "enabled": true
-                                    })}
-                                disabled={!canMoveOrAttack}
-                                onClick={this._onAttack}
-                            >
-                                <span className="fa fa-crosshairs" />&nbsp;<span>
-                                    {game.attacksInCurrentTurn}/{game.options.attacksPerTurn}
-                                </span>
-                            </Button>
-                            <Button key="endattack" title={__("Change to move")} className="btn-u" onClick={this._onEndAttack}>
-                                <span className="fa fa-mail-forward" />
-                            </Button>
-                        </ButtonGroup>
-                    }
-
-                    {inputActive && (game.playState === PlayState.Attack || game.playState === PlayState.Move) &&
+                    <ButtonGroup className="action-attack">
                         <Button
-                            title={__("Move")}
+                            key="attack"
+                            title={__("Attack")}
                             className={css(
                                 "btn-u",
-                                "action-move",
                                 {
-                                    "current": game.playState === PlayState.Move,
-                                    "enabled": canMoveOrAttack && game.playState === PlayState.Move,
-                                    "hidden-xs": game.playState !== PlayState.Move
-                                })
-                            }
-                            onClick={this._onMove}
-                            disabled={!canMoveOrAttack || game.playState !== PlayState.Move}
-                        >
-                            <span className="fa fa-mail-forward" />&nbsp;<span>
-                                {game.movesInCurrentTurn}/{game.options.movesPerTurn}
-                            </span>
-                        </Button>
-                    }
-
-                    {!inputActive &&
-                        <Button
-                            title={__("Wait")}
-                            className={css(
-                                "btn-u",
-                                "action-none",
-                                {
-                                    "current": game.playState === PlayState.Move,
-                                    "enabled": false,
-                                    "hidden-xs": game.playState !== PlayState.Move
-                                })
-                            }
+                                    "current": game.playState === PlayState.Attack,
+                                    "enabled": true
+                                })}
                             disabled={!canMoveOrAttack}
+                            onClick={this._onAttack}
                         >
-                            <span className="fa fa-mail-forward" />&nbsp;<span>
-                                {game.movesInCurrentTurn}/{game.options.movesPerTurn}
+                            <span className="fa fa-crosshairs"/>&nbsp;<span>
+                                {game.attacksInCurrentTurn}/{game.options.attacksPerTurn}
                             </span>
                         </Button>
-                    }
+                        {game.playState !== PlayState.PlaceUnits && !inputActive &&
+                            <Button key="endattack" title={__("Change to move")} className="btn-u" onClick={this._onEndAttack}>
+                            <span className="fa fa-mail-forward"/>
+                        </Button>
+                        }
+                    </ButtonGroup>
+
+                    <Button
+                        title={__("Move")}
+                        className={css(
+                            "btn-u",
+                            "action-move",
+                            {
+                                "current": game.playState === PlayState.Move,
+                                "enabled": canMoveOrAttack && game.playState === PlayState.Move,
+                                "hidden-xs": game.playState !== PlayState.Move
+                            })
+                        }
+                        onClick={this._onMove}
+                        disabled={!canMoveOrAttack || game.playState !== PlayState.Move}
+                    >
+                        <span className="fa fa-mail-forward"/>&nbsp;<span>
+                                {game.movesInCurrentTurn}/{game.options.movesPerTurn}
+                            </span>
+                    </Button>
                 </div>
 
                 {/* End Turn */}
@@ -204,7 +183,12 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
 
                 {/* Mobile right section */}
                 <div className="play-header-block right visible-xs">
-                    <OverlayTrigger trigger="click" rootClose={true} placement="bottom" overlay={this._mobileGameActions()}>
+                    <OverlayTrigger
+                        trigger="click"
+                        rootClose={true}
+                        placement="bottom"
+                        overlay={this._mobileGameActions()}
+                    >
                         <Button
                             className="btn btn-u"
                         >
@@ -251,7 +235,15 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
                 onClick={this._onExchangeCards}
                 disabled={!inputActive || game.playState !== PlayState.PlaceUnits}
             >
-                <Cards cards={player && player.cards} />
+                <Cards cards={player && player.cards}/>
+                <span>
+                    <span>
+                        &nbsp;/&nbsp;
+                    </span>
+                        <span className="badge">
+                        {game.options.maximumNumberOfCards}
+                    </span>
+                </span>
             </Button>
         );
     }
@@ -265,7 +257,11 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
                     <span className="fa fa-cog" />
                 </Dropdown.Toggle>
                 <Dropdown.Menu className="super-colors">
-                    <MenuItem eventKey="showTeamsOnMap" onSelect={this._toggleGameUiOption as any} active={gameUiOptions.showTeamsOnMap}>
+                    <MenuItem
+                        eventKey="showTeamsOnMap"
+                        onSelect={this._toggleGameUiOption as any}
+                        active={gameUiOptions.showTeamsOnMap}
+                    >
                         {__("Show teams on map [CTRL]")}
                     </MenuItem>
                 </Dropdown.Menu>
