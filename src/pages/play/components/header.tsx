@@ -119,6 +119,7 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
                         </Button>
                     }
 
+                    {inputActive &&
                     <ButtonGroup className="action-attack">
                         {game.playState !== PlayState.Move &&
                         <Button
@@ -139,12 +140,19 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
                         </Button>
                         }
                         {game.playState === PlayState.Attack &&
-                            <Button key="endattack" title={__("Change to move")} className="btn-u" onClick={this._onEndAttack}>
+                        <Button
+                            key="endattack"
+                            title={__("Change to move")}
+                            className="btn-u"
+                            onClick={this._onEndAttack}
+                        >
                             <span className="fa fa-mail-forward"/>
                         </Button>
                         }
                     </ButtonGroup>
+                    }
 
+                    {inputActive &&
                     <Button
                         title={__("Move")}
                         className={css(
@@ -163,8 +171,8 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
                                 {game.movesInCurrentTurn}/{game.options.movesPerTurn}
                             </span>
                     </Button>
+                    }
                 </div>
-
                 {/* End Turn */}
                 {inputActive && game.playState !== PlayState.PlaceUnits && <div className="play-header-block">
                     <Button
