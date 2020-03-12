@@ -8,6 +8,7 @@ import GameDetails from "./gameDetail";
 import "./gameList.scss";
 import { GameStateDisplay } from "./gameState";
 import { PlayerOutcomeDisplay } from "./playerOutcome";
+import { HumanTime } from "../humanDate";
 
 interface IGameListProps {
     games: GameSummary[];
@@ -17,6 +18,8 @@ interface IGameListProps {
     showCreatedBy?: boolean;
 
     showActive?: boolean;
+
+    showTimeout?: boolean;
 
     additionalColumns?: { [columnKey: string]: (game: GameSummary) => JSX.Element };
 }
@@ -51,7 +54,7 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
     }
 
     private _renderHeader() {
-        const { showActive = true, showCreatedBy = false, additionalColumns = {} } = this.props;
+        const { showActive = true, showTimeout = false, showCreatedBy = false, additionalColumns = {} } = this.props;
 
         return (
             <tr>
@@ -62,6 +65,7 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
                 {showCreatedBy && <th className="hidden-xs username">{__("Created By")}</th>}
                 {showActive && <th className="hidden-xs username">{__("Active")}</th>}
                 <th className="hidden-xs hidden-sm text-center">{__("Teams/Players")}</th>
+                {showTimeout && <th className="timeout">{__("Timeout")}</th>}
                 {showActive && <th className="timer">{__("Time")}</th>}
                 {showActive && <th className="state">{__("State")}</th>}
                 {
@@ -75,7 +79,7 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
     }
 
     private _renderGameRow(game: GameSummary): JSX.Element[] {
-        const { showActive = true, showCreatedBy = false, userId, additionalColumns = {} } = this.props;
+        const { showActive = true, showTimeout = false, showCreatedBy = false, userId, additionalColumns = {} } = this.props;
 
         const player = this._playerForGame(game);
 
@@ -112,15 +116,18 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
                     </td>
                 }
                 <td className="hidden-xs hidden-sm text-center">{`${game.options.numberOfTeams}/${game.options.numberOfPlayersPerTeam}`}</td>
+                {showTimeout && <td className="hidden-xs hidden-sm text-center nowrap">
+                    {HumanTime(game.options.timeoutInSeconds)}
+                </td>}
                 {showActive && <td>
                     {this._renderTimer(game)}
                 </td>}
                 {/* Game state */}
                 {
                     showActive && <td>
-                        <GameStateDisplay gameState={game.state} />
+                        <GameStateDisplay gameState={game.state}/>
                         {player && <span>
-                            &nbsp;-&nbsp;<PlayerOutcomeDisplay outcome={player.outcome} />
+                            &nbsp;-&nbsp;<PlayerOutcomeDisplay outcome={player.outcome}/>
                         </span>}
                     </td>
                 }
@@ -136,7 +143,7 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
                         title={__("Show details")}
                         onClick={() => this._toggle(game.id)}
                     >
-                        <Glyphicon glyph="info-sign" />
+                        <Glyphicon glyph="info-sign"/>
                     </Button>
                 </td>
             </tr>
