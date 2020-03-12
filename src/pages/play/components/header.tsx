@@ -136,7 +136,7 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
                                 {game.attacksInCurrentTurn}/{game.options.attacksPerTurn}
                             </span>
                         </Button>
-                        {game.playState !== PlayState.PlaceUnits && !inputActive &&
+                        {game.playState === PlayState.Attack &&
                             <Button key="endattack" title={__("Change to move")} className="btn-u" onClick={this._onEndAttack}>
                             <span className="fa fa-mail-forward"/>
                         </Button>
