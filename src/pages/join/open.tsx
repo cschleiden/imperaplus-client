@@ -38,8 +38,9 @@ export class FunGamesComponent extends React.Component<IFunGamesProps> {
                     </div>
 
                     <GameList
-                        showCreatedBy={true}
+                        showCreatedBy={false}
                         showActive={false}
+                        showTimeout={true}
                         games={this.props.funGames}
                         userId={userId}
                         additionalColumns={{
