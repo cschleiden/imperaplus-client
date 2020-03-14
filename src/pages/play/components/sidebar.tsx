@@ -19,6 +19,7 @@ interface ISidebarProps {
 class Sidebar extends React.Component<ISidebarProps> {
     render(): JSX.Element {
         const { game, otherGames } = this.props;
+        const realOtherGames = otherGames.filter((g) => g.id !== game.id);
 
         return (
             <div className="play-sidebar">
@@ -32,7 +33,7 @@ class Sidebar extends React.Component<ISidebarProps> {
                 <GameStats game={game} />
 
                 <SubSection>{__("Other Games")}</SubSection>
-                <GameLinkList games={otherGames} />
+                <GameLinkList games={realOtherGames} />
             </div>
         );
     }
