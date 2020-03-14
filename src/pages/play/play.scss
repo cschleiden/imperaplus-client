@@ -45,7 +45,12 @@
     transition: all 0.3s ease;
 
     background: white;
-    
+
+    & .fixed {
+        position: fixed;
+        width: 100%;
+    }
+
     &.sidebar {
         transform: translate3d($sidebarWidth, 0px, 0px);
         right: $sidebarWidth;

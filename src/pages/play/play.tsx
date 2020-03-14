@@ -94,6 +94,7 @@ class Play extends React.Component<IPlayProps & IPlayDispatchProps> {
                     })}
                 >
                     {error && <Alert
+                        className="fixed"
                         bsStyle="danger"
                         onDismiss={this._clearError}
                     >
