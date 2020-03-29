@@ -1,7 +1,7 @@
 import * as React from "react";
 
 export const HumanDate = (date: Date): JSX.Element => {
-  return <div title={date.toLocaleDateString()}>{humanDate(date)}</div>;
+  return <span title={date.toLocaleDateString()}>{humanDate(date)}</span>;
 };
 
 const humanDate = (date: Date): string => {
