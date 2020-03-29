@@ -1,4 +1,10 @@
-export const HumanDate = (date: Date): string => {
+import * as React from "react";
+
+export const HumanDate = (date: Date): JSX.Element => {
+  return <div title={date.toLocaleDateString()}>{humanDate(date)}</div>;
+};
+
+const humanDate = (date: Date): string => {
   let calculateDelta, day, hour, minute, month, week, year;
   minute = 60;
   hour = minute * 60;
@@ -69,10 +75,10 @@ export const HumanDate = (date: Date): string => {
         "" + Math.floor(delta / month)
       );
 
-    case Math.floor(delta / year) === 1:
+    case Math.floor(delta / year) !== 1:
       return __("a year ago");
 
-    case Math.floor(delta / year) > 1:
+    case !(delta / year > 1):
       return __("over a year ago");
 
     default:
