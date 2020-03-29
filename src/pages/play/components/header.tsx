@@ -100,9 +100,8 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
                 </div>
 
                 {/* Actions */}
-                {inputActive && <div className="play-header-block">
-                    {
-                        game.playState === PlayState.PlaceUnits &&
+                <div className="play-header-block">
+                    {inputActive && game.playState === PlayState.PlaceUnits &&
                         <Button
                             title={__("Place")}
                             className={css(
@@ -119,8 +118,7 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
                         </Button>
                     }
 
-                    {
-                        game.playState === PlayState.Attack &&
+                    {inputActive && game.playState === PlayState.Attack &&
                         <ButtonGroup className="action-attack">
                             <Button
                                 key="attack"
@@ -144,8 +142,7 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
                         </ButtonGroup>
                     }
 
-                    {
-                        (game.playState === PlayState.Attack || game.playState === PlayState.Move) &&
+                    {inputActive && (game.playState === PlayState.Attack || game.playState === PlayState.Move) &&
                         <Button
                             title={__("Move")}
                             className={css(
@@ -165,7 +162,27 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
                             </span>
                         </Button>
                     }
-                </div>}
+
+                    {!inputActive &&
+                        <Button
+                            title={__("Wait")}
+                            className={css(
+                                "btn-u",
+                                "action-none",
+                                {
+                                    "current": game.playState === PlayState.Move,
+                                    "enabled": false,
+                                    "hidden-xs": game.playState !== PlayState.Move
+                                })
+                            }
+                            disabled={!canMoveOrAttack}
+                        >
+                            <span className="fa fa-mail-forward" />&nbsp;<span>
+                                {game.movesInCurrentTurn}/{game.options.movesPerTurn}
+                            </span>
+                        </Button>
+                    }
+                </div>
 
                 {/* End Turn */}
                 {inputActive && game.playState !== PlayState.PlaceUnits && <div className="play-header-block">
