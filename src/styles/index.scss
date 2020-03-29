@@ -125,13 +125,6 @@ button.btn-default {
     }
 }
 
-// Two column layout divider
-@media (min-width: $screen-md-min) {
-    .col-border-right {
-        border-right: 1pt solid lightgray;
-    }
-}
-
 // Vertical spacing for stacked columns
 @media (max-width: 768px) {
     [class*="col-"] {
