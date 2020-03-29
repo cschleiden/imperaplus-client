@@ -23,7 +23,9 @@ import {
   get,
   leave,
   requestJoin,
-  updateRequest
+  updateRequest,
+  removeMember,
+  changeAdmin
 } from "./alliances.actions";
 
 export interface IAllianceInfoProps {
@@ -53,6 +55,8 @@ export interface IAllianceInfoProps {
     requestId: string,
     state: AllianceJoinRequestState
   ) => void;
+  removeMember: (allianceId: string, userId: string) => void;
+  changeAdmin: (allianceId: string, userId: string, isAdmin: boolean) => void;
 }
 
 export class AllianceInfoComponent extends React.Component<IAllianceInfoProps> {
@@ -76,6 +80,8 @@ export class AllianceInfoComponent extends React.Component<IAllianceInfoProps> {
       requests,
       canJoin,
       updateRequest,
+      removeMember,
+      changeAdmin,
       hasPendingRequest,
       userId
     } = this.props;
@@ -102,15 +108,30 @@ export class AllianceInfoComponent extends React.Component<IAllianceInfoProps> {
                         bsSize="xsmall"
                         bsStyle="link"
                         title={__("Remove user from alliance")}
+                        onClick={() => {
+                          removeMember(alliance.id, member.id);
+                        }}
                       >
                         {__("Remove")}
                       </Button>
                       {!alliance.admins.some(a => a.id === member.id) ? (
-                        <Button bsSize="xsmall" bsStyle="link">
+                        <Button
+                          bsSize="xsmall"
+                          bsStyle="link"
+                          onClick={() => {
+                            changeAdmin(alliance.id, member.id, true);
+                          }}
+                        >
                           {__("Make admin")}
                         </Button>
                       ) : (
-                        <Button bsSize="xsmall" bsStyle="link">
+                        <Button
+                          bsSize="xsmall"
+                          bsStyle="link"
+                          onClick={() => {
+                            changeAdmin(alliance.id, member.id, false);
+                          }}
+                        >
                           {__("Remove admin")}
                         </Button>
                       )}
@@ -362,6 +383,23 @@ export default connect(
           allianceId,
           requestId,
           state
+        })
+      );
+    },
+    changeAdmin: (allianceId: string, userId: string, isAdmin: boolean) => {
+      dispatch(
+        changeAdmin({
+          allianceId,
+          userId,
+          isAdmin
+        })
+      );
+    },
+    removeMember: (allianceId: string, userId: string) => {
+      dispatch(
+        removeMember({
+          allianceId,
+          userId
         })
       );
     }

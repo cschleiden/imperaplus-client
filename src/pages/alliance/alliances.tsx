@@ -9,64 +9,64 @@ import { Link } from "react-router";
 import { Loading } from "../../components/ui/loading";
 
 export interface IAllianceAdminProps {
-    alliances: AllianceSummary[];
+  alliances: AllianceSummary[];
 
-    refresh: () => void;
+  refresh: () => void;
 }
 
-export class AllianceAdminComponent extends React.Component<IAllianceAdminProps> {
-    public componentDidMount() {
-        this.props.refresh();
+export class AllianceAdminComponent extends React.Component<
+  IAllianceAdminProps
+> {
+  public componentDidMount() {
+    this.props.refresh();
+  }
+
+  public render(): JSX.Element {
+    const { alliances } = this.props;
+
+    if (!alliances) {
+      return <Loading />;
     }
 
-    public render(): JSX.Element {
-        const { alliances } = this.props;
-
-        if (!alliances) {
-            return <Loading />;
-        }
-
-        return (
-            <GridColumn className="col-xs-12">
-                <Table striped hover responsive>
-                    <thead>
-                        <tr>
-                            <th>
-                                {__("Name")}
-                            </th>
-                            <th className="text-center">
-                                {__("Members")}
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            alliances.map(alliance =>
-                                <tr key={alliance.id}>
-                                    <td>
-                                        <Link to={`/game/alliances/${alliance.id}`}>
-                                            {alliance.name}
-                                        </Link>
-                                    </td>
-                                    <td className="text-center">
-                                        {alliance.numberOfMembers}
-                                    </td>
-                                </tr>
-                            )
-                        }
-                    </tbody>
-                </Table>
-            </GridColumn>
-        );
-    }
+    return (
+      <GridColumn className="col-xs-12">
+        <Table striped hover responsive>
+          <thead>
+            <tr>
+              <th>{__("Name")}</th>
+              <th className="text-center">{__("Members")}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {alliances.map(alliance => (
+              <tr key={alliance.id}>
+                <td>
+                  <Link to={`/game/alliances/${alliance.id}`}>
+                    {alliance.name}
+                  </Link>
+                </td>
+                <td className="text-center">{alliance.numberOfMembers}</td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </GridColumn>
+    );
+  }
 }
 
-export default connect((state: IState) => {
-    const s = state.alliances;
+export default connect(
+  (state: IState) => {
+    const alliances = state.alliances.alliances;
+    alliances.sort((a, b) => b.numberOfMembers - a.numberOfMembers);
 
     return {
-        alliances: s.alliances
+      alliances
     };
-}, (dispatch) => ({
-    refresh: () => { dispatch(refresh(null)); },
-}))(AllianceAdminComponent);
+  },
+  dispatch => ({
+    refresh: () => {
+      dispatch(refresh(null));
+    }
+  })
+)(AllianceAdminComponent);
