@@ -175,7 +175,7 @@ class Map extends React.Component<IMapProps, IMapState> {
 
         const isTeamGame = game.options.numberOfPlayersPerTeam > 1;
 
-        return mapTemplate.countries.map((countryTemplate) => {
+        return mapTemplate.countries.map(countryTemplate => {
             const country = idToCountry[countryTemplate.identifier];
 
             const player =
@@ -224,7 +224,7 @@ class Map extends React.Component<IMapProps, IMapState> {
                             countryTemplate={countryTemplate}
                             value={placeUnits}
                             onKeyUp={this._onKeyUp}
-                            onChange={(inputUnits) =>
+                            onChange={inputUnits =>
                                 this.props.setUnits(
                                     countryTemplate.identifier,
                                     inputUnits
@@ -310,7 +310,7 @@ class Map extends React.Component<IMapProps, IMapState> {
                     } as any)
                 );
 
-                this._jsPlumb.bind("click", (connection) => {
+                this._jsPlumb.bind("click", connection => {
                     const targetId: string = connection.targetId;
                     this.props.selectCountry(targetId);
                 });
@@ -375,7 +375,7 @@ class Map extends React.Component<IMapProps, IMapState> {
                 [
                     "Custom",
                     {
-                        create: (component) => {
+                        create: component => {
                             return $(this._inputElementPlaceholder);
                         },
                         location: 0.4,
@@ -556,7 +556,7 @@ class Map extends React.Component<IMapProps, IMapState> {
         let result: JSX.Element[] = [];
 
         for (let action of actions.filter(
-            (a) => a.action === HistoryAction.PlaceUnits
+            a => a.action === HistoryAction.PlaceUnits
         )) {
             const countryTemplate = mapTemplate.country(
                 action.originIdentifier
@@ -670,7 +670,7 @@ export default connect(
             },
         } as IMapProps;
     },
-    (dispatch) => ({
+    dispatch => ({
         selectCountry: (countryIdentifier: string) => {
             dispatch(selectCountry(countryIdentifier));
         },

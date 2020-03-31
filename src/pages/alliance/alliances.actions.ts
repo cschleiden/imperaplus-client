@@ -25,11 +25,11 @@ export const create = makePromiseAction(
             promise: deps
                 .getCachedClient(AllianceClient)
                 .create(input)
-                .then((alliance) => {
+                .then(alliance => {
                     // Refresh profile, the user is now a member of an alliance
                     deps.getCachedClient(FixedAccountClient)
                         .getUserInfo()
-                        .then((userInfo) => {
+                        .then(userInfo => {
                             dispatch(updateUserInfo(userInfo));
                             dispatch(push(`/game/alliances/${alliance.id}`));
                         });
@@ -49,7 +49,7 @@ export const deleteAlliance = makePromiseAction(
                     // Refresh profile, the user is not in an alliance anymore
                     deps.getCachedClient(FixedAccountClient)
                         .getUserInfo()
-                        .then((userInfo) => {
+                        .then(userInfo => {
                             dispatch(updateUserInfo(userInfo));
                         });
 
@@ -79,7 +79,7 @@ export const get = makePromiseAction(
 
         return {
             payload: {
-                promise: client.get(id).then((alliance) => {
+                promise: client.get(id).then(alliance => {
                     const userInfo = getState().session.userInfo;
                     if (userInfo.allianceAdmin && userInfo.allianceId === id) {
                         // If the user is an admin of the current alliance, also retrieve requests for the alliance
@@ -130,7 +130,7 @@ export const leave = makePromiseAction(
                     // Refresh profile, the user is now a member of an alliance
                     deps.getCachedClient(FixedAccountClient)
                         .getUserInfo()
-                        .then((userInfo) => {
+                        .then(userInfo => {
                             dispatch(updateUserInfo(userInfo));
                             dispatch(push(`/game/alliances`));
                         });
@@ -168,6 +168,57 @@ export const updateRequest = makePromiseAction(
                     dispatch(get(input.allianceId));
                 }
                 dispatch(getRequests(input.allianceId));
+            },
+        },
+    })
+);
+
+export interface IRemoveMemberOptions {
+    allianceId: string;
+    userId: string;
+}
+export const removeMember = makePromiseAction(
+    "alliance-member-remove",
+    (
+        { allianceId, userId }: IRemoveMemberOptions,
+        dispatch,
+        getState,
+        deps
+    ) => ({
+        payload: {
+            promise: deps
+                .getCachedClient(AllianceClient)
+                .removeMember(allianceId, userId),
+        },
+        options: {
+            afterSuccess: () => {
+                dispatch(get(allianceId));
+            },
+        },
+    })
+);
+
+export interface IChangeAdminOptions {
+    allianceId: string;
+    userId: string;
+    isAdmin: boolean;
+}
+export const changeAdmin = makePromiseAction(
+    "alliance-change-admin",
+    (
+        { allianceId, userId, isAdmin }: IChangeAdminOptions,
+        dispatch,
+        getState,
+        deps
+    ) => ({
+        payload: {
+            promise: deps
+                .getCachedClient(AllianceClient)
+                .changeAdmin(allianceId, userId, isAdmin),
+        },
+        options: {
+            afterSuccess: () => {
+                dispatch(get(allianceId));
             },
         },
     })

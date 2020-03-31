@@ -17,7 +17,7 @@ export interface IStartPayload {
 }
 
 export const SHOW_HIDE = "chat-show-hide";
-export const showHide: IAsyncAction<boolean> = (show) => (
+export const showHide: IAsyncAction<boolean> = show => (
     dispatch,
     getState,
     deps

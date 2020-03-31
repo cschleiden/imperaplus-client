@@ -38,7 +38,7 @@ export class AllianceAdminComponent extends React.Component<
                         </tr>
                     </thead>
                     <tbody>
-                        {alliances.map((alliance) => (
+                        {alliances.map(alliance => (
                             <tr key={alliance.id}>
                                 <td>
                                     <Link to={`/game/alliances/${alliance.id}`}>
@@ -59,13 +59,14 @@ export class AllianceAdminComponent extends React.Component<
 
 export default connect(
     (state: IState) => {
-        const s = state.alliances;
+        const alliances = state.alliances.alliances;
+        alliances.sort((a, b) => b.numberOfMembers - a.numberOfMembers);
 
         return {
-            alliances: s.alliances,
+            alliances,
         };
     },
-    (dispatch) => ({
+    dispatch => ({
         refresh: () => {
             dispatch(refresh(null));
         },

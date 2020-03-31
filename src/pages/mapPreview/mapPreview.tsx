@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { setTitle } from "../../common/general/general.actions";
-import { GridRow } from "../../components/layout";
+import { GridRow, GridColumn } from "../../components/layout";
 import { Loading } from "../../components/ui/loading";
 import { IState } from "../../reducers";
 import { MapView } from "../play/components/mapView";
@@ -40,14 +40,16 @@ export class MapPreviewerComponent extends React.Component<IMapPreviewerProps> {
         const { isLoading, mapTemplate } = this.props;
 
         return (
-            <GridRow>
-                {isLoading && <Loading />}
-                {!isLoading && (
-                    <div className="map-preview">
-                        <MapView mapTemplate={mapTemplate} />
-                    </div>
-                )}
-            </GridRow>
+            <GridColumn className="col-xs-12">
+                <GridRow>
+                    {isLoading && <Loading />}
+                    {!isLoading && (
+                        <div className="map-preview">
+                            <MapView mapTemplate={mapTemplate} />
+                        </div>
+                    )}
+                </GridRow>
+            </GridColumn>
         );
     }
 }
@@ -57,7 +59,7 @@ export default connect(
         isLoading: state.mapPreview.isLoading,
         mapTemplate: state.mapPreview.mapTemplate,
     }),
-    (dispatch) => ({
+    dispatch => ({
         loadMapTemplate: (name: string) => {
             dispatch(loadMapPreview(name));
         },

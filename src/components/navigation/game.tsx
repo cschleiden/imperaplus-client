@@ -78,9 +78,12 @@ const GameNavigation = (props: IGameNavigation): JSX.Element => {
                 </Link>
                 <ul className="nav-dropdown">
                     <li>
-                        <Link to="/game/alliances" activeClassName="active">
+                        <IndexLink
+                            to="/game/alliances"
+                            activeClassName="active"
+                        >
                             {__("Alliances")}
-                        </Link>
+                        </IndexLink>
                     </li>
                     {!memberOfAlliance && (
                         <li>
@@ -129,7 +132,7 @@ const GameNavigation = (props: IGameNavigation): JSX.Element => {
                     <li>
                         <a
                             href="#"
-                            onClick={(e) => {
+                            onClick={e => {
                                 logout();
 
                                 e.preventDefault();
@@ -173,7 +176,7 @@ export default connect(
             allianceId,
         };
     },
-    (dispatch) => ({
+    dispatch => ({
         logout: () => {
             dispatch(logout(null));
         },

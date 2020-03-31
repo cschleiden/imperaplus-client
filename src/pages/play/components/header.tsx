@@ -139,61 +139,66 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
                 </div>
 
                 {/* Actions */}
-                {inputActive && (
-                    <div className="play-header-block">
-                        {game.playState === PlayState.PlaceUnits && (
+                <div className="play-header-block">
+                    {inputActive && game.playState === PlayState.PlaceUnits && (
+                        <Button
+                            title={__("Place")}
+                            className={css("btn-u", {
+                                current:
+                                    game.playState === PlayState.PlaceUnits,
+                                enabled: canPlace,
+                                "hidden-xs":
+                                    game.playState !== PlayState.PlaceUnits,
+                            })}
+                            onClick={this._onPlace}
+                            disabled={!canPlace}
+                        >
+                            <span className="fa fa-dot-circle-o" />
+                            &nbsp;
+                            <span>
+                                {remainingPlaceUnits}/{game.unitsToPlace}
+                            </span>
+                        </Button>
+                    )}
+
+                    {inputActive && game.playState === PlayState.Attack && (
+                        <ButtonGroup className="action-attack">
                             <Button
-                                title={__("Place")}
+                                key="attack"
+                                title={__("Attack")}
                                 className={css("btn-u", {
                                     current:
-                                        game.playState === PlayState.PlaceUnits,
-                                    enabled: canPlace,
-                                    "hidden-xs":
-                                        game.playState !== PlayState.PlaceUnits,
+                                        game.playState === PlayState.Attack,
+                                    enabled: true,
                                 })}
-                                onClick={this._onPlace}
-                                disabled={!canPlace}
+                                disabled={!canMoveOrAttack}
+                                onClick={this._onAttack}
                             >
-                                <span className="fa fa-dot-circle-o" />
+                                <span className="fa fa-crosshairs" />
                                 &nbsp;
                                 <span>
-                                    {remainingPlaceUnits}/{game.unitsToPlace}
+                                    {game.attacksInCurrentTurn}/
+                                    {game.options.attacksPerTurn}
                                 </span>
                             </Button>
-                        )}
+                            <Button
+                                key="endattack"
+                                title={__("Change to move")}
+                                className="btn-u"
+                                onClick={this._onEndAttack}
+                            >
+                                <span className="fa fa-mail-forward" />
+                                &nbsp;
+                                <span>
+                                    {game.movesInCurrentTurn}/
+                                    {game.options.movesPerTurn}
+                                </span>
+                            </Button>
+                        </ButtonGroup>
+                    )}
 
-                        {game.playState === PlayState.Attack && (
-                            <ButtonGroup className="action-attack">
-                                <Button
-                                    key="attack"
-                                    title={__("Attack")}
-                                    className={css("btn-u", {
-                                        current:
-                                            game.playState === PlayState.Attack,
-                                        enabled: true,
-                                    })}
-                                    disabled={!canMoveOrAttack}
-                                    onClick={this._onAttack}
-                                >
-                                    <span className="fa fa-crosshairs" />
-                                    &nbsp;
-                                    <span>
-                                        {game.attacksInCurrentTurn}/
-                                        {game.options.attacksPerTurn}
-                                    </span>
-                                </Button>
-                                <Button
-                                    key="endattack"
-                                    title={__("Change to move")}
-                                    className="btn-u"
-                                    onClick={this._onEndAttack}
-                                >
-                                    <span className="fa fa-mail-forward" />
-                                </Button>
-                            </ButtonGroup>
-                        )}
-
-                        {(game.playState === PlayState.Attack ||
+                    {inputActive &&
+                        (game.playState === PlayState.Attack ||
                             game.playState === PlayState.Move) && (
                             <Button
                                 title={__("Move")}
@@ -219,8 +224,26 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
                                 </span>
                             </Button>
                         )}
-                    </div>
-                )}
+
+                    {!inputActive && (
+                        <Button
+                            title={__("Wait")}
+                            className={css("btn-u", "action-none", {
+                                current: game.playState === PlayState.Move,
+                                enabled: false,
+                                "hidden-xs": game.playState !== PlayState.Move,
+                            })}
+                            disabled={!canMoveOrAttack}
+                        >
+                            <span className="fa fa-mail-forward" />
+                            &nbsp;
+                            <span>
+                                {game.movesInCurrentTurn}/
+                                {game.options.movesPerTurn}
+                            </span>
+                        </Button>
+                    )}
+                </div>
 
                 {/* End Turn */}
                 {inputActive && game.playState !== PlayState.PlaceUnits && (
@@ -284,9 +307,10 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
         return (
             <Button
                 className="btn btn-u"
-                title={`${__("Exchange cards")} (${
-                    (player && player.cards && player.cards.length) || 0
-                }/${game.options.maximumNumberOfCards})`}
+                title={`${__("Exchange cards")} (${(player &&
+                    player.cards &&
+                    player.cards.length) ||
+                    0}/${game.options.maximumNumberOfCards})`}
                 onClick={this._onExchangeCards}
                 disabled={
                     !inputActive || game.playState !== PlayState.PlaceUnits
@@ -399,7 +423,7 @@ export default connect(
             gameUiOptions,
         };
     },
-    (dispatch) => ({
+    dispatch => ({
         place: () => {
             dispatch(place(null));
         },

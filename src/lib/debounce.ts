@@ -13,6 +13,6 @@ export function debounce(
             timeoutHandle = null;
 
             debouncedFunction();
-        }, waitMs);
+        }, waitMs) as any;
     };
 }

@@ -26,6 +26,10 @@
     background: url('/assets/background.png') repeat-x white;
     padding: $basePadding;
     box-shadow: 0 6px 12px rgba(0,0,0,0.175);
+
+    td.player-name {
+        word-break: break-all;
+    }
 }
 
 .play-area {
@@ -45,9 +49,5 @@
     &.sidebar {
         transform: translate3d($sidebarWidth, 0px, 0px);
         right: $sidebarWidth;
-
-        td.player-name {
-            word-break: break-all;
-        }
     }
 }

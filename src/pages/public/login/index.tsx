@@ -20,7 +20,7 @@ class LoginComponent extends React.Component<DispatchProp<any>> {
         return (
             <Grid className="login">
                 <GridRow>
-                    <GridColumn className="col-md-6 col-xs-12 col-border-right">
+                    <GridColumn className="col-md-6 col-xs-12">
                         <p>{__("Sign in using your Impera account...")}</p>
 
                         <Form
@@ -67,19 +67,6 @@ class LoginComponent extends React.Component<DispatchProp<any>> {
                                 </div>
                             )}
                         />
-                    </GridColumn>
-                    <GridColumn className="col-md-6 col-xs-12 external">
-                        <p>{__("...or with an external account.")}</p>
-
-                        <ul className="list-unstyled">
-                            {/*<li>
-                            <Button block bsStyle="primary">Facebook</Button>
-                        </li>
-                        <li>
-                            <Button block bsStyle="primary">Microsoft</Button>
-                        </li>*/}
-                            <li>{__("Coming soon..")}</li>
-                        </ul>
                     </GridColumn>
                 </GridRow>
 
