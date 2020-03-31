@@ -29,7 +29,7 @@ export class Slider extends React.Component<ISliderProps, ISliderState> {
         super(props, state);
 
         this.state = {
-            currentSlide: 0
+            currentSlide: 0,
         };
     }
 
@@ -39,7 +39,7 @@ export class Slider extends React.Component<ISliderProps, ISliderState> {
                 className="slider"
                 style={{
                     backgroundPosition: `${this.state.currentSlide * 50}% 0%`,
-                    backgroundImage: `url('${this.props.background}')`
+                    backgroundImage: `url('${this.props.background}')`,
                 }}
             >
                 <CSSTransitionGroup
@@ -47,7 +47,9 @@ export class Slider extends React.Component<ISliderProps, ISliderState> {
                     transitionEnterTimeout={600}
                     transitionLeaveTimeout={600}
                 >
-                    {this._renderSlide(this.props.slides[this.state.currentSlide])}
+                    {this._renderSlide(
+                        this.props.slides[this.state.currentSlide]
+                    )}
                 </CSSTransitionGroup>
             </div>
         );
@@ -61,11 +63,19 @@ export class Slider extends React.Component<ISliderProps, ISliderState> {
                 </div>
 
                 <div className="headlines">
-                    {slide.headLines.map((l, i) => <h2 key={i}><i>{l}</i></h2>)}
+                    {slide.headLines.map((l, i) => (
+                        <h2 key={i}>
+                            <i>{l}</i>
+                        </h2>
+                    ))}
                 </div>
 
                 <div className="bodylines">
-                    {slide.bodyLines.map((l, i) => <h4 key={i}><i>{l}</i></h4>)}
+                    {slide.bodyLines.map((l, i) => (
+                        <h4 key={i}>
+                            <i>{l}</i>
+                        </h4>
+                    ))}
                 </div>
             </div>
         );

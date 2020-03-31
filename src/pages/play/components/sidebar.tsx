@@ -22,7 +22,9 @@ class Sidebar extends React.Component<ISidebarProps> {
 
         return (
             <div className="play-sidebar">
-                <Title>{game.id} - {game.name}</Title>
+                <Title>
+                    {game.id} - {game.name}
+                </Title>
 
                 <GameChat />
 
@@ -38,8 +40,10 @@ class Sidebar extends React.Component<ISidebarProps> {
     }
 }
 
-export default connect((state: IState) => ({
-    game: gameSelector(state.play),
-    otherGames: state.play.otherGames
-}), (dispatch) => ({
-}))(Sidebar);
+export default connect(
+    (state: IState) => ({
+        game: gameSelector(state.play),
+        otherGames: state.play.otherGames,
+    }),
+    (dispatch) => ({})
+)(Sidebar);

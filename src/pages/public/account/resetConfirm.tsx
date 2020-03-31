@@ -12,7 +12,9 @@ interface IResetConfirmationProps {
     };
 }
 
-export default class ResetConfirmationComponent extends React.Component<IResetConfirmationProps> {
+export default class ResetConfirmationComponent extends React.Component<
+    IResetConfirmationProps
+> {
     public render() {
         return (
             <Grid>
@@ -20,14 +22,21 @@ export default class ResetConfirmationComponent extends React.Component<IResetCo
                     <GridColumn className="col-xs-12">
                         <Form
                             name="reset-password"
-                            onSubmit={((formState, options) => {
-                                return reset({
-                                    userId: this.props.params.userId,
-                                    code: this.props.params.code,
-                                    password: formState.getFieldValue("password"),
-                                    confirmPassword: formState.getFieldValue("passwordconfirm")
-                                }, options);
-                            })}
+                            onSubmit={(formState, options) => {
+                                return reset(
+                                    {
+                                        userId: this.props.params.userId,
+                                        code: this.props.params.code,
+                                        password: formState.getFieldValue(
+                                            "password"
+                                        ),
+                                        confirmPassword: formState.getFieldValue(
+                                            "passwordconfirm"
+                                        ),
+                                    },
+                                    options
+                                );
+                            }}
                             component={({ isPending, submit, formState }) => (
                                 <div className="form">
                                     <ControlledTextField
@@ -43,8 +52,14 @@ export default class ResetConfirmationComponent extends React.Component<IResetCo
                                         type="password"
                                         fieldName="passwordconfirm"
                                         validate={(value: string, form) => {
-                                            if (form.getFieldValue("password") !== value) {
-                                                return __("Passwords do not match");
+                                            if (
+                                                form.getFieldValue(
+                                                    "password"
+                                                ) !== value
+                                            ) {
+                                                return __(
+                                                    "Passwords do not match"
+                                                );
                                             }
                                         }}
                                         required={true}
@@ -53,14 +68,17 @@ export default class ResetConfirmationComponent extends React.Component<IResetCo
                                     <div>
                                         <ProgressButton
                                             type="submit"
-                                            disabled={!this._formValid(formState)}
+                                            disabled={
+                                                !this._formValid(formState)
+                                            }
                                             isActive={isPending}
                                             bsStyle="primary"
                                         >
                                             {__("Reset")}
                                         </ProgressButton>
                                     </div>
-                                </div>)}
+                                </div>
+                            )}
                         />
                     </GridColumn>
                 </GridRow>
@@ -69,9 +87,12 @@ export default class ResetConfirmationComponent extends React.Component<IResetCo
     }
 
     private _formValid(formState): boolean {
-        return formState.getFieldValue("password")
-            && formState.getFieldValue("passwordconfirm")
-            && formState.getFieldValue("password") !== ""
-            && formState.getFieldValue("password") === formState.getFieldValue("passwordconfirm");
+        return (
+            formState.getFieldValue("password") &&
+            formState.getFieldValue("passwordconfirm") &&
+            formState.getFieldValue("password") !== "" &&
+            formState.getFieldValue("password") ===
+                formState.getFieldValue("passwordconfirm")
+        );
     }
 }

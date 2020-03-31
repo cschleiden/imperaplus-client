@@ -15,17 +15,25 @@ export function game(state: IPlayState): Game {
 export function canPlace(state: IPlayState): boolean {
     const { game, placeCountries } = state;
 
-    return game
-        && game.unitsToPlace === Object.keys(placeCountries).reduce((sum, id) => sum + placeCountries[id], 0);
+    return (
+        game &&
+        game.unitsToPlace ===
+            Object.keys(placeCountries).reduce(
+                (sum, id) => sum + placeCountries[id],
+                0
+            )
+    );
 }
 
 export function canMoveOrAttack(state: IPlayState): boolean {
     const { twoCountry } = state;
 
-    return twoCountry.originCountryIdentifier
-        && twoCountry.destinationCountryIdentifier
-        && twoCountry.numberOfUnits >= twoCountry.minUnits
-        && twoCountry.numberOfUnits <= twoCountry.maxUnits;
+    return (
+        twoCountry.originCountryIdentifier &&
+        twoCountry.destinationCountryIdentifier &&
+        twoCountry.numberOfUnits >= twoCountry.minUnits &&
+        twoCountry.numberOfUnits <= twoCountry.maxUnits
+    );
 }
 
 export function inputActive(state: IPlayState) {
@@ -33,5 +41,10 @@ export function inputActive(state: IPlayState) {
 
     // - When history is active, no input is allowed
     // - Current player has to be the user
-    return !historyTurn && game && game.currentPlayer.userId === UserProvider.getUserId() && game.state === GameState.Active;
+    return (
+        !historyTurn &&
+        game &&
+        game.currentPlayer.userId === UserProvider.getUserId() &&
+        game.state === GameState.Active
+    );
 }

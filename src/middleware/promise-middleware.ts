@@ -1,10 +1,18 @@
 import { MessageType, clear, show } from "../common/message/message.actions";
 import { ErrorResponse } from "../external/imperaClients";
 import { ErrorCodes } from "../i18n/errorCodes";
-import { IApiActionOptions, IPromiseAction, failed, pending, success } from "../lib/action";
+import {
+    IApiActionOptions,
+    IPromiseAction,
+    failed,
+    pending,
+    success,
+} from "../lib/action";
 
 export default function promiseMiddleware({ dispatch }) {
-    return next => <TResult, TData>(action: IPromiseAction<TResult, TData>) => {
+    return (next) => <TResult, TData>(
+        action: IPromiseAction<TResult, TData>
+    ) => {
         // Check whether it's an async action with a promise
         if (!action || !action.payload || !isPromise(action.payload.promise)) {
             return next(action);
@@ -19,7 +27,7 @@ export default function promiseMiddleware({ dispatch }) {
             clearMessage: true,
 
             // Custom options
-            ...action.options
+            ...action.options,
         };
 
         if (options && options.clearMessage) {
@@ -33,7 +41,7 @@ export default function promiseMiddleware({ dispatch }) {
          */
         dispatch({
             type: pending(type, customSuffix),
-            payload: data
+            payload: data,
         });
 
         /**
@@ -41,14 +49,14 @@ export default function promiseMiddleware({ dispatch }) {
          * rejected action.
          */
         return promise.then(
-            result => {
+            (result) => {
                 if (options && options.beforeSuccess) {
                     options.beforeSuccess(dispatch);
                 }
 
                 dispatch({
                     type: success(type, customSuffix),
-                    payload: result
+                    payload: result,
                 });
 
                 if (options && options.afterSuccess) {
@@ -64,11 +72,15 @@ export default function promiseMiddleware({ dispatch }) {
                     // Dispatch generic message action
                     let message = ErrorCodes.errorMessage[error.error];
                     if (!message) {
-                        message = ErrorCodes.errorMessage[error.error_Description];
+                        message =
+                            ErrorCodes.errorMessage[error.error_Description];
                     }
 
                     if (!message) {
-                        message = error.error_Description || error.error || error.message;
+                        message =
+                            error.error_Description ||
+                            error.error ||
+                            error.message;
                     }
 
                     dispatch(show(message, MessageType.error));
@@ -76,7 +88,7 @@ export default function promiseMiddleware({ dispatch }) {
 
                 dispatch({
                     type: failed(type, customSuffix),
-                    payload: error
+                    payload: error,
                 });
 
                 if (options && options.afterError) {

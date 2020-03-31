@@ -15,12 +15,15 @@ export interface IToggleButtonState {
     isToggled: boolean;
 }
 
-export class ToggleButton extends React.Component<IToggleButtonProps, IToggleButtonState> {
+export class ToggleButton extends React.Component<
+    IToggleButtonProps,
+    IToggleButtonState
+> {
     constructor(props: IToggleButtonProps) {
         super(props);
 
         this.state = {
-            isToggled: props.initialIsToggled
+            isToggled: props.initialIsToggled,
         };
     }
 
@@ -28,7 +31,7 @@ export class ToggleButton extends React.Component<IToggleButtonProps, IToggleBut
         return (
             <Button
                 className={css(this.props.className, {
-                    "active": this.state.isToggled
+                    active: this.state.isToggled,
                 })}
                 onClick={this._onToggle}
             >
@@ -39,12 +42,15 @@ export class ToggleButton extends React.Component<IToggleButtonProps, IToggleBut
 
     @autobind
     private _onToggle() {
-        this.setState({
-            isToggled: !this.state.isToggled
-        }, () => {
-            if (this.props.onToggle) {
-                this.props.onToggle(this.state.isToggled);
+        this.setState(
+            {
+                isToggled: !this.state.isToggled,
+            },
+            () => {
+                if (this.props.onToggle) {
+                    this.props.onToggle(this.state.isToggled);
+                }
             }
-        });
+        );
     }
 }

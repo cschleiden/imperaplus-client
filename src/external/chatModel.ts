@@ -2,7 +2,7 @@ export enum UserType {
     None = 0,
     Admin = 1,
     Developer = 2,
-    Owner = 3
+    Owner = 3,
 }
 
 export interface ChannelInformation {

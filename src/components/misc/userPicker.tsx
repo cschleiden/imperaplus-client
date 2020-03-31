@@ -16,12 +16,15 @@ export interface IUserPickerState {
     users: UserReference[];
 }
 
-export class UserPicker extends React.Component<IUserPickerProps, IUserPickerState> {
+export class UserPicker extends React.Component<
+    IUserPickerProps,
+    IUserPickerState
+> {
     constructor(props: IUserPickerProps) {
         super(props);
 
         this.state = {
-            users: []
+            users: [],
         };
     }
 
@@ -58,21 +61,19 @@ export class UserPicker extends React.Component<IUserPickerProps, IUserPickerSta
 
     @autobind
     private _renderUsers(option: UserReference, props, index) {
-        return (
-            <div key={option.id}>
-                {option.name}
-            </div>
-        );
+        return <div key={option.id}>{option.name}</div>;
     }
 
     @autobind
     private _handleSearch(query: string) {
         if (query && query.length >= 3) {
-            getCachedClient(UserClient).findUsers(query).then(users => {
-                this.setState({
-                    users
+            getCachedClient(UserClient)
+                .findUsers(query)
+                .then((users) => {
+                    this.setState({
+                        users,
+                    });
                 });
-            });
         }
     }
 }

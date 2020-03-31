@@ -13,23 +13,34 @@ export interface ICreateAllianceProps {
     create: (options: AllianceCreationOptions) => void;
 }
 
-export class CreateAllianceComponent extends React.Component<ICreateAllianceProps> {
+export class CreateAllianceComponent extends React.Component<
+    ICreateAllianceProps
+> {
     public render(): JSX.Element {
         return (
             <GridColumn className="col-xs-12">
                 <p>
-                    <LinkString link={__("Here you can create a new alliance. You also might want to [join](/game/alliances) an existing alliance.")} />
+                    <LinkString
+                        link={__(
+                            "Here you can create a new alliance. You also might want to [join](/game/alliances) an existing alliance."
+                        )}
+                    />
                 </p>
 
                 <Form
                     name="alliance-create"
                     onSubmit={(formState: IFormState, options) => {
-                        return create({
-                            name: formState.getFieldValue("name"),
-                            description: formState.getFieldValue("description")
-                        }, options);
+                        return create(
+                            {
+                                name: formState.getFieldValue("name"),
+                                description: formState.getFieldValue(
+                                    "description"
+                                ),
+                            },
+                            options
+                        );
                     }}
-                    component={(({ isPending, submit, formState }) => (
+                    component={({ isPending, submit, formState }) => (
                         <div>
                             <ControlledTextField
                                 label={__("Name")}
@@ -54,21 +65,27 @@ export class CreateAllianceComponent extends React.Component<ICreateAllianceProp
                                 {__("Create")}
                             </ProgressButton>
                         </div>
-                    ))}
+                    )}
                 />
             </GridColumn>
         );
     }
 
     private _formValid(formState: IFormState): boolean {
-        return formState.getFieldValue("name")
-            && formState.getFieldValue("description");
+        return (
+            formState.getFieldValue("name") &&
+            formState.getFieldValue("description")
+        );
     }
 }
 
-export default connect((state: IState) => {
-    return {
-    };
-}, (dispatch) => ({
-    create: (options: AllianceCreationOptions) => { dispatch(create(options)); }
-}))(CreateAllianceComponent);
+export default connect(
+    (state: IState) => {
+        return {};
+    },
+    (dispatch) => ({
+        create: (options: AllianceCreationOptions) => {
+            dispatch(create(options));
+        },
+    })
+)(CreateAllianceComponent);

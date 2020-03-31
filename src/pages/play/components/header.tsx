@@ -1,5 +1,12 @@
 import * as React from "react";
-import { Button, ButtonGroup, Dropdown, MenuItem, OverlayTrigger, Popover } from "react-bootstrap";
+import {
+    Button,
+    ButtonGroup,
+    Dropdown,
+    MenuItem,
+    OverlayTrigger,
+    Popover,
+} from "react-bootstrap";
 import { connect } from "react-redux";
 import { Spinner } from "../../../components/ui/spinner";
 import { Timer } from "../../../components/ui/timer";
@@ -9,14 +16,28 @@ import { autobind } from "../../../lib/autobind";
 import { css } from "../../../lib/css";
 import { getTeam } from "../../../lib/game/utils";
 import { IState } from "../../../reducers";
-import { attack, endAttack, endTurn, exchange, leave, move, place, setGameOption, toggleSidebar } from "../play.actions";
+import {
+    attack,
+    endAttack,
+    endTurn,
+    exchange,
+    leave,
+    move,
+    place,
+    setGameOption,
+    toggleSidebar,
+} from "../play.actions";
 import { IGameUIOptions } from "../reducer/play.reducer.state";
-import { canMoveOrAttack, canPlace, game, inputActive } from "../reducer/play.selectors";
+import {
+    canMoveOrAttack,
+    canPlace,
+    game,
+    inputActive,
+} from "../reducer/play.selectors";
 import Cards from "./cards";
 import "./header.scss";
 
-interface IHeaderProps {
-}
+interface IHeaderProps {}
 
 interface IHeaderDispatchProps {
     game: Game;
@@ -45,7 +66,13 @@ interface IHeaderDispatchProps {
 class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
     render() {
         const {
-            game, remainingPlaceUnits, inputActive, canPlace, canMoveOrAttack, operationInProgress, sidebarOpen
+            game,
+            remainingPlaceUnits,
+            inputActive,
+            canPlace,
+            canMoveOrAttack,
+            operationInProgress,
+            sidebarOpen,
         } = this.props;
 
         if (!game) {
@@ -63,8 +90,10 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
                     "player",
                     "player-" + (game.currentPlayer.playOrder + 1),
                     {
-                        ["player-team-" + (team && team.playOrder + 1)]: isTeamGame
-                    })}
+                        ["player-team-" +
+                        (team && team.playOrder + 1)]: isTeamGame,
+                    }
+                )}
             >
                 {game.currentPlayer.name}
             </span>
@@ -73,7 +102,11 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
         return (
             <div className="play-header">
                 <div className="play-header-block">
-                    <ToggleButton className="btn-u" onToggle={this._onToggleSidebar} initialIsToggled={sidebarOpen}>
+                    <ToggleButton
+                        className="btn-u"
+                        onToggle={this._onToggleSidebar}
+                        initialIsToggled={sidebarOpen}
+                    >
                         <span className="fa fa-bars" />
                     </ToggleButton>
                 </div>
@@ -81,7 +114,10 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
                 {/* Mobile player + timeout */}
                 <div className="play-header-block stacked visible-xs text-center">
                     {currentPlayer}
-                    <Timer key={`${game.id}-${game.turnCounter}`} startInMs={game.timeoutSecondsLeft * 1000} />
+                    <Timer
+                        key={`${game.id}-${game.turnCounter}`}
+                        startInMs={game.timeoutSecondsLeft * 1000}
+                    />
                 </div>
 
                 {/* Desktop current player */}
@@ -91,7 +127,10 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
 
                 {/* Desktop timeout */}
                 <div className="play-header-block full-text hidden-xs">
-                    <Timer key={`${game.id}-${game.turnCounter}`} startInMs={game.timeoutSecondsLeft * 1000} />
+                    <Timer
+                        key={`${game.id}-${game.turnCounter}`}
+                        startInMs={game.timeoutSecondsLeft * 1000}
+                    />
                 </div>
 
                 {/* Cards */}
@@ -101,100 +140,119 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
 
                 {/* Actions */}
                 <div className="play-header-block">
-                    {inputActive && game.playState === PlayState.PlaceUnits &&
+                    {inputActive && game.playState === PlayState.PlaceUnits && (
                         <Button
                             title={__("Place")}
-                            className={css(
-                                "btn-u",
-                                {
-                                    "current": game.playState === PlayState.PlaceUnits,
-                                    "enabled": canPlace,
-                                    "hidden-xs": game.playState !== PlayState.PlaceUnits
-                                })}
+                            className={css("btn-u", {
+                                current:
+                                    game.playState === PlayState.PlaceUnits,
+                                enabled: canPlace,
+                                "hidden-xs":
+                                    game.playState !== PlayState.PlaceUnits,
+                            })}
                             onClick={this._onPlace}
                             disabled={!canPlace}
                         >
-                            <span className="fa fa-dot-circle-o" />&nbsp;<span>{remainingPlaceUnits}/{game.unitsToPlace}</span>
+                            <span className="fa fa-dot-circle-o" />
+                            &nbsp;
+                            <span>
+                                {remainingPlaceUnits}/{game.unitsToPlace}
+                            </span>
                         </Button>
-                    }
+                    )}
 
-                    {inputActive && game.playState === PlayState.Attack &&
+                    {inputActive && game.playState === PlayState.Attack && (
                         <ButtonGroup className="action-attack">
                             <Button
                                 key="attack"
                                 title={__("Attack")}
-                                className={css(
-                                    "btn-u",
-                                    {
-                                        "current": game.playState === PlayState.Attack,
-                                        "enabled": true
-                                    })}
+                                className={css("btn-u", {
+                                    current:
+                                        game.playState === PlayState.Attack,
+                                    enabled: true,
+                                })}
                                 disabled={!canMoveOrAttack}
                                 onClick={this._onAttack}
                             >
-                                <span className="fa fa-crosshairs" />&nbsp;<span>
-                                    {game.attacksInCurrentTurn}/{game.options.attacksPerTurn}
+                                <span className="fa fa-crosshairs" />
+                                &nbsp;
+                                <span>
+                                    {game.attacksInCurrentTurn}/
+                                    {game.options.attacksPerTurn}
                                 </span>
                             </Button>
-                            <Button key="endattack" title={__("Change to move")} className="btn-u" onClick={this._onEndAttack}>
+                            <Button
+                                key="endattack"
+                                title={__("Change to move")}
+                                className="btn-u"
+                                onClick={this._onEndAttack}
+                            >
                                 <span className="fa fa-mail-forward" />
                             </Button>
                         </ButtonGroup>
-                    }
+                    )}
 
-                    {inputActive && (game.playState === PlayState.Attack || game.playState === PlayState.Move) &&
-                        <Button
-                            title={__("Move")}
-                            className={css(
-                                "btn-u",
-                                "action-move",
-                                {
-                                    "current": game.playState === PlayState.Move,
-                                    "enabled": canMoveOrAttack && game.playState === PlayState.Move,
-                                    "hidden-xs": game.playState !== PlayState.Move
-                                })
-                            }
-                            onClick={this._onMove}
-                            disabled={!canMoveOrAttack || game.playState !== PlayState.Move}
-                        >
-                            <span className="fa fa-mail-forward" />&nbsp;<span>
-                                {game.movesInCurrentTurn}/{game.options.movesPerTurn}
-                            </span>
-                        </Button>
-                    }
+                    {inputActive &&
+                        (game.playState === PlayState.Attack ||
+                            game.playState === PlayState.Move) && (
+                            <Button
+                                title={__("Move")}
+                                className={css("btn-u", "action-move", {
+                                    current: game.playState === PlayState.Move,
+                                    enabled:
+                                        canMoveOrAttack &&
+                                        game.playState === PlayState.Move,
+                                    "hidden-xs":
+                                        game.playState !== PlayState.Move,
+                                })}
+                                onClick={this._onMove}
+                                disabled={
+                                    !canMoveOrAttack ||
+                                    game.playState !== PlayState.Move
+                                }
+                            >
+                                <span className="fa fa-mail-forward" />
+                                &nbsp;
+                                <span>
+                                    {game.movesInCurrentTurn}/
+                                    {game.options.movesPerTurn}
+                                </span>
+                            </Button>
+                        )}
 
-                    {!inputActive &&
+                    {!inputActive && (
                         <Button
                             title={__("Wait")}
-                            className={css(
-                                "btn-u",
-                                "action-none",
-                                {
-                                    "current": game.playState === PlayState.Move,
-                                    "enabled": false,
-                                    "hidden-xs": game.playState !== PlayState.Move
-                                })
-                            }
+                            className={css("btn-u", "action-none", {
+                                current: game.playState === PlayState.Move,
+                                enabled: false,
+                                "hidden-xs": game.playState !== PlayState.Move,
+                            })}
                             disabled={!canMoveOrAttack}
                         >
-                            <span className="fa fa-mail-forward" />&nbsp;<span>
-                                {game.movesInCurrentTurn}/{game.options.movesPerTurn}
+                            <span className="fa fa-mail-forward" />
+                            &nbsp;
+                            <span>
+                                {game.movesInCurrentTurn}/
+                                {game.options.movesPerTurn}
                             </span>
                         </Button>
-                    }
+                    )}
                 </div>
 
                 {/* End Turn */}
-                {inputActive && game.playState !== PlayState.PlaceUnits && <div className="play-header-block">
-                    <Button
-                        bsStyle="danger"
-                        className={css("btn-u", "enabled")}
-                        title={__("End turn")}
-                        onClick={this._onEndTurn}
-                    >
-                        <span className="fa fa-check" />
-                    </Button>
-                </div>}
+                {inputActive && game.playState !== PlayState.PlaceUnits && (
+                    <div className="play-header-block">
+                        <Button
+                            bsStyle="danger"
+                            className={css("btn-u", "enabled")}
+                            title={__("End turn")}
+                            onClick={this._onEndTurn}
+                        >
+                            <span className="fa fa-check" />
+                        </Button>
+                    </div>
+                )}
 
                 {/* Right section */}
                 <div className="play-header-block right hidden-xs">
@@ -204,21 +262,24 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
 
                 {/* Mobile right section */}
                 <div className="play-header-block right visible-xs">
-                    <OverlayTrigger trigger="click" rootClose={true} placement="bottom" overlay={this._mobileGameActions()}>
-                        <Button
-                            className="btn btn-u"
-                        >
+                    <OverlayTrigger
+                        trigger="click"
+                        rootClose={true}
+                        placement="bottom"
+                        overlay={this._mobileGameActions()}
+                    >
+                        <Button className="btn btn-u">
                             <span className="fa fa-ellipsis-h" />
                         </Button>
                     </OverlayTrigger>
                 </div>
 
                 {/* Spinner */}
-                {
-                    operationInProgress && <div className="play-header-block right">
+                {operationInProgress && (
+                    <div className="play-header-block right">
                         <Spinner />
                     </div>
-                }
+                )}
             </div>
         );
     }
@@ -226,17 +287,11 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
     private _mobileGameActions() {
         return (
             <Popover id="game-actions" className="mobile-actions">
-                <div className="mobile-action">
-                    {this._renderCards()}
-                </div>
+                <div className="mobile-action">{this._renderCards()}</div>
 
-                <div className="mobile-action">
-                    {this._renderOptions()}
-                </div>
+                <div className="mobile-action">{this._renderOptions()}</div>
 
-                <div className="mobile-action">
-                    {this._renderExit()}
-                </div>
+                <div className="mobile-action">{this._renderExit()}</div>
             </Popover>
         );
     }
@@ -247,9 +302,13 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
         return (
             <Button
                 className="btn btn-u"
-                title={`${__("Exchange cards")} (${player && player.cards && player.cards.length || 0}/${game.options.maximumNumberOfCards})`}
+                title={`${__("Exchange cards")} (${
+                    (player && player.cards && player.cards.length) || 0
+                }/${game.options.maximumNumberOfCards})`}
                 onClick={this._onExchangeCards}
-                disabled={!inputActive || game.playState !== PlayState.PlaceUnits}
+                disabled={
+                    !inputActive || game.playState !== PlayState.PlaceUnits
+                }
             >
                 <Cards cards={player && player.cards} />
             </Button>
@@ -265,7 +324,11 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
                     <span className="fa fa-cog" />
                 </Dropdown.Toggle>
                 <Dropdown.Menu className="super-colors">
-                    <MenuItem eventKey="showTeamsOnMap" onSelect={this._toggleGameUiOption as any} active={gameUiOptions.showTeamsOnMap}>
+                    <MenuItem
+                        eventKey="showTeamsOnMap"
+                        onSelect={this._toggleGameUiOption as any}
+                        active={gameUiOptions.showTeamsOnMap}
+                    >
                         {__("Show teams on map [CTRL]")}
                     </MenuItem>
                 </Dropdown.Menu>
@@ -329,36 +392,65 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
     }
 }
 
-export default connect((state: IState, ownProps: IHeaderProps) => {
-    const { placeCountries, player, operationInProgress, gameUiOptions } = state.play;
-    const remainingPlaceUnits = Object.keys(placeCountries).reduce((sum, ci) => sum + placeCountries[ci], 0);
+export default connect(
+    (state: IState, ownProps: IHeaderProps) => {
+        const {
+            placeCountries,
+            player,
+            operationInProgress,
+            gameUiOptions,
+        } = state.play;
+        const remainingPlaceUnits = Object.keys(placeCountries).reduce(
+            (sum, ci) => sum + placeCountries[ci],
+            0
+        );
 
-    return {
-        game: game(state.play),
-        remainingPlaceUnits,
-        player,
-        inputActive: inputActive(state.play),
-        canPlace: canPlace(state.play),
-        canMoveOrAttack: canMoveOrAttack(state.play),
-        sidebarOpen: state.play.sidebarOpen,
-        operationInProgress,
-        gameUiOptions
-    };
-}, (dispatch) => ({
-    place: () => { dispatch(place(null)); },
-    exchangeCards: () => { dispatch(exchange(null)); },
-    attack: () => { dispatch(attack(null)); },
-    endAttack: () => { dispatch(endAttack(null)); },
-    move: () => { dispatch(move(null)); },
-    endTurn: () => { dispatch(endTurn(null)); },
-
-    toggleSidebar: () => { dispatch(toggleSidebar(null)); },
-    setGameUiOption: (name: keyof IGameUIOptions, value: boolean) => {
-        dispatch(setGameOption({
-            name,
-            value,
-            temporary: false
-        }));
+        return {
+            game: game(state.play),
+            remainingPlaceUnits,
+            player,
+            inputActive: inputActive(state.play),
+            canPlace: canPlace(state.play),
+            canMoveOrAttack: canMoveOrAttack(state.play),
+            sidebarOpen: state.play.sidebarOpen,
+            operationInProgress,
+            gameUiOptions,
+        };
     },
-    exit: () => { dispatch(leave()); }
-}))(Header);
+    (dispatch) => ({
+        place: () => {
+            dispatch(place(null));
+        },
+        exchangeCards: () => {
+            dispatch(exchange(null));
+        },
+        attack: () => {
+            dispatch(attack(null));
+        },
+        endAttack: () => {
+            dispatch(endAttack(null));
+        },
+        move: () => {
+            dispatch(move(null));
+        },
+        endTurn: () => {
+            dispatch(endTurn(null));
+        },
+
+        toggleSidebar: () => {
+            dispatch(toggleSidebar(null));
+        },
+        setGameUiOption: (name: keyof IGameUIOptions, value: boolean) => {
+            dispatch(
+                setGameOption({
+                    name,
+                    value,
+                    temporary: false,
+                })
+            );
+        },
+        exit: () => {
+            dispatch(leave());
+        },
+    })
+)(Header);

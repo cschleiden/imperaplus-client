@@ -8,7 +8,9 @@ export default class ActivatedComponent extends React.Component {
                 <GridRow>
                     <GridColumn className="col-xs-12">
                         <p>
-                            {__("Your account has been successfully activated. You can login now.")}
+                            {__(
+                                "Your account has been successfully activated. You can login now."
+                            )}
                         </p>
                     </GridColumn>
                 </GridRow>

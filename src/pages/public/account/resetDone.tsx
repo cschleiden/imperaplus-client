@@ -9,7 +9,11 @@ export default class ResetDoneComponent extends React.Component {
                 <GridRow>
                     <GridColumn className="col-xs-12">
                         <p>
-                            <LinkStr link={__("Your password has been reset. You can [login](/login) now.")} />
+                            <LinkStr
+                                link={__(
+                                    "Your password has been reset. You can [login](/login) now."
+                                )}
+                            />
                         </p>
                     </GridColumn>
                 </GridRow>

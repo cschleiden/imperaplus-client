@@ -1,4 +1,8 @@
-export function autobind<T extends Function>(target: any, key: string, descriptor: TypedPropertyDescriptor<T>) {
+export function autobind<T extends Function>(
+    target: any,
+    key: string,
+    descriptor: TypedPropertyDescriptor<T>
+) {
     let fn = descriptor.value;
 
     return {
@@ -16,8 +20,8 @@ export function autobind<T extends Function>(target: any, key: string, descripto
                 configurable: true,
                 writable: true,
                 enumerable: true,
-                value: newValue
+                value: newValue,
             });
-        }
+        },
     };
 }

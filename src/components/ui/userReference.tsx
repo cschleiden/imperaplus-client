@@ -2,13 +2,17 @@ import * as React from "react";
 import { UserReference } from "../../external/imperaClients";
 import "./userReference.scss";
 
-export const UserRef: React.StatelessComponent<{ userRef: UserReference }> = (props: { userRef: UserReference }): JSX.Element => {
+export const UserRef: React.StatelessComponent<{
+    userRef: UserReference;
+}> = (props: { userRef: UserReference }): JSX.Element => {
     const { userRef } = props;
 
     return UserName({ userName: userRef && userRef.name });
 };
 
-export const UserName: React.StatelessComponent<{ userName: string }> = (props: { userName: string }): JSX.Element => {
+export const UserName: React.StatelessComponent<{
+    userName: string;
+}> = (props: { userName: string }): JSX.Element => {
     const { userName } = props;
 
     if (!userName) {

@@ -4,7 +4,7 @@ export enum MessageType {
     info,
     success,
     warning,
-    error
+    error,
 }
 
 export interface IMessage {
@@ -13,23 +13,25 @@ export interface IMessage {
 }
 
 export const MESSAGE_SHOW = "message-show";
-export const show = (message: string, type: MessageType = MessageType.info): IAction<IMessage> => ({
+export const show = (
+    message: string,
+    type: MessageType = MessageType.info
+): IAction<IMessage> => ({
     type: MESSAGE_SHOW,
     payload: {
         message,
-        type
-    }
+        type,
+    },
 });
 
 export const MESSAGE_CLEAR = "message-clear";
-export const clear: IAsyncAction<void> = () =>
-    (dispatch, getState, deps) => {
-        if (!getState().message.message) {
-            // No message, nothing to clear
-            return;
-        }
+export const clear: IAsyncAction<void> = () => (dispatch, getState, deps) => {
+    if (!getState().message.message) {
+        // No message, nothing to clear
+        return;
+    }
 
-        dispatch({
-            type: MESSAGE_CLEAR
-        });
-    };
+    dispatch({
+        type: MESSAGE_CLEAR,
+    });
+};

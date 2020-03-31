@@ -1,0 +1,1 @@
+git checkout master && git pull && git checkout production && git merge master -m "Releasing latest changes" && git push && git checkout master

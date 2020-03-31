@@ -5,7 +5,7 @@ export interface IActivator<T> {
 export enum Lifetime {
     Default,
 
-    Singleton
+    Singleton,
 }
 
 interface IRegistration<T> {
@@ -20,15 +20,24 @@ interface IRegistration<T> {
 export class Container {
     private _registrations: { [name: string]: IRegistration<any> } = {};
 
-    public registerSingle<T>(name: string, activator: IActivator<T>, dependencies: string[]) {
+    public registerSingle<T>(
+        name: string,
+        activator: IActivator<T>,
+        dependencies: string[]
+    ) {
         this.register<T>(name, activator, dependencies, Lifetime.Singleton);
     }
 
-    public register<T>(name: string, activator: IActivator<T>, dependencies: string[] = [], lifetime: Lifetime = Lifetime.Default) {
+    public register<T>(
+        name: string,
+        activator: IActivator<T>,
+        dependencies: string[] = [],
+        lifetime: Lifetime = Lifetime.Default
+    ) {
         this._registrations[name] = {
             activator: activator,
             dependencies: dependencies,
-            lifetime: lifetime
+            lifetime: lifetime,
         };
     }
 
@@ -39,14 +48,13 @@ export class Container {
         }
 
         switch (registration.lifetime) {
-            case Lifetime.Singleton:
-                {
-                    if (!registration.instance) {
-                        registration.instance = this._createInstance(registration);
-                    }
-
-                    return registration.instance;
+            case Lifetime.Singleton: {
+                if (!registration.instance) {
+                    registration.instance = this._createInstance(registration);
                 }
+
+                return registration.instance;
+            }
 
             default:
                 return this._createInstance<T>(registration);
@@ -56,7 +64,7 @@ export class Container {
     private _createInstance<T>(registration: IRegistration<T>): T {
         let deps: any[] = [];
         if (registration.dependencies.length > 0) {
-            deps = registration.dependencies.map(name => this.get(name));
+            deps = registration.dependencies.map((name) => this.get(name));
         }
 
         return registration.activator(deps);

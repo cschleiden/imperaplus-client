@@ -2,7 +2,6 @@ import * as React from "react";
 import { autobind } from "../../lib/autobind";
 import { HumanCountdown } from "./humanDate";
 
-
 export interface ITimerProps {
     startInMs: number;
 }
@@ -18,7 +17,7 @@ export class Timer extends React.Component<ITimerProps, ITimerState> {
         super(props);
 
         this.state = {
-            timeLeft: props.startInMs
+            timeLeft: props.startInMs,
         };
     }
 
@@ -42,7 +41,7 @@ export class Timer extends React.Component<ITimerProps, ITimerState> {
     @autobind
     private _timerHandler() {
         this.setState({
-            timeLeft: this.state.timeLeft - 1000
+            timeLeft: this.state.timeLeft - 1000,
         });
     }
 }

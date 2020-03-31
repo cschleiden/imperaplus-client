@@ -5,7 +5,7 @@ import { css } from "../../../lib/css";
 const colors = {
     [BonusCard.A]: "green",
     [BonusCard.B]: "red",
-    [BonusCard.C]: "blue"
+    [BonusCard.C]: "blue",
 };
 
 export interface ICardsProps {
@@ -19,10 +19,12 @@ export default (props: ICardsProps): JSX.Element => {
     if (cards) {
         cards.sort();
 
-
         let addCardElement = (idx, count) => {
             cardElements.push(
-                <span key={colors[idx]} className={css("badge", "badge-" + colors[idx])}>
+                <span
+                    key={colors[idx]}
+                    className={css("badge", "badge-" + colors[idx])}
+                >
                     {count}
                 </span>
             );
@@ -50,11 +52,7 @@ export default (props: ICardsProps): JSX.Element => {
     }
 
     if (cardElements && cardElements.length) {
-        return (
-            <span>
-                {cardElements}
-            </span>
-        );
+        return <span>{cardElements}</span>;
     }
 
     return <span>&nbsp;</span>;

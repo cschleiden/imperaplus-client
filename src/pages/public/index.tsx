@@ -25,5 +25,5 @@ export {
     Reset,
     ResetTriggered,
     ResetDone,
-    ResetConfirmation
+    ResetConfirmation,
 };

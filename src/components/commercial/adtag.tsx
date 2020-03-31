@@ -6,7 +6,13 @@ export const adTag = (props: React.Props<{}>): JSX.Element => {
     return (
         <GridColumn className="col-xs-12">
             <div className="ads">
-                <div style={{ background: "grey", width: "728px", height: "90px" }} />
+                <div
+                    style={{
+                        background: "grey",
+                        width: "728px",
+                        height: "90px",
+                    }}
+                />
             </div>
         </GridColumn>
     );

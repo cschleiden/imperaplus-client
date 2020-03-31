@@ -9,7 +9,7 @@ export enum NotificationType {
 
     GameChatMessage,
 
-    NewMessage
+    NewMessage,
 }
 
 export interface INotification {

@@ -1,6 +1,11 @@
 import { makeImmutable } from "immuts";
 import {
-    ErrorResponse, Game, GameChatMessage, GameSummary, HistoryTurn, Player
+    ErrorResponse,
+    Game,
+    GameChatMessage,
+    GameSummary,
+    HistoryTurn,
+    Player,
 } from "../../../external/imperaClients";
 import { MapTemplateCacheEntry } from "../mapTemplateCache";
 
@@ -27,7 +32,7 @@ export const initialState = makeImmutable({
         // Initially do not allow sending messages, until state is retrieved
         isPending: true,
         all: [] as GameChatMessage[],
-        team: [] as GameChatMessage[]
+        team: [] as GameChatMessage[],
     },
 
     historyTurn: null as HistoryTurn,
@@ -44,18 +49,19 @@ export const initialState = makeImmutable({
         numberOfUnits: 0,
         minUnits: 0,
         maxUnits: 0,
-        allowedDestinations: []
+        allowedDestinations: [],
     } as ITwoCountry,
 
     attacksLeftPerTurn: 0,
     movesLeftPerTurn: 0,
 
     sidebarOpen: false,
-    gameUiOptions: options && JSON.parse(options) || {
-        showTeamsOnMap: true
-    } as IGameUIOptions,
-    overrideGameUiOptions: {
-    } as Partial<IGameUIOptions>,
+    gameUiOptions:
+        (options && JSON.parse(options)) ||
+        ({
+            showTeamsOnMap: true,
+        } as IGameUIOptions),
+    overrideGameUiOptions: {} as Partial<IGameUIOptions>,
 
     operationInProgress: true,
 
@@ -65,7 +71,7 @@ export const initialState = makeImmutable({
     /** Other games where it's the player's turn */
     otherGames: [] as GameSummary[],
 
-    error: null as ErrorResponse
+    error: null as ErrorResponse,
 });
 
 export type IPlayState = typeof initialState;

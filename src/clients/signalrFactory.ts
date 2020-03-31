@@ -72,13 +72,17 @@ class SignalRClient implements ISignalRClient {
         this.connection = $.hubConnection(baseUri);
 
         this.connection.json = <any>{
-            parse: (text: string, reviver?: (key: any, value: any) => any): any => JSON.parse(text, jsonParseReviver),
-            stringify: (value: any, replacer?: any, space?: any): string => JSON.stringify(value, replacer, space)
+            parse: (
+                text: string,
+                reviver?: (key: any, value: any) => any
+            ): any => JSON.parse(text, jsonParseReviver),
+            stringify: (value: any, replacer?: any, space?: any): string =>
+                JSON.stringify(value, replacer, space),
         };
 
         this.connection.logging = true;
 
-        this.connection.error(error => {
+        this.connection.error((error) => {
             if (error.context && error.context.status === 401) {
                 // Try to reconnect
                 if (!this._reconnect) {
@@ -97,8 +101,12 @@ class SignalRClient implements ISignalRClient {
         this.connection.reconnecting(() => {
             log("!!! SignalR reconnecting");
         });
-        this.connection.stateChanged(change => {
-            log("!!! SignalR stateChanged: " + change.newState + "(0-conn-ng,1=conn-ed,2=reconn,4=disconn)");
+        this.connection.stateChanged((change) => {
+            log(
+                "!!! SignalR stateChanged: " +
+                    change.newState +
+                    "(0-conn-ng,1=conn-ed,2=reconn,4=disconn)"
+            );
         });
         this.connection.connectionSlow(() => {
             log("!!! SignalR connectionSlow");
@@ -109,7 +117,7 @@ class SignalRClient implements ISignalRClient {
 
     private _setToken() {
         // WebSockets does not allow sending custom headers, so we send the token in the query string
-        this.connection.qs = { "bearer_token": TokenProvider.getToken() };
+        this.connection.qs = { bearer_token: TokenProvider.getToken() };
     }
 
     public start(): Promise<void> {
@@ -119,14 +127,17 @@ class SignalRClient implements ISignalRClient {
 
         this._setToken();
 
-        return this.connection.start(startOptions).then(() => {
-            if (this._onInit) {
-                return this._onInit();
+        return this.connection.start(startOptions).then(
+            () => {
+                if (this._onInit) {
+                    return this._onInit();
+                }
+            },
+            () => {
+                // Retry in case of invalid auth
+                return this._reconnectWithAuth();
             }
-        }, () => {
-            // Retry in case of invalid auth
-            return this._reconnectWithAuth();
-        }) as any;
+        ) as any;
     }
 
     public isActive() {
@@ -179,7 +190,9 @@ class SignalRClient implements ISignalRClient {
         });
 
         // Remove from event map
-        let matchingEvents = this._eventCallbacks.filter(e => e[0] === eventName && e[1] === callback);
+        let matchingEvents = this._eventCallbacks.filter(
+            (e) => e[0] === eventName && e[1] === callback
+        );
         if (matchingEvents && matchingEvents.length > 0) {
             for (let matchingEvent of matchingEvents) {
                 let idx = this._eventCallbacks.indexOf(matchingEvent);
@@ -194,11 +207,13 @@ class SignalRClient implements ISignalRClient {
         // Create copy in case we need to retry, signalR api modifies arguments in place
         const originalArgs = args.slice(0);
 
-        return this._proxy.invoke.apply(this._proxy, [methodName].concat(args)).then(null, (error) => {
-            return this._reconnectWithAuth().then(() => {
-                return this.invoke(methodName, ...originalArgs);
+        return this._proxy.invoke
+            .apply(this._proxy, [methodName].concat(args))
+            .then(null, (error) => {
+                return this._reconnectWithAuth().then(() => {
+                    return this.invoke(methodName, ...originalArgs);
+                });
             });
-        });
     }
 
     public isConnected(): boolean {

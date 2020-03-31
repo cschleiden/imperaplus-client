@@ -1,5 +1,12 @@
 import * as React from "react";
-import { Checkbox, CheckboxProps, ControlLabel, FormControl, FormControlProps, FormGroup } from "react-bootstrap";
+import {
+    Checkbox,
+    CheckboxProps,
+    ControlLabel,
+    FormControl,
+    FormControlProps,
+    FormGroup,
+} from "react-bootstrap";
 import { UserPicker } from "../../components/misc/userPicker";
 import { UserReference } from "../../external/imperaClients";
 import { IFormState } from "./form";
@@ -16,7 +23,9 @@ const getId = () => {
     return `field-${++id}`;
 };
 
-export class ControlledTextField extends React.Component<FormControlProps & IControlledFieldProps & { initialValue?: string }> {
+export class ControlledTextField extends React.Component<
+    FormControlProps & IControlledFieldProps & { initialValue?: string }
+> {
     private _id: string;
 
     public context: IFormContext;
@@ -30,12 +39,21 @@ export class ControlledTextField extends React.Component<FormControlProps & ICon
     public componentDidMount() {
         // Handle initial selection
         if (!this._currentValue() && this.props.initialValue) {
-            this.context.initialValue(this.props.fieldName, this.props.initialValue);
+            this.context.initialValue(
+                this.props.fieldName,
+                this.props.initialValue
+            );
         }
     }
 
     public render() {
-        const { fieldName, label, validate, initialValue, ...remainingProps } = this.props;
+        const {
+            fieldName,
+            label,
+            validate,
+            initialValue,
+            ...remainingProps
+        } = this.props;
 
         return (
             <FormGroup controlId={this._id}>
@@ -63,17 +81,22 @@ export class ControlledTextField extends React.Component<FormControlProps & ICon
     }
 
     private _currentValue(): string {
-        return this.context.formState
-            && this.context.formState.fields
-            && this.context.formState.fields[this.props.fieldName]
-            && this.context.formState.fields[this.props.fieldName].value as string || "";
+        return (
+            (this.context.formState &&
+                this.context.formState.fields &&
+                this.context.formState.fields[this.props.fieldName] &&
+                (this.context.formState.fields[this.props.fieldName]
+                    .value as string)) ||
+            ""
+        );
     }
 
     public static contextTypes = contextTypes;
 }
 
-
-export class ControlledUserPicker extends React.Component<FormControlProps & IControlledFieldProps & { initialValue?: UserReference }> {
+export class ControlledUserPicker extends React.Component<
+    FormControlProps & IControlledFieldProps & { initialValue?: UserReference }
+> {
     private _id: string;
 
     public context: IFormContext;
@@ -87,7 +110,10 @@ export class ControlledUserPicker extends React.Component<FormControlProps & ICo
     public componentDidMount() {
         // Handle initial selection
         if (!this._currentValue() && this.props.initialValue) {
-            this.context.initialValue(this.props.fieldName, this.props.initialValue);
+            this.context.initialValue(
+                this.props.fieldName,
+                this.props.initialValue
+            );
         }
     }
 
@@ -113,23 +139,29 @@ export class ControlledUserPicker extends React.Component<FormControlProps & ICo
     }
 
     private _currentValue(): UserReference {
-        return this.context.formState
-            && this.context.formState.fields
-            && this.context.formState.fields[this.props.fieldName]
-            && this.context.formState.fields[this.props.fieldName].value;
+        return (
+            this.context.formState &&
+            this.context.formState.fields &&
+            this.context.formState.fields[this.props.fieldName] &&
+            this.context.formState.fields[this.props.fieldName].value
+        );
     }
 
     public static contextTypes = contextTypes;
 }
 
-export const ControlledCheckBox = (props: CheckboxProps & IControlledFieldProps, context: IFormContext) => {
+export const ControlledCheckBox = (
+    props: CheckboxProps & IControlledFieldProps,
+    context: IFormContext
+) => {
     const { fieldName, validate, label, ...remainingProps } = props;
 
     const currentValue = (): boolean =>
-        context.formState
-        && context.formState.fields
-        && context.formState.fields[fieldName]
-        && context.formState.fields[fieldName].value as boolean || false;
+        (context.formState &&
+            context.formState.fields &&
+            context.formState.fields[fieldName] &&
+            (context.formState.fields[fieldName].value as boolean)) ||
+        false;
 
     return (
         <Checkbox
@@ -150,7 +182,9 @@ export const ControlledCheckBox = (props: CheckboxProps & IControlledFieldProps,
 
 ControlledCheckBox["contextTypes"] = contextTypes;
 
-export class ControlledDropdown extends React.Component<FormControlProps & IControlledFieldProps> {
+export class ControlledDropdown extends React.Component<
+    FormControlProps & IControlledFieldProps
+> {
     private _id: string;
 
     public context: IFormContext;
@@ -164,7 +198,10 @@ export class ControlledDropdown extends React.Component<FormControlProps & ICont
     public componentDidMount() {
         // Handle initial selection
         if (this.props.value !== undefined) {
-            this.context.initialValue(this.props.fieldName, this.props.value as string | number);
+            this.context.initialValue(
+                this.props.fieldName,
+                this.props.value as string | number
+            );
         }
     }
 
@@ -192,10 +229,14 @@ export class ControlledDropdown extends React.Component<FormControlProps & ICont
     }
 
     private _currentValue(): string {
-        return this.context.formState
-            && this.context.formState.fields
-            && this.context.formState.fields[this.props.fieldName]
-            && this.context.formState.fields[this.props.fieldName].value as string || "";
+        return (
+            (this.context.formState &&
+                this.context.formState.fields &&
+                this.context.formState.fields[this.props.fieldName] &&
+                (this.context.formState.fields[this.props.fieldName]
+                    .value as string)) ||
+            ""
+        );
     }
 
     public static contextTypes = contextTypes;

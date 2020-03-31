@@ -25,7 +25,10 @@ class ActivateComponent extends React.Component<IActivateProps> {
             <Grid>
                 <GridRow>
                     <GridColumn className="col-xs-12">
-                        <Spinner className="center-block" size={SpinnerSize.Large} />
+                        <Spinner
+                            className="center-block"
+                            size={SpinnerSize.Large}
+                        />
                     </GridColumn>
                 </GridRow>
             </Grid>
@@ -33,13 +36,16 @@ class ActivateComponent extends React.Component<IActivateProps> {
     }
 }
 
-export default connect(state => ({
-
-}), (dispatch) => ({
-    activate: (userId: string, code: string) => {
-        dispatch(activate({
-            userId: userId,
-            code: code
-        }));
-    }
-}))(ActivateComponent);
+export default connect(
+    (state) => ({}),
+    (dispatch) => ({
+        activate: (userId: string, code: string) => {
+            dispatch(
+                activate({
+                    userId: userId,
+                    code: code,
+                })
+            );
+        },
+    })
+)(ActivateComponent);

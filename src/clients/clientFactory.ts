@@ -6,13 +6,19 @@ import { TokenProvider } from "../services/tokenProvider";
 import { UserProvider } from "../services/userProvider";
 
 export interface IClient<TClient> {
-    new(baseUri: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }): TClient;
+    new (
+        baseUri: string,
+        http?: {
+            fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
+        }
+    ): TClient;
 }
 
 const clientCache: [IClient<any>, any][] = [];
 
 export function getCachedClient<TClient>(
-    clientType: IClient<TClient>): TClient {
+    clientType: IClient<TClient>
+): TClient {
     for (let [cachedClientType, cachedInstance] of clientCache) {
         if (cachedClientType === clientType) {
             return cachedInstance;
@@ -26,14 +32,18 @@ export function getCachedClient<TClient>(
 
 export function createClientWithToken<TClient>(
     clientType: IClient<TClient>,
-    access_token: string): TClient {
-
+    access_token: string
+): TClient {
     return createClient(clientType, () => access_token);
 }
 
 let miniProfilerInitialized = false;
 
-const fetchWrapper = (tokenProvider: () => string, url: string, init: RequestInit) => {
+const fetchWrapper = (
+    tokenProvider: () => string,
+    url: string,
+    init: RequestInit
+) => {
     const accessToken = tokenProvider();
 
     if (accessToken) {
@@ -50,19 +60,27 @@ const fetchWrapper = (tokenProvider: () => string, url: string, init: RequestIni
         const status = response.status.toString();
         if (status === "401") {
             if (onUnauthorized) {
-                return onUnauthorized().then(() => {
-                    // Successful, retry request
-                    return fetchWrapper(tokenProvider, url, init);
-                }, (error) => {
-                    throw error;
-                });
+                return onUnauthorized().then(
+                    () => {
+                        // Successful, retry request
+                        return fetchWrapper(tokenProvider, url, init);
+                    },
+                    (error) => {
+                        throw error;
+                    }
+                );
             } else {
                 throw new Error("Not authorized");
             }
         } else if (status === "400") {
             return response.text().then((responseText) => {
                 let result400: ErrorResponse | null = null;
-                result400 = responseText === "" ? null : <ErrorResponse>JSON.parse(responseText, this.jsonParseReviver);
+                result400 =
+                    responseText === ""
+                        ? null
+                        : <ErrorResponse>(
+                              JSON.parse(responseText, this.jsonParseReviver)
+                          );
                 throw result400;
             });
         }
@@ -73,9 +91,9 @@ const fetchWrapper = (tokenProvider: () => string, url: string, init: RequestIni
 
                 // Initialize mini profiler
                 const scriptTag = $("<script>").attr({
-                    "type": "text/javascript",
-                    "id": "mini-profiler",
-                    "src": baseUri + "/admin/profiler/includes.js",
+                    type: "text/javascript",
+                    id: "mini-profiler",
+                    src: baseUri + "/admin/profiler/includes.js",
                     "data-path": baseUri + "/admin/profiler/",
                     "data-position": "bottomleft",
                     "data-authorized": "true",
@@ -83,14 +101,16 @@ const fetchWrapper = (tokenProvider: () => string, url: string, init: RequestIni
                     "data-ids": "abc",
                     "data-max-traces": 10,
                     "data-start-hidden": true,
-                    "data-toggle-shortcut": "Alt+P"
+                    "data-toggle-shortcut": "Alt+P",
                 });
                 $("head").append(scriptTag);
             }
 
             const miniProfiler = (<any>window).MiniProfiler;
             if (miniProfiler) {
-                const miniProfilerIds = response.headers.get("X-MiniProfiler-Ids");
+                const miniProfilerIds = response.headers.get(
+                    "X-MiniProfiler-Ids"
+                );
                 if (miniProfilerIds && miniProfiler) {
                     // tslint:disable-next-line:no-eval
                     miniProfiler.fetchResults(eval(miniProfilerIds));
@@ -103,10 +123,11 @@ const fetchWrapper = (tokenProvider: () => string, url: string, init: RequestIni
 };
 
 function createClient<TClient>(
-    clientType: IClient<TClient>, tokenProvider: () => string): TClient {
-
+    clientType: IClient<TClient>,
+    tokenProvider: () => string
+): TClient {
     let client = new clientType(baseUri, {
-        fetch: fetchWrapper.bind(null, tokenProvider)
+        fetch: fetchWrapper.bind(null, tokenProvider),
     });
 
     // Hack: jsonParseReviver is protected, force set for now

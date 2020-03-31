@@ -44,39 +44,43 @@ class LadderComponent extends React.Component<ILadderProps, {}> {
                             <th>Name</th>
 
                             <th className="text-center">
-                                {__("Games Played")}</th>
-                            <th className="text-center">
-                                {__("Games Won")}
+                                {__("Games Played")}
                             </th>
-                            <th className="text-center">
-                                {__("Games Lost")}
-                            </th>
+                            <th className="text-center">{__("Games Won")}</th>
+                            <th className="text-center">{__("Games Lost")}</th>
 
-                            <th className="text-right">
-                                {__("Last Game")}
-                            </th>
+                            <th className="text-right">{__("Last Game")}</th>
 
-                            <th className="text-right">
-                                {__("Rating")}
-                            </th>
+                            <th className="text-right">{__("Rating")}</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {standings && standings.map(s => (
-                            <tr key={s.userId}>
-                                <td>{s.position}</td>
+                        {standings &&
+                            standings.map((s) => (
+                                <tr key={s.userId}>
+                                    <td>{s.position}</td>
 
-                                <td>{s.userName}</td>
+                                    <td>{s.userName}</td>
 
-                                <td className="text-center">{s.gamesPlayed}</td>
-                                <td className="text-center">{s.gamesWon}</td>
-                                <td className="text-center">{s.gamesLost}</td>
+                                    <td className="text-center">
+                                        {s.gamesPlayed}
+                                    </td>
+                                    <td className="text-center">
+                                        {s.gamesWon}
+                                    </td>
+                                    <td className="text-center">
+                                        {s.gamesLost}
+                                    </td>
 
-                                <td className="text-right">{HumanDate(s.lastGame)}</td>
+                                    <td className="text-right">
+                                        {HumanDate(s.lastGame)}
+                                    </td>
 
-                                <td className="text-right">{Math.round(s.rating)}</td>
-                            </tr>
-                        ))}
+                                    <td className="text-right">
+                                        {Math.round(s.rating)}
+                                    </td>
+                                </tr>
+                            ))}
                     </tbody>
                 </Table>
             </GridColumn>
@@ -84,8 +88,13 @@ class LadderComponent extends React.Component<ILadderProps, {}> {
     }
 }
 
-export default connect((state: IState) => ({
-    ladder: state.ladders.ladder
-}), (dispatch) => ({
-    open: (id: string) => { dispatch(open(id)); }
-}))(LadderComponent);
+export default connect(
+    (state: IState) => ({
+        ladder: state.ladders.ladder,
+    }),
+    (dispatch) => ({
+        open: (id: string) => {
+            dispatch(open(id));
+        },
+    })
+)(LadderComponent);

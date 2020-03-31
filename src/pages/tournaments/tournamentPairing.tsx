@@ -16,7 +16,9 @@ export interface ITournamentPairingProps {
     games: GameSummary[];
 }
 
-export class TournamentPairingComponent extends React.Component<ITournamentPairingProps> {
+export class TournamentPairingComponent extends React.Component<
+    ITournamentPairingProps
+> {
     public componentDidMount() {
         this.props.loadPairing(this.props.params.id);
     }
@@ -26,22 +28,25 @@ export class TournamentPairingComponent extends React.Component<ITournamentPairi
 
         return (
             <GridColumn className="col-xs-12">
-                {
-                    games.map(game => (
-                        <GameDetails key={game.id} game={game} />
-                    ))
-                }
+                {games.map((game) => (
+                    <GameDetails key={game.id} game={game} />
+                ))}
             </GridColumn>
         );
     }
 }
 
-export default connect((state: IState) => {
-    const games = state.tournaments.pairingGames;
+export default connect(
+    (state: IState) => {
+        const games = state.tournaments.pairingGames;
 
-    return {
-        games
-    };
-}, (dispatch) => ({
-    loadPairing: (id: string) => { dispatch(loadPairingGames({ pairingId: id })); }
-}))(TournamentPairingComponent);
+        return {
+            games,
+        };
+    },
+    (dispatch) => ({
+        loadPairing: (id: string) => {
+            dispatch(loadPairingGames({ pairingId: id }));
+        },
+    })
+)(TournamentPairingComponent);

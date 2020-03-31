@@ -1,5 +1,11 @@
 import * as React from "react";
-import { Alert, Button, DropdownButton, Glyphicon, MenuItem } from "react-bootstrap";
+import {
+    Alert,
+    Button,
+    DropdownButton,
+    Glyphicon,
+    MenuItem,
+} from "react-bootstrap";
 import { connect } from "react-redux";
 import LoadingBar from "react-redux-loading-bar";
 import { Link } from "react-router";
@@ -24,7 +30,11 @@ class LanguageSelector extends React.Component<ILanguageSelectorProps> {
         return (
             <div>
                 <div className="language">
-                    <DropdownButton id="language" title={__("LANGUAGE")} bsStyle="link">
+                    <DropdownButton
+                        id="language"
+                        title={__("LANGUAGE")}
+                        bsStyle="link"
+                    >
                         <MenuItem
                             onClick={() => this.props.onLanguageSelect("en")}
                             active={this.props.selectedLanguage === "en"}
@@ -44,7 +54,6 @@ class LanguageSelector extends React.Component<ILanguageSelectorProps> {
     }
 }
 
-
 class MobileLanguageSelector extends React.Component<ILanguageSelectorProps> {
     public render() {
         return (
@@ -52,12 +61,19 @@ class MobileLanguageSelector extends React.Component<ILanguageSelectorProps> {
                 <li>
                     <a>{__("Language")}</a>
                     <ul className="nav-dropdown">
-                        <li><a href="#" onClick={this._onClick.bind(this, "en")}>
-                            {__("English")}
-                        </a>
+                        <li>
+                            <a
+                                href="#"
+                                onClick={this._onClick.bind(this, "en")}
+                            >
+                                {__("English")}
+                            </a>
                         </li>
                         <li>
-                            <a href="#" onClick={this._onClick.bind(this, "de")}>
+                            <a
+                                href="#"
+                                onClick={this._onClick.bind(this, "de")}
+                            >
                                 {__("German")}
                             </a>
                         </li>
@@ -67,14 +83,16 @@ class MobileLanguageSelector extends React.Component<ILanguageSelectorProps> {
         );
     }
 
-    private _onClick(language: string, ev: React.MouseEvent<HTMLAnchorElement>) {
+    private _onClick(
+        language: string,
+        ev: React.MouseEvent<HTMLAnchorElement>
+    ) {
         ev.preventDefault();
         ev.stopPropagation();
 
         this.props.onLanguageSelect(language);
     }
 }
-
 
 interface ILayoutProps {
     message;
@@ -97,7 +115,7 @@ interface ILayoutProps {
 
 export class Layout extends React.Component<ILayoutProps> {
     private _msg: HTMLDivElement;
-    private _resolveMsg = (element: HTMLDivElement) => this._msg = element;
+    private _resolveMsg = (element: HTMLDivElement) => (this._msg = element);
 
     public componentDidUpdate(prevProps: ILayoutProps) {
         // Scroll message into view if it exists
@@ -125,9 +143,10 @@ export class Layout extends React.Component<ILayoutProps> {
 
         let isAdmin = false;
         if (userInfo) {
-            isAdmin = userInfo.roles
-                .map(r => r.toUpperCase())
-                .indexOf("admin".toUpperCase()) !== -1;
+            isAdmin =
+                userInfo.roles
+                    .map((r) => r.toUpperCase())
+                    .indexOf("admin".toUpperCase()) !== -1;
         }
 
         return (
@@ -142,28 +161,40 @@ export class Layout extends React.Component<ILayoutProps> {
 
                         {/* Responsive Navigation */}
                         <GridColumn className="col-xs-2 col-sm-7 mobile-navigation visible-xs-block">
-                            {this.props.isNavOpen && <div className="mobile-nav">
-                                <Grid className="container">
-                                    <GridRow className="text-right">
-                                        <Button onClick={() => this.props.openCloseNav(false)}>
-                                            <Glyphicon glyph="menu-hamburger" />
-                                        </Button>
-                                    </GridRow>
+                            {this.props.isNavOpen && (
+                                <div className="mobile-nav">
+                                    <Grid className="container">
+                                        <GridRow className="text-right">
+                                            <Button
+                                                onClick={() =>
+                                                    this.props.openCloseNav(
+                                                        false
+                                                    )
+                                                }
+                                            >
+                                                <Glyphicon glyph="menu-hamburger" />
+                                            </Button>
+                                        </GridRow>
 
-                                    <GridRow>
-                                        {this.props.nav}
-                                    </GridRow>
+                                        <GridRow>{this.props.nav}</GridRow>
 
-                                    <GridRow>
-                                        <MobileLanguageSelector
-                                            selectedLanguage={this.props.language}
-                                            onLanguageSelect={this._onLanguageSelect}
-                                        />
-                                    </GridRow>
-                                </Grid>
-                            </div>}
+                                        <GridRow>
+                                            <MobileLanguageSelector
+                                                selectedLanguage={
+                                                    this.props.language
+                                                }
+                                                onLanguageSelect={
+                                                    this._onLanguageSelect
+                                                }
+                                            />
+                                        </GridRow>
+                                    </Grid>
+                                </div>
+                            )}
 
-                            <Button onClick={() => this.props.openCloseNav(true)}>
+                            <Button
+                                onClick={() => this.props.openCloseNav(true)}
+                            >
                                 <Glyphicon glyph="menu-hamburger" />
                             </Button>
                         </GridColumn>
@@ -176,24 +207,20 @@ export class Layout extends React.Component<ILayoutProps> {
                                 />
                             </div>
 
-                            <div className="navigation">
-                                {this.props.nav}
-                            </div>
+                            <div className="navigation">{this.props.nav}</div>
                         </GridColumn>
                     </GridRow>
 
                     <GridRow className="message">
-                        <div ref={this._resolveMsg}>
-                            {msg}
-                        </div>
+                        <div ref={this._resolveMsg}>{msg}</div>
                     </GridRow>
 
                     <GridRow className="content">
-                        {
-                            title && <GridColumn className="col-xs-12 main-title">
+                        {title && (
+                            <GridColumn className="col-xs-12 main-title">
                                 <Title>{title}</Title>
                             </GridColumn>
-                        }
+                        )}
 
                         {this.props.commercials}
 
@@ -203,10 +230,18 @@ export class Layout extends React.Component<ILayoutProps> {
                     </GridRow>
 
                     <GridRow className="footer">
-                        {
-                            isAdmin && <span><a href="/toadmin">ADMIN</a>&nbsp;|&nbsp;</span>
-                        }
-                        <Link to="/privacy">{__("Privacy Policy")}</Link> | <Link to="/tos">{__("Terms of Service")}</Link> | <Link to="/imprint">{__("Imprint")}</Link> | <a href="http://forum.imperaonline.de/">{__("Forum (external)")}</a> | <a href="https://www.imperaonline.de/swagger/">API</a>
+                        {isAdmin && (
+                            <span>
+                                <a href="/toadmin">ADMIN</a>&nbsp;|&nbsp;
+                            </span>
+                        )}
+                        <Link to="/privacy">{__("Privacy Policy")}</Link> |{" "}
+                        <Link to="/tos">{__("Terms of Service")}</Link> |{" "}
+                        <Link to="/imprint">{__("Imprint")}</Link> |{" "}
+                        <a href="http://forum.imperaonline.de/">
+                            {__("Forum (external)")}
+                        </a>{" "}
+                        | <a href="https://www.imperaonline.de/swagger/">API</a>
                     </GridRow>
                 </GridContainer>
 
@@ -217,26 +252,35 @@ export class Layout extends React.Component<ILayoutProps> {
 
     private _onLanguageSelect = (language: string) => {
         this.props.setLanguage(language);
-    }
+    };
 
     private _onClear = () => {
         this.props.clear();
-    }
+    };
 }
 
-export default connect((state: IState) => {
-    const session = state.session;
-    const general = state.general;
+export default connect(
+    (state: IState) => {
+        const session = state.session;
+        const general = state.general;
 
-    return {
-        message: state.message.message,
-        isNavOpen: general.isNavOpen,
-        title: general.title,
-        language: session.language,
-        userInfo: session.userInfo,
-    };
-}, (dispatch) => ({
-    clear: () => { dispatch(clear(null)); },
-    openCloseNav: (state: boolean) => { dispatch(openCloseNav(state)); },
-    setLanguage: (language: string) => { dispatch(setLanguage(language)); }
-}))(Layout);
+        return {
+            message: state.message.message,
+            isNavOpen: general.isNavOpen,
+            title: general.title,
+            language: session.language,
+            userInfo: session.userInfo,
+        };
+    },
+    (dispatch) => ({
+        clear: () => {
+            dispatch(clear(null));
+        },
+        openCloseNav: (state: boolean) => {
+            dispatch(openCloseNav(state));
+        },
+        setLanguage: (language: string) => {
+            dispatch(setLanguage(language));
+        },
+    })
+)(Layout);

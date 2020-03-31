@@ -46,24 +46,41 @@ export class NotificationService {
         this._getClient().stop();
     }
 
-    sendGameMessage(gameId: number, message: string, isPublic: boolean): Promise<void> {
-        return this._ensureInit().then(() => this._client.invoke<void>("sendGameMessage", gameId, message, isPublic));
+    sendGameMessage(
+        gameId: number,
+        message: string,
+        isPublic: boolean
+    ): Promise<void> {
+        return this._ensureInit().then(() =>
+            this._client.invoke<void>(
+                "sendGameMessage",
+                gameId,
+                message,
+                isPublic
+            )
+        );
     }
 
     switchGame(oldGameId: number, gameId: number): Promise<void> {
         if (oldGameId !== gameId) {
-            return this._ensureInit().then(() => this._client.invoke<void>("switchGame", oldGameId, gameId));
+            return this._ensureInit().then(() =>
+                this._client.invoke<void>("switchGame", oldGameId, gameId)
+            );
         }
 
         return Promise.resolve(null);
     }
 
     leaveGame(gameId: number): Promise<void> {
-        return this._ensureInit().then(() => this._client.invoke<void>("leaveGame", gameId));
+        return this._ensureInit().then(() =>
+            this._client.invoke<void>("leaveGame", gameId)
+        );
     }
 
     attachHandler<TNotification extends INotification>(
-        type: NotificationType, handler: INotificationHandler<TNotification>) {
+        type: NotificationType,
+        handler: INotificationHandler<TNotification>
+    ) {
         if (!this._handlers[type]) {
             this._handlers[type] = [handler];
         } else {
@@ -72,7 +89,9 @@ export class NotificationService {
     }
 
     detachHandler<TNotification extends INotification>(
-        type: NotificationType, handler: INotificationHandler<TNotification>) {
+        type: NotificationType,
+        handler: INotificationHandler<TNotification>
+    ) {
         if (this._handlers[type]) {
             const idx = this._handlers[type].indexOf(handler);
             if (idx !== -1) {

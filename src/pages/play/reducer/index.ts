@@ -11,15 +11,19 @@ export { IPlayState, ITwoCountry };
 /** Reducer */
 export const play = <TPayload>(
     state = initialState,
-    action?: IAction<TPayload>) => {
-
+    action?: IAction<TPayload>
+) => {
     const userActions = [
         Actions.SELECT_COUNTRY,
         Actions.SET_PLACE_UNITS,
-        Actions.SET_ACTION_UNITS
+        Actions.SET_ACTION_UNITS,
     ];
 
-    if (state.operationInProgress && action && userActions.some(a => a === action.type)) {
+    if (
+        state.operationInProgress &&
+        action &&
+        userActions.some((a) => a === action.type)
+    ) {
         // No input allowed while operation is in progress
         return state;
     }
@@ -34,15 +38,23 @@ export const play = <TPayload>(
         [Actions.SET_GAME_OPTION]: ActionHandlers.setUIOption,
 
         // Other games
-        [success(Actions.refreshOtherGames.TYPE)]: ActionHandlers.refreshOtherGames,
+        [success(
+            Actions.refreshOtherGames.TYPE
+        )]: ActionHandlers.refreshOtherGames,
 
         [Actions.LEAVE]: ActionHandlers.leave,
 
         // Game chat
         [Actions.GAME_CHAT_MESSAGE]: ActionHandlers.gameChatMessage,
-        [pending(Actions.gameChatSendMessage.TYPE)]: ActionHandlers.gameChatSendMessagePending,
-        [success(Actions.gameChatSendMessage.TYPE)]: ActionHandlers.gameChatSendMessageSuccess,
-        [success(Actions.gameChatMessages.TYPE)]: ActionHandlers.gameChatMessages,
+        [pending(
+            Actions.gameChatSendMessage.TYPE
+        )]: ActionHandlers.gameChatSendMessagePending,
+        [success(
+            Actions.gameChatSendMessage.TYPE
+        )]: ActionHandlers.gameChatSendMessageSuccess,
+        [success(
+            Actions.gameChatMessages.TYPE
+        )]: ActionHandlers.gameChatMessages,
 
         // History
         [pending(Actions.historyTurn.TYPE)]: ActionHandlers.pendingOperation,
@@ -76,6 +88,6 @@ export const play = <TPayload>(
 
         [pending(Actions.endTurn.TYPE)]: ActionHandlers.pendingOperation,
         [success(Actions.endTurn.TYPE)]: ActionHandlers.updateFromResult,
-        [failed(Actions.endTurn.TYPE)]: ActionHandlers.error
+        [failed(Actions.endTurn.TYPE)]: ActionHandlers.error,
     });
 };

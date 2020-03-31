@@ -6,16 +6,16 @@ import { play } from "./index";
 UserProvider.userProvider = () => "user1";
 
 describe("Play:reducer", () => {
-    const state = play().__set(x => x, {
+    const state = play().__set((x) => x, {
         gameId: 1,
         game: {
             id: 1,
             state: GameState.Active,
             playState: PlayState.Attack,
             currentPlayer: {
-                userId: "user1"
-            }
-        }
+                userId: "user1",
+            },
+        },
     } as any);
 
     describe("select country", () => {
@@ -24,7 +24,7 @@ describe("Play:reducer", () => {
 
             s = play(s, {
                 type: Actions.SELECT_COUNTRY,
-                payload: "a"
+                payload: "a",
             });
 
             expect(s.twoCountry.originCountryIdentifier).toBe("a");
@@ -32,7 +32,7 @@ describe("Play:reducer", () => {
 
             s = play(s, {
                 type: Actions.SELECT_COUNTRY,
-                payload: "b"
+                payload: "b",
             });
 
             expect(s.twoCountry.originCountryIdentifier).toBe("a");
@@ -40,7 +40,7 @@ describe("Play:reducer", () => {
 
             s = play(s, {
                 type: Actions.SELECT_COUNTRY,
-                payload: "c"
+                payload: "c",
             });
 
             expect(s.twoCountry.originCountryIdentifier).toBe("c");
@@ -48,27 +48,23 @@ describe("Play:reducer", () => {
         });
 
         it("resets when selecting null", () => {
-            let s = state.__set(x => x.twoCountry, {
+            let s = state.__set((x) => x.twoCountry, {
                 originCountryIdentifier: "a",
                 destinationCountryIdentifier: "b",
-                numberOfUnits: 42
+                numberOfUnits: 42,
             });
 
             s = play(s, {
                 type: Actions.SELECT_COUNTRY,
-                payload: null
+                payload: null,
             });
 
             expect(s.twoCountry.originCountryIdentifier).toBe(null);
             expect(s.twoCountry.destinationCountryIdentifier).toBe(null);
         });
 
-        it("selects countries only when allowed", () => {
-
-        });
+        it("selects countries only when allowed", () => {});
     });
 
-    describe("place units", () => {
-
-    });
+    describe("place units", () => {});
 });

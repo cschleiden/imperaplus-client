@@ -8,7 +8,7 @@ const initialState = makeImmutable({
     isLoading: false,
     ladders: {} as { [ladderId: number]: LadderSummary },
     /** Current ladder */
-    ladder: null as Ladder
+    ladder: null as Ladder,
 });
 
 export type ILaddersState = typeof initialState;
@@ -23,39 +23,39 @@ const refresh = (state: ILaddersState, action: IAction<LadderSummary[]>) => {
         }
     }
 
-    return state.__set(x => x, {
+    return state.__set((x) => x, {
         isLoading: false,
-        ladders: ladderMap
+        ladders: ladderMap,
     });
 };
 
 const pendingOpen = (state: ILaddersState, action: IAction<void>) => {
-    return state.__set(x => x, {
+    return state.__set((x) => x, {
         isLoading: true,
-        ladder: null
+        ladder: null,
     });
 };
 
 const open = (state: ILaddersState, action: IAction<Ladder>) => {
-    return state.__set(x => x, {
+    return state.__set((x) => x, {
         isLoading: false,
-        ladder: action.payload
+        ladder: action.payload,
     });
 };
 
 const loading = (state: ILaddersState, action: IAction<void>) => {
-    return state.__set(x => x.isLoading, true);
+    return state.__set((x) => x.isLoading, true);
 };
 
 export const ladders = <TPayload>(
     state = initialState,
-    action?: IAction<TPayload>) => {
-
+    action?: IAction<TPayload>
+) => {
     return reducerMap(action, state, {
         [pending(Actions.refresh.TYPE)]: loading,
         [success(Actions.refresh.TYPE)]: refresh,
 
         [pending(Actions.open.TYPE)]: pendingOpen,
-        [success(Actions.open.TYPE)]: open
+        [success(Actions.open.TYPE)]: open,
     });
 };

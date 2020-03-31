@@ -6,7 +6,7 @@ export namespace UserProvider {
         return userProvider();
     };
 
-    export const isAdmin = () => boolean => {
+    export const isAdmin = () => (boolean) => {
         return isAdminProvider();
     };
 }

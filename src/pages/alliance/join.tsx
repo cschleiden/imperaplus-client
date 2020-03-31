@@ -22,13 +22,15 @@ export class JoinAllianceComponent extends React.Component<IJoinAllianceProps> {
     }
 }
 
-export default connect((state: IState) => {
-    /* const gamesMap = state.gamesgames;
+export default connect(
+    (state: IState) => {
+        /* const gamesMap = state.gamesgames;
     const games = Object.keys(gamesMap).map(id => gamesMap[id]); */
 
-    return {
-    };
-}, (dispatch) => ({
-    /* refreshAlliance: () => dispatch(refreshAlliance(null)),
+        return {};
+    },
+    (dispatch) => ({
+        /* refreshAlliance: () => dispatch(refreshAlliance(null)),
     join: () => dispatch(join(null)) */
-}))(JoinAllianceComponent);
+    })
+)(JoinAllianceComponent);

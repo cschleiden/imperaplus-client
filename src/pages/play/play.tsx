@@ -9,7 +9,12 @@ import { IState } from "../../reducers";
 import Header from "./components/header";
 import Map from "./components/map";
 import Sidebar from "./components/sidebar";
-import { refreshGame, refreshOtherGames, setGameOption, switchGame } from "./play.actions";
+import {
+    refreshGame,
+    refreshOtherGames,
+    setGameOption,
+    switchGame,
+} from "./play.actions";
 import "./play.scss";
 import { IGameUIOptions } from "./reducer/play.reducer.state";
 
@@ -90,15 +95,16 @@ class Play extends React.Component<IPlayProps & IPlayDispatchProps> {
 
                 <div
                     className={css("play-area", {
-                        "sidebar": sidebarOpen
+                        sidebar: sidebarOpen,
                     })}
                 >
-                    {error && <Alert
-                        bsStyle="danger"
-                        onDismiss={this._clearError}
-                    >
-                        {ErrorCodes.errorMessage[error.error] || error.error_Description || __("An error occured, please refresh.")}
-                    </Alert>}
+                    {error && (
+                        <Alert bsStyle="danger" onDismiss={this._clearError}>
+                            {ErrorCodes.errorMessage[error.error] ||
+                                error.error_Description ||
+                                __("An error occured, please refresh.")}
+                        </Alert>
+                    )}
 
                     <Map />
                 </div>
@@ -126,24 +132,35 @@ class Play extends React.Component<IPlayProps & IPlayDispatchProps> {
     }
 }
 
-export default connect((state: IState, ownProps: IPlayProps) => {
-    const playState = state.play;
+export default connect(
+    (state: IState, ownProps: IPlayProps) => {
+        const playState = state.play;
 
-    return {
-        game: playState.game,
-        error: playState.error,
-        sidebarOpen: playState.sidebarOpen
-    };
-}, (dispatch) => ({
-    switchGame: (gameId: number, turnNo?: number) => { dispatch(switchGame({ gameId, turnNo })); },
-    refreshGame: () => { dispatch(refreshGame(null)); },
-    refreshOtherGames: () => { dispatch(refreshOtherGames(null)); },
+        return {
+            game: playState.game,
+            error: playState.error,
+            sidebarOpen: playState.sidebarOpen,
+        };
+    },
+    (dispatch) => ({
+        switchGame: (gameId: number, turnNo?: number) => {
+            dispatch(switchGame({ gameId, turnNo }));
+        },
+        refreshGame: () => {
+            dispatch(refreshGame(null));
+        },
+        refreshOtherGames: () => {
+            dispatch(refreshOtherGames(null));
+        },
 
-    setGameUiOption: (name: keyof IGameUIOptions, value: boolean) => {
-        dispatch(setGameOption({
-            name,
-            value,
-            temporary: true
-        }));
-    }
-}))(Play);
+        setGameUiOption: (name: keyof IGameUIOptions, value: boolean) => {
+            dispatch(
+                setGameOption({
+                    name,
+                    value,
+                    temporary: true,
+                })
+            );
+        },
+    })
+)(Play);

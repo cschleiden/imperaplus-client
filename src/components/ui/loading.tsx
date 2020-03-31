@@ -9,9 +9,7 @@ interface ILoadingProps {
 
 export class Loading extends React.Component<ILoadingProps> {
     public render(): JSX.Element {
-        const {
-            size = SpinnerSize.Large
-        } = this.props;
+        const { size = SpinnerSize.Large } = this.props;
 
         return (
             <div className="loading">

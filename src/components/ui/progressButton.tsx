@@ -15,7 +15,7 @@ export const ProgressButton = (props: IProgressButtonProps) => {
         <Button
             {...buttonProps}
             className={css(className, "progress-button", {
-                "progress-button-active": isActive
+                "progress-button-active": isActive,
             })}
             disabled={disabled || isActive}
         />
@@ -29,17 +29,26 @@ export interface ISimpleProgressButtonState {
 /**
  * Simple progress button that starts showing progress when clicked
  */
-export class SimpleProgressButton extends React.Component<ButtonProps, ISimpleProgressButtonState> {
+export class SimpleProgressButton extends React.Component<
+    ButtonProps,
+    ISimpleProgressButtonState
+> {
     constructor(props: ButtonProps) {
         super(props);
 
         this.state = {
-            isActive: false
+            isActive: false,
         };
     }
 
     public render() {
-        return <ProgressButton {...this.props} onClick={this._onClick} isActive={this.state.isActive} />;
+        return (
+            <ProgressButton
+                {...this.props}
+                onClick={this._onClick}
+                isActive={this.state.isActive}
+            />
+        );
     }
 
     @autobind
@@ -47,7 +56,7 @@ export class SimpleProgressButton extends React.Component<ButtonProps, ISimplePr
         const { onClick } = this.props;
 
         this.setState({
-            isActive: true
+            isActive: true,
         });
 
         if (onClick) {

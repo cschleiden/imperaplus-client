@@ -26,13 +26,13 @@ interface IChatState {
 
 export class Chat extends React.Component<IChatProps, IChatState> {
     private _content: HTMLDivElement;
-    private _resolveContent = (elem: HTMLDivElement) => this._content = elem;
+    private _resolveContent = (elem: HTMLDivElement) => (this._content = elem);
 
     constructor(props, context) {
         super(props, context);
 
         this.state = {
-            msg: ""
+            msg: "",
         };
     }
 
@@ -40,14 +40,14 @@ export class Chat extends React.Component<IChatProps, IChatState> {
         if (!this.props.isActive) {
             return (
                 <div className="chat-button">
-                    <Button onClick={this._onShow}>
-                        {__("Open chat")}
-                    </Button>
+                    <Button onClick={this._onShow}>{__("Open chat")}</Button>
                 </div>
             );
         } else {
             // Chat is active
-            const activeChannel = this.props.channels.filter(c => c.identifier === this.props.activeChannel)[0];
+            const activeChannel = this.props.channels.filter(
+                (c) => c.identifier === this.props.activeChannel
+            )[0];
 
             if (this.props.isVisible) {
                 // Show chat window
@@ -56,19 +56,31 @@ export class Chat extends React.Component<IChatProps, IChatState> {
                         <div className="chat-header">
                             <div>
                                 <ul>
-                                    {this.props.channels && this.props.channels.map(c =>
-                                        <li key={c.identifier} className={this.props.activeChannel === c.identifier && "selected"}>
-                                            <a
-                                                href="#"
-                                                onClick={(e) => {
-                                                    e.preventDefault();
-                                                    this._switchChannel(c.identifier);
-                                                    return false;
-                                                }}
+                                    {(this.props.channels &&
+                                        this.props.channels.map((c) => (
+                                            <li
+                                                key={c.identifier}
+                                                className={
+                                                    this.props.activeChannel ===
+                                                        c.identifier &&
+                                                    "selected"
+                                                }
                                             >
-                                                {c.title}
-                                            </a>
-                                        </li>) || []}
+                                                <a
+                                                    href="#"
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        this._switchChannel(
+                                                            c.identifier
+                                                        );
+                                                        return false;
+                                                    }}
+                                                >
+                                                    {c.title}
+                                                </a>
+                                            </li>
+                                        ))) ||
+                                        []}
                                 </ul>
                             </div>
 
@@ -89,11 +101,33 @@ export class Chat extends React.Component<IChatProps, IChatState> {
                         </div>
 
                         <div className="chat-content">
-                            <div className="chat-content-messages" ref={this._resolveContent}>
+                            <div
+                                className="chat-content-messages"
+                                ref={this._resolveContent}
+                            >
                                 <ul>
-                                    {activeChannel.messages.map((msg, i) => <li key={`${msg.userName}-${msg.dateTime.toISOString()}-${i}`}>
-                                        [<span className="chat-date">{msg.dateTime && msg.dateTime.toLocaleString() || i}</span>]&nbsp;<span className="chat-user">{msg.userName}</span>:&nbsp;<span className="chat-message">{msg.text}</span>
-                                    </li>)}
+                                    {activeChannel.messages.map((msg, i) => (
+                                        <li
+                                            key={`${
+                                                msg.userName
+                                            }-${msg.dateTime.toISOString()}-${i}`}
+                                        >
+                                            [
+                                            <span className="chat-date">
+                                                {(msg.dateTime &&
+                                                    msg.dateTime.toLocaleString()) ||
+                                                    i}
+                                            </span>
+                                            ]&nbsp;
+                                            <span className="chat-user">
+                                                {msg.userName}
+                                            </span>
+                                            :&nbsp;
+                                            <span className="chat-message">
+                                                {msg.text}
+                                            </span>
+                                        </li>
+                                    ))}
 
                                     <li className="last-element" />
                                 </ul>
@@ -101,7 +135,9 @@ export class Chat extends React.Component<IChatProps, IChatState> {
 
                             <div className="chat-content-users">
                                 <ul>
-                                    {activeChannel.users.map(u => <li key={u.name}>{u.name}</li>)}
+                                    {activeChannel.users.map((u) => (
+                                        <li key={u.name}>{u.name}</li>
+                                    ))}
                                 </ul>
                             </div>
                         </div>
@@ -109,7 +145,9 @@ export class Chat extends React.Component<IChatProps, IChatState> {
                         <div className="chat-input">
                             <form onSubmit={this._onSend}>
                                 <FormControl
-                                    {...{ autoComplete: "new-password" } as any}
+                                    {...({
+                                        autoComplete: "new-password",
+                                    } as any)}
                                     placeholder={__("Enter your message...")}
                                     value={this.state.msg}
                                     onChange={this._onChange}
@@ -130,9 +168,14 @@ export class Chat extends React.Component<IChatProps, IChatState> {
                 return (
                     <div className="chat-button">
                         <Button onClick={this._onShow}>
-                            {unreadCount > 0 ? unreadCount :
-                                <i className="fa fa-envelope-o" aria-hidden="true" />
-                            }
+                            {unreadCount > 0 ? (
+                                unreadCount
+                            ) : (
+                                <i
+                                    className="fa fa-envelope-o"
+                                    aria-hidden="true"
+                                />
+                            )}
                         </Button>
                     </div>
                 );
@@ -148,9 +191,9 @@ export class Chat extends React.Component<IChatProps, IChatState> {
 
     private _onChange = (event) => {
         this.setState({
-            msg: event.target.value
+            msg: event.target.value,
         });
-    }
+    };
 
     private _isValid() {
         return this.state.msg !== "";
@@ -158,19 +201,19 @@ export class Chat extends React.Component<IChatProps, IChatState> {
 
     private _onShow = () => {
         this.props.showHide(true);
-    }
+    };
 
     private _onHide = () => {
         this.props.showHide(false);
-    }
+    };
 
     private _onClose = () => {
         this.props.close();
-    }
+    };
 
     private _switchChannel = (channelId: string) => {
         this.props.switchChannel(channelId);
-    }
+    };
 
     @autobind
     private _onSend(ev: React.FormEvent<HTMLFormElement>) {
@@ -180,24 +223,35 @@ export class Chat extends React.Component<IChatProps, IChatState> {
         this.props.send(this.state.msg);
 
         this.setState({
-            msg: ""
+            msg: "",
         });
     }
 }
 
-export default connect((state: IState) => {
-    const chat = state.chat;
+export default connect(
+    (state: IState) => {
+        const chat = state.chat;
 
-    return {
-        isVisible: chat.isVisible,
-        isActive: chat.isActive,
-        channels: chat.channels,
-        activeChannel: chat.activeChannelId,
-        unreadCount: chat.unreadCount
-    };
-}, (dispatch) => ({
-    showHide: (show: boolean) => { dispatch(showHide(show)); },
-    close: () => { dispatch(close()); },
-    send: (msg: string) => { dispatch(message(msg)); },
-    switchChannel: (id: string): void => { dispatch(switchChannel(id)); }
-}))(Chat);
+        return {
+            isVisible: chat.isVisible,
+            isActive: chat.isActive,
+            channels: chat.channels,
+            activeChannel: chat.activeChannelId,
+            unreadCount: chat.unreadCount,
+        };
+    },
+    (dispatch) => ({
+        showHide: (show: boolean) => {
+            dispatch(showHide(show));
+        },
+        close: () => {
+            dispatch(close());
+        },
+        send: (msg: string) => {
+            dispatch(message(msg));
+        },
+        switchChannel: (id: string): void => {
+            dispatch(switchChannel(id));
+        },
+    })
+)(Chat);

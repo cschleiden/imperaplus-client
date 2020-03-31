@@ -9,7 +9,9 @@ export default class SignupConfirmation extends React.Component {
                 <GridRow>
                     <GridColumn className="col-xs-12">
                         <p>
-                            {__("Your account has been successfully registered. You will receive an email with a confirmation code, please follow the instructions in there.")}
+                            {__(
+                                "Your account has been successfully registered. You will receive an email with a confirmation code, please follow the instructions in there."
+                            )}
                         </p>
                     </GridColumn>
                 </GridRow>
