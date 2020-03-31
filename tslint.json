@@ -56,8 +56,7 @@
         ],
         "radix": true,
         "semicolon": [
-            true,
-            "always"
+            true            
         ],
         "triple-equals": [
             true,
@@ -76,6 +75,7 @@
             "double",
             "jsx-double"
         ],
+        "avoidEscape": true,
         "jsx-boolean-value": false
     }
 }

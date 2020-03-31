@@ -188,6 +188,11 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
                                 onClick={this._onEndAttack}
                             >
                                 <span className="fa fa-mail-forward" />
+                                &nbsp;
+                                <span>
+                                    {game.movesInCurrentTurn}/
+                                    {game.options.movesPerTurn}
+                                </span>
                             </Button>
                         </ButtonGroup>
                     )}
@@ -302,9 +307,10 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
         return (
             <Button
                 className="btn btn-u"
-                title={`${__("Exchange cards")} (${
-                    (player && player.cards && player.cards.length) || 0
-                }/${game.options.maximumNumberOfCards})`}
+                title={`${__("Exchange cards")} (${(player &&
+                    player.cards &&
+                    player.cards.length) ||
+                    0}/${game.options.maximumNumberOfCards})`}
                 onClick={this._onExchangeCards}
                 disabled={
                     !inputActive || game.playState !== PlayState.PlaceUnits
@@ -417,7 +423,7 @@ export default connect(
             gameUiOptions,
         };
     },
-    (dispatch) => ({
+    dispatch => ({
         place: () => {
             dispatch(place(null));
         },

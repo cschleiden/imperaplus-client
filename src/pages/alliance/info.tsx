@@ -99,7 +99,7 @@ export class AllianceInfoComponent extends React.Component<IAllianceInfoProps> {
                     <ul>
                         {alliance &&
                             alliance.members &&
-                            alliance.members.map((member) => (
+                            alliance.members.map(member => (
                                 <li key={member.id}>
                                     {member.name}
                                     {isAdmin && member.id !== userId && (
@@ -120,7 +120,7 @@ export class AllianceInfoComponent extends React.Component<IAllianceInfoProps> {
                                                 {__("Remove")}
                                             </Button>
                                             {!alliance.admins.some(
-                                                (a) => a.id === member.id
+                                                a => a.id === member.id
                                             ) ? (
                                                 <Button
                                                     bsSize="xsmall"
@@ -160,7 +160,7 @@ export class AllianceInfoComponent extends React.Component<IAllianceInfoProps> {
                     <ul>
                         {alliance &&
                             alliance.admins &&
-                            alliance.admins.map((admin) => (
+                            alliance.admins.map(admin => (
                                 <li key={admin.id}>{admin.name}</li>
                             ))}
                     </ul>
@@ -264,7 +264,7 @@ export class AllianceInfoComponent extends React.Component<IAllianceInfoProps> {
                             <SubSection>{__("Requests")}</SubSection>
                             {requests && requests.length > 0 ? (
                                 <ul>
-                                    {requests.map((request) => {
+                                    {requests.map(request => {
                                         return (
                                             <li key={request.id}>
                                                 {HumanDate(request.createdAt)} -{" "}
@@ -372,13 +372,13 @@ export default connect(
         const userId = userInfo && userInfo.userId;
 
         const notAMemberOfCurrentAlliance =
-            alliance && !alliance.members.some((x) => x.id === userId);
+            alliance && !alliance.members.some(x => x.id === userId);
         const notInAnyAlliance = !allianceId;
         const hasPendingRequest =
             alliance &&
             pendingRequests &&
             pendingRequests.some(
-                (x) =>
+                x =>
                     x.allianceId === alliance.id &&
                     x.state === AllianceJoinRequestState.Active
             );
@@ -386,7 +386,7 @@ export default connect(
             alliance &&
             pendingRequests &&
             pendingRequests.some(
-                (x) =>
+                x =>
                     x.allianceId !== alliance.id &&
                     x.state === AllianceJoinRequestState.Active
             );
@@ -411,7 +411,7 @@ export default connect(
             hasOtherPendingRequest,
         };
     },
-    (dispatch) => ({
+    dispatch => ({
         setTitle: (title: string) => {
             dispatch(setTitle(title));
         },

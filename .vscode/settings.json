@@ -7,12 +7,7 @@
     "**/.svn": true,
     "**/.hg": true,
     "**/.DS_Store": true,
-    "node_modules": true,
+    "node_modules": false,
     ".vscode": false
-  },
-  "tslint.autoFixOnSave": true,
-  "typescriptHero.imports.stringQuoteStyle": "\"",
-  "typescriptHero.imports.multiLineTrailingComma": false,
-  "typescriptHero.imports.grouping": [
-  ]
+  }
 }

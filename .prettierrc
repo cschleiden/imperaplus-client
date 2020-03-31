@@ -1,6 +1,6 @@
 {
-  "tabWidth": 4,
-  "singleQuote": false,
-  "jsxSingleQuote": false,
-  "trailingComma": "es5"
+    "tabWidth": 4,
+    "singleQuote": false,
+    "jsxSingleQuote": false,
+    "trailingComma": "es5"
 }

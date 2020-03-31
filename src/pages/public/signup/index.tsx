@@ -14,7 +14,7 @@ import LinkString from "../../../components/ui/strLink";
 import "./signup.scss";
 
 function range(start: number, count: number) {
-    return Array.apply(0, Array(count)).map(function (element, index) {
+    return Array.apply(0, Array(count)).map(function(element, index) {
         return index + start;
     });
 }
@@ -119,7 +119,7 @@ export class SignupComponent extends React.Component<ISignupProps> {
                                             <div>
                                                 <ControlledDropdown fieldName="day">
                                                     <option value="" />
-                                                    {range(1, 31).map((x) => (
+                                                    {range(1, 31).map(x => (
                                                         <option
                                                             value={x}
                                                             key={x}
@@ -130,7 +130,7 @@ export class SignupComponent extends React.Component<ISignupProps> {
                                                 </ControlledDropdown>
                                                 <ControlledDropdown fieldName="month">
                                                     <option value="" />
-                                                    {range(1, 12).map((x) => (
+                                                    {range(1, 12).map(x => (
                                                         <option
                                                             value={x}
                                                             key={x}
@@ -145,7 +145,7 @@ export class SignupComponent extends React.Component<ISignupProps> {
                                                         new Date().getFullYear() -
                                                             85,
                                                         85
-                                                    ).map((x) => (
+                                                    ).map(x => (
                                                         <option
                                                             value={x}
                                                             key={x}
@@ -217,4 +217,4 @@ export class SignupComponent extends React.Component<ISignupProps> {
     }
 }
 
-export default connect((state) => ({}), {})(SignupComponent);
+export default connect(state => ({}), {})(SignupComponent);

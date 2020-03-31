@@ -59,7 +59,7 @@ export default connect(
         isLoading: state.mapPreview.isLoading,
         mapTemplate: state.mapPreview.mapTemplate,
     }),
-    (dispatch) => ({
+    dispatch => ({
         loadMapTemplate: (name: string) => {
             dispatch(loadMapPreview(name));
         },

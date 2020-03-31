@@ -66,7 +66,7 @@ export class StartComponent extends React.Component<IStartProps> {
                     <Section>{__("Tournaments")}</Section>
 
                     <SubSection>{__("Open")}</SubSection>
-                    {this.props.openTournaments.map((tournament) => {
+                    {this.props.openTournaments.map(tournament => {
                         return (
                             <div key={tournament.id}>
                                 <Link to={`/game/tournaments/${tournament.id}`}>
@@ -77,7 +77,7 @@ export class StartComponent extends React.Component<IStartProps> {
                     })}
 
                     <SubSection>{__("Active")}</SubSection>
-                    {this.props.activeTournaments.map((tournament) => {
+                    {this.props.activeTournaments.map(tournament => {
                         return (
                             <div key={tournament.id}>
                                 <Link to={`/game/tournaments/${tournament.id}`}>
@@ -88,7 +88,7 @@ export class StartComponent extends React.Component<IStartProps> {
                     })}
 
                     <SubSection>{__("Closed")}</SubSection>
-                    {this.props.closedTournaments.map((tournament) => {
+                    {this.props.closedTournaments.map(tournament => {
                         return (
                             <div key={tournament.id}>
                                 <Link to={`/game/tournaments/${tournament.id}`}>
@@ -105,7 +105,7 @@ export class StartComponent extends React.Component<IStartProps> {
     private _getLanguageContent(content: NewsContent[]): NewsContent {
         const userLanguage = (this.props && this.props.language) || "en";
 
-        let matches = content.filter((x) => x.language === userLanguage);
+        let matches = content.filter(x => x.language === userLanguage);
         return matches && matches.length > 0 && matches[0];
     }
 }
@@ -114,15 +114,15 @@ export default connect(
     (state: IState) => {
         const tournaments = state.tournaments.tournaments || [];
         const openTournaments = tournaments.filter(
-            (x) => x.state === TournamentState.Open
+            x => x.state === TournamentState.Open
         );
         const activeTournaments = tournaments.filter(
-            (x) =>
+            x =>
                 x.state === TournamentState.Knockout ||
                 x.state === TournamentState.Groups
         );
         const closedTournaments = tournaments
-            .filter((x) => x.state === TournamentState.Closed)
+            .filter(x => x.state === TournamentState.Closed)
             .slice(10);
 
         return {
@@ -134,7 +134,7 @@ export default connect(
             closedTournaments,
         };
     },
-    (dispatch) => ({
+    dispatch => ({
         refresh: () => {
             dispatch(refresh(null));
             dispatch(tournamentsRefresh(null));

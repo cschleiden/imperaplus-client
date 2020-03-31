@@ -40,6 +40,7 @@ render(
 // Dev hot module reloading
 if (module.hot) {
     module.hot.accept(["./app"], () => {
+        // @ts-ignore
         // tslint:disable-next-line:no-require-imports
         const NextApp = (require("./app") as any).default;
         render(

@@ -17,7 +17,7 @@ export interface IStartPayload {
 }
 
 export const SHOW_HIDE = "chat-show-hide";
-export const showHide: IAsyncAction<boolean> = (show) => (
+export const showHide: IAsyncAction<boolean> = show => (
     dispatch,
     getState,
     deps
@@ -35,6 +35,9 @@ export const showHide: IAsyncAction<boolean> = (show) => (
             client.detachAllHandlers();
 
             client.on("broadcastMessage", (message: Message) => {
+                // Dates are sent as strings, ensure we have a Date object
+                message.dateTime = new Date(message.dateTime as any);
+
                 dispatch(receiveMessage(message));
             });
 

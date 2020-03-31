@@ -1,11 +1,9 @@
-import * as $ from "jquery";
-import "ms-signalr-client";
 import { baseUri } from "../configuration";
-import jsonParseReviver from "../lib/jsonReviver";
-import { log } from "../lib/log";
 import { onUnauthorized } from "../services/authProvider";
 import { EventService } from "../services/eventService";
 import { TokenProvider } from "../services/tokenProvider";
+import * as signalR from "@microsoft/signalr";
+import jsonReviver from "../lib/jsonReviver";
 
 const cachedClients: { [hubName: string]: ISignalRClient } = {};
 
@@ -22,7 +20,7 @@ export interface ISignalRClient {
 
     isConnected(): boolean;
 
-    connection: SignalR.Hub.Connection;
+    connection: signalR.HubConnection;
 }
 
 export function getSignalRClient(hubName: string): ISignalRClient {
@@ -59,75 +57,66 @@ EventService.getInstance().attachHandler("signalr.stop", () => {
 });
 
 class SignalRClient implements ISignalRClient {
-    private _proxy: SignalR.Hub.Proxy;
     private _eventCallbacks: [string, any][] = [];
 
-    public connection: SignalR.Hub.Connection;
+    public connection: signalR.HubConnection;
 
     private _reconnect: Promise<void>;
 
     private _onInit: () => Promise<void>;
 
     constructor(hubName: string) {
-        this.connection = $.hubConnection(baseUri);
+        this.connection = new signalR.HubConnectionBuilder()
+            .withUrl(`${baseUri}/${hubName}`, {
+                accessTokenFactory: TokenProvider.tokenRetriever,
+            })
+            .configureLogging(signalR.LogLevel.Trace)
+            .build();
 
-        this.connection.json = <any>{
-            parse: (
-                text: string,
-                reviver?: (key: any, value: any) => any
-            ): any => JSON.parse(text, jsonParseReviver),
-            stringify: (value: any, replacer?: any, space?: any): string =>
-                JSON.stringify(value, replacer, space),
-        };
+        // this.connection.json = <any>{
+        //   parse: (text: string, reviver?: (key: any, value: any) => any): any =>
+        //     JSON.parse(text, jsonParseReviver),
+        //   stringify: (value: any, replacer?: any, space?: any): string =>
+        //     JSON.stringify(value, replacer, space)
+        // };
 
-        this.connection.logging = true;
+        // this.connection.logging = true;
 
-        this.connection.error((error) => {
-            if (error.context && error.context.status === 401) {
-                // Try to reconnect
-                if (!this._reconnect) {
-                    this._reconnect = this._reconnectWithAuth();
-                }
-            }
+        // this.connection.error(error => {
+        //   if (error.context && error.context.status === 401) {
+        //     // Try to reconnect
+        //     if (!this._reconnect) {
+        //       this._reconnect = this._reconnectWithAuth();
+        //     }
+        //   }
 
-            console.error("!!! SignalR error: " + error);
-        });
-        this.connection.disconnected(() => {
-            log("!!! SignalR disconnected");
-        });
-        this.connection.reconnected(() => {
-            log("!!! SignalR reconnected");
-        });
-        this.connection.reconnecting(() => {
-            log("!!! SignalR reconnecting");
-        });
-        this.connection.stateChanged((change) => {
-            log(
-                "!!! SignalR stateChanged: " +
-                    change.newState +
-                    "(0-conn-ng,1=conn-ed,2=reconn,4=disconn)"
-            );
-        });
-        this.connection.connectionSlow(() => {
-            log("!!! SignalR connectionSlow");
-        });
+        //   console.error("!!! SignalR error: " + error);
+        // });
+        // this.connection.disconnected(() => {
+        //   log("!!! SignalR disconnected");
+        // });
+        // this.connection.reconnected(() => {
+        //   log("!!! SignalR reconnected");
+        // });
+        // this.connection.reconnecting(() => {
+        //   log("!!! SignalR reconnecting");
+        // });
+        // this.connection.stateChanged(change => {
+        //   log(
+        //     "!!! SignalR stateChanged: " +
+        //       change.newState +
+        //       "(0-conn-ng,1=conn-ed,2=reconn,4=disconn)"
+        //   );
+        // });
+        // this.connection.connectionSlow(() => {
+        //   log("!!! SignalR connectionSlow");
+        // });
 
-        this._proxy = this.connection.createHubProxy(hubName);
-    }
-
-    private _setToken() {
-        // WebSockets does not allow sending custom headers, so we send the token in the query string
-        this.connection.qs = { bearer_token: TokenProvider.getToken() };
+        // this._proxy = this.connection.createHubProxy(hubName);
     }
 
     public start(): Promise<void> {
-        let startOptions: SignalR.ConnectionOptions = {};
-
-        startOptions["withCredentials"] = false;
-
-        this._setToken();
-
-        return this.connection.start(startOptions).then(
+        return this.connection.start().then(
             () => {
                 if (this._onInit) {
                     return this._onInit();
@@ -144,8 +133,8 @@ class SignalRClient implements ISignalRClient {
         return !!this.connection.state;
     }
 
-    public stop() {
-        this.connection.stop(false, true);
+    public async stop() {
+        await this.connection.stop();
 
         this._detachListeners();
     }
@@ -160,8 +149,8 @@ class SignalRClient implements ISignalRClient {
 
     private _detachListeners() {
         // Detach all event handlers
-        for (let event of this._eventCallbacks) {
-            this._proxy.off(event[0], event[1]);
+        for (const event of this._eventCallbacks) {
+            this.connection.off(event[0], event[1]);
         }
 
         this._eventCallbacks = [];
@@ -178,12 +167,12 @@ class SignalRClient implements ISignalRClient {
             }
         };
 
-        this._proxy.on(eventName, wrappedCallback);
+        this.connection.on(eventName, wrappedCallback);
         this._eventCallbacks.push([eventName, wrappedCallback]);
     }
 
     public off(eventName, callback) {
-        this._proxy.off(eventName, (result) => {
+        this.connection.off(eventName, result => {
             if (callback) {
                 callback(result);
             }
@@ -191,7 +180,7 @@ class SignalRClient implements ISignalRClient {
 
         // Remove from event map
         let matchingEvents = this._eventCallbacks.filter(
-            (e) => e[0] === eventName && e[1] === callback
+            e => e[0] === eventName && e[1] === callback
         );
         if (matchingEvents && matchingEvents.length > 0) {
             for (let matchingEvent of matchingEvents) {
@@ -207,17 +196,39 @@ class SignalRClient implements ISignalRClient {
         // Create copy in case we need to retry, signalR api modifies arguments in place
         const originalArgs = args.slice(0);
 
-        return this._proxy.invoke
-            .apply(this._proxy, [methodName].concat(args))
-            .then(null, (error) => {
+        return this.connection
+            .invoke<TResult>(methodName, ...args)
+            .then(result => {
+                // SignalR does not allow passing a custom reviver: https://github.com/dotnet/aspnetcore/issues/5321
+                // so run ours on the result
+
+                // adapted from https://stackoverflow.com/a/41550077/561159
+                const loopNestedObj = obj => {
+                    Object.keys(obj).forEach(key => {
+                        if (
+                            (obj[key] && typeof obj[key] === "object") ||
+                            Array.isArray(obj[key])
+                        ) {
+                            loopNestedObj(obj[key]);
+                        } else {
+                            obj[key] = jsonReviver(key, obj[key]);
+                        }
+                    });
+                };
+
+                loopNestedObj(result);
+
+                return result;
+            })
+            .then(null, error => {
                 return this._reconnectWithAuth().then(() => {
-                    return this.invoke(methodName, ...originalArgs);
+                    return this.invoke<TResult>(methodName, ...originalArgs);
                 });
             });
     }
 
     public isConnected(): boolean {
-        return this.connection.state === $.signalR.connectionState.connected;
+        return this.connection.state === signalR.HubConnectionState.Connected;
     }
 
     private _reconnectWithAuth(): Promise<void> {
@@ -230,7 +241,7 @@ class SignalRClient implements ISignalRClient {
         };
 
         return onUnauthorized().then(() => {
-            this.connection.stop(false, false);
+            this.connection.stop();
             return this.start().then(reset, reset);
         }, reset);
     }

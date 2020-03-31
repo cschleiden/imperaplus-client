@@ -132,7 +132,7 @@ const GameNavigation = (props: IGameNavigation): JSX.Element => {
                     <li>
                         <a
                             href="#"
-                            onClick={(e) => {
+                            onClick={e => {
                                 logout();
 
                                 e.preventDefault();
@@ -176,7 +176,7 @@ export default connect(
             allianceId,
         };
     },
-    (dispatch) => ({
+    dispatch => ({
         logout: () => {
             dispatch(logout(null));
         },
