@@ -28,7 +28,7 @@ export class TournamentPairingComponent extends React.Component<
 
         return (
             <GridColumn className="col-xs-12">
-                {games.map(game => (
+                {games.map((game) => (
                     <GameDetails key={game.id} game={game} />
                 ))}
             </GridColumn>
@@ -41,12 +41,12 @@ export default connect(
         const games = state.tournaments.pairingGames;
 
         return {
-            games
+            games,
         };
     },
-    dispatch => ({
+    (dispatch) => ({
         loadPairing: (id: string) => {
             dispatch(loadPairingGames({ pairingId: id }));
-        }
+        },
     })
 )(TournamentPairingComponent);

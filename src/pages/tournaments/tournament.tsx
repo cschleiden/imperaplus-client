@@ -4,7 +4,7 @@ import { push } from "react-router-redux";
 import Form from "../../common/forms/form";
 import {
     ControlledDropdown,
-    ControlledTextField
+    ControlledTextField,
 } from "../../common/forms/inputs";
 import { setTitle } from "../../common/general/general.actions";
 import { GridColumn, GridRow } from "../../components/layout";
@@ -12,13 +12,13 @@ import { HumanDate, HumanTime } from "../../components/ui/humanDate";
 import { Loading } from "../../components/ui/loading";
 import {
     ProgressButton,
-    SimpleProgressButton
+    SimpleProgressButton,
 } from "../../components/ui/progressButton";
 import { Section, SubSection, Title } from "../../components/ui/typography";
 import {
     Tournament,
     TournamentState,
-    TournamentTeamState
+    TournamentTeamState,
 } from "../../external/imperaClients";
 import { autobind } from "../../lib/autobind";
 import { css } from "../../lib/css";
@@ -32,7 +32,7 @@ import {
     join,
     joinTeam,
     leave,
-    load
+    load,
 } from "./tournaments.actions";
 
 export interface ITournamentProps {
@@ -271,8 +271,8 @@ export class TournamentComponent extends React.Component<ITournamentProps> {
             tournament.state === TournamentState.Open &&
             tournament.startOfRegistration <= new Date();
 
-        const currentUserTeam = tournament.teams.find(t =>
-            t.participants.some(p => p.id === userId)
+        const currentUserTeam = tournament.teams.find((t) =>
+            t.participants.some((p) => p.id === userId)
         );
         const currentUserIsRegistered = !!currentUserTeam;
         const isTeamTournament = tournament.options.numberOfPlayersPerTeam > 1;
@@ -290,7 +290,7 @@ export class TournamentComponent extends React.Component<ITournamentProps> {
         const teamsToJoinAvailable =
             isTeamTournament &&
             tournament.teams.some(
-                t =>
+                (t) =>
                     t.participants.length <
                     tournament.options.numberOfPlayersPerTeam
             );
@@ -341,7 +341,7 @@ export class TournamentComponent extends React.Component<ITournamentProps> {
                                                 ),
                                                 teamPassword: formState.getFieldValue(
                                                     "teamPassword"
-                                                )
+                                                ),
                                             },
                                             options
                                         );
@@ -349,7 +349,7 @@ export class TournamentComponent extends React.Component<ITournamentProps> {
                                     component={({
                                         isPending,
                                         submit,
-                                        formState
+                                        formState,
                                     }) => (
                                         <div className="form">
                                             <ControlledTextField
@@ -406,7 +406,7 @@ export class TournamentComponent extends React.Component<ITournamentProps> {
                                                 ),
                                                 teamPassword: formState.getFieldValue(
                                                     "password"
-                                                )
+                                                ),
                                             },
                                             options
                                         );
@@ -414,7 +414,7 @@ export class TournamentComponent extends React.Component<ITournamentProps> {
                                     component={({
                                         isPending,
                                         submit,
-                                        formState
+                                        formState,
                                     }) => (
                                         <div className="form">
                                             <ControlledDropdown
@@ -425,13 +425,13 @@ export class TournamentComponent extends React.Component<ITournamentProps> {
                                                 <option key="empty" value="" />
                                                 {tournament.teams
                                                     .filter(
-                                                        t =>
+                                                        (t) =>
                                                             t.participants
                                                                 .length <
                                                             tournament.options
                                                                 .numberOfPlayersPerTeam
                                                     )
-                                                    .map(t => (
+                                                    .map((t) => (
                                                         <option
                                                             key={t.id}
                                                             value={t.id}
@@ -517,19 +517,19 @@ export class TournamentComponent extends React.Component<ITournamentProps> {
             <GridRow>
                 <Section>{__("Teams/Participants")}</Section>
                 <ul className="list-unstyled">
-                    {tournament.teams.map(team => {
+                    {tournament.teams.map((team) => {
                         return (
                             <li
                                 className={css("team", {
                                     inactive:
                                         team.state ===
-                                        TournamentTeamState.InActive
+                                        TournamentTeamState.InActive,
                                 })}
                                 key={team.id}
                             >
                                 {isTeamTournament && <b>{team.name}</b>}
                                 <ul>
-                                    {team.participants.map(p => {
+                                    {team.participants.map((p) => {
                                         return (
                                             <li
                                                 className={css("participant")}
@@ -561,8 +561,8 @@ export class TournamentComponent extends React.Component<ITournamentProps> {
     private _leave() {
         const { tournament, userId } = this.props;
 
-        const userTeam = tournament.teams.find(x =>
-            x.participants.some(p => p.id === userId)
+        const userTeam = tournament.teams.find((x) =>
+            x.participants.some((p) => p.id === userId)
         );
         if (userTeam) {
             if (userTeam.participants.length === 1) {
@@ -579,8 +579,8 @@ export class TournamentComponent extends React.Component<ITournamentProps> {
     private _deleteTeam() {
         const { tournament, userId } = this.props;
 
-        const userTeam = tournament.teams.find(x =>
-            x.participants.some(p => p.id === userId)
+        const userTeam = tournament.teams.find((x) =>
+            x.participants.some((p) => p.id === userId)
         );
         if (userTeam) {
             this.props.deleteTeam(tournament.id, userTeam.id);
@@ -591,8 +591,8 @@ export class TournamentComponent extends React.Component<ITournamentProps> {
     private _leaveTeam() {
         const { tournament, userId } = this.props;
 
-        const userTeam = tournament.teams.find(x =>
-            x.participants.some(p => p.id === userId)
+        const userTeam = tournament.teams.find((x) =>
+            x.participants.some((p) => p.id === userId)
         );
         if (userTeam) {
             this.props.leave(tournament.id);
@@ -617,10 +617,10 @@ export default connect(
                 tournament &&
                 ownProps.params.id === tournament.id &&
                 tournament,
-            userId: userInfo && userInfo.userId
+            userId: userInfo && userInfo.userId,
         };
     },
-    dispatch => ({
+    (dispatch) => ({
         load: (tournamentId: string) => {
             dispatch(load(tournamentId));
         },
@@ -642,7 +642,7 @@ export default connect(
                 joinTeam({
                     tournamentId,
                     teamId,
-                    teamPassword
+                    teamPassword,
                 })
             );
         },
@@ -650,12 +650,12 @@ export default connect(
             dispatch(
                 deleteTeam({
                     tournamentId,
-                    teamId
+                    teamId,
                 })
             );
         },
         navigateToPairing: (id: string) => {
             dispatch(push(`/game/tournaments/pairings/${id}`));
-        }
+        },
     })
 )(TournamentComponent);

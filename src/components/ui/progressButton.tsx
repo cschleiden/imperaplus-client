@@ -15,7 +15,7 @@ export const ProgressButton = (props: IProgressButtonProps) => {
         <Button
             {...buttonProps}
             className={css(className, "progress-button", {
-                "progress-button-active": isActive
+                "progress-button-active": isActive,
             })}
             disabled={disabled || isActive}
         />
@@ -37,7 +37,7 @@ export class SimpleProgressButton extends React.Component<
         super(props);
 
         this.state = {
-            isActive: false
+            isActive: false,
         };
     }
 
@@ -56,7 +56,7 @@ export class SimpleProgressButton extends React.Component<
         const { onClick } = this.props;
 
         this.setState({
-            isActive: true
+            isActive: true,
         });
 
         if (onClick) {

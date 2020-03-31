@@ -6,19 +6,19 @@ import * as Actions from "./news.actions";
 
 const initialState = makeImmutable({
     isLoading: false,
-    news: [] as NewsItem[]
+    news: [] as NewsItem[],
 });
 
 export type INewsState = typeof initialState;
 
 const refresh = (state: INewsState, action: IAction<NewsItem[]>) => {
     return state
-        .__set(x => x.news, action.payload)
-        .__set(x => x.isLoading, false);
+        .__set((x) => x.news, action.payload)
+        .__set((x) => x.isLoading, false);
 };
 
 const loading = (state: INewsState, action: IAction<NewsItem[]>) => {
-    return state.__set(x => x.isLoading, true);
+    return state.__set((x) => x.isLoading, true);
 };
 
 export const news = <TPayload>(
@@ -27,6 +27,6 @@ export const news = <TPayload>(
 ) => {
     return reducerMap(action, state, {
         [pending(Actions.refresh.TYPE)]: loading,
-        [success(Actions.refresh.TYPE)]: refresh
+        [success(Actions.refresh.TYPE)]: refresh,
     });
 };

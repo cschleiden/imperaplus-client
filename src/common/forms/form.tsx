@@ -8,7 +8,7 @@ import {
     FormMode,
     resetForm,
     submitForm,
-    changeField
+    changeField,
 } from "./forms.actions";
 import { IForm, IForms } from "./forms.reducer";
 import { contextTypes, IFormContext } from "./types";
@@ -49,7 +49,7 @@ class Form extends React.Component<IFormProps & IInternalFormProps> {
             formState: this.props.formState,
             isPending: () => this.props.isPending,
             changeField: this.props.changeField,
-            initialValue: this.props.initialValue
+            initialValue: this.props.initialValue,
         };
     }
 
@@ -70,7 +70,7 @@ class Form extends React.Component<IFormProps & IInternalFormProps> {
                     {this.props.component({
                         isPending: this.props.isPending,
                         formState: formState,
-                        submit: this._submit
+                        submit: this._submit,
                     })}
                 </FormGroup>
             </form>
@@ -109,12 +109,12 @@ export default connect(
                 state.forms.forms[ownProps.name] ||
                 ({
                     name: ownProps.name,
-                    fields: {}
+                    fields: {},
                 } as IForm),
             isPending:
                 (state.forms.forms[ownProps.name] &&
                     state.forms.forms[ownProps.name].isPending) ||
-                false
+                false,
         };
     },
     (dispatch, ownProps: IFormProps) => ({
@@ -123,10 +123,11 @@ export default connect(
             dispatch(submitForm(ownProps.name, FormMode.Pending));
 
             let submitAction = ownProps.onSubmit(formState, {
-                beforeSuccess: d => {
+                beforeSuccess: (d) => {
                     d(submitForm(ownProps.name, FormMode.Success));
                 },
-                beforeError: d => d(submitForm(ownProps.name, FormMode.Failed))
+                beforeError: (d) =>
+                    d(submitForm(ownProps.name, FormMode.Failed)),
             });
 
             if (!submitAction) {
@@ -139,6 +140,6 @@ export default connect(
         changeField: (fieldName: string, value: string | boolean | number) =>
             dispatch(changeField(ownProps.name, fieldName, value)),
         initialValue: (fieldName: string, value: string | boolean | number) =>
-            dispatch(initialValue(ownProps.name, fieldName, value))
+            dispatch(initialValue(ownProps.name, fieldName, value)),
     })
 )(Form);

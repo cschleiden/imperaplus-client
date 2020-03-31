@@ -3,7 +3,7 @@ import { MessageType, show } from "../../common/message/message.actions";
 import {
     GameClient,
     GameCreationOptions,
-    MapClient
+    MapClient,
 } from "../../external/imperaClients";
 import { makePromiseAction } from "../../lib/action";
 
@@ -14,7 +14,7 @@ export const create = makePromiseAction(
             promise: deps
                 .getCachedClient(GameClient)
                 .post(input)
-                .then<void>(game => {
+                .then<void>((game) => {
                     dispatch(
                         show(
                             __(
@@ -23,12 +23,12 @@ export const create = makePromiseAction(
                             MessageType.success
                         )
                     );
-                })
+                }),
         },
         options: {
             useMessage: true,
-            clearMessage: true
-        }
+            clearMessage: true,
+        },
     })
 );
 
@@ -39,9 +39,9 @@ export const getMaps = makePromiseAction(
             promise: deps
                 .getCachedClient(MapClient)
                 .getAllSummary()
-                .then(mapTemplates => {
+                .then((mapTemplates) => {
                     dispatch(lookupSet("maps", mapTemplates));
-                })
-        }
+                }),
+        },
     })
 );

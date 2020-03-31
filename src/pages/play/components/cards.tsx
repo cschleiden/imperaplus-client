@@ -5,7 +5,7 @@ import { css } from "../../../lib/css";
 const colors = {
     [BonusCard.A]: "green",
     [BonusCard.B]: "red",
-    [BonusCard.C]: "blue"
+    [BonusCard.C]: "blue",
 };
 
 export interface ICardsProps {

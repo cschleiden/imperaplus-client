@@ -56,7 +56,7 @@ class LadderComponent extends React.Component<ILadderProps, {}> {
                     </thead>
                     <tbody>
                         {standings &&
-                            standings.map(s => (
+                            standings.map((s) => (
                                 <tr key={s.userId}>
                                     <td>{s.position}</td>
 
@@ -90,11 +90,11 @@ class LadderComponent extends React.Component<ILadderProps, {}> {
 
 export default connect(
     (state: IState) => ({
-        ladder: state.ladders.ladder
+        ladder: state.ladders.ladder,
     }),
-    dispatch => ({
+    (dispatch) => ({
         open: (id: string) => {
             dispatch(open(id));
-        }
+        },
     })
 )(LadderComponent);

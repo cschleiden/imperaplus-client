@@ -68,7 +68,7 @@ class SignalRClient implements ISignalRClient {
     constructor(hubName: string) {
         this.connection = new signalR.HubConnectionBuilder()
             .withUrl(`${baseUri}/${hubName}`, {
-                accessTokenFactory: TokenProvider.tokenRetriever
+                accessTokenFactory: TokenProvider.tokenRetriever,
             })
             .configureLogging(signalR.LogLevel.Trace)
             .build();
@@ -172,7 +172,7 @@ class SignalRClient implements ISignalRClient {
     }
 
     public off(eventName, callback) {
-        this.connection.off(eventName, result => {
+        this.connection.off(eventName, (result) => {
             if (callback) {
                 callback(result);
             }
@@ -180,7 +180,7 @@ class SignalRClient implements ISignalRClient {
 
         // Remove from event map
         let matchingEvents = this._eventCallbacks.filter(
-            e => e[0] === eventName && e[1] === callback
+            (e) => e[0] === eventName && e[1] === callback
         );
         if (matchingEvents && matchingEvents.length > 0) {
             for (let matchingEvent of matchingEvents) {
@@ -198,13 +198,13 @@ class SignalRClient implements ISignalRClient {
 
         return this.connection
             .invoke<TResult>(methodName, ...args)
-            .then(result => {
+            .then((result) => {
                 // SignalR does not allow passing a custom reviver: https://github.com/dotnet/aspnetcore/issues/5321
                 // so run ours on the result
 
                 // adapted from https://stackoverflow.com/a/41550077/561159
-                const loopNestedObj = obj => {
-                    Object.keys(obj).forEach(key => {
+                const loopNestedObj = (obj) => {
+                    Object.keys(obj).forEach((key) => {
                         if (
                             (obj[key] && typeof obj[key] === "object") ||
                             Array.isArray(obj[key])
@@ -220,7 +220,7 @@ class SignalRClient implements ISignalRClient {
 
                 return result;
             })
-            .then(null, error => {
+            .then(null, (error) => {
                 return this._reconnectWithAuth().then(() => {
                     return this.invoke<TResult>(methodName, ...originalArgs);
                 });

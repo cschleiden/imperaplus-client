@@ -113,7 +113,7 @@ const tos = {
                 <a href="mailto:info@imperaonline.de">us</a>.
             </p>
         </div>
-    )
+    ),
 };
 
 export default (() => (

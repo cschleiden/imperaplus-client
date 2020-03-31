@@ -42,6 +42,6 @@ export namespace ErrorCodes {
         TeamAlreadyFull: __("Team is already full."),
         GamePasswordNotCorrect: __(
             "Game is password protected and the given password is not correct"
-        )
+        ),
     };
 }

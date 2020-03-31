@@ -2,13 +2,13 @@ import {
     ChannelInformation,
     ChatInformation,
     Message,
-    UserChangeEvent
+    UserChangeEvent,
 } from "../../external/chatModel";
 import {
     IAction,
     IAsyncAction,
     IAsyncActionVoid,
-    makePromiseAction
+    makePromiseAction,
 } from "../../lib/action";
 
 export const START = "chat-start";
@@ -17,14 +17,14 @@ export interface IStartPayload {
 }
 
 export const SHOW_HIDE = "chat-show-hide";
-export const showHide: IAsyncAction<boolean> = show => (
+export const showHide: IAsyncAction<boolean> = (show) => (
     dispatch,
     getState,
     deps
 ) => {
     dispatch(<IAction<boolean>>{
         type: SHOW_HIDE,
-        payload: show
+        payload: show,
     });
 
     // Transition to start
@@ -54,8 +54,8 @@ export const showHide: IAsyncAction<boolean> = show => (
                     dispatch(<IAction<IStartPayload>>{
                         type: START,
                         payload: {
-                            channels: result.channels
-                        }
+                            channels: result.channels,
+                        },
                     });
                 });
             });
@@ -71,14 +71,14 @@ export const close: IAsyncActionVoid = () => (dispatch, getState, deps) => {
     client.stop();
 
     dispatch(<IAction<void>>{
-        type: CLOSE
+        type: CLOSE,
     });
 };
 
 export const SWITCH_CHANNEL = "chat-switch-channel";
 export const switchChannel = (channel: string): IAction<string> => ({
     type: SWITCH_CHANNEL,
-    payload: channel
+    payload: channel,
 });
 
 export interface IMessagePayload {
@@ -104,12 +104,12 @@ export const message = makePromiseAction<string, IMessagePayload>(
                     // Re-try?
                     // TODO
                 }
-            })*/
+            })*/,
             },
             options: {
                 // Prevent loading bar from picking this up
-                customSuffix: "-chat"
-            }
+                customSuffix: "-chat",
+            },
         };
     }
 );
@@ -117,7 +117,7 @@ export const message = makePromiseAction<string, IMessagePayload>(
 export const RECEIVE_MESSAGE = "chat-receive-message";
 export const receiveMessage = (msg: Message): IAction<Message> => ({
     type: RECEIVE_MESSAGE,
-    payload: msg
+    payload: msg,
 });
 
 export interface IUserEventPayload {
@@ -134,8 +134,8 @@ export const join = (
     type: JOIN,
     payload: {
         channelId,
-        userName
-    }
+        userName,
+    },
 });
 
 export const LEAVE = "chat-leave";
@@ -147,6 +147,6 @@ export const leave = (
     type: LEAVE,
     payload: {
         channelId,
-        userName
-    }
+        userName,
+    },
 });

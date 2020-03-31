@@ -5,7 +5,7 @@ import "./spinner.scss";
 
 export enum SpinnerSize {
     Default,
-    Large
+    Large,
 }
 
 export const Spinner = (props: {
@@ -17,7 +17,7 @@ export const Spinner = (props: {
             className={css(
                 "spinner",
                 {
-                    large: props.size === SpinnerSize.Large
+                    large: props.size === SpinnerSize.Large,
                 },
                 props.className
             )}

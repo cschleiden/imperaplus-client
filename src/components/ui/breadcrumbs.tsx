@@ -29,7 +29,7 @@ export class Breadcrumbs extends React.Component<IBreadcrumbProps> {
             ladders: __("Ladders"),
             tournaments: __("Tournaments"),
             admin: __("Alliance Admin"),
-            info: __("Information about alliances")
+            info: __("Information about alliances"),
         };
 
         let area: string = locationArray[path[2]];
@@ -71,5 +71,5 @@ export class Breadcrumbs extends React.Component<IBreadcrumbProps> {
 }
 
 export default connect((state: IState) => ({
-    location: state.routing.locationBeforeTransitions
+    location: state.routing.locationBeforeTransitions,
 }))(Breadcrumbs);

@@ -4,7 +4,7 @@ export enum MessageType {
     info,
     success,
     warning,
-    error
+    error,
 }
 
 export interface IMessage {
@@ -20,8 +20,8 @@ export const show = (
     type: MESSAGE_SHOW,
     payload: {
         message,
-        type
-    }
+        type,
+    },
 });
 
 export const MESSAGE_CLEAR = "message-clear";
@@ -32,6 +32,6 @@ export const clear: IAsyncAction<void> = () => (dispatch, getState, deps) => {
     }
 
     dispatch({
-        type: MESSAGE_CLEAR
+        type: MESSAGE_CLEAR,
     });
 };

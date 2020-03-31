@@ -7,14 +7,14 @@ import {
     HistoryAction,
     HistoryEntry,
     HistoryTurn,
-    PlayState
+    PlayState,
 } from "../../../external/imperaClients";
 import { autobind } from "../../../lib/autobind";
 import { css } from "../../../lib/css";
 import {
     countriesToMap,
     getPlayerByPlayerId,
-    getTeam
+    getTeam,
 } from "../../../lib/game/utils";
 import { IState } from "../../../reducers";
 import { MapTemplateCacheEntry } from "../mapTemplateCache";
@@ -24,7 +24,7 @@ import {
     place,
     selectCountry,
     setActionUnits,
-    setPlaceUnits
+    setPlaceUnits,
 } from "../play.actions";
 import { ITwoCountry } from "../reducer";
 import { IGameUIOptions } from "../reducer/play.reducer.state";
@@ -37,7 +37,7 @@ const KeyBindings = {
 
     INCREASE_UNITCOUNT: 38, // Cursor up
     DECREASE_UNITCOUNT: 40, // Cursor down
-    SUBMIT_ACTION: 13 // Enter
+    SUBMIT_ACTION: 13, // Enter
 };
 
 interface IMapProps {
@@ -83,7 +83,7 @@ class Map extends React.Component<IMapProps, IMapState> {
 
         this.state = {
             isLoading: false,
-            hoveredCountry: null
+            hoveredCountry: null,
         };
 
         this._jsPlumb = jsPlumb.getInstance();
@@ -100,11 +100,11 @@ class Map extends React.Component<IMapProps, IMapState> {
 
         if (game && !mapTemplate) {
             this.setState({
-                isLoading: true
+                isLoading: true,
             } as IMapState);
         } else {
             this.setState({
-                isLoading: false
+                isLoading: false,
             } as IMapState);
         }
 
@@ -118,7 +118,7 @@ class Map extends React.Component<IMapProps, IMapState> {
         return (
             <div
                 className={css("map", {
-                    blocked: operationInProgress
+                    blocked: operationInProgress,
                 })}
                 onClick={this._onClick}
                 onMouseMove={this._onMouseMove}
@@ -166,7 +166,7 @@ class Map extends React.Component<IMapProps, IMapState> {
             placeCountries,
             mapTemplate,
             operationInProgress,
-            gameUiOptions
+            gameUiOptions,
         } = this.props;
         const { map } = game;
         const { hoveredCountry } = this.state;
@@ -175,7 +175,7 @@ class Map extends React.Component<IMapProps, IMapState> {
 
         const isTeamGame = game.options.numberOfPlayersPerTeam > 1;
 
-        return mapTemplate.countries.map(countryTemplate => {
+        return mapTemplate.countries.map((countryTemplate) => {
             const country = idToCountry[countryTemplate.identifier];
 
             const player =
@@ -209,11 +209,11 @@ class Map extends React.Component<IMapProps, IMapState> {
                             (player ? player.playOrder + 1 : 0)]: !!country,
                             "country-highlight": isHighlighted,
                             ["country-team-" + (team ? team.playOrder + 1 : 0)]:
-                                isTeamGame && gameUiOptions.showTeamsOnMap
+                                isTeamGame && gameUiOptions.showTeamsOnMap,
                         })}
                         style={{
                             left: countryTemplate.x,
-                            top: countryTemplate.y
+                            top: countryTemplate.y,
                         }}
                     >
                         {units}
@@ -224,7 +224,7 @@ class Map extends React.Component<IMapProps, IMapState> {
                             countryTemplate={countryTemplate}
                             value={placeUnits}
                             onKeyUp={this._onKeyUp}
-                            onChange={inputUnits =>
+                            onChange={(inputUnits) =>
                                 this.props.setUnits(
                                     countryTemplate.identifier,
                                     inputUnits
@@ -289,28 +289,28 @@ class Map extends React.Component<IMapProps, IMapState> {
                         hoverClass: "connections-hover",
                         anchors: [
                             ["Perimeter", { shape: "Circle" }],
-                            ["Perimeter", { shape: "Circle" }]
+                            ["Perimeter", { shape: "Circle" }],
                         ],
                         connector: ["StateMachine"],
                         endpoint: "Blank",
                         paintStyle: {
                             outlineWidth: 15, // Increased hit target
                             outlineColor: "transparent",
-                            outlineStroke: "black"
+                            outlineStroke: "black",
                         },
                         hoverPaintStyle: {
-                            lineWidth: 4
+                            lineWidth: 4,
                         },
                         overlays: [
                             [
                                 "PlainArrow",
-                                { location: 1, width: 15, length: 12 }
-                            ]
-                        ]
+                                { location: 1, width: 15, length: 12 },
+                            ],
+                        ],
                     } as any)
                 );
 
-                this._jsPlumb.bind("click", connection => {
+                this._jsPlumb.bind("click", (connection) => {
                     const targetId: string = connection.targetId;
                     this.props.selectCountry(targetId);
                 });
@@ -359,13 +359,13 @@ class Map extends React.Component<IMapProps, IMapState> {
             target: twoCountry.destinationCountryIdentifier,
             anchors: [
                 ["Perimeter", { shape: "Circle" }],
-                ["Perimeter", { shape: "Circle" }]
+                ["Perimeter", { shape: "Circle" }],
             ],
             endpoint: "Blank",
             paintStyle: {
                 outlineWidth: 15,
                 outlineColor: "transparent",
-                outlineStroke: "black"
+                outlineStroke: "black",
             },
             connector: ["StateMachine"],
             cssClass:
@@ -375,15 +375,15 @@ class Map extends React.Component<IMapProps, IMapState> {
                 [
                     "Custom",
                     {
-                        create: component => {
+                        create: (component) => {
                             return $(this._inputElementPlaceholder);
                         },
                         location: 0.4,
-                        id: "unit-input"
-                    }
+                        id: "unit-input",
+                    },
                 ],
-                ["PlainArrow", { location: 1, width: 20, length: 12 }]
-            ]
+                ["PlainArrow", { location: 1, width: 20, length: 12 }],
+            ],
         } as any);
 
         // Update real input element with placeholder position
@@ -396,7 +396,7 @@ class Map extends React.Component<IMapProps, IMapState> {
             destinationCountryIdentifier,
             numberOfUnits,
             minUnits,
-            maxUnits
+            maxUnits,
         } = this.props.twoCountry;
 
         return (
@@ -417,7 +417,7 @@ class Map extends React.Component<IMapProps, IMapState> {
                     style={{
                         display: !destinationCountryIdentifier
                             ? "none"
-                            : "block"
+                            : "block",
                     }}
                     ref={this._resolveInput}
                 />
@@ -508,12 +508,12 @@ class Map extends React.Component<IMapProps, IMapState> {
 
             if (this.state.hoveredCountry !== countryIdentifier) {
                 this.setState({
-                    hoveredCountry: countryIdentifier
+                    hoveredCountry: countryIdentifier,
                 } as IMapState);
             }
         } else if (this.state.hoveredCountry) {
             this.setState({
-                hoveredCountry: null
+                hoveredCountry: null,
             } as IMapState);
         }
     }
@@ -556,7 +556,7 @@ class Map extends React.Component<IMapProps, IMapState> {
         let result: JSX.Element[] = [];
 
         for (let action of actions.filter(
-            a => a.action === HistoryAction.PlaceUnits
+            (a) => a.action === HistoryAction.PlaceUnits
         )) {
             const countryTemplate = mapTemplate.country(
                 action.originIdentifier
@@ -568,7 +568,7 @@ class Map extends React.Component<IMapProps, IMapState> {
                     className="country-place"
                     style={{
                         left: countryTemplate.x,
-                        top: countryTemplate.y
+                        top: countryTemplate.y,
                     }}
                 >
                     {action.units}
@@ -632,13 +632,13 @@ class Map extends React.Component<IMapProps, IMapState> {
             endpoint: "Blank",
             connector: [
                 "StateMachine",
-                { curviness: curviness, proximityLimit: 10 }
+                { curviness: curviness, proximityLimit: 10 },
             ],
             cssClass: "connection " + cssClass,
             overlays: [
                 ["PlainArrow", { location: 1, width: 4, length: 8 }],
-                ["Label", { label: label, cssClass: "history-label" }]
-            ]
+                ["Label", { label: label, cssClass: "history-label" }],
+            ],
         } as any);
 
         this._historyConnections.push(historyConnection);
@@ -654,7 +654,7 @@ export default connect(
             historyTurn,
             operationInProgress,
             gameUiOptions,
-            overrideGameUiOptions
+            overrideGameUiOptions,
         } = state.play;
 
         return {
@@ -666,11 +666,11 @@ export default connect(
             operationInProgress,
             gameUiOptions: {
                 ...gameUiOptions,
-                ...overrideGameUiOptions
-            }
+                ...overrideGameUiOptions,
+            },
         } as IMapProps;
     },
-    dispatch => ({
+    (dispatch) => ({
         selectCountry: (countryIdentifier: string) => {
             dispatch(selectCountry(countryIdentifier));
         },
@@ -688,6 +688,6 @@ export default connect(
         },
         move: () => {
             dispatch(move(null));
-        }
+        },
     })
 )(Map);

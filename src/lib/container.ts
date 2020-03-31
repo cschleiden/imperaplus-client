@@ -5,7 +5,7 @@ export interface IActivator<T> {
 export enum Lifetime {
     Default,
 
-    Singleton
+    Singleton,
 }
 
 interface IRegistration<T> {
@@ -37,7 +37,7 @@ export class Container {
         this._registrations[name] = {
             activator: activator,
             dependencies: dependencies,
-            lifetime: lifetime
+            lifetime: lifetime,
         };
     }
 
@@ -64,7 +64,7 @@ export class Container {
     private _createInstance<T>(registration: IRegistration<T>): T {
         let deps: any[] = [];
         if (registration.dependencies.length > 0) {
-            deps = registration.dependencies.map(name => this.get(name));
+            deps = registration.dependencies.map((name) => this.get(name));
         }
 
         return registration.activator(deps);

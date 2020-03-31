@@ -5,10 +5,10 @@ export const refresh = makePromiseAction<void, NewsItem[]>(
     "news-refresh",
     (input, dispatch, getState, deps) => ({
         payload: {
-            promise: deps.getCachedClient(NewsClient).getAll()
+            promise: deps.getCachedClient(NewsClient).getAll(),
         },
         options: {
-            useMessage: true
-        }
+            useMessage: true,
+        },
     })
 );

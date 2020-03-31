@@ -39,8 +39,8 @@ export class AccountClient {
             body: content_,
             method: "POST",
             headers: {
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -57,7 +57,7 @@ export class AccountClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 let result200: any = null;
                 result200 =
                     _responseText === ""
@@ -68,7 +68,7 @@ export class AccountClient {
                 return result200;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -95,8 +95,8 @@ export class AccountClient {
         let options_ = <RequestInit>{
             method: "GET",
             headers: {
-                "Content-Type": "application/json"
-            }
+                "Content-Type": "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -111,11 +111,11 @@ export class AccountClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -138,8 +138,8 @@ export class AccountClient {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -154,7 +154,7 @@ export class AccountClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 let result200: any = null;
                 result200 =
                     _responseText === ""
@@ -165,7 +165,7 @@ export class AccountClient {
                 return result200;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -188,8 +188,8 @@ export class AccountClient {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -206,7 +206,7 @@ export class AccountClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 let result200: any = null;
                 result200 =
                     _responseText === ""
@@ -217,7 +217,7 @@ export class AccountClient {
                 return result200;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -237,8 +237,8 @@ export class AccountClient {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -263,16 +263,16 @@ export class AccountClient {
                 fileNameMatch && fileNameMatch.length > 1
                     ? fileNameMatch[1]
                     : undefined;
-            return response.blob().then(blob => {
+            return response.blob().then((blob) => {
                 return {
                     fileName: fileName,
                     data: blob,
                     status: status,
-                    headers: _headers
+                    headers: _headers,
                 };
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -303,8 +303,8 @@ export class AccountClient {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -321,7 +321,7 @@ export class AccountClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 let result200: any = null;
                 result200 =
                     _responseText === ""
@@ -332,7 +332,7 @@ export class AccountClient {
                 return result200;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -357,8 +357,8 @@ export class AccountClient {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -385,16 +385,16 @@ export class AccountClient {
                 fileNameMatch && fileNameMatch.length > 1
                     ? fileNameMatch[1]
                     : undefined;
-            return response.blob().then(blob => {
+            return response.blob().then((blob) => {
                 return {
                     fileName: fileName,
                     data: blob,
                     status: status,
-                    headers: _headers
+                    headers: _headers,
                 };
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -419,8 +419,8 @@ export class AccountClient {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -447,16 +447,16 @@ export class AccountClient {
                 fileNameMatch && fileNameMatch.length > 1
                     ? fileNameMatch[1]
                     : undefined;
-            return response.blob().then(blob => {
+            return response.blob().then((blob) => {
                 return {
                     fileName: fileName,
                     data: blob,
                     status: status,
-                    headers: _headers
+                    headers: _headers,
                 };
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -478,8 +478,8 @@ export class AccountClient {
             body: content_,
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
-            }
+                "Content-Type": "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -494,11 +494,11 @@ export class AccountClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return;
             });
         } else if (status === 400) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 let result400: any = null;
                 result400 =
                     _responseText === ""
@@ -515,7 +515,7 @@ export class AccountClient {
                 );
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -538,8 +538,8 @@ export class AccountClient {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -566,16 +566,16 @@ export class AccountClient {
                 fileNameMatch && fileNameMatch.length > 1
                     ? fileNameMatch[1]
                     : undefined;
-            return response.blob().then(blob => {
+            return response.blob().then((blob) => {
                 return {
                     fileName: fileName,
                     data: blob,
                     status: status,
-                    headers: _headers
+                    headers: _headers,
                 };
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -600,8 +600,8 @@ export class AccountClient {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -628,16 +628,16 @@ export class AccountClient {
                 fileNameMatch && fileNameMatch.length > 1
                     ? fileNameMatch[1]
                     : undefined;
-            return response.blob().then(blob => {
+            return response.blob().then((blob) => {
                 return {
                     fileName: fileName,
                     data: blob,
                     status: status,
-                    headers: _headers
+                    headers: _headers,
                 };
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -657,8 +657,8 @@ export class AccountClient {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -675,7 +675,7 @@ export class AccountClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 let result200: any = null;
                 result200 =
                     _responseText === ""
@@ -686,7 +686,7 @@ export class AccountClient {
                 return result200;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -708,8 +708,8 @@ export class AccountClient {
             body: content_,
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
-            }
+                "Content-Type": "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -724,11 +724,11 @@ export class AccountClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return;
             });
         } else if (status === 400) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 let result400: any = null;
                 result400 =
                     _responseText === ""
@@ -745,7 +745,7 @@ export class AccountClient {
                 );
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -773,8 +773,8 @@ export class AccountClient {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -801,16 +801,16 @@ export class AccountClient {
                 fileNameMatch && fileNameMatch.length > 1
                     ? fileNameMatch[1]
                     : undefined;
-            return response.blob().then(blob => {
+            return response.blob().then((blob) => {
                 return {
                     fileName: fileName,
                     data: blob,
                     status: status,
-                    headers: _headers
+                    headers: _headers,
                 };
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -840,8 +840,8 @@ export class AccountClient {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -868,16 +868,16 @@ export class AccountClient {
                 fileNameMatch && fileNameMatch.length > 1
                     ? fileNameMatch[1]
                     : undefined;
-            return response.blob().then(blob => {
+            return response.blob().then((blob) => {
                 return {
                     fileName: fileName,
                     data: blob,
                     status: status,
-                    headers: _headers
+                    headers: _headers,
                 };
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -905,8 +905,8 @@ export class AccountClient {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -933,16 +933,16 @@ export class AccountClient {
                 fileNameMatch && fileNameMatch.length > 1
                     ? fileNameMatch[1]
                     : undefined;
-            return response.blob().then(blob => {
+            return response.blob().then((blob) => {
                 return {
                     fileName: fileName,
                     data: blob,
                     status: status,
-                    headers: _headers
+                    headers: _headers,
                 };
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -970,8 +970,8 @@ export class AccountClient {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -998,16 +998,16 @@ export class AccountClient {
                 fileNameMatch && fileNameMatch.length > 1
                     ? fileNameMatch[1]
                     : undefined;
-            return response.blob().then(blob => {
+            return response.blob().then((blob) => {
                 return {
                     fileName: fileName,
                     data: blob,
                     status: status,
-                    headers: _headers
+                    headers: _headers,
                 };
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -1035,8 +1035,8 @@ export class AccountClient {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -1063,16 +1063,16 @@ export class AccountClient {
                 fileNameMatch && fileNameMatch.length > 1
                     ? fileNameMatch[1]
                     : undefined;
-            return response.blob().then(blob => {
+            return response.blob().then((blob) => {
                 return {
                     fileName: fileName,
                     data: blob,
                     status: status,
-                    headers: _headers
+                    headers: _headers,
                 };
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -1116,8 +1116,8 @@ export class AllianceClient {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -1134,7 +1134,7 @@ export class AllianceClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 let result200: any = null;
                 result200 =
                     _responseText === ""
@@ -1145,7 +1145,7 @@ export class AllianceClient {
                 return result200;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -1175,8 +1175,8 @@ export class AllianceClient {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -1193,7 +1193,7 @@ export class AllianceClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 let result200: any = null;
                 result200 =
                     _responseText === ""
@@ -1204,7 +1204,7 @@ export class AllianceClient {
                 return result200;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -1228,8 +1228,8 @@ export class AllianceClient {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -1246,7 +1246,7 @@ export class AllianceClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 let result200: any = null;
                 result200 =
                     _responseText === ""
@@ -1257,7 +1257,7 @@ export class AllianceClient {
                 return result200;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -1288,8 +1288,8 @@ export class AllianceClient {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -1304,7 +1304,7 @@ export class AllianceClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 let result200: any = null;
                 result200 =
                     _responseText === ""
@@ -1315,7 +1315,7 @@ export class AllianceClient {
                 return result200;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -1345,8 +1345,8 @@ export class AllianceClient {
         let options_ = <RequestInit>{
             method: "DELETE",
             headers: {
-                "Content-Type": "application/json"
-            }
+                "Content-Type": "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -1361,11 +1361,11 @@ export class AllianceClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -1400,8 +1400,8 @@ export class AllianceClient {
         let options_ = <RequestInit>{
             method: "DELETE",
             headers: {
-                "Content-Type": "application/json"
-            }
+                "Content-Type": "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -1416,11 +1416,11 @@ export class AllianceClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -1462,8 +1462,8 @@ export class AllianceClient {
             body: content_,
             method: "PATCH",
             headers: {
-                "Content-Type": "application/json"
-            }
+                "Content-Type": "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -1478,11 +1478,11 @@ export class AllianceClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -1520,8 +1520,8 @@ export class AllianceClient {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -1538,7 +1538,7 @@ export class AllianceClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 let result200: any = null;
                 result200 =
                     _responseText === ""
@@ -1549,7 +1549,7 @@ export class AllianceClient {
                 return result200;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -1580,8 +1580,8 @@ export class AllianceClient {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -1598,7 +1598,7 @@ export class AllianceClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 let result200: any = null;
                 result200 =
                     _responseText === ""
@@ -1609,7 +1609,7 @@ export class AllianceClient {
                 return result200;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -1652,8 +1652,8 @@ export class AllianceClient {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -1670,7 +1670,7 @@ export class AllianceClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 let result200: any = null;
                 result200 =
                     _responseText === ""
@@ -1681,7 +1681,7 @@ export class AllianceClient {
                 return result200;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -1725,8 +1725,8 @@ export class GameClient {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -1741,7 +1741,7 @@ export class GameClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 let result200: any = null;
                 result200 =
                     _responseText === ""
@@ -1752,7 +1752,7 @@ export class GameClient {
                 return result200;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -1776,8 +1776,8 @@ export class GameClient {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -1792,7 +1792,7 @@ export class GameClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 let result200: any = null;
                 result200 =
                     _responseText === ""
@@ -1803,7 +1803,7 @@ export class GameClient {
                 return result200;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -1827,8 +1827,8 @@ export class GameClient {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -1845,7 +1845,7 @@ export class GameClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 let result200: any = null;
                 result200 =
                     _responseText === ""
@@ -1856,7 +1856,7 @@ export class GameClient {
                 return result200;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -1886,8 +1886,8 @@ export class GameClient {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -1902,7 +1902,7 @@ export class GameClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 let result200: any = null;
                 result200 =
                     _responseText === ""
@@ -1913,7 +1913,7 @@ export class GameClient {
                 return result200;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -1941,8 +1941,8 @@ export class GameClient {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -1957,7 +1957,7 @@ export class GameClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 let result200: any = null;
                 result200 =
                     _responseText === ""
@@ -1968,7 +1968,7 @@ export class GameClient {
                 return result200;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -1996,8 +1996,8 @@ export class GameClient {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -2022,16 +2022,16 @@ export class GameClient {
                 fileNameMatch && fileNameMatch.length > 1
                     ? fileNameMatch[1]
                     : undefined;
-            return response.blob().then(blob => {
+            return response.blob().then((blob) => {
                 return {
                     fileName: fileName,
                     data: blob,
                     status: status,
-                    headers: _headers
+                    headers: _headers,
                 };
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -2067,8 +2067,8 @@ export class GameClient {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -2085,7 +2085,7 @@ export class GameClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 let result200: any = null;
                 result200 =
                     _responseText === ""
@@ -2096,7 +2096,7 @@ export class GameClient {
                 return result200;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -2130,8 +2130,8 @@ export class GameClient {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -2158,16 +2158,16 @@ export class GameClient {
                 fileNameMatch && fileNameMatch.length > 1
                     ? fileNameMatch[1]
                     : undefined;
-            return response.blob().then(blob => {
+            return response.blob().then((blob) => {
                 return {
                     fileName: fileName,
                     data: blob,
                     status: status,
-                    headers: _headers
+                    headers: _headers,
                 };
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -2195,8 +2195,8 @@ export class GameClient {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -2223,16 +2223,16 @@ export class GameClient {
                 fileNameMatch && fileNameMatch.length > 1
                     ? fileNameMatch[1]
                     : undefined;
-            return response.blob().then(blob => {
+            return response.blob().then((blob) => {
                 return {
                     fileName: fileName,
                     data: blob,
                     status: status,
-                    headers: _headers
+                    headers: _headers,
                 };
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -2260,8 +2260,8 @@ export class GameClient {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -2278,7 +2278,7 @@ export class GameClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 let result200: any = null;
                 result200 =
                     _responseText === ""
@@ -2289,7 +2289,7 @@ export class GameClient {
                 return result200;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -2316,8 +2316,8 @@ export class GameClient {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -2344,16 +2344,16 @@ export class GameClient {
                 fileNameMatch && fileNameMatch.length > 1
                     ? fileNameMatch[1]
                     : undefined;
-            return response.blob().then(blob => {
+            return response.blob().then((blob) => {
                 return {
                     fileName: fileName,
                     data: blob,
                     status: status,
-                    headers: _headers
+                    headers: _headers,
                 };
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -2376,8 +2376,8 @@ export class GameClient {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -2404,16 +2404,16 @@ export class GameClient {
                 fileNameMatch && fileNameMatch.length > 1
                     ? fileNameMatch[1]
                     : undefined;
-            return response.blob().then(blob => {
+            return response.blob().then((blob) => {
                 return {
                     fileName: fileName,
                     data: blob,
                     status: status,
-                    headers: _headers
+                    headers: _headers,
                 };
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -2462,8 +2462,8 @@ export class HistoryClient {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -2478,7 +2478,7 @@ export class HistoryClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 let result200: any = null;
                 result200 =
                     _responseText === ""
@@ -2489,7 +2489,7 @@ export class HistoryClient {
                 return result200;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -2533,8 +2533,8 @@ export class LadderClient {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -2551,7 +2551,7 @@ export class LadderClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 let result200: any = null;
                 result200 =
                     _responseText === ""
@@ -2562,7 +2562,7 @@ export class LadderClient {
                 return result200;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -2589,8 +2589,8 @@ export class LadderClient {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -2605,7 +2605,7 @@ export class LadderClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 let result200: any = null;
                 result200 =
                     _responseText === ""
@@ -2616,7 +2616,7 @@ export class LadderClient {
                 return result200;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -2643,8 +2643,8 @@ export class LadderClient {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -2671,16 +2671,16 @@ export class LadderClient {
                 fileNameMatch && fileNameMatch.length > 1
                     ? fileNameMatch[1]
                     : undefined;
-            return response.blob().then(blob => {
+            return response.blob().then((blob) => {
                 return {
                     fileName: fileName,
                     data: blob,
                     status: status,
-                    headers: _headers
+                    headers: _headers,
                 };
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -2707,8 +2707,8 @@ export class LadderClient {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -2735,16 +2735,16 @@ export class LadderClient {
                 fileNameMatch && fileNameMatch.length > 1
                     ? fileNameMatch[1]
                     : undefined;
-            return response.blob().then(blob => {
+            return response.blob().then((blob) => {
                 return {
                     fileName: fileName,
                     data: blob,
                     status: status,
-                    headers: _headers
+                    headers: _headers,
                 };
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -2784,8 +2784,8 @@ export class MapClient {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -2802,7 +2802,7 @@ export class MapClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 let result200: any = null;
                 result200 =
                     _responseText === ""
@@ -2813,7 +2813,7 @@ export class MapClient {
                 return result200;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -2839,8 +2839,8 @@ export class MapClient {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -2857,7 +2857,7 @@ export class MapClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 let result200: any = null;
                 result200 =
                     _responseText === ""
@@ -2868,7 +2868,7 @@ export class MapClient {
                 return result200;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -2914,8 +2914,8 @@ export class MessageClient {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -2930,7 +2930,7 @@ export class MessageClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 let result200: any = null;
                 result200 =
                     _responseText === ""
@@ -2941,7 +2941,7 @@ export class MessageClient {
                 return result200;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -2964,8 +2964,8 @@ export class MessageClient {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -2980,7 +2980,7 @@ export class MessageClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 let result200: any = null;
                 result200 =
                     _responseText === ""
@@ -2991,7 +2991,7 @@ export class MessageClient {
                 return result200;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -3014,8 +3014,8 @@ export class MessageClient {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -3042,16 +3042,16 @@ export class MessageClient {
                 fileNameMatch && fileNameMatch.length > 1
                     ? fileNameMatch[1]
                     : undefined;
-            return response.blob().then(blob => {
+            return response.blob().then((blob) => {
                 return {
                     fileName: fileName,
                     data: blob,
                     status: status,
-                    headers: _headers
+                    headers: _headers,
                 };
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -3074,8 +3074,8 @@ export class MessageClient {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -3100,16 +3100,16 @@ export class MessageClient {
                 fileNameMatch && fileNameMatch.length > 1
                     ? fileNameMatch[1]
                     : undefined;
-            return response.blob().then(blob => {
+            return response.blob().then((blob) => {
                 return {
                     fileName: fileName,
                     data: blob,
                     status: status,
-                    headers: _headers
+                    headers: _headers,
                 };
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -3129,8 +3129,8 @@ export class MessageClient {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -3147,7 +3147,7 @@ export class MessageClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 let result200: any = null;
                 result200 =
                     _responseText === ""
@@ -3158,7 +3158,7 @@ export class MessageClient {
                 return result200;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -3181,8 +3181,8 @@ export class MessageClient {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -3209,16 +3209,16 @@ export class MessageClient {
                 fileNameMatch && fileNameMatch.length > 1
                     ? fileNameMatch[1]
                     : undefined;
-            return response.blob().then(blob => {
+            return response.blob().then((blob) => {
                 return {
                     fileName: fileName,
                     data: blob,
                     status: status,
-                    headers: _headers
+                    headers: _headers,
                 };
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -3262,8 +3262,8 @@ export class NewsClient {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -3278,7 +3278,7 @@ export class NewsClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 let result200: any = null;
                 result200 =
                     _responseText === ""
@@ -3289,7 +3289,7 @@ export class NewsClient {
                 return result200;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -3332,8 +3332,8 @@ export class NotificationClient {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -3350,7 +3350,7 @@ export class NotificationClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 let result200: any = null;
                 result200 =
                     _responseText === ""
@@ -3361,7 +3361,7 @@ export class NotificationClient {
                 return result200;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -3416,8 +3416,8 @@ export class PlayClient {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -3434,7 +3434,7 @@ export class PlayClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 let result200: any = null;
                 result200 =
                     _responseText === ""
@@ -3445,7 +3445,7 @@ export class PlayClient {
                 return result200;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -3473,8 +3473,8 @@ export class PlayClient {
             method: "POST",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -3491,7 +3491,7 @@ export class PlayClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 let result200: any = null;
                 result200 =
                     _responseText === ""
@@ -3502,7 +3502,7 @@ export class PlayClient {
                 return result200;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -3537,8 +3537,8 @@ export class PlayClient {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -3555,7 +3555,7 @@ export class PlayClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 let result200: any = null;
                 result200 =
                     _responseText === ""
@@ -3566,7 +3566,7 @@ export class PlayClient {
                 return result200;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -3594,8 +3594,8 @@ export class PlayClient {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -3612,7 +3612,7 @@ export class PlayClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 let result200: any = null;
                 result200 =
                     _responseText === ""
@@ -3623,7 +3623,7 @@ export class PlayClient {
                 return result200;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -3659,8 +3659,8 @@ export class PlayClient {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -3677,7 +3677,7 @@ export class PlayClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 let result200: any = null;
                 result200 =
                     _responseText === ""
@@ -3688,7 +3688,7 @@ export class PlayClient {
                 return result200;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -3716,8 +3716,8 @@ export class PlayClient {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -3732,7 +3732,7 @@ export class PlayClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 let result200: any = null;
                 result200 =
                     _responseText === ""
@@ -3743,7 +3743,7 @@ export class PlayClient {
                 return result200;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -3787,8 +3787,8 @@ export class TournamentClient {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -3805,7 +3805,7 @@ export class TournamentClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 let result200: any = null;
                 result200 =
                     _responseText === ""
@@ -3816,7 +3816,7 @@ export class TournamentClient {
                 return result200;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -3846,8 +3846,8 @@ export class TournamentClient {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -3862,7 +3862,7 @@ export class TournamentClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 let result200: any = null;
                 result200 =
                     _responseText === ""
@@ -3873,7 +3873,7 @@ export class TournamentClient {
                 return result200;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -3903,8 +3903,8 @@ export class TournamentClient {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -3921,7 +3921,7 @@ export class TournamentClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 let result200: any = null;
                 result200 =
                     _responseText === ""
@@ -3932,7 +3932,7 @@ export class TournamentClient {
                 return result200;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -3962,8 +3962,8 @@ export class TournamentClient {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -3980,7 +3980,7 @@ export class TournamentClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 let result200: any = null;
                 result200 =
                     _responseText === ""
@@ -3991,7 +3991,7 @@ export class TournamentClient {
                 return result200;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -4033,8 +4033,8 @@ export class TournamentClient {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -4051,7 +4051,7 @@ export class TournamentClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 let result200: any = null;
                 result200 =
                     _responseText === ""
@@ -4062,7 +4062,7 @@ export class TournamentClient {
                 return result200;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -4089,8 +4089,8 @@ export class TournamentClient {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -4107,7 +4107,7 @@ export class TournamentClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 let result200: any = null;
                 result200 =
                     _responseText === ""
@@ -4118,7 +4118,7 @@ export class TournamentClient {
                 return result200;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -4160,8 +4160,8 @@ export class TournamentClient {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -4178,7 +4178,7 @@ export class TournamentClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 let result200: any = null;
                 result200 =
                     _responseText === ""
@@ -4189,7 +4189,7 @@ export class TournamentClient {
                 return result200;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -4227,8 +4227,8 @@ export class TournamentClient {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -4255,16 +4255,16 @@ export class TournamentClient {
                 fileNameMatch && fileNameMatch.length > 1
                     ? fileNameMatch[1]
                     : undefined;
-            return response.blob().then(blob => {
+            return response.blob().then((blob) => {
                 return {
                     fileName: fileName,
                     data: blob,
                     status: status,
-                    headers: _headers
+                    headers: _headers,
                 };
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -4294,8 +4294,8 @@ export class TournamentClient {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -4322,16 +4322,16 @@ export class TournamentClient {
                 fileNameMatch && fileNameMatch.length > 1
                     ? fileNameMatch[1]
                     : undefined;
-            return response.blob().then(blob => {
+            return response.blob().then((blob) => {
                 return {
                     fileName: fileName,
                     data: blob,
                     status: status,
-                    headers: _headers
+                    headers: _headers,
                 };
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -4378,8 +4378,8 @@ export class UserClient {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
-            }
+                Accept: "application/json",
+            },
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
@@ -4396,7 +4396,7 @@ export class UserClient {
             response.headers.forEach((v: any, k: any) => (_headers[k] = v));
         }
         if (status === 200) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 let result200: any = null;
                 result200 =
                     _responseText === ""
@@ -4407,7 +4407,7 @@ export class UserClient {
                 return result200;
             });
         } else if (status !== 200 && status !== 204) {
-            return response.text().then(_responseText => {
+            return response.text().then((_responseText) => {
                 return throwException(
                     "An unexpected server error occurred.",
                     status,
@@ -4553,7 +4553,7 @@ export interface AllianceJoinRequest {
 export enum AllianceJoinRequestState {
     Active = "Active",
     Approved = "Approved",
-    Denied = "Denied"
+    Denied = "Denied",
 }
 
 export interface Alliance extends AllianceSummary {
@@ -4588,7 +4588,7 @@ export interface GameSummary {
 export enum GameType {
     Fun = "Fun",
     Ranking = "Ranking",
-    Tournament = "Tournament"
+    Tournament = "Tournament",
 }
 
 export interface GameOptions {
@@ -4609,24 +4609,24 @@ export interface GameOptions {
 
 export enum MapDistribution {
     Default = "Default",
-    Malibu = "Malibu"
+    Malibu = "Malibu",
 }
 
 export enum VictoryConditionType {
     Survival = "Survival",
-    ControlContinent = "ControlContinent"
+    ControlContinent = "ControlContinent",
 }
 
 export enum VisibilityModifierType {
     None = "None",
-    Fog = "Fog"
+    Fog = "Fog",
 }
 
 export enum GameState {
     None = "None",
     Open = "Open",
     Active = "Active",
-    Ended = "Ended"
+    Ended = "Ended",
 }
 
 export interface PlayerSummary {
@@ -4643,7 +4643,7 @@ export interface PlayerSummary {
 export enum PlayerState {
     None = "None",
     Active = "Active",
-    InActive = "InActive"
+    InActive = "InActive",
 }
 
 export enum PlayerOutcome {
@@ -4651,7 +4651,7 @@ export enum PlayerOutcome {
     Won = "Won",
     Defeated = "Defeated",
     Surrendered = "Surrendered",
-    Timeout = "Timeout"
+    Timeout = "Timeout",
 }
 
 export interface TeamSummary {
@@ -4703,7 +4703,7 @@ export interface Player extends PlayerSummary {
 export enum BonusCard {
     A = "A",
     B = "B",
-    C = "C"
+    C = "C",
 }
 
 export enum PlayState {
@@ -4711,7 +4711,7 @@ export enum PlayState {
     PlaceUnits = "PlaceUnits",
     Attack = "Attack",
     Move = "Move",
-    Done = "Done"
+    Done = "Done",
 }
 
 export interface Map {
@@ -4769,7 +4769,7 @@ export enum HistoryAction {
     PlayerTimeout = "PlayerTimeout",
     OwnerChange = "OwnerChange",
     EndTurn = "EndTurn",
-    PlayerSurrendered = "PlayerSurrendered"
+    PlayerSurrendered = "PlayerSurrendered",
 }
 
 export interface LadderSummary {
@@ -4833,7 +4833,7 @@ export interface Continent {
 export enum MessageFolder {
     None = "None",
     Inbox = "Inbox",
-    Sent = "Sent"
+    Sent = "Sent",
 }
 
 export interface SendMessage {
@@ -4896,7 +4896,7 @@ export interface GameActionResult {
 export enum Result {
     None = "None",
     Successful = "Successful",
-    NotSuccessful = "NotSuccessful"
+    NotSuccessful = "NotSuccessful",
 }
 
 export interface AttackOptions {
@@ -4930,7 +4930,7 @@ export enum TournamentState {
     Open = "Open",
     Groups = "Groups",
     Knockout = "Knockout",
-    Closed = "Closed"
+    Closed = "Closed",
 }
 
 export interface Tournament extends TournamentSummary {
@@ -4957,7 +4957,7 @@ export interface TournamentTeam extends TournamentTeamSummary {
 export enum TournamentTeamState {
     Open = "Open",
     Active = "Active",
-    InActive = "InActive"
+    InActive = "InActive",
 }
 
 export interface TournamentGroup {

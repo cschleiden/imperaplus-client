@@ -7,7 +7,7 @@ import { Section } from "../../components/ui/typography";
 import {
     FolderInformation,
     Message,
-    MessageFolder
+    MessageFolder,
 } from "../../external/imperaClients";
 import { autobind } from "../../lib/autobind";
 import { IState } from "../../reducers";
@@ -37,7 +37,7 @@ export class MessagesComponent extends React.Component<IMessagesProps> {
         const {
             folderInformation,
             currentFolder,
-            currentMessages
+            currentMessages,
         } = this.props;
 
         return (
@@ -103,10 +103,10 @@ export default connect(
         return {
             currentFolder: messages.currentFolder,
             currentMessages: messages.currentMessages,
-            folderInformation: messages.folderInformation
+            folderInformation: messages.folderInformation,
         };
     },
-    dispatch => ({
+    (dispatch) => ({
         init: () => {
             dispatch(load(null));
         },
@@ -121,6 +121,6 @@ export default connect(
         },
         delete: (message: Message) => {
             dispatch(deleteMessage(message.id));
-        }
+        },
     })
 )(MessagesComponent);

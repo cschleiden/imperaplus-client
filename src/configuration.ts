@@ -1,7 +1,7 @@
 // Tokens will be replaced by build process for specific environments
 const config = {
     baseUri: "#{BaseUri}#",
-    imageBaseUri: "#{ImageBaseUri}#"
+    imageBaseUri: "#{ImageBaseUri}#",
 };
 
 function getToken(name: string, defaultValue: string): string {

@@ -25,7 +25,7 @@ export interface IFieldValue {
 }
 
 const initialState = makeImmutable(<IForms>{
-    forms: {}
+    forms: {},
 });
 
 const submitForm = (
@@ -35,35 +35,35 @@ const submitForm = (
     switch (action.payload.mode) {
         case FormActions.FormMode.Pending:
             return state.__set(
-                x => x.forms[action.payload.form].isPending,
+                (x) => x.forms[action.payload.form].isPending,
                 true
             );
 
         case FormActions.FormMode.Success:
-            return state.__set(x => x.forms[action.payload.form], {
+            return state.__set((x) => x.forms[action.payload.form], {
                 isPending: false,
                 fields: {
                     ...(state.forms[action.payload.form] &&
-                        state.forms[action.payload.form].initialValues)
-                }
+                        state.forms[action.payload.form].initialValues),
+                },
             });
 
         case FormActions.FormMode.Failed:
             return state.__set(
-                x => x.forms[action.payload.form].isPending,
+                (x) => x.forms[action.payload.form].isPending,
                 false
             );
     }
 };
 
 const resetForm = (state: IImmutable<IForms>, action: IAction<string>) => {
-    return state.__set(x => x.forms[action.payload], {
+    return state.__set((x) => x.forms[action.payload], {
         name: action.payload,
         fields: {
             ...(state.forms[action.payload] &&
-                state.forms[action.payload].initialValues)
+                state.forms[action.payload].initialValues),
         },
-        isPending: false
+        isPending: false,
     } as IForm);
 };
 
@@ -73,8 +73,8 @@ const changeField = (
 ) => {
     const payload = action.payload;
 
-    return state.__set(x => x.forms[payload.form].fields[payload.field], {
-        value: payload.value
+    return state.__set((x) => x.forms[payload.form].fields[payload.field], {
+        value: payload.value,
     });
 };
 
@@ -85,11 +85,11 @@ const initialValue = (
     const payload = action.payload;
 
     return state
-        .__set(x => x.forms[payload.form].fields[payload.field], {
-            value: payload.value
+        .__set((x) => x.forms[payload.form].fields[payload.field], {
+            value: payload.value,
         })
-        .__set(x => x.forms[payload.form].initialValues[payload.field], {
-            value: payload.value
+        .__set((x) => x.forms[payload.form].initialValues[payload.field], {
+            value: payload.value,
         });
 };
 
@@ -101,6 +101,6 @@ export const forms = (
         [FormActions.SUBMIT_FORM]: submitForm,
         [FormActions.RESET_FORM]: resetForm,
         [FormActions.CHANGE_FIELD]: changeField,
-        [FormActions.INITIAL_VALUE]: initialValue
+        [FormActions.INITIAL_VALUE]: initialValue,
     });
 };

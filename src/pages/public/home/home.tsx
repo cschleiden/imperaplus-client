@@ -32,28 +32,28 @@ export default class Home extends React.Component {
                             bodyLines: [
                                 __("Fight"),
                                 __("on more than"),
-                                __("80 maps")
+                                __("80 maps"),
                             ],
-                            img: "/assets/slider/map.png"
+                            img: "/assets/slider/map.png",
                         },
                         {
                             headLines: [__("Win in"), __("tournaments")],
                             bodyLines: [__("with hundreds"), __("of players")],
-                            img: "/assets/slider/tournaments.png"
+                            img: "/assets/slider/tournaments.png",
                         },
                         {
                             headLines: [
                                 __("Participate"),
                                 __("in"),
-                                __("leagues")
+                                __("leagues"),
                             ],
                             bodyLines: [
                                 __("Participate in different"),
                                 __("leagues, alone or"),
-                                __("in a team")
+                                __("in a team"),
                             ],
-                            img: "/assets/slider/league.png"
-                        }
+                            img: "/assets/slider/league.png",
+                        },
                     ]}
                 />
                 <h2 className="headline">

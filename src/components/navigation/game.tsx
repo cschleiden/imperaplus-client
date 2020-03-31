@@ -27,7 +27,7 @@ const GameNavigation = (props: IGameNavigation): JSX.Element => {
         messageCount,
         logout,
         memberOfAlliance,
-        allianceId
+        allianceId,
     } = props;
 
     return (
@@ -129,7 +129,7 @@ const GameNavigation = (props: IGameNavigation): JSX.Element => {
                     <li>
                         <a
                             href="#"
-                            onClick={e => {
+                            onClick={(e) => {
                                 logout();
 
                                 e.preventDefault();
@@ -170,12 +170,12 @@ export default connect(
             messageCount,
             memberOfAlliance,
             allianceAdmin,
-            allianceId
+            allianceId,
         };
     },
-    dispatch => ({
+    (dispatch) => ({
         logout: () => {
             dispatch(logout(null));
-        }
+        },
     })
 )(GameNavigation);

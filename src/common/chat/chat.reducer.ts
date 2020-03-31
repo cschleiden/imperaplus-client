@@ -11,7 +11,7 @@ import {
     RECEIVE_MESSAGE,
     SHOW_HIDE,
     START,
-    SWITCH_CHANNEL
+    SWITCH_CHANNEL,
 } from "./chat.actions";
 
 const initialState = makeImmutable({
@@ -19,16 +19,16 @@ const initialState = makeImmutable({
     isActive: false,
     activeChannelId: null as string,
     channels: [] as ChannelInformation[],
-    unreadCount: null as number
+    unreadCount: null as number,
 });
 
 export type IChatState = typeof initialState;
 
 const showHide = (state: IChatState, action: IAction<boolean>) => {
     const isVisible = action.payload;
-    return state.__set(x => x, {
+    return state.__set((x) => x, {
         isVisible: isVisible,
-        unreadCount: null as number
+        unreadCount: null as number,
     });
 };
 
@@ -37,15 +37,15 @@ const close = (state: IChatState, action: IAction<void>) => {
 };
 
 const switchChannel = (state: IChatState, action: IAction<string>) => {
-    return state.__set(x => x.activeChannelId, action.payload);
+    return state.__set((x) => x.activeChannelId, action.payload);
 };
 
 const start = (state: IChatState, action: IAction<IStartPayload>) => {
     return state
-        .__set(x => x.isActive, true)
-        .__set(x => x.channels, action.payload.channels)
+        .__set((x) => x.isActive, true)
+        .__set((x) => x.channels, action.payload.channels)
         .__set(
-            x => x.activeChannelId,
+            (x) => x.activeChannelId,
             action.payload.channels &&
                 action.payload.channels.length &&
                 action.payload.channels[0].identifier
@@ -68,11 +68,11 @@ const receiveMessage = (state: IChatState, action: IAction<Message>) => {
 
     return state
         .__set(
-            x => x.channels[idx].messages,
-            x => push(x, message)
+            (x) => x.channels[idx].messages,
+            (x) => push(x, message)
         )
         .__set(
-            x => x.unreadCount,
+            (x) => x.unreadCount,
             !state.isVisible ? (state.unreadCount || 0) + 1 : null
         );
 };
@@ -84,13 +84,13 @@ const join = (state: IChatState, action: IAction<IUserEventPayload>) => {
     );
 
     return state.__set(
-        x => x.channels[channelIdx].users,
-        x =>
+        (x) => x.channels[channelIdx].users,
+        (x) =>
             x.concat([
                 {
                     name: action.payload.userName,
-                    type: 0
-                }
+                    type: 0,
+                },
             ])
     );
 };
@@ -102,8 +102,8 @@ const leave = (state: IChatState, action: IAction<IUserEventPayload>) => {
     );
 
     return state.__set(
-        x => x.channels[channelIdx].users,
-        x => x.filter(u => u.name !== action.payload.userName)
+        (x) => x.channels[channelIdx].users,
+        (x) => x.filter((u) => u.name !== action.payload.userName)
     );
 };
 
@@ -118,7 +118,7 @@ export const chat = <TPayload>(
         [START]: start,
         [RECEIVE_MESSAGE]: receiveMessage,
         [JOIN]: join,
-        [LEAVE]: leave
+        [LEAVE]: leave,
     });
 };
 

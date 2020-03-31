@@ -55,7 +55,7 @@ const fetchWrapper = (
         init.mode = "cors";
     }
 
-    return fetch(url, init).then(response => {
+    return fetch(url, init).then((response) => {
         // Intercept 401 responses, to redirect to login or refresh token
         const status = response.status.toString();
         if (status === "401") {
@@ -65,7 +65,7 @@ const fetchWrapper = (
                         // Successful, retry request
                         return fetchWrapper(tokenProvider, url, init);
                     },
-                    error => {
+                    (error) => {
                         throw error;
                     }
                 );
@@ -73,7 +73,7 @@ const fetchWrapper = (
                 throw new Error("Not authorized");
             }
         } else if (status === "400") {
-            return response.text().then(responseText => {
+            return response.text().then((responseText) => {
                 let result400: ErrorResponse | null = null;
                 result400 =
                     responseText === ""
@@ -101,7 +101,7 @@ const fetchWrapper = (
                     "data-ids": "abc",
                     "data-max-traces": 10,
                     "data-start-hidden": true,
-                    "data-toggle-shortcut": "Alt+P"
+                    "data-toggle-shortcut": "Alt+P",
                 });
                 $("head").append(scriptTag);
             }
@@ -127,7 +127,7 @@ function createClient<TClient>(
     tokenProvider: () => string
 ): TClient {
     let client = new clientType(baseUri, {
-        fetch: fetchWrapper.bind(null, tokenProvider)
+        fetch: fetchWrapper.bind(null, tokenProvider),
     });
 
     // Hack: jsonParseReviver is protected, force set for now

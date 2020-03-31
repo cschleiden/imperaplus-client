@@ -5,7 +5,7 @@ import { Link } from "react-router";
 import Form, { IFormState } from "../../common/forms/form";
 import {
     ControlledDropdown,
-    ControlledTextField
+    ControlledTextField,
 } from "../../common/forms/inputs";
 import { GridColumn, GridRow } from "../../components/layout";
 import { MapPreview } from "../../components/ui/games/mapPreview";
@@ -17,7 +17,7 @@ import {
     MapTemplate,
     MapTemplateDescriptor,
     VictoryConditionType,
-    VisibilityModifierType
+    VisibilityModifierType,
 } from "../../external/imperaClients";
 import { IState } from "../../reducers";
 import { create, getMaps } from "./create.actions";
@@ -27,7 +27,7 @@ function getPlayerAndTeams() {
 
     result.push({
         text: __("1 vs Bot"),
-        key: "1bot"
+        key: "1bot",
     });
 
     const maxPlayersPerTeam = 16;
@@ -54,7 +54,7 @@ function getPlayerAndTeams() {
 
             result.push({
                 text: labels.join(" " + __("vs") + " "),
-                key: teams + "t" + playersPerTeam
+                key: teams + "t" + playersPerTeam,
             });
         }
     }
@@ -139,13 +139,13 @@ export class CreateGameComponent extends React.Component<ICreateGameProps> {
                                         formState.getFieldValue(
                                             "victoryConditions",
                                             0
-                                        )
+                                        ),
                                     ],
                                     visibilityModifier: [
                                         formState.getFieldValue(
                                             "visibilityModifier",
                                             0
-                                        )
+                                        ),
                                     ],
                                     mapDistribution: formState.getFieldValue(
                                         "distribution",
@@ -167,7 +167,7 @@ export class CreateGameComponent extends React.Component<ICreateGameProps> {
                                         "maximumTimeoutsPerPlayer",
                                         2
                                     ),
-                                    addBot: addBot
+                                    addBot: addBot,
                                 },
                                 options
                             );
@@ -195,7 +195,7 @@ export class CreateGameComponent extends React.Component<ICreateGameProps> {
                                                     required={false}
                                                     {...({
                                                         autoComplete:
-                                                            "new-password"
+                                                            "new-password",
                                                     } as any)}
                                                 />
 
@@ -210,7 +210,7 @@ export class CreateGameComponent extends React.Component<ICreateGameProps> {
                                                     />
                                                     {this.props.maps &&
                                                         this.props.maps.map(
-                                                            m => (
+                                                            (m) => (
                                                                 <option
                                                                     key={m.name}
                                                                     value={
@@ -346,7 +346,7 @@ export class CreateGameComponent extends React.Component<ICreateGameProps> {
                                                     value="1bot"
                                                 >
                                                     {getPlayerAndTeams().map(
-                                                        x => (
+                                                        (x) => (
                                                             <option
                                                                 key={x.key}
                                                                 value={x.key}
@@ -621,12 +621,12 @@ export default connect(
         const maps = state.general.lookup["maps"];
 
         return {
-            maps: maps && maps.filter((m: MapTemplateDescriptor) => m.isActive)
+            maps: maps && maps.filter((m: MapTemplateDescriptor) => m.isActive),
         };
     },
-    dispatch => ({
+    (dispatch) => ({
         getMaps: () => {
             dispatch(getMaps(null));
-        }
+        },
     })
 )(CreateGameComponent);

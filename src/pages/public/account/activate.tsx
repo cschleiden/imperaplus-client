@@ -37,15 +37,15 @@ class ActivateComponent extends React.Component<IActivateProps> {
 }
 
 export default connect(
-    state => ({}),
-    dispatch => ({
+    (state) => ({}),
+    (dispatch) => ({
         activate: (userId: string, code: string) => {
             dispatch(
                 activate({
                     userId: userId,
-                    code: code
+                    code: code,
                 })
             );
-        }
+        },
     })
 )(ActivateComponent);

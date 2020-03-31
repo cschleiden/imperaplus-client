@@ -33,7 +33,7 @@ class LoginComponent extends React.Component<DispatchProp<any>> {
                                         ),
                                         password: formState.getFieldValue(
                                             "password"
-                                        )
+                                        ),
                                     },
                                     options
                                 );
@@ -88,7 +88,7 @@ class LoginComponent extends React.Component<DispatchProp<any>> {
                         {LinkString({
                             link: __(
                                 "[Reset](/reset) your password or [create](/signup) a new account."
-                            )
+                            ),
                         })}
                     </GridColumn>
                 </GridRow>

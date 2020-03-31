@@ -4,7 +4,7 @@ import {
     Button,
     DropdownButton,
     Glyphicon,
-    MenuItem
+    MenuItem,
 } from "react-bootstrap";
 import { connect } from "react-redux";
 import LoadingBar from "react-redux-loading-bar";
@@ -145,7 +145,7 @@ export class Layout extends React.Component<ILayoutProps> {
         if (userInfo) {
             isAdmin =
                 userInfo.roles
-                    .map(r => r.toUpperCase())
+                    .map((r) => r.toUpperCase())
                     .indexOf("admin".toUpperCase()) !== -1;
         }
 
@@ -269,10 +269,10 @@ export default connect(
             isNavOpen: general.isNavOpen,
             title: general.title,
             language: session.language,
-            userInfo: session.userInfo
+            userInfo: session.userInfo,
         };
     },
-    dispatch => ({
+    (dispatch) => ({
         clear: () => {
             dispatch(clear(null));
         },
@@ -281,6 +281,6 @@ export default connect(
         },
         setLanguage: (language: string) => {
             dispatch(setLanguage(language));
-        }
+        },
     })
 )(Layout);

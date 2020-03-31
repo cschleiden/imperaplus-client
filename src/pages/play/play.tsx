@@ -13,7 +13,7 @@ import {
     refreshGame,
     refreshOtherGames,
     setGameOption,
-    switchGame
+    switchGame,
 } from "./play.actions";
 import "./play.scss";
 import { IGameUIOptions } from "./reducer/play.reducer.state";
@@ -95,7 +95,7 @@ class Play extends React.Component<IPlayProps & IPlayDispatchProps> {
 
                 <div
                     className={css("play-area", {
-                        sidebar: sidebarOpen
+                        sidebar: sidebarOpen,
                     })}
                 >
                     {error && (
@@ -139,10 +139,10 @@ export default connect(
         return {
             game: playState.game,
             error: playState.error,
-            sidebarOpen: playState.sidebarOpen
+            sidebarOpen: playState.sidebarOpen,
         };
     },
-    dispatch => ({
+    (dispatch) => ({
         switchGame: (gameId: number, turnNo?: number) => {
             dispatch(switchGame({ gameId, turnNo }));
         },
@@ -158,9 +158,9 @@ export default connect(
                 setGameOption({
                     name,
                     value,
-                    temporary: true
+                    temporary: true,
                 })
             );
-        }
+        },
     })
 )(Play);

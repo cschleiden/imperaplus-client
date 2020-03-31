@@ -4,7 +4,7 @@ import { FixedAccountClient } from "../../external/accountClient";
 import {
     NotificationClient,
     NotificationSummary,
-    UserInfo
+    UserInfo,
 } from "../../external/imperaClients";
 import { IAction, IAsyncAction, makePromiseAction } from "../../lib/action";
 import { EventService } from "../../services/eventService";
@@ -25,7 +25,7 @@ export const setLanguage: IAsyncAction<string> = (language: string) => (
     // then() ... once saved:
     dispatch({
         type: SET_LANGUAGE,
-        payload: language
+        payload: language,
     });
 
     // Reload, so new language bundle can be loaded
@@ -55,9 +55,9 @@ export const login = makePromiseAction<ILoginInput, ILoginPayload>(
                     grant_type: "password",
                     username: input.username,
                     password: input.password,
-                    scope
+                    scope,
                 })
-                .then(result => {
+                .then((result) => {
                     let authenticatedAccountClient = deps.createClientWithToken(
                         FixedAccountClient,
                         result.access_token
@@ -69,26 +69,26 @@ export const login = makePromiseAction<ILoginInput, ILoginPayload>(
 
                     return Promise.all([
                         authenticatedAccountClient.getUserInfo(),
-                        authenticatedNotificationClient.getSummary()
-                    ]).then(results => {
+                        authenticatedNotificationClient.getSummary(),
+                    ]).then((results) => {
                         return {
                             access_token: result.access_token,
                             refresh_token: result.refresh_token,
                             userInfo: results[0],
-                            notifications: results[1]
+                            notifications: results[1],
                         };
                     });
-                })
+                }),
         },
         options: {
-            afterSuccess: d => {
+            afterSuccess: (d) => {
                 NotificationService.getInstance()
                     .init()
                     .then(() => {
                         d(push("game"));
                     });
-            }
-        }
+            },
+        },
     })
 );
 
@@ -100,7 +100,7 @@ export interface IRefreshPayload {
 export const UPDATE_USER_INFO = "account-update-user-info";
 export const updateUserInfo = (userInfo: UserInfo) => ({
     type: UPDATE_USER_INFO,
-    payload: userInfo
+    payload: userInfo,
 });
 
 export const REFRESH = "refresh";
@@ -111,30 +111,30 @@ export const refresh = (
     type: REFRESH,
     payload: {
         access_token,
-        refresh_token
-    }
+        refresh_token,
+    },
 });
 
 export const logout = makePromiseAction(
     "logout",
     (_, dispatch, getState, deps) => ({
         payload: {
-            promise: deps.getCachedClient(FixedAccountClient).logout()
+            promise: deps.getCachedClient(FixedAccountClient).logout(),
         },
         options: {
-            afterSuccess: d => {
+            afterSuccess: (d) => {
                 // Stop all connections
                 EventService.getInstance().fire("signalr.stop");
                 d(push("/"));
-            }
-        }
+            },
+        },
     })
 );
 
 export const EXPIRE = "expire";
 export const expire = (): IAction<void> => ({
     type: EXPIRE,
-    payload: null
+    payload: null,
 });
 
 export interface ISignupInput {
@@ -160,8 +160,8 @@ export const signup = makePromiseAction(
                 replace({
                     pathname: "/",
                     state: {
-                        keepMessage: true
-                    }
+                        keepMessage: true,
+                    },
                 })
             );
             dispatch(
@@ -185,13 +185,13 @@ export const signup = makePromiseAction(
                     confirmPassword: input.passwordConfirm,
                     email: input.email,
                     language: getState().session.language || "en",
-                    callbackUrl: `${baseUri}activate/userId/code`
-                })
+                    callbackUrl: `${baseUri}activate/userId/code`,
+                }),
             },
             options: {
                 useMessage: true,
-                afterSuccess: d => d(replace("/signup/confirmation"))
-            }
+                afterSuccess: (d) => d(replace("/signup/confirmation")),
+            },
         };
     }
 );
@@ -210,14 +210,14 @@ export const resetTrigger = makePromiseAction(
                     userName: input.username,
                     email: input.email,
                     language: getState().session.language,
-                    callbackUrl: `${baseUri}reset/userId/code`
+                    callbackUrl: `${baseUri}reset/userId/code`,
                 })
-                .then<void>(null)
+                .then<void>(null),
         },
         options: {
             useMessage: true,
-            afterSuccess: d => d(replace("/reset/triggered"))
-        }
+            afterSuccess: (d) => d(replace("/reset/triggered")),
+        },
     })
 );
 
@@ -237,14 +237,14 @@ export const reset = makePromiseAction(
                     userId: input.userId,
                     code: input.code,
                     password: input.password,
-                    confirmPassword: input.confirmPassword
+                    confirmPassword: input.confirmPassword,
                 })
-                .then<void>(null)
+                .then<void>(null),
         },
         options: {
             useMessage: true,
-            afterSuccess: d => d(replace("/reset/done"))
-        }
+            afterSuccess: (d) => d(replace("/reset/done")),
+        },
     })
 );
 
@@ -259,13 +259,13 @@ export const activate = makePromiseAction<IConfirmInput, {}>(
         payload: {
             promise: deps.getCachedClient(FixedAccountClient).confirmEmail({
                 userId: input.userId,
-                code: input.code
-            })
+                code: input.code,
+            }),
         },
         options: {
             useMessage: true,
-            afterSuccess: d => d(replace("/activated"))
-        }
+            afterSuccess: (d) => d(replace("/activated")),
+        },
     })
 );
 
@@ -284,14 +284,14 @@ export const changePassword = makePromiseAction<IChangePasswordInput, {}>(
                     .changePassword({
                         oldPassword: input.oldPassword,
                         newPassword: input.password,
-                        confirmPassword: input.passwordConfirmation
-                    })
+                        confirmPassword: input.passwordConfirmation,
+                    }),
             },
             options: {
                 useMessage: true,
-                afterSuccess: d =>
-                    d(show(__("Password changed."), MessageType.success))
-            }
+                afterSuccess: (d) =>
+                    d(show(__("Password changed."), MessageType.success)),
+            },
         };
     }
 );
@@ -301,12 +301,12 @@ export const deleteAccount = makePromiseAction(
     (input: string, dispatch, getState, deps) => ({
         payload: {
             promise: deps.getCachedClient(FixedAccountClient).deleteAccount({
-                password: input
-            })
+                password: input,
+            }),
         },
         options: {
-            afterSuccess: d => d(logout(null))
-        }
+            afterSuccess: (d) => d(logout(null)),
+        },
     })
 );
 
@@ -314,7 +314,7 @@ export const refreshNotifications = makePromiseAction(
     "refresh-notifications",
     (input: void, dispatch, getState, deps) => ({
         payload: {
-            promise: deps.getCachedClient(NotificationClient).getSummary()
-        }
+            promise: deps.getCachedClient(NotificationClient).getSummary(),
+        },
     })
 );

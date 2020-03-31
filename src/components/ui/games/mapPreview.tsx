@@ -22,7 +22,7 @@ export class MapPreview extends React.Component<
         super(props);
 
         this.state = {
-            mapTemplate: null
+            mapTemplate: null,
         };
     }
 
@@ -63,14 +63,14 @@ export class MapPreview extends React.Component<
     private _updateState(mapTemplateName: string) {
         this.setState(
             {
-                mapTemplate: null
+                mapTemplate: null,
             },
             () => {
                 getCachedClient(MapClient)
                     .getMapTemplate(mapTemplateName)
-                    .then(mapTemplate => {
+                    .then((mapTemplate) => {
                         this.setState({
-                            mapTemplate
+                            mapTemplate,
                         });
                     });
             }

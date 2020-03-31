@@ -31,7 +31,8 @@ export class MessageList extends React.Component<IMessageListProps> {
                     </thead>
 
                     <tbody>
-                        {messages && messages.map(m => this._renderMessage(m))}
+                        {messages &&
+                            messages.map((m) => this._renderMessage(m))}
                     </tbody>
                 </Table>
             </div>
@@ -43,7 +44,7 @@ export class MessageList extends React.Component<IMessageListProps> {
             <tr
                 key={message.id}
                 className={css({
-                    unread: !message.isRead
+                    unread: !message.isRead,
                 })}
                 onClick={() => this._openMessage(message)}
             >
@@ -56,7 +57,7 @@ export class MessageList extends React.Component<IMessageListProps> {
                     <Button
                         bsStyle="danger"
                         bsSize="xs"
-                        onClick={ev => this._deleteMessage(ev, message)}
+                        onClick={(ev) => this._deleteMessage(ev, message)}
                     >
                         <i className="fa fa-trash-o" />
                         &nbsp;{__("Delete")}

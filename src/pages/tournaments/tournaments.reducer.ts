@@ -2,7 +2,7 @@ import {
     GameSummary,
     Tournament,
     TournamentSummary,
-    TournamentTeam
+    TournamentTeam,
 } from "../../external/imperaClients";
 import { IAction, pending, success } from "../../lib/action";
 import reducerMap from "../../lib/reducerMap";
@@ -13,7 +13,7 @@ const initialState = makeImmutable({
     isLoading: false,
     tournaments: [] as TournamentSummary[],
     tournament: null as Tournament,
-    pairingGames: [] as GameSummary[]
+    pairingGames: [] as GameSummary[],
 });
 
 export type ITournamentsState = typeof initialState;
@@ -22,16 +22,16 @@ const refresh = (
     state: ITournamentsState,
     action: IAction<TournamentSummary[]>
 ) => {
-    return state.__set(x => x, {
+    return state.__set((x) => x, {
         isLoading: false,
-        tournaments: action.payload
+        tournaments: action.payload,
     });
 };
 
 const load = (state: ITournamentsState, action: IAction<Tournament>) => {
-    return state.__set(x => x, {
+    return state.__set((x) => x, {
         isLoading: false,
-        tournament: action.payload
+        tournament: action.payload,
     });
 };
 
@@ -39,11 +39,11 @@ const loadPairingGames = (
     state: ITournamentsState,
     action: IAction<GameSummary[]>
 ) => {
-    return state.__set(x => x.pairingGames, action.payload);
+    return state.__set((x) => x.pairingGames, action.payload);
 };
 
 const loading = (state: ITournamentsState, action: IAction<void>) => {
-    return state.__set(x => x.isLoading, true);
+    return state.__set((x) => x.isLoading, true);
 };
 
 const createdTeam = (
@@ -51,8 +51,8 @@ const createdTeam = (
     action: IAction<TournamentTeam>
 ) => {
     return state.__set(
-        x => x.tournament.teams,
-        x => push(x, action.payload)
+        (x) => x.tournament.teams,
+        (x) => push(x, action.payload)
     );
 };
 
@@ -61,26 +61,26 @@ const joinedTeam = (
     action: IAction<TournamentTeam>
 ) => {
     const team = action.payload;
-    const idx = state.tournament.teams.findIndex(t => t.id === team.id);
+    const idx = state.tournament.teams.findIndex((t) => t.id === team.id);
 
     return state.__set(
-        x => x.tournament.teams,
-        x => push(remove(x, idx), team)
+        (x) => x.tournament.teams,
+        (x) => push(remove(x, idx), team)
     );
 };
 
 const deletedTeam = (state: ITournamentsState, action: IAction<string>) => {
     const teamId = action.payload;
 
-    const idx = state.tournament.teams.findIndex(t => t.id === teamId);
+    const idx = state.tournament.teams.findIndex((t) => t.id === teamId);
 
     if (idx === -1) {
         return state;
     }
 
     return state.__set(
-        x => x.tournament.teams,
-        x => remove(x, idx)
+        (x) => x.tournament.teams,
+        (x) => remove(x, idx)
     );
 };
 
@@ -99,6 +99,6 @@ export const tournaments = <TPayload>(
 
         [success(Actions.createTeam.TYPE)]: createdTeam,
         [success(Actions.deleteTeam.TYPE)]: deletedTeam,
-        [success(Actions.joinTeam.TYPE)]: joinedTeam
+        [success(Actions.joinTeam.TYPE)]: joinedTeam,
     });
 };

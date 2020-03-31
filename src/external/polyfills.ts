@@ -5,7 +5,7 @@
 // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find?v=example#Polyfill
 if (!Array.prototype.find) {
     Object.defineProperty(Array.prototype, "find", {
-        value: function(predicate) {
+        value: function (predicate) {
             // 1. Let O be ? ToObject(this value).
             if (this == null) {
                 throw new TypeError('"this" is null or not defined');
@@ -44,14 +44,14 @@ if (!Array.prototype.find) {
 
             // 7. Return undefined.
             return undefined;
-        }
+        },
     });
 }
 
 // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex?v=example
 if (!Array.prototype.findIndex) {
     Object.defineProperty(Array.prototype, "findIndex", {
-        value: function(predicate) {
+        value: function (predicate) {
             // 1. Let O be ? ToObject(this value).
             if (this == null) {
                 throw new TypeError('"this" is null or not defined');
@@ -90,13 +90,13 @@ if (!Array.prototype.findIndex) {
 
             // 7. Return -1.
             return -1;
-        }
+        },
     });
 }
 
 // From: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith
 if (!String.prototype.startsWith) {
-    String.prototype.startsWith = function(searchString, position) {
+    String.prototype.startsWith = function (searchString, position) {
         return this.substr(position || 0, searchString.length) === searchString;
     };
 }

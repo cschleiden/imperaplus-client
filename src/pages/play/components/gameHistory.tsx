@@ -9,7 +9,7 @@ import {
     GameState,
     HistoryAction,
     HistoryEntry,
-    HistoryTurn
+    HistoryTurn,
 } from "../../../external/imperaClients";
 import { autobind } from "../../../lib/autobind";
 import { css } from "../../../lib/css";
@@ -33,7 +33,7 @@ export class GameHistoryEntry extends React.Component<IGameHistoryEntryProps> {
             originIdentifier,
             destinationIdentifier,
             units,
-            result
+            result,
         } = this.props.entry;
 
         const actor = getPlayerByPlayerId(game, actorId);
@@ -216,7 +216,7 @@ class GameHistory extends React.Component<IGameHistoryProps> {
 
         return (
             <ul className="list-unstyled">
-                {actions.map(entry => (
+                {actions.map((entry) => (
                     <li key={entry.id}>
                         <GameHistoryEntry
                             game={historyTurn.game}
@@ -286,15 +286,15 @@ export default connect(
             historyActive: playState.historyActive,
             historyTurn: playState.historyTurn,
             mapTemplate: playState.mapTemplate,
-            pending: playState.operationInProgress
+            pending: playState.operationInProgress,
         };
     },
-    dispatch => ({
+    (dispatch) => ({
         showHistoryTurn: (turnId: number): void => {
             dispatch(historyTurn(turnId));
         },
         exitHistory: (): void => {
             dispatch(historyExit(null));
-        }
+        },
     })
 )(GameHistory);

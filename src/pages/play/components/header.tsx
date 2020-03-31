@@ -5,7 +5,7 @@ import {
     Dropdown,
     MenuItem,
     OverlayTrigger,
-    Popover
+    Popover,
 } from "react-bootstrap";
 import { connect } from "react-redux";
 import { Spinner } from "../../../components/ui/spinner";
@@ -25,14 +25,14 @@ import {
     move,
     place,
     setGameOption,
-    toggleSidebar
+    toggleSidebar,
 } from "../play.actions";
 import { IGameUIOptions } from "../reducer/play.reducer.state";
 import {
     canMoveOrAttack,
     canPlace,
     game,
-    inputActive
+    inputActive,
 } from "../reducer/play.selectors";
 import Cards from "./cards";
 import "./header.scss";
@@ -72,7 +72,7 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
             canPlace,
             canMoveOrAttack,
             operationInProgress,
-            sidebarOpen
+            sidebarOpen,
         } = this.props;
 
         if (!game) {
@@ -91,7 +91,7 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
                     "player-" + (game.currentPlayer.playOrder + 1),
                     {
                         ["player-team-" +
-                        (team && team.playOrder + 1)]: isTeamGame
+                        (team && team.playOrder + 1)]: isTeamGame,
                     }
                 )}
             >
@@ -149,7 +149,7 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
                                         game.playState === PlayState.PlaceUnits,
                                     enabled: canPlace,
                                     "hidden-xs":
-                                        game.playState !== PlayState.PlaceUnits
+                                        game.playState !== PlayState.PlaceUnits,
                                 })}
                                 onClick={this._onPlace}
                                 disabled={!canPlace}
@@ -170,7 +170,7 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
                                     className={css("btn-u", {
                                         current:
                                             game.playState === PlayState.Attack,
-                                        enabled: true
+                                        enabled: true,
                                     })}
                                     disabled={!canMoveOrAttack}
                                     onClick={this._onAttack}
@@ -203,7 +203,7 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
                                         canMoveOrAttack &&
                                         game.playState === PlayState.Move,
                                     "hidden-xs":
-                                        game.playState !== PlayState.Move
+                                        game.playState !== PlayState.Move,
                                 })}
                                 onClick={this._onMove}
                                 disabled={
@@ -284,10 +284,9 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
         return (
             <Button
                 className="btn btn-u"
-                title={`${__("Exchange cards")} (${(player &&
-                    player.cards &&
-                    player.cards.length) ||
-                    0}/${game.options.maximumNumberOfCards})`}
+                title={`${__("Exchange cards")} (${
+                    (player && player.cards && player.cards.length) || 0
+                }/${game.options.maximumNumberOfCards})`}
                 onClick={this._onExchangeCards}
                 disabled={
                     !inputActive || game.playState !== PlayState.PlaceUnits
@@ -381,7 +380,7 @@ export default connect(
             placeCountries,
             player,
             operationInProgress,
-            gameUiOptions
+            gameUiOptions,
         } = state.play;
         const remainingPlaceUnits = Object.keys(placeCountries).reduce(
             (sum, ci) => sum + placeCountries[ci],
@@ -397,10 +396,10 @@ export default connect(
             canMoveOrAttack: canMoveOrAttack(state.play),
             sidebarOpen: state.play.sidebarOpen,
             operationInProgress,
-            gameUiOptions
+            gameUiOptions,
         };
     },
-    dispatch => ({
+    (dispatch) => ({
         place: () => {
             dispatch(place(null));
         },
@@ -428,12 +427,12 @@ export default connect(
                 setGameOption({
                     name,
                     value,
-                    temporary: false
+                    temporary: false,
                 })
             );
         },
         exit: () => {
             dispatch(leave());
-        }
+        },
     })
 )(Header);

@@ -5,7 +5,7 @@ import Form from "../../../common/forms/form";
 import {
     ControlledCheckBox,
     ControlledDropdown,
-    ControlledTextField
+    ControlledTextField,
 } from "../../../common/forms/inputs";
 import { signup } from "../../../common/session/session.actions";
 import { Grid, GridColumn, GridRow } from "../../../components/layout";
@@ -14,7 +14,7 @@ import LinkString from "../../../components/ui/strLink";
 import "./signup.scss";
 
 function range(start: number, count: number) {
-    return Array.apply(0, Array(count)).map(function(element, index) {
+    return Array.apply(0, Array(count)).map(function (element, index) {
         return index + start;
     });
 }
@@ -66,7 +66,7 @@ export class SignupComponent extends React.Component<ISignupProps> {
                                         email: formState.getFieldValue("email"),
                                         day: formState.getFieldValue("day"),
                                         month: formState.getFieldValue("month"),
-                                        year: formState.getFieldValue("year")
+                                        year: formState.getFieldValue("year"),
                                     },
                                     options
                                 );
@@ -119,7 +119,7 @@ export class SignupComponent extends React.Component<ISignupProps> {
                                             <div>
                                                 <ControlledDropdown fieldName="day">
                                                     <option value="" />
-                                                    {range(1, 31).map(x => (
+                                                    {range(1, 31).map((x) => (
                                                         <option
                                                             value={x}
                                                             key={x}
@@ -130,7 +130,7 @@ export class SignupComponent extends React.Component<ISignupProps> {
                                                 </ControlledDropdown>
                                                 <ControlledDropdown fieldName="month">
                                                     <option value="" />
-                                                    {range(1, 12).map(x => (
+                                                    {range(1, 12).map((x) => (
                                                         <option
                                                             value={x}
                                                             key={x}
@@ -145,7 +145,7 @@ export class SignupComponent extends React.Component<ISignupProps> {
                                                         new Date().getFullYear() -
                                                             85,
                                                         85
-                                                    ).map(x => (
+                                                    ).map((x) => (
                                                         <option
                                                             value={x}
                                                             key={x}
@@ -203,7 +203,7 @@ export class SignupComponent extends React.Component<ISignupProps> {
                         {LinkString({
                             link: __(
                                 "[Reset](/reset) your password or [create](/signup) a new account."
-                            )
+                            ),
                         })}
                     </GridColumn>
                 </GridRow>
@@ -227,4 +227,4 @@ export class SignupComponent extends React.Component<ISignupProps> {
     }
 }
 
-export default connect(state => ({}), {})(SignupComponent);
+export default connect((state) => ({}), {})(SignupComponent);

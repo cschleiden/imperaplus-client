@@ -5,7 +5,7 @@ import {
     ControlLabel,
     FormControl,
     FormControlProps,
-    FormGroup
+    FormGroup,
 } from "react-bootstrap";
 import { UserPicker } from "../../components/misc/userPicker";
 import { UserReference } from "../../external/imperaClients";
@@ -63,7 +63,7 @@ export class ControlledTextField extends React.Component<
                     name={fieldName}
                     {...remainingProps}
                     id={this._id}
-                    onChange={ev => {
+                    onChange={(ev) => {
                         const inputElement = ev.target as HTMLInputElement;
                         const value = inputElement.value;
 
@@ -125,7 +125,7 @@ export class ControlledUserPicker extends React.Component<
                 {label && <ControlLabel>{label}</ControlLabel>}
                 <UserPicker
                     name={fieldName}
-                    onChange={value => {
+                    onChange={(value) => {
                         if (value !== this._currentValue()) {
                             if (this.context.changeField) {
                                 this.context.changeField(fieldName, value);
@@ -214,7 +214,7 @@ export class ControlledDropdown extends React.Component<
                 <FormControl
                     componentClass="select"
                     {...remainingProps}
-                    onChange={ev => {
+                    onChange={(ev) => {
                         const inputElement = ev.target as HTMLSelectElement;
                         const value = inputElement.value;
 

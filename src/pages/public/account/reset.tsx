@@ -19,7 +19,7 @@ export default class ResetComponent extends React.Component {
                                         username: formState.getFieldValue(
                                             "username"
                                         ),
-                                        email: formState.getFieldValue("email")
+                                        email: formState.getFieldValue("email"),
                                     },
                                     options
                                 );

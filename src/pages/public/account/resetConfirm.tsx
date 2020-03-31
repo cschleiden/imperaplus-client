@@ -32,7 +32,7 @@ export default class ResetConfirmationComponent extends React.Component<
                                         ),
                                         confirmPassword: formState.getFieldValue(
                                             "passwordconfirm"
-                                        )
+                                        ),
                                     },
                                     options
                                 );

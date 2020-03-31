@@ -10,7 +10,7 @@ const initialState = makeImmutable({
     userInfo: null as UserInfo,
     isLoggedIn: false,
     language: "en" as string,
-    notifications: null as NotificationSummary
+    notifications: null as NotificationSummary,
 });
 export type ISessionState = typeof initialState;
 
@@ -18,12 +18,12 @@ const login = (
     state: ISessionState,
     action: IAction<Actions.ILoginPayload>
 ) => {
-    return state.__set(x => x, {
+    return state.__set((x) => x, {
         access_token: action.payload.access_token,
         refresh_token: action.payload.refresh_token,
         isLoggedIn: true,
         userInfo: action.payload.userInfo,
-        notifications: action.payload.notifications
+        notifications: action.payload.notifications,
     });
 };
 
@@ -32,9 +32,9 @@ const refresh = (
     state: ISessionState,
     action: IAction<Actions.IRefreshPayload>
 ) => {
-    return state.__set(x => x, {
+    return state.__set((x) => x, {
         access_token: action.payload.access_token,
-        refresh_token: action.payload.refresh_token
+        refresh_token: action.payload.refresh_token,
     });
 };
 
@@ -44,18 +44,18 @@ const reset = (state: ISessionState, action: IAction<void>) => {
 };
 
 const setLanguage = (state: ISessionState, action: IAction<string>) => {
-    return state.__set(x => x.language, action.payload);
+    return state.__set((x) => x.language, action.payload);
 };
 
 const refreshNotifications = (
     state: ISessionState,
     action: IAction<NotificationSummary>
 ) => {
-    return state.__set(x => x.notifications, action.payload);
+    return state.__set((x) => x.notifications, action.payload);
 };
 
 const updateUserInfo = (state: ISessionState, action: IAction<UserInfo>) => {
-    return state.__set(x => x.userInfo, action.payload);
+    return state.__set((x) => x.userInfo, action.payload);
 };
 
 export const session = <TPayload>(
@@ -69,6 +69,6 @@ export const session = <TPayload>(
         [success(Actions.logout.TYPE)]: reset,
         [Actions.SET_LANGUAGE]: setLanguage,
         [success(Actions.refreshNotifications.TYPE)]: refreshNotifications,
-        [Actions.UPDATE_USER_INFO]: updateUserInfo
+        [Actions.UPDATE_USER_INFO]: updateUserInfo,
     });
 };

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import Form, { IFormState } from "../../common/forms/form";
 import {
     ControlledTextField,
-    ControlledUserPicker
+    ControlledUserPicker,
 } from "../../common/forms/inputs";
 import { GridColumn, GridRow } from "../../components/layout/index";
 import { ProgressButton } from "../../components/ui/progressButton";
@@ -35,7 +35,7 @@ class ComposeComponent extends React.Component<IComposeProps & IOwnProps> {
                                 {
                                     to: formState.getFieldValue("user"),
                                     subject: formState.getFieldValue("subject"),
-                                    text: formState.getFieldValue("text")
+                                    text: formState.getFieldValue("text"),
                                 },
                                 options
                             );
@@ -66,7 +66,7 @@ class ComposeComponent extends React.Component<IComposeProps & IOwnProps> {
                                     required={true}
                                     componentClass="textarea"
                                     style={{
-                                        resize: "vertical"
+                                        resize: "vertical",
                                     }}
                                     rows={10}
                                     initialValue={
@@ -117,8 +117,8 @@ export default connect(
         }
 
         return {
-            replyTo
+            replyTo,
         };
     },
-    dispatch => ({})
+    (dispatch) => ({})
 )(ComposeComponent);

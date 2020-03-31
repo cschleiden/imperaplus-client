@@ -4,7 +4,7 @@ import {
     CountryTemplate,
     MapClient,
     MapTemplate,
-    Continent
+    Continent,
 } from "../../external/imperaClients";
 
 export function getMapTemplate(name: string): Promise<MapTemplateCacheEntry> {
@@ -14,7 +14,7 @@ export function getMapTemplate(name: string): Promise<MapTemplateCacheEntry> {
 
     return getCachedClient(MapClient)
         .getMapTemplate(name)
-        .then(mapTemplate => {
+        .then((mapTemplate) => {
             mapTemplateCache[name] = Promise.resolve(
                 new MapTemplateCacheEntry(mapTemplate)
             );
@@ -42,7 +42,7 @@ export class MapTemplateCacheEntry {
                 ] = true;
             } else {
                 this._connections[connection.origin] = {
-                    [connection.destination]: true
+                    [connection.destination]: true,
                 };
             }
         }

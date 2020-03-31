@@ -6,14 +6,14 @@ import {
     GameSummary,
     HistoryTurn,
     PlayState,
-    Result
+    Result,
 } from "../../../external/imperaClients";
 import { IAction } from "../../../lib/action";
 import {
     countriesToMap,
     getPlayer,
     getPlayerFromTeams,
-    getTeam
+    getTeam,
 } from "../../../lib/game/utils";
 import { isEmptyGuid } from "../../../lib/guid";
 import { UserProvider } from "../../../services/userProvider";
@@ -21,7 +21,7 @@ import {
     IGameChatMessagesPayload,
     ISetGameOptionPayload,
     ISetPlaceUnitsPayload,
-    ISwitchGamePayload
+    ISwitchGamePayload,
 } from "../play.actions";
 import { IPlayState, initialState } from "./play.reducer.state";
 import { inputActive } from "./play.selectors";
@@ -37,24 +37,24 @@ export const switchGame = (
     const player = getPlayer(game, UserProvider.getUserId());
 
     return state
-        .__set(x => x, {
+        .__set((x) => x, {
             gameId: game.id,
             game,
             mapTemplate,
             player,
             historyTurn: null,
             historyActive: false,
-            sidebarOpen: localStorage.getItem("impera-sidebar") === "true"
+            sidebarOpen: localStorage.getItem("impera-sidebar") === "true",
         })
-        .__set(x => x.operationInProgress, false)
-        .__set(x => x.error, null);
+        .__set((x) => x.operationInProgress, false)
+        .__set((x) => x.error, null);
 };
 
 export const refreshOtherGames = (
     state: IPlayState,
     action: IAction<GameSummary[]>
 ) => {
-    return state.__set(x => x.otherGames, action.payload);
+    return state.__set((x) => x.otherGames, action.payload);
 };
 
 export const refreshGame = (state: IPlayState, action: IAction<Game>) => {
@@ -64,18 +64,18 @@ export const refreshGame = (state: IPlayState, action: IAction<Game>) => {
     const player = getPlayer(game, UserProvider.getUserId());
 
     return state
-        .__set(x => x, {
+        .__set((x) => x, {
             gameId: game.id,
             game,
             mapTemplate: currentState.mapTemplate,
-            player
+            player,
         })
-        .__set(x => x.operationInProgress, false)
-        .__set(x => x.error, null);
+        .__set((x) => x.operationInProgress, false)
+        .__set((x) => x.error, null);
 };
 
 export const toggleSidebar = (state: IPlayState, action: IAction<void>) => {
-    return state.__set(x => x.sidebarOpen, !state.sidebarOpen);
+    return state.__set((x) => x.sidebarOpen, !state.sidebarOpen);
 };
 
 export const setUIOption = (
@@ -86,11 +86,11 @@ export const setUIOption = (
 
     if (temporary && !value) {
         return state.__set(
-            x => x.overrideGameUiOptions,
-            oldValue => {
+            (x) => x.overrideGameUiOptions,
+            (oldValue) => {
                 // Remove from overrides
                 const clone = {
-                    ...oldValue
+                    ...oldValue,
                 };
 
                 delete clone[name];
@@ -101,21 +101,21 @@ export const setUIOption = (
     } else {
         return state.__set(
             action.payload.temporary
-                ? x => x.overrideGameUiOptions
-                : x => x.gameUiOptions,
+                ? (x) => x.overrideGameUiOptions
+                : (x) => x.gameUiOptions,
             {
-                [name]: value
+                [name]: value,
             }
         );
     }
 };
 
 export const pendingOperation = (state: IPlayState) => {
-    return state.__set(x => x.operationInProgress, true);
+    return state.__set((x) => x.operationInProgress, true);
 };
 
 export const error = (state: IPlayState, action: IAction<ErrorResponse>) => {
-    return state.__set(x => x.error, action.payload);
+    return state.__set((x) => x.error, action.payload);
 };
 
 export const leave = (state: IPlayState) => {
@@ -133,13 +133,13 @@ export const gameChatMessage = (
 
     if (isEmptyGuid(message.teamId)) {
         return state.__set(
-            x => x.gameChat.all,
-            messages => messages.concat([message])
+            (x) => x.gameChat.all,
+            (messages) => messages.concat([message])
         );
     } else {
         return state.__set(
-            x => x.gameChat.team,
-            messages => messages.concat([message])
+            (x) => x.gameChat.team,
+            (messages) => messages.concat([message])
         );
     }
 };
@@ -148,14 +148,14 @@ export const gameChatSendMessagePending = (
     state: IPlayState,
     action: IAction<void>
 ) => {
-    return state.__set(x => x.gameChat.isPending, true);
+    return state.__set((x) => x.gameChat.isPending, true);
 };
 
 export const gameChatSendMessageSuccess = (
     state: IPlayState,
     action: IAction<void>
 ) => {
-    return state.__set(x => x.gameChat.isPending, false);
+    return state.__set((x) => x.gameChat.isPending, false);
 };
 
 export const gameChatMessages = (
@@ -169,10 +169,10 @@ export const gameChatMessages = (
         return state;
     }
 
-    return state.__set(x => x.gameChat, {
+    return state.__set((x) => x.gameChat, {
         isPending: false,
         all,
-        team
+        team,
     });
 };
 
@@ -186,15 +186,15 @@ export const historyTurn = (
     const turn = action.payload;
 
     return state
-        .__set(x => x.operationInProgress, false)
-        .__set(x => x.historyTurn, turn)
-        .__set(x => x.historyActive, true);
+        .__set((x) => x.operationInProgress, false)
+        .__set((x) => x.historyTurn, turn)
+        .__set((x) => x.historyActive, true);
 };
 
 export const historyExit = (state: IPlayState, action: IAction<void>) => {
     return state
-        .__set(x => x.historyActive, false)
-        .__set(x => x.historyTurn, null);
+        .__set((x) => x.historyActive, false)
+        .__set((x) => x.historyTurn, null);
 };
 
 //
@@ -221,7 +221,7 @@ export const selectCountry = (state: IPlayState, action: IAction<string>) => {
                         ...newPlaceCountries
                     } = placeCountries;
                     return state.__set(
-                        x => x.placeCountries,
+                        (x) => x.placeCountries,
                         newPlaceCountries
                     );
                 }
@@ -236,7 +236,7 @@ export const selectCountry = (state: IPlayState, action: IAction<string>) => {
                         );
 
                     return state.__set(
-                        x => x.placeCountries[countryIdentifier],
+                        (x) => x.placeCountries[countryIdentifier],
                         remainingUnits
                     );
                 }
@@ -248,7 +248,7 @@ export const selectCountry = (state: IPlayState, action: IAction<string>) => {
             case PlayState.Move: {
                 if (countryIdentifier === null) {
                     return state.__set(
-                        x => x.twoCountry,
+                        (x) => x.twoCountry,
                         initialState.twoCountry
                     );
                 }
@@ -279,19 +279,19 @@ export const selectCountry = (state: IPlayState, action: IAction<string>) => {
                                 game.options.minUnitsPerCountry;
 
                             return state.__set(
-                                x => x.twoCountry,
-                                x => ({
+                                (x) => x.twoCountry,
+                                (x) => ({
                                     ...x,
                                     destinationCountryIdentifier: countryIdentifier,
                                     minUnits: 1,
                                     maxUnits,
-                                    numberOfUnits: Math.max(0, maxUnits)
+                                    numberOfUnits: Math.max(0, maxUnits),
                                 })
                             );
                         } else {
                             // Reset
                             state.__set(
-                                x => x.twoCountry,
+                                (x) => x.twoCountry,
                                 initialState.twoCountry
                             );
                         }
@@ -302,18 +302,18 @@ export const selectCountry = (state: IPlayState, action: IAction<string>) => {
                             const allowedDestinations = mapTemplate
                                 .connections(countryIdentifier)
                                 .filter(
-                                    c =>
+                                    (c) =>
                                         countriesByIdentifier[c].playerId !==
                                         playerId
                                 );
 
                             return state.__set(
-                                x => x.twoCountry,
-                                x => ({
+                                (x) => x.twoCountry,
+                                (x) => ({
                                     ...x,
                                     originCountryIdentifier: countryIdentifier,
                                     destinationCountryIdentifier: null,
-                                    allowedDestinations
+                                    allowedDestinations,
                                 })
                             );
                         }
@@ -337,13 +337,13 @@ export const selectCountry = (state: IPlayState, action: IAction<string>) => {
                                 game.options.minUnitsPerCountry;
 
                             return state.__set(
-                                x => x.twoCountry,
-                                x => ({
+                                (x) => x.twoCountry,
+                                (x) => ({
                                     ...x,
                                     destinationCountryIdentifier: countryIdentifier,
                                     minUnits: 1,
                                     maxUnits,
-                                    numberOfUnits: Math.max(0, maxUnits)
+                                    numberOfUnits: Math.max(0, maxUnits),
                                 })
                             );
                         } else if (
@@ -354,23 +354,26 @@ export const selectCountry = (state: IPlayState, action: IAction<string>) => {
                             const allowedDestinations = mapTemplate
                                 .connections(countryIdentifier)
                                 .filter(
-                                    c =>
+                                    (c) =>
                                         countriesByIdentifier[c].teamId ===
                                         teamId
                                 );
 
                             return state.__set(
-                                x => x.twoCountry,
-                                x => ({
+                                (x) => x.twoCountry,
+                                (x) => ({
                                     ...x,
                                     originCountryIdentifier: countryIdentifier,
-                                    allowedDestinations
+                                    allowedDestinations,
                                 })
                             );
                         }
                     } else {
                         // Reset
-                        state.__set(x => x.twoCountry, initialState.twoCountry);
+                        state.__set(
+                            (x) => x.twoCountry,
+                            initialState.twoCountry
+                        );
                     }
                 }
 
@@ -393,7 +396,7 @@ export const setPlaceUnits = (
 
     if (data.placeCountries[countryIdentifier]) {
         const unitsToPlace = Object.keys(data.placeCountries)
-            .filter(x => x !== countryIdentifier)
+            .filter((x) => x !== countryIdentifier)
             .reduce((sum, id) => sum + data.placeCountries[id], 0);
         const remainingUnits = data.game.unitsToPlace - unitsToPlace;
 
@@ -401,7 +404,7 @@ export const setPlaceUnits = (
             units = remainingUnits;
         }
 
-        return state.__set(x => x.placeCountries[countryIdentifier], units);
+        return state.__set((x) => x.placeCountries[countryIdentifier], units);
     }
 
     return state;
@@ -414,7 +417,7 @@ export const setActionUnits = (state: IPlayState, action: IAction<number>) => {
 
     const units = Math.min(Math.max(minUnits, inputUnits), maxUnits);
 
-    return state.__set(x => x.twoCountry.numberOfUnits, units);
+    return state.__set((x) => x.twoCountry.numberOfUnits, units);
 };
 
 export const updateFromResult = (
@@ -425,12 +428,12 @@ export const updateFromResult = (
     const currentUserId = UserProvider.getUserId();
 
     return state
-        .__set(x => x.operationInProgress, false)
-        .__set(x => x.placeCountries, {})
-        .__set(x => x.twoCountry, initialState.twoCountry)
+        .__set((x) => x.operationInProgress, false)
+        .__set((x) => x.placeCountries, {})
+        .__set((x) => x.twoCountry, initialState.twoCountry)
         .__set(
-            x => x.game,
-            x => ({
+            (x) => x.game,
+            (x) => ({
                 ...x,
                 state: result.state,
                 playState: result.playState,
@@ -438,14 +441,14 @@ export const updateFromResult = (
                 attacksInCurrentTurn: result.attacksInCurrentTurn,
                 movesInCurrentTurn: result.movesInCurrentTurn,
                 unitsToPlace: result.unitsToPlace,
-                turnCounter: result.turnCounter
+                turnCounter: result.turnCounter,
             })
         )
         .__set(
-            x => x.game.map,
-            map => {
+            (x) => x.game.map,
+            (map) => {
                 let newMap = {
-                    countries: map.countries.slice(0)
+                    countries: map.countries.slice(0),
                 };
 
                 // Apply map updates
@@ -468,8 +471,11 @@ export const updateFromResult = (
                 return newMap;
             }
         )
-        .__set(x => x.game.teams, result.teams)
-        .__set(x => x.player, getPlayerFromTeams(result.teams, currentUserId));
+        .__set((x) => x.game.teams, result.teams)
+        .__set(
+            (x) => x.player,
+            getPlayerFromTeams(result.teams, currentUserId)
+        );
 };
 
 export const attack = (

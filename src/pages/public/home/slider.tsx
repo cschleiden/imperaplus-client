@@ -29,7 +29,7 @@ export class Slider extends React.Component<ISliderProps, ISliderState> {
         super(props, state);
 
         this.state = {
-            currentSlide: 0
+            currentSlide: 0,
         };
     }
 
@@ -39,7 +39,7 @@ export class Slider extends React.Component<ISliderProps, ISliderState> {
                 className="slider"
                 style={{
                     backgroundPosition: `${this.state.currentSlide * 50}% 0%`,
-                    backgroundImage: `url('${this.props.background}')`
+                    backgroundImage: `url('${this.props.background}')`,
                 }}
             >
                 <CSSTransitionGroup

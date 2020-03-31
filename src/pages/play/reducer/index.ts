@@ -16,13 +16,13 @@ export const play = <TPayload>(
     const userActions = [
         Actions.SELECT_COUNTRY,
         Actions.SET_PLACE_UNITS,
-        Actions.SET_ACTION_UNITS
+        Actions.SET_ACTION_UNITS,
     ];
 
     if (
         state.operationInProgress &&
         action &&
-        userActions.some(a => a === action.type)
+        userActions.some((a) => a === action.type)
     ) {
         // No input allowed while operation is in progress
         return state;
@@ -88,6 +88,6 @@ export const play = <TPayload>(
 
         [pending(Actions.endTurn.TYPE)]: ActionHandlers.pendingOperation,
         [success(Actions.endTurn.TYPE)]: ActionHandlers.updateFromResult,
-        [failed(Actions.endTurn.TYPE)]: ActionHandlers.error
+        [failed(Actions.endTurn.TYPE)]: ActionHandlers.error,
     });
 };

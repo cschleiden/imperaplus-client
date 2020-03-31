@@ -20,8 +20,8 @@ export function autobind<T extends Function>(
                 configurable: true,
                 writable: true,
                 enumerable: true,
-                value: newValue
+                value: newValue,
             });
-        }
+        },
     };
 }

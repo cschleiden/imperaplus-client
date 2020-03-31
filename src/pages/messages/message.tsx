@@ -78,15 +78,15 @@ export default connect(
         const messages = state.messages;
 
         return {
-            message: messages.currentMessage
+            message: messages.currentMessage,
         };
     },
-    dispatch => ({
+    (dispatch) => ({
         openMessage: (messageId: string) => {
             dispatch(openMessage(messageId));
         },
         reply: (replyId: string) => {
             dispatch(push(`/game/messages/compose/${replyId}`));
-        }
+        },
     })
 )(MessageComponent);

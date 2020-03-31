@@ -63,11 +63,11 @@ export class GameStats extends React.Component<
                         </tr>
                     </thead>
                     <tbody>
-                        {this.state.players.map(player => (
+                        {this.state.players.map((player) => (
                             <tr
                                 className={css({
                                     "player-inactive":
-                                        player.outcome !== PlayerOutcome.None
+                                        player.outcome !== PlayerOutcome.None,
                                 })}
                                 key={player.no}
                             >
@@ -81,7 +81,7 @@ export class GameStats extends React.Component<
                                                 {
                                                     ["player-team-" +
                                                     (player.team +
-                                                        1)]: isTeamGame
+                                                        1)]: isTeamGame,
                                                 }
                                             )}
                                         >
@@ -125,7 +125,7 @@ export class GameStats extends React.Component<
         if (!game) {
             return {
                 players: [],
-                isTeamGame: false
+                isTeamGame: false,
             };
         }
 
@@ -142,7 +142,7 @@ export class GameStats extends React.Component<
                         name: player.name,
                         countries: player.numberOfCountries || 0,
                         units: player.numberOfUnits || 0,
-                        outcome: player.outcome
+                        outcome: player.outcome,
                     });
                 }
             }
@@ -159,7 +159,7 @@ export class GameStats extends React.Component<
 
         return {
             players,
-            isTeamGame
+            isTeamGame,
         };
     }
 }

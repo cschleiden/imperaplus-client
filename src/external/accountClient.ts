@@ -1,7 +1,7 @@
 import {
     AccountClient,
     LoginResponseModel,
-    LoginRequest
+    LoginRequest,
 } from "./imperaClients";
 
 export class FixedAccountClient extends AccountClient {
@@ -22,7 +22,7 @@ export class FixedAccountClient extends AccountClient {
                 password,
                 username,
                 scope,
-                refresh_token
+                refresh_token,
             } = loginRequest;
 
             let url_ = this["baseUrl"] + "/api/Account/token?";
@@ -58,8 +58,8 @@ export class FixedAccountClient extends AccountClient {
                 method: "POST",
                 headers: new Headers({
                     "Content-Type": "application/x-www-form-urlencoded",
-                    Accept: "application/json; charset=UTF-8"
-                })
+                    Accept: "application/json; charset=UTF-8",
+                }),
             };
 
             return this["http"]

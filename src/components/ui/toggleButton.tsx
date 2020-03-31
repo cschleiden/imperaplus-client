@@ -23,7 +23,7 @@ export class ToggleButton extends React.Component<
         super(props);
 
         this.state = {
-            isToggled: props.initialIsToggled
+            isToggled: props.initialIsToggled,
         };
     }
 
@@ -31,7 +31,7 @@ export class ToggleButton extends React.Component<
         return (
             <Button
                 className={css(this.props.className, {
-                    active: this.state.isToggled
+                    active: this.state.isToggled,
                 })}
                 onClick={this._onToggle}
             >
@@ -44,7 +44,7 @@ export class ToggleButton extends React.Component<
     private _onToggle() {
         this.setState(
             {
-                isToggled: !this.state.isToggled
+                isToggled: !this.state.isToggled,
             },
             () => {
                 if (this.props.onToggle) {

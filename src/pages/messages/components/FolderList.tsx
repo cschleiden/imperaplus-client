@@ -2,7 +2,7 @@ import * as React from "react";
 import { Badge, ListGroup, ListGroupItem } from "react-bootstrap";
 import {
     FolderInformation,
-    MessageFolder
+    MessageFolder,
 } from "../../../external/imperaClients";
 import { FolderName } from "./FolderName";
 
@@ -22,7 +22,7 @@ export class FolderList extends React.Component<IFolderListProps> {
             <div className="folder-list">
                 <ListGroup>
                     {folders &&
-                        folders.map(folder => this._renderFolder(folder))}
+                        folders.map((folder) => this._renderFolder(folder))}
                 </ListGroup>
             </div>
         );

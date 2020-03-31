@@ -36,7 +36,7 @@ class GameChatTab extends React.Component<
         super(props, context);
 
         this.state = {
-            value: ""
+            value: "",
         };
     }
 
@@ -57,7 +57,7 @@ class GameChatTab extends React.Component<
             <div>
                 <div className="game-chat-list" ref={this._resolveListElement}>
                     <ul>
-                        {messages.map(message => (
+                        {messages.map((message) => (
                             <li key={message.id}>
                                 <div>
                                     <strong className="game-chat-user">
@@ -110,7 +110,7 @@ class GameChatTab extends React.Component<
         const value = (ev.target as any).value;
 
         this.setState({
-            value
+            value,
         });
     }
 
@@ -119,7 +119,7 @@ class GameChatTab extends React.Component<
         this.props.onSend(this.state.value);
 
         this.setState({
-            value: ""
+            value: "",
         });
     }
 }
@@ -180,12 +180,12 @@ export default connect(
         return {
             publicMessages: gameChat.all,
             teamMessages: gameChat.team,
-            isPending: gameChat.isPending
+            isPending: gameChat.isPending,
         };
     },
-    dispatch => ({
+    (dispatch) => ({
         send: (message: string, isPublic: boolean) => {
             dispatch(gameChatSendMessage({ message, isPublic }));
-        }
+        },
     })
 )(GameChat);

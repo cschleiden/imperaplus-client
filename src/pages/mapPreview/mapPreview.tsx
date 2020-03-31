@@ -55,14 +55,14 @@ export class MapPreviewerComponent extends React.Component<IMapPreviewerProps> {
 export default connect(
     (state: IState) => ({
         isLoading: state.mapPreview.isLoading,
-        mapTemplate: state.mapPreview.mapTemplate
+        mapTemplate: state.mapPreview.mapTemplate,
     }),
-    dispatch => ({
+    (dispatch) => ({
         loadMapTemplate: (name: string) => {
             dispatch(loadMapPreview(name));
         },
         setTitle: (title: string) => {
             dispatch(setTitle(title));
-        }
+        },
     })
 )(MapPreviewerComponent);

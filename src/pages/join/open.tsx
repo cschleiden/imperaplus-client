@@ -49,7 +49,7 @@ export class FunGamesComponent extends React.Component<IFunGamesProps> {
                                         <i className="fa fa-lock" />
                                     )}
                                 </span>
-                            )
+                            ),
                         }}
                         key="fun"
                     />
@@ -78,12 +78,12 @@ export default connect(
 
         return {
             funGames: sortedOpenGames,
-            userId: userInfo && userInfo.userId
+            userId: userInfo && userInfo.userId,
         };
     },
-    dispatch => ({
+    (dispatch) => ({
         refreshFun: () => {
             dispatch(refreshOpen(null));
-        }
+        },
     })
 )(FunGamesComponent);

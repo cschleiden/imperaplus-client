@@ -40,7 +40,7 @@ import {
     ResetTriggered,
     Signup,
     SignupConfirmation,
-    TOS
+    TOS,
 } from "./pages/public";
 import Start from "./pages/start";
 import Tournament from "./pages/tournaments/tournament";
@@ -73,7 +73,7 @@ export default class App extends React.Component<{
                     onUpdate={(() => {
                         // Bind the app, the method needs this
                         const app = this;
-                        return function(...args) {
+                        return function (...args) {
                             App._onRouteUpdate.call(this, app, ...args);
                         };
                     })()}
@@ -85,7 +85,7 @@ export default class App extends React.Component<{
                             path="/"
                             components={{
                                 nav: PublicNav,
-                                content: PublicLayout
+                                content: PublicLayout,
                             }}
                         >
                             <IndexRoute component={Home} {...this._title("")} />
@@ -171,7 +171,7 @@ export default class App extends React.Component<{
                                 components={{
                                     nav: Game,
                                     content: GameLayout,
-                                    commercials: null
+                                    commercials: null,
                                 }}
                             >
                                 <IndexRoute
@@ -298,7 +298,7 @@ export default class App extends React.Component<{
         return {
             onEnter: () => {
                 this.props.store.dispatch(setTitle(title));
-            }
+            },
         };
     }
 

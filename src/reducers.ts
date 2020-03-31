@@ -17,11 +17,11 @@ import { IPlayState, play } from "./pages/play/reducer";
 import { INewsState, news } from "./pages/start/news.reducer";
 import {
     ITournamentsState,
-    tournaments
+    tournaments,
 } from "./pages/tournaments/tournaments.reducer";
 import {
     IMapPreviewState,
-    mapPreview
+    mapPreview,
 } from "./pages/mapPreview/mapPreview.reducer";
 import { IAlliancesState, alliances } from "./pages/alliance/alliances.reducer";
 
@@ -61,7 +61,7 @@ const rootReducer = combineReducers<IState>({
     session,
     forms,
     message,
-    general
+    general,
 });
 
 export default rootReducer;

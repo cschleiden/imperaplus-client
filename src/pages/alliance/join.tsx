@@ -29,7 +29,7 @@ export default connect(
 
         return {};
     },
-    dispatch => ({
+    (dispatch) => ({
         /* refreshAlliance: () => dispatch(refreshAlliance(null)),
     join: () => dispatch(join(null)) */
     })

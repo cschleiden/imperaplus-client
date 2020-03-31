@@ -9,7 +9,7 @@ import {
     GameState,
     GameSummary,
     PlayerState,
-    PlayerSummary
+    PlayerSummary,
 } from "../../../external/imperaClients";
 import { autobind } from "../../../lib/autobind";
 import {
@@ -17,7 +17,7 @@ import {
     join,
     leave,
     remove,
-    surrender
+    surrender,
 } from "../../../pages/games/games.actions";
 import { IState } from "../../../reducers";
 import { store } from "../../../store";
@@ -161,7 +161,7 @@ class GameDetails extends React.Component<
                                                 password:
                                                     formState.getFieldValue(
                                                         "password"
-                                                    ) || undefined
+                                                    ) || undefined,
                                             },
                                             options
                                         )
@@ -169,7 +169,7 @@ class GameDetails extends React.Component<
                                     component={({
                                         isPending,
                                         submit,
-                                        formState
+                                        formState,
                                     }) => (
                                         <div>
                                             {game.hasPassword && (
@@ -180,7 +180,7 @@ class GameDetails extends React.Component<
                                                     required={false}
                                                     {...({
                                                         autoComplete:
-                                                            "new-password"
+                                                            "new-password",
                                                     } as any)}
                                                 />
                                             )}
@@ -229,15 +229,16 @@ class GameDetails extends React.Component<
             result.push(
                 <dd key={`dd-${team.id}`}>
                     <ul className="list-unstyled">
-                        {team.players.map(player => (
+                        {team.players.map((player) => (
                             <li key={player.id}>
                                 <PlayerOutcomeDisplay
                                     outcome={player.outcome}
                                 />
                                 &nbsp;
                                 <span
-                                    className={`label player player-${player.playOrder +
-                                        1}`}
+                                    className={`label player player-${
+                                        player.playOrder + 1
+                                    }`}
                                 >
                                     <UserName userName={player.name} />
                                 </span>
@@ -360,7 +361,7 @@ class GameDetails extends React.Component<
 
 export default connect(
     (state: IState, ownProps: IGameDetailsProps) => ownProps,
-    dispatch => ({
+    (dispatch) => ({
         hide: (gameId: number) => {
             dispatch(hide(gameId));
         },
@@ -372,6 +373,6 @@ export default connect(
         },
         leave: (gameId: number) => {
             dispatch(leave(gameId));
-        }
+        },
     })
 )(GameDetails);

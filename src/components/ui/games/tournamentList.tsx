@@ -18,7 +18,7 @@ export class TournamentList extends React.Component<
     }
 
     public render() {
-        const rows = this.props.tournaments.map(tournament =>
+        const rows = this.props.tournaments.map((tournament) =>
             this._renderTournamentRow(tournament)
         );
 

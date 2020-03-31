@@ -4,7 +4,7 @@ import { GridColumn } from "../../../components/layout/index";
 import {
     Tournament,
     TournamentGroup,
-    TournamentPairing
+    TournamentPairing,
 } from "../../../external/imperaClients";
 import { css } from "../../../lib/css";
 import "./tournamentGroups.scss";
@@ -39,7 +39,7 @@ export class TournamentGroups extends React.Component<ITournamentGroupProps> {
             teamIds[team.id] = true;
         }
 
-        const pairings = tournament.pairings.filter(p => {
+        const pairings = tournament.pairings.filter((p) => {
             const pairingContainsCurrentTeams =
                 teamIds[p.teamA.id] || teamIds[p.teamB.id];
             const isGroupPairing = p.phase === 0;
@@ -57,13 +57,13 @@ export class TournamentGroups extends React.Component<ITournamentGroupProps> {
 
                     <div className="group-standings vertical-box-content">
                         <ol>
-                            {teams.map(team => (
+                            {teams.map((team) => (
                                 <li
                                     key={team.id}
                                     value={team.groupOrder}
                                     className={css({
                                         "tournament-teams-cutoff":
-                                            team.groupOrder === 2 // first two teams proceed
+                                            team.groupOrder === 2, // first two teams proceed
                                     })}
                                 >
                                     {team.name}
@@ -77,7 +77,7 @@ export class TournamentGroups extends React.Component<ITournamentGroupProps> {
                     <div className="group-pairings vertical-box-content">
                         <Table className="group-table" striped={true}>
                             <tbody>
-                                {pairings.map(p => (
+                                {pairings.map((p) => (
                                     <tr
                                         className="group-pairing-rows"
                                         key={p.order}
@@ -128,7 +128,7 @@ export class TournamentGroups extends React.Component<ITournamentGroupProps> {
             <div
                 className={css("label", {
                     "label-default": won < p.numberOfGames / 2,
-                    "label-success": won >= p.numberOfGames / 2
+                    "label-success": won >= p.numberOfGames / 2,
                 })}
             >
                 {won}

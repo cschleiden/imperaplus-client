@@ -10,7 +10,7 @@ import { makeImmutable } from "immuts";
 import promiseMiddleware from "./middleware/promise-middleware";
 import {
     createClientWithToken,
-    getCachedClient
+    getCachedClient,
 } from "./clients/clientFactory";
 import { getSignalRClient } from "./clients/signalrFactory";
 import { ISessionState } from "./common/session/session.reducer";
@@ -19,7 +19,7 @@ import {
     failed,
     IAsyncActionDependencies,
     pending,
-    success
+    success,
 } from "./lib/action";
 import { debounce } from "./lib/debounce";
 import rootReducer, { IState } from "./reducers";
@@ -31,14 +31,14 @@ const compose =
     composeWithDevTools({
         serializeState: (key, value) =>
             value && value.data ? value.data : value,
-        deserializeState: state => ({
+        deserializeState: (state) => ({
             routing: state && state.routing,
             form: makeImmutable(state.form),
             session: makeImmutable(state.session),
-            create: makeImmutable(state.create)
+            create: makeImmutable(state.create),
         }),
         // Dev feature
-        shouldHotReload: true
+        shouldHotReload: true,
     }) || Redux.compose;
 
 // Get initial session data from sessionStorage
@@ -57,19 +57,19 @@ export let store = Redux.createStore<IState>(
     rootReducer,
     {
         // Pre-populate stored session data
-        session: initialSessionState
+        session: initialSessionState,
     } as IState,
     compose(
         Redux.applyMiddleware(
             routerMiddleware(browserHistory as any),
             loadingBarMiddleware({
-                promiseTypeSuffixes: [pending(""), success(""), failed("")]
+                promiseTypeSuffixes: [pending(""), success(""), failed("")],
             }),
             promiseMiddleware as any,
             thunkMiddleware.withExtraArgument({
                 getCachedClient: getCachedClient,
                 createClientWithToken: createClientWithToken,
-                getSignalRClient: getSignalRClient
+                getSignalRClient: getSignalRClient,
             } as IAsyncActionDependencies),
             (createLogger as any)()
         )
@@ -106,6 +106,6 @@ UserProvider.isAdminProvider = () => {
     return (
         userInfo &&
         userInfo.roles &&
-        userInfo.roles.some(x => x.toLowerCase() === "admin")
+        userInfo.roles.some((x) => x.toLowerCase() === "admin")
     );
 };

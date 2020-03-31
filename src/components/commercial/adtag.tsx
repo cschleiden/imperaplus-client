@@ -10,7 +10,7 @@ export const adTag = (props: React.Props<{}>): JSX.Element => {
                     style={{
                         background: "grey",
                         width: "728px",
-                        height: "90px"
+                        height: "90px",
                     }}
                 />
             </div>

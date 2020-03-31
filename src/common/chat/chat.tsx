@@ -32,7 +32,7 @@ export class Chat extends React.Component<IChatProps, IChatState> {
         super(props, context);
 
         this.state = {
-            msg: ""
+            msg: "",
         };
     }
 
@@ -46,7 +46,7 @@ export class Chat extends React.Component<IChatProps, IChatState> {
         } else {
             // Chat is active
             const activeChannel = this.props.channels.filter(
-                c => c.identifier === this.props.activeChannel
+                (c) => c.identifier === this.props.activeChannel
             )[0];
 
             if (this.props.isVisible) {
@@ -57,7 +57,7 @@ export class Chat extends React.Component<IChatProps, IChatState> {
                             <div>
                                 <ul>
                                     {(this.props.channels &&
-                                        this.props.channels.map(c => (
+                                        this.props.channels.map((c) => (
                                             <li
                                                 key={c.identifier}
                                                 className={
@@ -68,7 +68,7 @@ export class Chat extends React.Component<IChatProps, IChatState> {
                                             >
                                                 <a
                                                     href="#"
-                                                    onClick={e => {
+                                                    onClick={(e) => {
                                                         e.preventDefault();
                                                         this._switchChannel(
                                                             c.identifier
@@ -135,7 +135,7 @@ export class Chat extends React.Component<IChatProps, IChatState> {
 
                             <div className="chat-content-users">
                                 <ul>
-                                    {activeChannel.users.map(u => (
+                                    {activeChannel.users.map((u) => (
                                         <li key={u.name}>{u.name}</li>
                                     ))}
                                 </ul>
@@ -146,7 +146,7 @@ export class Chat extends React.Component<IChatProps, IChatState> {
                             <form onSubmit={this._onSend}>
                                 <FormControl
                                     {...({
-                                        autoComplete: "new-password"
+                                        autoComplete: "new-password",
                                     } as any)}
                                     placeholder={__("Enter your message...")}
                                     value={this.state.msg}
@@ -189,9 +189,9 @@ export class Chat extends React.Component<IChatProps, IChatState> {
         }
     }
 
-    private _onChange = event => {
+    private _onChange = (event) => {
         this.setState({
-            msg: event.target.value
+            msg: event.target.value,
         });
     };
 
@@ -223,7 +223,7 @@ export class Chat extends React.Component<IChatProps, IChatState> {
         this.props.send(this.state.msg);
 
         this.setState({
-            msg: ""
+            msg: "",
         });
     }
 }
@@ -237,10 +237,10 @@ export default connect(
             isActive: chat.isActive,
             channels: chat.channels,
             activeChannel: chat.activeChannelId,
-            unreadCount: chat.unreadCount
+            unreadCount: chat.unreadCount,
         };
     },
-    dispatch => ({
+    (dispatch) => ({
         showHide: (show: boolean) => {
             dispatch(showHide(show));
         },
@@ -252,6 +252,6 @@ export default connect(
         },
         switchChannel: (id: string): void => {
             dispatch(switchChannel(id));
-        }
+        },
     })
 )(Chat);

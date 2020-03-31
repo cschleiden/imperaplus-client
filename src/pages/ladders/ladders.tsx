@@ -25,7 +25,7 @@ export class LaddersComponent extends React.Component<ILaddersProps> {
     }
 
     public render(): JSX.Element {
-        const ladders = this.props.ladders.map(ladder =>
+        const ladders = this.props.ladders.map((ladder) =>
             this._renderLadder(ladder)
         );
 
@@ -186,7 +186,7 @@ export class LaddersComponent extends React.Component<ILaddersProps> {
                         )}
                     </h5>
                 </div>
-            </GridColumn>
+            </GridColumn>,
         ];
     }
 
@@ -204,13 +204,13 @@ export class LaddersComponent extends React.Component<ILaddersProps> {
 export default connect(
     (state: IState) => {
         const gamesMap = state.ladders.ladders;
-        const games = Object.keys(gamesMap).map(id => gamesMap[id]);
+        const games = Object.keys(gamesMap).map((id) => gamesMap[id]);
 
         return {
-            ladders: games
+            ladders: games,
         };
     },
-    dispatch => ({
+    (dispatch) => ({
         refresh: () => {
             dispatch(refresh(null));
         },
@@ -219,6 +219,6 @@ export default connect(
         },
         leave: (ladderId: string) => {
             dispatch(leave(ladderId));
-        }
+        },
     })
 )(LaddersComponent);

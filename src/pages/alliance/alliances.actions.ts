@@ -5,7 +5,7 @@ import {
     AllianceClient,
     AllianceCreationOptions,
     AllianceSummary,
-    AllianceJoinRequestState
+    AllianceJoinRequestState,
 } from "../../external/imperaClients";
 import { makePromiseAction } from "../../lib/action";
 
@@ -13,8 +13,8 @@ export const refresh = makePromiseAction<void, AllianceSummary[]>(
     "alliances-refresh",
     (input, dispatch, getState, deps) => ({
         payload: {
-            promise: deps.getCachedClient(AllianceClient).getAll()
-        }
+            promise: deps.getCachedClient(AllianceClient).getAll(),
+        },
     })
 );
 
@@ -25,16 +25,16 @@ export const create = makePromiseAction(
             promise: deps
                 .getCachedClient(AllianceClient)
                 .create(input)
-                .then(alliance => {
+                .then((alliance) => {
                     // Refresh profile, the user is now a member of an alliance
                     deps.getCachedClient(FixedAccountClient)
                         .getUserInfo()
-                        .then(userInfo => {
+                        .then((userInfo) => {
                             dispatch(updateUserInfo(userInfo));
                             dispatch(push(`/game/alliances/${alliance.id}`));
                         });
-                })
-        }
+                }),
+        },
     })
 );
 
@@ -49,13 +49,13 @@ export const deleteAlliance = makePromiseAction(
                     // Refresh profile, the user is not in an alliance anymore
                     deps.getCachedClient(FixedAccountClient)
                         .getUserInfo()
-                        .then(userInfo => {
+                        .then((userInfo) => {
                             dispatch(updateUserInfo(userInfo));
                         });
 
                     dispatch(push(`/game/alliances`));
-                })
-        }
+                }),
+        },
     })
 );
 
@@ -66,8 +66,8 @@ export const getRequests = makePromiseAction(
 
         return {
             payload: {
-                promise: client.getRequests(allianceId)
-            }
+                promise: client.getRequests(allianceId),
+            },
         };
     }
 );
@@ -79,7 +79,7 @@ export const get = makePromiseAction(
 
         return {
             payload: {
-                promise: client.get(id).then(alliance => {
+                promise: client.get(id).then((alliance) => {
                     const userInfo = getState().session.userInfo;
                     if (userInfo.allianceAdmin && userInfo.allianceId === id) {
                         // If the user is an admin of the current alliance, also retrieve requests for the alliance
@@ -92,8 +92,8 @@ export const get = makePromiseAction(
                     }
 
                     return alliance;
-                })
-            }
+                }),
+            },
         };
     }
 );
@@ -108,14 +108,14 @@ export const requestJoin = makePromiseAction(
         payload: {
             promise: deps
                 .getCachedClient(AllianceClient)
-                .requestJoin(input.allianceId, input.reason)
+                .requestJoin(input.allianceId, input.reason),
         },
         options: {
             afterSuccess: () => {
                 // Update the requests
                 dispatch(getAllRequests(null));
-            }
-        }
+            },
+        },
     })
 );
 
@@ -130,12 +130,12 @@ export const leave = makePromiseAction(
                     // Refresh profile, the user is now a member of an alliance
                     deps.getCachedClient(FixedAccountClient)
                         .getUserInfo()
-                        .then(userInfo => {
+                        .then((userInfo) => {
                             dispatch(updateUserInfo(userInfo));
                             dispatch(push(`/game/alliances`));
                         });
-                })
-        }
+                }),
+        },
     })
 );
 
@@ -143,8 +143,8 @@ export const getAllRequests = makePromiseAction(
     "alliance-get-all-requests",
     (_, dispatch, getState, deps) => ({
         payload: {
-            promise: deps.getCachedClient(AllianceClient).getAllRequests()
-        }
+            promise: deps.getCachedClient(AllianceClient).getAllRequests(),
+        },
     })
 );
 
@@ -159,7 +159,7 @@ export const updateRequest = makePromiseAction(
         payload: {
             promise: deps
                 .getCachedClient(AllianceClient)
-                .updateRequest(input.allianceId, input.requestId, input.state)
+                .updateRequest(input.allianceId, input.requestId, input.state),
         },
         options: {
             afterSuccess: () => {
@@ -168,7 +168,7 @@ export const updateRequest = makePromiseAction(
                     dispatch(get(input.allianceId));
                 }
                 dispatch(getRequests(input.allianceId));
-            }
-        }
+            },
+        },
     })
 );

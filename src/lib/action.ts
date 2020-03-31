@@ -104,8 +104,8 @@ export const makePromiseAction = <TInput, TResult>(
                     options: {
                         useMessage: true,
                         ...asyncAction.options,
-                        ...options
-                    }
+                        ...options,
+                    },
                 } as IPromiseAction<TResult, TInput>);
             }
         };

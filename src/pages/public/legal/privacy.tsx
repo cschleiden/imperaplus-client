@@ -309,7 +309,7 @@ const privacy = {
 
             <p>This document was last updated on September 9th, 2017</p>
         </div>
-    )
+    ),
 };
 
 export default (() => (

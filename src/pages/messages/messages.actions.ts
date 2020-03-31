@@ -5,7 +5,7 @@ import {
     Message,
     MessageClient,
     MessageFolder,
-    SendMessage
+    SendMessage,
 } from "../../external/imperaClients";
 import { IAction, IAsyncAction, makePromiseAction } from "../../lib/action";
 
@@ -21,14 +21,14 @@ export const switchFolder = makePromiseAction<
         promise: deps
             .getCachedClient(MessageClient)
             .getAll(folder)
-            .then(messages => ({
+            .then((messages) => ({
                 folder,
-                messages
-            }))
+                messages,
+            })),
     },
     options: {
-        useMessage: true
-    }
+        useMessage: true,
+    },
 }));
 
 export const load = makePromiseAction<void, FolderInformation[]>(
@@ -42,11 +42,11 @@ export const load = makePromiseAction<void, FolderInformation[]>(
                     dispatch(switchFolder(MessageFolder.Inbox));
 
                     return folderInformation;
-                })
+                }),
         },
         options: {
-            useMessage: true
-        }
+            useMessage: true,
+        },
     })
 );
 
@@ -57,16 +57,16 @@ export const loadMessage = makePromiseAction(
             promise: deps
                 .getCachedClient(MessageClient)
                 .get(messageId)
-                .then(message => {
+                .then((message) => {
                     dispatch({
                         type: OPEN_MESSAGE,
-                        payload: message
+                        payload: message,
                     } as IAction<Message>);
-                })
+                }),
         },
         options: {
-            useMessage: true
-        }
+            useMessage: true,
+        },
     })
 );
 
@@ -79,14 +79,14 @@ export const markRead = makePromiseAction(
                 .patchMarkRead(messageId)
                 .then(() => {
                     return messageId;
-                })
+                }),
         },
         options: {
             useMessage: true,
             afterSuccess: () => {
                 dispatch(refreshNotifications(null));
-            }
-        }
+            },
+        },
     })
 );
 
@@ -99,11 +99,11 @@ export const sendMessage = makePromiseAction(
                 .postSend(message)
                 .then(() => {
                     dispatch(push("/game/messages"));
-                })
+                }),
         },
         options: {
-            useMessage: true
-        }
+            useMessage: true,
+        },
     })
 );
 
@@ -117,14 +117,14 @@ export const deleteMessage = makePromiseAction(
                 .then(() => {
                     // Take the easy way, just refresh everything after delete
                     dispatch(load(null));
-                })
+                }),
         },
         options: {
             useMessage: true,
             afterSuccess: () => {
                 dispatch(refreshNotifications(null));
-            }
-        }
+            },
+        },
     })
 );
 
@@ -136,11 +136,11 @@ export const openMessage: IAsyncAction<string> = (messageId: string) => (
 ) => {
     const state = getState().messages;
 
-    const idx = state.currentMessages.findIndex(m => m.id === messageId);
+    const idx = state.currentMessages.findIndex((m) => m.id === messageId);
     if (idx !== -1) {
         dispatch({
             type: OPEN_MESSAGE,
-            payload: state.currentMessages[idx]
+            payload: state.currentMessages[idx],
         } as IAction<Message>);
 
         dispatch(markRead(messageId) as any);

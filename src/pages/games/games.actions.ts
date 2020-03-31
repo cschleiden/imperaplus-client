@@ -7,14 +7,14 @@ export const refresh = makePromiseAction<void, GameSummary[]>(
     "games-refresh",
     (input, dispatch, getState, deps) => ({
         payload: {
-            promise: deps.getCachedClient(GameClient).getMy()
+            promise: deps.getCachedClient(GameClient).getMy(),
         },
         options: {
             useMessage: true,
             afterSuccess: () => {
                 dispatch(refreshNotifications(null));
-            }
-        }
+            },
+        },
     })
 );
 
@@ -22,11 +22,11 @@ export const refreshOpen = makePromiseAction<void, GameSummary[]>(
     "games-refresh-fun",
     (input, dispatch, getState, deps) => ({
         payload: {
-            promise: deps.getCachedClient(GameClient).getAll()
+            promise: deps.getCachedClient(GameClient).getAll(),
         },
         options: {
-            useMessage: true
-        }
+            useMessage: true,
+        },
     })
 );
 
@@ -40,11 +40,11 @@ export const hide = makePromiseAction(
                 .then<void>(() => {
                     // Refresh games after hiding
                     dispatch(refresh(null));
-                })
+                }),
         },
         options: {
-            useMessage: true
-        }
+            useMessage: true,
+        },
     })
 );
 
@@ -58,11 +58,11 @@ export const hideAll = makePromiseAction(
                 .then<void>(() => {
                     // Refresh games after hiding
                     dispatch(refresh(null));
-                })
+                }),
         },
         options: {
-            useMessage: true
-        }
+            useMessage: true,
+        },
     })
 );
 
@@ -70,11 +70,11 @@ export const surrender = makePromiseAction<number, GameSummary>(
     "game-surrender",
     (gameId, dispatch, getState, deps) => ({
         payload: {
-            promise: deps.getCachedClient(GameClient).postSurrender(gameId)
+            promise: deps.getCachedClient(GameClient).postSurrender(gameId),
         },
         options: {
-            useMessage: true
-        }
+            useMessage: true,
+        },
     })
 );
 
@@ -88,11 +88,11 @@ export const leave = makePromiseAction<number, void>(
                 .then(() => {
                     // Refresh games after hiding
                     dispatch(hideAll(null));
-                })
+                }),
         },
         options: {
-            useMessage: true
-        }
+            useMessage: true,
+        },
     })
 );
 
@@ -106,11 +106,11 @@ export const remove = makePromiseAction<number, void>(
                 .then(() => {
                     // Refresh games after hiding
                     dispatch(refresh(null));
-                })
+                }),
         },
         options: {
-            useMessage: true
-        }
+            useMessage: true,
+        },
     })
 );
 
@@ -133,10 +133,10 @@ export const join = makePromiseAction<
                         MessageType.success
                     )
                 );
-            })
+            }),
     },
     options: {
         useMessage: true,
-        clearMessage: true
-    }
+        clearMessage: true,
+    },
 }));

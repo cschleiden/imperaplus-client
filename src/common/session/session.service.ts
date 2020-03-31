@@ -33,7 +33,7 @@ export class SessionService {
         dispatch: Dispatch<IState>
     ): Promise<void> {
         return this.refresh(state.refresh_token).then<void>(
-            result => {
+            (result) => {
                 // Successful, save new tokens
                 dispatch(refresh(result.access_token, result.refresh_token));
             },
@@ -62,12 +62,12 @@ export class SessionService {
             .exchange({
                 grant_type: "refresh_token",
                 scope,
-                refresh_token
+                refresh_token,
             })
-            .then(result => {
+            .then((result) => {
                 return {
                     access_token: result.access_token,
-                    refresh_token: result.refresh_token
+                    refresh_token: result.refresh_token,
                 };
             });
     }

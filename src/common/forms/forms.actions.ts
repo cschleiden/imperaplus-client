@@ -3,13 +3,13 @@ import { IAction } from "../../lib/action";
 export const RESET_FORM = "reset-form";
 export const resetForm = (form: string): IAction<string> => ({
     type: RESET_FORM,
-    payload: form
+    payload: form,
 });
 
 export enum FormMode {
     Pending,
     Success,
-    Failed
+    Failed,
 }
 
 export const SUBMIT_FORM = "submit-form";
@@ -24,8 +24,8 @@ export const submitForm = (
     type: SUBMIT_FORM,
     payload: {
         form: form,
-        mode: mode
-    }
+        mode: mode,
+    },
 });
 
 export const CHANGE_FIELD = "change-field";
@@ -43,8 +43,8 @@ export const changeField = (
     payload: {
         form: form,
         field: field,
-        value: value
-    }
+        value: value,
+    },
 });
 
 export const INITIAL_VALUE = "form-set-initial-value";
@@ -62,6 +62,6 @@ export const initialValue = (
     payload: {
         form: form,
         field: field,
-        value: value
-    }
+        value: value,
+    },
 });

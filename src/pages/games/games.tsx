@@ -37,7 +37,7 @@ export class MyGamesComponent extends React.Component<IMyGamesProps> {
                     games={this.props.funGames}
                     userId={userId}
                     key="fun"
-                />
+                />,
             ];
         }
 
@@ -48,7 +48,7 @@ export class MyGamesComponent extends React.Component<IMyGamesProps> {
                     games={this.props.rankingGames}
                     userId={userId}
                     key="ranking"
-                />
+                />,
             ];
         }
 
@@ -59,7 +59,7 @@ export class MyGamesComponent extends React.Component<IMyGamesProps> {
                     games={this.props.tournamentGames}
                     userId={userId}
                     key="tournaments"
-                />
+                />,
             ];
         }
 
@@ -95,22 +95,24 @@ export class MyGamesComponent extends React.Component<IMyGamesProps> {
 export default connect(
     (state: IState) => {
         const gamesMap = state.games.games;
-        const games = Object.keys(gamesMap).map(id => gamesMap[id]);
+        const games = Object.keys(gamesMap).map((id) => gamesMap[id]);
         const userInfo = state.session.userInfo;
 
         return {
-            funGames: games.filter(g => g.type === GameType.Fun),
-            rankingGames: games.filter(g => g.type === GameType.Ranking),
-            tournamentGames: games.filter(g => g.type === GameType.Tournament),
-            userId: userInfo && userInfo.userId
+            funGames: games.filter((g) => g.type === GameType.Fun),
+            rankingGames: games.filter((g) => g.type === GameType.Ranking),
+            tournamentGames: games.filter(
+                (g) => g.type === GameType.Tournament
+            ),
+            userId: userInfo && userInfo.userId,
         };
     },
-    dispatch => ({
+    (dispatch) => ({
         refresh: () => {
             dispatch(refresh(null));
         },
         hideAll: () => {
             dispatch(hideAll(null));
-        }
+        },
     })
 )(MyGamesComponent);

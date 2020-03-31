@@ -6,7 +6,7 @@ import { TournamentList } from "../../components/ui/games/tournamentList";
 import { Section } from "../../components/ui/typography";
 import {
     TournamentState,
-    TournamentSummary
+    TournamentSummary,
 } from "../../external/imperaClients";
 import { IState } from "../../reducers";
 import { refresh } from "../tournaments/tournaments.actions";
@@ -37,7 +37,7 @@ export class TournamentsComponent extends React.Component<
                 <TournamentList
                     tournaments={this.props.openTournaments}
                     key="open"
-                />
+                />,
             ];
         }
 
@@ -47,7 +47,7 @@ export class TournamentsComponent extends React.Component<
                 <TournamentList
                     tournaments={this.props.inProgressTournaments}
                     key="inprogress"
-                />
+                />,
             ];
         }
 
@@ -57,7 +57,7 @@ export class TournamentsComponent extends React.Component<
                 <TournamentList
                     tournaments={this.props.closedTournaments}
                     key="closed"
-                />
+                />,
             ];
         }
 
@@ -89,26 +89,26 @@ export default connect(
     (state: IState) => {
         const tournamentMap = state.tournaments.tournaments;
         const tournaments = Object.keys(tournamentMap).map(
-            id => tournamentMap[id]
+            (id) => tournamentMap[id]
         );
 
         return {
             openTournaments: tournaments.filter(
-                t => t.state === TournamentState.Open
+                (t) => t.state === TournamentState.Open
             ),
             inProgressTournaments: tournaments.filter(
-                t =>
+                (t) =>
                     t.state === TournamentState.Groups ||
                     t.state === TournamentState.Knockout
             ),
             closedTournaments: tournaments.filter(
-                t => t.state === TournamentState.Closed
-            )
+                (t) => t.state === TournamentState.Closed
+            ),
         };
     },
-    dispatch => ({
+    (dispatch) => ({
         refresh: () => {
             dispatch(refresh(null));
-        }
+        },
     })
 )(TournamentsComponent);

@@ -4,7 +4,7 @@ import {
     Tournament,
     TournamentClient,
     TournamentSummary,
-    TournamentTeamSummary
+    TournamentTeamSummary,
 } from "../../external/imperaClients";
 import { makePromiseAction } from "../../lib/action";
 
@@ -12,11 +12,11 @@ export const refresh = makePromiseAction<void, TournamentSummary[]>(
     "tournaments-refresh",
     (input, dispatch, getState, deps) => ({
         payload: {
-            promise: deps.getCachedClient(TournamentClient).getAll()
+            promise: deps.getCachedClient(TournamentClient).getAll(),
         },
         options: {
-            useMessage: true
-        }
+            useMessage: true,
+        },
     })
 );
 
@@ -26,11 +26,11 @@ export const load = makePromiseAction<string, Tournament>(
         payload: {
             promise: deps
                 .getCachedClient(TournamentClient)
-                .getById(tournamentId)
+                .getById(tournamentId),
         },
         options: {
-            useMessage: true
-        }
+            useMessage: true,
+        },
     })
 );
 
@@ -49,12 +49,12 @@ export const join = makePromiseAction<string, void>(
                             MessageType.success
                         )
                     );
-                })
+                }),
         },
         options: {
             useMessage: true,
-            clearMessage: true
-        }
+            clearMessage: true,
+        },
     })
 );
 
@@ -73,12 +73,12 @@ export const leave = makePromiseAction<string, void>(
                             MessageType.success
                         )
                     );
-                })
+                }),
         },
         options: {
             useMessage: true,
-            clearMessage: true
-        }
+            clearMessage: true,
+        },
     })
 );
 
@@ -98,8 +98,8 @@ export const createTeam = makePromiseAction<
                     input.tournamentId,
                     input.teamName,
                     input.teamPassword
-                )
-        }
+                ),
+        },
     };
 });
 
@@ -124,8 +124,8 @@ export const joinTeam = makePromiseAction(
                         input.teamId,
                         input.teamPassword
                     )
-                    .then<void>(null)
-            }
+                    .then<void>(null),
+            },
         };
     }
 );
@@ -144,8 +144,8 @@ export const deleteTeam = makePromiseAction<
                 .deleteTeam(input.tournamentId, input.teamId)
                 .then<string>(() => {
                     return input.teamId;
-                })
-        }
+                }),
+        },
     };
 });
 
@@ -159,7 +159,7 @@ export const loadPairingGames = makePromiseAction<
         payload: {
             promise: deps
                 .getCachedClient(TournamentClient)
-                .getGamesForPairing(input.pairingId)
-        }
+                .getGamesForPairing(input.pairingId),
+        },
     };
 });

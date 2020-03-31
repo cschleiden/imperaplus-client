@@ -35,7 +35,7 @@ export class CreateAllianceComponent extends React.Component<
                                 name: formState.getFieldValue("name"),
                                 description: formState.getFieldValue(
                                     "description"
-                                )
+                                ),
                             },
                             options
                         );
@@ -83,9 +83,9 @@ export default connect(
     (state: IState) => {
         return {};
     },
-    dispatch => ({
+    (dispatch) => ({
         create: (options: AllianceCreationOptions) => {
             dispatch(create(options));
-        }
+        },
     })
 )(CreateAllianceComponent);

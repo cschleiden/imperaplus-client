@@ -4,11 +4,11 @@ import { connect } from "react-redux";
 import Form, { IFormState } from "../../common/forms/form";
 import {
     ControlledCheckBox,
-    ControlledTextField
+    ControlledTextField,
 } from "../../common/forms/inputs";
 import {
     changePassword,
-    deleteAccount
+    deleteAccount,
 } from "../../common/session/session.actions";
 import { GridColumn } from "../../components/layout";
 import { ProgressButton } from "../../components/ui/progressButton";
@@ -43,7 +43,7 @@ export class ProfileComponent extends React.Component<IProfileProps> {
                                 ),
                                 passwordConfirmation: formState.getFieldValue<
                                     string
-                                >("passwordConfirmation")
+                                >("passwordConfirmation"),
                             },
                             options
                         );

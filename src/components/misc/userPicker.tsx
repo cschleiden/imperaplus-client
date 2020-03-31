@@ -24,7 +24,7 @@ export class UserPicker extends React.Component<
         super(props);
 
         this.state = {
-            users: []
+            users: [],
         };
     }
 
@@ -69,9 +69,9 @@ export class UserPicker extends React.Component<
         if (query && query.length >= 3) {
             getCachedClient(UserClient)
                 .findUsers(query)
-                .then(users => {
+                .then((users) => {
                     this.setState({
-                        users
+                        users,
                     });
                 });
         }

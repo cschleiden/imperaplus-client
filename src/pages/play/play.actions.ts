@@ -9,19 +9,19 @@ import {
     HistoryClient,
     HistoryTurn,
     PlaceUnitsOptions,
-    PlayClient
+    PlayClient,
 } from "../../external/imperaClients";
 import {
     IGameChatMessageNotification,
     IGameNotification,
-    NotificationType
+    NotificationType,
 } from "../../external/notificationModel";
 import {
     IAction,
     IApiActionOptions,
     IAsyncAction,
     IAsyncActionVoid,
-    makePromiseAction
+    makePromiseAction,
 } from "../../lib/action";
 import { setDocumentTitle } from "../../lib/title";
 import { NotificationService } from "../../services/notificationService";
@@ -30,7 +30,7 @@ import { IGameUIOptions } from "./reducer/play.reducer.state";
 import {
     canMoveOrAttack,
     canPlace,
-    inputActive
+    inputActive,
 } from "./reducer/play.selectors";
 
 // TODO: Move this to another place?
@@ -48,8 +48,8 @@ export const refreshOtherGames = makePromiseAction<void, GameSummary[]>(
     (input, dispatch, getState, deps) => {
         return {
             payload: {
-                promise: deps.getCachedClient(GameClient).getMyTurn()
-            }
+                promise: deps.getCachedClient(GameClient).getMyTurn(),
+            },
         };
     }
 );
@@ -67,7 +67,7 @@ export interface ISwitchGameInput {
 /**
  * Switch to a game, also used for displaying a game the first time
  */
-export const switchGame: IAsyncAction<ISwitchGameInput> = input => (
+export const switchGame: IAsyncAction<ISwitchGameInput> = (input) => (
     dispatch,
     getState,
     deps
@@ -80,14 +80,17 @@ export const switchGame: IAsyncAction<ISwitchGameInput> = input => (
     if (!initialized) {
         initialized = true;
 
-        client.attachHandler(NotificationType.GameChatMessage, notification => {
-            const gameChatNotification = notification as IGameChatMessageNotification;
-            const message = gameChatNotification.message;
+        client.attachHandler(
+            NotificationType.GameChatMessage,
+            (notification) => {
+                const gameChatNotification = notification as IGameChatMessageNotification;
+                const message = gameChatNotification.message;
 
-            dispatch(gameChatMessage(message));
-        });
+                dispatch(gameChatMessage(message));
+            }
+        );
 
-        client.attachHandler(NotificationType.PlayerTurn, notification => {
+        client.attachHandler(NotificationType.PlayerTurn, (notification) => {
             const turnNotification = notification as IGameNotification;
 
             if (turnNotification.gameId === getState().play.gameId) {
@@ -104,17 +107,17 @@ export const switchGame: IAsyncAction<ISwitchGameInput> = input => (
                 promise: deps
                     .getCachedClient(GameClient)
                     .get(gameId)
-                    .then(game => {
+                    .then((game) => {
                         return getMapTemplate(game.mapTemplate).then(
-                            mapTemplate => ({
+                            (mapTemplate) => ({
                                 game,
-                                mapTemplate
+                                mapTemplate,
                             })
                         );
-                    })
+                    }),
             },
             options: {
-                afterSuccess: d => {
+                afterSuccess: (d) => {
                     // Update title
                     const { game } = getState().play;
                     setDocumentTitle(
@@ -128,8 +131,8 @@ export const switchGame: IAsyncAction<ISwitchGameInput> = input => (
                     if (turnNo >= 0) {
                         d(historyTurn(turnNo));
                     }
-                }
-            } as IApiActionOptions
+                },
+            } as IApiActionOptions,
         });
     });
 };
@@ -145,8 +148,8 @@ export const refreshGame = makePromiseAction<void, Game>(
 
         return {
             payload: {
-                promise: deps.getCachedClient(GameClient).get(gameId)
-            }
+                promise: deps.getCachedClient(GameClient).get(gameId),
+            },
         };
     }
 );
@@ -163,15 +166,15 @@ export const gameChatMessages = makePromiseAction<
     payload: {
         promise: Promise.all([
             deps.getCachedClient(GameClient).getMessages(gameId, false),
-            deps.getCachedClient(GameClient).getMessages(gameId, true)
-        ]).then(messages => {
+            deps.getCachedClient(GameClient).getMessages(gameId, true),
+        ]).then((messages) => {
             return {
                 gameId,
                 all: messages[1],
-                team: messages[0]
+                team: messages[0],
             } as IGameChatMessagesPayload;
-        })
-    }
+        }),
+    },
 }));
 
 export const GAME_CHAT_MESSAGE = "play-game-chat-message";
@@ -179,7 +182,7 @@ export const gameChatMessage = (
     message: GameChatMessage
 ): IAction<GameChatMessage> => ({
     type: GAME_CHAT_MESSAGE,
-    payload: message
+    payload: message,
 });
 
 export interface IGameChatSendMessageInput {
@@ -197,12 +200,12 @@ export const gameChatSendMessage = makePromiseAction(
                     gameId,
                     input.message,
                     input.isPublic
-                )
+                ),
             },
             options: {
                 // Prevent loading bar from picking this up
-                customSuffix: "-chat"
-            }
+                customSuffix: "-chat",
+            },
         };
     }
 );
@@ -216,7 +219,7 @@ export const leave: IAsyncActionVoid = () => (dispatch, getState, deps) => {
     dispatch(refreshNotifications(null));
 
     dispatch(<IAction<void>>{
-        type: LEAVE
+        type: LEAVE,
     });
 
     dispatch(push("/game/games"));
@@ -232,7 +235,7 @@ export const toggleSidebar: IAsyncAction<void> = () => (
     localStorage.setItem("impera-sidebar", (!sidebarOpen).toString());
 
     dispatch({
-        type: TOGGLE_SIDEBAR
+        type: TOGGLE_SIDEBAR,
     });
 };
 
@@ -242,7 +245,7 @@ export interface ISetGameOptionPayload {
     temporary?: boolean;
 }
 export const SET_GAME_OPTION = "play-set-game-option";
-export const setGameOption: IAsyncAction<ISetGameOptionPayload> = payload => (
+export const setGameOption: IAsyncAction<ISetGameOptionPayload> = (payload) => (
     dispatch,
     getState
 ) => {
@@ -256,7 +259,7 @@ export const setGameOption: IAsyncAction<ISetGameOptionPayload> = payload => (
 
     dispatch({
         type: SET_GAME_OPTION,
-        payload: payload
+        payload: payload,
     } as IAction<ISetGameOptionPayload>);
 
     localStorage.setItem(
@@ -283,16 +286,16 @@ export const place = makePromiseAction<void, GameActionResult>(
         }
 
         const options = Object.keys(playState.placeCountries)
-            .map(ci => ({
+            .map((ci) => ({
                 key: ci,
-                units: playState.placeCountries[ci]
+                units: playState.placeCountries[ci],
             }))
-            .filter(x => x.units > 0)
+            .filter((x) => x.units > 0)
             .map(
-                x =>
+                (x) =>
                     ({
                         countryIdentifier: x.key,
-                        numberOfUnits: x.units
+                        numberOfUnits: x.units,
                     } as PlaceUnitsOptions)
             );
 
@@ -300,8 +303,8 @@ export const place = makePromiseAction<void, GameActionResult>(
             payload: {
                 promise: deps
                     .getCachedClient(PlayClient)
-                    .postPlace(playState.gameId, options)
-            }
+                    .postPlace(playState.gameId, options),
+            },
         };
     }
 );
@@ -318,8 +321,8 @@ export const exchange = makePromiseAction<void, GameActionResult>(
             payload: {
                 promise: deps
                     .getCachedClient(PlayClient)
-                    .postExchange(getState().play.gameId)
-            }
+                    .postExchange(getState().play.gameId),
+            },
         };
     }
 );
@@ -327,7 +330,7 @@ export const exchange = makePromiseAction<void, GameActionResult>(
 export const SELECT_COUNTRY = "play-country-select";
 export const selectCountry = (countryIdentifier: string): IAction<string> => ({
     type: SELECT_COUNTRY,
-    payload: countryIdentifier
+    payload: countryIdentifier,
 });
 
 export const SET_PLACE_UNITS = "play-place-set-units";
@@ -342,14 +345,14 @@ export const setPlaceUnits = (
     type: SET_PLACE_UNITS,
     payload: {
         countryIdentifier,
-        units
-    }
+        units,
+    },
 });
 
 export const SET_ACTION_UNITS = "play-action-set-units";
 export const setActionUnits = (units: number): IAction<number> => ({
     type: SET_ACTION_UNITS,
-    payload: units
+    payload: units,
 });
 
 export const attack = makePromiseAction<void, GameActionResult>(
@@ -375,9 +378,9 @@ export const attack = makePromiseAction<void, GameActionResult>(
                             playState.twoCountry.originCountryIdentifier,
                         destinationCountryIdentifier:
                             playState.twoCountry.destinationCountryIdentifier,
-                        numberOfUnits: playState.twoCountry.numberOfUnits
-                    })
-            }
+                        numberOfUnits: playState.twoCountry.numberOfUnits,
+                    }),
+            },
         };
     }
 );
@@ -396,8 +399,8 @@ export const endAttack = makePromiseAction<void, GameActionResult>(
             payload: {
                 promise: deps
                     .getCachedClient(PlayClient)
-                    .postEndAttack(playState.gameId)
-            }
+                    .postEndAttack(playState.gameId),
+            },
         };
     }
 );
@@ -425,9 +428,9 @@ export const move = makePromiseAction<void, GameActionResult>(
                             playState.twoCountry.originCountryIdentifier,
                         destinationCountryIdentifier:
                             playState.twoCountry.destinationCountryIdentifier,
-                        numberOfUnits: playState.twoCountry.numberOfUnits
-                    })
-            }
+                        numberOfUnits: playState.twoCountry.numberOfUnits,
+                    }),
+            },
         };
     }
 );
@@ -446,11 +449,11 @@ export const endTurn = makePromiseAction<void, Game>(
             payload: {
                 promise: deps
                     .getCachedClient(PlayClient)
-                    .postEndTurn(playState.gameId)
+                    .postEndTurn(playState.gameId),
             },
             options: {
-                afterSuccess: () => dispatch(refreshOtherGames(null))
-            }
+                afterSuccess: () => dispatch(refreshOtherGames(null)),
+            },
         };
     }
 );
@@ -469,8 +472,8 @@ export const historyTurn = makePromiseAction<number, HistoryTurn>(
             payload: {
                 promise: deps
                     .getCachedClient(HistoryClient)
-                    .getTurn(gameId, turnId)
-            }
+                    .getTurn(gameId, turnId),
+            },
         };
     }
 );
@@ -487,6 +490,6 @@ export const historyExit: IAsyncAction<void> = () => (
 
     dispatch({
         type: HISTORY_EXIT,
-        payload: null
+        payload: null,
     });
 };
