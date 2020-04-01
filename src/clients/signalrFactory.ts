@@ -67,7 +67,7 @@ class SignalRClient implements ISignalRClient {
 
     constructor(hubName: string) {
         this.connection = new signalR.HubConnectionBuilder()
-            .withUrl(`${baseUri}/${hubName}`, {
+            .withUrl(`${baseUri}/signalr/${hubName}`, {
                 accessTokenFactory: TokenProvider.tokenRetriever,
             })
             .configureLogging(signalR.LogLevel.Trace)
