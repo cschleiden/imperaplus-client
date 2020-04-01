@@ -1,6 +1,5 @@
 import * as React from "react";
 import { render } from "react-dom";
-import { AppContainer } from "react-hot-loader";
 import { browserHistory } from "react-router";
 import { syncHistoryWithStore } from "react-router-redux";
 import App from "./app";
@@ -21,36 +20,16 @@ TokenProvider.tokenRetriever = () => {
     }
 };
 
-// Hot Module Replacement API
-declare var module: any;
-
 render(
-    <AppContainer>
-        <App
-            store={store}
-            history={syncHistoryWithStore(browserHistory as any, store)}
-        />
-    </AppContainer>,
+    <App
+        store={store}
+        history={syncHistoryWithStore(browserHistory as any, store)}
+    />,
     rootElement,
     () => {
         appInit();
     }
 );
-
-// Dev hot module reloading
-if (module.hot) {
-    module.hot.accept(["./app"], () => {
-        // @ts-ignore
-        // tslint:disable-next-line:no-require-imports
-        const NextApp = (require("./app") as any).default;
-        render(
-            <AppContainer>
-                <NextApp store={store} />
-            </AppContainer>,
-            rootElement
-        );
-    });
-}
 
 function appInit() {
     if (store.getState().session.isLoggedIn) {

@@ -106,7 +106,7 @@ export default class Home extends React.Component {
                                 <p>
                                     <span>
                                         {__(
-                                            'Impera is completely free, no hidden fees, no "in-app" purchases...'
+                                            `Impera is completely free, no hidden fees, no "in-app" purchases...`
                                         )}
                                     </span>
                                 </p>

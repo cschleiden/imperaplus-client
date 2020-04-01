@@ -14,18 +14,9 @@ exports.tslint = {
 exports.tsx = {
   test: /\.tsx?$/,
   loaders: [
-    "react-hot-loader/webpack",
     "awesome-typescript-loader"
   ],
   exclude: /(node_modules|test-utils|\.test\.ts$)/
-};
-
-exports.istanbulInstrumenter = {
-  test: /^(.(?!\.test))*\.tsx?$/,
-  loader: 'istanbul-instrumenter-loader',
-  query: {
-    embedSource: true,
-  },
 };
 
 exports.html = {

@@ -2,7 +2,7 @@
     "extends": [
         "tslint-react"
     ],
-    "defaultSeverity": "warn",    
+    "defaultSeverity": "warn",
     "rules": {
         "class-name": true,
         "jsx-no-multiline-js": false,
@@ -54,10 +54,7 @@
             "check-else",
             "check-whitespace"
         ],
-        "radix": true,
-        "semicolon": [
-            true            
-        ],
+        "radix": true,        
         "triple-equals": [
             true,
             "allow-null-check"

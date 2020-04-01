@@ -68,7 +68,7 @@ export class MapPreview extends React.Component<
             () => {
                 getCachedClient(MapClient)
                     .getMapTemplate(mapTemplateName)
-                    .then((mapTemplate) => {
+                    .then(mapTemplate => {
                         this.setState({
                             mapTemplate,
                         });

@@ -57,7 +57,7 @@ class GameChatTab extends React.Component<
             <div>
                 <div className="game-chat-list" ref={this._resolveListElement}>
                     <ul>
-                        {messages.map((message) => (
+                        {messages.map(message => (
                             <li key={message.id}>
                                 <div>
                                     <strong className="game-chat-user">
@@ -183,7 +183,7 @@ export default connect(
             isPending: gameChat.isPending,
         };
     },
-    (dispatch) => ({
+    dispatch => ({
         send: (message: string, isPublic: boolean) => {
             dispatch(gameChatSendMessage({ message, isPublic }));
         },

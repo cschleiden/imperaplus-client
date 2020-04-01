@@ -216,7 +216,7 @@ class SignalRClient implements ISignalRClient {
                     });
                 };
 
-                loopNestedObj(result);
+                !!result && loopNestedObj(result);
 
                 return result;
             })

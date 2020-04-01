@@ -123,11 +123,10 @@ export default connect(
             dispatch(submitForm(ownProps.name, FormMode.Pending));
 
             let submitAction = ownProps.onSubmit(formState, {
-                beforeSuccess: (d) => {
+                beforeSuccess: d => {
                     d(submitForm(ownProps.name, FormMode.Success));
                 },
-                beforeError: (d) =>
-                    d(submitForm(ownProps.name, FormMode.Failed)),
+                beforeError: d => d(submitForm(ownProps.name, FormMode.Failed)),
             });
 
             if (!submitAction) {

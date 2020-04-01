@@ -31,14 +31,12 @@ const compose =
     composeWithDevTools({
         serializeState: (key, value) =>
             value && value.data ? value.data : value,
-        deserializeState: (state) => ({
+        deserializeState: state => ({
             routing: state && state.routing,
             form: makeImmutable(state.form),
             session: makeImmutable(state.session),
             create: makeImmutable(state.create),
         }),
-        // Dev feature
-        shouldHotReload: true,
     }) || Redux.compose;
 
 // Get initial session data from sessionStorage
@@ -106,6 +104,6 @@ UserProvider.isAdminProvider = () => {
     return (
         userInfo &&
         userInfo.roles &&
-        userInfo.roles.some((x) => x.toLowerCase() === "admin")
+        userInfo.roles.some(x => x.toLowerCase() === "admin")
     );
 };

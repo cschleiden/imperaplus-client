@@ -26,41 +26,49 @@ export class MyGamesComponent extends React.Component<IMyGamesProps> {
     public render(): JSX.Element {
         const { userId } = this.props;
 
-        let fun: JSX.Element[];
-        let ranking: JSX.Element[];
-        let tournament: JSX.Element[];
+        let fun: JSX.Element;
+        let ranking: JSX.Element;
+        let tournament: JSX.Element;
 
         if (this.props.funGames.length > 0) {
-            fun = [
-                <Section key="fun-title">{__("Fun")}</Section>,
-                <GameList
-                    games={this.props.funGames}
-                    userId={userId}
-                    key="fun"
-                />,
-            ];
+            fun = (
+                <>
+                    <Section key="fun-title">{__("Fun")}</Section>
+                    <GameList
+                        games={this.props.funGames}
+                        userId={userId}
+                        key="fun"
+                    />
+                </>
+            );
         }
 
         if (this.props.rankingGames.length > 0) {
-            ranking = [
-                <Section key="ranking-title">{__("Ranking")}</Section>,
-                <GameList
-                    games={this.props.rankingGames}
-                    userId={userId}
-                    key="ranking"
-                />,
-            ];
+            ranking = (
+                <>
+                    <Section key="ranking-title">{__("Ranking")}</Section>
+                    <GameList
+                        games={this.props.rankingGames}
+                        userId={userId}
+                        key="ranking"
+                    />
+                </>
+            );
         }
 
         if (this.props.tournamentGames.length > 0) {
-            tournament = [
-                <Section key="tournaments-title">{__("Tournaments")}</Section>,
-                <GameList
-                    games={this.props.tournamentGames}
-                    userId={userId}
-                    key="tournaments"
-                />,
-            ];
+            tournament = (
+                <>
+                    <Section key="tournaments-title">
+                        {__("Tournaments")}
+                    </Section>
+                    <GameList
+                        games={this.props.tournamentGames}
+                        userId={userId}
+                        key="tournaments"
+                    />
+                </>
+            );
         }
 
         return (
@@ -95,19 +103,17 @@ export class MyGamesComponent extends React.Component<IMyGamesProps> {
 export default connect(
     (state: IState) => {
         const gamesMap = state.games.games;
-        const games = Object.keys(gamesMap).map((id) => gamesMap[id]);
+        const games = Object.keys(gamesMap).map(id => gamesMap[id]);
         const userInfo = state.session.userInfo;
 
         return {
-            funGames: games.filter((g) => g.type === GameType.Fun),
-            rankingGames: games.filter((g) => g.type === GameType.Ranking),
-            tournamentGames: games.filter(
-                (g) => g.type === GameType.Tournament
-            ),
+            funGames: games.filter(g => g.type === GameType.Fun),
+            rankingGames: games.filter(g => g.type === GameType.Ranking),
+            tournamentGames: games.filter(g => g.type === GameType.Tournament),
             userId: userInfo && userInfo.userId,
         };
     },
-    (dispatch) => ({
+    dispatch => ({
         refresh: () => {
             dispatch(refresh(null));
         },

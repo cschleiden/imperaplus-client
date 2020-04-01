@@ -17,7 +17,6 @@ const languages = {
 const defaultLanguage = "en";
 
 const appEntries = [
-    "react-hot-loader/patch",
     "whatwg-fetch",
     "./src/index.tsx",
 ];
@@ -54,9 +53,6 @@ const config = (lang) => {
         },
 
         module: {
-            preLoaders: [
-                loaders.tslint,
-            ],
             loaders: [
                 loaders.json,
                 loaders.tsx,

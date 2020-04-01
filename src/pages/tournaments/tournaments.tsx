@@ -27,38 +27,46 @@ export class TournamentsComponent extends React.Component<
     }
 
     public render(): JSX.Element {
-        let open: JSX.Element[];
-        let inProgress: JSX.Element[];
-        let closed: JSX.Element[];
+        let open: JSX.Element;
+        let inProgress: JSX.Element;
+        let closed: JSX.Element;
 
         if (this.props.openTournaments.length > 0) {
-            open = [
-                <Section key="open-title">{__("Open")}</Section>,
-                <TournamentList
-                    tournaments={this.props.openTournaments}
-                    key="open"
-                />,
-            ];
+            open = (
+                <>
+                    <Section key="open-title">{__("Open")}</Section>
+                    <TournamentList
+                        tournaments={this.props.openTournaments}
+                        key="open"
+                    />
+                </>
+            );
         }
 
         if (this.props.inProgressTournaments.length > 0) {
-            inProgress = [
-                <Section key="in-progres-title">{__("In Progress")}</Section>,
-                <TournamentList
-                    tournaments={this.props.inProgressTournaments}
-                    key="inprogress"
-                />,
-            ];
+            inProgress = (
+                <>
+                    <Section key="in-progres-title">
+                        {__("In Progress")}
+                    </Section>
+                    <TournamentList
+                        tournaments={this.props.inProgressTournaments}
+                        key="inprogress"
+                    />
+                </>
+            );
         }
 
         if (this.props.closedTournaments.length > 0) {
-            closed = [
-                <Section key="closed-title">{__("Closed")}</Section>,
-                <TournamentList
-                    tournaments={this.props.closedTournaments}
-                    key="closed"
-                />,
-            ];
+            closed = (
+                <>
+                    <Section key="closed-title">{__("Closed")}</Section>,
+                    <TournamentList
+                        tournaments={this.props.closedTournaments}
+                        key="closed"
+                    />
+                </>
+            );
         }
 
         return (
@@ -89,24 +97,24 @@ export default connect(
     (state: IState) => {
         const tournamentMap = state.tournaments.tournaments;
         const tournaments = Object.keys(tournamentMap).map(
-            (id) => tournamentMap[id]
+            id => tournamentMap[id]
         );
 
         return {
             openTournaments: tournaments.filter(
-                (t) => t.state === TournamentState.Open
+                t => t.state === TournamentState.Open
             ),
             inProgressTournaments: tournaments.filter(
-                (t) =>
+                t =>
                     t.state === TournamentState.Groups ||
                     t.state === TournamentState.Knockout
             ),
             closedTournaments: tournaments.filter(
-                (t) => t.state === TournamentState.Closed
+                t => t.state === TournamentState.Closed
             ),
         };
     },
-    (dispatch) => ({
+    dispatch => ({
         refresh: () => {
             dispatch(refresh(null));
         },

@@ -25,7 +25,7 @@ export class LaddersComponent extends React.Component<ILaddersProps> {
     }
 
     public render(): JSX.Element {
-        const ladders = this.props.ladders.map((ladder) =>
+        const ladders = this.props.ladders.map(ladder =>
             this._renderLadder(ladder)
         );
 
@@ -58,7 +58,7 @@ export class LaddersComponent extends React.Component<ILaddersProps> {
         );
     }
 
-    private _renderLadder(ladder: LadderSummary): JSX.Element[] {
+    private _renderLadder(ladder: LadderSummary): JSX.Element {
         const position = (ladder.standing && ladder.standing.position) || "-";
         const rating =
             (ladder.standing && Math.floor(ladder.standing.rating || 0)) || "-";
@@ -69,7 +69,7 @@ export class LaddersComponent extends React.Component<ILaddersProps> {
 
         const { options } = ladder;
 
-        return [
+        return (
             <GridColumn className="col-sm-6 col-md-4">
                 <div className="vertical-box ladder">
                     <div className="vertical-box-header">
@@ -186,8 +186,8 @@ export class LaddersComponent extends React.Component<ILaddersProps> {
                         )}
                     </h5>
                 </div>
-            </GridColumn>,
-        ];
+            </GridColumn>
+        );
     }
 
     private _onJoin(ladder: LadderSummary) {
@@ -204,13 +204,13 @@ export class LaddersComponent extends React.Component<ILaddersProps> {
 export default connect(
     (state: IState) => {
         const gamesMap = state.ladders.ladders;
-        const games = Object.keys(gamesMap).map((id) => gamesMap[id]);
+        const games = Object.keys(gamesMap).map(id => gamesMap[id]);
 
         return {
             ladders: games,
         };
     },
-    (dispatch) => ({
+    dispatch => ({
         refresh: () => {
             dispatch(refresh(null));
         },
