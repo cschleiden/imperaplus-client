@@ -1,6 +1,7 @@
 import * as React from "react";
 import { UserReference } from "../../external/imperaClients";
-import "./userReference.scss";
+import style from "./userReference.module.scss";
+import __ from "../../i18n/i18n";
 
 export const UserRef: React.StatelessComponent<{
     userRef: UserReference;
@@ -16,7 +17,7 @@ export const UserName: React.StatelessComponent<{
     const { userName } = props;
 
     if (!userName) {
-        return <span className="UserRef--Deleted">{__("Deleted")}</span>;
+        return <span className={style.deleted}>{__("Deleted")}</span>;
     }
 
     return <span className="UserRef--Default">{userName}</span>;

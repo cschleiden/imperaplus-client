@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Button } from "react-bootstrap";
-import { autobind } from "../../lib/autobind";
-import { css } from "../../lib/css";
+import { css } from "../../lib/utils/css";
 
 export interface IToggleButtonProps {
     initialIsToggled: boolean;
@@ -40,8 +39,7 @@ export class ToggleButton extends React.Component<
         );
     }
 
-    @autobind
-    private _onToggle() {
+    private _onToggle = () => {
         this.setState(
             {
                 isToggled: !this.state.isToggled,
@@ -52,5 +50,5 @@ export class ToggleButton extends React.Component<
                 }
             }
         );
-    }
+    };
 }

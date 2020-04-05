@@ -1,12 +1,15 @@
-export namespace UserProvider {
-    export let userProvider: () => string = null;
-    export let isAdminProvider: () => boolean = null;
+import { store } from "../store";
 
-    export const getUserId = (): string => {
-        return userProvider();
-    };
+export const getUserId = (): string => {
+    const userInfo = store.getState().session.userInfo;
+    return userInfo && userInfo.userId;
+};
 
-    export const isAdmin = () => (boolean) => {
-        return isAdminProvider();
-    };
-}
+export const isAdmin = () => boolean => {
+    const userInfo = store.getState().session.userInfo;
+    return (
+        userInfo &&
+        userInfo.roles &&
+        userInfo.roles.some(x => x.toLowerCase() === "admin")
+    );
+};

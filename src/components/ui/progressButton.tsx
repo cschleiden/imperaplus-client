@@ -1,8 +1,7 @@
 import * as React from "react";
 import { Button, ButtonProps } from "react-bootstrap";
-import { autobind } from "../../lib/autobind";
-import { css } from "../../lib/css";
-import "./progressButton.scss";
+import { css } from "../../lib/utils/css";
+import style from "./progressButton.module.scss";
 
 export interface IProgressButtonProps extends ButtonProps {
     isActive?: boolean;
@@ -14,8 +13,8 @@ export const ProgressButton = (props: IProgressButtonProps) => {
     return (
         <Button
             {...buttonProps}
-            className={css(className, "progress-button", {
-                "progress-button-active": isActive,
+            className={css(className, style.progressButton, {
+                [style.progressButtonActive]: isActive,
             })}
             disabled={disabled || isActive}
         />
@@ -51,8 +50,7 @@ export class SimpleProgressButton extends React.Component<
         );
     }
 
-    @autobind
-    private _onClick(event) {
+    private _onClick = event => {
         const { onClick } = this.props;
 
         this.setState({
@@ -62,7 +60,7 @@ export class SimpleProgressButton extends React.Component<
         if (onClick) {
             onClick(event);
         }
-    }
+    };
 }
 
 export interface IPromiseProgressButtonProps extends IProgressButtonProps {

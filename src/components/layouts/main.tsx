@@ -1,3 +1,5 @@
+import Head from "next/head";
+import Link from "next/link";
 import * as React from "react";
 import {
     Alert,
@@ -7,18 +9,20 @@ import {
     MenuItem,
 } from "react-bootstrap";
 import { connect } from "react-redux";
-import LoadingBar from "react-redux-loading-bar";
-import { Link } from "react-router";
-import { openCloseNav } from "../../common/general/general.actions";
-import { clear } from "../../common/message/message.actions";
-import { setLanguage } from "../../common/session/session.actions";
-import LinkString from "../../components/ui/strLink";
 import { UserInfo } from "../../external/imperaClients";
-import { getStyleForMessage } from "../../lib/message";
+import __ from "../../i18n/i18n";
+import { openClose } from "../../lib/domain/shared/general/general.slice";
+import {
+    clearMessage,
+    IMessage,
+} from "../../lib/domain/shared/message/message.slice";
+import { setLanguage } from "../../lib/domain/shared/session/session.slice";
+import { getStyleForMessage } from "../../lib/utils/message";
 import { IState } from "../../reducers";
+import { AppDispatch } from "../../store";
 import { Grid, GridColumn, GridContainer, GridRow } from "../layout";
+import { LinkString } from "../ui/strLink";
 import { Title } from "../ui/typography";
-import "./main.scss";
 
 interface ILanguageSelectorProps {
     selectedLanguage: string;
@@ -95,25 +99,21 @@ class MobileLanguageSelector extends React.Component<ILanguageSelectorProps> {
 }
 
 interface ILayoutProps {
-    message;
-    clear: () => void;
-    breadcrumbs;
-    commercials;
-    nav;
-    content;
-    pageContent;
+    nav?: React.ReactNode;
 
+    message?: IMessage;
     isNavOpen: boolean;
     language: string;
     userInfo: UserInfo;
 
     title: string;
 
+    clear: () => void;
     openCloseNav: (state: boolean) => void;
     setLanguage: (language: string) => void;
 }
 
-export class Layout extends React.Component<ILayoutProps> {
+class Layout extends React.Component<ILayoutProps> {
     private _msg: HTMLDivElement;
     private _resolveMsg = (element: HTMLDivElement) => (this._msg = element);
 
@@ -145,7 +145,7 @@ export class Layout extends React.Component<ILayoutProps> {
         if (userInfo) {
             isAdmin =
                 userInfo.roles
-                    .map((r) => r.toUpperCase())
+                    .map(r => r.toUpperCase())
                     .indexOf("admin".toUpperCase()) !== -1;
         }
 
@@ -153,7 +153,7 @@ export class Layout extends React.Component<ILayoutProps> {
             <div className="mainWrapper">
                 <GridContainer className="layout">
                     <GridRow className="header">
-                        <LoadingBar className="loading-bar" />
+                        {/* <LoadingBar className="loading-bar" /> */}
 
                         <GridColumn className="col-xs-10 col-sm-5 logo">
                             <img src="/assets/logo_150.png" />
@@ -219,13 +219,19 @@ export class Layout extends React.Component<ILayoutProps> {
                         {title && (
                             <GridColumn className="col-xs-12 main-title">
                                 <Title>{title}</Title>
+
+                                <Head>
+                                    <title>
+                                        {!!title
+                                            ? `Impera - ${title}`
+                                            : "title"}
+                                    </title>
+                                </Head>
                             </GridColumn>
                         )}
 
-                        {this.props.commercials}
-
                         <GridColumn className="col-xs-12 main-content">
-                            {this.props.content}
+                            {this.props.children}
                         </GridColumn>
                     </GridRow>
 
@@ -235,17 +241,24 @@ export class Layout extends React.Component<ILayoutProps> {
                                 <a href="/toadmin">ADMIN</a>&nbsp;|&nbsp;
                             </span>
                         )}
-                        <Link to="/privacy">{__("Privacy Policy")}</Link> |{" "}
-                        <Link to="/tos">{__("Terms of Service")}</Link> |{" "}
-                        <Link to="/imprint">{__("Imprint")}</Link> |{" "}
+                        <Link href="/privacy">
+                            <a>{__("Privacy Policy")}</a>
+                        </Link>{" "}
+                        |{" "}
+                        <Link href="/tos">
+                            <a>{__("Terms of Service")}</a>
+                        </Link>{" "}
+                        |{" "}
+                        <Link href="/imprint">
+                            <a>{__("Imprint")}</a>
+                        </Link>{" "}
+                        |{" "}
                         <a href="http://forum.imperaonline.de/">
                             {__("Forum (external)")}
                         </a>{" "}
                         | <a href="https://www.imperaonline.de/swagger/">API</a>
                     </GridRow>
                 </GridContainer>
-
-                {this.props.pageContent}
             </div>
         );
     }
@@ -267,17 +280,17 @@ export default connect(
         return {
             message: state.message.message,
             isNavOpen: general.isNavOpen,
-            title: general.title,
             language: session.language,
             userInfo: session.userInfo,
+            title: general.title,
         };
     },
-    (dispatch) => ({
+    (dispatch: AppDispatch) => ({
         clear: () => {
-            dispatch(clear(null));
+            dispatch(clearMessage());
         },
         openCloseNav: (state: boolean) => {
-            dispatch(openCloseNav(state));
+            dispatch(openClose(state));
         },
         setLanguage: (language: string) => {
             dispatch(setLanguage(language));

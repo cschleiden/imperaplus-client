@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Table } from "react-bootstrap";
-import { Link } from "react-router";
+import Link from "next/link";
 import { TournamentSummary } from "../../../external/imperaClients";
 import { HumanDate } from "../humanDate";
 import "./tournamentList.scss";
@@ -18,7 +18,7 @@ export class TournamentList extends React.Component<
     }
 
     public render() {
-        const rows = this.props.tournaments.map((tournament) =>
+        const rows = this.props.tournaments.map(tournament =>
             this._renderTournamentRow(tournament)
         );
 

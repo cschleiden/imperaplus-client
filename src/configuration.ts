@@ -18,10 +18,10 @@ function getToken(name: string, defaultValue: string): string {
 export const baseUri = getToken("baseUri", "https://localhost:5001");
 
 // Development
-// export const baseUri = getToken("baseUri", "https://dev.imperaonline.de/");
+// export const baseUri = getToken("baseUri", "https://dev.imperaonline.de");
 
 // Production
-// export const baseUri = getToken("baseUri", "https://www.imperaonline.de/");
+// export const baseUri = getToken("baseUri", "https://www.imperaonline.de");
 
 export const imageBaseUri = getToken(
     "imageBaseUri",

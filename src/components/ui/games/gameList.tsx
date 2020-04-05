@@ -1,17 +1,18 @@
+import Link from "next/link";
 import * as React from "react";
 import { Button, Glyphicon, Table } from "react-bootstrap";
-import { Link } from "react-router";
 import {
     GameState,
     GameSummary,
     PlayerSummary,
 } from "../../../external/imperaClients";
-import { css } from "../../../lib/css";
+import __ from "../../../i18n/i18n";
+import { css } from "../../../lib/utils/css";
 import { Timer } from "../timer";
 import GameDetails from "./gameDetail";
-import "./gameList.scss";
 import { GameStateDisplay } from "./gameState";
 import { PlayerOutcomeDisplay } from "./playerOutcome";
+import style from "./gameList.module.scss";
 
 interface IGameListProps {
     games: GameSummary[];
@@ -42,7 +43,7 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
 
     public render() {
         const header = this._renderHeader();
-        const rows = this.props.games.map((game) => this._renderGameRow(game));
+        const rows = this.props.games.map(game => this._renderGameRow(game));
 
         return (
             <Table className="game-list">
@@ -76,7 +77,7 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
                 </th>
                 {showActive && <th className="timer">{__("Time")}</th>}
                 {showActive && <th className="state">{__("State")}</th>}
-                {Object.keys(additionalColumns).map((ac) => (
+                {Object.keys(additionalColumns).map(ac => (
                     <th key={ac}>&nbsp;</th>
                 ))}
                 <th>&nbsp;</th>
@@ -96,7 +97,11 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
 
         let name: JSX.Element;
         if (game.state !== GameState.Open) {
-            name = <Link to={`/play/${game.id}`}>{game.name}</Link>;
+            name = (
+                <Link as={`/play/${game.id}`} href="/play/[gameId]">
+                    <a>{game.name}</a>
+                </Link>
+            );
         } else {
             name = <span>{game.name}</span>;
         }
@@ -109,7 +114,7 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
         const rows = [
             <tr
                 className={css({
-                    "game-players-turn": isPlayersTurn,
+                    [style.gamePlayersTurn]: isPlayersTurn,
                 })}
                 key={`game-${game.id}`}
             >
@@ -123,7 +128,7 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
                 {showActive && (
                     <td
                         className={css("hidden-xs", {
-                            "players-turn": isPlayersTurn,
+                            [style.PlayersTurn]: isPlayersTurn,
                         })}
                     >
                         {game.currentPlayer && game.currentPlayer.name}
@@ -145,7 +150,7 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
                         )}
                     </td>
                 )}
-                {Object.keys(additionalColumns).map((ac) => (
+                {Object.keys(additionalColumns).map(ac => (
                     <th key={ac}>{additionalColumns[ac](game)}</th>
                 ))}
                 <td>

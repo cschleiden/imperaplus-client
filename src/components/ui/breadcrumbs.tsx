@@ -71,5 +71,5 @@ export class Breadcrumbs extends React.Component<IBreadcrumbProps> {
 }
 
 export default connect((state: IState) => ({
-    location: state.routing.locationBeforeTransitions,
+    location: state.router.locationBeforeTransitions,
 }))(Breadcrumbs);

@@ -1,7 +1,7 @@
-export namespace TokenProvider {
-    export let tokenRetriever: () => string = null;
+import { IState } from "../reducers";
 
-    export function getToken(): string {
-        return (tokenRetriever && tokenRetriever()) || null;
-    }
+export type TokenProvider = () => string;
+
+export function getTokenProvider(getState: () => IState): () => string {
+    return () => getState().session?.access_token;
 }

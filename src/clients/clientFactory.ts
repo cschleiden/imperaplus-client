@@ -1,9 +1,9 @@
 import { baseUri } from "../configuration";
 import { ErrorResponse } from "../external/imperaClients";
-import jsonParseReviver from "../lib/jsonReviver";
+import jsonParseReviver from "../lib/utils/jsonReviver";
 import { onUnauthorized } from "../services/authProvider";
 import { TokenProvider } from "../services/tokenProvider";
-import { UserProvider } from "../services/userProvider";
+import fetch from "isomorphic-unfetch";
 
 export interface IClient<TClient> {
     new (
@@ -17,6 +17,7 @@ export interface IClient<TClient> {
 const clientCache: [IClient<any>, any][] = [];
 
 export function getCachedClient<TClient>(
+    tokenProvider: TokenProvider,
     clientType: IClient<TClient>
 ): TClient {
     for (let [cachedClientType, cachedInstance] of clientCache) {
@@ -25,7 +26,7 @@ export function getCachedClient<TClient>(
         }
     }
 
-    let instance = createClient(clientType, () => TokenProvider.getToken());
+    let instance = createClient(clientType, tokenProvider);
     clientCache.push([clientType, instance]);
     return instance;
 }
@@ -36,8 +37,6 @@ export function createClientWithToken<TClient>(
 ): TClient {
     return createClient(clientType, () => access_token);
 }
-
-let miniProfilerInitialized = false;
 
 const fetchWrapper = (
     tokenProvider: () => string,
@@ -55,17 +54,19 @@ const fetchWrapper = (
         init.mode = "cors";
     }
 
-    return fetch(url, init).then((response) => {
+    return fetch(url, init).then(response => {
         // Intercept 401 responses, to redirect to login or refresh token
         const status = response.status.toString();
         if (status === "401") {
+            console.log("401");
+
             if (onUnauthorized) {
                 return onUnauthorized().then(
                     () => {
                         // Successful, retry request
                         return fetchWrapper(tokenProvider, url, init);
                     },
-                    (error) => {
+                    error => {
                         throw error;
                     }
                 );
@@ -73,7 +74,7 @@ const fetchWrapper = (
                 throw new Error("Not authorized");
             }
         } else if (status === "400") {
-            return response.text().then((responseText) => {
+            return response.text().then(responseText => {
                 let result400: ErrorResponse | null = null;
                 result400 =
                     responseText === ""
@@ -85,46 +86,13 @@ const fetchWrapper = (
             });
         }
 
-        if (UserProvider.isAdmin()) {
-            if (!miniProfilerInitialized) {
-                miniProfilerInitialized = true;
-
-                // Initialize mini profiler
-                const scriptTag = $("<script>").attr({
-                    type: "text/javascript",
-                    id: "mini-profiler",
-                    src: baseUri + "/admin/profiler/includes.js",
-                    "data-path": baseUri + "/admin/profiler/",
-                    "data-position": "bottomleft",
-                    "data-authorized": "true",
-                    "data-controls": "true",
-                    "data-ids": "abc",
-                    "data-max-traces": 10,
-                    "data-start-hidden": true,
-                    "data-toggle-shortcut": "Alt+P",
-                });
-                $("head").append(scriptTag);
-            }
-
-            const miniProfiler = (<any>window).MiniProfiler;
-            if (miniProfiler) {
-                const miniProfilerIds = response.headers.get(
-                    "X-MiniProfiler-Ids"
-                );
-                if (miniProfilerIds && miniProfiler) {
-                    // tslint:disable-next-line:no-eval
-                    miniProfiler.fetchResults(eval(miniProfilerIds));
-                }
-            }
-        }
-
         return response;
     });
 };
 
 function createClient<TClient>(
     clientType: IClient<TClient>,
-    tokenProvider: () => string
+    tokenProvider: TokenProvider
 ): TClient {
     let client = new clientType(baseUri, {
         fetch: fetchWrapper.bind(null, tokenProvider),

@@ -1,6 +1,6 @@
 import { getSignalRClient, ISignalRClient } from "../clients/signalrFactory";
 import { INotification, NotificationType } from "../external/notificationModel";
-import { autobind } from "../lib/autobind";
+import { TokenProvider } from "./tokenProvider";
 
 export interface INotificationHandler<TNotification extends INotification> {
     (notification: TNotification): void;
@@ -17,16 +17,22 @@ export class NotificationService {
         return NotificationService._instance;
     }
 
-    private _handlers: { [type: number]: INotificationHandler<any>[] } = {};
+    private _handlers: {
+        [type: number]: INotificationHandler<any>[];
+    } = {};
 
     private _client: ISignalRClient;
 
     private _initPromise: Promise<void>;
 
+    private tokenProvider: TokenProvider;
+
     /**
      * Initialize client
      */
-    init(): Promise<void> {
+    init(tokenProvider: TokenProvider): Promise<void> {
+        this.tokenProvider = tokenProvider;
+
         if (!this._initPromise) {
             this._client = this._getClient();
 
@@ -102,14 +108,13 @@ export class NotificationService {
 
     private _ensureInit(): Promise<void> {
         if (!this._initPromise) {
-            this._initPromise = this.init();
+            this._initPromise = this.init(this.tokenProvider);
         }
 
         return this._initPromise;
     }
 
-    @autobind
-    private _onNotification(notification: INotification) {
+    private _onNotification = (notification: INotification) => {
         const handlers = this._handlers[notification.type];
 
         if (handlers) {
@@ -117,9 +122,9 @@ export class NotificationService {
                 handler(notification);
             }
         }
-    }
+    };
 
     private _getClient(): ISignalRClient {
-        return getSignalRClient("game");
+        return getSignalRClient(this.tokenProvider, "game");
     }
 }

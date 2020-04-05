@@ -59,6 +59,7 @@ export class FixedAccountClient extends AccountClient {
                 headers: new Headers({
                     "Content-Type": "application/x-www-form-urlencoded",
                     Accept: "application/json; charset=UTF-8",
+                    "Sec-Fetch-Site": "cross-site",
                 }),
             };
 

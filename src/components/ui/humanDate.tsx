@@ -1,6 +1,26 @@
 import * as React from "react";
+import __ from "../../i18n/i18n";
 
-export const HumanDate = (date: Date): JSX.Element => {
+function getDate(value: Date | string): Date {
+    if (typeof value === "string") {
+        let a = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)Z$/.exec(
+            value
+        );
+        if (a) {
+            return new Date(
+                Date.UTC(+a[1], +a[2] - 1, +a[3], +a[4], +a[5], +a[6])
+            );
+        }
+
+        throw new Error("Cannot parse date");
+    }
+
+    return value;
+}
+
+export const HumanDate = (date: Date | string): JSX.Element => {
+    date = getDate(date);
+
     return <span title={date.toLocaleDateString()}>{humanDate(date)}</span>;
 };
 

@@ -1,8 +1,7 @@
 import * as React from "react";
 import { AsyncTypeahead } from "react-bootstrap-typeahead";
-import { getCachedClient } from "../../clients/clientFactory";
-import { UserClient, UserReference } from "../../external/imperaClients";
-import { autobind } from "../../lib/autobind";
+import { UserReference } from "../../external/imperaClients";
+import __ from "../../i18n/i18n";
 
 export interface IUserPickerProps {
     name: string;
@@ -52,28 +51,26 @@ export class UserPicker extends React.Component<
         );
     }
 
-    @autobind
-    private _onChange(changedOptions: UserReference[]) {
+    private _onChange = (changedOptions: UserReference[]) => {
         const { onChange } = this.props;
 
         onChange(changedOptions[0]);
-    }
+    };
 
-    @autobind
-    private _renderUsers(option: UserReference, props, index) {
+    private _renderUsers = (option: UserReference, props, index) => {
         return <div key={option.id}>{option.name}</div>;
-    }
+    };
 
-    @autobind
-    private _handleSearch(query: string) {
+    private _handleSearch = (query: string) => {
         if (query && query.length >= 3) {
-            getCachedClient(UserClient)
-                .findUsers(query)
-                .then((users) => {
-                    this.setState({
-                        users,
-                    });
-                });
+            // TODO: CS: This needs a way to get the client
+            // getCachedClient(UserClient)
+            //     .findUsers(query)
+            //     .then(users => {
+            //         this.setState({
+            //             users,
+            //         });
+            //     });
         }
-    }
+    };
 }

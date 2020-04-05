@@ -1,9 +1,9 @@
 import { baseUri } from "../configuration";
 import { onUnauthorized } from "../services/authProvider";
 import { EventService } from "../services/eventService";
-import { TokenProvider } from "../services/tokenProvider";
 import * as signalR from "@microsoft/signalr";
-import jsonReviver from "../lib/jsonReviver";
+import jsonReviver from "../lib/utils/jsonReviver";
+import { TokenProvider } from "../services/tokenProvider";
 
 const cachedClients: { [hubName: string]: ISignalRClient } = {};
 
@@ -23,7 +23,10 @@ export interface ISignalRClient {
     connection: signalR.HubConnection;
 }
 
-export function getSignalRClient(hubName: string): ISignalRClient {
+export function getSignalRClient(
+    tokenProvider: TokenProvider,
+    hubName: string
+): ISignalRClient {
     if (cachedClients[hubName]) {
         let cachedClient = cachedClients[hubName];
 
@@ -36,7 +39,7 @@ export function getSignalRClient(hubName: string): ISignalRClient {
         return cachedClient;
     }
 
-    let client = new SignalRClient(hubName);
+    let client = new SignalRClient(tokenProvider, hubName);
     cachedClients[hubName] = client;
     return client;
 }
@@ -65,10 +68,10 @@ class SignalRClient implements ISignalRClient {
 
     private _onInit: () => Promise<void>;
 
-    constructor(hubName: string) {
+    constructor(tokenProvider: () => string, hubName: string) {
         this.connection = new signalR.HubConnectionBuilder()
             .withUrl(`${baseUri}/signalr/${hubName}`, {
-                accessTokenFactory: TokenProvider.tokenRetriever,
+                accessTokenFactory: tokenProvider,
             })
             .configureLogging(signalR.LogLevel.Trace)
             .build();
