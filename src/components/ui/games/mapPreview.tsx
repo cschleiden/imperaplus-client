@@ -15,19 +15,29 @@ export interface IMapPreviewState {
     mapTemplate: MapTemplate;
 }
 
-export const MapPreview: React.FC<IMapPreviewProps> = props => {
+export const MapPreview: React.FC<IMapPreviewProps> = (props) => {
     const { mapTemplateName, ...nativeProps } = props;
 
     const [mapTemplate, setMapTemplate] = React.useState<
         MapTemplate | undefined
     >();
 
-    const token = useAppSelector(s => s.session.access_token);
+    const token = useAppSelector((s) => s.session.access_token);
 
     React.useEffect(() => {
+        let cancelled = false;
+
         getCachedClient(() => token, MapClient)
             .getMapTemplate(mapTemplateName)
-            .then(mt => setMapTemplate(mt));
+            .then((mt) => {
+                if (!cancelled) {
+                    setMapTemplate(mt);
+                }
+            });
+
+        return () => {
+            cancelled = true;
+        };
     }, [mapTemplateName]);
 
     if (mapTemplate) {

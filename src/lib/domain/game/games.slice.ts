@@ -12,7 +12,7 @@ const games = createSlice({
     name: "games",
     initialState,
     reducers: {},
-    extraReducers: b => {
+    extraReducers: (b) => {
         // Fetch games
         b.addCase(fetch.pending, (s, a) => {
             s.isLoading = true;
@@ -40,6 +40,18 @@ const games = createSlice({
         b.addCase(fetchOpen.fulfilled, (s, a) => {
             s.isLoading = false;
             s.openGames = a.payload;
+
+            s.openGames.sort((a, b) => {
+                if (!a.hasPassword && b.hasPassword) {
+                    return -1;
+                }
+
+                if (a.hasPassword && !b.hasPassword) {
+                    return 1;
+                }
+
+                return 0;
+            });
         });
 
         // Surrender

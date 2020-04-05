@@ -118,6 +118,7 @@ export const News: AppNextPage = props => {
 };
 
 News.getTitle = () => __("News");
+News.needsLogin = true;
 
 News.getInitialProps = async ctx => {
     await ctx.store.dispatch(fetch());

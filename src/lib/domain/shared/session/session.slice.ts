@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { set, remove } from "js-cookie";
+import { remove, set } from "js-cookie";
 import Router from "next/router";
 import { baseUri } from "../../../../configuration";
 import { FixedAccountClient } from "../../../../external/accountClient";
@@ -25,14 +25,6 @@ const initialState = {
     } as NotificationSummary,
 };
 export type ISessionState = typeof initialState;
-
-export interface ILoginPayload {
-    access_token: string;
-    refresh_token: string;
-    userInfo: UserInfo;
-
-    notifications: NotificationSummary;
-}
 
 export interface IRefreshPayload {
     access_token: string;
@@ -236,7 +228,7 @@ const slice = createSlice({
             state.access_token = action.payload.access_token;
             state.refresh_token = action.payload.refresh_token;
         },
-        expire: state => {
+        expire: (state) => {
             state = initialState;
         },
         updateUserInfo: (state, action: PayloadAction<UserInfo>) => {
@@ -247,9 +239,23 @@ const slice = createSlice({
             state.refresh_token = action.payload.refresh_token;
             state.userInfo = action.payload.userInfo;
             state.notifications = action.payload.notifications;
+            state.language = action.payload.userInfo.language;
+        },
+        restoreSession: (
+            state,
+            action: PayloadAction<{
+                access_token: string;
+                refresh_token: string;
+                userInfo: UserInfo;
+            }>
+        ) => {
+            state.access_token = action.payload.access_token;
+            state.refresh_token = action.payload.refresh_token;
+            state.userInfo = action.payload.userInfo;
+            state.language = action.payload.userInfo.language;
         },
     },
-    extraReducers: b => {
+    extraReducers: (b) => {
         b.addCase(logout.fulfilled, (state, action) => {
             state.access_token = null;
             state.refresh_token = null;
@@ -267,11 +273,6 @@ const slice = createSlice({
     },
 });
 
-export const {
-    login,
-    refresh,
-
-    updateUserInfo,
-} = slice.actions;
+export const { login, refresh, updateUserInfo, restoreSession } = slice.actions;
 
 export default slice.reducer;

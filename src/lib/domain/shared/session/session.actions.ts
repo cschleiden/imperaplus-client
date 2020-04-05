@@ -44,7 +44,11 @@ export const doLogin: AsyncAction<{
         })
     );
 
-    set("token", result.access_token);
+    // Store tokens as cookies
+    set("token", {
+        access_token: result.access_token,
+        refresh_token: result.refresh_token,
+    });
     await NotificationService.getInstance().init(getTokenProvider(getState));
 
     Router.push("/game");

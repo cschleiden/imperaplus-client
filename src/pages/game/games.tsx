@@ -92,6 +92,7 @@ const MyGames: AppNextPage = props => {
 };
 
 MyGames.getTitle = () => __("My Games");
+MyGames.needsLogin = true;
 
 MyGames.getInitialProps = async ctx => {
     await ctx.store.dispatch(fetch());

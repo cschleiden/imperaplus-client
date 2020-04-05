@@ -1,9 +1,8 @@
+import fetch from "isomorphic-unfetch";
 import { baseUri } from "../configuration";
 import { ErrorResponse } from "../external/imperaClients";
-import jsonParseReviver from "../lib/utils/jsonReviver";
 import { onUnauthorized } from "../services/authProvider";
 import { TokenProvider } from "../services/tokenProvider";
-import fetch from "isomorphic-unfetch";
 
 export interface IClient<TClient> {
     new (
@@ -54,7 +53,7 @@ const fetchWrapper = (
         init.mode = "cors";
     }
 
-    return fetch(url, init).then(response => {
+    return fetch(url, init).then((response) => {
         // Intercept 401 responses, to redirect to login or refresh token
         const status = response.status.toString();
         if (status === "401") {
@@ -66,7 +65,7 @@ const fetchWrapper = (
                         // Successful, retry request
                         return fetchWrapper(tokenProvider, url, init);
                     },
-                    error => {
+                    (error) => {
                         throw error;
                     }
                 );
@@ -74,14 +73,12 @@ const fetchWrapper = (
                 throw new Error("Not authorized");
             }
         } else if (status === "400") {
-            return response.text().then(responseText => {
+            return response.text().then((responseText) => {
                 let result400: ErrorResponse | null = null;
                 result400 =
                     responseText === ""
                         ? null
-                        : <ErrorResponse>(
-                              JSON.parse(responseText, this.jsonParseReviver)
-                          );
+                        : <ErrorResponse>JSON.parse(responseText);
                 throw result400;
             });
         }
@@ -97,9 +94,6 @@ function createClient<TClient>(
     let client = new clientType(baseUri, {
         fetch: fetchWrapper.bind(null, tokenProvider),
     });
-
-    // Hack: jsonParseReviver is protected, force set for now
-    (<any>client).jsonParseReviver = jsonParseReviver;
 
     return client;
 }

@@ -7,6 +7,7 @@ import {
 } from "@reduxjs/toolkit";
 import { NextComponentType, NextPageContext } from "next";
 import { useSelector } from "react-redux";
+import { createLogger } from "redux-logger";
 import {
     createClientWithToken,
     getCachedClient,
@@ -21,14 +22,16 @@ const extraArgument = {
 };
 
 let store: AppStore | undefined;
-export const getOrCreateStore = (initialState?: DeepPartial<IState>) => {
+export const getOrCreateStore = (
+    getInitialState?: () => DeepPartial<IState>
+) => {
     // Always create new store for server-rendered page
     if (typeof window == "undefined") {
-        return createStore(initialState);
+        return createStore(getInitialState());
     }
 
     if (!store) {
-        store = createStore(initialState);
+        store = createStore(getInitialState());
     }
 
     return store;
@@ -39,15 +42,28 @@ export interface InitialState {
 }
 
 function createStore(initialState?: DeepPartial<IState>) {
-    return configureStore({
-        reducer: rootReducer,
-        devTools: true,
-        preloadedState: initialState,
-        middleware: getDefaultMiddleware({
+    const middleware = [
+        ...getDefaultMiddleware({
             thunk: {
                 extraArgument,
             },
         }),
+    ];
+
+    if (process.env.NODE_ENV === "development") {
+        middleware.push(
+            createLogger({
+                collapsed: true,
+                diff: false,
+            })
+        );
+    }
+
+    return configureStore({
+        reducer: rootReducer,
+        devTools: true,
+        preloadedState: initialState,
+        middleware,
     });
 }
 
@@ -87,6 +103,7 @@ export type AppNextPage<P = {}, IP = P> = NextComponentType<
     IP,
     P
 > & {
+    needsLogin?: boolean;
     getTitle(state: IState): string;
 };
 
