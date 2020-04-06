@@ -1,11 +1,10 @@
-import Router from "next/router";
 import { updateUserInfo } from "../../common/session/session.actions";
 import { FixedAccountClient } from "../../external/accountClient";
 import {
     AllianceClient,
     AllianceCreationOptions,
-    AllianceSummary,
     AllianceJoinRequestState,
+    AllianceSummary,
 } from "../../external/imperaClients";
 import { makePromiseAction } from "../../lib/utils/action";
 
@@ -13,7 +12,7 @@ export const refresh = makePromiseAction<void, AllianceSummary[]>(
     "alliances-refresh",
     (input, dispatch, getState, deps) => ({
         payload: {
-            promise: deps.getCachedClient(AllianceClient).getAll(),
+            promise: deps.createClient(AllianceClient).getAll(),
         },
     })
 );
@@ -23,13 +22,13 @@ export const create = makePromiseAction(
     (input: AllianceCreationOptions, dispatch, getState, deps) => ({
         payload: {
             promise: deps
-                .getCachedClient(AllianceClient)
+                .createClient(AllianceClient)
                 .create(input)
-                .then(alliance => {
+                .then((alliance) => {
                     // Refresh profile, the user is now a member of an alliance
-                    deps.getCachedClient(FixedAccountClient)
+                    deps.createClient(FixedAccountClient)
                         .getUserInfo()
-                        .then(userInfo => {
+                        .then((userInfo) => {
                             dispatch(updateUserInfo(userInfo));
                             dispatch(push(`/game/alliances/${alliance.id}`));
                         });
@@ -43,13 +42,13 @@ export const deleteAlliance = makePromiseAction(
     (allianceId: string, dispatch, getState, deps) => ({
         payload: {
             promise: deps
-                .getCachedClient(AllianceClient)
+                .createClient(AllianceClient)
                 .delete(allianceId)
                 .then(() => {
                     // Refresh profile, the user is not in an alliance anymore
-                    deps.getCachedClient(FixedAccountClient)
+                    deps.createClient(FixedAccountClient)
                         .getUserInfo()
-                        .then(userInfo => {
+                        .then((userInfo) => {
                             dispatch(updateUserInfo(userInfo));
                         });
 
@@ -62,7 +61,7 @@ export const deleteAlliance = makePromiseAction(
 export const getRequests = makePromiseAction(
     "alliance-get-requests",
     (allianceId: string, dispatch, getState, deps) => {
-        const client = deps.getCachedClient(AllianceClient);
+        const client = deps.createClient(AllianceClient);
 
         return {
             payload: {
@@ -75,11 +74,11 @@ export const getRequests = makePromiseAction(
 export const get = makePromiseAction(
     "alliance-get",
     (id: string, dispatch, getState, deps) => {
-        const client = deps.getCachedClient(AllianceClient);
+        const client = deps.createClient(AllianceClient);
 
         return {
             payload: {
-                promise: client.get(id).then(alliance => {
+                promise: client.get(id).then((alliance) => {
                     const userInfo = getState().session.userInfo;
                     if (userInfo.allianceAdmin && userInfo.allianceId === id) {
                         // If the user is an admin of the current alliance, also retrieve requests for the alliance
@@ -107,7 +106,7 @@ export const requestJoin = makePromiseAction(
     (input: IAllianceRequestOptions, dispatch, getState, deps) => ({
         payload: {
             promise: deps
-                .getCachedClient(AllianceClient)
+                .createClient(AllianceClient)
                 .requestJoin(input.allianceId, input.reason),
         },
         options: {
@@ -124,13 +123,13 @@ export const leave = makePromiseAction(
     (allianceId: string, dispatch, getState, deps) => ({
         payload: {
             promise: deps
-                .getCachedClient(AllianceClient)
+                .createClient(AllianceClient)
                 .removeMember(allianceId, getState().session.userInfo.userId!)
                 .then(() => {
                     // Refresh profile, the user is now a member of an alliance
-                    deps.getCachedClient(FixedAccountClient)
+                    deps.createClient(FixedAccountClient)
                         .getUserInfo()
-                        .then(userInfo => {
+                        .then((userInfo) => {
                             dispatch(updateUserInfo(userInfo));
                             dispatch(push(`/game/alliances`));
                         });
@@ -143,7 +142,7 @@ export const getAllRequests = makePromiseAction(
     "alliance-get-all-requests",
     (_, dispatch, getState, deps) => ({
         payload: {
-            promise: deps.getCachedClient(AllianceClient).getAllRequests(),
+            promise: deps.createClient(AllianceClient).getAllRequests(),
         },
     })
 );
@@ -158,7 +157,7 @@ export const updateRequest = makePromiseAction(
     (input: IUpdateRequestOptions, dispatch, getState, deps) => ({
         payload: {
             promise: deps
-                .getCachedClient(AllianceClient)
+                .createClient(AllianceClient)
                 .updateRequest(input.allianceId, input.requestId, input.state),
         },
         options: {
@@ -187,7 +186,7 @@ export const removeMember = makePromiseAction(
     ) => ({
         payload: {
             promise: deps
-                .getCachedClient(AllianceClient)
+                .createClient(AllianceClient)
                 .removeMember(allianceId, userId),
         },
         options: {
@@ -213,7 +212,7 @@ export const changeAdmin = makePromiseAction(
     ) => ({
         payload: {
             promise: deps
-                .getCachedClient(AllianceClient)
+                .createClient(AllianceClient)
                 .changeAdmin(allianceId, userId, isAdmin),
         },
         options: {

@@ -1,13 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { NewsClient, NewsItem } from "../../external/imperaClients";
-import { getTokenProvider } from "../../services/tokenProvider";
 import { AppThunkArg } from "../../store";
+import { getToken } from "./shared/session/session.selectors";
 
 export const fetch = createAsyncThunk<NewsItem[], void, AppThunkArg>(
     "news/fetch",
     (_, thunkApi) => {
         return thunkApi.extra
-            .getCachedClient(getTokenProvider(thunkApi.getState), NewsClient)
+            .createClient(getToken(thunkApi.getState()), NewsClient)
             .getAll();
     }
 );
@@ -19,7 +19,7 @@ const slice = createSlice({
         news: [] as NewsItem[],
     },
     reducers: {},
-    extraReducers: b => {
+    extraReducers: (b) => {
         b.addCase(fetch.pending, (state, action) => {
             state.isLoading = true;
         });

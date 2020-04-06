@@ -16,6 +16,6 @@ export function getLanguage(): string {
 
 let languageProvider: () => string | undefined;
 
-export function setLanguagProvider(provider: () => string) {
+export function setLanguageProvider(provider: () => string) {
     languageProvider = provider;
 }

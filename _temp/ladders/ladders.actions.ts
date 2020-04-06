@@ -10,7 +10,7 @@ export const refresh = makePromiseAction<void, LadderSummary[]>(
     "ladders-refresh",
     (input, dispatch, getState, deps) => ({
         payload: {
-            promise: deps.getCachedClient(LadderClient).getAll(),
+            promise: deps.createClient(LadderClient).getAll(),
         },
         options: {
             useMessage: true,
@@ -22,7 +22,7 @@ export const open = makePromiseAction<string, Ladder>(
     "ladders-show",
     (ladderId, dispatch, getState, deps) => ({
         payload: {
-            promise: deps.getCachedClient(LadderClient).get(ladderId),
+            promise: deps.createClient(LadderClient).get(ladderId),
         },
     })
 );
@@ -32,7 +32,7 @@ export const join = makePromiseAction<string, void>(
     (ladderId, dispatch, getState, deps) => ({
         payload: {
             promise: deps
-                .getCachedClient(LadderClient)
+                .createClient(LadderClient)
                 .postJoin(ladderId)
                 .then(() => {
                     // Refresh ladders after hiding
@@ -56,7 +56,7 @@ export const leave = makePromiseAction<string, void>(
     (ladderId, dispatch, getState, deps) => ({
         payload: {
             promise: deps
-                .getCachedClient(LadderClient)
+                .createClient(LadderClient)
                 .deleteJoin(ladderId)
                 .then(() => {
                     // Refresh ladders after hiding

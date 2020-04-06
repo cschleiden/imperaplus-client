@@ -4,10 +4,10 @@ import {
     MapClient,
 } from "../../../external/imperaClients";
 import __ from "../../../i18n/i18n";
-import { getTokenProvider } from "../../../services/tokenProvider";
 import { AppThunk, AsyncAction } from "../../../store";
 import { lookupSet } from "../shared/general/general.slice";
 import { MessageType, showMessage } from "../shared/message/message.slice";
+import { getToken } from "../shared/session/session.selectors";
 
 export const create: AsyncAction<GameCreationOptions> = async (
     dispatch,
@@ -15,9 +15,7 @@ export const create: AsyncAction<GameCreationOptions> = async (
     extra,
     input
 ) => {
-    await extra
-        .getCachedClient(getTokenProvider(getState), GameClient)
-        .post(input);
+    await extra.createClient(getToken(getState()), GameClient).post(input);
 
     dispatch(
         showMessage({
@@ -31,7 +29,7 @@ export const create: AsyncAction<GameCreationOptions> = async (
 
 export const getMaps = (): AppThunk => async (dispatch, getState, extra) => {
     const mapTemplates = await extra
-        .getCachedClient(getTokenProvider(getState), MapClient)
+        .createClient(getToken(getState()), MapClient)
         .getAllSummary();
 
     dispatch(lookupSet({ key: "maps", data: mapTemplates }));

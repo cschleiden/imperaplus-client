@@ -1,4 +1,3 @@
-import Router from "next/router";
 import { refreshNotifications } from "../../common/session/session.actions";
 import {
     FolderInformation,
@@ -23,9 +22,9 @@ export const switchFolder = makePromiseAction<
 >("messages-switch-folder", (folder, dispatch, getState, deps) => ({
     payload: {
         promise: deps
-            .getCachedClient(MessageClient)
+            .createClient(MessageClient)
             .getAll(folder)
-            .then(messages => ({
+            .then((messages) => ({
                 folder,
                 messages,
             })),
@@ -40,7 +39,7 @@ export const load = makePromiseAction<void, FolderInformation[]>(
     (_, dispatch, getState, deps) => ({
         payload: {
             promise: deps
-                .getCachedClient(MessageClient)
+                .createClient(MessageClient)
                 .getFolderInformation()
                 .then((folderInformation: FolderInformation[]) => {
                     dispatch(switchFolder(MessageFolder.Inbox));
@@ -59,9 +58,9 @@ export const loadMessage = makePromiseAction(
     (messageId: string, dispatch, getState, deps) => ({
         payload: {
             promise: deps
-                .getCachedClient(MessageClient)
+                .createClient(MessageClient)
                 .get(messageId)
-                .then(message => {
+                .then((message) => {
                     dispatch({
                         type: OPEN_MESSAGE,
                         payload: message,
@@ -79,7 +78,7 @@ export const markRead = makePromiseAction(
     (messageId: string, dispatch, getState, deps) => ({
         payload: {
             promise: deps
-                .getCachedClient(MessageClient)
+                .createClient(MessageClient)
                 .patchMarkRead(messageId)
                 .then(() => {
                     return messageId;
@@ -99,7 +98,7 @@ export const sendMessage = makePromiseAction(
     (message: SendMessage, dispatch, getState, deps) => ({
         payload: {
             promise: deps
-                .getCachedClient(MessageClient)
+                .createClient(MessageClient)
                 .postSend(message)
                 .then(() => {
                     dispatch(push("/game/messages"));
@@ -116,7 +115,7 @@ export const deleteMessage = makePromiseAction(
     (messageId: string, dispatch, getState, deps) => ({
         payload: {
             promise: deps
-                .getCachedClient(MessageClient)
+                .createClient(MessageClient)
                 .delete(messageId)
                 .then(() => {
                     // Take the easy way, just refresh everything after delete
@@ -140,7 +139,7 @@ export const openMessage: IAsyncAction<string> = (messageId: string) => (
 ) => {
     const state = getState().messages;
 
-    const idx = state.currentMessages.findIndex(m => m.id === messageId);
+    const idx = state.currentMessages.findIndex((m) => m.id === messageId);
     if (idx !== -1) {
         dispatch({
             type: OPEN_MESSAGE,

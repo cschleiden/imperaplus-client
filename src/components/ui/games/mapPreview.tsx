@@ -1,7 +1,7 @@
 import Link from "next/link";
 import * as React from "react";
 import { Image, ImageProps } from "react-bootstrap";
-import { getCachedClient } from "../../../clients/clientFactory";
+import { createClient } from "../../../clients/clientFactory";
 import { imageBaseUri } from "../../../configuration";
 import { MapClient, MapTemplate } from "../../../external/imperaClients";
 import { useAppSelector } from "../../../store";
@@ -27,7 +27,7 @@ export const MapPreview: React.FC<IMapPreviewProps> = (props) => {
     React.useEffect(() => {
         let cancelled = false;
 
-        getCachedClient(() => token, MapClient)
+        createClient(token, MapClient)
             .getMapTemplate(mapTemplateName)
             .then((mt) => {
                 if (!cancelled) {

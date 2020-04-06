@@ -63,8 +63,7 @@ const games = createSlice({
         // Remove
         b.addCase(remove.fulfilled, (s, a) => {
             const gameId = a.payload;
-            const { [gameId]: _, ...newGames } = s.games;
-            s.games = newGames;
+            delete s.games[gameId];
         });
     },
 });

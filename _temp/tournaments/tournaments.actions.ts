@@ -12,7 +12,7 @@ export const refresh = makePromiseAction<void, TournamentSummary[]>(
     "tournaments-refresh",
     (input, dispatch, getState, deps) => ({
         payload: {
-            promise: deps.getCachedClient(TournamentClient).getAll(),
+            promise: deps.createClient(TournamentClient).getAll(),
         },
         options: {
             useMessage: true,
@@ -24,9 +24,7 @@ export const load = makePromiseAction<string, Tournament>(
     "tournaments-load",
     (tournamentId, dispatch, getState, deps) => ({
         payload: {
-            promise: deps
-                .getCachedClient(TournamentClient)
-                .getById(tournamentId),
+            promise: deps.createClient(TournamentClient).getById(tournamentId),
         },
         options: {
             useMessage: true,
@@ -39,7 +37,7 @@ export const join = makePromiseAction<string, void>(
     (tournamentId, dispatch, getState, deps) => ({
         payload: {
             promise: deps
-                .getCachedClient(TournamentClient)
+                .createClient(TournamentClient)
                 .postJoin(tournamentId)
                 .then(() => {
                     dispatch(load(tournamentId));
@@ -63,7 +61,7 @@ export const leave = makePromiseAction<string, void>(
     (tournamentId, dispatch, getState, deps) => ({
         payload: {
             promise: deps
-                .getCachedClient(TournamentClient)
+                .createClient(TournamentClient)
                 .leaveTournament(tournamentId)
                 .then(() => {
                     dispatch(load(tournamentId));
@@ -93,7 +91,7 @@ export const createTeam = makePromiseAction<
     return {
         payload: {
             promise: deps
-                .getCachedClient(TournamentClient)
+                .createClient(TournamentClient)
                 .postCreateTeam(
                     input.tournamentId,
                     input.teamName,
@@ -118,7 +116,7 @@ export const joinTeam = makePromiseAction(
         return {
             payload: {
                 promise: deps
-                    .getCachedClient(TournamentClient)
+                    .createClient(TournamentClient)
                     .postJoinTeam(
                         input.tournamentId,
                         input.teamId,
@@ -140,7 +138,7 @@ export const deleteTeam = makePromiseAction<
     return {
         payload: {
             promise: deps
-                .getCachedClient(TournamentClient)
+                .createClient(TournamentClient)
                 .deleteTeam(input.tournamentId, input.teamId)
                 .then<string>(() => {
                     return input.teamId;
@@ -158,7 +156,7 @@ export const loadPairingGames = makePromiseAction<
     return {
         payload: {
             promise: deps
-                .getCachedClient(TournamentClient)
+                .createClient(TournamentClient)
                 .getGamesForPairing(input.pairingId),
         },
     };

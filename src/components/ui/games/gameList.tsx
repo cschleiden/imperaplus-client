@@ -43,7 +43,7 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
 
     public render() {
         const header = this._renderHeader();
-        const rows = this.props.games.map(game => this._renderGameRow(game));
+        const rows = this.props.games.map((game) => this._renderGameRow(game));
 
         return (
             <Table className="game-list">
@@ -77,7 +77,7 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
                 </th>
                 {showActive && <th className="timer">{__("Time")}</th>}
                 {showActive && <th className="state">{__("State")}</th>}
-                {Object.keys(additionalColumns).map(ac => (
+                {Object.keys(additionalColumns).map((ac) => (
                     <th key={ac}>&nbsp;</th>
                 ))}
                 <th>&nbsp;</th>
@@ -98,7 +98,10 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
         let name: JSX.Element;
         if (game.state !== GameState.Open) {
             name = (
-                <Link as={`/play/${game.id}`} href="/play/[gameId]">
+                <Link
+                    as={`/game/play/${game.id}`}
+                    href="/game/play/[...gameId]"
+                >
                     <a>{game.name}</a>
                 </Link>
             );
@@ -150,7 +153,7 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
                         )}
                     </td>
                 )}
-                {Object.keys(additionalColumns).map(ac => (
+                {Object.keys(additionalColumns).map((ac) => (
                     <th key={ac}>{additionalColumns[ac](game)}</th>
                 ))}
                 <td>

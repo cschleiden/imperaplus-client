@@ -1,11 +1,16 @@
 import { set } from "js-cookie";
 import Router from "next/router";
+import { createClient } from "../../../../clients/clientFactory";
 import { FixedAccountClient } from "../../../../external/accountClient";
 import { NotificationClient } from "../../../../external/imperaClients";
 import { NotificationService } from "../../../../services/notificationService";
-import { getTokenProvider } from "../../../../services/tokenProvider";
-import { AsyncAction } from "../../../../store";
-import { login } from "./session.slice";
+import { AppThunk, AsyncAction } from "../../../../store";
+import { getToken } from "./session.selectors";
+import { login, restoreSession } from "./session.slice";
+
+function initNotifications(token: string): Promise<void> {
+    return NotificationService.getInstance().init(token);
+}
 
 export const doLogin: AsyncAction<{
     username: string;
@@ -13,7 +18,7 @@ export const doLogin: AsyncAction<{
 }> = async (dispatch, getState, extra, input) => {
     const scope = "openid offline_access roles";
     const result = await extra
-        .getCachedClient(getTokenProvider(getState), FixedAccountClient)
+        .createClient(getToken(getState()), FixedAccountClient)
         .exchange({
             grant_type: "password",
             username: input.username,
@@ -21,13 +26,13 @@ export const doLogin: AsyncAction<{
             scope,
         });
 
-    const authenticatedAccountClient = extra.createClientWithToken(
-        FixedAccountClient,
-        result.access_token
+    const authenticatedAccountClient = extra.createClient(
+        result.access_token,
+        FixedAccountClient
     );
-    const authenticatedNotificationClient = extra.createClientWithToken(
-        NotificationClient,
-        result.access_token
+    const authenticatedNotificationClient = extra.createClient(
+        result.access_token,
+        NotificationClient
     );
 
     const results = await Promise.all([
@@ -49,7 +54,29 @@ export const doLogin: AsyncAction<{
         access_token: result.access_token,
         refresh_token: result.refresh_token,
     });
-    await NotificationService.getInstance().init(getTokenProvider(getState));
+
+    await initNotifications(result.access_token);
 
     Router.push("/game");
+};
+
+export const doRestoreSession = (
+    access_token: string,
+    refresh_token: string
+): AppThunk => async (dispatch) => {
+    const client = createClient(access_token, FixedAccountClient);
+    const userInfo = await client.getUserInfo();
+
+    dispatch(
+        restoreSession({
+            access_token,
+            refresh_token,
+            userInfo,
+        })
+    );
+
+    // Restore SignalR service if this is run on the client-side
+    if (typeof window !== "undefined") {
+        await initNotifications(access_token);
+    }
 };

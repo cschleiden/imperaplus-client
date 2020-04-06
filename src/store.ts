@@ -8,16 +8,12 @@ import {
 import { NextComponentType, NextPageContext } from "next";
 import { useSelector } from "react-redux";
 import { createLogger } from "redux-logger";
-import {
-    createClientWithToken,
-    getCachedClient,
-} from "./clients/clientFactory";
+import { createClient } from "./clients/clientFactory";
 import { getSignalRClient } from "./clients/signalrFactory";
 import rootReducer, { IState } from "./reducers";
 
 const extraArgument = {
-    getCachedClient: getCachedClient,
-    createClientWithToken: createClientWithToken,
+    createClient: createClient,
     getSignalRClient: getSignalRClient,
 };
 

@@ -10,9 +10,9 @@ import {
 } from "../../../../external/imperaClients";
 import __ from "../../../../i18n/i18n";
 import { EventService } from "../../../../services/eventService";
-import { getTokenProvider } from "../../../../services/tokenProvider";
 import { AppThunkArg } from "../../../../store";
 import { MessageType, showMessage } from "../message/message.slice";
+import { getToken } from "./session.selectors";
 
 const initialState = {
     access_token: null as string,
@@ -48,10 +48,7 @@ export const setLanguage = createAsyncThunk<string, string, AppThunkArg>(
         if (thunkAPI.getState().session.access_token) {
             // Store language if user is logged in
             await thunkAPI.extra
-                .getCachedClient(
-                    getTokenProvider(thunkAPI.getState),
-                    FixedAccountClient
-                )
+                .createClient(getToken(thunkAPI.getState()), FixedAccountClient)
                 .setLanguage(language);
         }
 
@@ -67,10 +64,7 @@ export const logout = createAsyncThunk<void, void, AppThunkArg>(
         EventService.getInstance().fire("signalr.stop");
 
         await thunkAPI.extra
-            .getCachedClient(
-                getTokenProvider(thunkAPI.getState),
-                FixedAccountClient
-            )
+            .createClient(getToken(thunkAPI.getState()), FixedAccountClient)
             .logout();
 
         // Clear token
@@ -90,10 +84,7 @@ export const resetTrigger = createAsyncThunk<
     AppThunkArg
 >("session/reset-trigger", async (input, thunkAPI) => {
     await thunkAPI.extra
-        .getCachedClient(
-            getTokenProvider(thunkAPI.getState),
-            FixedAccountClient
-        )
+        .createClient(getToken(thunkAPI.getState()), FixedAccountClient)
         .forgotPassword({
             userName: input.username,
             email: input.email,
@@ -116,10 +107,7 @@ export const reset = createAsyncThunk<void, IResetInput, AppThunkArg>(
     "session/reset-password",
     async (input, thunkAPI) => {
         await thunkAPI.extra
-            .getCachedClient(
-                getTokenProvider(thunkAPI.getState),
-                FixedAccountClient
-            )
+            .createClient(getToken(thunkAPI.getState()), FixedAccountClient)
             .resetPassword({
                 userId: input.userId,
                 code: input.code,
@@ -141,10 +129,7 @@ export const activate = createAsyncThunk<void, IConfirmInput, AppThunkArg>(
     "session/activate",
     async (input, thunkAPI) => {
         await thunkAPI.extra
-            .getCachedClient(
-                getTokenProvider(thunkAPI.getState),
-                FixedAccountClient
-            )
+            .createClient(getToken(thunkAPI.getState()), FixedAccountClient)
             .confirmEmail({
                 userId: input.userId,
                 code: input.code,
@@ -174,10 +159,7 @@ export const changePassword = createAsyncThunk<
     AppThunkArg
 >("session/change-password", async (input, thunkAPI) => {
     await thunkAPI.extra
-        .getCachedClient(
-            getTokenProvider(thunkAPI.getState),
-            FixedAccountClient
-        )
+        .createClient(getToken(thunkAPI.getState()), FixedAccountClient)
         .changePassword({
             oldPassword: input.oldPassword,
             newPassword: input.password,
@@ -195,10 +177,7 @@ export const deleteAccount = createAsyncThunk<void, string, AppThunkArg>(
     "session/delete-account",
     async (password, thunkAPI) => {
         await thunkAPI.extra
-            .getCachedClient(
-                getTokenProvider(thunkAPI.getState),
-                FixedAccountClient
-            )
+            .createClient(getToken(thunkAPI.getState()), FixedAccountClient)
             .deleteAccount({
                 password,
             });
@@ -213,10 +192,7 @@ export const refreshNotifications = createAsyncThunk<
     AppThunkArg
 >("session/refresh-notifications", (_, thunkAPI) =>
     thunkAPI.extra
-        .getCachedClient(
-            getTokenProvider(thunkAPI.getState),
-            NotificationClient
-        )
+        .createClient(getToken(thunkAPI.getState()), NotificationClient)
         .getSummary()
 );
 

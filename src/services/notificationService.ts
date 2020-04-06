@@ -1,6 +1,5 @@
 import { getSignalRClient, ISignalRClient } from "../clients/signalrFactory";
 import { INotification, NotificationType } from "../external/notificationModel";
-import { TokenProvider } from "./tokenProvider";
 
 export interface INotificationHandler<TNotification extends INotification> {
     (notification: TNotification): void;
@@ -23,21 +22,16 @@ export class NotificationService {
 
     private _client: ISignalRClient;
 
-    private _initPromise: Promise<void>;
-
-    private tokenProvider: TokenProvider;
+    private _initPromise: Promise<void> | undefined;
 
     /**
      * Initialize client
      */
-    init(tokenProvider: TokenProvider): Promise<void> {
-        this.tokenProvider = tokenProvider;
-
+    init(token: string): Promise<void> {
         if (!this._initPromise) {
-            this._client = this._getClient();
-
+            // TODO: Restart with token?
+            this._client = getSignalRClient(token, "game");
             this._client.on("notification", this._onNotification);
-
             this._initPromise = this._client.start();
         }
 
@@ -48,8 +42,8 @@ export class NotificationService {
      * Stop connection, dispose handlers
      */
     stop() {
-        this._getClient().detachAllHandlers();
-        this._getClient().stop();
+        this._client.detachAllHandlers();
+        this._client.stop();
     }
 
     sendGameMessage(
@@ -106,12 +100,8 @@ export class NotificationService {
         }
     }
 
-    private _ensureInit(): Promise<void> {
-        if (!this._initPromise) {
-            this._initPromise = this.init(this.tokenProvider);
-        }
-
-        return this._initPromise;
+    private async _ensureInit(): Promise<void> {
+        await this._initPromise;
     }
 
     private _onNotification = (notification: INotification) => {
@@ -123,8 +113,4 @@ export class NotificationService {
             }
         }
     };
-
-    private _getClient(): ISignalRClient {
-        return getSignalRClient(this.tokenProvider, "game");
-    }
 }

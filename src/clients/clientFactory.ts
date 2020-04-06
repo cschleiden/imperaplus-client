@@ -2,7 +2,6 @@ import fetch from "isomorphic-unfetch";
 import { baseUri } from "../configuration";
 import { ErrorResponse } from "../external/imperaClients";
 import { onUnauthorized } from "../services/authProvider";
-import { TokenProvider } from "../services/tokenProvider";
 
 export interface IClient<TClient> {
     new (
@@ -13,28 +12,11 @@ export interface IClient<TClient> {
     ): TClient;
 }
 
-const clientCache: [IClient<any>, any][] = [];
-
-export function getCachedClient<TClient>(
-    tokenProvider: TokenProvider,
+export function createClient<TClient>(
+    access_token: string,
     clientType: IClient<TClient>
 ): TClient {
-    for (let [cachedClientType, cachedInstance] of clientCache) {
-        if (cachedClientType === clientType) {
-            return cachedInstance;
-        }
-    }
-
-    let instance = createClient(clientType, tokenProvider);
-    clientCache.push([clientType, instance]);
-    return instance;
-}
-
-export function createClientWithToken<TClient>(
-    clientType: IClient<TClient>,
-    access_token: string
-): TClient {
-    return createClient(clientType, () => access_token);
+    return _createClient(clientType, () => access_token);
 }
 
 const fetchWrapper = (
@@ -87,7 +69,9 @@ const fetchWrapper = (
     });
 };
 
-function createClient<TClient>(
+type TokenProvider = () => string;
+
+function _createClient<TClient>(
     clientType: IClient<TClient>,
     tokenProvider: TokenProvider
 ): TClient {

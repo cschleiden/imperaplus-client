@@ -17,12 +17,12 @@ import {
     MessageType,
     showMessage,
 } from "../lib/domain/shared/message/message.slice";
+import { getToken } from "../lib/domain/shared/session/session.selectors";
 import { IState } from "../reducers";
-import { getTokenProvider } from "../services/tokenProvider";
 import { AppDispatch, AppNextPage, ThunkExtra } from "../store";
 
 function range(start: number, count: number) {
-    return Array.apply(0, Array(count)).map(function(element, index) {
+    return Array.apply(0, Array(count)).map(function (element, index) {
         return index + start;
     });
 }
@@ -118,9 +118,9 @@ const Page: AppNextPage = () => {
                                 return;
                             }
 
-                            extra
-                                .getCachedClient(
-                                    getTokenProvider(getState),
+                            await extra
+                                .createClient(
+                                    getToken(getState()),
                                     FixedAccountClient
                                 )
                                 .register({
@@ -180,7 +180,7 @@ const Page: AppNextPage = () => {
                                         <div>
                                             <ControlledDropdown fieldName="day">
                                                 <option value="" />
-                                                {range(1, 31).map(x => (
+                                                {range(1, 31).map((x) => (
                                                     <option value={x} key={x}>
                                                         {x}
                                                     </option>
@@ -188,7 +188,7 @@ const Page: AppNextPage = () => {
                                             </ControlledDropdown>
                                             <ControlledDropdown fieldName="month">
                                                 <option value="" />
-                                                {range(1, 12).map(x => (
+                                                {range(1, 12).map((x) => (
                                                     <option value={x} key={x}>
                                                         {x}
                                                     </option>
@@ -200,7 +200,7 @@ const Page: AppNextPage = () => {
                                                     new Date().getFullYear() -
                                                         85,
                                                     85
-                                                ).map(x => (
+                                                ).map((x) => (
                                                     <option value={x} key={x}>
                                                         {x}
                                                     </option>
