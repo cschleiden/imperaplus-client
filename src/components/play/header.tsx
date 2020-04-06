@@ -39,6 +39,7 @@ import { Spinner } from "../ui/spinner";
 import { Timer } from "../ui/timer";
 import { ToggleButton } from "../ui/toggleButton";
 import Cards from "./cards";
+import style from "./header.module.scss";
 
 interface IHeaderProps {}
 
@@ -89,7 +90,7 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
             <span
                 className={css(
                     "label",
-                    "current-player",
+                    style.currentPlayer,
                     "player",
                     "player-" + (game.currentPlayer.playOrder + 1),
                     {
@@ -103,10 +104,10 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
         );
 
         return (
-            <div className="play-header">
-                <div className="play-header-block">
+            <div className={style.playHeader}>
+                <div className={style.playHeaderBlock}>
                     <ToggleButton
-                        className="btn-u"
+                        className={style.btn}
                         onToggle={this._onToggleSidebar}
                         initialIsToggled={sidebarOpen}
                     >
@@ -115,7 +116,13 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
                 </div>
 
                 {/* Mobile player + timeout */}
-                <div className="play-header-block stacked visible-xs text-center">
+                <div
+                    className={css(
+                        style.playHeaderBlock,
+                        style.stacked,
+                        "visible-xs text-center"
+                    )}
+                >
                     {currentPlayer}
                     <Timer
                         key={`${game.id}-${game.turnCounter}`}
@@ -124,12 +131,24 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
                 </div>
 
                 {/* Desktop current player */}
-                <div className="play-header-block full-text hidden-xs">
+                <div
+                    className={css(
+                        style.playHeaderBlock,
+                        style.fullText,
+                        "hidden-xs"
+                    )}
+                >
                     {currentPlayer}
                 </div>
 
                 {/* Desktop timeout */}
-                <div className="play-header-block full-text hidden-xs">
+                <div
+                    className={css(
+                        style.playHeaderBlock,
+                        style.fullText,
+                        "hidden-xs"
+                    )}
+                >
                     <Timer
                         key={`${game.id}-${game.turnCounter}`}
                         startInMs={game.timeoutSecondsLeft * 1000}
@@ -137,19 +156,19 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
                 </div>
 
                 {/* Cards */}
-                <div className="play-header-block hidden-xs">
+                <div className={css(style.playHeaderBlock, "hidden-xs")}>
                     {this._renderCards()}
                 </div>
 
                 {/* Actions */}
-                <div className="play-header-block">
+                <div className={style.playHeaderBlock}>
                     {inputActive && game.playState === PlayState.PlaceUnits && (
                         <Button
                             title={__("Place")}
-                            className={css("btn-u", {
-                                current:
+                            className={css(style.btn, {
+                                [style.current]:
                                     game.playState === PlayState.PlaceUnits,
-                                enabled: canPlace,
+                                [style.enabled]: canPlace,
                                 "hidden-xs":
                                     game.playState !== PlayState.PlaceUnits,
                             })}
@@ -165,14 +184,14 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
                     )}
 
                     {inputActive && game.playState === PlayState.Attack && (
-                        <ButtonGroup className="action-attack">
+                        <ButtonGroup className={style.actionAttack}>
                             <Button
                                 key="attack"
                                 title={__("Attack")}
-                                className={css("btn-u", {
-                                    current:
+                                className={css(style.btn, {
+                                    [style.current]:
                                         game.playState === PlayState.Attack,
-                                    enabled: true,
+                                    [style.enabled]: true,
                                 })}
                                 disabled={!canMoveOrAttack}
                                 onClick={this._onAttack}
@@ -187,7 +206,7 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
                             <Button
                                 key="endattack"
                                 title={__("Change to move")}
-                                className="btn-u"
+                                className={style.btn}
                                 onClick={this._onEndAttack}
                             >
                                 <span className="fa fa-mail-forward" />
@@ -205,9 +224,10 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
                             game.playState === PlayState.Move) && (
                             <Button
                                 title={__("Move")}
-                                className={css("btn-u", "action-move", {
-                                    current: game.playState === PlayState.Move,
-                                    enabled:
+                                className={css(style.btn, style.actionMove, {
+                                    [style.current]:
+                                        game.playState === PlayState.Move,
+                                    [style.enabled]:
                                         canMoveOrAttack &&
                                         game.playState === PlayState.Move,
                                     "hidden-xs":
@@ -231,9 +251,10 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
                     {!inputActive && (
                         <Button
                             title={__("Wait")}
-                            className={css("btn-u", "action-none", {
-                                current: game.playState === PlayState.Move,
-                                enabled: false,
+                            className={css(style.btn, "action-none", {
+                                [style.current]:
+                                    game.playState === PlayState.Move,
+                                [style.enabled]: false,
                                 "hidden-xs": game.playState !== PlayState.Move,
                             })}
                             disabled={!canMoveOrAttack}
@@ -250,10 +271,10 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
 
                 {/* End Turn */}
                 {inputActive && game.playState !== PlayState.PlaceUnits && (
-                    <div className="play-header-block">
+                    <div className={style.playHeaderBlock}>
                         <Button
                             bsStyle="danger"
-                            className={css("btn-u", "enabled")}
+                            className={css(style.btn, "enabled")}
                             title={__("End turn")}
                             onClick={this._onEndTurn}
                         >
@@ -263,20 +284,32 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
                 )}
 
                 {/* Right section */}
-                <div className="play-header-block right hidden-xs">
+                <div
+                    className={css(
+                        style.playHeaderBlock,
+                        style.right,
+                        "hidden-xs"
+                    )}
+                >
                     {this._renderOptions()}
                     {this._renderExit()}
                 </div>
 
                 {/* Mobile right section */}
-                <div className="play-header-block right visible-xs">
+                <div
+                    className={css(
+                        style.playHeaderBlock,
+                        style.right,
+                        "hidden-xs"
+                    )}
+                >
                     <OverlayTrigger
                         trigger="click"
                         rootClose={true}
                         placement="bottom"
                         overlay={this._mobileGameActions()}
                     >
-                        <Button className="btn btn-u">
+                        <Button className={css("btn", style.btn)}>
                             <span className="fa fa-ellipsis-h" />
                         </Button>
                     </OverlayTrigger>
@@ -284,7 +317,7 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
 
                 {/* Spinner */}
                 {operationInProgress && (
-                    <div className="play-header-block right">
+                    <div className={css(style.playHeaderBlock, style.right)}>
                         <Spinner />
                     </div>
                 )}
@@ -294,12 +327,14 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
 
     private _mobileGameActions() {
         return (
-            <Popover id="game-actions" className="mobile-actions">
-                <div className="mobile-action">{this._renderCards()}</div>
+            <Popover id="game-actions" className={style.mobileActions}>
+                <div className={style.mobileAction}>{this._renderCards()}</div>
 
-                <div className="mobile-action">{this._renderOptions()}</div>
+                <div className={style.mobileAction}>
+                    {this._renderOptions()}
+                </div>
 
-                <div className="mobile-action">{this._renderExit()}</div>
+                <div className={style.mobileAction}>{this._renderExit()}</div>
             </Popover>
         );
     }
@@ -309,7 +344,7 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
 
         return (
             <Button
-                className="btn btn-u"
+                className={css("btn", style.btn)}
                 title={`${__("Exchange cards")} (${
                     (player && player.cards && player.cards.length) || 0
                 }/${game.options.maximumNumberOfCards})`}
@@ -330,7 +365,7 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
         const DM: any = Dropdown.Menu;
 
         return (
-            <Dropdown id="options" pullRight className="options">
+            <Dropdown id="options" pullRight className={style.options}>
                 <DT noCaret>
                     <span className="fa fa-cog" />
                 </DT>
@@ -349,7 +384,11 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
 
     private _renderExit() {
         return (
-            <Button className="btn-u" onClick={this._onExit} title={__("Exit")}>
+            <Button
+                className={style.btn}
+                onClick={this._onExit}
+                title={__("Exit")}
+            >
                 <span className="fa fa-level-up" />
             </Button>
         );

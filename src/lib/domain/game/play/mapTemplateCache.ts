@@ -83,7 +83,7 @@ function preprocessMapTemplate(mapTemplate: MapTemplate) {
 }
 
 export function mapImage(mapTemplateEntry: MapTemplateCacheEntry): string {
-    return `${imageBaseUri}${this.mapTemplate.image}`;
+    return `${imageBaseUri}${mapTemplateEntry.image}`;
 }
 
 export function country(

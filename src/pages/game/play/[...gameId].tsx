@@ -8,7 +8,8 @@ import __ from "../../../i18n/i18n";
 import { doSwitchGame } from "../../../lib/domain/game/play/play.actions";
 import { css } from "../../../lib/utils/css";
 import { IState } from "../../../reducers";
-import { AppNextPage } from "../../../store";
+import { AppNextPage, useAppSelector } from "../../../store";
+import style from "./play.module.scss";
 
 function selector(state: IState) {
     return {
@@ -47,7 +48,7 @@ const Play: AppNextPage<ReturnType<typeof selector>> = (props) => {
     //     } */
     // }
 
-    const { game, sidebarOpen, error } = props;
+    const { game, sidebarOpen, error } = useAppSelector(selector);
 
     if (!game) {
         // TODO: Loading indicator?
@@ -55,18 +56,18 @@ const Play: AppNextPage<ReturnType<typeof selector>> = (props) => {
     }
 
     return (
-        <div className="play-container">
-            <div className="play-header-container">
+        <div className={style.playContainer}>
+            <div className={style.playHeaderContainer}>
                 <Header />
             </div>
 
-            <div className="play-sidebar-container">
+            <div className={style.playSidebarContainer}>
                 {sidebarOpen && <Sidebar />}
             </div>
 
             <div
-                className={css("play-area", {
-                    sidebar: sidebarOpen,
+                className={css(style.playArea, {
+                    [style.playSidebar]: sidebarOpen,
                 })}
             >
                 {error && (

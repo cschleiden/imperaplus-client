@@ -16,7 +16,11 @@ import {
     getTeam,
 } from "../../../utils/game/utils";
 import { isEmptyGuid } from "../../../utils/guid";
-import { areConnected, connections } from "./mapTemplateCache";
+import {
+    areConnected,
+    connections,
+    MapTemplateCacheEntry,
+} from "./mapTemplateCache";
 import { inputActive } from "./play.selectors";
 import {
     IGameUIOptions,
@@ -26,9 +30,12 @@ import {
 
 export const switchGame = (
     state: PlaySliceState,
-    action: UserPayloadAction<{ game: Game }>
+    action: UserPayloadAction<{
+        game: Game;
+        mapTemplate: MapTemplateCacheEntry;
+    }>
 ) => {
-    const { game, userId } = action.payload;
+    const { game, userId, mapTemplate } = action.payload;
     const player = getPlayer(game, userId);
 
     state.gameId = game.id;
@@ -39,6 +46,7 @@ export const switchGame = (
     state.sidebarOpen = localStorage.getItem("impera-sidebar") === "true";
     state.operationInProgress = false;
     state.error = null;
+    state.mapTemplate = mapTemplate;
 };
 
 export const refreshOtherGames = (

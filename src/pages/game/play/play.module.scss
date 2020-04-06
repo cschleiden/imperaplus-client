@@ -1,11 +1,11 @@
 @import "./vars.scss";
 
-.play-container {
+.playContainer {
     width: 100%;
     height: 100%;
 }
 
-.play-header-container {
+.playHeaderContainer {
     position: fixed;
     top: 0;
     left: 0;
@@ -14,7 +14,7 @@
     z-index: 100;
 }
 
-.play-sidebar-container {
+.playSidebarContainer {
     position: absolute;
     top: $header-height;
     left: 0;
@@ -32,7 +32,7 @@
     }
 }
 
-.play-area {
+.playArea {
     position: absolute; 
     top: $header-height;
     left: 0;
@@ -44,10 +44,10 @@
     touch-action: manipulation;
     transition: all 0.3s ease;
 
-    background: white;
-    
-    &.sidebar {
-        transform: translate3d($sidebarWidth, 0px, 0px);
-        right: $sidebarWidth;
-    }
+    background: white;    
+}
+
+.playSidebar {
+    transform: translate3d($sidebarWidth, 0px, 0px);
+    right: $sidebarWidth;
 }

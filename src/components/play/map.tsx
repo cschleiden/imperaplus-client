@@ -10,6 +10,7 @@ import {
 import {
     areConnected,
     country,
+    mapImage,
     MapTemplateCacheEntry,
 } from "../../lib/domain/game/play/mapTemplateCache";
 import {} from "../../lib/domain/game/play/play.actions";
@@ -36,7 +37,7 @@ import { IState } from "../../reducers";
 import { AppDispatch } from "../../store";
 import { withUser } from "../../types";
 import { CountryInputField } from "./countryInput";
-import "./map.module.scss";
+import style from "./map.module.scss";
 
 const KeyBindings = {
     ABORT: 27, // Escape
@@ -128,7 +129,9 @@ class Map extends React.Component<IMapProps, IMapState> {
                 onClick={this._onClick}
                 onMouseMove={this._onMouseMove}
             >
-                {mapTemplate && <img src={mapTemplate.image} className="map" />}
+                {mapTemplate && (
+                    <img src={mapImage(mapTemplate)} className="map" />
+                )}
                 {mapTemplate && this._renderCountries()}
                 {historyTurn &&
                     mapTemplate &&
@@ -209,7 +212,7 @@ class Map extends React.Component<IMapProps, IMapState> {
                     <div
                         id={countryTemplate.identifier}
                         key={countryTemplate.identifier}
-                        className={css("country", {
+                        className={css(style.country, {
                             // only show player color when country is visible
                             ["player-" +
                             (player ? player.playOrder + 1 : 0)]: !!country,

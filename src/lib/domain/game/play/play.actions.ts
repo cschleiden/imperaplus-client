@@ -70,7 +70,10 @@ export const doSwitchGame = (
     const game = await extra
         .createClient(getToken(getState()), GameClient)
         .get(gameId);
-    await fetchMapTemplate(getToken(getState()), game.mapTemplate);
+    const mapTemplate = await fetchMapTemplate(
+        getToken(getState()),
+        game.mapTemplate
+    );
 
     const oldGameId = getState().play.gameId;
     await client.switchGame(oldGameId || 0, gameId);
@@ -79,6 +82,7 @@ export const doSwitchGame = (
         switchGame(
             withUserId(getState(), {
                 game,
+                mapTemplate,
             })
         )
     );
