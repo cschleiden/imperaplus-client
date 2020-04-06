@@ -3,6 +3,4 @@ import * as React from "react";
 /**
  * Base layout for 'play' pages
  */
-export default (props): JSX.Element => {
-    return React.Children.only(props.children);
-};
+export default (props): JSX.Element => React.Children.only(props.children);

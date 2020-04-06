@@ -3,7 +3,8 @@ import NextApp, { AppContext, AppInitialProps, AppProps } from "next/app";
 import Router from "next/router";
 import * as React from "react";
 import { Provider } from "react-redux";
-import Layout from "../components/layouts/main";
+import MainLayout from "../components/layouts/main";
+import PlayLayout from "../components/layouts/play";
 import GameNav from "../components/navigation/game";
 import PublicNav from "../components/navigation/public";
 import { setLanguageProvider } from "../i18n/i18n";
@@ -14,9 +15,6 @@ import { IState } from "../reducers";
 import { NotificationService } from "../services/notificationService";
 import { AppNextPage, AppPageContext, getOrCreateStore } from "../store";
 import "../styles/index.scss";
-
-// HACK: Move forward!
-const X: any = Layout;
 
 function App({
     Component,
@@ -38,13 +36,15 @@ function App({
         <PublicNav />
     );
 
-    return (
-        <Provider store={store}>
-            <X nav={nav}>
-                <Component {...pageProps} />
-            </X>
-        </Provider>
+    const pageContent = <Component {...pageProps} />;
+
+    const Layout = router.pathname.startsWith("/game/play") ? (
+        <PlayLayout children={pageContent} />
+    ) : (
+        <MainLayout nav={nav} children={pageContent} />
     );
+
+    return <Provider store={store}>{Layout}</Provider>;
 }
 
 App.getInitialProps = async (
