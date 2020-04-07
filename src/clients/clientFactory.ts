@@ -24,6 +24,8 @@ const fetchWrapper = (
     url: string,
     init: RequestInit
 ) => {
+    console.log(`Fetching ${url}`);
+
     const accessToken = tokenProvider();
 
     if (accessToken) {

@@ -6,36 +6,34 @@ export interface INotificationHandler<TNotification extends INotification> {
 }
 
 export class NotificationService {
-    private static _instance: NotificationService;
-
-    public static getInstance(): NotificationService {
-        if (!NotificationService._instance) {
-            NotificationService._instance = new NotificationService();
-        }
-
-        return NotificationService._instance;
-    }
-
     private _handlers: {
         [type: number]: INotificationHandler<any>[];
     } = {};
 
     private _client: ISignalRClient;
 
-    private _initPromise: Promise<void> | undefined;
+    private _start: (value?: void | PromiseLike<void>) => void;
+
+    // Create unresolved promise, it will be resolved once the client is initialized
+    private _initPromise = new Promise<void>((resolve) => {
+        this._start = resolve;
+    });
 
     /**
      * Initialize client
      */
-    init(token: string): Promise<void> {
-        if (!this._initPromise) {
-            // TODO: Restart with token?
-            this._client = getSignalRClient(token, "game");
-            this._client.on("notification", this._onNotification);
-            this._initPromise = this._client.start();
-        }
+    async init(token: string): Promise<void> {
+        console.trace("i");
 
-        return this._initPromise;
+        // TODO: Restart with refresh token?
+        this._client = getSignalRClient(token, "game");
+        this._client.on("notification", this._onNotification);
+        await this._client.start();
+
+        // Play back any operations
+        this._start();
+
+        await this._initPromise;
     }
 
     /**
@@ -51,7 +49,7 @@ export class NotificationService {
         message: string,
         isPublic: boolean
     ): Promise<void> {
-        return this._ensureInit().then(() =>
+        return this._ensureInit(() =>
             this._client.invoke<void>(
                 "sendGameMessage",
                 gameId,
@@ -61,18 +59,16 @@ export class NotificationService {
         );
     }
 
-    switchGame(oldGameId: number, gameId: number): Promise<void> {
+    async switchGame(oldGameId: number, gameId: number): Promise<void> {
         if (oldGameId !== gameId) {
-            return this._ensureInit().then(() =>
+            return this._ensureInit(() =>
                 this._client.invoke<void>("switchGame", oldGameId, gameId)
             );
         }
-
-        return Promise.resolve(null);
     }
 
     leaveGame(gameId: number): Promise<void> {
-        return this._ensureInit().then(() =>
+        return this._ensureInit(() =>
             this._client.invoke<void>("leaveGame", gameId)
         );
     }
@@ -100,8 +96,16 @@ export class NotificationService {
         }
     }
 
-    private async _ensureInit(): Promise<void> {
-        await this._initPromise;
+    private _ensureInit(op: () => Promise<void>): Promise<void> {
+        if (this._client) {
+            return op();
+        }
+
+        // Queue up requests if client is not yet initialized
+        this._initPromise = this._initPromise.then(op);
+
+        // We don't want to wait for queued requests
+        return Promise.resolve();
     }
 
     private _onNotification = (notification: INotification) => {
@@ -114,3 +118,5 @@ export class NotificationService {
         }
     };
 }
+
+export const notificationService: NotificationService = new NotificationService();

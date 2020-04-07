@@ -70,7 +70,7 @@ export type ThunkExtra = typeof extraArgument;
 export type AppStore = ReturnType<typeof createStore>;
 export type AppDispatch = AppStore["dispatch"];
 
-export type AppThunkArg<Rejectvalue = unknown> = {
+export type AppThunkArg<Rejectvalue = void> = {
     dispatch: AppDispatch;
     state: IState;
     extra: ThunkExtra;

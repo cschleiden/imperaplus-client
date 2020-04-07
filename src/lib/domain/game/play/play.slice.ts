@@ -14,7 +14,7 @@ import {
     PlaceUnitsOptions,
     PlayClient,
 } from "../../../../external/imperaClients";
-import { NotificationService } from "../../../../services/notificationService";
+import { notificationService } from "../../../../services/notificationService";
 import { AppThunkArg } from "../../../../store";
 import { UserIdPayload, withUserId } from "../../../../types";
 import { getToken, getUserId } from "../../shared/session/session.selectors";
@@ -91,11 +91,7 @@ export const gameChatSendMessage = createAsyncThunk<
     const { gameId } = thunkAPI.getState().play;
     const { isPublic, message } = input;
 
-    await NotificationService.getInstance().sendGameMessage(
-        gameId,
-        message,
-        isPublic
-    );
+    await notificationService.sendGameMessage(gameId, message, isPublic);
 });
 
 //
@@ -110,11 +106,11 @@ export const place = createAsyncThunk<
     const state = thunkAPI.getState();
     const playState = state.play;
     if (!inputActive(state.play, getUserId(state))) {
-        return;
+        return thunkAPI.rejectWithValue();
     }
 
     if (!canPlace(state.play)) {
-        return;
+        return thunkAPI.rejectWithValue();
     }
 
     const options = Object.keys(playState.placeCountries)

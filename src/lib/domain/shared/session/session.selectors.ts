@@ -6,7 +6,7 @@ export function getUserId(state: IState): string {
 
 export function getToken(state: IState): string {
     const token = state.session?.access_token;
-    console.info("Requested token", token);
+    console.trace("Requested token", token);
     return token;
 }
 

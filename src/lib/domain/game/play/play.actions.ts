@@ -6,7 +6,7 @@ import {
     NotificationType,
 } from "../../../../external/notificationModel";
 import __ from "../../../../i18n/i18n";
-import { NotificationService } from "../../../../services/notificationService";
+import { notificationService } from "../../../../services/notificationService";
 import { AppThunk } from "../../../../store";
 import { withUserId } from "../../../../types";
 import { setTitle } from "../../shared/general/general.slice";
@@ -42,13 +42,11 @@ export const doSwitchGame = (
     gameId: number,
     turnNo?: number
 ): AppThunk => async (dispatch, getState, extra) => {
-    const client = NotificationService.getInstance();
-
     // TODO: Should find a better place.. for now hook up event the first time we join a game
     if (!initialized) {
         initialized = true;
 
-        client.attachHandler(
+        notificationService.attachHandler(
             NotificationType.GameChatMessage,
             (notification) => {
                 const gameChatNotification = notification as IGameChatMessageNotification;
@@ -58,13 +56,16 @@ export const doSwitchGame = (
             }
         );
 
-        client.attachHandler(NotificationType.PlayerTurn, (notification) => {
-            const turnNotification = notification as IGameNotification;
+        notificationService.attachHandler(
+            NotificationType.PlayerTurn,
+            (notification) => {
+                const turnNotification = notification as IGameNotification;
 
-            if (turnNotification.gameId === getState().play.gameId) {
-                dispatch(refreshGame());
+                if (turnNotification.gameId === getState().play.gameId) {
+                    dispatch(refreshGame());
+                }
             }
-        });
+        );
     }
 
     const game = await extra
@@ -76,7 +77,7 @@ export const doSwitchGame = (
     );
 
     const oldGameId = getState().play.gameId;
-    await client.switchGame(oldGameId || 0, gameId);
+    await notificationService.switchGame(oldGameId || 0, gameId);
 
     dispatch(
         switchGame(
@@ -101,7 +102,7 @@ export const doLeave = (): AppThunk => async (dispatch, getState) => {
     // Stop notification hub
     const { gameId } = getState().play;
 
-    await NotificationService.getInstance().leaveGame(gameId);
+    await notificationService.leaveGame(gameId);
     await dispatch(refreshNotifications());
 
     dispatch(leave());

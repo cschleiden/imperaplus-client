@@ -8,11 +8,14 @@ import PlayLayout from "../components/layouts/play";
 import GameNav from "../components/navigation/game";
 import PublicNav from "../components/navigation/public";
 import { setLanguageProvider } from "../i18n/i18n";
-import { setTitle } from "../lib/domain/shared/general/general.slice";
+import {
+    openClose,
+    setTitle,
+} from "../lib/domain/shared/general/general.slice";
 import { doRestoreSession } from "../lib/domain/shared/session/session.actions";
 import { isLoggedIn } from "../lib/domain/shared/session/session.selectors";
 import { IState } from "../reducers";
-import { NotificationService } from "../services/notificationService";
+import { notificationService } from "../services/notificationService";
 import { AppNextPage, AppPageContext, getOrCreateStore } from "../store";
 import "../styles/index.scss";
 
@@ -23,11 +26,27 @@ function App({
     storeState,
 }: AppProps & { storeState: IState }) {
     const store = getOrCreateStore(() => storeState);
+
+    React.useEffect(() => {
+        const handleRouteChange = () => {
+            // Ensure nav is closed
+            store.dispatch(openClose(false));
+        };
+
+        Router.events.on("routeChangeStart", handleRouteChange);
+        return () => {
+            Router.events.off("routeChangeStart", handleRouteChange);
+        };
+    }, []);
+
     setLanguageProvider(() => store.getState().session?.language);
 
-    if ((Component as AppNextPage).needsLogin) {
+    if (
+        (Component as AppNextPage).needsLogin &&
+        typeof window !== "undefined"
+    ) {
         const token = store.getState().session.access_token;
-        NotificationService.getInstance().init(token);
+        notificationService.init(token);
     }
 
     const nav = router.pathname.startsWith("/game") ? (
@@ -65,11 +84,15 @@ App.getInitialProps = async (
     const page = appContext.Component as AppNextPage;
 
     if (page.needsLogin && !isLoggedIn(store.getState())) {
+        console.trace("Needs login");
+
         // Check for login
         let access_token: string;
         let refresh_token: string;
         const token = cookieState["token"];
         if (!!token) {
+            console.trace("Found token");
+
             // We have a token and the current store is not yet signed in, try to get user info using that token
             const result = (token as any) as {
                 access_token: string;
@@ -105,6 +128,7 @@ App.getInitialProps = async (
     (appContext.ctx as AppPageContext).store = store;
 
     try {
+        console.trace("Getting props");
         const appProps = await NextApp.getInitialProps(appContext);
 
         // There has to be a better way to get the title into the state
@@ -131,6 +155,7 @@ App.getInitialProps = async (
 
 /** Redirect to the login page for server and client-side */
 function redirectToLogin(appContext: AppContext) {
+    console.trace("Redirect");
     console.log("Redirecting to login.");
 
     if (appContext.ctx.res) {

@@ -57,7 +57,7 @@ interface IMapProps {
 
     gameUiOptions: IGameUIOptions;
 
-    selectCountry: (countryIdentifier: string) => void;
+    selectCountry: (countryIdentifier?: string) => void;
     setUnits: (countryIdentifier: string, units: number) => void;
     setActionUnits: (units: number) => void;
 
@@ -123,14 +123,18 @@ class Map extends React.Component<IMapProps, IMapState> {
 
         return (
             <div
-                className={css("map", {
-                    blocked: operationInProgress,
+                className={css(style.map, {
+                    [style.blocked]: operationInProgress,
                 })}
                 onClick={this._onClick}
                 onMouseMove={this._onMouseMove}
             >
                 {mapTemplate && (
-                    <img src={mapImage(mapTemplate)} className="map" />
+                    <img
+                        src={mapImage(mapTemplate)}
+                        className={style.map}
+                        key="map-image"
+                    />
                 )}
                 {mapTemplate && this._renderCountries()}
                 {historyTurn &&
@@ -207,8 +211,7 @@ class Map extends React.Component<IMapProps, IMapState> {
             }
 
             return (
-                <>
-                    {/* tslint:disable-next-line: jsx-wrap-multiline */}
+                <React.Fragment key={`cs-${countryTemplate.identifier}`}>
                     <div
                         id={countryTemplate.identifier}
                         key={countryTemplate.identifier}
@@ -216,7 +219,7 @@ class Map extends React.Component<IMapProps, IMapState> {
                             // only show player color when country is visible
                             ["player-" +
                             (player ? player.playOrder + 1 : 0)]: !!country,
-                            "country-highlight": isHighlighted,
+                            [style.countryHighlight]: isHighlighted,
                             ["country-team-" + (team ? team.playOrder + 1 : 0)]:
                                 isTeamGame && gameUiOptions.showTeamsOnMap,
                         })}
@@ -241,7 +244,7 @@ class Map extends React.Component<IMapProps, IMapState> {
                             }
                         />
                     )}
-                </>
+                </React.Fragment>
             );
         });
     }
@@ -416,11 +419,12 @@ class Map extends React.Component<IMapProps, IMapState> {
 
         return (
             <div
-                className="action-overlay-wrapper"
+                key="unit-input"
+                className={style.actionOverlayWrapper}
                 ref={this._resolveInputWrapper}
             >
                 <input
-                    className="action-overlay-input"
+                    className={style.actionOverlayInput}
                     type="number"
                     min={minUnits}
                     max={maxUnits}
@@ -443,7 +447,8 @@ class Map extends React.Component<IMapProps, IMapState> {
     private _renderUnitInputPlaceholder(): JSX.Element {
         return (
             <div
-                className="action-overlay-placeholder"
+                key="unit-input-placeholder"
+                className={style.actionOverlayPlaceholder}
                 ref={this._resolveInputPlaceholder}
             />
         );
@@ -479,12 +484,12 @@ class Map extends React.Component<IMapProps, IMapState> {
     private _onClick = (ev: React.MouseEvent<HTMLDivElement>) => {
         const target = ev.target as HTMLDivElement;
 
-        if (target.classList.contains("country")) {
+        if (target.classList.contains(style.country)) {
             const countryIdentifier = target.id;
             this._onCountryClick(countryIdentifier);
-        } else if (target.classList.contains("map")) {
+        } else if (target.classList.contains(style.map)) {
             // Cancel any country selection
-            this.props.selectCountry(null);
+            this.props.selectCountry();
         }
     };
 
@@ -531,7 +536,7 @@ class Map extends React.Component<IMapProps, IMapState> {
                 break;
 
             case KeyBindings.ABORT:
-                this.props.selectCountry(null);
+                this.props.selectCountry();
                 break;
         }
     };
@@ -571,7 +576,7 @@ class Map extends React.Component<IMapProps, IMapState> {
             result.push(
                 <div
                     key={`history-${action.id}`}
-                    className="country-place"
+                    className={style.countryPlace}
                     style={{
                         left: countryTemplate.x,
                         top: countryTemplate.y,
@@ -596,7 +601,7 @@ class Map extends React.Component<IMapProps, IMapState> {
                         action.originIdentifier,
                         action.destinationIdentifier,
                         "" + action.units,
-                        "connection-attack",
+                        style.connectionAttack,
                         10
                     );
                     break;
@@ -607,7 +612,7 @@ class Map extends React.Component<IMapProps, IMapState> {
                         action.originIdentifier,
                         action.destinationIdentifier,
                         "" + action.units,
-                        "connection-move",
+                        style.connectionMove,
                         -10
                     );
                     break;

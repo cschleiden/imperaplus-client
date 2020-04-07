@@ -1,5 +1,5 @@
-import { PlaySliceState } from "./play.slice.state";
 import { Game, GameState } from "../../../../external/imperaClients";
+import { PlaySliceState } from "./play.slice.state";
 
 export function game(state: PlaySliceState): Game {
     const { game, historyTurn } = state;
@@ -36,12 +36,11 @@ export function canMoveOrAttack(state: PlaySliceState): boolean {
 }
 
 export function inputActive(state: PlaySliceState, userId: string) {
-    const { game, historyTurn, operationInProgress } = state;
+    const { game, historyTurn } = state;
 
     // - When history is active, no input is allowed
     // - Current player has to be the user
     return (
-        !operationInProgress &&
         !historyTurn &&
         game &&
         game.currentPlayer.userId === userId &&

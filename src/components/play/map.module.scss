@@ -1,4 +1,5 @@
 @import "../../styles/colors";
+@import "../../pages/game/play/vars";
 
 @mixin unselectable {
     -moz-user-select: none;
@@ -10,7 +11,6 @@
 // Map
 $country-width: 26px;
 $country-height: 24px;
-$country-inset-shadow: inset 0px 0px 2px 1px rgba(0, 0, 0, 1);
 .country {
     position: absolute;
     width: $country-width;
@@ -48,15 +48,6 @@ $country-inset-shadow: inset 0px 0px 2px 1px rgba(0, 0, 0, 1);
 
     &Active {
         opacity: 1 !important;
-    }
-}
-
-// 
-// Team Country rules
-//
-@for $i from 1 through length($teamColors) {    
-    .country-team-#{$i} {
-        box-shadow: $country-inset-shadow, team-shadow(nth($teamColors, $i));
     }
 }
 
@@ -108,10 +99,10 @@ $country-inset-shadow: inset 0px 0px 2px 1px rgba(0, 0, 0, 1);
         stroke-width: 4px;
         stroke-opacity: 0.8;
     }
-    &-attack path {
+    &Attack path {
         stroke: red;
     }
-    &-move path {
+    &Move path {
         stroke: blue;
     }
 }
@@ -122,7 +113,7 @@ $country-inset-shadow: inset 0px 0px 2px 1px rgba(0, 0, 0, 1);
 
 /* History */
 
-.country-place {
+.countryPlace {
     width: 20px;
     height: 15px;
     position: absolute;
@@ -136,7 +127,7 @@ $country-inset-shadow: inset 0px 0px 2px 1px rgba(0, 0, 0, 1);
     margin-top: -5px;
 }
 
-.history-label {
+.historyLabel {
     width: 20px;
     font-size: 10px;
     background: white;
@@ -148,7 +139,7 @@ $country-inset-shadow: inset 0px 0px 2px 1px rgba(0, 0, 0, 1);
 //
 //
 //
-.action-overlay-wrapper {
+.actionOverlayWrapper {
     position: absolute;
     transform: translate(-50%, -50%);
     z-index: 5000;
@@ -161,7 +152,7 @@ $inputHeight: 21px;
     height: $inputHeight;
 }
 
-.action-overlay-input {
+.actionOverlayInput {
     width: $inputWidth;
     border-radius: 5px !important;
     border: 1px solid black;

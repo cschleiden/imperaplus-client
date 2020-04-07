@@ -62,7 +62,7 @@ export const initialState = {
         } as IGameUIOptions,
     overrideGameUiOptions: {} as Partial<IGameUIOptions>,
 
-    operationInProgress: true,
+    operationInProgress: false,
 
     /** Value indicating whether current turn is displayed or history */
     historyActive: false,

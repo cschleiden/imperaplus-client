@@ -43,7 +43,7 @@ export const switchGame = (
     state.player = player;
     state.historyTurn = null;
     state.historyActive = false;
-    state.sidebarOpen = localStorage.getItem("impera-sidebar") === "true";
+    state.sidebarOpen = false; // localStorage.getItem("impera-sidebar") === "true"; // TODO: CS:
     state.operationInProgress = false;
     state.error = null;
     state.mapTemplate = mapTemplate;
@@ -107,6 +107,7 @@ export const error = (
     state: PlaySliceState,
     action: PayloadAction<ErrorResponse>
 ) => {
+    state.operationInProgress = false;
     state.error = action.payload;
 };
 
@@ -210,18 +211,20 @@ export const selectCountry = (
                 if (placeCountries[countryIdentifier]) {
                     // Country was selected, de-select
                     delete state.placeCountries[countryIdentifier];
-                }
+                } else {
+                    // Select country
+                    if (country && country.teamId === teamId) {
+                        const remainingUnits =
+                            game.unitsToPlace -
+                            Object.keys(placeCountries).reduce(
+                                (sum, id) => sum + placeCountries[id],
+                                0
+                            );
 
-                // Select country
-                if (country && country.teamId === teamId) {
-                    const remainingUnits =
-                        game.unitsToPlace -
-                        Object.keys(placeCountries).reduce(
-                            (sum, id) => sum + placeCountries[id],
-                            0
-                        );
-
-                    state.placeCountries[countryIdentifier] = remainingUnits;
+                        state.placeCountries[
+                            countryIdentifier
+                        ] = remainingUnits;
+                    }
                 }
 
                 break;
@@ -229,7 +232,7 @@ export const selectCountry = (
 
             case PlayState.Attack:
             case PlayState.Move: {
-                if (countryIdentifier === null) {
+                if (!countryIdentifier) {
                     state.twoCountry = initialState.twoCountry;
                     return;
                 }

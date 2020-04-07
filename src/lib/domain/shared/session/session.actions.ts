@@ -3,13 +3,13 @@ import Router from "next/router";
 import { createClient } from "../../../../clients/clientFactory";
 import { FixedAccountClient } from "../../../../external/accountClient";
 import { NotificationClient } from "../../../../external/imperaClients";
-import { NotificationService } from "../../../../services/notificationService";
+import { notificationService } from "../../../../services/notificationService";
 import { AppThunk, AsyncAction } from "../../../../store";
 import { getToken } from "./session.selectors";
 import { login, restoreSession } from "./session.slice";
 
 function initNotifications(token: string): Promise<void> {
-    return NotificationService.getInstance().init(token);
+    return notificationService.init(token);
 }
 
 export const doLogin: AsyncAction<{

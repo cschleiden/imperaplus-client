@@ -16,7 +16,7 @@ export const Spinner = (props: {
             className={css(
                 style.spinner,
                 {
-                    large: props.size === SpinnerSize.Large,
+                    [style.large]: props.size === SpinnerSize.Large,
                 },
                 props.className
             )}

@@ -100,6 +100,7 @@ const Play: AppNextPage<ReturnType<typeof selector>> = (props) => {
 //     }
 // };
 
+Play.needsLogin = true;
 Play.getTitle = (state) => __("Play"); // TODO
 Play.getInitialProps = async (ctx) => {
     let gameId: number | undefined;
@@ -108,9 +109,10 @@ Play.getInitialProps = async (ctx) => {
         gameId = parseInt(ctx.query.gameId[0], 10);
         historyTurn = parseInt(ctx.query.gameId[2], 10);
     } else {
-        gameId = parseInt(ctx.query.gameId as string, 10);
+        gameId = parseInt(ctx.query.gameId[0], 10);
     }
 
+    console.trace(`Switching game ${ctx.query.gameId}`);
     await ctx.store.dispatch(doSwitchGame(gameId, historyTurn));
 
     return selector(ctx.store.getState());
