@@ -1,9 +1,7 @@
+import fetch from "isomorphic-unfetch";
 import { baseUri } from "../configuration";
 import { ErrorResponse } from "../external/imperaClients";
-import jsonParseReviver from "../lib/jsonReviver";
 import { onUnauthorized } from "../services/authProvider";
-import { TokenProvider } from "../services/tokenProvider";
-import { UserProvider } from "../services/userProvider";
 
 export interface IClient<TClient> {
     new (
@@ -14,36 +12,20 @@ export interface IClient<TClient> {
     ): TClient;
 }
 
-const clientCache: [IClient<any>, any][] = [];
-
-export function getCachedClient<TClient>(
+export function createClient<TClient>(
+    access_token: string,
     clientType: IClient<TClient>
 ): TClient {
-    for (let [cachedClientType, cachedInstance] of clientCache) {
-        if (cachedClientType === clientType) {
-            return cachedInstance;
-        }
-    }
-
-    let instance = createClient(clientType, () => TokenProvider.getToken());
-    clientCache.push([clientType, instance]);
-    return instance;
+    return _createClient(clientType, () => access_token);
 }
-
-export function createClientWithToken<TClient>(
-    clientType: IClient<TClient>,
-    access_token: string
-): TClient {
-    return createClient(clientType, () => access_token);
-}
-
-let miniProfilerInitialized = false;
 
 const fetchWrapper = (
     tokenProvider: () => string,
     url: string,
     init: RequestInit
 ) => {
+    console.log(`Fetching ${url}`);
+
     const accessToken = tokenProvider();
 
     if (accessToken) {
@@ -59,6 +41,8 @@ const fetchWrapper = (
         // Intercept 401 responses, to redirect to login or refresh token
         const status = response.status.toString();
         if (status === "401") {
+            console.log("401");
+
             if (onUnauthorized) {
                 return onUnauthorized().then(
                     () => {
@@ -78,60 +62,24 @@ const fetchWrapper = (
                 result400 =
                     responseText === ""
                         ? null
-                        : <ErrorResponse>(
-                              JSON.parse(responseText, this.jsonParseReviver)
-                          );
+                        : <ErrorResponse>JSON.parse(responseText);
                 throw result400;
             });
-        }
-
-        if (UserProvider.isAdmin()) {
-            if (!miniProfilerInitialized) {
-                miniProfilerInitialized = true;
-
-                // Initialize mini profiler
-                const scriptTag = $("<script>").attr({
-                    type: "text/javascript",
-                    id: "mini-profiler",
-                    src: baseUri + "/admin/profiler/includes.js",
-                    "data-path": baseUri + "/admin/profiler/",
-                    "data-position": "bottomleft",
-                    "data-authorized": "true",
-                    "data-controls": "true",
-                    "data-ids": "abc",
-                    "data-max-traces": 10,
-                    "data-start-hidden": true,
-                    "data-toggle-shortcut": "Alt+P",
-                });
-                $("head").append(scriptTag);
-            }
-
-            const miniProfiler = (<any>window).MiniProfiler;
-            if (miniProfiler) {
-                const miniProfilerIds = response.headers.get(
-                    "X-MiniProfiler-Ids"
-                );
-                if (miniProfilerIds && miniProfiler) {
-                    // tslint:disable-next-line:no-eval
-                    miniProfiler.fetchResults(eval(miniProfilerIds));
-                }
-            }
         }
 
         return response;
     });
 };
 
-function createClient<TClient>(
+type TokenProvider = () => string;
+
+function _createClient<TClient>(
     clientType: IClient<TClient>,
-    tokenProvider: () => string
+    tokenProvider: TokenProvider
 ): TClient {
     let client = new clientType(baseUri, {
         fetch: fetchWrapper.bind(null, tokenProvider),
     });
-
-    // Hack: jsonParseReviver is protected, force set for now
-    (<any>client).jsonParseReviver = jsonParseReviver;
 
     return client;
 }

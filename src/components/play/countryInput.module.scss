@@ -1,0 +1,76 @@
+
+.countryInput {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 5px !important;
+    background: white;
+    border: 2px solid black;
+    text-align: center;
+    line-height: 18px;
+    z-index: 50;
+
+    // hides the spin-button for firefox
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+
+    // hides the spin-button for chrome
+    input[type=number]::-webkit-outer-spin-button,
+    input[type=number]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+}
+
+$input-country-animation-speed: 0.3s;
+
+.countryInputActive {
+    -webkit-animation: country-input-on $input-country-animation-speed;
+    -moz-animation: country-input-on $input-country-animation-speed;
+    -o-animation: country-input-on $input-country-animation-speed;
+    animation: country-input-on $input-country-animation-speed;
+
+    -moz-animation-timing-function: ease-out;
+    -o-animation-timing-function: ease-out;
+    -webkit-animation-timing-function: ease-out;
+    animation-timing-function: ease-out;
+
+    width: 40px;
+    
+    input {
+        width: 30px;
+        border: none;
+        text-align: center;
+        height: 16px;
+        border-radius: 5px !important;
+        font-size: 12px;
+        float: right;
+        line-height: 16px;
+        &[type=number] {
+            -moz-appearance: textfield;
+        }
+        &[type=number]::-webkit-outer-spin-button,
+        &[type=number]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    }
+}
+
+@mixin width-animation($from, $to) {
+    from {
+        width: 30px;
+    }
+    to {
+        width: $to;
+    }
+}
+
+@-webkit-keyframes country-input-on {
+    @include width-animation(30, 50);
+}
+
+@keyframes country-input-on {
+    @include width-animation(30, 50);
+}

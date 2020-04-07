@@ -1,8 +1,10 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { IndexLink, Link } from "react-router";
-import { logout } from "../../common/session/session.actions";
+import __ from "../../i18n/i18n";
 import { IState } from "../../reducers";
+import ActiveLink from "../ui/activeLink";
+import { logout } from "../../lib/domain/shared/session/session.slice";
+import { AppDispatch } from "../../store";
 
 interface IGameNavigation {
     userName: string;
@@ -33,101 +35,126 @@ const GameNavigation = (props: IGameNavigation): JSX.Element => {
     return (
         <ul className="nav">
             <li>
-                <IndexLink to="/game" activeClassName="active">
-                    {__("News")}
-                </IndexLink>
+                <ActiveLink href="/game" activeClassName="active">
+                    <a>{__("News")}</a>
+                </ActiveLink>
             </li>
             <li>
-                <Link to="/game/games" activeClassName="active">
-                    {__("Games")}
-                    {gameCount > 0 && <span>&nbsp;({gameCount})</span>}
-                    <i className="fa fa-angle-down" aria-hidden="true" />
-                </Link>
+                <ActiveLink href="/game/games" activeClassName="active">
+                    <a>
+                        {__("Games")}
+                        {gameCount > 0 && <span>&nbsp;({gameCount})</span>}
+                        <i className="fa fa-angle-down" aria-hidden="true" />
+                    </a>
+                </ActiveLink>
                 <ul className="nav-dropdown">
                     <li>
-                        <IndexLink to="/game/games" activeClassName="active">
-                            {__("My Games")}
-                        </IndexLink>
+                        <ActiveLink href="/game/games" activeClassName="active">
+                            <a>{__("My Games")}</a>
+                        </ActiveLink>
                     </li>
                     <li>
-                        <Link to="/game/games/create" activeClassName="active">
-                            {__("Create Fun Game")}
-                        </Link>
+                        <ActiveLink
+                            href="/game/games/create"
+                            activeClassName="active"
+                        >
+                            <a>{__("Create Fun Game")}</a>
+                        </ActiveLink>
                     </li>
                     <li>
-                        <Link to="/game/games/join" activeClassName="active">
-                            {__("Join Fun Game")}
-                        </Link>
+                        <ActiveLink
+                            href="/game/games/join"
+                            activeClassName="active"
+                        >
+                            <a>{__("Join Fun Game")}</a>
+                        </ActiveLink>
                     </li>
                     <li>
-                        <Link to="/game/ladders" activeClassName="active">
-                            {__("Ladders")}
-                        </Link>
+                        <ActiveLink
+                            href="/game/ladders"
+                            activeClassName="active"
+                        >
+                            <a>{__("Ladders")}</a>
+                        </ActiveLink>
                     </li>
                     <li>
-                        <Link to="/game/tournaments" activeClassName="active">
-                            {__("Tournaments")}
-                        </Link>
+                        <ActiveLink
+                            href="/game/tournaments"
+                            activeClassName="active"
+                        >
+                            <a>{__("Tournaments")}</a>
+                        </ActiveLink>
                     </li>
                 </ul>
             </li>
             <li>
-                <Link to="/game/alliance" activeClassName="active">
-                    {__("Alliance")}
-                    <i className="fa fa-angle-down" aria-hidden="true" />
-                </Link>
+                <ActiveLink href="/game/alliance" activeClassName="active">
+                    <a>
+                        {__("Alliance")}
+                        <i className="fa fa-angle-down" aria-hidden="true" />
+                    </a>
+                </ActiveLink>
                 <ul className="nav-dropdown">
                     <li>
-                        <IndexLink
-                            to="/game/alliances"
+                        <ActiveLink
+                            href="/game/alliances"
                             activeClassName="active"
                         >
-                            {__("Alliances")}
-                        </IndexLink>
+                            <a>{__("Alliances")}</a>
+                        </ActiveLink>
                     </li>
                     {!memberOfAlliance && (
                         <li>
-                            <Link
-                                to="/game/alliances/create"
+                            <ActiveLink
+                                href="/game/alliances/create"
                                 activeClassName="active"
                             >
-                                {__("Create alliance")}
-                            </Link>
+                                <a>{__("Create alliance")}</a>
+                            </ActiveLink>
                         </li>
                     )}
                     {memberOfAlliance && (
                         <li>
-                            <Link
-                                to={`/game/alliances/${allianceId}`}
+                            <ActiveLink
+                                href={`/game/alliances/${allianceId}`}
                                 activeClassName="active"
                             >
-                                {__("Your alliance")}
-                            </Link>
+                                <a>{__("Your alliance")}</a>
+                            </ActiveLink>
                         </li>
                     )}
                 </ul>
             </li>
             <li>
-                <Link to="/game/messages" activeClassName="active">
-                    <i className="fa fa-envelope" aria-hidden="true" />
-                    <span className="visible-xs-inline">
-                        &nbsp;{__("Messages")}
-                    </span>
-                    {messageCount > 0 && <span>&nbsp;({messageCount})</span>}
-                </Link>
+                <ActiveLink href="/game/messages" activeClassName="active">
+                    <a>
+                        <i className="fa fa-envelope" aria-hidden="true" />
+                        <span className="visible-xs-inline">
+                            &nbsp;{__("Messages")}
+                        </span>
+                        {messageCount > 0 && (
+                            <span>&nbsp;({messageCount})</span>
+                        )}
+                    </a>
+                </ActiveLink>
             </li>
             <li>
-                <Link to="/game/profile" activeClassName="active">
-                    <i className="fa fa-user" aria-hidden="true" />
-                    <span className="visible-xs-inline">
-                        &nbsp;{__("Account")}
-                    </span>
-                </Link>
+                <ActiveLink href="/game/profile" activeClassName="active">
+                    <a>
+                        <i className="fa fa-user" aria-hidden="true" />
+                        <span className="visible-xs-inline">
+                            &nbsp;{__("Account")}
+                        </span>
+                    </a>
+                </ActiveLink>
                 <ul className="nav-dropdown">
                     <li>
-                        <Link to="/game/profile" activeClassName="active">
-                            {userName}
-                        </Link>
+                        <ActiveLink
+                            href="/game/profile"
+                            activeClassName="active"
+                        >
+                            <a>{userName}</a>
+                        </ActiveLink>
                     </li>
                     <li>
                         <a
@@ -136,7 +163,6 @@ const GameNavigation = (props: IGameNavigation): JSX.Element => {
                                 logout();
 
                                 e.preventDefault();
-                                return false;
                             }}
                         >
                             {__("Logout")}
@@ -176,9 +202,9 @@ export default connect(
             allianceId,
         };
     },
-    dispatch => ({
+    (dispatch: AppDispatch) => ({
         logout: () => {
-            dispatch(logout(null));
+            dispatch(logout());
         },
     })
 )(GameNavigation);

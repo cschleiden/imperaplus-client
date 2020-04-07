@@ -1,0 +1,14 @@
+@import "../../../styles/vars.scss";
+
+.gamePlayersTurn {
+    background-color: lighten($accent, 20%);
+
+    a {
+        color: black;
+        font-weight: bold;
+    }
+}
+
+.playersTurn {
+    font-weight: bold;
+}

@@ -1,9 +1,8 @@
 import * as React from "react";
-
-import "./playerOutcome.scss";
-
 import { PlayerOutcome } from "../../../external/imperaClients";
-import { css } from "../../../lib/css";
+import __ from "../../../i18n/i18n";
+import { css } from "../../../lib/utils/css";
+import style from "./playerOutcome.module.scss";
 
 export const PlayerOutcomeDisplay: React.StatelessComponent<{
     outcome: PlayerOutcome;
@@ -17,31 +16,31 @@ export const PlayerOutcomeDisplay: React.StatelessComponent<{
     switch (outcome) {
         case PlayerOutcome.None:
             icon = "circle-o";
-            className = "player-outcome-none";
+            className = style.none;
             label = __("Active");
             break;
 
         case PlayerOutcome.Won:
             icon = "check-circle";
-            className = "player-outcome-won";
+            className = "won";
             label = __("Won");
             break;
 
         case PlayerOutcome.Defeated:
             icon = "minus-circle";
-            className = "player-outcome-defeated";
+            className = style.defeated;
             label = __("Defeated");
             break;
 
         case PlayerOutcome.Surrendered:
             icon = "times-circle";
-            className = "player-outcome-surrendered";
+            className = style.surrendered;
             label = __("Surrendered");
             break;
 
         case PlayerOutcome.Timeout:
             icon = "times-circle";
-            className = "player-outcome-timeout";
+            className = style.timeout;
             label = __("Timeout");
             break;
     }

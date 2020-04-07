@@ -1,17 +1,18 @@
+import Link from "next/link";
 import * as React from "react";
 import { Button, Glyphicon, Table } from "react-bootstrap";
-import { Link } from "react-router";
 import {
     GameState,
     GameSummary,
     PlayerSummary,
 } from "../../../external/imperaClients";
-import { css } from "../../../lib/css";
+import __ from "../../../i18n/i18n";
+import { css } from "../../../lib/utils/css";
 import { Timer } from "../timer";
 import GameDetails from "./gameDetail";
-import "./gameList.scss";
 import { GameStateDisplay } from "./gameState";
 import { PlayerOutcomeDisplay } from "./playerOutcome";
+import style from "./gameList.module.scss";
 
 interface IGameListProps {
     games: GameSummary[];
@@ -96,7 +97,14 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
 
         let name: JSX.Element;
         if (game.state !== GameState.Open) {
-            name = <Link to={`/play/${game.id}`}>{game.name}</Link>;
+            name = (
+                <Link
+                    as={`/game/play/${game.id}`}
+                    href="/game/play/[...gameId]"
+                >
+                    <a>{game.name}</a>
+                </Link>
+            );
         } else {
             name = <span>{game.name}</span>;
         }
@@ -109,7 +117,7 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
         const rows = [
             <tr
                 className={css({
-                    "game-players-turn": isPlayersTurn,
+                    [style.gamePlayersTurn]: isPlayersTurn,
                 })}
                 key={`game-${game.id}`}
             >
@@ -123,7 +131,7 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
                 {showActive && (
                     <td
                         className={css("hidden-xs", {
-                            "players-turn": isPlayersTurn,
+                            [style.PlayersTurn]: isPlayersTurn,
                         })}
                     >
                         {game.currentPlayer && game.currentPlayer.name}

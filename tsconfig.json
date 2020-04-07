@@ -2,8 +2,7 @@
   "compileOnSave": false,
   "buildOnSave": false,
   "compilerOptions": {
-    "moduleResolution": "node",
-    "module": "commonjs",
+    "module": "esnext",
     "target": "es5",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -12,18 +11,28 @@
     "noUnusedParameters": false,
     "noUnusedLocals": true,
     "sourceMap": true,
-    "jsx": "react",
-    "typeRoots": [
-      "node_modules/@types/"
-    ],
+    "jsx": "preserve",
     "lib": [
       "es6",
       "dom",
       "es5",
       "scripthost"
-    ]
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true
   },
-  "filesGlob": [
+  "exclude": [
+    "node_modules"
+  ],
+  "include": [
+    "next-env.d.ts",
     "src/**/*.ts",
     "src/**/*.tsx"
   ]

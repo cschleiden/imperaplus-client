@@ -1,0 +1,54 @@
+@import "../../../styles/vars.scss";
+
+.slider {
+    margin: 0 -15px;
+
+    position: relative;
+    height: 400px;
+}
+
+.headlines {
+    position: absolute;
+    top: 70px;
+    left: 10%;
+
+    h2 {
+        margin: 15px 0;
+
+        i {
+            color: white;
+            background: rgba($accent, 0.5);
+            font-style: normal;
+            padding: 0 5px;
+
+            text-transform: uppercase;
+        }
+    }
+}
+
+.bodylines {
+    position: absolute;
+    top: 250px;
+    left: 10%;
+
+    h4 {
+        margin: 5px 0;
+
+        i {
+            color: white;
+            background: rgba(black, 0.3);
+
+            font-style: normal;
+            padding: 2px;
+        }
+    }
+}
+
+.img {
+    position: absolute;
+
+    top: 50%;
+    right: 10%;
+
+    transform: translate(0, -50%);
+}

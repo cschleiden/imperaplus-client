@@ -1,9 +1,7 @@
 import * as React from "react";
-
-import "./playerOutcome.scss";
-
 import { GameState } from "../../../external/imperaClients";
-import { css } from "../../../lib/css";
+import __ from "../../../i18n/i18n";
+import { css } from "../../../lib/utils/css";
 
 export const GameStateDisplay: React.StatelessComponent<{
     gameState: GameState;

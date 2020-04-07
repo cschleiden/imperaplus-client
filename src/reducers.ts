@@ -1,67 +1,37 @@
-import { combineReducers } from "redux";
+import { combineReducers } from "@reduxjs/toolkit";
 
-// General purpose
-import { loadingBarReducer } from "react-redux-loading-bar";
-import { routerReducer } from "react-router-redux";
-import { forms } from "./common/forms/forms.reducer";
-import { general, IGeneralState } from "./common/general/general.reducer";
-import { IMessageState, message } from "./common/message/message.reducer";
-import { ISessionState, session } from "./common/session/session.reducer";
+// Domain logic
+import news from "./lib/domain/news.slice";
+import games from "./lib/domain/game/games.slice";
+import mapPreview from "./lib/domain/game/mapPreview.slice";
+import play from "./lib/domain/game/play/play.slice";
 
-// Game
-import { chat, IChatState } from "./common/chat/chat.reducer";
-import { games, IMyGamesState } from "./pages/games/games.reducer";
-import { ILaddersState, ladders } from "./pages/ladders/ladders.reducer";
-import { IMessagesState, messages } from "./pages/messages/messages.reducer";
-import { IPlayState, play } from "./pages/play/reducer";
-import { INewsState, news } from "./pages/start/news.reducer";
-import {
-    ITournamentsState,
-    tournaments,
-} from "./pages/tournaments/tournaments.reducer";
-import {
-    IMapPreviewState,
-    mapPreview,
-} from "./pages/mapPreview/mapPreview.reducer";
-import { IAlliancesState, alliances } from "./pages/alliance/alliances.reducer";
+// Shared reducers
+import session from "./lib/domain/shared/session/session.slice";
+import forms from "./lib/domain/shared/forms/forms.slice";
+import message from "./lib/domain/shared/message/message.slice";
+import general from "./lib/domain/shared/general/general.slice";
 
-export interface IState {
-    news: INewsState;
-    chat: IChatState;
-    games: IMyGamesState;
-    mapPreview: IMapPreviewState;
-    alliances: IAlliancesState;
-    ladders: ILaddersState;
-    tournaments: ITournamentsState;
-    messages: IMessagesState;
-    play: IPlayState;
-
-    routing: any;
-    session: ISessionState;
-    forms: any;
-    message: IMessageState;
-    general: IGeneralState;
-}
-
-const rootReducer = combineReducers<IState>({
+const rootReducer = combineReducers({
     // Game
     news,
-    chat,
+    // chat,
     games,
     mapPreview,
-    alliances,
-    ladders,
-    messages,
-    tournaments,
+    // alliances,
+    // ladders,
+    // messages,
+    // tournaments,
     play,
 
-    // General reducers
-    routing: routerReducer,
-    loadingBar: loadingBarReducer,
+    // // General reducers
+    // loadingBar: loadingBarReducer,
     session,
     forms,
     message,
     general,
 });
+
+export type IState = ReturnType<typeof rootReducer>;
 
 export default rootReducer;

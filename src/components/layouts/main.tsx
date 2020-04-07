@@ -1,3 +1,5 @@
+import Head from "next/head";
+import Link from "next/link";
 import * as React from "react";
 import {
     Alert,
@@ -6,19 +8,15 @@ import {
     Glyphicon,
     MenuItem,
 } from "react-bootstrap";
-import { connect } from "react-redux";
-import LoadingBar from "react-redux-loading-bar";
-import { Link } from "react-router";
-import { openCloseNav } from "../../common/general/general.actions";
-import { clear } from "../../common/message/message.actions";
-import { setLanguage } from "../../common/session/session.actions";
-import LinkString from "../../components/ui/strLink";
-import { UserInfo } from "../../external/imperaClients";
-import { getStyleForMessage } from "../../lib/message";
-import { IState } from "../../reducers";
+import { useDispatch } from "react-redux";
+import __ from "../../i18n/i18n";
+import { openClose } from "../../lib/domain/shared/general/general.slice";
+import { setLanguage } from "../../lib/domain/shared/session/session.slice";
+import { getStyleForMessage } from "../../lib/utils/message";
+import { AppDispatch, useAppSelector } from "../../store";
 import { Grid, GridColumn, GridContainer, GridRow } from "../layout";
+import { LinkString } from "../ui/strLink";
 import { Title } from "../ui/typography";
-import "./main.scss";
 
 interface ILanguageSelectorProps {
     selectedLanguage: string;
@@ -95,192 +93,165 @@ class MobileLanguageSelector extends React.Component<ILanguageSelectorProps> {
 }
 
 interface ILayoutProps {
-    message;
-    clear: () => void;
-    breadcrumbs;
-    commercials;
-    nav;
-    content;
-    pageContent;
-
-    isNavOpen: boolean;
-    language: string;
-    userInfo: UserInfo;
-
-    title: string;
-
-    openCloseNav: (state: boolean) => void;
-    setLanguage: (language: string) => void;
+    nav?: JSX.Element;
 }
 
-export class Layout extends React.Component<ILayoutProps> {
-    private _msg: HTMLDivElement;
-    private _resolveMsg = (element: HTMLDivElement) => (this._msg = element);
+/*
 
     public componentDidUpdate(prevProps: ILayoutProps) {
         // Scroll message into view if it exists
-        const { message } = this.props;
+        const { message } = ;
 
         if (!!message && prevProps.message !== message && this._msg) {
             this._msg.scrollIntoView();
         }
     }
 
-    public render(): JSX.Element {
-        const { title, message, userInfo } = this.props;
+    */
+// private _msg: HTMLDivElement;
+// private _resolveMsg = (element: HTMLDivElement) => (this._msg = element);
 
-        let msg: JSX.Element;
-        if (!!message) {
-            msg = (
-                <Alert
-                    bsStyle={getStyleForMessage(message.type)}
-                    onDismiss={this._onClear}
-                >
-                    <LinkString link={message.message} />
-                </Alert>
-            );
-        }
+const Layout: React.FC<ILayoutProps> = (props) => {
+    const dispatch = useDispatch<AppDispatch>();
 
-        let isAdmin = false;
-        if (userInfo) {
-            isAdmin =
-                userInfo.roles
-                    .map((r) => r.toUpperCase())
-                    .indexOf("admin".toUpperCase()) !== -1;
-        }
+    const { title, message, userInfo, isNavOpen, language } = useAppSelector(
+        (s) => ({
+            title: s.general.title,
+            message: s.message.message,
+            userInfo: s.session.userInfo,
+            isNavOpen: s.general.isNavOpen,
+            language: s.session.language,
+        })
+    );
 
-        return (
-            <div className="mainWrapper">
-                <GridContainer className="layout">
-                    <GridRow className="header">
-                        <LoadingBar className="loading-bar" />
+    const ref = React.useRef();
 
-                        <GridColumn className="col-xs-10 col-sm-5 logo">
-                            <img src="/assets/logo_150.png" />
-                        </GridColumn>
-
-                        {/* Responsive Navigation */}
-                        <GridColumn className="col-xs-2 col-sm-7 mobile-navigation visible-xs-block">
-                            {this.props.isNavOpen && (
-                                <div className="mobile-nav">
-                                    <Grid className="container">
-                                        <GridRow className="text-right">
-                                            <Button
-                                                onClick={() =>
-                                                    this.props.openCloseNav(
-                                                        false
-                                                    )
-                                                }
-                                            >
-                                                <Glyphicon glyph="menu-hamburger" />
-                                            </Button>
-                                        </GridRow>
-
-                                        <GridRow>{this.props.nav}</GridRow>
-
-                                        <GridRow>
-                                            <MobileLanguageSelector
-                                                selectedLanguage={
-                                                    this.props.language
-                                                }
-                                                onLanguageSelect={
-                                                    this._onLanguageSelect
-                                                }
-                                            />
-                                        </GridRow>
-                                    </Grid>
-                                </div>
-                            )}
-
-                            <Button
-                                onClick={() => this.props.openCloseNav(true)}
-                            >
-                                <Glyphicon glyph="menu-hamburger" />
-                            </Button>
-                        </GridColumn>
-
-                        <GridColumn className="col-xs-7 col-lg-7 navigation-container hidden-xs">
-                            <div className="lang">
-                                <LanguageSelector
-                                    selectedLanguage={this.props.language}
-                                    onLanguageSelect={this._onLanguageSelect}
-                                />
-                            </div>
-
-                            <div className="navigation">{this.props.nav}</div>
-                        </GridColumn>
-                    </GridRow>
-
-                    <GridRow className="message">
-                        <div ref={this._resolveMsg}>{msg}</div>
-                    </GridRow>
-
-                    <GridRow className="content">
-                        {title && (
-                            <GridColumn className="col-xs-12 main-title">
-                                <Title>{title}</Title>
-                            </GridColumn>
-                        )}
-
-                        {this.props.commercials}
-
-                        <GridColumn className="col-xs-12 main-content">
-                            {this.props.content}
-                        </GridColumn>
-                    </GridRow>
-
-                    <GridRow className="footer">
-                        {isAdmin && (
-                            <span>
-                                <a href="/toadmin">ADMIN</a>&nbsp;|&nbsp;
-                            </span>
-                        )}
-                        <Link to="/privacy">{__("Privacy Policy")}</Link> |{" "}
-                        <Link to="/tos">{__("Terms of Service")}</Link> |{" "}
-                        <Link to="/imprint">{__("Imprint")}</Link> |{" "}
-                        <a href="http://forum.imperaonline.de/">
-                            {__("Forum (external)")}
-                        </a>{" "}
-                        | <a href="https://www.imperaonline.de/swagger/">API</a>
-                    </GridRow>
-                </GridContainer>
-
-                {this.props.pageContent}
-            </div>
+    let msg: JSX.Element;
+    if (!!message) {
+        msg = (
+            <Alert
+                bsStyle={getStyleForMessage(message.type)}
+                onDismiss={this._onClear}
+            >
+                <LinkString link={message.message} />
+            </Alert>
         );
     }
 
-    private _onLanguageSelect = (language: string) => {
-        this.props.setLanguage(language);
-    };
+    let isAdmin = false;
+    if (userInfo) {
+        isAdmin =
+            userInfo.roles
+                .map((r) => r.toUpperCase())
+                .indexOf("admin".toUpperCase()) !== -1;
+    }
 
-    private _onClear = () => {
-        this.props.clear();
-    };
-}
+    return (
+        <div className="mainWrapper">
+            <GridContainer className="layout">
+                <GridRow className="header">
+                    {/* <LoadingBar className="loading-bar" /> */}
 
-export default connect(
-    (state: IState) => {
-        const session = state.session;
-        const general = state.general;
+                    <GridColumn className="col-xs-10 col-sm-5 logo">
+                        <img src="/assets/logo_150.png" />
+                    </GridColumn>
 
-        return {
-            message: state.message.message,
-            isNavOpen: general.isNavOpen,
-            title: general.title,
-            language: session.language,
-            userInfo: session.userInfo,
-        };
-    },
-    (dispatch) => ({
-        clear: () => {
-            dispatch(clear(null));
-        },
-        openCloseNav: (state: boolean) => {
-            dispatch(openCloseNav(state));
-        },
-        setLanguage: (language: string) => {
-            dispatch(setLanguage(language));
-        },
-    })
-)(Layout);
+                    {/* Responsive Navigation */}
+                    <GridColumn className="col-xs-2 col-sm-7 mobile-navigation visible-xs-block">
+                        {isNavOpen && (
+                            <div className="mobile-nav">
+                                <Grid className="container">
+                                    <GridRow className="text-right">
+                                        <Button
+                                            onClick={() =>
+                                                dispatch(openClose(false))
+                                            }
+                                        >
+                                            <Glyphicon glyph="menu-hamburger" />
+                                        </Button>
+                                    </GridRow>
+
+                                    <GridRow>{props.nav}</GridRow>
+
+                                    <GridRow>
+                                        <MobileLanguageSelector
+                                            selectedLanguage={language}
+                                            onLanguageSelect={(lang: string) =>
+                                                dispatch(setLanguage(lang))
+                                            }
+                                        />
+                                    </GridRow>
+                                </Grid>
+                            </div>
+                        )}
+
+                        <Button onClick={() => dispatch(openClose(true))}>
+                            <Glyphicon glyph="menu-hamburger" />
+                        </Button>
+                    </GridColumn>
+
+                    <GridColumn className="col-xs-7 col-lg-7 navigation-container hidden-xs">
+                        <div className="lang">
+                            <LanguageSelector
+                                selectedLanguage={language}
+                                onLanguageSelect={(language: string) =>
+                                    dispatch(setLanguage(language))
+                                }
+                            />
+                        </div>
+
+                        <div className="navigation">{props.nav}</div>
+                    </GridColumn>
+                </GridRow>
+
+                <GridRow className="message">
+                    <div ref={ref}>{msg}</div>
+                </GridRow>
+
+                <GridRow className="content">
+                    {title && (
+                        <GridColumn className="col-xs-12 main-title">
+                            <Title>{title}</Title>
+
+                            <Head>
+                                <title>
+                                    {!!title ? `Impera - ${title}` : "title"}
+                                </title>
+                            </Head>
+                        </GridColumn>
+                    )}
+
+                    <GridColumn className="col-xs-12 main-content">
+                        {props.children}
+                    </GridColumn>
+                </GridRow>
+
+                <GridRow className="footer">
+                    {isAdmin && (
+                        <span>
+                            <a href="/toadmin">ADMIN</a>&nbsp;|&nbsp;
+                        </span>
+                    )}
+                    <Link href="/privacy">
+                        <a>{__("Privacy Policy")}</a>
+                    </Link>{" "}
+                    |{" "}
+                    <Link href="/tos">
+                        <a>{__("Terms of Service")}</a>
+                    </Link>{" "}
+                    |{" "}
+                    <Link href="/imprint">
+                        <a>{__("Imprint")}</a>
+                    </Link>{" "}
+                    |{" "}
+                    <a href="http://forum.imperaonline.de/">
+                        {__("Forum (external)")}
+                    </a>{" "}
+                    | <a href="https://www.imperaonline.de/swagger/">API</a>
+                </GridRow>
+            </GridContainer>
+        </div>
+    );
+};
+
+export default Layout;

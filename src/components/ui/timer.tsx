@@ -1,5 +1,4 @@
 import * as React from "react";
-import { autobind } from "../../lib/autobind";
 import { HumanCountdown } from "./humanDate";
 
 export interface ITimerProps {
@@ -38,10 +37,9 @@ export class Timer extends React.Component<ITimerProps, ITimerState> {
         }
     }
 
-    @autobind
-    private _timerHandler() {
+    private _timerHandler = () => {
         this.setState({
             timeLeft: this.state.timeLeft - 1000,
         });
-    }
+    };
 }

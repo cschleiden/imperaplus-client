@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { css } from "../../lib/css";
+import { css } from "../../lib/utils/css";
 
 export const GridContainer = (props): JSX.Element => {
     return (
