@@ -1,7 +1,11 @@
 import * as React from "react";
-import { MapTemplateCacheEntry } from "../../lib/domain/game/play/mapTemplateCache";
-import style from "./map.module.scss";
+import {
+    areConnected,
+    continent,
+    MapTemplateCacheEntry,
+} from "../../lib/domain/game/play/mapTemplateCache";
 import { css } from "../../lib/utils/css";
+import style from "./map.module.scss";
 
 export interface IMapViewProps {
     mapTemplate: MapTemplateCacheEntry;
@@ -57,26 +61,34 @@ export class MapView extends React.Component<IMapViewProps, IMapViewState> {
         return mapTemplate.countries.map((countryTemplate) => {
             const isHighlighted =
                 hoveredCountry &&
-                mapTemplate.areConnected(
+                areConnected(
+                    mapTemplate,
                     hoveredCountry,
                     countryTemplate.identifier
                 );
-            const continent = mapTemplate.continent(countryTemplate.identifier);
+            const countryContinent = continent(
+                mapTemplate,
+                countryTemplate.identifier
+            );
 
             return (
                 <div
                     id={countryTemplate.identifier}
                     key={countryTemplate.identifier}
-                    className={css(style.country, `continent-${continent.id}`, {
-                        [style.countryHighlight]: isHighlighted,
-                    })}
+                    className={css(
+                        style.country,
+                        `continent-${countryContinent.id}`,
+                        {
+                            [style.countryHighlight]: isHighlighted,
+                        }
+                    )}
                     style={{
                         left: countryTemplate.x,
                         top: countryTemplate.y,
                     }}
                     title={`${countryTemplate.identifier} - ${countryTemplate.name}`}
                 >
-                    {continent.bonus}
+                    {countryContinent.bonus}
                 </div>
             );
         });

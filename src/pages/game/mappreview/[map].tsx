@@ -1,10 +1,11 @@
 import * as React from "react";
 import { useDispatch } from "react-redux";
-import { MapTemplateCacheEntry } from "../../../lib/domain/game/play/mapTemplateCache";
 import { GridColumn, GridRow } from "../../../components/layout";
+import { MapView } from "../../../components/play/mapView";
 import { Loading } from "../../../components/ui/loading";
 import __ from "../../../i18n/i18n";
 import { loadMapPreview } from "../../../lib/domain/game/mapPreview.slice";
+import { MapTemplateCacheEntry } from "../../../lib/domain/game/play/mapTemplateCache";
 import { setTitle } from "../../../lib/domain/shared/general/general.slice";
 import { AppDispatch, AppNextPage } from "../../../store";
 import style from "./mapPreview.module.scss";
@@ -19,9 +20,7 @@ const MapPreview: AppNextPage<IMapPreviewerProps> = (props) => {
 
     const dispatch = useDispatch<AppDispatch>();
     React.useEffect(() => {
-        dispatch(
-            setTitle(`${__("Preview")} : ${mapTemplate?.mapTemplate.name}`)
-        );
+        dispatch(setTitle(`${__("Preview")} : ${mapTemplate?.name}`));
     }, [mapTemplate]);
 
     return (
@@ -30,8 +29,7 @@ const MapPreview: AppNextPage<IMapPreviewerProps> = (props) => {
                 {isLoading && <Loading />}
                 {!isLoading && (
                     <div className={style.mapPreview}>
-                        {/* <MapView mapTemplate={mapTemplate} /> */}
-                        {mapTemplate?.mapTemplate.name}
+                        <MapView mapTemplate={mapTemplate} />
                     </div>
                 )}
             </GridRow>

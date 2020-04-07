@@ -7,6 +7,7 @@ import MainLayout from "../components/layouts/main";
 import PlayLayout from "../components/layouts/play";
 import GameNav from "../components/navigation/game";
 import PublicNav from "../components/navigation/public";
+import "../external/polyfills";
 import { setLanguageProvider } from "../i18n/i18n";
 import {
     openClose,
