@@ -151,6 +151,8 @@ App.getInitialProps = async (
             return redirectToLogin(appContext);
         }
 
+        console.error("Error", e);
+
         throw e;
     }
 };

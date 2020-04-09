@@ -12,8 +12,10 @@ export interface ICardsProps {
 }
 
 export default (props: ICardsProps): JSX.Element => {
-    const { cards } = props;
+    let { cards } = props;
     let cardElements: JSX.Element[] = [];
+
+    cards = cards.slice(0);
 
     if (cards) {
         cards.sort();
