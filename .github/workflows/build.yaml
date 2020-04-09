@@ -21,7 +21,7 @@ jobs:
         with:
           files: '["./.next/**/*.js"]'
         env:
-          BaseUri: https://dev.imperaonline.de/api
+          BaseUri: https://dev.imperaonline.de
           ImageBaseUri: https://static.imperaonline.de/maps/
       - run: ./scripts/deployFrontend.ps1 -Source "${env:GITHUB_WORKSPACE}" -Destination "${env:Website}/${env:DestFolder}" -AdditionalArguments "-verbose -enableRule:DoNotDeleteRule" -Username ${env:Login} -Password ${env:Password} -AuthType "basic" -DestinationComputer "https://imperaonline.de:8172/msdeploy.axd?site=${env:Website}"
         env: 
