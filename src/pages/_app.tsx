@@ -86,14 +86,14 @@ App.getInitialProps = async (
     const page = appContext.Component as AppNextPage;
 
     if (page.needsLogin && !isLoggedIn(store.getState())) {
-        console.trace("Needs login");
+        console.info("Needs login");
 
         // Check for login
         let access_token: string;
         let refresh_token: string;
         const token = cookieState["token"];
         if (!!token) {
-            console.trace("Found token");
+            console.info("Found token");
 
             // We have a token and the current store is not yet signed in, try to get user info using that token
             const result = (token as any) as {
@@ -130,7 +130,7 @@ App.getInitialProps = async (
     (appContext.ctx as AppPageContext).store = store;
 
     try {
-        console.trace("Getting props");
+        console.info("Getting props");
         const appProps = await NextApp.getInitialProps(appContext);
 
         // There has to be a better way to get the title into the state
@@ -159,7 +159,6 @@ App.getInitialProps = async (
 
 /** Redirect to the login page for server and client-side */
 function redirectToLogin(appContext: AppContext) {
-    console.trace("Redirect");
     console.log("Redirecting to login.");
 
     if (appContext.ctx.res) {

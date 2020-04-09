@@ -23,8 +23,6 @@ export class NotificationService {
      * Initialize client
      */
     async init(token: string): Promise<void> {
-        console.trace("i");
-
         // TODO: Restart with refresh token?
         this._client = getSignalRClient(token, "game");
         this._client.on("notification", this._onNotification);
