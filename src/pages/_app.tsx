@@ -3,6 +3,7 @@ import NextApp, { AppContext, AppInitialProps, AppProps } from "next/app";
 import Router from "next/router";
 import * as React from "react";
 import { Provider } from "react-redux";
+import "typeface-open-sans";
 import MainLayout from "../components/layouts/main";
 import PlayLayout from "../components/layouts/play";
 import GameNav from "../components/navigation/game";
