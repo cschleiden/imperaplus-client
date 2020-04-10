@@ -35,17 +35,16 @@ export const doHistoryExit = (): AppThunk => async (dispatch, getState) => {
 // TODO: Move this to another place?
 let initialized = false;
 
-/**
- * Switch to a game, also used for displaying a game the first time
- */
-export const doSwitchGame = (
-    gameId: number,
-    turnNo?: number
-): AppThunk => async (dispatch, getState, extra) => {
+export const initNotifications = (): AppThunk => async (
+    dispatch,
+    getState,
+    extra
+) => {
     // TODO: Should find a better place.. for now hook up event the first time we join a game
     if (!initialized) {
         initialized = true;
 
+        console.trace("Attach handler");
         notificationService.attachHandler(
             NotificationType.GameChatMessage,
             (notification) => {
@@ -67,6 +66,16 @@ export const doSwitchGame = (
             }
         );
     }
+};
+
+/**
+ * Switch to a game, also used for displaying a game the first time
+ */
+export const doSwitchGame = (
+    gameId: number,
+    turnNo?: number
+): AppThunk => async (dispatch, getState, extra) => {
+    await dispatch(initNotifications());
 
     const game = await extra
         .createClient(getToken(getState()), GameClient)

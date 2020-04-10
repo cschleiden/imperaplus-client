@@ -1,14 +1,18 @@
 import * as React from "react";
 import { Alert } from "react-bootstrap";
+import { useDispatch } from "react-redux";
 import Header from "../../../components/play/header";
 import Map from "../../../components/play/map";
 import Sidebar from "../../../components/play/sidebar";
 import { getErrorMessage } from "../../../i18n/errorCodes";
 import __ from "../../../i18n/i18n";
-import { doSwitchGame } from "../../../lib/domain/game/play/play.actions";
+import {
+    doSwitchGame,
+    initNotifications,
+} from "../../../lib/domain/game/play/play.actions";
 import { css } from "../../../lib/utils/css";
 import { IState } from "../../../reducers";
-import { AppNextPage, useAppSelector } from "../../../store";
+import { AppDispatch, AppNextPage, useAppSelector } from "../../../store";
 import style from "./play.module.scss";
 
 function selector(state: IState) {
@@ -49,6 +53,10 @@ const Play: AppNextPage<ReturnType<typeof selector>> = (props) => {
     // }
 
     const { game, sidebarOpen, error } = useAppSelector(selector);
+    const dispatch = useDispatch<AppDispatch>();
+
+    // Ensure notifications are setup after SSR
+    dispatch(initNotifications());
 
     if (!game) {
         // TODO: Loading indicator?
