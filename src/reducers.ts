@@ -1,16 +1,15 @@
 import { combineReducers } from "@reduxjs/toolkit";
-
-// Domain logic
-import news from "./lib/domain/news.slice";
+import alliances from "./lib/domain/game/alliances.slice";
 import games from "./lib/domain/game/games.slice";
 import mapPreview from "./lib/domain/game/mapPreview.slice";
 import play from "./lib/domain/game/play/play.slice";
-
+// Domain logic
+import news from "./lib/domain/news.slice";
+import forms from "./lib/domain/shared/forms/forms.slice";
+import general from "./lib/domain/shared/general/general.slice";
+import message from "./lib/domain/shared/message/message.slice";
 // Shared reducers
 import session from "./lib/domain/shared/session/session.slice";
-import forms from "./lib/domain/shared/forms/forms.slice";
-import message from "./lib/domain/shared/message/message.slice";
-import general from "./lib/domain/shared/general/general.slice";
 
 const rootReducer = combineReducers({
     // Game
@@ -18,7 +17,7 @@ const rootReducer = combineReducers({
     // chat,
     games,
     mapPreview,
-    // alliances,
+    alliances,
     // ladders,
     // messages,
     // tournaments,

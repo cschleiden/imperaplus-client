@@ -1,10 +1,10 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import __ from "../../i18n/i18n";
-import { IState } from "../../reducers";
-import ActiveLink from "../ui/activeLink";
 import { logout } from "../../lib/domain/shared/session/session.slice";
+import { IState } from "../../reducers";
 import { AppDispatch } from "../../store";
+import ActiveLink from "../ui/activeLink";
 
 interface IGameNavigation {
     userName: string;
@@ -88,7 +88,7 @@ const GameNavigation = (props: IGameNavigation): JSX.Element => {
                 </ul>
             </li>
             <li>
-                <ActiveLink href="/game/alliance" activeClassName="active">
+                <ActiveLink href="/game/alliances" activeClassName="active">
                     <a>
                         {__("Alliance")}
                         <i className="fa fa-angle-down" aria-hidden="true" />
@@ -116,7 +116,8 @@ const GameNavigation = (props: IGameNavigation): JSX.Element => {
                     {memberOfAlliance && (
                         <li>
                             <ActiveLink
-                                href={`/game/alliances/${allianceId}`}
+                                as={`/game/alliances/${allianceId}`}
+                                href={`/game/alliances/[allianceId]`}
                                 activeClassName="active"
                             >
                                 <a>{__("Your alliance")}</a>
@@ -159,7 +160,7 @@ const GameNavigation = (props: IGameNavigation): JSX.Element => {
                     <li>
                         <a
                             href="#"
-                            onClick={e => {
+                            onClick={(e) => {
                                 logout();
 
                                 e.preventDefault();
