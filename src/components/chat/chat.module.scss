@@ -53,7 +53,7 @@ $usersWidth: 100px;
 
                 padding: 0 10px;
             }
-
+        
             &.selected {
                 a {
                     color: white;
@@ -61,6 +61,7 @@ $usersWidth: 100px;
 
                 background: $accent;
             }
+            
             &:hover {
                 background: $accent;
 

@@ -36,9 +36,6 @@ export const showHide = createAsyncThunk<boolean, boolean, AppThunkArg>(
                 client.detachAllHandlers();
 
                 client.on("broadcastMessage", (message: Message) => {
-                    // Dates are sent as strings, ensure we have a Date object
-                    message.dateTime = new Date(message.dateTime as any);
-
                     thunkAPI.dispatch(receiveMessage(message));
                 });
 

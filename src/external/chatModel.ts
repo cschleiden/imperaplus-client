@@ -14,7 +14,7 @@ export interface ChannelInformation {
 }
 
 export interface Message {
-    dateTime: Date;
+    dateTime: string;
     userName: string;
     text: string;
     channelIdentifier: string;

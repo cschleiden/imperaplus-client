@@ -11,6 +11,7 @@ import {
 } from "../../lib/domain/shared/chat/chat.slice";
 import { IState } from "../../reducers";
 import { AppDispatch } from "../../store";
+import { HumanDate } from "../ui/humanDate";
 import style from "./chat.module.scss";
 
 interface IChatProps {
@@ -30,7 +31,7 @@ interface IChatState {
     msg: string;
 }
 
-export class Chat extends React.Component<IChatProps, IChatState> {
+class Chat extends React.Component<IChatProps, IChatState> {
     private _content: HTMLDivElement;
     private _resolveContent = (elem: HTMLDivElement) => (this._content = elem);
 
@@ -69,7 +70,7 @@ export class Chat extends React.Component<IChatProps, IChatState> {
                                                 className={
                                                     this.props.activeChannel ===
                                                         c.identifier &&
-                                                    "selected"
+                                                    style.selected
                                                 }
                                             >
                                                 <a
@@ -114,15 +115,11 @@ export class Chat extends React.Component<IChatProps, IChatState> {
                                 <ul>
                                     {activeChannel.messages.map((msg, i) => (
                                         <li
-                                            key={`${
-                                                msg.userName
-                                            }-${msg.dateTime.toISOString()}-${i}`}
+                                            key={`${msg.userName}-${msg.dateTime}-${i}`}
                                         >
                                             [
                                             <span className={style.chatDate}>
-                                                {(msg.dateTime &&
-                                                    msg.dateTime.toLocaleString()) ||
-                                                    i}
+                                                {HumanDate(msg.dateTime)}
                                             </span>
                                             ]&nbsp;
                                             <span className={style.chatUser}>

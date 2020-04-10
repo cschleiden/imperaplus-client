@@ -4,6 +4,7 @@ import Router from "next/router";
 import * as React from "react";
 import { Provider } from "react-redux";
 import "typeface-open-sans";
+import GameLayout from "../components/layouts/game";
 import MainLayout from "../components/layouts/main";
 import PlayLayout from "../components/layouts/play";
 import GameNav from "../components/navigation/game";
@@ -60,8 +61,13 @@ function App({
 
     const pageContent = <Component {...pageProps} />;
 
-    const Layout = router.pathname.startsWith("/game/play") ? (
+    const isPlay = router.pathname.startsWith("/game/play");
+    const Layout = isPlay ? (
         <PlayLayout children={pageContent} />
+    ) : router.pathname.startsWith("/game") ? (
+        <GameLayout>
+            <MainLayout nav={nav} children={pageContent} />
+        </GameLayout>
     ) : (
         <MainLayout nav={nav} children={pageContent} />
     );
