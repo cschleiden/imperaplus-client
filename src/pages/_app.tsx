@@ -51,11 +51,12 @@ function App({
         notificationService.init(token);
     }
 
-    const nav = router.pathname.startsWith("/game") ? (
-        <GameNav />
-    ) : (
-        <PublicNav />
-    );
+    const nav =
+        isLoggedIn(store.getState()) || router.pathname.startsWith("/game") ? (
+            <GameNav />
+        ) : (
+            <PublicNav />
+        );
 
     const pageContent = <Component {...pageProps} />;
 
