@@ -69,8 +69,9 @@ class Chat extends React.Component<IChatProps, IChatState> {
                                                 key={c.identifier}
                                                 className={
                                                     this.props.activeChannel ===
-                                                        c.identifier &&
-                                                    style.selected
+                                                    c.identifier
+                                                        ? style.selected
+                                                        : ""
                                                 }
                                             >
                                                 <a
