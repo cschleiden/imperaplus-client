@@ -7,7 +7,7 @@ import { HumanDate } from "../../components/ui/humanDate";
 import { Section, SubSection } from "../../components/ui/typography";
 import { NewsContent } from "../../external/imperaClients";
 import __ from "../../i18n/i18n";
-import { fetch } from "../../lib/domain/news.slice";
+import { fetch } from "../../lib/domain/game/news.slice";
 import { IState } from "../../reducers";
 import { AppNextPage } from "../../store";
 // import { refresh as tournamentsRefresh } from "./tournaments/tournaments.actions";
@@ -16,7 +16,7 @@ function _getLanguageContent(
     language: string,
     content: NewsContent[]
 ): NewsContent {
-    let matches = content.filter(x => x.language === language);
+    let matches = content.filter((x) => x.language === language);
     return matches && matches.length > 0 && matches[0];
 }
 
@@ -44,7 +44,7 @@ function selector(state: IState) {
     };
 }
 
-export const News: AppNextPage = props => {
+export const News: AppNextPage = (props) => {
     const {
         news,
         language,
@@ -81,7 +81,7 @@ export const News: AppNextPage = props => {
                 <Section>{__("Tournaments")}</Section>
 
                 <SubSection>{__("Open")}</SubSection>
-                {openTournaments.map(tournament => {
+                {openTournaments.map((tournament) => {
                     return (
                         <div key={tournament.id}>
                             <Link href={`/game/tournaments/${tournament.id}`}>
@@ -92,7 +92,7 @@ export const News: AppNextPage = props => {
                 })}
 
                 <SubSection>{__("Active")}</SubSection>
-                {activeTournaments.map(tournament => {
+                {activeTournaments.map((tournament) => {
                     return (
                         <div key={tournament.id}>
                             <Link href={`/game/tournaments/${tournament.id}`}>
@@ -103,7 +103,7 @@ export const News: AppNextPage = props => {
                 })}
 
                 <SubSection>{__("Closed")}</SubSection>
-                {closedTournaments.map(tournament => {
+                {closedTournaments.map((tournament) => {
                     return (
                         <div key={tournament.id}>
                             <Link href={`/game/tournaments/${tournament.id}`}>
@@ -120,7 +120,7 @@ export const News: AppNextPage = props => {
 News.getTitle = () => __("News");
 News.needsLogin = true;
 
-News.getInitialProps = async ctx => {
+News.getInitialProps = async (ctx) => {
     await ctx.store.dispatch(fetch());
 
     return selector(ctx.store.getState());

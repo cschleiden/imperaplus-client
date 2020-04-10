@@ -1,5 +1,6 @@
 import * as React from "react";
-import { Grid, GridColumn, GridRow } from "../../../components/layout";
+import { Grid, GridColumn, GridRow } from "../components/layout";
+import __ from "../i18n/i18n";
 
 export default class ResetTriggeredComponent extends React.Component {
     public render() {

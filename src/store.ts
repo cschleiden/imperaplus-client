@@ -100,7 +100,7 @@ export type AppNextPage<P = {}, IP = P> = NextComponentType<
     P
 > & {
     needsLogin?: boolean;
-    getTitle(state: IState): string;
+    getTitle?(state: IState): string;
 };
 
 export function useAppSelector<TResult>(

@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { NewsClient, NewsItem } from "../../external/imperaClients";
-import { AppThunkArg } from "../../store";
-import { getToken } from "./shared/session/session.selectors";
+import { NewsClient, NewsItem } from "../../../external/imperaClients";
+import { AppThunkArg } from "../../../store";
+import { getToken } from "../shared/session/session.selectors";
 
 export const fetch = createAsyncThunk<NewsItem[], void, AppThunkArg>(
     "news/fetch",
