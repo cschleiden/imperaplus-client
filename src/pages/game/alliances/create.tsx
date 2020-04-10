@@ -1,5 +1,4 @@
 import * as React from "react";
-import { GridColumn } from "../../../components/layout";
 import { ProgressButton } from "../../../components/ui/progressButton";
 import { LinkString } from "../../../components/ui/strLink";
 import { AllianceCreationOptions } from "../../../external/imperaClients";
@@ -22,7 +21,7 @@ function _formValid(formState: IFormState): boolean {
 
 const CreateAlliance: AppNextPage = (props) => {
     return (
-        <GridColumn className="col-xs-12">
+        <>
             <p>
                 <LinkString
                     link={__(
@@ -68,7 +67,7 @@ const CreateAlliance: AppNextPage = (props) => {
                     </div>
                 )}
             />
-        </GridColumn>
+        </>
     );
 };
 

@@ -1,7 +1,6 @@
 import Link from "next/link";
 import * as React from "react";
 import { Table } from "react-bootstrap";
-import { GridColumn } from "../../../components/layout";
 import { Loading } from "../../../components/ui/loading";
 import __ from "../../../i18n/i18n";
 import { fetchAll } from "../../../lib/domain/game/alliances.slice";
@@ -24,7 +23,7 @@ const Alliances: AppNextPage<ReturnType<typeof selector>> = ({
     }
 
     return (
-        <GridColumn className="col-xs-12">
+        <>
             <Table striped hover responsive>
                 <thead>
                     <tr>
@@ -50,7 +49,7 @@ const Alliances: AppNextPage<ReturnType<typeof selector>> = ({
                     ))}
                 </tbody>
             </Table>
-        </GridColumn>
+        </>
     );
 };
 
