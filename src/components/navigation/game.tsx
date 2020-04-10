@@ -40,7 +40,11 @@ const GameNavigation = (props: IGameNavigation): JSX.Element => {
                 </ActiveLink>
             </li>
             <li>
-                <ActiveLink href="/game/games" activeClassName="active">
+                <ActiveLink
+                    href="/game/games"
+                    activeClassName="active"
+                    indexRoute={true}
+                >
                     <a>
                         {__("Games")}
                         {gameCount > 0 && <span>&nbsp;({gameCount})</span>}
@@ -88,7 +92,11 @@ const GameNavigation = (props: IGameNavigation): JSX.Element => {
                 </ul>
             </li>
             <li>
-                <ActiveLink href="/game/alliances" activeClassName="active">
+                <ActiveLink
+                    href="/game/alliances"
+                    activeClassName="active"
+                    indexRoute={true}
+                >
                     <a>
                         {__("Alliance")}
                         <i className="fa fa-angle-down" aria-hidden="true" />
