@@ -2,10 +2,16 @@ import * as React from "react";
 import { Button, FormControl } from "react-bootstrap";
 import { connect } from "react-redux";
 import { ChannelInformation } from "../../external/chatModel";
-import { autobind } from "../../lib/utils/autobind";
+import __ from "../../i18n/i18n";
+import {
+    close,
+    message,
+    showHide,
+    switchChannel,
+} from "../../lib/domain/shared/chat/chat.slice";
 import { IState } from "../../reducers";
-import { close, message, showHide, switchChannel } from "./chat.actions";
-import "./chat.scss";
+import { AppDispatch } from "../../store";
+import style from "./chat.module.scss";
 
 interface IChatProps {
     isVisible: boolean;
@@ -39,25 +45,25 @@ export class Chat extends React.Component<IChatProps, IChatState> {
     public render(): JSX.Element {
         if (!this.props.isActive) {
             return (
-                <div className="chat-button">
+                <div className={style.chatButton}>
                     <Button onClick={this._onShow}>{__("Open chat")}</Button>
                 </div>
             );
         } else {
             // Chat is active
             const activeChannel = this.props.channels.filter(
-                c => c.identifier === this.props.activeChannel
+                (c) => c.identifier === this.props.activeChannel
             )[0];
 
             if (this.props.isVisible) {
                 // Show chat window
                 return (
-                    <div className="chat-window">
-                        <div className="chat-header">
+                    <div className={style.chatWindow}>
+                        <div className={style.chatHeader}>
                             <div>
                                 <ul>
                                     {(this.props.channels &&
-                                        this.props.channels.map(c => (
+                                        this.props.channels.map((c) => (
                                             <li
                                                 key={c.identifier}
                                                 className={
@@ -68,7 +74,7 @@ export class Chat extends React.Component<IChatProps, IChatState> {
                                             >
                                                 <a
                                                     href="#"
-                                                    onClick={e => {
+                                                    onClick={(e) => {
                                                         e.preventDefault();
                                                         this._switchChannel(
                                                             c.identifier
@@ -84,7 +90,7 @@ export class Chat extends React.Component<IChatProps, IChatState> {
                                 </ul>
                             </div>
 
-                            <div className="chat-actions">
+                            <div className={style.chatActions}>
                                 <Button
                                     onClick={this._onHide}
                                     title={__("Hide")}
@@ -100,9 +106,9 @@ export class Chat extends React.Component<IChatProps, IChatState> {
                             </div>
                         </div>
 
-                        <div className="chat-content">
+                        <div className={style.chatContent}>
                             <div
-                                className="chat-content-messages"
+                                className={style.chatContentMessages}
                                 ref={this._resolveContent}
                             >
                                 <ul>
@@ -113,17 +119,17 @@ export class Chat extends React.Component<IChatProps, IChatState> {
                                             }-${msg.dateTime.toISOString()}-${i}`}
                                         >
                                             [
-                                            <span className="chat-date">
+                                            <span className={style.chatDate}>
                                                 {(msg.dateTime &&
                                                     msg.dateTime.toLocaleString()) ||
                                                     i}
                                             </span>
                                             ]&nbsp;
-                                            <span className="chat-user">
+                                            <span className={style.chatUser}>
                                                 {msg.userName}
                                             </span>
                                             :&nbsp;
-                                            <span className="chat-message">
+                                            <span className={style.chatMessage}>
                                                 {msg.text}
                                             </span>
                                         </li>
@@ -133,16 +139,16 @@ export class Chat extends React.Component<IChatProps, IChatState> {
                                 </ul>
                             </div>
 
-                            <div className="chat-content-users">
+                            <div className={style.chatContentUsers}>
                                 <ul>
-                                    {activeChannel.users.map(u => (
+                                    {activeChannel.users.map((u) => (
                                         <li key={u.name}>{u.name}</li>
                                     ))}
                                 </ul>
                             </div>
                         </div>
 
-                        <div className="chat-input">
+                        <div className={style.chatInput}>
                             <form onSubmit={this._onSend}>
                                 <FormControl
                                     {...({
@@ -166,7 +172,7 @@ export class Chat extends React.Component<IChatProps, IChatState> {
                 const unreadCount = this.props.unreadCount;
 
                 return (
-                    <div className="chat-button">
+                    <div className={style.chatButton}>
                         <Button onClick={this._onShow}>
                             {unreadCount > 0 ? (
                                 unreadCount
@@ -189,7 +195,7 @@ export class Chat extends React.Component<IChatProps, IChatState> {
         }
     }
 
-    private _onChange = event => {
+    private _onChange = (event) => {
         this.setState({
             msg: event.target.value,
         });
@@ -215,8 +221,7 @@ export class Chat extends React.Component<IChatProps, IChatState> {
         this.props.switchChannel(channelId);
     };
 
-    @autobind
-    private _onSend(ev: React.FormEvent<HTMLFormElement>) {
+    private _onSend = (ev: React.FormEvent<HTMLFormElement>) => {
         ev.stopPropagation();
         ev.preventDefault();
 
@@ -225,7 +230,7 @@ export class Chat extends React.Component<IChatProps, IChatState> {
         this.setState({
             msg: "",
         });
-    }
+    };
 }
 
 export default connect(
@@ -240,7 +245,7 @@ export default connect(
             unreadCount: chat.unreadCount,
         };
     },
-    dispatch => ({
+    (dispatch: AppDispatch) => ({
         showHide: (show: boolean) => {
             dispatch(showHide(show));
         },

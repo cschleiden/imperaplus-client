@@ -7,7 +7,7 @@ const cachedClients: { [hubName: string]: ISignalRClient } = {};
 
 export interface ISignalRClient {
     start(): Promise<void>;
-    stop(): void;
+    stop(): Promise<void>;
     detachAllHandlers(): void;
 
     on(eventName: string, callback: Function);

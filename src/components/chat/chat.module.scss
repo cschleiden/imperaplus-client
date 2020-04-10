@@ -1,6 +1,6 @@
 @import "../../styles/vars";
 
-.chat-button {
+.chatButton {
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
     border: 1px solid gray;
@@ -20,7 +20,8 @@ $inputHeight: 34px;
 
 $usersWidth: 100px;
 
-.chat-window {
+.chatWindow {
+    backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
     border: 1px solid grey;
     border-bottom: none;
@@ -32,7 +33,7 @@ $usersWidth: 100px;
     height: $windowHeightFull;
     background: white;
 
-    .chat-header {
+    .chatHeader {
         height: $headerHeight;
         border-bottom: 2px solid $accent;
 
@@ -72,7 +73,7 @@ $usersWidth: 100px;
         }
     }
 
-    .chat-input {
+    .chatInput {
         margin: 0;
         padding: 0;
 
@@ -92,7 +93,7 @@ $usersWidth: 100px;
         }
     }
 
-    .chat-actions {
+    .chatActions {
         position: absolute;
         top: 0;
         right: 0;
@@ -102,7 +103,7 @@ $usersWidth: 100px;
         }
     }
 
-    .chat-content {
+    .chatContent {
         margin: 0;
         padding: 0 8px;
 
@@ -110,7 +111,7 @@ $usersWidth: 100px;
 
         height: calc(100% - #{$inputHeight + $headerHeight});
 
-        .chat-content-messages {
+        .chatContentMessages {
             float: left;
 
             overflow-x: hidden;
@@ -120,7 +121,7 @@ $usersWidth: 100px;
             max-height: 100%;
         }
 
-        .chat-content-users {
+        .chatContentUsers {
             float: right;
             width: $usersWidth;
 
@@ -136,11 +137,11 @@ $usersWidth: 100px;
             margin: 0;
 
             li {
-                .chat-date {
+                .chatDate {
                     font-weight: bold;
                 }
 
-                .chat-user {
+                .chatUser {
                     font-style: italic;
                 }
             }
