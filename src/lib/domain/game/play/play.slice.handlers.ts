@@ -182,10 +182,7 @@ export const historyTurn = (
     state.historyActive = true;
 };
 
-export const historyExit = (
-    state: PlaySliceState,
-    action: PayloadAction<void>
-) => {
+export const historyExit = (state: PlaySliceState) => {
     state.historyActive = false;
     state.historyTurn = null;
 };

@@ -15,7 +15,7 @@ import {
     PlayClient,
 } from "../../../../external/imperaClients";
 import { notificationService } from "../../../../services/notificationService";
-import { AppThunkArg } from "../../../../store";
+import { AppThunk, AppThunkArg } from "../../../../store";
 import { UserIdPayload, withUserId } from "../../../../types";
 import { getToken, getUserId } from "../../shared/session/session.selectors";
 import { canMoveOrAttack, canPlace, inputActive } from "./play.selectors";
@@ -258,9 +258,13 @@ export const historyTurn = createAsyncThunk<HistoryTurn, number, AppThunkArg>(
     async (turnId, thunkAPI) => {
         const { gameId } = thunkAPI.getState().play;
 
-        Router.push(
+        // Update url
+        Router.replace(
             "/game/play/[...gameId]",
-            `/game/play/${gameId}/history/${turnId}`
+            `/game/play/${gameId}/history/${turnId}`,
+            {
+                shallow: true,
+            }
         );
 
         return thunkAPI.extra
@@ -268,6 +272,16 @@ export const historyTurn = createAsyncThunk<HistoryTurn, number, AppThunkArg>(
             .getTurn(gameId, turnId);
     }
 );
+
+export const doHistoryExit = (): AppThunk => async (dispatch, getState) => {
+    dispatch(historyExit());
+
+    // Update url
+    const { gameId } = getState().play;
+    Router.replace("/game/play/[...gameId]", `/game/play/${gameId}`, {
+        shallow: true,
+    });
+};
 
 //
 // Slice

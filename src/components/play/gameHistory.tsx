@@ -13,9 +13,14 @@ import {
     country,
     MapTemplateCacheEntry,
 } from "../../lib/domain/game/play/mapTemplateCache";
+import {
+    doHistoryExit,
+    historyTurn,
+} from "../../lib/domain/game/play/play.slice";
 import { css } from "../../lib/utils/css";
 import { getPlayerByPlayerId } from "../../lib/utils/game/utils";
 import { IState } from "../../reducers";
+import { AppDispatch } from "../../store";
 import { format } from "../ui/format";
 import { Spinner, SpinnerSize } from "../ui/spinner";
 import { SubSection } from "../ui/typography";
@@ -287,12 +292,12 @@ export default connect(
             pending: playState.operationInProgress,
         };
     },
-    (dispatch) => ({
+    (dispatch: AppDispatch) => ({
         showHistoryTurn: (turnId: number): void => {
-            //dispatch(historyTurn(turnId));
+            dispatch(historyTurn(turnId));
         },
         exitHistory: (): void => {
-            // dispatch(historyExit());
+            dispatch(doHistoryExit());
         },
     })
 )(GameHistory);
