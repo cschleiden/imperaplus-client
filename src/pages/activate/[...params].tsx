@@ -28,3 +28,5 @@ ActivateComponent.getInitialProps = async (ctx) => {
         })
     );
 };
+
+export default ActivateComponent;
