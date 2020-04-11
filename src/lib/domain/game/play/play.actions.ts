@@ -44,7 +44,7 @@ export const initNotifications = (): AppThunk => async (
     if (!initialized) {
         initialized = true;
 
-        console.trace("Attach handler");
+        console.log("Attach handler");
         notificationService.attachHandler(
             NotificationType.GameChatMessage,
             (notification) => {

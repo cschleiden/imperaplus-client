@@ -124,7 +124,7 @@ class SignalRClient implements ISignalRClient {
                 }
             },
             (e) => {
-                console.trace(`SignalR connection error ${e}`);
+                console.log(`SignalR connection error ${e}`);
 
                 // Retry in case of invalid auth
                 return this._reconnectWithAuth();
@@ -225,7 +225,7 @@ class SignalRClient implements ISignalRClient {
                 //     return result;
                 // })
                 .then(null, (error) => {
-                    console.trace(`SignalR error ${error}`);
+                    console.log(`SignalR error ${error}`);
 
                     return this._reconnectWithAuth().then(() => {
                         return this.invoke<TResult>(
@@ -242,7 +242,7 @@ class SignalRClient implements ISignalRClient {
     }
 
     private _reconnectWithAuth(): Promise<void> {
-        console.trace("reconnected to signalr");
+        console.log("reconnected to signalr");
         return; // TODO: CS: Re-enable
 
         if (this._reconnect) {
