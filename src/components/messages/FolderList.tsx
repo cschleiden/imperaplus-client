@@ -1,9 +1,6 @@
 import * as React from "react";
 import { Badge, ListGroup, ListGroupItem } from "react-bootstrap";
-import {
-    FolderInformation,
-    MessageFolder,
-} from "../../../external/imperaClients";
+import { FolderInformation, MessageFolder } from "../../external/imperaClients";
 import { FolderName } from "./FolderName";
 
 export interface IFolderListProps {

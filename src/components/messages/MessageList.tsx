@@ -1,11 +1,11 @@
 import * as React from "react";
 import { Button, Table } from "react-bootstrap";
-import { HumanDate } from "../../../components/ui/humanDate";
-import { UserRef } from "../../../components/ui/userReference";
-import { Message } from "../../../external/imperaClients";
-import { autobind } from "../../../lib/utils/autobind";
-import { css } from "../../../lib/utils/css";
-import "./MessageList.scss";
+import { Message } from "../../external/imperaClients";
+import __ from "../../i18n/i18n";
+import { css } from "../../lib/utils/css";
+import { HumanDate } from "../ui/humanDate";
+import { UserRef } from "../ui/userReference";
+import style from "./MessageList.module.scss";
 
 export interface IMessageListProps {
     messages: Message[];
@@ -19,7 +19,7 @@ export class MessageList extends React.Component<IMessageListProps> {
         const { messages } = this.props;
 
         return (
-            <div className="messages-list">
+            <div className={style.messageList}>
                 <Table responsive hover striped>
                     <thead>
                         <tr>
@@ -31,7 +31,8 @@ export class MessageList extends React.Component<IMessageListProps> {
                     </thead>
 
                     <tbody>
-                        {messages && messages.map(m => this._renderMessage(m))}
+                        {messages &&
+                            messages.map((m) => this._renderMessage(m))}
                     </tbody>
                 </Table>
             </div>
@@ -43,7 +44,7 @@ export class MessageList extends React.Component<IMessageListProps> {
             <tr
                 key={message.id}
                 className={css({
-                    unread: !message.isRead,
+                    [style.unread]: !message.isRead,
                 })}
                 onClick={() => this._openMessage(message)}
             >
@@ -56,7 +57,7 @@ export class MessageList extends React.Component<IMessageListProps> {
                     <Button
                         bsStyle="danger"
                         bsSize="xs"
-                        onClick={ev => this._deleteMessage(ev, message)}
+                        onClick={(ev) => this._deleteMessage(ev, message)}
                     >
                         <i className="fa fa-trash-o" />
                         &nbsp;{__("Delete")}
@@ -66,16 +67,14 @@ export class MessageList extends React.Component<IMessageListProps> {
         );
     }
 
-    @autobind
-    private _openMessage(message: Message) {
+    private _openMessage = (message: Message) => {
         this.props.onMessageSelect(message);
-    }
+    };
 
-    @autobind
-    private _deleteMessage(ev: React.MouseEvent<any>, message: Message) {
+    private _deleteMessage = (ev: React.MouseEvent<any>, message: Message) => {
         this.props.onMessageDelete(message);
 
         ev.preventDefault();
         ev.stopPropagation();
-    }
+    };
 }

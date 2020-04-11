@@ -258,7 +258,10 @@ export const historyTurn = createAsyncThunk<HistoryTurn, number, AppThunkArg>(
     async (turnId, thunkAPI) => {
         const { gameId } = thunkAPI.getState().play;
 
-        Router.push(`/game/play/${gameId}/history/${turnId}`);
+        Router.push(
+            "/game/play/[...gameId]",
+            `/game/play/${gameId}/history/${turnId}`
+        );
 
         return thunkAPI.extra
             .createClient(getToken(thunkAPI.getState()), HistoryClient)

@@ -1,4 +1,5 @@
-import { MessageFolder } from "../../../external/imperaClients";
+import { MessageFolder } from "../../external/imperaClients";
+import __ from "../../i18n/i18n";
 
 export const FolderName = (folder: MessageFolder): string => {
     let folderName = "";

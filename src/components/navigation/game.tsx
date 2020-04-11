@@ -135,7 +135,11 @@ const GameNavigation = (props: IGameNavigation): JSX.Element => {
                 </ul>
             </li>
             <li>
-                <ActiveLink href="/game/messages" activeClassName="active">
+                <ActiveLink
+                    href="/game/messages"
+                    activeClassName="active"
+                    indexRoute={true}
+                >
                     <a>
                         <i className="fa fa-envelope" aria-hidden="true" />
                         <span className="visible-xs-inline">

@@ -29,7 +29,7 @@ export const doHistoryExit = (): AppThunk => async (dispatch, getState) => {
     const { gameId } = getState().play;
     dispatch(historyExit());
 
-    Router.push(`/game/play/${gameId}`);
+    Router.push("/game/play/[...gameId]", `/game/play/${gameId}`);
 };
 
 // TODO: Move this to another place?

@@ -38,7 +38,10 @@ export const create = createAsyncThunk<
         .getUserInfo();
 
     thunkAPI.dispatch(updateUserInfo(userInfo));
-    Router.push(`/game/alliances/${alliance.id}`);
+    Router.push(
+        "/game/alliances/[allianceId]",
+        `/game/alliances/${alliance.id}`
+    );
 
     return alliance;
 });
