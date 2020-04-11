@@ -514,7 +514,7 @@ class Map extends React.Component<IMapProps, IMapState> {
     private _onMouseMove = (ev: React.MouseEvent<HTMLDivElement>) => {
         const target = ev.target as HTMLDivElement;
 
-        if (target.classList.contains("country")) {
+        if (target.classList.contains(style.country)) {
             // on country
             const countryIdentifier = target.id;
 
