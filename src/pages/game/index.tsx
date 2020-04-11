@@ -40,18 +40,13 @@ function selector(state: IState) {
         news: state.news.news,
         openTournaments: [],
         activeTournaments: [],
-        closedTournaments: [],
     };
 }
 
 export const News: AppNextPage = (props) => {
-    const {
-        news,
-        language,
-        openTournaments,
-        activeTournaments,
-        closedTournaments,
-    } = useSelector(selector);
+    const { news, language, openTournaments, activeTournaments } = useSelector(
+        selector
+    );
 
     return (
         <GridRow>
@@ -84,7 +79,10 @@ export const News: AppNextPage = (props) => {
                 {openTournaments.map((tournament) => {
                     return (
                         <div key={tournament.id}>
-                            <Link href={`/game/tournaments/${tournament.id}`}>
+                            <Link
+                                as={`/game/tournaments/${tournament.id}`}
+                                href={`/game/tournaments`}
+                            >
                                 {tournament.name}
                             </Link>
                         </div>
@@ -95,18 +93,10 @@ export const News: AppNextPage = (props) => {
                 {activeTournaments.map((tournament) => {
                     return (
                         <div key={tournament.id}>
-                            <Link href={`/game/tournaments/${tournament.id}`}>
-                                {tournament.name}
-                            </Link>
-                        </div>
-                    );
-                })}
-
-                <SubSection>{__("Closed")}</SubSection>
-                {closedTournaments.map((tournament) => {
-                    return (
-                        <div key={tournament.id}>
-                            <Link href={`/game/tournaments/${tournament.id}`}>
+                            <Link
+                                as={`/game/tournaments/${tournament.id}`}
+                                href={`/game/tournaments`}
+                            >
                                 {tournament.name}
                             </Link>
                         </div>
