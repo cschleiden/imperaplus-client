@@ -2,11 +2,13 @@ import * as React from "react";
 import { imageBaseUri } from "../../configuration";
 import {
     areConnected,
+    connections,
     continent,
     MapTemplateCacheEntry,
 } from "../../lib/domain/game/play/mapTemplateCache";
 import { css } from "../../lib/utils/css";
 import style from "./map.module.scss";
+import { MapSvgOverlay } from "./mapSvgOverlay";
 
 export interface IMapViewProps {
     mapTemplate: MapTemplateCacheEntry;
@@ -29,8 +31,22 @@ export class MapView extends React.Component<IMapViewProps, IMapViewState> {
         const { mapTemplate } = this.props;
 
         return (
-            <div onMouseMove={this._onMouseMove}>
+            <div onMouseMove={this._onMouseMove} className={style.mapContainer}>
                 <img src={`${imageBaseUri}${mapTemplate.image}`} />
+                <MapSvgOverlay
+                    mapTemplate={mapTemplate}
+                    countryArrows={
+                        (this.state.hoveredCountry &&
+                            connections(
+                                mapTemplate,
+                                this.state.hoveredCountry
+                            ).map((targetCountry) => ({
+                                sourceCountry: this.state.hoveredCountry,
+                                targetCountry,
+                            }))) ||
+                        []
+                    }
+                />
                 {this._renderCountries()}
             </div>
         );

@@ -32,13 +32,21 @@ function App({
 
     React.useEffect(() => {
         const handleRouteChange = () => {
+            console.log("nav starts");
+
             // Ensure nav is closed
             store.dispatch(openClose(false));
         };
 
+        const handleRouteChangeComplete = () => {
+            console.log("nav done");
+        };
+
         Router.events.on("routeChangeStart", handleRouteChange);
+        Router.events.on("routeChangeComplete", handleRouteChangeComplete);
         return () => {
             Router.events.off("routeChangeStart", handleRouteChange);
+            Router.events.off("routeChangeComplete", handleRouteChangeComplete);
         };
     }, []);
 

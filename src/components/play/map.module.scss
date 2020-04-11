@@ -8,6 +8,10 @@
     user-select: none;
 }
 
+.mapContainer {
+    position: relative;
+}
+
 // Map
 $country-width: 26px;
 $country-height: 24px;

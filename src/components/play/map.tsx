@@ -130,6 +130,7 @@ class Map extends React.Component<IMapProps, IMapState> {
                 onClick={this._onClick}
                 onMouseMove={this._onMouseMove}
             >
+                <svg></svg>
                 {mapTemplate && (
                     <img
                         src={mapImage(mapTemplate)}
