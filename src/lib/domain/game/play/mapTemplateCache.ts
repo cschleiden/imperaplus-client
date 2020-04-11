@@ -22,15 +22,13 @@ export async function fetchMapTemplate(
     token: string,
     name: string
 ): Promise<MapTemplateCacheEntry> {
-    if (mapTemplateCache[name]) {
-        return;
+    if (!mapTemplateCache[name]) {
+        const mapTemplate = await createClient(token, MapClient).getMapTemplate(
+            name
+        );
+
+        mapTemplateCache[name] = preprocessMapTemplate(mapTemplate);
     }
-
-    const mapTemplate = await createClient(token, MapClient).getMapTemplate(
-        name
-    );
-
-    mapTemplateCache[name] = preprocessMapTemplate(mapTemplate);
 
     return mapTemplateCache[name];
 }

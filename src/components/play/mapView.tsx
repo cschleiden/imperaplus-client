@@ -1,4 +1,5 @@
 import * as React from "react";
+import { imageBaseUri } from "../../configuration";
 import {
     areConnected,
     continent,
@@ -29,7 +30,7 @@ export class MapView extends React.Component<IMapViewProps, IMapViewState> {
 
         return (
             <div onMouseMove={this._onMouseMove}>
-                <img src={mapTemplate.image} />
+                <img src={`${imageBaseUri}${mapTemplate.image}`} />
                 {this._renderCountries()}
             </div>
         );

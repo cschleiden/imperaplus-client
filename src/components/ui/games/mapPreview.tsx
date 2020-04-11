@@ -1,9 +1,9 @@
 import Link from "next/link";
 import * as React from "react";
 import { Image, ImageProps } from "react-bootstrap";
-import { createClient } from "../../../clients/clientFactory";
 import { imageBaseUri } from "../../../configuration";
-import { MapClient, MapTemplate } from "../../../external/imperaClients";
+import { MapTemplate } from "../../../external/imperaClients";
+import { fetchMapTemplate } from "../../../lib/domain/game/play/mapTemplateCache";
 import { useAppSelector } from "../../../store";
 import { Spinner } from "../spinner";
 
@@ -27,13 +27,11 @@ export const MapPreview: React.FC<IMapPreviewProps> = (props) => {
     React.useEffect(() => {
         let cancelled = false;
 
-        createClient(token, MapClient)
-            .getMapTemplate(mapTemplateName)
-            .then((mt) => {
-                if (!cancelled) {
-                    setMapTemplate(mt);
-                }
-            });
+        fetchMapTemplate(token, mapTemplateName).then((mt) => {
+            if (!cancelled) {
+                setMapTemplate(mt);
+            }
+        });
 
         return () => {
             cancelled = true;

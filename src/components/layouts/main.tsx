@@ -11,6 +11,7 @@ import {
 import { useDispatch } from "react-redux";
 import __ from "../../i18n/i18n";
 import { openClose } from "../../lib/domain/shared/general/general.slice";
+import { clearMessage } from "../../lib/domain/shared/message/message.slice";
 import { setLanguage } from "../../lib/domain/shared/session/session.slice";
 import { getStyleForMessage } from "../../lib/utils/message";
 import { AppDispatch, useAppSelector } from "../../store";
@@ -131,7 +132,7 @@ const Layout: React.FC<ILayoutProps> = (props) => {
         msg = (
             <Alert
                 bsStyle={getStyleForMessage(message.type)}
-                onDismiss={this._onClear}
+                onDismiss={() => dispatch(clearMessage())}
             >
                 <LinkString link={message.message} />
             </Alert>
