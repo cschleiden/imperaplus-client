@@ -162,6 +162,7 @@ export const MapSvgOverlay: React.FC<{
                 .filter((x) => !!x.definition.annotation)
                 .map((x) => (
                     <div
+                        key={`annotation-${x.hx}-${x.hy}`}
                         className={style.annotation}
                         style={{
                             left: x.hx,
