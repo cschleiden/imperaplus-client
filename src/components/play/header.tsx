@@ -295,7 +295,7 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
                     className={css(
                         style.playHeaderBlock,
                         style.right,
-                        "hidden-xs"
+                        "visible-xs"
                     )}
                 >
                     <OverlayTrigger
