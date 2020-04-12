@@ -142,11 +142,7 @@ class GameChat extends React.Component<IGameChatProps> {
                 defaultActiveKey={1}
                 className={style.gameChat}
             >
-                <Tab
-                    eventKey={1}
-                    title={__("All")}
-                    className={style.gameChatTabContent}
-                >
+                <Tab eventKey={1} title={__("All")}>
                     <GameChatTab
                         onSend={this._onSendPublic}
                         messages={publicMessages}
@@ -154,11 +150,7 @@ class GameChat extends React.Component<IGameChatProps> {
                     />
                 </Tab>
 
-                <Tab
-                    eventKey={2}
-                    title={__("Team")}
-                    className={style.gameChatTabContent}
-                >
+                <Tab eventKey={2} title={__("Team")}>
                     <GameChatTab
                         onSend={this._onSend}
                         messages={teamMessages}
