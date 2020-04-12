@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Button, ButtonGroup } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { GridColumn } from "../../../components/layout";
 import { TournamentList } from "../../../components/ui/games/tournamentList";
 import { Section } from "../../../components/ui/typography";
 import {
@@ -85,25 +84,23 @@ const Tournaments: AppNextPage = () => {
     }
 
     return (
-        <GridColumn className="col-xs-12">
-            <div>
-                <div className="pull-right">
-                    <ButtonGroup>
-                        <Button
-                            key="refresh"
-                            onClick={() => dispatch(fetchAll())}
-                            title={__("Refresh")}
-                        >
-                            <span className="glyphicon glyphicon-refresh" />
-                        </Button>
-                    </ButtonGroup>
-                </div>
-
-                {open}
-                {inProgress}
-                {closed}
+        <div>
+            <div className="pull-right">
+                <ButtonGroup>
+                    <Button
+                        key="refresh"
+                        onClick={() => dispatch(fetchAll())}
+                        title={__("Refresh")}
+                    >
+                        <span className="glyphicon glyphicon-refresh" />
+                    </Button>
+                </ButtonGroup>
             </div>
-        </GridColumn>
+
+            {open}
+            {inProgress}
+            {closed}
+        </div>
     );
 };
 

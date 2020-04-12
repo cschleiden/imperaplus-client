@@ -1,6 +1,7 @@
 import { combineReducers } from "@reduxjs/toolkit";
 import alliances from "./lib/domain/game/alliances.slice";
 import games from "./lib/domain/game/games.slice";
+import ladders from "./lib/domain/game/ladders.slice";
 import mapPreview from "./lib/domain/game/mapPreview.slice";
 import messages from "./lib/domain/game/messages.slice";
 import news from "./lib/domain/game/news.slice";
@@ -18,7 +19,7 @@ const rootReducer = combineReducers({
     games,
     mapPreview,
     alliances,
-    // ladders,
+    ladders,
     messages,
     tournaments,
     play,
