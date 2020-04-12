@@ -9,6 +9,7 @@ import {
     MenuItem,
 } from "react-bootstrap";
 import { useDispatch } from "react-redux";
+import { baseUri } from "../../configuration";
 import __ from "../../i18n/i18n";
 import { openClose } from "../../lib/domain/shared/general/general.slice";
 import { clearMessage } from "../../lib/domain/shared/message/message.slice";
@@ -97,33 +98,24 @@ interface ILayoutProps {
     nav?: JSX.Element;
 }
 
-/*
-
-    public componentDidUpdate(prevProps: ILayoutProps) {
-        // Scroll message into view if it exists
-        const { message } = ;
-
-        if (!!message && prevProps.message !== message && this._msg) {
-            this._msg.scrollIntoView();
-        }
-    }
-
-    */
-// private _msg: HTMLDivElement;
-// private _resolveMsg = (element: HTMLDivElement) => (this._msg = element);
-
 const Layout: React.FC<ILayoutProps> = (props) => {
     const dispatch = useDispatch<AppDispatch>();
 
-    const { title, message, userInfo, isNavOpen, language } = useAppSelector(
-        (s) => ({
-            title: s.general.title,
-            message: s.message.message,
-            userInfo: s.session.userInfo,
-            isNavOpen: s.general.isNavOpen,
-            language: s.session.language,
-        })
-    );
+    const {
+        title,
+        message,
+        userInfo,
+        isNavOpen,
+        language,
+        token,
+    } = useAppSelector((s) => ({
+        title: s.general.title,
+        message: s.message.message,
+        userInfo: s.session.userInfo,
+        isNavOpen: s.general.isNavOpen,
+        language: s.session.language,
+        token: s.session.access_token,
+    }));
 
     const ref = React.useRef();
 
@@ -230,7 +222,20 @@ const Layout: React.FC<ILayoutProps> = (props) => {
                 <GridRow className="footer">
                     {isAdmin && (
                         <span>
-                            <a href="/toadmin">ADMIN</a>&nbsp;|&nbsp;
+                            <a
+                                href="#"
+                                onClick={() => {
+                                    // Move token to cookie
+                                    document.cookie = `bearer_token=${token};path=/admin`;
+
+                                    // Navigate to admin
+                                    window.location.href =
+                                        baseUri + "api/admin/news";
+                                }}
+                            >
+                                ADMIN
+                            </a>
+                            &nbsp;|&nbsp;
                         </span>
                     )}
                     <Link href="/privacy">
