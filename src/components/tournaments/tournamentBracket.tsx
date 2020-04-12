@@ -1,9 +1,9 @@
 import * as d3type from "d3";
 import { HierarchyPointNode } from "d3";
 import * as React from "react";
-import { Tournament, TournamentPairing } from "../../../external/imperaClients";
-import { css } from "../../../lib/utils/css";
-import "./tournamentBracket.scss";
+import { Tournament, TournamentPairing } from "../../external/imperaClients";
+import { css } from "../../lib/utils/css";
+import style from "./tournamentBracket.module.scss";
 
 export interface ITournamentBracketProps {
     tournament: Tournament;
@@ -54,18 +54,18 @@ export class TournamentBracket extends React.Component<
     public render() {
         return (
             <div
-                className="tournament-bracket-container"
+                className={style.tournamentBracketContainer}
                 ref={this._resolveElement}
             >
                 <svg />
-                <div className="labels" />
+                <div className={style.labels} />
             </div>
         );
     }
 
     public componentDidMount() {
         // @ts-ignore
-        (require as any).ensure(["d3"], require => {
+        (require as any).ensure(["d3"], (require) => {
             // tslint:disable-next-line:no-require-imports
             const d3 = require("d3") as typeof d3type;
 
@@ -73,8 +73,8 @@ export class TournamentBracket extends React.Component<
 
             const line = d3
                 .line<HierarchyPointNode<IBracketPairing>>()
-                .x(d => width - d.y + widthPerPhase / 2)
-                .y(d => d.x - heightPerPairing / 2 + 6)
+                .x((d) => width - d.y + widthPerPhase / 2)
+                .y((d) => d.x - heightPerPairing / 2 + 6)
                 .curve(d3.curveStep);
 
             const treemap = d3
@@ -100,21 +100,21 @@ export class TournamentBracket extends React.Component<
                 .enter()
                 .append("path")
                 .attr("class", "link")
-                .attr("d", d => line([d, d.parent]))
-                .classed("win", d => !!d.data.winner);
+                .attr("d", (d) => line([d, d.parent]))
+                .classed("win", (d) => !!d.data.winner);
 
             d3.select(this._element.querySelector(".labels"))
                 .selectAll("div")
                 .data(nodes.descendants())
                 .enter()
                 .append("div")
-                .style("max-width", d => widthPerPhase + "px")
+                .style("max-width", (d) => widthPerPhase + "px")
                 .classed("table", true)
-                .classed("played", d => !!d.data.winner)
-                .style("left", d => width - d.y + "px")
-                .style("top", d => d.x - heightPerPairing + "px")
-                .html(d => this._gameTemplate(d))
-                .on("click", d => {
+                .classed("played", (d) => !!d.data.winner)
+                .style("left", (d) => width - d.y + "px")
+                .style("top", (d) => d.x - heightPerPairing + "px")
+                .html((d) => this._gameTemplate(d))
+                .on("click", (d) => {
                     if (d.data.id) {
                         this.props.navigateToPairing(d.data.id);
                     }
@@ -148,7 +148,9 @@ export class TournamentBracket extends React.Component<
 
         for (let i = 0; i < numberOfRounds; ++i) {
             const phase = numberOfRounds - i - 1 + (hasGroupPhase ? 1 : 0);
-            const pairings = tournament.pairings.filter(x => x.phase === phase);
+            const pairings = tournament.pairings.filter(
+                (x) => x.phase === phase
+            );
             pairings.sort((a, b) => a.order - b.order);
 
             let newParents = [];
@@ -175,24 +177,27 @@ export class TournamentBracket extends React.Component<
     }
 
     private _gameTemplate(d: HierarchyPointNode<IBracketPairing>) {
-        return `<div class="${css("tournament-row", {
-            winner: d.data.nameA === d.data.winner,
-            tbd: !d.data.nameA,
+        return `<div class="${css(style.tournamentRow, {
+            [style.winner]: d.data.nameA === d.data.winner,
+            [style.tbd]: !d.data.nameA,
         })}">
-            <span class="tournament-cell name">${d.data.nameA || "&nbsp"}</span>
-                        <span class="tournament-cell score">${
-                            d.data.winsA >= 0 ? d.data.winsA : ""
-                        }</span>
+            <span class="${style.tournamentCell} ${style.name}">${
+            d.data.nameA || "&nbsp"
+        }</span>
+                        <span class="${style.tournamentCell} ${style.score}">${
+            d.data.winsA >= 0 ? d.data.winsA : ""
+        }</span>
         </div>
-                    <div class="${css(" tournament-row", {
-                        winner: d.data.nameB === d.data.winner,
-                        tbd: !d.data.nameB,
+                    <div class="${css(style.tournamentRow, {
+                        [style.winner]: d.data.nameB === d.data.winner,
+                        [style.tbd]: !d.data.nameB,
                     })}">
-            <span class="tournament-cell name">${d.data.nameB ||
-                "&nbsp;"}</span>
-                    <span class="tournament-cell score">${
-                        d.data.winsB >= 0 ? d.data.winsB : ""
-                    }</span>
+            <span class="${style.tournamentCell} ${style.name}">${
+            d.data.nameB || "&nbsp;"
+        }</span>
+                    <span class="${style.tournamentCell} ${style.score}">${
+            d.data.winsB >= 0 ? d.data.winsB : ""
+        }</span>
         </div>`;
     }
 
@@ -202,7 +207,7 @@ export class TournamentBracket extends React.Component<
     ): IBracketPairing {
         const p = pairings[index];
 
-        let winner;
+        let winner: string;
         if (p) {
             if (p.teamAWon >= p.numberOfGames / 2) {
                 winner = p.teamA.name;

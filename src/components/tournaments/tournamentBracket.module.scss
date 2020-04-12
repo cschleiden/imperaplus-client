@@ -1,12 +1,13 @@
 @import "../../../styles/vars.scss";
 @import "../../../styles/utils.scss";
-.tournament-bracket-container {
+
+.tournamentBracketContainer {
     overflow-x: auto;
     position: relative;
     height: auto;
 }
 
-.tournament-bracket {
+.tournamentBracket {
     position: relative;
     .link {
         fill: none;
@@ -31,7 +32,7 @@
         .table.played {
             background-color: $accent;
         }
-        .tournament-row {
+        .tournamentRow {
             display: flex;
             flex-direction: row;
         }
@@ -39,7 +40,7 @@
     .winner {
         font-weight: bold;
     }
-    .tournament-cell {
+    .tournamentCell {
         &.score {
             border-left: 1px solid rgba(34, 34, 34, 0.1);
             width: 25px;

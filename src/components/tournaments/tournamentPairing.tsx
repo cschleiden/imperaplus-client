@@ -1,10 +1,11 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { GridColumn } from "../../components/layout";
-import GameDetails from "../../components/ui/games/gameDetail";
 import { GameSummary } from "../../external/imperaClients";
+import { loadPairingGames } from "../../lib/domain/game/tournaments.slice";
 import { IState } from "../../reducers";
-import { loadPairingGames } from "../tournaments/tournaments.actions";
+import { AppDispatch } from "../../store";
+import { GridColumn } from "../layout";
+import GameDetails from "../ui/games/gameDetail";
 
 export interface ITournamentPairingProps {
     params: {
@@ -44,9 +45,9 @@ export default connect(
             games,
         };
     },
-    (dispatch) => ({
+    (dispatch: AppDispatch) => ({
         loadPairing: (id: string) => {
-            dispatch(loadPairingGames({ pairingId: id }));
+            dispatch(loadPairingGames(id));
         },
     })
 )(TournamentPairingComponent);

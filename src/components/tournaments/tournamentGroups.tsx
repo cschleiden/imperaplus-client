@@ -1,13 +1,14 @@
 import * as React from "react";
 import { Table } from "react-bootstrap";
-import { GridColumn } from "../../../components/layout/index";
 import {
     Tournament,
     TournamentGroup,
     TournamentPairing,
-} from "../../../external/imperaClients";
-import { css } from "../../../lib/utils/css";
-import "./tournamentGroups.scss";
+} from "../../external/imperaClients";
+import __ from "../../i18n/i18n";
+import { css } from "../../lib/utils/css";
+import { GridColumn } from "../layout/index";
+import style from "./tournamentGroups.module.scss";
 
 export interface ITournamentGroupProps {
     tournament: Tournament;
@@ -20,7 +21,7 @@ export class TournamentGroups extends React.Component<ITournamentGroupProps> {
         const { tournament } = this.props;
 
         return (
-            <div className="tournament-groups">
+            <div className={style.tournamentGroups}>
                 {tournament.groups.map((group, index) =>
                     this._renderGroup(group, index)
                 )}
@@ -39,7 +40,7 @@ export class TournamentGroups extends React.Component<ITournamentGroupProps> {
             teamIds[team.id] = true;
         }
 
-        const pairings = tournament.pairings.filter(p => {
+        const pairings = tournament.pairings.filter((p) => {
             const pairingContainsCurrentTeams =
                 teamIds[p.teamA.id] || teamIds[p.teamB.id];
             const isGroupPairing = p.phase === 0;
@@ -55,14 +56,14 @@ export class TournamentGroups extends React.Component<ITournamentGroupProps> {
                         {`${__("Group")} ${index + 1}`}
                     </h4>
 
-                    <div className="group-standings vertical-box-content">
+                    <div className="groupStandings vertical-box-content">
                         <ol>
-                            {teams.map(team => (
+                            {teams.map((team) => (
                                 <li
                                     key={team.id}
                                     value={team.groupOrder}
                                     className={css({
-                                        "tournament-teams-cutoff":
+                                        [style.tournamentTeamCutoff]:
                                             team.groupOrder === 2, // first two teams proceed
                                     })}
                                 >
@@ -75,18 +76,25 @@ export class TournamentGroups extends React.Component<ITournamentGroupProps> {
                     <h5 className="vertical-box-header">{__("Pairings")}</h5>
 
                     <div className="group-pairings vertical-box-content">
-                        <Table className="group-table" striped={true}>
+                        <Table className={style.groupTable} striped={true}>
                             <tbody>
-                                {pairings.map(p => (
+                                {pairings.map((p) => (
                                     <tr
-                                        className="group-pairing-rows"
+                                        className={style.groupPairingRows}
                                         key={p.order}
                                         onClick={() => navigateToPairing(p.id)}
                                     >
-                                        <td className="group-table--team">
-                                            <div className="group-table--team-wrapper text-right">
+                                        <td className={style.groupTableTeam}>
+                                            <div
+                                                className={css(
+                                                    style.groupTableTeamWrapper,
+                                                    "text-right"
+                                                )}
+                                            >
                                                 <div
-                                                    className="group-table--team-name"
+                                                    className={
+                                                        style.groupTableTeamName
+                                                    }
                                                     title={p.teamA.name}
                                                 >
                                                     {p.teamA.name}
@@ -94,17 +102,24 @@ export class TournamentGroups extends React.Component<ITournamentGroupProps> {
                                                 {this._renderLabel(p, true)}
                                             </div>
                                         </td>
-                                        <td className="group-table--count">
+                                        <td className={style.groupTableCount}>
                                             <span className="label label-info">
                                                 {p.numberOfGames -
                                                     (p.teamAWon + p.teamBWon)}
                                             </span>
                                         </td>
-                                        <td className="group-table--team">
-                                            <div className="group-table--team-wrapper text-left">
+                                        <td className={style.groupTableTeam}>
+                                            <div
+                                                className={css(
+                                                    style.groupTableTeamWrapper,
+                                                    "text-left"
+                                                )}
+                                            >
                                                 {this._renderLabel(p, false)}
                                                 <div
-                                                    className="group-table--team-name"
+                                                    className={
+                                                        style.groupTableTeamName
+                                                    }
                                                     title={p.teamB.name}
                                                 >
                                                     {p.teamB.name}

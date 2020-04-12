@@ -5,9 +5,10 @@ import { useSelector } from "react-redux";
 import { GridColumn, GridRow } from "../../components/layout";
 import { HumanDate } from "../../components/ui/humanDate";
 import { Section, SubSection } from "../../components/ui/typography";
-import { NewsContent } from "../../external/imperaClients";
+import { NewsContent, TournamentState } from "../../external/imperaClients";
 import __ from "../../i18n/i18n";
 import { fetch } from "../../lib/domain/game/news.slice";
+import { fetchAll } from "../../lib/domain/game/tournaments.slice";
 import { IState } from "../../reducers";
 import { AppNextPage } from "../../store";
 // import { refresh as tournamentsRefresh } from "./tournaments/tournaments.actions";
@@ -21,25 +22,22 @@ function _getLanguageContent(
 }
 
 function selector(state: IState) {
-    // const tournaments = []; //state.tournaments.tournaments || [];
-    // const openTournaments = tournaments.filter(
-    //     x => x.state === TournamentState.Open
-    // );
-    // const activeTournaments = tournaments.filter(
-    //     x =>
-    //         x.state === TournamentState.Knockout ||
-    //         x.state === TournamentState.Groups
-    // );
-    // const closedTournaments = tournaments
-    //     .filter(x => x.state === TournamentState.Closed)
-    //     .slice(10);
+    const tournaments = state.tournaments.tournaments || [];
+    const openTournaments = tournaments.filter(
+        (x) => x.state === TournamentState.Open
+    );
+    const activeTournaments = tournaments.filter(
+        (x) =>
+            x.state === TournamentState.Knockout ||
+            x.state === TournamentState.Groups
+    );
 
     return {
         userInfo: state.session.userInfo,
         language: state.session.language,
         news: state.news.news,
-        openTournaments: [],
-        activeTournaments: [],
+        openTournaments,
+        activeTournaments,
     };
 }
 
@@ -111,7 +109,10 @@ News.getTitle = () => __("News");
 News.needsLogin = true;
 
 News.getInitialProps = async (ctx) => {
-    await ctx.store.dispatch(fetch());
+    await Promise.all([
+        ctx.store.dispatch(fetch()),
+        ctx.store.dispatch(fetchAll()),
+    ]);
 
     return selector(ctx.store.getState());
 };

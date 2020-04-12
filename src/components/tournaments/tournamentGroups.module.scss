@@ -1,32 +1,32 @@
 @import "../../../styles/vars.scss";
 
-.tournament-teams-cutoff {
+.tournamentTeamsCutoff {
     border-bottom: 1px solid black;
 }
 
-.tournament-groups {
-    .col {
+.tournamentGroups {
+    :global .col {
         margin-bottom: 15px;
     }
 }
 
-.group-table {
+.groupTable {
     table-layout: fixed;
 
     margin: 0;
 
-    .group-pairing-rows:hover {
+    .groupPairingRows:hover {
         cursor: pointer;
         background: $accent-highlight !important;
     }    
 
-    .group-table--count {
+    .groupTableCount {
         width: 30px;
         text-align: center;
     }
 
-    .group-table--team {
-        .group-table--team-wrapper {
+    .groupTableTeam {
+        .groupTableTeamWrapper {
             display: flex;
             flex-direction: row;
 
@@ -45,7 +45,7 @@
                 line-height: 1.42857;
             }
 
-            .group-table--team-name {
+            .groupTableTeamName {
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;

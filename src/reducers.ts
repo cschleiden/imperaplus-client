@@ -5,6 +5,7 @@ import mapPreview from "./lib/domain/game/mapPreview.slice";
 import messages from "./lib/domain/game/messages.slice";
 import news from "./lib/domain/game/news.slice";
 import play from "./lib/domain/game/play/play.slice";
+import tournaments from "./lib/domain/game/tournaments.slice";
 import chat from "./lib/domain/shared/chat/chat.slice";
 import forms from "./lib/domain/shared/forms/forms.slice";
 import general from "./lib/domain/shared/general/general.slice";
@@ -19,7 +20,7 @@ const rootReducer = combineReducers({
     alliances,
     // ladders,
     messages,
-    // tournaments,
+    tournaments,
     play,
     // loadingBar: loadingBarReducer,
     session,
