@@ -8,10 +8,6 @@
     user-select: none;
 }
 
-.mapContainer {
-    position: relative;
-}
-
 // Map
 $country-width: 26px;
 $country-height: 24px;
@@ -56,6 +52,8 @@ $country-height: 24px;
 }
 
 .map {
+    position: relative;
+
     &.blocked {
         &,
         .country {
@@ -64,37 +62,17 @@ $country-height: 24px;
     }
 }
 
-.connections {
-    path {
-        stroke-width: 3px;
-        cursor: pointer;
+.connection {
+    &Attack {
+        stroke: red;        
     }
-    &-attack {
-        path:last-child {
-            fill: red;
-            stroke-width: 2px !important;
-        }
-        path {
-            stroke: red;
-        }
+
+    &Move {        
+        stroke: blue;
     }
-    &-move {
-        path:last-child {
-            fill: blue;
-            stroke-width: 2px !important;
-        }
-        path {
-            stroke: blue;
-        }
-    }
-    &-hover path {
+    
+    &Hover path {
         stroke: white !important;
-    }
-    path:first-child {
-        /* Outline */
-        stroke-width: 34px !important;
-        stroke: transparent !important;
-        fill: transparent !important;
     }
 }
 

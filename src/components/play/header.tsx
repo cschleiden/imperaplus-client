@@ -210,11 +210,6 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
                                 onClick={this._onEndAttack}
                             >
                                 <span className="fa fa-mail-forward" />
-                                &nbsp;
-                                <span>
-                                    {game.movesInCurrentTurn}/
-                                    {game.options.movesPerTurn}
-                                </span>
                             </Button>
                         </ButtonGroup>
                     )}

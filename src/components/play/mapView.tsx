@@ -31,7 +31,7 @@ export class MapView extends React.Component<IMapViewProps, IMapViewState> {
         const { mapTemplate } = this.props;
 
         return (
-            <div onMouseMove={this._onMouseMove} className={style.mapContainer}>
+            <div onMouseMove={this._onMouseMove} className={style.map}>
                 <img src={`${imageBaseUri}${mapTemplate.image}`} />
                 <MapSvgOverlay
                     mapTemplate={mapTemplate}
