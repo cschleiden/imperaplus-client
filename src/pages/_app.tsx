@@ -15,6 +15,7 @@ import {
     openClose,
     setTitle,
 } from "../lib/domain/shared/general/general.slice";
+import { clearMessage } from "../lib/domain/shared/message/message.slice";
 import { doRestoreSession } from "../lib/domain/shared/session/session.actions";
 import { isLoggedIn } from "../lib/domain/shared/session/session.selectors";
 import { IState } from "../reducers";
@@ -36,6 +37,9 @@ function App({
 
             // Ensure nav is closed
             store.dispatch(openClose(false));
+
+            // Clear any flash message
+            store.dispatch(clearMessage());
         };
 
         const handleRouteChangeComplete = () => {

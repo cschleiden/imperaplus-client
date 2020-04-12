@@ -226,11 +226,11 @@ const Layout: React.FC<ILayoutProps> = (props) => {
                                 href="#"
                                 onClick={() => {
                                     // Move token to cookie
-                                    document.cookie = `bearer_token=${token};path=/admin`;
+                                    document.cookie = `bearer_token=${token};path=/`;
 
                                     // Navigate to admin
                                     window.location.href =
-                                        baseUri + "api/admin/news";
+                                        baseUri + "/api/admin/news";
                                 }}
                             >
                                 ADMIN
