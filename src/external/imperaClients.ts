@@ -4542,9 +4542,9 @@ export interface UserReference {
 
 export interface AllianceJoinRequest {
     id: string;
-    createdAt: Date;
+    createdAt: string;
     allianceId: string;
-    lastModifiedAt: Date;
+    lastModifiedAt: string;
     requestedByUser?: UserReference | undefined;
     state: AllianceJoinRequestState;
     reason?: string | undefined;
@@ -4575,8 +4575,8 @@ export interface GameSummary {
     options?: GameOptions | undefined;
     createdByUserId?: string | undefined;
     createdByName?: string | undefined;
-    startedAt?: Date | undefined;
-    lastActionAt: Date;
+    startedAt?: string | undefined;
+    lastActionAt: string;
     timeoutSecondsLeft: number;
     mapTemplate?: string | undefined;
     state: GameState;
@@ -4679,7 +4679,7 @@ export interface Game {
     currentPlayer?: PlayerSummary | undefined;
     map?: Map | undefined;
     options?: GameOptions | undefined;
-    lastModifiedAt: Date;
+    lastModifiedAt: string;
     timeoutSecondsLeft: number;
     turnCounter: number;
     unitsToPlace: number;
@@ -4730,7 +4730,7 @@ export interface GameChatMessage {
     gameId: number;
     user?: UserReference | undefined;
     teamId: string;
-    dateTime: Date;
+    dateTime: string;
     text?: string | undefined;
 }
 
@@ -4744,7 +4744,7 @@ export interface HistoryTurn {
 export interface HistoryEntry {
     id: number;
     turnNo: number;
-    dateTime: Date;
+    dateTime: string;
     actorId: string;
     otherPlayerId?: string | undefined;
     action: HistoryAction;
@@ -4790,7 +4790,7 @@ export interface LadderStanding {
     gamesWon: number;
     gamesLost: number;
     rating: number;
-    lastGame: Date;
+    lastGame: string;
 }
 
 export interface Ladder extends LadderSummary {
@@ -4846,7 +4846,7 @@ export interface Message extends SendMessage {
     id: string;
     from?: UserReference | undefined;
     folder: MessageFolder;
-    sentAt: Date;
+    sentAt: string;
     isRead: boolean;
 }
 
@@ -4857,7 +4857,7 @@ export interface FolderInformation {
 }
 
 export interface NewsItem {
-    dateTime: Date;
+    dateTime: string;
     postedBy?: string | undefined;
     content?: NewsContent[] | undefined;
 }
@@ -4920,9 +4920,9 @@ export interface TournamentSummary {
     numberOfGroupGames: number;
     numberOfKnockoutGames: number;
     numberOfFinalGames: number;
-    startOfRegistration: Date;
-    startOfTournament: Date;
-    endOfTournament: Date;
+    startOfRegistration: string;
+    startOfTournament: string;
+    endOfTournament: string;
     completion: number;
 }
 

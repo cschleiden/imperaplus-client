@@ -265,7 +265,7 @@ function _renderRegistration(tournament: Tournament, userId: string) {
 
     const registrationOpen =
         tournament.state === TournamentState.Open &&
-        tournament.startOfRegistration <= new Date();
+        new Date(tournament.startOfRegistration) <= new Date();
 
     const currentUserTeam = tournament.teams.find((t) =>
         t.participants.some((p) => p.id === userId)
@@ -560,6 +560,8 @@ TournamentComponent.getInitialProps = async (ctx) => {
     const tournamentId = ctx.query["tournamentId"] as string;
 
     await ctx.store.dispatch(fetch(tournamentId));
+
+    return {};
 };
 
 export default TournamentComponent;

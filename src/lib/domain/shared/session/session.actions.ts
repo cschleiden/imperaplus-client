@@ -1,4 +1,4 @@
-import { set } from "js-cookie";
+import { remove, set } from "js-cookie";
 import Router from "next/router";
 import { createClient } from "../../../../clients/clientFactory";
 import { FixedAccountClient } from "../../../../external/accountClient";
@@ -16,6 +16,9 @@ export const doLogin: AsyncAction<{
     username: string;
     password: string;
 }> = async (dispatch, getState, extra, input) => {
+    // Remove any leftover cookies
+    remove("bearer_token");
+
     const scope = "openid offline_access roles";
     const result = await extra
         .createClient(getToken(getState()), FixedAccountClient)
