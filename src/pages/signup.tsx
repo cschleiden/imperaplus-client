@@ -62,7 +62,7 @@ const Page: AppNextPage = () => {
     return (
         <Grid className="signup">
             <GridRow>
-                <GridColumn className="col-md-6 col-xs-12">
+                <GridColumn className="col-md-6 col-md-push-3 col-xs-12">
                     <p>
                         {__("Register a new account. It is completely free.")}
                     </p>

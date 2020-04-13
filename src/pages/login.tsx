@@ -19,7 +19,7 @@ const _formValid = (formState: IFormState): boolean => {
 const Page: AppNextPage = () => (
     <Grid className="login">
         <GridRow>
-            <GridColumn className="col-md-6 col-xs-12">
+            <GridColumn className="col-md-push-3 col-md-6 col-xs-12">
                 <p>{__("Sign in using your Impera account...")}</p>
 
                 <Form
