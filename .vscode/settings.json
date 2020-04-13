@@ -1,5 +1,8 @@
 // Place your settings in this file to overwrite default and user settings.
 {
+  "github-actions.workflows.pinned.workflows": [".github/workflows/cibuild.yaml"],
+  "github-actions.workflows.pinned.refresh.enabled": true,
+  "github-actions.workflows.pinned.refresh.interval": 60,
   "typescript.tsdk": "node_modules/typescript/lib",
   // Hide some folders 
   "files.exclude": {
