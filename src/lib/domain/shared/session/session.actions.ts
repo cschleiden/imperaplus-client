@@ -2,7 +2,7 @@ import { remove, set } from "js-cookie";
 import Router from "next/router";
 import { createClient } from "../../../../clients/clientFactory";
 import { FixedAccountClient } from "../../../../external/accountClient";
-import { NotificationClient } from "../../../../external/imperaClients";
+import { NotificationClient } from "../../../../external/NotificationClient";
 import { notificationService } from "../../../../services/notificationService";
 import { AppThunk, AsyncAction } from "../../../../store";
 import { getToken } from "./session.selectors";

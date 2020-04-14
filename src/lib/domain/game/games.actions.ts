@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { GameClient, GameSummary } from "../../../external/imperaClients";
+import { GameSummary } from "../../../external/imperaClients";
+import { GameClient } from "../../../external/GameClient";
 import __ from "../../../i18n/i18n";
 import { AppThunkArg } from "../../../store";
 import { MessageType, showMessage } from "../shared/message/message.slice";

@@ -7,13 +7,13 @@ import Router from "next/router";
 import {
     Game,
     GameActionResult,
-    GameClient,
     GameSummary,
-    HistoryClient,
     HistoryTurn,
     PlaceUnitsOptions,
-    PlayClient,
 } from "../../../../external/imperaClients";
+import { HistoryClient } from "../../../../external/HistoryClient";
+import { GameClient } from "../../../../external/GameClient";
+import { PlayClient } from "../../../../external/playClient";
 import { notificationService } from "../../../../services/notificationService";
 import { AppThunk, AppThunkArg } from "../../../../store";
 import { UserIdPayload, withUserId } from "../../../../types";

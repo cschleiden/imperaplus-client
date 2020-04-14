@@ -4,7 +4,7 @@
   "github-actions.workflows.pinned.refresh.enabled": true,
   "github-actions.workflows.pinned.refresh.interval": 60,
   "typescript.tsdk": "node_modules/typescript/lib",
-  // Hide some folders 
+  // Hide some folders
   "files.exclude": {
     "**/.git": true,
     "**/.svn": true,
@@ -12,5 +12,5 @@
     "**/.DS_Store": true,
     "node_modules": false,
     ".vscode": false
-  }
+  },
 }

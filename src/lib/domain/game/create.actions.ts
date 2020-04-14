@@ -1,8 +1,8 @@
 import {
-    GameClient,
     GameCreationOptions,
-    MapClient,
 } from "../../../external/imperaClients";
+import { MapClient } from "../../../external/MapClient";
+import { GameClient } from "../../../external/GameClient";
 import __ from "../../../i18n/i18n";
 import { AppThunk, AsyncAction } from "../../../store";
 import { lookupSet } from "../shared/general/general.slice";

@@ -3,12 +3,12 @@ import Router from "next/router";
 import { FixedAccountClient } from "../../../external/accountClient";
 import {
     Alliance,
-    AllianceClient,
     AllianceCreationOptions,
     AllianceJoinRequest,
     AllianceJoinRequestState,
     AllianceSummary,
 } from "../../../external/imperaClients";
+import { AllianceClient } from "../../../external/AllianceClient";
 import { AppThunkArg } from "../../../store";
 import { getToken } from "../shared/session/session.selectors";
 import { updateUserInfo } from "../shared/session/session.slice";

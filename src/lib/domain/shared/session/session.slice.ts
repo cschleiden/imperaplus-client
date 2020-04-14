@@ -4,10 +4,10 @@ import Router from "next/router";
 import { baseUri } from "../../../../configuration";
 import { FixedAccountClient } from "../../../../external/accountClient";
 import {
-    NotificationClient,
     NotificationSummary,
     UserInfo,
 } from "../../../../external/imperaClients";
+import { NotificationClient } from "../../../../external/NotificationClient";
 import __ from "../../../../i18n/i18n";
 import { EventService } from "../../../../services/eventService";
 import { AppThunkArg } from "../../../../store";

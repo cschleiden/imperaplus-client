@@ -2,7 +2,8 @@ import * as React from "react";
 import { AsyncTypeahead, TypeaheadResult } from "react-bootstrap-typeahead";
 import { ReactReduxContext } from "react-redux";
 import { createClient } from "../../clients/clientFactory";
-import { UserClient, UserReference } from "../../external/imperaClients";
+import { UserReference } from "../../external/imperaClients";
+import { UserClient } from "../../external/UserClient";
 import __ from "../../i18n/i18n";
 import { getToken } from "../../lib/domain/shared/session/session.selectors";
 

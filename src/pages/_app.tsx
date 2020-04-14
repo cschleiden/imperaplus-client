@@ -23,6 +23,8 @@ import { notificationService } from "../services/notificationService";
 import { AppNextPage, AppPageContext, getOrCreateStore } from "../store";
 import "../styles/index.scss";
 
+const isSSR = typeof window === "undefined";
+
 function App({
     Component,
     pageProps,
@@ -56,10 +58,7 @@ function App({
 
     setLanguageProvider(() => store.getState().session?.language);
 
-    if (
-        (Component as AppNextPage).needsLogin &&
-        typeof window !== "undefined"
-    ) {
+    if ((Component as AppNextPage).needsLogin && !isSSR) {
         const token = store.getState().session.access_token;
         notificationService.init(token);
     }
@@ -90,7 +89,6 @@ function App({
 App.getInitialProps = async (
     appContext: AppContext
 ): Promise<AppInitialProps & { storeState: IState }> => {
-    // TODO: CS: Do this on demand?
     const cookieState = nextCookie(appContext.ctx);
 
     // Create or get redux store

@@ -2,11 +2,11 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
     GameSummary,
     Tournament,
-    TournamentClient,
     TournamentSummary,
     TournamentTeam,
     TournamentTeamSummary,
 } from "../../../external/imperaClients";
+import { TournamentClient } from "../../../external/TournamentClient";
 import __ from "../../../i18n/i18n";
 import { AppThunkArg } from "../../../store";
 import { MessageType, showMessage } from "../shared/message/message.slice";

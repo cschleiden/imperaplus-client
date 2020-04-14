@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { NewsClient, NewsItem } from "../../../external/imperaClients";
+import { NewsItem } from "../../../external/imperaClients";
+import { NewsClient } from "../../../external/NewsClient";
 import { AppThunkArg } from "../../../store";
 import { getToken } from "../shared/session/session.selectors";
 

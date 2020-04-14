@@ -3,9 +3,9 @@ import { imageBaseUri } from "../../../../configuration";
 import {
     Continent,
     CountryTemplate,
-    MapClient,
     MapTemplate,
 } from "../../../../external/imperaClients";
+import { MapClient } from "../../../../external/MapClient";
 
 export function getCachedMapTemplate(
     mapTemplateName: string

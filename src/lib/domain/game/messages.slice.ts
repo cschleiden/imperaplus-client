@@ -3,10 +3,10 @@ import Router from "next/router";
 import {
     FolderInformation,
     Message,
-    MessageClient,
     MessageFolder,
     SendMessage,
 } from "../../../external/imperaClients";
+import { MessageClient } from "../../../external/MessageClient";
 import { AppThunkArg } from "../../../store";
 import { getToken } from "../shared/session/session.selectors";
 import { refreshNotifications } from "../shared/session/session.slice";

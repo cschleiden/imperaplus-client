@@ -1,5 +1,5 @@
 import Router from "next/router";
-import { GameClient } from "../../../../external/imperaClients";
+import { GameClient } from "../../../../external/GameClient";
 import {
     IGameChatMessageNotification,
     IGameNotification,
