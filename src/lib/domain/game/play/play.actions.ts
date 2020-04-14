@@ -24,6 +24,7 @@ import {
     switchGame,
 } from "./play.slice";
 import { IGameUIOptions } from "./play.slice.state";
+import { isSSR } from "../../../utils/isSSR";
 
 export const doHistoryExit = (): AppThunk => async (dispatch, getState) => {
     const { gameId } = getState().play;
@@ -37,11 +38,9 @@ let initialized = false;
 
 export const initNotifications = (): AppThunk => async (
     dispatch,
-    getState,
-    extra
+    getState
 ) => {
-    // TODO: Should find a better place.. for now hook up event the first time we join a game
-    if (!initialized) {
+    if (!isSSR() && !initialized) {
         initialized = true;
 
         console.log("Attach handler");
@@ -65,6 +64,10 @@ export const initNotifications = (): AppThunk => async (
                 }
             }
         );
+
+        // Ensure we are subscribed to the current game
+        const gameId = getState().play.gameId;
+        await notificationService.switchGame(0, gameId);
     }
 };
 

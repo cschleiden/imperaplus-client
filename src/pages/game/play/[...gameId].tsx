@@ -7,6 +7,7 @@ import Sidebar from "../../../components/play/sidebar";
 import { getErrorMessage } from "../../../i18n/errorCodes";
 import __ from "../../../i18n/i18n";
 import {
+    doSetGameOption,
     doSwitchGame,
     initNotifications,
 } from "../../../lib/domain/game/play/play.actions";
@@ -23,37 +24,31 @@ function selector(state: IState) {
     };
 }
 
-const Play: AppNextPage<ReturnType<typeof selector>> = (props) => {
-    // componentDidMount() {
-    //     const gameId = this._getGameIdFromProps(this.props);
-    //     const turnNo = parseInt(this.props.params.turn, 10);
-
-    //     this.props.switchGame(gameId, turnNo);
-    //     this.props.refreshOtherGames();
-
-    //     document.body.addEventListener("keydown", this._onKeyDown, true);
-    //     document.body.addEventListener("keyup", this._onKeyUp, true);
-    // }
-
-    // componentWillUnmount() {
-    //     document.body.removeEventListener("keydown", this._onKeyDown);
-    //     document.body.removeEventListener("keyup", this._onKeyUp);
-    // }
-
-    // componentWillReceiveProps(nextProps: IPlayProps & IPlayDispatchProps) {
-    //     const currentGameId = this._getGameIdFromProps(this.props);
-    //     const newGameId = this._getGameIdFromProps(nextProps);
-    //     const turnNo = parseInt(nextProps.params.turn, 10);
-
-    //     if (currentGameId !== newGameId) {
-    //         this.props.switchGame(newGameId, turnNo);
-    //     } /* else if (turnNo >= 0 && this.props.params.turn !== nextProps.params.turn) {
-    //         this.props.switchGame(currentGameId, turnNo);
-    //     } */
-    // }
-
+const Play: AppNextPage = () => {
     const { game, sidebarOpen, error } = useAppSelector(selector);
     const dispatch = useDispatch<AppDispatch>();
+
+    React.useEffect(() => {
+        const onKeyDown = (evt: KeyboardEvent) => {
+            if (evt.key === "Control") {
+                dispatch(doSetGameOption(true, "showTeamsOnMap", true));
+            }
+        };
+
+        const onKeyUp = (evt: KeyboardEvent) => {
+            if (evt.key === "Control") {
+                dispatch(doSetGameOption(true, "showTeamsOnMap", false));
+            }
+        };
+
+        document.body.addEventListener("keydown", onKeyDown, true);
+        document.body.addEventListener("keyup", onKeyUp, true);
+
+        return () => {
+            document.body.removeEventListener("keydown", onKeyDown);
+            document.body.removeEventListener("keyup", onKeyUp);
+        };
+    }, []);
 
     // Ensure notifications are setup after SSR
     dispatch(initNotifications());
@@ -79,7 +74,7 @@ const Play: AppNextPage<ReturnType<typeof selector>> = (props) => {
                 })}
             >
                 {error && (
-                    <Alert bsStyle="danger" onDismiss={this._clearError}>
+                    <Alert bsStyle="danger">
                         {getErrorMessage(error.error) ||
                             error.error_Description ||
                             __("An error occured, please refresh.")}
@@ -91,22 +86,6 @@ const Play: AppNextPage<ReturnType<typeof selector>> = (props) => {
         </div>
     );
 };
-
-// private _clearError = () => {
-//     this.props.refreshGame();
-// };
-
-// private _onKeyDown = (evt: KeyboardEvent) => {
-//     if (evt.key === "Control") {
-//         this.props.setGameUiOption("showTeamsOnMap", true);
-//     }
-// };
-
-// private _onKeyUp = (evt: KeyboardEvent) => {
-//     if (evt.key === "Control") {
-//         this.props.setGameUiOption("showTeamsOnMap", false);
-//     }
-// };
 
 Play.needsLogin = true;
 Play.getTitle = (state) => __("Play"); // TODO
@@ -123,40 +102,7 @@ Play.getInitialProps = async (ctx) => {
     console.info(`Switching game ${ctx.query.gameId}`);
     await ctx.store.dispatch(doSwitchGame(gameId, historyTurn));
 
-    return selector(ctx.store.getState());
+    return {};
 };
-
-// export default connect(
-//     (state: IState, ownProps: IPlayProps) => {
-//         const playState = state.play;
-
-//         return {
-//             game: playState.game,
-//             error: playState.error,
-//             sidebarOpen: playState.sidebarOpen,
-//         };
-//     },
-//     (dispatch) => ({
-//         switchGame: (gameId: number, turnNo?: number) => {
-//             dispatch(switchGame({ gameId, turnNo }));
-//         },
-//         refreshGame: () => {
-//             dispatch(refreshGame(null));
-//         },
-//         refreshOtherGames: () => {
-//             dispatch(refreshOtherGames(null));
-//         },
-
-//         setGameUiOption: (name: keyof IGameUIOptions, value: boolean) => {
-//             dispatch(
-//                 setGameOption({
-//                     name,
-//                     value,
-//                     temporary: true,
-//                 })
-//             );
-//         },
-//     })
-// )(Play);
 
 export default Play;

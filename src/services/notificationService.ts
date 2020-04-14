@@ -97,10 +97,6 @@ export class NotificationService {
     }
 
     private _ensureInit(op: () => Promise<void>): Promise<void> {
-        if (this._client) {
-            return op();
-        }
-
         // Queue up requests if client is not yet initialized
         this._initPromise = this._initPromise.then(op);
 

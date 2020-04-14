@@ -43,7 +43,7 @@ export const switchGame = (
     state.player = player;
     state.historyTurn = null;
     state.historyActive = false;
-    state.sidebarOpen = false; // localStorage.getItem("impera-sidebar") === "true"; // TODO: CS:
+    state.sidebarOpen = true;
     state.operationInProgress = false;
     state.error = null;
     state.mapTemplate = mapTemplate;

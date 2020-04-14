@@ -71,49 +71,9 @@ class SignalRClient implements ISignalRClient {
             .withUrl(`${baseUri}/api/signalr/${hubName}`, {
                 accessTokenFactory: () => token,
             })
+            .withAutomaticReconnect()
             .configureLogging(signalR.LogLevel.Trace)
             .build();
-
-        // this.connection.json = <any>{
-        //   parse: (text: string, reviver?: (key: any, value: any) => any): any =>
-        //     JSON.parse(text, jsonParseReviver),
-        //   stringify: (value: any, replacer?: any, space?: any): string =>
-        //     JSON.stringify(value, replacer, space)
-        // };
-
-        // this.connection.logging = true;
-
-        // this.connection.error(error => {
-        //   if (error.context && error.context.status === 401) {
-        //     // Try to reconnect
-        //     if (!this._reconnect) {
-        //       this._reconnect = this._reconnectWithAuth();
-        //     }
-        //   }
-
-        //   console.error("!!! SignalR error: " + error);
-        // });
-        // this.connection.disconnected(() => {
-        //   log("!!! SignalR disconnected");
-        // });
-        // this.connection.reconnected(() => {
-        //   log("!!! SignalR reconnected");
-        // });
-        // this.connection.reconnecting(() => {
-        //   log("!!! SignalR reconnecting");
-        // });
-        // this.connection.stateChanged(change => {
-        //   log(
-        //     "!!! SignalR stateChanged: " +
-        //       change.newState +
-        //       "(0-conn-ng,1=conn-ed,2=reconn,4=disconn)"
-        //   );
-        // });
-        // this.connection.connectionSlow(() => {
-        //   log("!!! SignalR connectionSlow");
-        // });
-
-        // this._proxy = this.connection.createHubProxy(hubName);
     }
 
     public start(): Promise<void> {
@@ -161,6 +121,8 @@ class SignalRClient implements ISignalRClient {
 
     public on(eventName, callback) {
         const wrappedCallback = (...result) => {
+            console.log("SignalR message");
+
             if (callback) {
                 if (result.length === 1) {
                     callback(result[0]);
@@ -202,28 +164,6 @@ class SignalRClient implements ISignalRClient {
         return (
             this.connection
                 .invoke<TResult>(methodName, ...args)
-                // .then((result) => {
-                //     // SignalR does not allow passing a custom reviver: https://github.com/dotnet/aspnetcore/issues/5321
-                //     // so run ours on the result
-
-                //     // adapted from https://stackoverflow.com/a/41550077/561159
-                //     const loopNestedObj = (obj) => {
-                //         Object.keys(obj).forEach((key) => {
-                //             if (
-                //                 (obj[key] && typeof obj[key] === "object") ||
-                //                 Array.isArray(obj[key])
-                //             ) {
-                //                 loopNestedObj(obj[key]);
-                //             } else {
-                //                 obj[key] = jsonReviver(key, obj[key]);
-                //             }
-                //         });
-                //     };
-
-                //     !!result && loopNestedObj(result);
-
-                //     return result;
-                // })
                 .then(null, (error) => {
                     console.log(`SignalR error ${error}`);
 
@@ -243,7 +183,7 @@ class SignalRClient implements ISignalRClient {
 
     private _reconnectWithAuth(): Promise<void> {
         console.log("reconnected to signalr");
-        return; // TODO: CS: Re-enable
+        return Promise.resolve(); // TODO: CS: Re-enable
 
         if (this._reconnect) {
             return this._reconnect;
