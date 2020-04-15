@@ -108,23 +108,3 @@ export function useAppSelector<TResult>(
 ): TResult {
     return useSelector(selector);
 }
-
-// // Persist session settings to session storage
-// store.subscribe(
-//     debounce(() => {
-//         const state = store.getState();
-//         const sessionState = state && state.session;
-
-//         if (sessionState) {
-//             sessionStorage.setItem("impera", JSON.stringify(sessionState));
-//         }
-//     }, 1000)
-// );
-
-// // Setup handler for 401 resposes
-// setOnUnauthorized(() => {
-//     return SessionService.getInstance().reAuthorize(
-//         store.getState().session,
-//         store.dispatch
-//     );
-// });

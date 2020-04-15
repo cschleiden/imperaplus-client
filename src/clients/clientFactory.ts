@@ -45,7 +45,9 @@ const fetchWrapper = (
 
             if (onUnauthorized) {
                 return onUnauthorized().then(
-                    () => {
+                    (newTokenProvider) => {
+                        tokenProvider = newTokenProvider;
+
                         // Successful, retry request
                         return fetchWrapper(tokenProvider, url, init);
                     },

@@ -18,7 +18,9 @@ import {
 import { clearMessage } from "../lib/domain/shared/message/message.slice";
 import { doRestoreSession } from "../lib/domain/shared/session/session.actions";
 import { isLoggedIn } from "../lib/domain/shared/session/session.selectors";
+import { refresh } from "../lib/domain/shared/session/session.slice";
 import { IState } from "../reducers";
+import { setOnUnauthorized } from "../services/authProvider";
 import { notificationService } from "../services/notificationService";
 import { AppNextPage, AppPageContext, getOrCreateStore } from "../store";
 import "../styles/index.scss";
@@ -98,6 +100,17 @@ App.getInitialProps = async (
                 language: cookieState["lang"],
             },
         };
+    });
+
+    // Setup handler for 401 resposes
+    setOnUnauthorized(async () => {
+        if (store) {
+            await store.dispatch(refresh());
+
+            return () => store.getState().session.access_token;
+        } else {
+            throw new Error("No store, but trying to reauthorize");
+        }
     });
 
     const page = appContext.Component as AppNextPage;

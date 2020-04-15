@@ -1,12 +1,13 @@
-import { remove, set } from "js-cookie";
+import { remove } from "js-cookie";
 import Router from "next/router";
 import { createClient } from "../../../../clients/clientFactory";
 import { FixedAccountClient } from "../../../../external/accountClient";
 import { NotificationClient } from "../../../../external/NotificationClient";
 import { notificationService } from "../../../../services/notificationService";
 import { AppThunk, AsyncAction } from "../../../../store";
+import { isSSR } from "../../../utils/isSSR";
 import { getToken } from "./session.selectors";
-import { login, restoreSession } from "./session.slice";
+import { login, restoreSession, scope, storeTokens } from "./session.slice";
 
 function initNotifications(token: string): Promise<void> {
     return notificationService.init(token);
@@ -19,7 +20,6 @@ export const doLogin: AsyncAction<{
     // Remove any leftover cookies
     remove("bearer_token");
 
-    const scope = "openid offline_access roles";
     const result = await extra
         .createClient(getToken(getState()), FixedAccountClient)
         .exchange({
@@ -52,13 +52,11 @@ export const doLogin: AsyncAction<{
         })
     );
 
-    // Store tokens as cookies
-    set("token", {
-        access_token: result.access_token,
-        refresh_token: result.refresh_token,
-    });
+    storeTokens(result.access_token, result.refresh_token);
 
-    await initNotifications(result.access_token);
+    if (!isSSR()) {
+        await initNotifications(result.access_token);
+    }
 
     Router.push("/game");
 };
@@ -79,7 +77,7 @@ export const doRestoreSession = (
     );
 
     // Restore SignalR service if this is run on the client-side
-    if (typeof window !== "undefined") {
+    if (!isSSR()) {
         await initNotifications(access_token);
     }
 };

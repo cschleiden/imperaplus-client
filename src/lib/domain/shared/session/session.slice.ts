@@ -14,6 +14,14 @@ import { AppThunkArg } from "../../../../store";
 import { MessageType, showMessage } from "../message/message.slice";
 import { getToken } from "./session.selectors";
 
+export function storeTokens(access_token: string, refresh_token: string) {
+    // Store tokens as cookies
+    set("token", {
+        access_token,
+        refresh_token,
+    });
+}
+
 const initialState = {
     access_token: null as string,
     refresh_token: null as string,
@@ -38,6 +46,32 @@ export interface ILoginPayload {
 
     notifications: NotificationSummary;
 }
+
+export const scope = "openid offline_access roles";
+
+export const refresh = createAsyncThunk<
+    {
+        access_token: string;
+        refresh_token: string;
+    },
+    void,
+    AppThunkArg
+>("session/refresh", async (_, thunkAPI) => {
+    const { refresh_token } = thunkAPI.getState().session;
+    const client = thunkAPI.extra.createClient("", FixedAccountClient);
+    const result = await client.exchange({
+        grant_type: "refresh_token",
+        scope,
+        refresh_token,
+    });
+
+    storeTokens(result.access_token, result.refresh_token);
+
+    return {
+        access_token: result.access_token,
+        refresh_token: result.refresh_token,
+    };
+});
 
 export const setLanguage = createAsyncThunk<string, string, AppThunkArg>(
     "session/set-language",
@@ -200,10 +234,6 @@ const slice = createSlice({
     name: "session",
     initialState,
     reducers: {
-        refresh: (state, action: PayloadAction<IRefreshPayload>) => {
-            state.access_token = action.payload.access_token;
-            state.refresh_token = action.payload.refresh_token;
-        },
         expire: (state) => {
             state = initialState;
         },
@@ -232,6 +262,11 @@ const slice = createSlice({
         },
     },
     extraReducers: (b) => {
+        b.addCase(refresh.fulfilled, (state, action) => {
+            state.access_token = action.payload.access_token;
+            state.refresh_token = action.payload.refresh_token;
+        });
+
         b.addCase(logout.fulfilled, (state, action) => {
             state.access_token = null;
             state.refresh_token = null;
@@ -249,6 +284,6 @@ const slice = createSlice({
     },
 });
 
-export const { login, refresh, updateUserInfo, restoreSession } = slice.actions;
+export const { login, updateUserInfo, restoreSession } = slice.actions;
 
 export default slice.reducer;
