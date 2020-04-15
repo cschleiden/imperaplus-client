@@ -1,30 +1,27 @@
+import Link from "next/link";
 import * as React from "react";
 import { Table } from "react-bootstrap";
-import { Link } from "react-router";
 import { TournamentSummary } from "../../../external/imperaClients";
+import __ from "../../../i18n/i18n";
 import { HumanDate } from "../humanDate";
-import "./tournamentList.scss";
 
 interface ITournamentListProps {
     tournaments: TournamentSummary[];
 }
 
-export class TournamentList extends React.Component<ITournamentListProps, null> {
-    constructor(props, context) {
-        super(props, context);
-    }
-
+export class TournamentList extends React.Component<
+    ITournamentListProps,
+    null
+> {
     public render() {
-        const rows = this.props.tournaments.map(tournament => this._renderTournamentRow(tournament));
+        const rows = this.props.tournaments.map((tournament) =>
+            this._renderTournamentRow(tournament)
+        );
 
         return (
             <Table className="tournament-list">
-                <thead>
-                    {this._renderHeader()}
-                </thead>
-                <tbody>
-                    {rows}
-                </tbody>
+                <thead>{this._renderHeader()}</thead>
+                <tbody>{rows}</tbody>
             </Table>
         );
     }
@@ -50,12 +47,24 @@ export class TournamentList extends React.Component<ITournamentListProps, null> 
         return (
             <tr key={tournament.id}>
                 <td>
-                    <Link to={`/game/tournaments/${tournament.id}`}>{tournament.name}</Link>
+                    <Link
+                        as={`/game/tournaments/${tournament.id}`}
+                        href="/game/tournaments/[tournamentId].tsx"
+                    >
+                        {tournament.name}
+                    </Link>
                 </td>
-                <td className="hidden-xs">{tournament.numberOfTeams} / {tournament.options.numberOfPlayersPerTeam}</td>
+                <td className="hidden-xs">
+                    {tournament.numberOfTeams} /{" "}
+                    {tournament.options.numberOfPlayersPerTeam}
+                </td>
                 <td className="hidden-xs">{groupPhase}</td>
-                <td className="hidden-xs">{HumanDate(tournament.startOfRegistration)}</td>
-                <td className="hidden-xs">{HumanDate(tournament.startOfTournament)}</td>
+                <td className="hidden-xs">
+                    {HumanDate(tournament.startOfRegistration)}
+                </td>
+                <td className="hidden-xs">
+                    {HumanDate(tournament.startOfTournament)}
+                </td>
             </tr>
         );
     }

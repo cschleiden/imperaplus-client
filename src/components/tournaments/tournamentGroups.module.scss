@@ -1,0 +1,55 @@
+@import "../../styles/vars.scss";
+
+.tournamentTeamsCutoff {
+    border-bottom: 1px solid black;
+}
+
+.tournamentGroups {
+    :global .col {
+        margin-bottom: 15px;
+    }
+}
+
+.groupTable {
+    table-layout: fixed;
+
+    margin: 0;
+
+    .groupPairingRows:hover {
+        cursor: pointer;
+        background: $accent-highlight !important;
+    }    
+
+    .groupTableCount {
+        width: 30px;
+        text-align: center;
+    }
+
+    .groupTableTeam {
+        .groupTableTeamWrapper {
+            display: flex;
+            flex-direction: row;
+
+            align-content: stretch;
+
+            &.text-right {
+                justify-content: flex-end;
+            }
+
+            &.text-left {
+                justify-content: flex-start;
+            }
+
+            .label {
+                margin: 0 5px;
+                line-height: 1.42857;
+            }
+
+            .groupTableTeamName {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+    }
+}

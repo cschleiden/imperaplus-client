@@ -1,11 +1,10 @@
 import * as React from "react";
-
-import { css } from "../../lib/css";
-import "./spinner.scss";
+import { css } from "../../lib/utils/css";
+import style from "./spinner.module.scss";
 
 export enum SpinnerSize {
     Default,
-    Large
+    Large,
 }
 
 export const Spinner = (props: {
@@ -14,9 +13,13 @@ export const Spinner = (props: {
 }): JSX.Element => {
     return (
         <div
-            className={css("spinner", {
-                "large": props.size === SpinnerSize.Large
-            }, props.className)}
+            className={css(
+                style.spinner,
+                {
+                    [style.large]: props.size === SpinnerSize.Large,
+                },
+                props.className
+            )}
         >
             &nbsp;
         </div>

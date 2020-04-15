@@ -1,0 +1,31 @@
+@import "./spinner.module.scss";
+
+$borderSize: 1.5px;
+
+.progressButton {
+    position: relative;
+
+    transition: padding cubic-bezier(0.175, 0.885, 0.32, 1.275) .3s !important;
+
+    &Active {
+        padding-left: 40px !important;
+
+        &:before {
+            content: "";
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+
+            position: absolute;
+            left: 10px;
+            top: 25%;            
+
+            box-sizing: border-box;
+            border-radius: 50%;
+
+            border: 2px solid white;
+            border-top-color: #cfac1e;
+            animation: progress-spin 1.3s infinite cubic-bezier(.53,.21,.29,.67);
+        }
+    }
+}

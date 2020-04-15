@@ -1,18 +1,16 @@
 // Place your settings in this file to overwrite default and user settings.
 {
+  "github-actions.workflows.pinned.workflows": [".github/workflows/build.yaml"],
+  "github-actions.workflows.pinned.refresh.enabled": true,
+  "github-actions.workflows.pinned.refresh.interval": 60,
   "typescript.tsdk": "node_modules/typescript/lib",
-  // Hide some folders 
+  // Hide some folders
   "files.exclude": {
     "**/.git": true,
     "**/.svn": true,
     "**/.hg": true,
     "**/.DS_Store": true,
-    "node_modules": true,
+    "node_modules": false,
     ".vscode": false
   },
-  "tslint.autoFixOnSave": true,
-  "typescriptHero.imports.stringQuoteStyle": "\"",
-  "typescriptHero.imports.multiLineTrailingComma": false,
-  "typescriptHero.imports.grouping": [
-  ]
 }

@@ -1,5 +1,5 @@
-export let onUnauthorized: () => Promise<any>;
+export let onUnauthorized: () => Promise<() => string>;
 
-export const setOnUnauthorized = (callback: () => Promise<any>) => {
+export const setOnUnauthorized = (callback: () => Promise<() => string>) => {
     onUnauthorized = callback;
 };

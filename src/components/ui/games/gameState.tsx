@@ -1,11 +1,11 @@
 import * as React from "react";
-
-import "./playerOutcome.scss";
-
 import { GameState } from "../../../external/imperaClients";
-import { css } from "../../../lib/css";
+import __ from "../../../i18n/i18n";
+import { css } from "../../../lib/utils/css";
 
-export const GameStateDisplay: React.StatelessComponent<{ gameState: GameState }> = (props: { gameState: GameState }): JSX.Element => {
+export const GameStateDisplay: React.StatelessComponent<{
+    gameState: GameState;
+}> = (props: { gameState: GameState }): JSX.Element => {
     const { gameState } = props;
 
     let icon: string;

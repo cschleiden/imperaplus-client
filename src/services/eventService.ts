@@ -15,7 +15,10 @@ export class EventService {
 
     private _handlers: { [eventName: string]: IEventHandler<any>[] } = {};
 
-    attachHandler<TPayload>(eventName: string, handler: IEventHandler<TPayload>) {
+    attachHandler<TPayload>(
+        eventName: string,
+        handler: IEventHandler<TPayload>
+    ) {
         if (!this._handlers[eventName]) {
             this._handlers[eventName] = [handler];
         } else {
@@ -23,7 +26,10 @@ export class EventService {
         }
     }
 
-    detachHandler<TPayload>(eventName: string, handler: IEventHandler<TPayload>) {
+    detachHandler<TPayload>(
+        eventName: string,
+        handler: IEventHandler<TPayload>
+    ) {
         if (this._handlers[eventName]) {
             const idx = this._handlers[eventName].indexOf(handler);
             if (idx !== -1) {

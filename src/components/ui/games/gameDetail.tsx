@@ -1,17 +1,28 @@
 import * as React from "react";
 import { Button, Glyphicon } from "react-bootstrap";
-import { connect } from "react-redux";
-import Form, { IFormState } from "../../../common/forms/form";
-import { ControlledTextField } from "../../../common/forms/inputs";
+import { useDispatch, useSelector } from "react-redux";
 import { GridColumn, GridRow } from "../../../components/layout";
 import { HumanDate, HumanTime } from "../../../components/ui/humanDate";
-import { GameState, GameSummary, PlayerState, PlayerSummary } from "../../../external/imperaClients";
-import { autobind } from "../../../lib/autobind";
-import { hide, join, leave, remove, surrender } from "../../../pages/games/games.actions";
+import {
+    GameState,
+    GameSummary,
+    PlayerState,
+    PlayerSummary,
+} from "../../../external/imperaClients";
+import __ from "../../../i18n/i18n";
+import {
+    join,
+    surrender,
+    leave,
+    remove,
+    hide,
+} from "../../../lib/domain/game/games.actions";
+import Form, { IFormState } from "../../../lib/domain/shared/forms/form";
+import { ControlledTextField } from "../../../lib/domain/shared/forms/inputs";
 import { IState } from "../../../reducers";
-import { store } from "../../../store";
+import { AppDispatch } from "../../../store";
 import { UserName } from "../userReference";
-import "./gameDetail.scss";
+import style from "./gameDetail.module.scss";
 import { MapPreview } from "./mapPreview";
 import { PlayerOutcomeDisplay } from "./playerOutcome";
 
@@ -26,234 +37,267 @@ export interface IGameDetailsDispatchProps {
     leave: (gameId: number) => void;
 }
 
-class GameDetails extends React.Component<IGameDetailsProps & IGameDetailsDispatchProps> {
-    public render() {
-        const { game } = this.props;
+const GameDetails: React.FC<IGameDetailsProps> = ({ game }) => {
+    const { userId } = useSelector((s: IState) => ({
+        userId: s.session.userInfo.userId,
+    }));
 
-        return (
-            <GridRow>
-                <GridColumn className="col-md-6">
-                    <h2 className="game-details-name">{this.props.game.name}</h2>
+    const player = _getPlayer(game, userId);
 
-                    <dl className="game-details">
-                        <dt>{__("Started")}</dt>
-                        <dd>
-                            {HumanDate(this.props.game.startedAt || this.props.game.lastActionAt)}
-                        </dd>
+    const dispatch = useDispatch<AppDispatch>();
 
-                        <dt>{__("Started By")}</dt>
-                        <dd>{this.props.game.createdByName || "System"}</dd>
+    return (
+        <GridRow>
+            <GridColumn className="col-md-6">
+                <h2 className={style.gameDetailsName}>{game.name}</h2>
 
-                        <dt>{__("Last action")}</dt>
-                        <dd>{HumanDate(this.props.game.lastActionAt)}</dd>
+                <dl className="game-details">
+                    <dt>{__("Started")}</dt>
+                    <dd>{HumanDate(game.startedAt || game.lastActionAt)}</dd>
 
-                        <dt>{__("Turn")}</dt>
-                        <dd>{this.props.game.turnCounter}</dd>
+                    <dt>{__("Started By")}</dt>
+                    <dd>{game.createdByName || "System"}</dd>
 
-                        <dt>{__("Timeout")}</dt>
-                        <dd>
-                            {HumanTime(this.props.game.options.timeoutInSeconds)}
-                        </dd>
+                    <dt>{__("Last action")}</dt>
+                    <dd>{HumanDate(game.lastActionAt)}</dd>
 
-                        <dt>{__("Mode")}</dt>
-                        <dd>{this.props.game.options.mapDistribution}</dd>
+                    <dt>{__("Turn")}</dt>
+                    <dd>{game.turnCounter}</dd>
 
-                        <dt><span>{__("Attacks")}</span>/<span>{__("Moves")}</span></dt>
-                        <dd>{this.props.game.options.attacksPerTurn} / {this.props.game.options.movesPerTurn}</dd>
+                    <dt>{__("Timeout")}</dt>
+                    <dd>{HumanTime(game.options.timeoutInSeconds)}</dd>
 
-                        <dt>{__("Victory Conditions")}</dt>
-                        <dd>
-                            {this.props.game.options.victoryConditions}
-                        </dd>
+                    <dt>{__("Mode")}</dt>
+                    <dd>{game.options.mapDistribution}</dd>
 
-                        <dt>{__("Max bonus cards")}</dt>
-                        <dd>
-                            {this.props.game.options.maximumNumberOfCards}
-                        </dd>
+                    <dt>
+                        <span>{__("Attacks")}</span>/<span>{__("Moves")}</span>
+                    </dt>
+                    <dd>
+                        {game.options.attacksPerTurn} /{" "}
+                        {game.options.movesPerTurn}
+                    </dd>
 
-                        <dt>{__("Visibility Modifier")}</dt>
-                        <dd>
-                            {this.props.game.options.visibilityModifier}
-                        </dd>
+                    <dt>{__("Victory Conditions")}</dt>
+                    <dd>{game.options.victoryConditions}</dd>
 
-                        <br />
+                    <dt>{__("Max bonus cards")}</dt>
+                    <dd>{game.options.maximumNumberOfCards}</dd>
 
-                        {this._renderPlayer()}
+                    <dt>{__("Visibility Modifier")}</dt>
+                    <dd>{game.options.visibilityModifier}</dd>
 
-                        <br />
+                    <br />
 
-                        <dt > {__("Actions")}</dt>
-                        <dd>
-                            {this._canSurrender() && <Button onClick={this._onSurrender} bsStyle="warning" bsSize="small">
-                                <Glyphicon glyph="flag" />&nbsp;{__("Surrender")}
-                            </Button>}
+                    {_renderPlayers(game)}
 
-                            {this._canLeave() && <Button onClick={this._onLeave} bsStyle="warning" bsSize="small">
-                                <Glyphicon glyph="flag" />&nbsp;{__("Leave game")}
-                            </Button>}
+                    <br />
 
-                            {this._canDelete() && <Button onClick={this._onRemove} bsStyle="danger" bsSize="small">
-                                <Glyphicon glyph="remove" />&nbsp;{__("Delete game")}
-                            </Button>}
+                    <dt> {__("Actions")}</dt>
+                    <dd>
+                        {_canSurrender(game, player) && (
+                            <Button
+                                onClick={() => dispatch(surrender(game.id))}
+                                bsStyle="warning"
+                                bsSize="small"
+                            >
+                                <Glyphicon glyph="flag" />
+                                &nbsp;{__("Surrender")}
+                            </Button>
+                        )}
 
-                            {this._canHide() && <Button onClick={this._onHide} bsStyle="info" bsSize="small">
-                                <Glyphicon glyph="eye-close" />&nbsp;{__("Hide finished game")}
-                            </Button>}
+                        {_canLeave(game, player) && (
+                            <Button
+                                onClick={() => dispatch(leave(game.id))}
+                                bsStyle="warning"
+                                bsSize="small"
+                            >
+                                <Glyphicon glyph="flag" />
+                                &nbsp;{__("Leave game")}
+                            </Button>
+                        )}
 
-                            {
-                                this._canJoin() && (
-                                    <Form
-                                        name="join-game"
-                                        onSubmit={
-                                            (formState: IFormState, options) => join({
-                                                gameId: game.id,
-                                                password: formState.getFieldValue("password") || undefined
-                                            }, options)
-                                        }
-                                        component={
-                                            ({ isPending, submit, formState }) =>
-                                                (
-                                                    <div>
-                                                        {
-                                                            game.hasPassword && (
-                                                                <ControlledTextField
-                                                                    placeholder={__("Password")}
-                                                                    type="password"
-                                                                    fieldName="password"
-                                                                    required={false}
-                                                                    {...{ autoComplete: "new-password" } as any}
-                                                                />
-                                                            )
-                                                        }
+                        {_canDelete(game, player) && (
+                            <Button
+                                onClick={() => dispatch(remove(game.id))}
+                                bsStyle="danger"
+                                bsSize="small"
+                            >
+                                <Glyphicon glyph="remove" />
+                                &nbsp;{__("Delete game")}
+                            </Button>
+                        )}
 
-                                                        <Button
-                                                            disabled={!this._formValid(formState)}
-                                                            onClick={submit}
-                                                            bsStyle="primary"
-                                                            bsSize="small"
-                                                        >
-                                                            <Glyphicon glyph="plus-sign" />&nbsp;{__("Join game")}
-                                                        </Button>
-                                                    </div>
-                                                )}
-                                    />
-                                )
-                            }
-                        </dd>
-                    </dl>
-                </GridColumn>
+                        {_canHide(game, player) && (
+                            <Button
+                                onClick={() => dispatch(hide(game.id))}
+                                bsStyle="info"
+                                bsSize="small"
+                            >
+                                <Glyphicon glyph="eye-close" />
+                                &nbsp;{__("Hide finished game")}
+                            </Button>
+                        )}
 
-                <GridColumn className="col-md-6">
-                    <MapPreview mapTemplateName={this.props.game.mapTemplate} responsive />
-                </GridColumn>
-            </GridRow >
+                        {_canJoin(game, player) && (
+                            <Form
+                                name="join-game"
+                                onSubmit={async (formState, dispatch) => {
+                                    await dispatch(
+                                        join({
+                                            gameId: game.id,
+                                            password:
+                                                formState.getFieldValue(
+                                                    "password"
+                                                ) || undefined,
+                                        })
+                                    );
+                                }}
+                                component={({
+                                    isPending,
+                                    submit,
+                                    formState,
+                                }) => (
+                                    <div>
+                                        {game.hasPassword && (
+                                            <ControlledTextField
+                                                placeholder={__("Password")}
+                                                type="password"
+                                                fieldName="password"
+                                                required={false}
+                                                {...({
+                                                    autoComplete:
+                                                        "new-password",
+                                                } as any)}
+                                            />
+                                        )}
+
+                                        <Button
+                                            disabled={
+                                                !_formValid(game, formState) ||
+                                                isPending
+                                            }
+                                            onClick={submit}
+                                            bsStyle="primary"
+                                            bsSize="small"
+                                        >
+                                            <Glyphicon glyph="plus-sign" />
+                                            &nbsp;{__("Join game")}
+                                        </Button>
+                                    </div>
+                                )}
+                            />
+                        )}
+                    </dd>
+                </dl>
+            </GridColumn>
+
+            <GridColumn className="col-md-6">
+                <MapPreview mapTemplateName={game.mapTemplate} responsive />
+            </GridColumn>
+        </GridRow>
+    );
+};
+
+function _renderPlayers(game: GameSummary): JSX.Element[] {
+    const sortedTeams = game.teams
+        .slice(0)
+        .sort((a, b) => a.playOrder - b.playOrder);
+
+    let result: JSX.Element[] = [];
+    for (const team of sortedTeams) {
+        result.push(
+            <dt key={`dt-${team.id}`}>
+                <span>{__("Team")}</span>&nbsp;{team.playOrder + 1}
+            </dt>
+        );
+        result.push(
+            <dd key={`dd-${team.id}`}>
+                <ul className="list-unstyled">
+                    {team.players.map(player => (
+                        <li key={player.id}>
+                            <PlayerOutcomeDisplay outcome={player.outcome} />
+                            &nbsp;
+                            <span
+                                className={`label player player-${player.playOrder +
+                                    1}`}
+                            >
+                                <UserName userName={player.name} />
+                            </span>
+                            &nbsp;-&nbsp;
+                            <span>
+                                {__("Timeouts")}: {player.timeouts}
+                            </span>
+                        </li>
+                    ))}
+                </ul>
+            </dd>
         );
     }
 
-    private _renderPlayer(): JSX.Element[] {
-        const sortedTeams = this.props.game.teams.slice(0).sort((a, b) => a.playOrder - b.playOrder);
-
-        let result: JSX.Element[] = [];
-        for (const team of sortedTeams) {
-            result.push(
-                <dt key={`dt-${team.id}`}>
-                    <span>{__("Team")}</span>&nbsp;{team.playOrder + 1}
-                </dt>
-            );
-            result.push(
-                <dd key={`dd-${team.id}`}>
-                    <ul className="list-unstyled">
-                        {team.players.map(player => <li key={player.id}>
-                            <PlayerOutcomeDisplay outcome={player.outcome} />&nbsp;<span className={`label player player-${player.playOrder + 1}`}><UserName userName={player.name} /></span>&nbsp;-&nbsp;<span>{__("Timeouts")}: {player.timeouts}</span>
-                        </li>)}
-                    </ul>
-                </dd>
-            );
-        }
-
-        return result;
-    }
-
-    private _formValid(formState: IFormState): boolean {
-        const { game } = this.props;
-
-        return !game.hasPassword || !!formState.getFieldValue("password");
-    }
-
-    private _canSurrender(): boolean {
-        const { game } = this.props;
-        const player = this._player();
-
-        return player && game.state === GameState.Active && player.state === PlayerState.Active;
-    }
-
-    private _canLeave(): boolean {
-        const { game } = this.props;
-        const player = this._player();
-
-        return player && game.state === GameState.Open && !!player && game.createdByUserId !== player.userId;
-    }
-
-    private _canDelete(): boolean {
-        const { game } = this.props;
-        const player = this._player();
-
-        return player && game.state === GameState.Open && !!player && game.createdByUserId === player.userId;
-    }
-
-    private _canHide(): boolean {
-        const { game } = this.props;
-        const player = this._player();
-
-        return (game.state === GameState.Active || game.state === GameState.Ended)
-            && player && player.state === PlayerState.InActive;
-    }
-
-    private _canJoin(): boolean {
-        const { game } = this.props;
-        const player = this._player();
-
-        return game.state === GameState.Open
-            && !player
-            && game.teams.reduce((playerCount, team) => playerCount + team.players.length, 0) < (game.options.numberOfPlayersPerTeam * game.options.numberOfTeams);
-    }
-
-    private _player(): PlayerSummary | null {
-        for (let team of this.props.game.teams) {
-            for (let player of team.players) {
-                if (player.userId === store.getState().session.userInfo.userId) {
-                    return player;
-                }
-            }
-        }
-
-        return null;
-    }
-
-    @autobind
-    private _onSurrender() {
-        this.props.surrender(this.props.game.id);
-    }
-
-    @autobind
-    private _onLeave() {
-        this.props.leave(this.props.game.id);
-    }
-
-    @autobind
-    private _onHide() {
-        this.props.hide(this.props.game.id);
-    }
-
-    @autobind
-    private _onRemove() {
-        this.props.remove(this.props.game.id);
-    }
+    return result;
 }
 
-export default connect((state: IState, ownProps: IGameDetailsProps) => ownProps, (dispatch) => ({
-    hide: (gameId: number) => { dispatch(hide(gameId)); },
-    remove: (gameId: number) => { dispatch(remove(gameId)); },
-    surrender: (gameId: number) => { dispatch(surrender(gameId)); },
-    leave: (gameId: number) => { dispatch(leave(gameId)); },
-}))(GameDetails);
+function _formValid(game: GameSummary, formState: IFormState): boolean {
+    return !game.hasPassword || !!formState.getFieldValue("password");
+}
+
+function _canSurrender(game: GameSummary, player: PlayerSummary): boolean {
+    return (
+        player &&
+        game.state === GameState.Active &&
+        player.state === PlayerState.Active
+    );
+}
+
+function _canLeave(game: GameSummary, player: PlayerSummary): boolean {
+    return (
+        player &&
+        game.state === GameState.Open &&
+        !!player &&
+        game.createdByUserId !== player.userId
+    );
+}
+
+function _canDelete(game: GameSummary, player: PlayerSummary): boolean {
+    return (
+        player &&
+        game.state === GameState.Open &&
+        !!player &&
+        game.createdByUserId === player.userId
+    );
+}
+
+function _canHide(game: GameSummary, player: PlayerSummary): boolean {
+    return (
+        (game.state === GameState.Active || game.state === GameState.Ended) &&
+        player &&
+        player.state === PlayerState.InActive
+    );
+}
+
+function _canJoin(game: GameSummary, player: PlayerSummary): boolean {
+    return (
+        game.state === GameState.Open &&
+        !player &&
+        game.teams.reduce(
+            (playerCount, team) => playerCount + team.players.length,
+            0
+        ) <
+            game.options.numberOfPlayersPerTeam * game.options.numberOfTeams
+    );
+}
+
+function _getPlayer(game: GameSummary, userId: string): PlayerSummary | null {
+    for (let team of game.teams) {
+        for (let player of team.players) {
+            if (player.userId === userId) {
+                return player;
+            }
+        }
+    }
+
+    return null;
+}
+
+export default GameDetails;

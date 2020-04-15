@@ -1,3 +1,6 @@
+// Make this a module
+export const _ = null;
+
 //
 // Polyfills for various methods that might not be available everywhere
 //
@@ -8,7 +11,7 @@ if (!Array.prototype.find) {
         value: function (predicate) {
             // 1. Let O be ? ToObject(this value).
             if (this == null) {
-                throw new TypeError("\"this\" is null or not defined");
+                throw new TypeError("this is null or not defined");
             }
 
             let o = Object(this);
@@ -44,7 +47,7 @@ if (!Array.prototype.find) {
 
             // 7. Return undefined.
             return undefined;
-        }
+        },
     });
 }
 
@@ -54,7 +57,7 @@ if (!Array.prototype.findIndex) {
         value: function (predicate) {
             // 1. Let O be ? ToObject(this value).
             if (this == null) {
-                throw new TypeError("\"this\" is null or not defined");
+                throw new TypeError(`"this" is null or not defined`);
             }
 
             let o = Object(this);
@@ -90,7 +93,7 @@ if (!Array.prototype.findIndex) {
 
             // 7. Return -1.
             return -1;
-        }
+        },
     });
 }
 

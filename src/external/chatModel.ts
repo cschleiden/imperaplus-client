@@ -2,7 +2,7 @@ export enum UserType {
     None = 0,
     Admin = 1,
     Developer = 2,
-    Owner = 3
+    Owner = 3,
 }
 
 export interface ChannelInformation {
@@ -14,7 +14,7 @@ export interface ChannelInformation {
 }
 
 export interface Message {
-    dateTime: Date;
+    dateTime: string;
     userName: string;
     text: string;
     channelIdentifier: string;

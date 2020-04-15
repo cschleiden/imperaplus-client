@@ -1,87 +1,110 @@
-import { loadingBarMiddleware } from "react-redux-loading-bar";
-import { browserHistory } from "react-router";
-import { routerMiddleware } from "react-router-redux";
-import * as Redux from "redux";
-import { composeWithDevTools } from "redux-devtools-extension";
-import * as createLogger from "redux-logger";
-import thunkMiddleware from "redux-thunk";
-import { makeImmutable } from "immuts";
-
-import promiseMiddleware from "./middleware/promise-middleware";
-import { createClientWithToken, getCachedClient } from "./clients/clientFactory";
+import {
+    Action,
+    configureStore,
+    DeepPartial,
+    getDefaultMiddleware,
+    ThunkAction,
+} from "@reduxjs/toolkit";
+import { NextComponentType, NextPageContext } from "next";
+import { useSelector } from "react-redux";
+import { createLogger } from "redux-logger";
+import { createClient } from "./clients/clientFactory";
 import { getSignalRClient } from "./clients/signalrFactory";
-import { ISessionState } from "./common/session/session.reducer";
-import { SessionService } from "./common/session/session.service";
-import { failed, IAsyncActionDependencies, pending, success } from "./lib/action";
-import { debounce } from "./lib/debounce";
 import rootReducer, { IState } from "./reducers";
-import { setOnUnauthorized } from "./services/authProvider";
-import { UserProvider } from "./services/userProvider";
 
-// Create main store
-const compose = composeWithDevTools({
-  serializeState: (key, value) => value && value.data ? value.data : value,
-  deserializeState: (state) => ({
-    routing: state && state.routing,
-    form: makeImmutable(state.form),
-    session: makeImmutable(state.session),
-    create: makeImmutable(state.create)
-  }),
-  // Dev feature
-  shouldHotReload: true
-}) || Redux.compose;
-
-// Get initial session data from sessionStorage
-const sessionDataStringified = sessionStorage.getItem("impera");
-const sessionData: any = sessionDataStringified && JSON.parse(sessionDataStringified);
-
-// Get language preference from localStorage
-const language = localStorage.getItem("impera-lang") || "en";
-
-const initialData = Object.assign({}, sessionData, { language: language });
-const initialSessionState = initialData && makeImmutable(initialData) as ISessionState || undefined;
-
-export let store = Redux.createStore<IState>(
-  rootReducer,
-  {
-    // Pre-populate stored session data
-    session: initialSessionState
-  } as IState,
-  compose(
-    Redux.applyMiddleware(
-      routerMiddleware(browserHistory as any),
-      loadingBarMiddleware({
-        promiseTypeSuffixes: [pending(""), success(""), failed("")]
-      }),
-      promiseMiddleware as any,
-      thunkMiddleware.withExtraArgument({
-        getCachedClient: getCachedClient,
-        createClientWithToken: createClientWithToken,
-        getSignalRClient: getSignalRClient
-      } as IAsyncActionDependencies),
-      (createLogger as any)())));
-
-// Persist session settings to session storage
-store.subscribe(debounce(() => {
-  const state = store.getState();
-  const sessionState = state && state.session;
-
-  if (sessionState) {
-    sessionStorage.setItem("impera", JSON.stringify(sessionState));
-  }
-}, 1000));
-
-// Setup handler for 401 resposes
-setOnUnauthorized(() => {
-  return SessionService.getInstance().reAuthorize(store.getState().session, store.dispatch);
-});
-
-UserProvider.userProvider = () => {
-  const userInfo = store.getState().session.userInfo;
-  return userInfo && userInfo.userId;
+const extraArgument = {
+    createClient: createClient,
+    getSignalRClient: getSignalRClient,
 };
 
-UserProvider.isAdminProvider = () => {
-  const userInfo = store.getState().session.userInfo;
-  return userInfo && userInfo.roles && userInfo.roles.some(x => x.toLowerCase() === "admin");
+let store: AppStore | undefined;
+export const getOrCreateStore = (
+    getInitialState?: () => DeepPartial<IState>
+) => {
+    // Always create new store for server-rendered page
+    if (typeof window == "undefined") {
+        return createStore(getInitialState());
+    }
+
+    if (!store) {
+        store = createStore(getInitialState());
+    }
+
+    return store;
 };
+
+export interface InitialState {
+    language: string;
+}
+
+function createStore(initialState?: DeepPartial<IState>) {
+    const middleware = [
+        ...getDefaultMiddleware({
+            thunk: {
+                extraArgument,
+            },
+        }),
+    ];
+
+    if (process.env.NODE_ENV === "development") {
+        middleware.push(
+            createLogger({
+                collapsed: true,
+                diff: false,
+            })
+        );
+    }
+
+    return configureStore({
+        reducer: rootReducer,
+        devTools: true,
+        preloadedState: initialState,
+        middleware,
+    });
+}
+
+export type RootState = ReturnType<typeof rootReducer>;
+
+export type ThunkExtra = typeof extraArgument;
+
+export type AppStore = ReturnType<typeof createStore>;
+export type AppDispatch = AppStore["dispatch"];
+
+export type AppThunkArg<Rejectvalue = void> = {
+    dispatch: AppDispatch;
+    state: IState;
+    extra: ThunkExtra;
+    rejectValue: Rejectvalue;
+};
+
+export type AppThunk = ThunkAction<
+    Promise<void>,
+    IState,
+    ThunkExtra,
+    Action<string>
+>;
+
+export interface AsyncAction<Input = {}> {
+    (
+        dispatch: AppDispatch,
+        getState: () => IState,
+        extra: ThunkExtra,
+        input: Input
+    ): Promise<void>;
+}
+
+export type AppPageContext = NextPageContext & { store: AppStore };
+export type AppNextPage<P = {}, IP = P> = NextComponentType<
+    AppPageContext,
+    IP,
+    P
+> & {
+    needsLogin?: boolean;
+    getTitle?(state: IState): string;
+};
+
+export function useAppSelector<TResult>(
+    selector: (s: IState) => TResult
+): TResult {
+    return useSelector(selector);
+}

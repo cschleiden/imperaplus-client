@@ -290,3 +290,40 @@ h3.headline {
 .progress-bar-dark {
     background: #555;
 }
+
+@import "./main.scss";
+
+//
+
+.feature {
+    overflow: hidden;
+    margin-bottom: 10px;
+    padding: 15px 15px 10px;
+
+    display: flex;
+}
+
+.feature-icon {
+    padding: 10px;
+    color: $accent;
+    font-size: 35px;
+    text-align: center;
+
+    align-content: top;
+
+    width: 80px;
+
+    flex: 0 0 auto;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}

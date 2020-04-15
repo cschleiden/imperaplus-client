@@ -1,17 +1,24 @@
 import * as React from "react";
-import { IndexLink, Link } from "react-router";
+import __ from "../../i18n/i18n";
+import ActiveLink from "../ui/activeLink";
 
 export default (): JSX.Element => {
     return (
         <ul className="nav">
             <li>
-                <IndexLink to="/" activeClassName="active">{__("Home")}</IndexLink>
+                <ActiveLink href="/" activeClassName="active">
+                    <a>{__("Home")}</a>
+                </ActiveLink>
             </li>
             <li>
-                <Link to="/signup" activeClassName="active">{__("Signup")}</Link>
+                <ActiveLink href="/signup" activeClassName="active">
+                    <a>{__("Signup")}</a>
+                </ActiveLink>
             </li>
             <li>
-                <Link to="/login" activeClassName="active">{__("Login")}</Link>
+                <ActiveLink href="/login" activeClassName="active">
+                    <a>{__("Login")}</a>
+                </ActiveLink>
             </li>
         </ul>
     );
