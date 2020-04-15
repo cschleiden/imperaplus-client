@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
       - uses: actions/checkout@v2
@@ -16,31 +16,16 @@ jobs:
           node-version: 12.x
       - run: npm ci
       - run: npm run build
-      - uses: actions/upload-artifact@v1
-        with:
-          name: build
-          path: dist
-  deploy:
-    needs: build
-    runs-on: windows-latest
-
-    steps:      
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v1
-        with:
-          name: build
-          path: ./dist
       - name: Replace base uris in deployment
         uses: cschleiden/replace-tokens@master
         with:
-          files: '["./dist/**/*.js"]'
-        env:  
-          BaseUri: https://www.imperaonline.de/
+          files: '["./.next/**/*.js"]'
+        env:
+          BaseUri: https://www.imperaonline.de
           ImageBaseUri: https://static.imperaonline.de/maps/
-      - run: ./scripts/deployFrontend.ps1 -Source "${env:GITHUB_WORKSPACE}\dist" -Destination "${env:Website}/${env:DestFolder}" -AdditionalArguments "-verbose -enableRule:DoNotDeleteRule" -Username ${env:Login} -Password ${env:Password} -AuthType "basic" -DestinationComputer "https://imperaonline.de:8172/msdeploy.axd?site=${env:Website}"
-        env: 
+      - run: ./scripts/deployFrontend.ps1 -Source "${env:GITHUB_WORKSPACE}" -Destination "${env:Website}/${env:DestFolder}" -AdditionalArguments "-verbose -enableRule:DoNotDeleteRule" -Username ${env:Login} -Password ${env:Password} -AuthType "basic" -DestinationComputer "https://imperaonline.de:8172/msdeploy.axd?site=${env:Website}"
+        env:
           Website: imperaonline.de
-          DestFolder: wwwroot
-          Login: ${{ secrets.Login }}        
+          Login: ${{ secrets.Login }}
           Password: ${{ secrets.Password }}
           AppPool: imperaonline.de(domain)(4.0)(pool)
