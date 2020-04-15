@@ -1,17 +1,13 @@
-import Link from "next/link";
 import * as React from "react";
 import * as ReactMarkdown from "react-markdown";
 import { useSelector } from "react-redux";
 import { GridColumn, GridRow } from "../../components/layout";
 import { HumanDate } from "../../components/ui/humanDate";
-import { Section, SubSection } from "../../components/ui/typography";
-import { NewsContent, TournamentState } from "../../external/imperaClients";
+import { NewsContent } from "../../external/imperaClients";
 import __ from "../../i18n/i18n";
 import { fetch } from "../../lib/domain/game/news.slice";
-import { fetchAll } from "../../lib/domain/game/tournaments.slice";
 import { IState } from "../../reducers";
 import { AppNextPage } from "../../store";
-// import { refresh as tournamentsRefresh } from "./tournaments/tournaments.actions";
 
 function _getLanguageContent(
     language: string,
@@ -22,29 +18,27 @@ function _getLanguageContent(
 }
 
 function selector(state: IState) {
-    const tournaments = state.tournaments.tournaments || [];
-    const openTournaments = tournaments.filter(
-        (x) => x.state === TournamentState.Open
-    );
-    const activeTournaments = tournaments.filter(
-        (x) =>
-            x.state === TournamentState.Knockout ||
-            x.state === TournamentState.Groups
-    );
+    // const tournaments = state.tournaments.tournaments || [];
+    // const openTournaments = tournaments.filter(
+    //     (x) => x.state === TournamentState.Open
+    // );
+    // const activeTournaments = tournaments.filter(
+    //     (x) =>
+    //         x.state === TournamentState.Knockout ||
+    //         x.state === TournamentState.Groups
+    // );
 
     return {
         userInfo: state.session.userInfo,
         language: state.session.language,
         news: state.news.news,
-        openTournaments,
-        activeTournaments,
+        // openTournaments,
+        // activeTournaments,
     };
 }
 
 export const News: AppNextPage = (props) => {
-    const { news, language, openTournaments, activeTournaments } = useSelector(
-        selector
-    );
+    const { news, language } = useSelector(selector);
 
     return (
         <GridRow>
@@ -70,7 +64,7 @@ export const News: AppNextPage = (props) => {
                 </div>
             </GridColumn>
 
-            <GridColumn className="col-md-3">
+            {/* <GridColumn className="col-md-3">
                 <Section>{__("Tournaments")}</Section>
 
                 <SubSection>{__("Open")}</SubSection>
@@ -100,7 +94,7 @@ export const News: AppNextPage = (props) => {
                         </div>
                     );
                 })}
-            </GridColumn>
+            </GridColumn> */}
         </GridRow>
     );
 };
@@ -111,7 +105,7 @@ News.needsLogin = true;
 News.getInitialProps = async (ctx) => {
     await Promise.all([
         ctx.store.dispatch(fetch()),
-        ctx.store.dispatch(fetchAll()),
+        // ctx.store.dispatch(fetchAll()),
     ]);
 
     return selector(ctx.store.getState());
