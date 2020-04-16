@@ -57,6 +57,8 @@ export const refresh = createAsyncThunk<
     void,
     AppThunkArg
 >("session/refresh", async (_, thunkAPI) => {
+    console.log("Refreshing token");
+
     const { refresh_token } = thunkAPI.getState().session;
     const client = thunkAPI.extra.createClient("", FixedAccountClient);
     const result = await client.exchange({

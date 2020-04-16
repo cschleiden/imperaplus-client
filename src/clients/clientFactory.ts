@@ -48,6 +48,8 @@ const fetchWrapper = (
                     (newTokenProvider) => {
                         tokenProvider = newTokenProvider;
 
+                        console.log("Got a new token, retrying.");
+
                         // Successful, retry request
                         return fetchWrapper(tokenProvider, url, init);
                     },

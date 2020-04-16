@@ -14,6 +14,7 @@
         "clean": "rimraf dist",
         "dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 next -p 8080",
         "build": "next build",
+        "export": "next export",
         "start": "next start",
         "lint": "tslint 'src/**/*.tsx' 'src/**/*.ts' 'test/**/*.tsx' 'test/**/*.ts'",
         "analyze": "cross-env ANALYZE=true next build",
