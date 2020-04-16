@@ -22,7 +22,8 @@ export function createClient<TClient>(
 const fetchWrapper = (
     tokenProvider: () => string,
     url: string,
-    init: RequestInit
+    init: RequestInit,
+    authorizationAttempts = 0
 ) => {
     console.log(`Fetching ${url}`);
 
@@ -44,6 +45,10 @@ const fetchWrapper = (
             console.log("401");
 
             if (onUnauthorized) {
+                if (authorizationAttempts > 1) {
+                    throw new Error("Not authorized");
+                }
+
                 return onUnauthorized().then(
                     (newTokenProvider) => {
                         tokenProvider = newTokenProvider;
@@ -51,7 +56,12 @@ const fetchWrapper = (
                         console.log("Got a new token, retrying.");
 
                         // Successful, retry request
-                        return fetchWrapper(tokenProvider, url, init);
+                        return fetchWrapper(
+                            tokenProvider,
+                            url,
+                            init,
+                            authorizationAttempts + 1
+                        );
                     },
                     (error) => {
                         throw error;
