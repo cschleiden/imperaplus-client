@@ -130,7 +130,7 @@ export const resetTrigger = createAsyncThunk<
 
     // TODO: useMessage
 
-    Router.push("/reset/triggered");
+    Router.push("/resetTriggered");
 });
 
 export interface IResetInput {
@@ -153,7 +153,7 @@ export const reset = createAsyncThunk<void, IResetInput, AppThunkArg>(
 
         // TODO: useMessage
 
-        Router.push("/reset/done");
+        Router.push("/resetDone");
     }
 );
 
