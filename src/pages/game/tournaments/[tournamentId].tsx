@@ -289,6 +289,8 @@ function _renderRegistration(tournament: Tournament, userId: string) {
                 t.participants.length <
                 tournament.options.numberOfPlayersPerTeam
         );
+    const canJoinSingleTournament =
+        tournament.teams.length < tournament.numberOfTeams;
 
     return (
         registrationOpen && (
@@ -296,15 +298,17 @@ function _renderRegistration(tournament: Tournament, userId: string) {
                 <Section>{__("Registration")}</Section>
 
                 {/* Single */}
-                {!isTeamTournament && !currentUserIsRegistered && (
-                    <div>
-                        <SimpleProgressButton
-                            onClick={() => dispatch(join(tournament.id))}
-                        >
-                            {__("Join tournament")}
-                        </SimpleProgressButton>
-                    </div>
-                )}
+                {!isTeamTournament &&
+                    !currentUserIsRegistered &&
+                    canJoinSingleTournament && (
+                        <div>
+                            <SimpleProgressButton
+                                onClick={() => dispatch(join(tournament.id))}
+                            >
+                                {__("Join tournament")}
+                            </SimpleProgressButton>
+                        </div>
+                    )}
 
                 {!isTeamTournament && currentUserIsRegistered && (
                     <div>

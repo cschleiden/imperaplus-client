@@ -81,14 +81,14 @@ const GameNavigation = (props: IGameNavigation): JSX.Element => {
                             <a>{__("Ladders")}</a>
                         </ActiveLink>
                     </li>
-                    {/* <li>
+                    <li>
                         <ActiveLink
                             href="/game/tournaments"
                             activeClassName="active"
                         >
                             <a>{__("Tournaments")}</a>
                         </ActiveLink>
-                    </li> */}
+                    </li>
                 </ul>
             </li>
             <li>

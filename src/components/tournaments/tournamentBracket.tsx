@@ -58,7 +58,7 @@ export class TournamentBracket extends React.Component<
                 ref={this._resolveElement}
             >
                 <svg />
-                <div className={style.labels} />
+                <div className="labels" />
             </div>
         );
     }
@@ -95,13 +95,13 @@ export class TournamentBracket extends React.Component<
             const g = svg.append("g");
 
             // adds the links between the nodes
-            g.selectAll(".link")
+            g.selectAll(`.${style.link}`)
                 .data(nodes.descendants().slice(1))
                 .enter()
                 .append("path")
-                .attr("class", "link")
+                .attr("class", style.link)
                 .attr("d", (d) => line([d, d.parent]))
-                .classed("win", (d) => !!d.data.winner);
+                .classed(style.winner, (d) => !!d.data.winner);
 
             d3.select(this._element.querySelector(".labels"))
                 .selectAll("div")
@@ -109,8 +109,8 @@ export class TournamentBracket extends React.Component<
                 .enter()
                 .append("div")
                 .style("max-width", (d) => widthPerPhase + "px")
-                .classed("table", true)
-                .classed("played", (d) => !!d.data.winner)
+                .classed(style.table, true)
+                .classed(style.played, (d) => !!d.data.winner)
                 .style("left", (d) => width - d.y + "px")
                 .style("top", (d) => d.x - heightPerPairing + "px")
                 .html((d) => this._gameTemplate(d))

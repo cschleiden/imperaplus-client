@@ -9,51 +9,54 @@
 
 .tournamentBracket {
     position: relative;
-    .link {
-        fill: none;
-        stroke: $accent;
-        stroke-width: 1px;
-    }
-    .labels {
-        .table {
-            position: absolute;
-            background-color: #EAEAEA;
-            padding: 5px 7px 3px;
-            line-height: 2;
-            min-width: 185px;
-            color: #222222;
-            border: 0px solid rgba(34, 34, 34, 0.1);
-            cursor: pointer;
+}
 
-            &:hover {
-                background: $accent-highlight !important;
-            }
-        }
-        .table.played {
-            background-color: $accent;
-        }
-        .tournamentRow {
-            display: flex;
-            flex-direction: row;
-        }
+.link {
+    fill: none;
+    stroke: $accent;
+    stroke-width: 1px;
+}
+
+.table {
+    position: absolute;
+    background-color: #EAEAEA;
+    padding: 5px 7px 3px;
+    line-height: 2;
+    min-width: 185px;
+    color: #222222;
+    border: 0px solid rgba(34, 34, 34, 0.1);
+    cursor: pointer;
+
+    &:hover {
+        background: $accent-highlight !important;
     }
-    .winner {
-        font-weight: bold;
+}
+
+.played {
+    background-color: $accent !important;
+}
+
+.tournamentRow {
+    display: flex;
+    flex-direction: row;
+}
+
+.winner {
+    font-weight: bold;
+}
+.tournamentCell {
+    &.score {
+        border-left: 1px solid rgba(34, 34, 34, 0.1);
+        width: 25px;
+        flex: 0 0 auto;
+        text-align: right;
+        margin: 0px 2px;
     }
-    .tournamentCell {
-        &.score {
-            border-left: 1px solid rgba(34, 34, 34, 0.1);
-            width: 25px;
-            flex: 0 0 auto;
-            text-align: right;
-            margin: 0px 2px;
-        }
-        &.name {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            padding: 0px 5px;
-            flex: 1 1 auto;
-        }
+    &.name {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        padding: 0px 5px;
+        flex: 1 1 auto;
     }
 }
