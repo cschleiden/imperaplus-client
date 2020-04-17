@@ -5,17 +5,11 @@ import __ from "../i18n/i18n";
 import { AppNextPage } from "../store";
 
 const Page: AppNextPage = () => (
-    <Grid>
-        <GridRow>
-            <GridColumn className="col-xs-12">
-                <p>
-                    {__(
-                        "Your account has been successfully registered. You will receive an email with a confirmation code, please follow the instructions in there."
-                    )}
-                </p>
-            </GridColumn>
-        </GridRow>
-    </Grid>
+    <p>
+        {__(
+            "Your account has been successfully registered. You will receive an email with a confirmation code, please follow the instructions in there."
+        )}
+    </p>
 );
 
 Page.getTitle = () => __("Confirmation");
