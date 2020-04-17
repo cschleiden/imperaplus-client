@@ -7,7 +7,6 @@ import {
 } from "@reduxjs/toolkit";
 import { NextComponentType, NextPageContext } from "next";
 import { useSelector } from "react-redux";
-import { createLogger } from "redux-logger";
 import { createClient } from "./clients/clientFactory";
 import { getSignalRClient } from "./clients/signalrFactory";
 import rootReducer, { IState } from "./reducers";
@@ -45,15 +44,6 @@ function createStore(initialState?: DeepPartial<IState>) {
             },
         }),
     ];
-
-    if (process.env.NODE_ENV === "development") {
-        middleware.push(
-            createLogger({
-                collapsed: true,
-                diff: false,
-            })
-        );
-    }
 
     return configureStore({
         reducer: rootReducer,
