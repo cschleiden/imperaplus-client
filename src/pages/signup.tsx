@@ -133,7 +133,7 @@ const Page: AppNextPage = () => {
                                     callbackUrl: `${baseUri}activate/userId/code`,
                                 });
 
-                            Router.push("/signup/confirmation");
+                            Router.push("/confirmation");
                         }}
                         component={({ isPending, submit, formState }) => (
                             <div className="form">
