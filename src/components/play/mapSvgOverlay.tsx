@@ -118,7 +118,11 @@ export const MapSvgOverlay: React.FC<{
 
     return (
         <div className={css(style.mapSvgOverlay, className)}>
-            <svg width={`${maxWidth + 20}px`} height={`${maxHeight + 20}px`}>
+            <svg
+                width={`${maxWidth + 20}px`}
+                height={`${maxHeight + 20}px`}
+                className={className}
+            >
                 <defs>
                     <marker
                         id="arrowhead"
