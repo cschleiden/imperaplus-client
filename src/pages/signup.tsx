@@ -130,7 +130,7 @@ const Page: AppNextPage = () => {
                                     email: input.email,
                                     language:
                                         getState().session.language || "en",
-                                    callbackUrl: `${baseUri}activate/userId/code`,
+                                    callbackUrl: `${baseUri}/activate/userId/code`,
                                 });
 
                             Router.push("/confirmation");

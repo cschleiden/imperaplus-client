@@ -124,8 +124,8 @@ export const resetTrigger = createAsyncThunk<
         .forgotPassword({
             userName: input.username,
             email: input.email,
-            language: thunkAPI.getState().session.language,
-            callbackUrl: `${baseUri}reset/userId/code`,
+            language: thunkAPI.getState().session.language || "en",
+            callbackUrl: `${baseUri}/reset/userId/code`,
         });
 
     // TODO: useMessage
@@ -164,12 +164,10 @@ export interface IConfirmInput {
 export const activate = createAsyncThunk<void, IConfirmInput, AppThunkArg>(
     "session/activate",
     async (input, thunkAPI) => {
-        await thunkAPI.extra
-            .createClient(getToken(thunkAPI.getState()), FixedAccountClient)
-            .confirmEmail({
-                userId: input.userId,
-                code: input.code,
-            });
+        await thunkAPI.extra.createClient("", FixedAccountClient).confirmEmail({
+            userId: input.userId,
+            code: input.code,
+        });
 
         thunkAPI.dispatch(
             showMessage({

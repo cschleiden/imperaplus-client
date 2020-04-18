@@ -1,32 +1,35 @@
 import * as React from "react";
-import { Grid } from "react-bootstrap";
+import { useDispatch } from "react-redux";
 import { GridColumn, GridRow } from "../../components/layout";
 import { Spinner, SpinnerSize } from "../../components/ui/spinner";
 import { activate } from "../../lib/domain/shared/session/session.slice";
-import { AppNextPage } from "../../store";
+import { isSSR } from "../../lib/utils/isSSR";
+import { AppDispatch, AppNextPage } from "../../store";
 
-const ActivateComponent: AppNextPage = () => {
+const Activating: AppNextPage<{ userId: string; code: string }> = ({
+    userId,
+    code,
+}) => {
+    if (!isSSR()) {
+        const dispatch = useDispatch<AppDispatch>();
+        dispatch(activate({ userId, code }));
+    }
+
     return (
-        <Grid>
-            <GridRow>
-                <GridColumn className="col-xs-12">
-                    <Spinner
-                        className="center-block"
-                        size={SpinnerSize.Large}
-                    />
-                </GridColumn>
-            </GridRow>
-        </Grid>
+        <GridRow>
+            <GridColumn className="col-xs-12 col-md-6 col-md-push-3">
+                <Spinner className="center-block" size={SpinnerSize.Large} />
+            </GridColumn>
+        </GridRow>
     );
 };
 
-ActivateComponent.getInitialProps = async (ctx) => {
-    await ctx.store.dispatch(
-        activate({
-            userId: ctx.query["params"][0] as string,
-            code: ctx.query["params"][1] as string,
-        })
-    );
+Activating.getTitle = () => __("Activating Account");
+Activating.getInitialProps = async (ctx) => {
+    return {
+        userId: ctx.query["params"][0] as string,
+        code: ctx.query["params"][1] as string,
+    };
 };
 
-export default ActivateComponent;
+export default Activating;

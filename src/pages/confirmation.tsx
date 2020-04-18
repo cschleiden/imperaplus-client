@@ -1,6 +1,4 @@
 import * as React from "react";
-import { Grid } from "react-bootstrap";
-import { GridColumn, GridRow } from "../components/layout";
 import __ from "../i18n/i18n";
 import { AppNextPage } from "../store";
 
