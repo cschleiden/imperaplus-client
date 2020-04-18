@@ -126,6 +126,8 @@ class Map extends React.Component<IMapProps, IMapState> {
             if (!this._unitInputFocus) {
                 this._inputElement.focus();
             }
+        } else {
+            this._unitInputFocus = false;
         }
     }
 
