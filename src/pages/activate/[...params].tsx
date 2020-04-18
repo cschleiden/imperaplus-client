@@ -2,6 +2,7 @@ import * as React from "react";
 import { useDispatch } from "react-redux";
 import { GridColumn, GridRow } from "../../components/layout";
 import { Spinner, SpinnerSize } from "../../components/ui/spinner";
+import __ from "../../i18n/i18n";
 import { activate } from "../../lib/domain/shared/session/session.slice";
 import { isSSR } from "../../lib/utils/isSSR";
 import { AppDispatch, AppNextPage } from "../../store";
