@@ -15,20 +15,22 @@
 }
 
 $buttonWidth: 75px;
-.gameChat {
-    .gameChatInputGroup {
-        width: 100%;
-        .gameChatInput {
-            width: calc(100% - #{$buttonWidth}) !important;
-            height: 34px;
-        }
-        .gameChatButton {
-            width: $buttonWidth;
-            height: 34px;
-        }
-    }
 
-    :global .tab-content {        
+.gameChatInputGroup {
+    display: flex;
+
+    .gameChatInput {
+        flex-grow: 1;
+        height: 34px;
+    }
+    .gameChatButton {
+        width: $buttonWidth;
+        height: 34px;
+    }
+}
+
+.gameChat {
+    :global .tab-content {
         height: 200px;
         padding: 0;
     }
