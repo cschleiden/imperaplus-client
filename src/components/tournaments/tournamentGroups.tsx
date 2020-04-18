@@ -88,7 +88,7 @@ export class TournamentGroups extends React.Component<ITournamentGroupProps> {
                                             <div
                                                 className={css(
                                                     style.groupTableTeamWrapper,
-                                                    "text-right"
+                                                    style.textRight
                                                 )}
                                             >
                                                 <div
@@ -103,7 +103,12 @@ export class TournamentGroups extends React.Component<ITournamentGroupProps> {
                                             </div>
                                         </td>
                                         <td className={style.groupTableCount}>
-                                            <span className="label label-info">
+                                            <span
+                                                className={css(
+                                                    "label",
+                                                    "label-info"
+                                                )}
+                                            >
                                                 {p.numberOfGames -
                                                     (p.teamAWon + p.teamBWon)}
                                             </span>
@@ -112,7 +117,7 @@ export class TournamentGroups extends React.Component<ITournamentGroupProps> {
                                             <div
                                                 className={css(
                                                     style.groupTableTeamWrapper,
-                                                    "text-left"
+                                                    style.textLeft
                                                 )}
                                             >
                                                 {this._renderLabel(p, false)}
@@ -141,7 +146,7 @@ export class TournamentGroups extends React.Component<ITournamentGroupProps> {
 
         return (
             <div
-                className={css("label", {
+                className={css(style.label, "label", {
                     "label-default": won < p.numberOfGames / 2,
                     "label-success": won >= p.numberOfGames / 2,
                 })}

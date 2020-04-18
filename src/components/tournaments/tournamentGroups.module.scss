@@ -14,42 +14,40 @@
     table-layout: fixed;
 
     margin: 0;
+}
 
-    .groupPairingRows:hover {
-        cursor: pointer;
-        background: $accent-highlight !important;
-    }    
+.groupPairingRows:hover {
+    cursor: pointer;
+    background: $accent-highlight !important;
+}
 
-    .groupTableCount {
-        width: 30px;
-        text-align: center;
-    }
+.groupTableCount {
+    width: 30px;
+    text-align: center;
+}
 
-    .groupTableTeam {
-        .groupTableTeamWrapper {
-            display: flex;
-            flex-direction: row;
+.groupTableTeamWrapper {
+    display: flex;
+    flex-direction: row;
 
-            align-content: stretch;
+    align-content: stretch;
+}
 
-            &.text-right {
-                justify-content: flex-end;
-            }
+.label {
+    margin: 0 5px;
+    line-height: 1.42857;
+}
 
-            &.text-left {
-                justify-content: flex-start;
-            }
+.groupTableTeamName {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 
-            .label {
-                margin: 0 5px;
-                line-height: 1.42857;
-            }
+.textRight {
+    justify-content: flex-end;
+}
 
-            .groupTableTeamName {
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-            }
-        }
-    }
+.textLeft {
+    justify-content: flex-start;
 }
