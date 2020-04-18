@@ -21,16 +21,22 @@ function selector(state: IState) {
         game: state.play.game,
         error: state.play.error,
         sidebarOpen: state.play.sidebarOpen,
+        overrideGameUiOptions: state.play.overrideGameUiOptions,
     };
 }
 
 const Play: AppNextPage = () => {
-    const { game, sidebarOpen, error } = useAppSelector(selector);
+    const { game, sidebarOpen, error, overrideGameUiOptions } = useAppSelector(
+        selector
+    );
     const dispatch = useDispatch<AppDispatch>();
 
     React.useEffect(() => {
         const onKeyDown = (evt: KeyboardEvent) => {
-            if (evt.key === "Control") {
+            if (
+                evt.key === "Control" &&
+                !overrideGameUiOptions.showTeamsOnMap
+            ) {
                 dispatch(doSetGameOption(true, "showTeamsOnMap", true));
             }
         };

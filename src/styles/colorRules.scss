@@ -11,19 +11,19 @@
 }
 
 //
-// Teams 
+// Teams
 //
 @for $i from 1 through length($teamColors) {
     .team-#{$i} {
         background-color: nth($teamColors, $i) !important;
     }
 
-    .player-team-#{$i} {        
+    .player-team-#{$i} {
         box-shadow: team-shadow(nth($teamColors, $i));
     }
 }
 
-// 
+//
 // Continents
 //
 @for $i from 0 through length($continentColors) - 1 {
@@ -32,12 +32,12 @@
     }
 }
 
-// 
+//
 // Team Country rules
 //
-@for $i from 1 through length($teamColors) {    
+@for $i from 1 through length($teamColors) {
     .country-team-#{$i} {
-        box-shadow: $country-inset-shadow, team-shadow(nth($teamColors, $i));
+        box-shadow: $country-inset-shadow, team-shadow(nth($teamColors, $i)) !important;
     }
 }
 
