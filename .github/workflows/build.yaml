@@ -1,4 +1,4 @@
-name: Build
+name: Build & Dev Deploy
 
 on:
   push:
@@ -24,8 +24,8 @@ jobs:
           BaseUri: https://dev.imperaonline.de
           ImageBaseUri: https://static.imperaonline.de/maps/
       - run: ./scripts/deployFrontend.ps1 -Source "${env:GITHUB_WORKSPACE}" -Destination "${env:Website}/${env:DestFolder}" -AdditionalArguments "-verbose -enableRule:DoNotDeleteRule" -Username ${env:Login} -Password ${env:Password} -AuthType "basic" -DestinationComputer "https://imperaonline.de:8172/msdeploy.axd?site=${env:Website}"
-        env: 
+        env:
           Website: dev.imperaonline.de
-          Login: ${{ secrets.Login }}        
+          Login: ${{ secrets.Login }}
           Password: ${{ secrets.Password }}
           AppPool: dev.imperaonline.de(domain)(4.0)(pool)
