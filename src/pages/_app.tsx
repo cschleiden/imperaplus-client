@@ -11,6 +11,7 @@ import GameNav from "../components/navigation/game";
 import PublicNav from "../components/navigation/public";
 import "../external/polyfills";
 import { setLanguageProvider } from "../i18n/i18n";
+import MiniProfiler from "../lib/admin/miniprofiler";
 import {
     openClose,
     setTitle,
@@ -85,7 +86,12 @@ function App({
         <MainLayout nav={nav} children={pageContent} />
     );
 
-    return <Provider store={store}>{Layout}</Provider>;
+    return (
+        <Provider store={store}>
+            <MiniProfiler />
+            {Layout}
+        </Provider>
+    );
 }
 
 App.getInitialProps = async (

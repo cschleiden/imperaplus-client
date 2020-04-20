@@ -1,6 +1,7 @@
 import fetch from "isomorphic-unfetch";
 import { baseUri } from "../configuration";
 import { ErrorResponse } from "../external/imperaClients";
+import { isSSR } from "../lib/utils/isSSR";
 import { onUnauthorized } from "../services/authProvider";
 
 export interface IClient<TClient> {
@@ -79,6 +80,19 @@ const fetchWrapper = (
                         : <ErrorResponse>JSON.parse(responseText);
                 throw result400;
             });
+        }
+
+        if (!isSSR()) {
+            const miniProfiler = (<any>window).MiniProfiler;
+            if (miniProfiler) {
+                const miniProfilerIds = response.headers.get(
+                    "X-MiniProfiler-Ids"
+                );
+                if (miniProfilerIds && miniProfiler) {
+                    // tslint:disable-next-line:no-eval
+                    miniProfiler.fetchResults(eval(miniProfilerIds));
+                }
+            }
         }
 
         return response;
