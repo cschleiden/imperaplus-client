@@ -12,9 +12,9 @@ export default () => {
             <Head>
                 <script
                     id="mini-profiler"
-                    src={`${baseUri}/admin/profiler/includes.min.js`}
+                    src={`${baseUri}/api/admin/profiler/includes.min.js`}
                     {...{
-                        "data-path": baseUri + "/admin/profiler/",
+                        "data-path": baseUri + "/api/admin/profiler/",
                         "data-position": "bottomright",
                         "data-authorized": "true",
                         "data-controls": "true",
