@@ -14,7 +14,7 @@ import { refreshNotifications } from "../shared/session/session.slice";
 const initialState = {
     isLoading: false,
     folderInformation: null as FolderInformation[],
-    currentFolder: null as MessageFolder,
+    currentFolder: MessageFolder.Inbox,
     currentMessages: [] as Message[],
 
     currentMessage: null as Message,
