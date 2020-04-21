@@ -15,7 +15,7 @@ export default () => {
                     src={`${baseUri}/api/admin/profiler/includes.min.js`}
                     {...{
                         "data-path": baseUri + "/api/admin/profiler/",
-                        "data-position": "bottomright",
+                        "data-position": "right",
                         "data-authorized": "true",
                         "data-controls": "true",
                         "data-ids": "00000000-0000-0000-0000-000000000000",
