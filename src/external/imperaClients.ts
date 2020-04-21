@@ -501,7 +501,6 @@ export interface TournamentSummary {
     startOfRegistration: string;
     startOfTournament: string;
     endOfTournament: string;
-    completion: number;
 }
 
 export enum TournamentState {
