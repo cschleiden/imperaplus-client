@@ -9,6 +9,7 @@ import __ from "../../../../i18n/i18n";
 import { notificationService } from "../../../../services/notificationService";
 import { AppThunk } from "../../../../store";
 import { withUserId } from "../../../../types";
+import { isSSR } from "../../../utils/isSSR";
 import { setTitle } from "../../shared/general/general.slice";
 import { getToken } from "../../shared/session/session.selectors";
 import { refreshNotifications } from "../../shared/session/session.slice";
@@ -24,7 +25,6 @@ import {
     switchGame,
 } from "./play.slice";
 import { IGameUIOptions } from "./play.slice.state";
-import { isSSR } from "../../../utils/isSSR";
 
 export const doHistoryExit = (): AppThunk => async (dispatch, getState) => {
     const { gameId } = getState().play;
@@ -36,10 +36,7 @@ export const doHistoryExit = (): AppThunk => async (dispatch, getState) => {
 // TODO: Move this to another place?
 let initialized = false;
 
-export const initNotifications = (): AppThunk => async (
-    dispatch,
-    getState
-) => {
+export const initNotifications = (): AppThunk => async (dispatch, getState) => {
     if (!isSSR() && !initialized) {
         initialized = true;
 
@@ -106,7 +103,7 @@ export const doSwitchGame = (
 
     // Go to history, if requested
     if (turnNo >= 0) {
-        dispatch(historyTurn(turnNo));
+        await dispatch(historyTurn(turnNo));
     }
 };
 

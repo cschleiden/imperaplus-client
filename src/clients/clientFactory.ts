@@ -89,8 +89,7 @@ const fetchWrapper = (
                     "X-MiniProfiler-Ids"
                 );
                 if (miniProfilerIds && miniProfiler) {
-                    // tslint:disable-next-line:no-eval
-                    miniProfiler.fetchResults(eval(miniProfilerIds));
+                    miniProfiler.fetchResults(JSON.parse(miniProfilerIds));
                 }
             }
         }

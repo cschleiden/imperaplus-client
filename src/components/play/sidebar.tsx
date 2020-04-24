@@ -25,7 +25,7 @@ const Sidebar: React.FC = () => {
             <GameHistory />
 
             <SubSection>{__("Stats")}</SubSection>
-            <GameStats game={game} />
+            <GameStats />
 
             <SubSection>{__("Other Games")}</SubSection>
             <GameLinkList game={game} games={otherGames} />

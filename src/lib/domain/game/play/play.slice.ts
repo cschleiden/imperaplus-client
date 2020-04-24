@@ -4,6 +4,8 @@ import {
     createSlice,
 } from "@reduxjs/toolkit";
 import Router from "next/router";
+import { GameClient } from "../../../../external/GameClient";
+import { HistoryClient } from "../../../../external/HistoryClient";
 import {
     Game,
     GameActionResult,
@@ -11,12 +13,11 @@ import {
     HistoryTurn,
     PlaceUnitsOptions,
 } from "../../../../external/imperaClients";
-import { HistoryClient } from "../../../../external/HistoryClient";
-import { GameClient } from "../../../../external/GameClient";
 import { PlayClient } from "../../../../external/playClient";
 import { notificationService } from "../../../../services/notificationService";
 import { AppThunk, AppThunkArg } from "../../../../store";
 import { UserIdPayload, withUserId } from "../../../../types";
+import { isSSR } from "../../../utils/isSSR";
 import { getToken, getUserId } from "../../shared/session/session.selectors";
 import { canMoveOrAttack, canPlace, inputActive } from "./play.selectors";
 import * as Handlers from "./play.slice.handlers";
@@ -258,14 +259,16 @@ export const historyTurn = createAsyncThunk<HistoryTurn, number, AppThunkArg>(
     async (turnId, thunkAPI) => {
         const { gameId } = thunkAPI.getState().play;
 
-        // Update url
-        Router.replace(
-            "/game/play/[...gameId]",
-            `/game/play/${gameId}/history/${turnId}`,
-            {
-                shallow: true,
-            }
-        );
+        if (!isSSR()) {
+            // Update url
+            Router.replace(
+                "/game/play/[...gameId]",
+                `/game/play/${gameId}/history/${turnId}`,
+                {
+                    shallow: true,
+                }
+            );
+        }
 
         return thunkAPI.extra
             .createClient(getToken(thunkAPI.getState()), HistoryClient)

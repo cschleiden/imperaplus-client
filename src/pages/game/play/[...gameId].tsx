@@ -105,7 +105,7 @@ Play.getInitialProps = async (ctx) => {
         gameId = parseInt(ctx.query.gameId[0], 10);
     }
 
-    console.info(`Switching game ${ctx.query.gameId}`);
+    console.info(`Switching game ${gameId} with turn ${historyTurn}`);
     await ctx.store.dispatch(doSwitchGame(gameId, historyTurn));
 
     return {};
