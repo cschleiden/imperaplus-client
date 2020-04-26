@@ -58,7 +58,9 @@ interface IInternalFormProps {
 }
 
 class Form extends React.Component<IFormProps & IInternalFormProps> {
-    public componentDidMount() {
+    constructor(props: IFormProps & IInternalFormProps, context: any) {
+        super(props, context);
+
         this.props.reset();
     }
 

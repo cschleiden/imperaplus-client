@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Router from "next/router";
 import * as React from "react";
 import { Button } from "react-bootstrap";
@@ -33,16 +34,14 @@ const MessageView: AppNextPage<IMessageProps> = (props) => {
                 <Section
                     additionalContent={
                         <div className="pull-right clearfix">
-                            <Button
-                                onClick={() =>
-                                    Router.push(
-                                        `/game/messages/compose?replyId=${message.id}`
-                                    )
-                                }
+                            <Link
+                                href={`/game/messages/compose?replyId=${message.id}`}
                             >
-                                <i className="fa fa-envelope-o" />
-                                &nbsp;{__("Reply")}
-                            </Button>
+                                <Button>
+                                    <i className="fa fa-envelope-o" />
+                                    &nbsp;{__("Reply")}
+                                </Button>
+                            </Link>
                         </div>
                     }
                 >
