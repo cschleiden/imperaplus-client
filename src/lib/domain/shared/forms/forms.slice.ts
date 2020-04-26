@@ -104,10 +104,9 @@ const slice = createSlice({
             state.forms[action.payload] = {
                 name: action.payload,
                 isPending: false,
-                fields: {
-                    ...state.forms[action.payload]?.initialValues,
-                },
-                initialValues: state.forms[action.payload]?.initialValues || {},
+                // Clean initial values, form elements will re-set them
+                fields: {},
+                initialValues: {},
             };
         },
 
