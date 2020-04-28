@@ -1,3 +1,4 @@
+import Router from "next/router";
 import * as React from "react";
 import { Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
@@ -6,11 +7,7 @@ import { HumanDate } from "../../../components/ui/humanDate";
 import { Loading } from "../../../components/ui/loading";
 import { ProgressButton } from "../../../components/ui/progressButton";
 import { Section, SubSection } from "../../../components/ui/typography";
-import {
-    Alliance,
-    AllianceJoinRequest,
-    AllianceJoinRequestState,
-} from "../../../external/imperaClients";
+import { AllianceJoinRequestState } from "../../../external/imperaClients";
 import __ from "../../../i18n/i18n";
 import {
     changeAdmin,
@@ -28,22 +25,6 @@ import {
 } from "../../../lib/domain/shared/forms/inputs";
 import { IState } from "../../../reducers";
 import { AppDispatch, AppNextPage } from "../../../store";
-
-export interface IAllianceInfoProps {
-    alliance: Alliance;
-    requests: AllianceJoinRequest[];
-
-    userId: string;
-
-    /** Is the current user admin of the current alliance */
-    isAdmin: boolean;
-    /** Is the current user member of the current alliance */
-    isMember: boolean;
-    /** Can the current user join an alliance */
-    canJoin: boolean;
-    hasPendingRequest: boolean;
-    hasOtherPendingRequest: boolean;
-}
 
 function selector(state: IState) {
     const { alliance, requests, pendingRequests, isLoading } = state.alliances;
@@ -71,7 +52,7 @@ function selector(state: IState) {
                 x.allianceId !== alliance.id &&
                 x.state === AllianceJoinRequestState.Active
         );
-    const isMember = alliance && allianceId && alliance.id === allianceId;
+    const isMember = alliance && !!allianceId && alliance.id === allianceId;
 
     return {
         isLoading,
@@ -94,7 +75,9 @@ function selector(state: IState) {
     };
 }
 
-const AllianceInfoComponent: AppNextPage<IAllianceInfoProps> = (props) => {
+const AllianceInfoComponent: AppNextPage<ReturnType<typeof selector>> = (
+    props
+) => {
     const {
         alliance,
         isAdmin,
@@ -210,6 +193,9 @@ const AllianceInfoComponent: AppNextPage<IAllianceInfoProps> = (props) => {
                                                 ),
                                             })
                                         );
+
+                                        // Reload page
+                                        Router.reload();
                                     }}
                                     component={({ isPending, formState }) => (
                                         <div>
@@ -393,47 +379,3 @@ AllianceInfoComponent.getInitialProps = async (ctx) => {
 };
 
 export default AllianceInfoComponent;
-
-// export default connect(
-//     (state: IState) => {
-
-//     },
-//     (dispatch) => ({
-//         setTitle: (title: string) => {
-//             dispatch(setTitle(title));
-//         },
-//         get: (id: string) => {
-//             dispatch(get(id));
-//         },
-//         updateRequest: (
-//             allianceId: string,
-//             requestId: string,
-//             state: AllianceJoinRequestState
-//         ) => {
-//             dispatch(
-//                 updateRequest({
-//                     allianceId,
-//                     requestId,
-//                     state,
-//                 })
-//             );
-//         },
-//         changeAdmin: (allianceId: string, userId: string, isAdmin: boolean) => {
-//             dispatch(
-//                 changeAdmin({
-//                     allianceId,
-//                     userId,
-//                     isAdmin,
-//                 })
-//             );
-//         },
-//         removeMember: (allianceId: string, userId: string) => {
-//             dispatch(
-//                 removeMember({
-//                     allianceId,
-//                     userId,
-//                 })
-//             );
-//         },
-//     })
-// )(AllianceInfoComponent);

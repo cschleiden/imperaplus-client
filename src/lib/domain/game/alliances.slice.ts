@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import Router from "next/router";
 import { FixedAccountClient } from "../../../external/accountClient";
+import { AllianceClient } from "../../../external/AllianceClient";
 import {
     Alliance,
     AllianceCreationOptions,
@@ -8,7 +9,6 @@ import {
     AllianceJoinRequestState,
     AllianceSummary,
 } from "../../../external/imperaClients";
-import { AllianceClient } from "../../../external/AllianceClient";
 import { AppThunkArg } from "../../../store";
 import { getToken } from "../shared/session/session.selectors";
 import { updateUserInfo } from "../shared/session/session.slice";
@@ -189,12 +189,12 @@ export const fetch = createAsyncThunk<Alliance, string, AppThunkArg>(
         const userInfo = thunkAPI.getState().session.userInfo;
         if (userInfo.allianceAdmin && userInfo.allianceId === allianceId) {
             // If the user is an admin of the current alliance, also retrieve requests for the alliance
-            // dispatch(getRequests(id));
+            await thunkAPI.dispatch(getRequests(allianceId));
         }
 
         if (!userInfo.allianceId) {
             // User is not member of any alliance, get pending requests
-            // dispatch(getAllRequests(null));
+            await thunkAPI.dispatch(getAllRequests());
         }
 
         return alliance;
@@ -209,19 +209,6 @@ export const fetchAll = createAsyncThunk<AllianceSummary[], void, AppThunkArg>(
             .getAll();
     }
 );
-
-// export const alliances2 = <TPayload>(
-//     state = initialState,
-//     action?: ActionPayload<TPayload>
-// ) => {
-//     return reducerMap(action, state, {
-//         [pending(Actions.get.TYPE)]: loading,
-//         [success(Actions.get.TYPE)]: get,
-
-//         [success(Actions.getRequests.TYPE)]: getRequests,
-//         [success(Actions.getAllRequests.TYPE)]: getAllRequests,
-//     });
-// };
 
 const alliances = createSlice({
     name: "alliances",

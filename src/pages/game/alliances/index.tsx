@@ -39,7 +39,7 @@ const Alliances: AppNextPage<ReturnType<typeof selector>> = ({
                                     as={`/game/alliances/${alliance.id}`}
                                     href="/game/alliances/[allianceId]"
                                 >
-                                    {alliance.name}
+                                    <a>{alliance.name}</a>
                                 </Link>
                             </td>
                             <td className="text-center">
