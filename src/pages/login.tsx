@@ -79,6 +79,12 @@ const Page: AppNextPage = () => (
                         "[Reset](/reset) your password or [create](/signup) a new account."
                     ),
                 })}
+                <br />
+                {LinkString({
+                    link: __(
+                        "If you already have an account and cannot login, [request](/resendConfirmation) a new confirmation code."
+                    ),
+                })}
             </GridColumn>
         </GridRow>
     </Grid>
