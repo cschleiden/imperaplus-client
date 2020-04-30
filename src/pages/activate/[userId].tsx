@@ -28,8 +28,8 @@ const Activating: AppNextPage<{ userId: string; code: string }> = ({
 Activating.getTitle = () => __("Activating Account");
 Activating.getInitialProps = async (ctx) => {
     return {
-        userId: ctx.query["params"][0] as string,
-        code: ctx.query["params"][1] as string,
+        userId: ctx.query["userId"] as string,
+        code: ctx.query["c"] as string,
     };
 };
 

@@ -125,7 +125,7 @@ export const resetTrigger = createAsyncThunk<
             userName: input.username,
             email: input.email,
             language: thunkAPI.getState().session.language || "en",
-            callbackUrl: `${baseUri}/reset/userId/code`,
+            callbackUrl: `${baseUri}/reset/userId?c=code`,
         });
 
     // TODO: useMessage
@@ -157,6 +157,34 @@ export const reset = createAsyncThunk<void, IResetInput, AppThunkArg>(
     }
 );
 
+export interface ResendConfirmationInput {
+    username: string;
+    password: string;
+}
+export const resendConfirmation = createAsyncThunk<
+    void,
+    ResendConfirmationInput,
+    AppThunkArg
+>("session/resend-confirmation", async (input, thunkAPI) => {
+    await thunkAPI.extra
+        .createClient(getToken(thunkAPI.getState()), FixedAccountClient)
+        .resendConfirmationCode({
+            userName: input.username,
+            password: input.password,
+            language: thunkAPI.getState().session.language || "en",
+            callbackUrl: `${baseUri}/activate/userId?c=code`,
+        });
+
+    thunkAPI.dispatch(
+        showMessage({
+            message: __(
+                "We have sent you a new confirmation code, please visit the link in the email to activate your account."
+            ),
+            type: MessageType.success,
+        })
+    );
+});
+
 export interface IConfirmInput {
     userId: string;
     code: string;
@@ -164,21 +192,34 @@ export interface IConfirmInput {
 export const activate = createAsyncThunk<void, IConfirmInput, AppThunkArg>(
     "session/activate",
     async (input, thunkAPI) => {
-        await thunkAPI.extra.createClient("", FixedAccountClient).confirmEmail({
-            userId: input.userId,
-            code: input.code,
-        });
+        try {
+            await thunkAPI.extra
+                .createClient("", FixedAccountClient)
+                .confirmEmail({
+                    userId: input.userId,
+                    code: input.code,
+                });
 
-        thunkAPI.dispatch(
-            showMessage({
-                message: __(
-                    "Your account has been successfully activated. You can login now."
-                ),
-                type: MessageType.success,
-            })
-        );
+            thunkAPI.dispatch(
+                showMessage({
+                    message: __(
+                        "Your account has been successfully activated. You can login now."
+                    ),
+                    type: MessageType.success,
+                })
+            );
 
-        Router.push("/activated");
+            Router.push("/activated");
+        } catch {
+            thunkAPI.dispatch(
+                showMessage({
+                    message: __(
+                        "Activation did not work, please click [here](/resendConfirmation) to request a new code."
+                    ),
+                    type: MessageType.error,
+                })
+            );
+        }
     }
 );
 

@@ -85,8 +85,8 @@ const ResetConfirmation: AppNextPage<IResetConfirmationProps> = (props) => {
 ResetConfirmation.getTitle = () => __("Password Reset");
 ResetConfirmation.getInitialProps = (ctx) => {
     return {
-        userId: ctx.query["params"][0] as string,
-        code: ctx.query["params"][1] as string,
+        userId: ctx.query["userId"] as string,
+        code: ctx.query["c"] as string,
     };
 };
 
