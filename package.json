@@ -10,7 +10,7 @@
     },
     "scripts": {
         "prebuild": "npm run clean",
-        "i18n:compile": "po2json ./src/po/messages.de.po ./loc/de.json --format mf --pretty --fallback-to-msgid",
+        "i18n:extract": "i18next-scanner --config ./i18n.config.js",
         "clean": "rimraf dist",
         "dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 next -p 8080",
         "build": "next build",
@@ -50,7 +50,7 @@
         "jquery": "^3.1.1",
         "js-cookie": "^2.2.1",
         "markdown-it": "^8.3.1",
-        "next": "^9.3.4",
+        "next": "9.3.6",
         "next-cookies": "^2.0.3",
         "object-assign": "^4.1.0",
         "po2json": "^0.4.5",
@@ -58,7 +58,6 @@
         "react-bootstrap": "0.32.1",
         "react-bootstrap-typeahead": "2.5.1",
         "react-dom": "^16.13.1",
-        "react-gettext-parser": "^1.1.0",
         "react-markdown": "^2.4.2",
         "react-proptypes": "^1.0.0",
         "react-redux": "7.2.0",
@@ -72,6 +71,7 @@
     "devDependencies": {
         "@types/react-bootstrap-typeahead": "^3.4.5",
         "babel-plugin-transform-imports": "^2.0.0",
+        "i18next-scanner": "^2.11.0",
         "rimraf": "^2.5.4",
         "typescript": "3.8.3"
     }
