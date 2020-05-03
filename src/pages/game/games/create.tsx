@@ -1,6 +1,6 @@
+import Link from "next/link";
 import * as React from "react";
 import { Tab, Tabs } from "react-bootstrap";
-import Link from "next/link";
 import { GridColumn, GridRow } from "../../../components/layout";
 import { MapPreview } from "../../../components/ui/games/mapPreview";
 import { ProgressButton } from "../../../components/ui/progressButton";
@@ -13,13 +13,13 @@ import {
     VisibilityModifierType,
 } from "../../../external/imperaClients";
 import __ from "../../../i18n/i18n";
+import { create, getMaps } from "../../../lib/domain/game/create.actions";
 import Form, { IFormState } from "../../../lib/domain/shared/forms/form";
 import {
     ControlledDropdown,
     ControlledTextField,
 } from "../../../lib/domain/shared/forms/inputs";
 import { AppNextPage } from "../../../store";
-import { getMaps, create } from "../../../lib/domain/game/create.actions";
 
 function getPlayerAndTeams() {
     let result: { key: string; text: string }[] = [];
@@ -501,6 +501,16 @@ const CreateGameComponent: AppNextPage<{ maps: MapTemplateDescriptor[] }> = (
                                                     }
                                                 >
                                                     {__("Malibu")}
+                                                </option>
+                                                <option
+                                                    key={
+                                                        MapDistribution.Malibu3
+                                                    }
+                                                    value={
+                                                        MapDistribution.Malibu3
+                                                    }
+                                                >
+                                                    {__("Malibu 3")}
                                                 </option>
                                             </ControlledDropdown>
                                         </GridColumn>

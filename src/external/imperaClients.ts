@@ -188,6 +188,7 @@ export interface GameOptions {
 export enum MapDistribution {
     Default = "Default",
     Malibu = "Malibu",
+    Malibu3 = "Malibu3",
 }
 
 export enum VictoryConditionType {
