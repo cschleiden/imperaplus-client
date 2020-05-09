@@ -21,6 +21,7 @@ import {
     historyTurn,
     leave,
     refreshGame,
+    refreshOtherGames,
     setUIOption,
     switchGame,
 } from "./play.slice";
@@ -105,6 +106,8 @@ export const doSwitchGame = (
     if (turnNo >= 0) {
         await dispatch(historyTurn(turnNo));
     }
+
+    dispatch(refreshOtherGames());
 };
 
 export const doLeave = (): AppThunk => async (dispatch, getState) => {

@@ -384,6 +384,3 @@ export const {
 } = play.actions;
 
 export default play.reducer;
-
-// [success(Actions.SWITCH_GAME)]: ActionHandlers.switchGame,
-// [pending(Actions.SWITCH_GAME)]: ActionHandlers.pendingOperation,
