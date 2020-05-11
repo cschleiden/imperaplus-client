@@ -172,7 +172,7 @@ class Map extends React.Component<IMapProps, IMapState> {
 
             return (
                 <React.Fragment key={`cs-${countryTemplate.identifier}`}>
-                    {country.flags === CountryFlags.Capital && (
+                    {country && country.flags === CountryFlags.Capital && (
                         <div
                             style={{
                                 left: countryTemplate.x,
