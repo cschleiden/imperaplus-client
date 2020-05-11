@@ -1,6 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import {
+    CountryFlags,
     Game,
     HistoryAction,
     HistoryEntry,
@@ -171,6 +172,17 @@ class Map extends React.Component<IMapProps, IMapState> {
 
             return (
                 <React.Fragment key={`cs-${countryTemplate.identifier}`}>
+                    {country.flags === CountryFlags.Capital && (
+                        <div
+                            style={{
+                                left: countryTemplate.x,
+                                top: countryTemplate.y,
+                            }}
+                            className={style.countryCapital}
+                        >
+                            <i className="fa fa-star" aria-hidden="true"></i>
+                        </div>
+                    )}
                     <div
                         id={countryTemplate.identifier}
                         key={countryTemplate.identifier}

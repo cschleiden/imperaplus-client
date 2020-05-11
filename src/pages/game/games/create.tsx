@@ -126,7 +126,10 @@ const CreateGameComponent: AppNextPage<{ maps: MapTemplateDescriptor[] }> = (
                                 3
                             ),
                             victoryConditions: [
-                                formState.getFieldValue("victoryConditions", 0),
+                                formState.getFieldValue(
+                                    "victoryCondition",
+                                    VictoryConditionType.Survival
+                                ),
                             ],
                             visibilityModifier: [
                                 formState.getFieldValue(
@@ -445,6 +448,16 @@ const CreateGameComponent: AppNextPage<{ maps: MapTemplateDescriptor[] }> = (
                                                     }
                                                 >
                                                     {__("Survival")}
+                                                </option>
+                                                <option
+                                                    key={
+                                                        VictoryConditionType.Capitals
+                                                    }
+                                                    value={
+                                                        VictoryConditionType.Capitals
+                                                    }
+                                                >
+                                                    {__("Capitals")}
                                                 </option>
                                             </ControlledDropdown>
 

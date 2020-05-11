@@ -36,7 +36,7 @@ $country-height: 24px;
     -o-transition: background-color 500ms, box-shadow 200ms, border-color 200ms;
     -ms-transition: background-color 500ms, box-shadow 200ms, border-color 200ms;
     transition: background-color 500ms, box-shadow 200ms, border-color 200ms;
-    
+
     .dimmed & {
         opacity: 0.5;
     }
@@ -49,6 +49,20 @@ $country-height: 24px;
     &Active {
         opacity: 1 !important;
     }
+}
+
+.countryCapital {
+    // Display behind place input
+    z-index: 49;
+    font-size: 54px;
+    position: absolute;
+    color: gold;
+    $text-shadow: goldenrod;
+    $text-shadow-width: 0.1em;
+    text-shadow: -1px 0 $text-shadow-width $text-shadow, 0 1px $text-shadow-width $text-shadow, 1px 0 $text-shadow-width $text-shadow, 0 -1px $text-shadow-width $text-shadow;
+
+    margin-top: -27px;
+    margin-left: -12px;
 }
 
 .map {
@@ -64,13 +78,13 @@ $country-height: 24px;
 
 .connection {
     &Attack {
-        stroke: red;        
+        stroke: red;
     }
 
-    &Move {        
+    &Move {
         stroke: blue;
     }
-    
+
     &Hover path {
         stroke: white !important;
     }

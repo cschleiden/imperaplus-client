@@ -194,6 +194,12 @@ export enum MapDistribution {
 export enum VictoryConditionType {
     Survival = "Survival",
     ControlContinent = "ControlContinent",
+    Capitals = "Capitals",
+}
+
+export enum CountryFlags {
+    None = "None",
+    Capital = "Capital",
 }
 
 export enum VisibilityModifierType {
@@ -302,6 +308,7 @@ export interface Country {
     playerId: string;
     teamId: string;
     units: number;
+    flags: CountryFlags;
 }
 
 export interface GameChatMessage {
