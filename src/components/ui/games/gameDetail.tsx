@@ -11,11 +11,11 @@ import {
 } from "../../../external/imperaClients";
 import __ from "../../../i18n/i18n";
 import {
+    hide,
     join,
-    surrender,
     leave,
     remove,
-    hide,
+    surrender,
 } from "../../../lib/domain/game/games.actions";
 import Form, { IFormState } from "../../../lib/domain/shared/forms/form";
 import { ControlledTextField } from "../../../lib/domain/shared/forms/inputs";
@@ -79,7 +79,11 @@ const GameDetails: React.FC<IGameDetailsProps> = ({ game }) => {
                     </dd>
 
                     <dt>{__("Victory Conditions")}</dt>
-                    <dd>{game.options.victoryConditions}</dd>
+                    <dd>
+                        {game.options.victoryConditions
+                            .map((vc) => __(vc))
+                            .join(", ")}
+                    </dd>
 
                     <dt>{__("Max bonus cards")}</dt>
                     <dd>{game.options.maximumNumberOfCards}</dd>
@@ -214,13 +218,14 @@ function _renderPlayers(game: GameSummary): JSX.Element[] {
         result.push(
             <dd key={`dd-${team.id}`}>
                 <ul className="list-unstyled">
-                    {team.players.map(player => (
+                    {team.players.map((player) => (
                         <li key={player.id}>
                             <PlayerOutcomeDisplay outcome={player.outcome} />
                             &nbsp;
                             <span
-                                className={`label player player-${player.playOrder +
-                                    1}`}
+                                className={`label player player-${
+                                    player.playOrder + 1
+                                }`}
                             >
                                 <UserName userName={player.name} />
                             </span>

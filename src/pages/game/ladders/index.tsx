@@ -119,7 +119,11 @@ function _renderLadder(ladder: LadderSummary): JSX.Element {
                         </dd>
 
                         <dt>{__("Victory Conditions")}</dt>
-                        <dd>{options.victoryConditions}</dd>
+                        <dd>
+                            {options.victoryConditions
+                                .map((vc) => __(vc))
+                                .join(", ")}
+                        </dd>
 
                         <dt>{__("Visibility Modifier")}</dt>
                         <dd>{options.visibilityModifier}</dd>

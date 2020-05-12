@@ -167,7 +167,11 @@ const TournamentComponent: AppNextPage = () => {
                                     <span>{__("Victory Conditions")}</span>
                                 </span>
                             </dt>
-                            <dd>{tournament.options.victoryConditions}</dd>
+                            <dd>
+                                {tournament.options.victoryConditions
+                                    .map((vc) => __(vc))
+                                    .join(", ")}
+                            </dd>
 
                             <dt>
                                 <span>
@@ -424,7 +428,12 @@ function _renderRegistration(tournament: Tournament, userId: string) {
                                                         key={t.id}
                                                         value={t.id}
                                                     >
-                                                        {t.name}
+                                                        {t.name}{" "}
+                                                        {t.requiresPassword
+                                                            ? __(
+                                                                  "with password"
+                                                              )
+                                                            : ""}
                                                     </option>
                                                 ))}
                                         </ControlledDropdown>
