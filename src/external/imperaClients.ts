@@ -356,6 +356,7 @@ export enum HistoryAction {
     OwnerChange = "OwnerChange",
     EndTurn = "EndTurn",
     PlayerSurrendered = "PlayerSurrendered",
+    CapitalLost = "CapitalLost",
 }
 
 export interface LadderSummary {
@@ -533,6 +534,7 @@ export interface TournamentTeamSummary {
     createdById?: string | undefined;
     groupOrder: number;
     state: TournamentTeamState;
+    requiresPassword?: boolean;
 }
 
 export interface TournamentTeam extends TournamentTeamSummary {
