@@ -430,9 +430,9 @@ function _renderRegistration(tournament: Tournament, userId: string) {
                                                     >
                                                         {t.name}{" "}
                                                         {t.requiresPassword
-                                                            ? __(
+                                                            ? `(${__(
                                                                   "with password"
-                                                              )
+                                                              )})`
                                                             : ""}
                                                     </option>
                                                 ))}
