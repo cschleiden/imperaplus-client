@@ -49,7 +49,7 @@ export class TournamentList extends React.Component<
                 <td>
                     <Link
                         as={`/game/tournaments/${tournament.id}`}
-                        href="/game/tournaments/[tournamentId].tsx"
+                        href="/game/tournaments/[tournamentId]"
                     >
                         <a>{tournament.name}</a>
                     </Link>
