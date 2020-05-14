@@ -128,13 +128,29 @@ interface IGameChatProps {
     teamMessages: GameChatMessage[];
 
     isPending: boolean;
+    teamGame: boolean;
 
     send: (message: string, isPublic: boolean) => void;
 }
 
 class GameChat extends React.Component<IGameChatProps> {
     render() {
-        const { publicMessages, teamMessages, isPending } = this.props;
+        const {
+            publicMessages,
+            teamMessages,
+            isPending,
+            teamGame,
+        } = this.props;
+
+        if (!teamGame) {
+            return (
+                <GameChatTab
+                    onSend={this._onSendPublic}
+                    messages={publicMessages}
+                    isPending={isPending}
+                />
+            );
+        }
 
         return (
             <Tabs
@@ -182,6 +198,7 @@ export default connect(
             publicMessages: gameChat.all,
             teamMessages: gameChat.team,
             isPending: gameChat.isPending,
+            teamGame: state.play.game.options?.numberOfPlayersPerTeam > 1,
         };
     },
     (dispatch: AppDispatch) => ({
