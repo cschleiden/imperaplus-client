@@ -198,7 +198,7 @@ export default connect(
             publicMessages: gameChat.all,
             teamMessages: gameChat.team,
             isPending: gameChat.isPending,
-            teamGame: state.play.game.options?.numberOfPlayersPerTeam > 1,
+            teamGame: state.play.game?.options?.numberOfPlayersPerTeam > 1,
         };
     },
     (dispatch: AppDispatch) => ({
