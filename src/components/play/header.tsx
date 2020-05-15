@@ -337,6 +337,10 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
     private _renderCards() {
         const { game, player, inputActive } = this.props;
 
+        if (game.options.maximumNumberOfCards === 0) {
+            return null;
+        }
+
         return (
             <Button
                 className={css("btn", style.btn)}
