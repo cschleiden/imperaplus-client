@@ -393,6 +393,11 @@ export const updateFromResult = (
     state: PlaySliceState,
     action: UserPayloadAction<{ result: GameActionResult }>
 ) => {
+    if (!action.payload) {
+        state.operationInProgress = false;
+        return;
+    }
+
     const { result, userId } = action.payload;
 
     state.operationInProgress = false;

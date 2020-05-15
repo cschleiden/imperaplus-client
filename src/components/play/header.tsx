@@ -335,7 +335,7 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
     }
 
     private _renderCards() {
-        const { game, player } = this.props;
+        const { game, player, inputActive } = this.props;
 
         return (
             <Button
