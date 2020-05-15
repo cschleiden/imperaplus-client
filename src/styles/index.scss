@@ -28,6 +28,32 @@ body {
     font-size: $fontNormal;
 }
 
+// Utils
+.flex {
+    display: flex;
+}
+
+.flex-col {
+    flex-direction: column;
+}
+
+.flex-shrink {
+    flex-shrink: 1;
+}
+
+.flex-1 {
+    flex: 1 1 0;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.align-items {
+    align-items: center;
+}
+
+
 // General styles
 a {
     color: $accent;
@@ -53,6 +79,16 @@ li a {
     &>div>div.mainWrapper {
         width: 100%;
         height: 100%;
+    }
+}
+
+.tooltip-inner {
+    dl {
+        margin-bottom: 0 !important;
+
+        dt, dd {
+            text-align: left;
+        }
     }
 }
 

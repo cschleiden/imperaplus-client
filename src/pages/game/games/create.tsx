@@ -496,6 +496,40 @@ const CreateGameComponent: AppNextPage<{ maps: MapTemplateDescriptor[] }> = (
                                                 label={__("Distribution")}
                                                 fieldName="distribution"
                                                 value={MapDistribution.Default}
+                                                helpText={
+                                                    <dl>
+                                                        <dt>
+                                                            {__(
+                                                                MapDistribution.Default
+                                                            )}
+                                                        </dt>
+                                                        <dd>
+                                                            {__(
+                                                                "every player gets the same number of countries"
+                                                            )}
+                                                        </dd>
+                                                        <dt>
+                                                            {__(
+                                                                MapDistribution.Malibu
+                                                            )}
+                                                        </dt>
+                                                        <dd>
+                                                            {__(
+                                                                "every player gets a single country"
+                                                            )}
+                                                        </dd>
+                                                        <dt>
+                                                            {__(
+                                                                MapDistribution.Malibu3
+                                                            )}
+                                                        </dt>
+                                                        <dd>
+                                                            {__(
+                                                                "every player gets 3 countries"
+                                                            )}
+                                                        </dd>
+                                                    </dl>
+                                                }
                                             >
                                                 <option
                                                     key={

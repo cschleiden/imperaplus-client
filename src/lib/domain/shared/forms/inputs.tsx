@@ -6,10 +6,12 @@ import {
     FormControl,
     FormControlProps,
     FormGroup,
+    OverlayTrigger,
+    Tooltip,
 } from "react-bootstrap";
-import { IFormState, IFormContext, FormContext } from "./form";
-import { UserReference } from "../../../../external/imperaClients";
 import { UserPicker } from "../../../../components/misc/userPicker";
+import { UserReference } from "../../../../external/imperaClients";
+import { FormContext, IFormContext, IFormState } from "./form";
 
 function getId(fieldName: string): string {
     return `f-${fieldName}`;
@@ -19,6 +21,8 @@ interface IControlledFieldProps {
     fieldName: string;
 
     validate?: (value: string, formState: IFormState) => string;
+
+    helpText?: JSX.Element;
 }
 
 export class ControlledTextField extends React.Component<
@@ -49,6 +53,7 @@ export class ControlledTextField extends React.Component<
     public render() {
         const {
             fieldName,
+            helpText,
             label,
             validate,
             initialValue,
@@ -58,14 +63,17 @@ export class ControlledTextField extends React.Component<
         return (
             <FormGroup controlId={this._id}>
                 {label && (
-                    <ControlLabel htmlFor={this._id}>{label}</ControlLabel>
+                    <ControlLabel htmlFor={this._id}>
+                        {label}
+                        {!!helpText && <div>test</div>}
+                    </ControlLabel>
                 )}
                 <FormControl
                     disabled={this.context.isPending()}
                     name={fieldName}
                     {...remainingProps}
                     id={this._id}
-                    onChange={ev => {
+                    onChange={(ev) => {
                         const inputElement = ev.target as HTMLInputElement;
                         const value = inputElement.value;
 
@@ -127,7 +135,7 @@ export class ControlledUserPicker extends React.Component<
                 {label && <ControlLabel>{label}</ControlLabel>}
                 <UserPicker
                     name={fieldName}
-                    onChange={value => {
+                    onChange={(value) => {
                         if (value !== this._currentValue()) {
                             if (this.context.changeField) {
                                 this.context.changeField(fieldName, value);
@@ -150,8 +158,9 @@ export class ControlledUserPicker extends React.Component<
     }
 }
 
-export const ControlledCheckBox: React.FC<CheckboxProps &
-    IControlledFieldProps> = props => {
+export const ControlledCheckBox: React.FC<
+    CheckboxProps & IControlledFieldProps
+> = (props) => {
     const context = React.useContext(FormContext);
 
     const { fieldName, validate, label, ...remainingProps } = props;
@@ -205,15 +214,37 @@ export class ControlledDropdown extends React.Component<
     }
 
     public render() {
-        const { fieldName, label, children, ...remainingProps } = this.props;
+        const {
+            fieldName,
+            label,
+            children,
+            helpText,
+            ...remainingProps
+        } = this.props;
 
         return (
             <FormGroup controlId={this._id}>
-                {label && <ControlLabel>{label}</ControlLabel>}
+                {label && (
+                    <div className="flex">
+                        <div className="flex-1">
+                            <ControlLabel>{label}</ControlLabel>
+                        </div>
+                        {!!helpText && (
+                            <div className="align-center">
+                                <OverlayTrigger
+                                    placement="bottom"
+                                    overlay={<Tooltip>{helpText}</Tooltip>}
+                                >
+                                    <div className="fa fa-info-circle" />
+                                </OverlayTrigger>
+                            </div>
+                        )}
+                    </div>
+                )}
                 <FormControl
                     componentClass="select"
                     {...remainingProps}
-                    onChange={ev => {
+                    onChange={(ev) => {
                         const inputElement = ev.target as HTMLSelectElement;
                         const value = inputElement.value;
 
