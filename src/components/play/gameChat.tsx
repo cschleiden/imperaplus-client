@@ -115,7 +115,9 @@ class GameChatTab extends React.Component<
     };
 
     private _send = () => {
-        this.props.onSend(this.state.value);
+        if (this.state.value?.trim() !== "") {
+            this.props.onSend(this.state.value);
+        }
 
         this.setState({
             value: "",
