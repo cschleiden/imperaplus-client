@@ -161,20 +161,15 @@ class SignalRClient implements ISignalRClient {
         // Create copy in case we need to retry, signalR api modifies arguments in place
         const originalArgs = args.slice(0);
 
-        return (
-            this.connection
-                .invoke<TResult>(methodName, ...args)
-                .then(null, (error) => {
-                    console.log(`SignalR error ${error}`);
+        return this.connection
+            .invoke<TResult>(methodName, ...args)
+            .then(null, (error) => {
+                console.log(`SignalR error ${error}`);
 
-                    return this._reconnectWithAuth().then(() => {
-                        return this.invoke<TResult>(
-                            methodName,
-                            ...originalArgs
-                        );
-                    });
-                })
-        );
+                return this._reconnectWithAuth().then(() => {
+                    return this.invoke<TResult>(methodName, ...originalArgs);
+                });
+            });
     }
 
     public isConnected(): boolean {
@@ -182,9 +177,6 @@ class SignalRClient implements ISignalRClient {
     }
 
     private _reconnectWithAuth(): Promise<void> {
-        console.log("reconnected to signalr");
-        return Promise.resolve(); // TODO: CS: Re-enable
-
         if (this._reconnect) {
             return this._reconnect;
         }

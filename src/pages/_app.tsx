@@ -111,9 +111,23 @@ App.getInitialProps = async (
     // Setup handler for 401 resposes
     setOnUnauthorized(async () => {
         if (store) {
-            await store.dispatch(refresh());
+            // Try to refresh token
+            let error = false;
 
-            return () => store.getState().session.access_token;
+            try {
+                await store.dispatch(refresh());
+            } catch (e) {
+                error = true;
+            }
+
+            const tokenAccessor = () => store.getState().session.access_token;
+            if (error || !tokenAccessor()) {
+                console.error("Could not login.");
+                Router.replace("/login");
+                return;
+            }
+
+            return tokenAccessor;
         } else {
             throw new Error("No store, but trying to reauthorize");
         }
@@ -122,8 +136,6 @@ App.getInitialProps = async (
     const page = appContext.Component as AppNextPage;
 
     if (page.needsLogin && !isLoggedIn(store.getState())) {
-        console.info("Needs login");
-
         // Check for login
         let access_token: string;
         let refresh_token: string;
