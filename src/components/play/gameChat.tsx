@@ -65,7 +65,8 @@ class GameChatTab extends React.Component<
                             <li key={message.id}>
                                 <div>
                                     <strong className={style.gameChatUser}>
-                                        {message.user.name}
+                                        {(message.user && message.user.name) ||
+                                            __("[Deleted]")}
                                     </strong>
                                     <span>{message.text}</span>
                                 </div>
