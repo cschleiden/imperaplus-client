@@ -44,10 +44,13 @@ function createStore(initialState?: DeepPartial<IState>) {
                 extraArgument,
             },
         }),
+    ];
+
+    middleware.push(
         loadingBarMiddleware({
             promiseTypeSuffixes: ["/pending", "/fulfilled", "/rejected"],
-        }),
-    ];
+        })
+    );
 
     return configureStore({
         reducer: rootReducer,
