@@ -46,7 +46,6 @@
         "es6-shim": "^0.35.1",
         "font-awesome": "^4.7.0",
         "i18n-extract": "^0.4.2",
-        "isomorphic-unfetch": "^3.0.0",
         "jquery": "^3.1.1",
         "js-cookie": "^2.2.1",
         "markdown-it": "^8.3.1",

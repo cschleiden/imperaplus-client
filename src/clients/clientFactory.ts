@@ -1,4 +1,3 @@
-import fetch from "isomorphic-unfetch";
 import { baseUri } from "../configuration";
 import { ErrorResponse } from "../external/imperaClients";
 import { isSSR } from "../lib/utils/isSSR";
