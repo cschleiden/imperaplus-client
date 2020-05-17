@@ -78,7 +78,7 @@ export const News: AppNextPage = (props) => {
                         <div key={tournament.id}>
                             <Link
                                 as={`/game/tournaments/${tournament.id}`}
-                                href={`/game/tournaments`}
+                                href={`/game/tournaments/[tournamentId]`}
                             >
                                 <a>{tournament.name}</a>
                             </Link>
@@ -92,7 +92,7 @@ export const News: AppNextPage = (props) => {
                         <div key={tournament.id}>
                             <Link
                                 as={`/game/tournaments/${tournament.id}`}
-                                href={`/game/tournaments`}
+                                href={`/game/tournaments/[tournamentId]`}
                             >
                                 <a>{tournament.name}</a>
                             </Link>
