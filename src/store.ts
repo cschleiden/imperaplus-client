@@ -7,6 +7,7 @@ import {
 } from "@reduxjs/toolkit";
 import { NextComponentType, NextPageContext } from "next";
 import { useSelector } from "react-redux";
+import { loadingBarMiddleware } from "react-redux-loading-bar";
 import { createClient } from "./clients/clientFactory";
 import { getSignalRClient } from "./clients/signalrFactory";
 import rootReducer, { IState } from "./reducers";
@@ -42,6 +43,9 @@ function createStore(initialState?: DeepPartial<IState>) {
             thunk: {
                 extraArgument,
             },
+        }),
+        loadingBarMiddleware({
+            promiseTypeSuffixes: ["/pending", "/fulfilled", "/rejected"],
         }),
     ];
 

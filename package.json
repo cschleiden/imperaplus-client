@@ -61,7 +61,7 @@
         "react-markdown": "^2.4.2",
         "react-proptypes": "^1.0.0",
         "react-redux": "7.2.0",
-        "react-redux-loading-bar": "4.6.0",
+        "react-redux-loading-bar": "^4.6.0",
         "redux-devtools-extension": "2.13.8",
         "redux-logger": "^3.0.6",
         "sass": "1.26.3",

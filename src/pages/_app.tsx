@@ -3,6 +3,7 @@ import NextApp, { AppContext, AppInitialProps, AppProps } from "next/app";
 import Router from "next/router";
 import * as React from "react";
 import { Provider } from "react-redux";
+import LoadingBar from "react-redux-loading-bar";
 import "typeface-open-sans";
 import GameLayout from "../components/layouts/game";
 import MainLayout from "../components/layouts/main";
@@ -89,6 +90,7 @@ function App({
     return (
         <Provider store={store}>
             <MiniProfiler />
+            <LoadingBar className="loading-bar" />
             {Layout}
         </Provider>
     );

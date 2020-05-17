@@ -1,4 +1,5 @@
 import { combineReducers } from "@reduxjs/toolkit";
+import { loadingBarReducer } from "react-redux-loading-bar";
 import alliances from "./lib/domain/game/alliances.slice";
 import games from "./lib/domain/game/games.slice";
 import ladders from "./lib/domain/game/ladders.slice";
@@ -23,7 +24,7 @@ const rootReducer = combineReducers({
     messages,
     tournaments,
     play,
-    // loadingBar: loadingBarReducer,
+    loadingBar: loadingBarReducer,
     session,
     forms,
     message,
