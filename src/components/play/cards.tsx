@@ -15,9 +15,8 @@ export default (props: ICardsProps): JSX.Element => {
     let { cards } = props;
     let cardElements: JSX.Element[] = [];
 
-    cards = cards.slice(0);
-
     if (cards) {
+        cards = cards.slice(0);
         cards.sort();
 
         let addCardElement = (idx, count) => {
