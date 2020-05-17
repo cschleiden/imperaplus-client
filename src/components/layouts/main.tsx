@@ -253,7 +253,7 @@ const Layout: React.FC<ILayoutProps> = (props) => {
                     <a href="http://forum.imperaonline.de/">
                         {__("Forum (external)")}
                     </a>{" "}
-                    | <a href="https://www.imperaonline.de/swagger/">API</a>
+                    | <a href="https://www.imperaonline.de/api/swagger/">API</a>
                 </GridRow>
             </GridContainer>
         </div>
