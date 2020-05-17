@@ -1,16 +1,18 @@
 import Link from "next/link";
 import * as React from "react";
 import * as ReactMarkdown from "react-markdown";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { GridColumn, GridRow } from "../../components/layout";
 import { HumanDate } from "../../components/ui/humanDate";
+import { ProgressButton } from "../../components/ui/progressButton";
 import { Section, SubSection } from "../../components/ui/typography";
 import { NewsContent, TournamentState } from "../../external/imperaClients";
 import __ from "../../i18n/i18n";
 import { fetch } from "../../lib/domain/game/news.slice";
+import { doQuickGame } from "../../lib/domain/game/quickGame";
 import { fetchAll } from "../../lib/domain/game/tournaments.slice";
 import { IState } from "../../reducers";
-import { AppNextPage } from "../../store";
+import { AppDispatch, AppNextPage } from "../../store";
 
 function _getLanguageContent(
     language: string,
@@ -45,6 +47,14 @@ export const News: AppNextPage = (props) => {
         selector
     );
 
+    const [quickGameActive, setQuickGameActive] = React.useState(false);
+
+    const dispatch = useDispatch<AppDispatch>();
+    const quickGame = () => {
+        setQuickGameActive(true);
+        dispatch(doQuickGame());
+    };
+
     return (
         <GridRow>
             <GridColumn className="col-md-9">
@@ -70,6 +80,14 @@ export const News: AppNextPage = (props) => {
             </GridColumn>
 
             <GridColumn className="col-md-3">
+                <Section>{__("First time here?")}</Section>
+                <ProgressButton
+                    isActive={quickGameActive}
+                    onClick={() => quickGame()}
+                >
+                    {__("Play game against Bot")}
+                </ProgressButton>
+
                 <Section>{__("Tournaments")}</Section>
 
                 <SubSection>{__("Open")}</SubSection>
