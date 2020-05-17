@@ -26,6 +26,7 @@ jobs:
         env:
           BaseUri: https://www.imperaonline.de
           ImageBaseUri: https://static.imperaonline.de/maps/
+          SecureCookies: 'true'
       - run: ./scripts/deployFrontend.ps1 -Source "${env:GITHUB_WORKSPACE}" -Destination "${env:Website}/${env:DestFolder}" -AdditionalArguments "-verbose -enableRule:DoNotDeleteRule" -Username ${env:Login} -Password ${env:Password} -AuthType "basic" -DestinationComputer "https://imperaonline.de:8172/msdeploy.axd?site=${env:Website}"
         env:
           Website: imperaonline.de

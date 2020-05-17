@@ -2,6 +2,7 @@
 const config = {
     baseUri: "#{BaseUri}#",
     imageBaseUri: "#{ImageBaseUri}#",
+    useSecureCookies: "#{SecureCookies}#",
 };
 
 function getToken(name: string, defaultValue: string): string {
@@ -27,3 +28,6 @@ export const imageBaseUri = getToken(
     "imageBaseUri",
     "https://static.imperaonline.de/maps/"
 );
+
+export const useSecureCookies =
+    getToken("useSecureCookies", "false") !== "false";
