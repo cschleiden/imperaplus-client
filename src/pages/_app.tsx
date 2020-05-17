@@ -3,7 +3,7 @@ import NextApp, { AppContext, AppInitialProps, AppProps } from "next/app";
 import Router from "next/router";
 import * as React from "react";
 import { Provider } from "react-redux";
-import LoadingBar from "react-redux-loading-bar";
+import LoadingBar, { resetLoading } from "react-redux-loading-bar";
 import "typeface-open-sans";
 import GameLayout from "../components/layouts/game";
 import MainLayout from "../components/layouts/main";
@@ -183,13 +183,16 @@ App.getInitialProps = async (
         console.info("Getting props");
         const appProps = await NextApp.getInitialProps(appContext);
 
-        // There has to be a better way to get the title into the state
+        // TODO: There has to be a better way to get the title into the state
         if (page.getTitle) {
             const title = (appContext.Component as AppNextPage).getTitle(
                 store.getState()
             );
             store.dispatch(setTitle(title));
         }
+
+        // Reset loading bar after SSR
+        store.dispatch(resetLoading());
 
         return {
             ...appProps,

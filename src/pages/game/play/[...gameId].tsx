@@ -60,7 +60,6 @@ const Play: AppNextPage = () => {
     dispatch(initNotifications());
 
     if (!game) {
-        // TODO: Loading indicator?
         return null;
     }
 
