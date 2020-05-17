@@ -226,7 +226,7 @@ const Layout: React.FC<ILayoutProps> = (props) => {
                                 href="#"
                                 onClick={() => {
                                     // Move token to cookie
-                                    document.cookie = `bearer_token=${token};path=/`;
+                                    document.cookie = `bearer_token=${token};path=/;SameSite=Strict;Secure`;
 
                                     // Navigate to admin
                                     window.location.href =

@@ -16,10 +16,17 @@ import { getToken } from "./session.selectors";
 
 export function storeTokens(access_token: string, refresh_token: string) {
     // Store tokens as cookies
-    set("token", {
-        access_token,
-        refresh_token,
-    });
+    set(
+        "token",
+        {
+            access_token,
+            refresh_token,
+        },
+        {
+            secure: true,
+            sameSite: "strict",
+        }
+    );
 }
 
 const initialState = {
@@ -77,7 +84,10 @@ export const setLanguage = createAsyncThunk<string, string, AppThunkArg>(
     "session/set-language",
     async (language, thunkAPI) => {
         // Persist
-        set("lang", language);
+        set("lang", language, {
+            sameSite: "strict",
+            secure: true,
+        });
 
         if (thunkAPI.getState().session.access_token) {
             // Store language if user is logged in
