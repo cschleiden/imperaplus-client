@@ -110,7 +110,7 @@ App.getInitialProps = async (
         };
     });
 
-    // Setup handler for 401 resposes
+    // Setup handler for 401 responses
     setOnUnauthorized(async () => {
         if (store) {
             // Try to refresh token
@@ -125,7 +125,12 @@ App.getInitialProps = async (
             const tokenAccessor = () => store.getState().session.access_token;
             if (error || !tokenAccessor()) {
                 console.error("Could not login.");
-                Router.replace("/login");
+                if (isSSR) {
+                    // This will only work if we hit it during the initial rendering. Need to rework the session management
+                    redirectToLogin(appContext);
+                } else {
+                    Router.push("/login");
+                }
                 return;
             }
 
