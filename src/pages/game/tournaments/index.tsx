@@ -74,7 +74,7 @@ const Tournaments: AppNextPage = () => {
     if (props.closedTournaments.length > 0) {
         closed = (
             <>
-                <Section key="closed-title">{__("Closed")}</Section>,
+                <Section key="closed-title">{__("Closed")}</Section>
                 <TournamentList
                     tournaments={props.closedTournaments}
                     key="closed"
