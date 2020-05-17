@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { remove, set } from "js-cookie";
 import Router from "next/router";
-import { baseUri } from "../../../../configuration";
+import { baseUri, useSecureCookies } from "../../../../configuration";
 import { FixedAccountClient } from "../../../../external/accountClient";
 import {
     NotificationSummary,
@@ -23,8 +23,8 @@ export function storeTokens(access_token: string, refresh_token: string) {
             refresh_token,
         },
         {
-            secure: true,
-            sameSite: "strict",
+            secure: useSecureCookies,
+            sameSite: (useSecureCookies && "strict") || undefined,
         }
     );
 }
@@ -85,8 +85,8 @@ export const setLanguage = createAsyncThunk<string, string, AppThunkArg>(
     async (language, thunkAPI) => {
         // Persist
         set("lang", language, {
-            sameSite: "strict",
-            secure: true,
+            secure: useSecureCookies,
+            sameSite: (useSecureCookies && "strict") || undefined,
         });
 
         if (thunkAPI.getState().session.access_token) {
