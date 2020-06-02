@@ -438,6 +438,40 @@ const CreateGameComponent: AppNextPage<{ maps: MapTemplateDescriptor[] }> = (
                                                 value={
                                                     VictoryConditionType.Survival
                                                 }
+                                                helpText={
+                                                    <dl>
+                                                        <dt>
+                                                            {__(
+                                                                VictoryConditionType.Survival
+                                                            )}
+                                                        </dt>
+                                                        <dd>
+                                                            {__(
+                                                                "last player/team winds"
+                                                            )}
+                                                        </dd>
+                                                        <dt>
+                                                            {__(
+                                                                VictoryConditionType.Capitals
+                                                            )}
+                                                        </dt>
+                                                        <dd>
+                                                            {__(
+                                                                "every player/team gets a capital and has lost when it's conquered"
+                                                            )}
+                                                        </dd>
+                                                        <dt>
+                                                            {__(
+                                                                VictoryConditionType.Rush
+                                                            )}
+                                                        </dt>
+                                                        <dd>
+                                                            {__(
+                                                                "the player/team with the most countries at the end of turn 50 wins"
+                                                            )}
+                                                        </dd>
+                                                    </dl>
+                                                }
                                             >
                                                 <option
                                                     key={
@@ -458,6 +492,16 @@ const CreateGameComponent: AppNextPage<{ maps: MapTemplateDescriptor[] }> = (
                                                     }
                                                 >
                                                     {__("Capitals")}
+                                                </option>
+                                                <option
+                                                    key={
+                                                        VictoryConditionType.Rush
+                                                    }
+                                                    value={
+                                                        VictoryConditionType.Rush
+                                                    }
+                                                >
+                                                    {__("Rush")}
                                                 </option>
                                             </ControlledDropdown>
 

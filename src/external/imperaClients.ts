@@ -195,6 +195,7 @@ export enum VictoryConditionType {
     Survival = "Survival",
     ControlContinent = "ControlContinent",
     Capitals = "Capitals",
+    Rush = "Rush",
 }
 
 export enum CountryFlags {
