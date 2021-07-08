@@ -12,6 +12,8 @@ jobs:
     environment:
       name: Dev
 
+    concurrency: dev
+
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2.2.0
