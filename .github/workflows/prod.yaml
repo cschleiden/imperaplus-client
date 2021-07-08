@@ -7,6 +7,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    environment:
+      name: Prod
+
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
