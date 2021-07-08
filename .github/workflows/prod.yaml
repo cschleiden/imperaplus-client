@@ -1,12 +1,11 @@
 name: Prod Deployment
 
 on:
-  repository_dispatch:
-    types: [prod_deployment]
+  workflow_dispatch:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
@@ -27,9 +26,11 @@ jobs:
           BaseUri: https://www.imperaonline.de
           ImageBaseUri: https://static.imperaonline.de/maps/
           SecureCookies: 'true'
-      - run: ./scripts/deployFrontend.ps1 -Source "${env:GITHUB_WORKSPACE}" -Destination "${env:Website}/${env:DestFolder}" -AdditionalArguments "-verbose -enableRule:DoNotDeleteRule" -Username ${env:Login} -Password ${env:Password} -AuthType "basic" -DestinationComputer "https://imperaonline.de:8172/msdeploy.axd?site=${env:Website}"
-        env:
-          Website: imperaonline.de
-          Login: ${{ secrets.Login }}
-          Password: ${{ secrets.Password }}
-          AppPool: imperaonline.de(domain)(4.0)(pool)
+      - name: FTP Deploy
+        uses: SamKirkland/FTP-Deploy-Action@4.1.0
+        with:
+          server: 217.160.244.154
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASS }}
+          local-dir: "${{ github.workspace }}/"
+          server-dir: "httpdocs/"
