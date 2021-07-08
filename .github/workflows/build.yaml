@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2.2.0
         with:
           node-version: 12.x
       - uses: actions/cache@v1
@@ -28,9 +28,11 @@ jobs:
           BaseUri: https://dev.imperaonline.de
           ImageBaseUri: https://static.imperaonline.de/maps/
           SecureCookies: 'true'
-      - run: ./scripts/deployFrontend.ps1 -Source "${env:GITHUB_WORKSPACE}" -Destination "${env:Website}/${env:DestFolder}" -AdditionalArguments "-verbose -enableRule:DoNotDeleteRule" -Username ${env:Login} -Password ${env:Password} -AuthType "basic" -DestinationComputer "https://imperaonline.de:8172/msdeploy.axd?site=${env:Website}"
-        env:
-          Website: dev.imperaonline.de
-          Login: ${{ secrets.Login }}
-          Password: ${{ secrets.Password }}
-          AppPool: dev.imperaonline.de(domain)(4.0)(pool)
+      - name: FTP Deploy
+        uses: SamKirkland/FTP-Deploy-Action@4.1.0
+        with:
+          server: dev.imperaonline.de
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASS }}
+          local-dir: "${{ github.workspace }}/"
+          server-dir: "dev.imperaonline.de/"
