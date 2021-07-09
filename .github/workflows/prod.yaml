@@ -28,7 +28,7 @@ jobs:
         with:
           files: '["./.next/**/*.js"]'
         env:
-          BaseUri: https://www.imperaonline.de
+          BaseUri: https://new.imperaonline.de
           ImageBaseUri: https://static.imperaonline.de/maps/
           SecureCookies: 'true'
       - name: FTP Deploy
