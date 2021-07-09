@@ -41,3 +41,8 @@ jobs:
           password: ${{ secrets.FTP_PASS }}
           local-dir: "${{ github.workspace }}/"
           server-dir: "dev.imperaonline.de/"
+          exclude:
+            - '**/.git*'
+            - '**/.git*/**'
+            - '**/node_modules/**'
+            - '.next/cache/**'

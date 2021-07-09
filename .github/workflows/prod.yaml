@@ -39,3 +39,8 @@ jobs:
           password: ${{ secrets.FTP_PASS }}
           local-dir: "${{ github.workspace }}/"
           server-dir: "httpdocs/"
+          exclude:
+            - '**/.git*'
+            - '**/.git*/**'
+            - '**/node_modules/**'
+            - '.next/cache/**'
