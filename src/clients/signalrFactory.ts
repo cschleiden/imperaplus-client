@@ -1,7 +1,8 @@
 import * as signalR from "@microsoft/signalr";
+
+import { EventService } from "../services/eventService";
 import { baseUri } from "../configuration";
 import { onUnauthorized } from "../services/authProvider";
-import { EventService } from "../services/eventService";
 
 const cachedClients: { [hubName: string]: ISignalRClient } = {};
 
@@ -65,6 +66,8 @@ class SignalRClient implements ISignalRClient {
     private _reconnect: Promise<void>;
 
     private _onInit: () => Promise<void>;
+
+    private _retries = 0;
 
     constructor(token: string, hubName: string) {
         this.connection = new signalR.HubConnectionBuilder()
@@ -187,6 +190,11 @@ class SignalRClient implements ISignalRClient {
 
         return onUnauthorized().then(() => {
             this.connection.stop();
+
+            if (this._retries++ < 3) {
+                return Promise.resolve();
+            }
+
             return this.start().then(reset, reset);
         }, reset);
     }
