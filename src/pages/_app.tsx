@@ -1,31 +1,33 @@
-import nextCookie from "next-cookies";
-import NextApp, { AppContext, AppInitialProps, AppProps } from "next/app";
-import Router from "next/router";
-import * as React from "react";
-import { Provider } from "react-redux";
-import LoadingBar, { resetLoading } from "react-redux-loading-bar";
 import "typeface-open-sans";
-import GameLayout from "../components/layouts/game";
-import MainLayout from "../components/layouts/main";
-import PlayLayout from "../components/layouts/play";
-import GameNav from "../components/navigation/game";
-import PublicNav from "../components/navigation/public";
 import "../external/polyfills";
-import { setLanguageProvider } from "../i18n/i18n";
-import MiniProfiler from "../lib/admin/miniprofiler";
+import "../styles/index.scss";
+
+import * as React from "react";
+
+import { AppNextPage, AppPageContext, getOrCreateStore } from "../store";
+import LoadingBar, { resetLoading } from "react-redux-loading-bar";
+import NextApp, { AppContext, AppInitialProps, AppProps } from "next/app";
 import {
     openClose,
     setTitle,
 } from "../lib/domain/shared/general/general.slice";
+
+import GameLayout from "../components/layouts/game";
+import GameNav from "../components/navigation/game";
+import { IState } from "../reducers";
+import MainLayout from "../components/layouts/main";
+import MiniProfiler from "../lib/admin/miniprofiler";
+import PlayLayout from "../components/layouts/play";
+import { Provider } from "react-redux";
+import PublicNav from "../components/navigation/public";
+import Router from "next/router";
 import { clearMessage } from "../lib/domain/shared/message/message.slice";
 import { doRestoreSession } from "../lib/domain/shared/session/session.actions";
 import { isLoggedIn } from "../lib/domain/shared/session/session.selectors";
-import { refresh } from "../lib/domain/shared/session/session.slice";
-import { IState } from "../reducers";
-import { setOnUnauthorized } from "../services/authProvider";
+import nextCookie from "next-cookies";
 import { notificationService } from "../services/notificationService";
-import { AppNextPage, AppPageContext, getOrCreateStore } from "../store";
-import "../styles/index.scss";
+import { setLanguageProvider } from "../i18n/i18n";
+import { setOnUnauthorized } from "../services/authProvider";
 
 const isSSR = typeof window === "undefined";
 
@@ -112,32 +114,36 @@ App.getInitialProps = async (
 
     // Setup handler for 401 responses
     setOnUnauthorized(async () => {
-        if (store) {
-            // Try to refresh token
-            let error = false;
+        // Temporarily disable re-login
+        Router.push("/login");
+        return Promise.reject("do not retry");
 
-            try {
-                await store.dispatch(refresh());
-            } catch (e) {
-                error = true;
-            }
+        // if (store) {
+        //     // Try to refresh token
+        //     let error = false;
 
-            const tokenAccessor = () => store.getState().session.access_token;
-            if (error || !tokenAccessor()) {
-                console.error("Could not login.");
-                if (isSSR) {
-                    // This will only work if we hit it during the initial rendering. Need to rework the session management
-                    redirectToLogin(appContext);
-                } else {
-                    Router.push("/login");
-                }
-                return;
-            }
+        //     try {
+        //         await store.dispatch(refresh());
+        //     } catch (e) {
+        //         error = true;
+        //     }
 
-            return tokenAccessor;
-        } else {
-            throw new Error("No store, but trying to reauthorize");
-        }
+        //     const tokenAccessor = () => store.getState().session.access_token;
+        //     if (error || !tokenAccessor()) {
+        //         console.error("Could not login.");
+        //         if (isSSR) {
+        //             // This will only work if we hit it during the initial rendering. Need to rework the session management
+        //             redirectToLogin(appContext);
+        //         } else {
+        //             Router.push("/login");
+        //         }
+        //         return;
+        //     }
+
+        //     return tokenAccessor;
+        // } else {
+        //     throw new Error("No store, but trying to reauthorize");
+        // }
     });
 
     const page = appContext.Component as AppNextPage;
@@ -151,7 +157,7 @@ App.getInitialProps = async (
             console.info("Found token");
 
             // We have a token and the current store is not yet signed in, try to get user info using that token
-            const result = (token as any) as {
+            const result = token as any as {
                 access_token: string;
                 refresh_token: string;
             };
