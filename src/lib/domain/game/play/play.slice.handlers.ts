@@ -218,9 +218,8 @@ export const selectCountry = (
                                 0
                             );
 
-                        state.placeCountries[
-                            countryIdentifier
-                        ] = remainingUnits;
+                        state.placeCountries[countryIdentifier] =
+                            remainingUnits;
                     }
                 }
 
@@ -235,7 +234,8 @@ export const selectCountry = (
                 }
 
                 const originSet = !!twoCountry.originCountryIdentifier;
-                const destinationSet = !!twoCountry.destinationCountryIdentifier;
+                const destinationSet =
+                    !!twoCountry.destinationCountryIdentifier;
 
                 const player = getPlayer(game, userId);
                 const playerId = player.id;
@@ -260,7 +260,8 @@ export const selectCountry = (
                                 originCountry.units -
                                 game.options.minUnitsPerCountry;
 
-                            state.twoCountry.destinationCountryIdentifier = countryIdentifier;
+                            state.twoCountry.destinationCountryIdentifier =
+                                countryIdentifier;
                             state.twoCountry.minUnits = 1;
                             state.twoCountry.maxUnits = maxUnits;
                             state.twoCountry.numberOfUnits = Math.max(
@@ -285,9 +286,12 @@ export const selectCountry = (
                                     playerId
                             );
 
-                            state.twoCountry.originCountryIdentifier = countryIdentifier;
-                            state.twoCountry.destinationCountryIdentifier = null;
-                            state.twoCountry.allowedDestinations = allowedDestinations;
+                            state.twoCountry.originCountryIdentifier =
+                                countryIdentifier;
+                            state.twoCountry.destinationCountryIdentifier =
+                                null;
+                            state.twoCountry.allowedDestinations =
+                                allowedDestinations;
                             return;
                         }
                     }
@@ -310,7 +314,8 @@ export const selectCountry = (
                                 originCountry.units -
                                 game.options.minUnitsPerCountry;
 
-                            state.twoCountry.destinationCountryIdentifier = countryIdentifier;
+                            state.twoCountry.destinationCountryIdentifier =
+                                countryIdentifier;
                             state.twoCountry.minUnits = 1;
                             state.twoCountry.maxUnits = maxUnits;
                             state.twoCountry.numberOfUnits = Math.max(
@@ -331,8 +336,10 @@ export const selectCountry = (
                                     countriesByIdentifier[c].teamId === teamId
                             );
 
-                            state.twoCountry.originCountryIdentifier = countryIdentifier;
-                            state.twoCountry.allowedDestinations = allowedDestinations;
+                            state.twoCountry.originCountryIdentifier =
+                                countryIdentifier;
+                            state.twoCountry.allowedDestinations =
+                                allowedDestinations;
                             return;
                         }
                     } else {

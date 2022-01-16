@@ -61,23 +61,22 @@ export const doLogin: AsyncAction<{
     Router.push("/game");
 };
 
-export const doRestoreSession = (
-    access_token: string,
-    refresh_token: string
-): AppThunk => async (dispatch) => {
-    const client = createClient(access_token, FixedAccountClient);
-    const userInfo = await client.getUserInfo();
+export const doRestoreSession =
+    (access_token: string, refresh_token: string): AppThunk =>
+    async (dispatch) => {
+        const client = createClient(access_token, FixedAccountClient);
+        const userInfo = await client.getUserInfo();
 
-    dispatch(
-        restoreSession({
-            access_token,
-            refresh_token,
-            userInfo,
-        })
-    );
+        dispatch(
+            restoreSession({
+                access_token,
+                refresh_token,
+                userInfo,
+            })
+        );
 
-    // Restore SignalR service if this is run on the client-side
-    if (!isSSR()) {
-        await initNotifications(access_token);
-    }
-};
+        // Restore SignalR service if this is run on the client-side
+        if (!isSSR()) {
+            await initNotifications(access_token);
+        }
+    };

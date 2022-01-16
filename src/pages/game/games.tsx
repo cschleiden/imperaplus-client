@@ -11,22 +11,21 @@ import { AppDispatch, AppNextPage } from "../../store";
 
 function selector(state: IState) {
     const gamesMap = state.games.games;
-    const games = Object.keys(gamesMap).map(id => gamesMap[id]);
+    const games = Object.keys(gamesMap).map((id) => gamesMap[id]);
     const userInfo = state.session.userInfo;
 
     return {
-        funGames: games.filter(g => g.type === GameType.Fun),
-        rankingGames: games.filter(g => g.type === GameType.Ranking),
-        tournamentGames: games.filter(g => g.type === GameType.Tournament),
+        funGames: games.filter((g) => g.type === GameType.Fun),
+        rankingGames: games.filter((g) => g.type === GameType.Ranking),
+        tournamentGames: games.filter((g) => g.type === GameType.Tournament),
         userId: userInfo && userInfo.userId,
     };
 }
 
-const MyGames: AppNextPage = props => {
+const MyGames: AppNextPage = (props) => {
     const dispatch = useDispatch<AppDispatch>();
-    const { userId, funGames, rankingGames, tournamentGames } = useSelector(
-        selector
-    );
+    const { userId, funGames, rankingGames, tournamentGames } =
+        useSelector(selector);
 
     let fun: JSX.Element;
     let ranking: JSX.Element;
@@ -94,7 +93,7 @@ const MyGames: AppNextPage = props => {
 MyGames.getTitle = () => __("My Games");
 MyGames.needsLogin = true;
 
-MyGames.getInitialProps = async ctx => {
+MyGames.getInitialProps = async (ctx) => {
     await ctx.store.dispatch(fetch());
 
     return selector(ctx.store.getState());

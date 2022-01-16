@@ -78,9 +78,8 @@ const Page: AppNextPage = () => {
                             const input = {
                                 username: formState.getFieldValue("username"),
                                 password: formState.getFieldValue("password"),
-                                passwordConfirm: formState.getFieldValue(
-                                    "passwordconfirm"
-                                ),
+                                passwordConfirm:
+                                    formState.getFieldValue("passwordconfirm"),
                                 email: formState.getFieldValue("email"),
                                 day: formState.getFieldValue("day"),
                                 month: formState.getFieldValue("month"),

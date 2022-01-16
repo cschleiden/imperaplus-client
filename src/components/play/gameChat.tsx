@@ -138,12 +138,8 @@ interface IGameChatProps {
 
 class GameChat extends React.Component<IGameChatProps> {
     render() {
-        const {
-            publicMessages,
-            teamMessages,
-            isPending,
-            teamGame,
-        } = this.props;
+        const { publicMessages, teamMessages, isPending, teamGame } =
+            this.props;
 
         if (!teamGame) {
             return (

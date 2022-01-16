@@ -339,12 +339,12 @@ function _renderRegistration(tournament: Tournament, userId: string) {
                                 await dispatch(
                                     createTeam({
                                         tournamentId: tournament.id,
-                                        teamName: formState.getFieldValue(
-                                            "teamName"
-                                        ),
-                                        teamPassword: formState.getFieldValue(
-                                            "teamPassword"
-                                        ),
+                                        teamName:
+                                            formState.getFieldValue("teamName"),
+                                        teamPassword:
+                                            formState.getFieldValue(
+                                                "teamPassword"
+                                            ),
                                     })
                                 );
                             }}
@@ -398,9 +398,10 @@ function _renderRegistration(tournament: Tournament, userId: string) {
                                             teamId: formState.getFieldValue(
                                                 "team"
                                             ),
-                                            teamPassword: formState.getFieldValue(
-                                                "password"
-                                            ),
+                                            teamPassword:
+                                                formState.getFieldValue(
+                                                    "password"
+                                                ),
                                         })
                                     );
                                 }}

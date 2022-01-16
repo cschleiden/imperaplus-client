@@ -23,11 +23,13 @@ export function withUserId<P>(state: IState, payload: P): P & UserIdPayload {
  * @param action Action to dispatch
  * @param payload Payload for action without user id
  */
-export const withUser = <P>(
-    action: ActionCreatorWithPayload<P & UserIdPayload, string>,
-    payload: P
-): AppThunk => async (dispatch, getState) => {
-    const userId = getUserId(getState());
+export const withUser =
+    <P>(
+        action: ActionCreatorWithPayload<P & UserIdPayload, string>,
+        payload: P
+    ): AppThunk =>
+    async (dispatch, getState) => {
+        const userId = getUserId(getState());
 
-    dispatch(action({ ...payload, userId }));
-};
+        dispatch(action({ ...payload, userId }));
+    };

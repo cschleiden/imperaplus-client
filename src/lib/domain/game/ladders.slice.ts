@@ -1,8 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import {
-    Ladder,
-    LadderSummary,
-} from "../../../external/imperaClients";
+import { Ladder, LadderSummary } from "../../../external/imperaClients";
 import { LadderClient } from "../../../external/LadderClient";
 import __ from "../../../i18n/i18n";
 import { AppThunkArg } from "../../../store";

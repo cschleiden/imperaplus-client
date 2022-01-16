@@ -1,8 +1,8 @@
 import { Country, Game, Player, Team } from "../../../external/imperaClients";
 
-export function countriesToMap(
-    countries: Country[]
-): { [id: string]: Country } {
+export function countriesToMap(countries: Country[]): {
+    [id: string]: Country;
+} {
     let idToCountry = {};
 
     if (countries && countries.length) {

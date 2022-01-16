@@ -84,9 +84,8 @@ const fetchWrapper = (
         if (!isSSR()) {
             const miniProfiler = (<any>window).MiniProfiler;
             if (miniProfiler) {
-                const miniProfilerIds = response.headers.get(
-                    "X-MiniProfiler-Ids"
-                );
+                const miniProfilerIds =
+                    response.headers.get("X-MiniProfiler-Ids");
                 if (miniProfilerIds && miniProfiler) {
                     miniProfiler.fetchResults(JSON.parse(miniProfilerIds));
                 }

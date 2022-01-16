@@ -284,8 +284,7 @@ const AllianceInfoComponent: AppNextPage<ReturnType<typeof selector>> = (
                                                                         alliance.id,
                                                                     requestId:
                                                                         request.id,
-                                                                    state:
-                                                                        AllianceJoinRequestState.Approved,
+                                                                    state: AllianceJoinRequestState.Approved,
                                                                 })
                                                             );
                                                         }}
@@ -302,8 +301,7 @@ const AllianceInfoComponent: AppNextPage<ReturnType<typeof selector>> = (
                                                                         alliance.id,
                                                                     requestId:
                                                                         request.id,
-                                                                    state:
-                                                                        AllianceJoinRequestState.Denied,
+                                                                    state: AllianceJoinRequestState.Denied,
                                                                 })
                                                             );
                                                         }}

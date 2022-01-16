@@ -58,9 +58,8 @@ export const showHide = createAsyncThunk<boolean, boolean, AppThunkArg>(
                 });
 
                 client.onInit(async () => {
-                    const chatInformation: ChatInformation = await client.invoke(
-                        "init"
-                    );
+                    const chatInformation: ChatInformation =
+                        await client.invoke("init");
 
                     thunkAPI.dispatch(
                         start({
@@ -197,12 +196,7 @@ const chat = createSlice({
     },
 });
 
-export const {
-    join,
-    leave,
-    receiveMessage,
-    start,
-    switchChannel,
-} = chat.actions;
+export const { join, leave, receiveMessage, start, switchChannel } =
+    chat.actions;
 
 export default chat.reducer;

@@ -24,7 +24,7 @@ const slice = createSlice({
         showMessage: (state, action: PayloadAction<IMessage>) => {
             state.message = action.payload;
         },
-        clearMessage: state => {
+        clearMessage: (state) => {
             state.message = null;
         },
     },

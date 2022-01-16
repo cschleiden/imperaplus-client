@@ -1,13 +1,24 @@
-import { MessageFolder, Message, throwException, FileResponse, FolderInformation, SendMessage } from "./imperaClients";
+import {
+    MessageFolder,
+    Message,
+    throwException,
+    FileResponse,
+    FolderInformation,
+    SendMessage,
+} from "./imperaClients";
 export class MessageClient {
     private http: {
         fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
     };
     private baseUrl: string;
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-    constructor(baseUrl?: string, http?: {
-        fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
-    }) {
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined =
+        undefined;
+    constructor(
+        baseUrl?: string,
+        http?: {
+            fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
+        }
+    ) {
         this.http = http ? http : <any>window;
         this.baseUrl = baseUrl ? baseUrl : "http://localhost:57676";
     }
@@ -15,7 +26,10 @@ export class MessageClient {
         let url_ = this.baseUrl + "/api/messages/folder/{messageFolder}";
         if (messageFolder === undefined || messageFolder === null)
             throw new Error("The parameter 'messageFolder' must be defined.");
-        url_ = url_.replace("{messageFolder}", encodeURIComponent("" + messageFolder));
+        url_ = url_.replace(
+            "{messageFolder}",
+            encodeURIComponent("" + messageFolder)
+        );
         url_ = url_.replace(/[?&]$/, "");
         let options_ = <RequestInit>{
             method: "GET",
@@ -40,13 +54,19 @@ export class MessageClient {
                 result200 =
                     _responseText === ""
                         ? null
-                        : <Message[]>(JSON.parse(_responseText, this.jsonParseReviver));
+                        : <Message[]>(
+                              JSON.parse(_responseText, this.jsonParseReviver)
+                          );
                 return result200;
             });
-        }
-        else if (status !== 200 && status !== 204) {
+        } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException(
+                    "An unexpected server error occurred.",
+                    status,
+                    _responseText,
+                    _headers
+                );
             });
         }
         return Promise.resolve<Message[] | null>(<any>null);
@@ -80,13 +100,19 @@ export class MessageClient {
                 result200 =
                     _responseText === ""
                         ? null
-                        : <Message>(JSON.parse(_responseText, this.jsonParseReviver));
+                        : <Message>(
+                              JSON.parse(_responseText, this.jsonParseReviver)
+                          );
                 return result200;
             });
-        }
-        else if (status !== 200 && status !== 204) {
+        } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException(
+                    "An unexpected server error occurred.",
+                    status,
+                    _responseText,
+                    _headers
+                );
             });
         }
         return Promise.resolve<Message | null>(<any>null);
@@ -108,7 +134,9 @@ export class MessageClient {
             return this.processPatchMarkRead(_response);
         });
     }
-    protected processPatchMarkRead(response: Response): Promise<FileResponse | null> {
+    protected processPatchMarkRead(
+        response: Response
+    ): Promise<FileResponse | null> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && response.headers.forEach) {
@@ -121,9 +149,10 @@ export class MessageClient {
             const fileNameMatch = contentDisposition
                 ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition)
                 : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1
-                ? fileNameMatch[1]
-                : undefined;
+            const fileName =
+                fileNameMatch && fileNameMatch.length > 1
+                    ? fileNameMatch[1]
+                    : undefined;
             return response.blob().then((blob) => {
                 return {
                     fileName: fileName,
@@ -132,10 +161,14 @@ export class MessageClient {
                     headers: _headers,
                 };
             });
-        }
-        else if (status !== 200 && status !== 204) {
+        } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException(
+                    "An unexpected server error occurred.",
+                    status,
+                    _responseText,
+                    _headers
+                );
             });
         }
         return Promise.resolve<FileResponse | null>(<any>null);
@@ -170,9 +203,10 @@ export class MessageClient {
             const fileNameMatch = contentDisposition
                 ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition)
                 : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1
-                ? fileNameMatch[1]
-                : undefined;
+            const fileName =
+                fileNameMatch && fileNameMatch.length > 1
+                    ? fileNameMatch[1]
+                    : undefined;
             return response.blob().then((blob) => {
                 return {
                     fileName: fileName,
@@ -181,10 +215,14 @@ export class MessageClient {
                     headers: _headers,
                 };
             });
-        }
-        else if (status !== 200 && status !== 204) {
+        } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException(
+                    "An unexpected server error occurred.",
+                    status,
+                    _responseText,
+                    _headers
+                );
             });
         }
         return Promise.resolve<FileResponse | null>(<any>null);
@@ -203,7 +241,9 @@ export class MessageClient {
             return this.processGetFolderInformation(_response);
         });
     }
-    protected processGetFolderInformation(response: Response): Promise<FolderInformation[] | null> {
+    protected processGetFolderInformation(
+        response: Response
+    ): Promise<FolderInformation[] | null> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && response.headers.forEach) {
@@ -215,13 +255,19 @@ export class MessageClient {
                 result200 =
                     _responseText === ""
                         ? null
-                        : <FolderInformation[]>(JSON.parse(_responseText, this.jsonParseReviver));
+                        : <FolderInformation[]>(
+                              JSON.parse(_responseText, this.jsonParseReviver)
+                          );
                 return result200;
             });
-        }
-        else if (status !== 200 && status !== 204) {
+        } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException(
+                    "An unexpected server error occurred.",
+                    status,
+                    _responseText,
+                    _headers
+                );
             });
         }
         return Promise.resolve<FolderInformation[] | null>(<any>null);
@@ -242,7 +288,9 @@ export class MessageClient {
             return this.processPostSend(_response);
         });
     }
-    protected processPostSend(response: Response): Promise<FileResponse | null> {
+    protected processPostSend(
+        response: Response
+    ): Promise<FileResponse | null> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && response.headers.forEach) {
@@ -255,9 +303,10 @@ export class MessageClient {
             const fileNameMatch = contentDisposition
                 ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition)
                 : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1
-                ? fileNameMatch[1]
-                : undefined;
+            const fileName =
+                fileNameMatch && fileNameMatch.length > 1
+                    ? fileNameMatch[1]
+                    : undefined;
             return response.blob().then((blob) => {
                 return {
                     fileName: fileName,
@@ -266,10 +315,14 @@ export class MessageClient {
                     headers: _headers,
                 };
             });
-        }
-        else if (status !== 200 && status !== 204) {
+        } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException(
+                    "An unexpected server error occurred.",
+                    status,
+                    _responseText,
+                    _headers
+                );
             });
         }
         return Promise.resolve<FileResponse | null>(<any>null);

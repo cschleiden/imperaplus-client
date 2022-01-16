@@ -94,8 +94,8 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
                     "player",
                     "player-" + (game.currentPlayer.playOrder + 1),
                     {
-                        ["player-team-" +
-                        (team && team.playOrder + 1)]: isTeamGame,
+                        ["player-team-" + (team && team.playOrder + 1)]:
+                            isTeamGame,
                     }
                 )}
             >
@@ -434,12 +434,8 @@ class Header extends React.Component<IHeaderProps & IHeaderDispatchProps> {
 
 export default connect(
     (state: IState, ownProps: IHeaderProps) => {
-        const {
-            placeCountries,
-            player,
-            operationInProgress,
-            gameUiOptions,
-        } = state.play;
+        const { placeCountries, player, operationInProgress, gameUiOptions } =
+            state.play;
         const remainingPlaceUnits = Object.keys(placeCountries).reduce(
             (sum, ci) => sum + placeCountries[ci],
             0

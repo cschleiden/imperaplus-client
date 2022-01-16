@@ -50,7 +50,7 @@ export class SimpleProgressButton extends React.Component<
         );
     }
 
-    private _onClick = event => {
+    private _onClick = (event) => {
         const { onClick } = this.props;
 
         this.setState({

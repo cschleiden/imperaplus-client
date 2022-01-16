@@ -34,9 +34,8 @@ const ResetConfirmation: AppNextPage<IResetConfirmationProps> = (props) => {
                                 userId: props.userId,
                                 code: props.code,
                                 password: formState.getFieldValue("password"),
-                                confirmPassword: formState.getFieldValue(
-                                    "passwordconfirm"
-                                ),
+                                confirmPassword:
+                                    formState.getFieldValue("passwordconfirm"),
                             })
                         );
                     }}

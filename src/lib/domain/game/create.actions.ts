@@ -1,6 +1,4 @@
-import {
-    GameCreationOptions,
-} from "../../../external/imperaClients";
+import { GameCreationOptions } from "../../../external/imperaClients";
 import { MapClient } from "../../../external/MapClient";
 import { GameClient } from "../../../external/GameClient";
 import __ from "../../../i18n/i18n";

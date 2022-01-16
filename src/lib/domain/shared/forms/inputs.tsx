@@ -214,13 +214,8 @@ export class ControlledDropdown extends React.Component<
     }
 
     public render() {
-        const {
-            fieldName,
-            label,
-            children,
-            helpText,
-            ...remainingProps
-        } = this.props;
+        const { fieldName, label, children, helpText, ...remainingProps } =
+            this.props;
 
         return (
             <FormGroup controlId={this._id}>

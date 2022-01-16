@@ -113,9 +113,8 @@ const CreateGameComponent: AppNextPage<{ maps: MapTemplateDescriptor[] }> = (
                             mapTemplate: formState.getFieldValue("map"),
                             numberOfPlayersPerTeam: numberOfPlayersPerTeam,
                             numberOfTeams: numTeams,
-                            timeoutInSeconds: formState.getFieldValue(
-                                "timeout"
-                            ),
+                            timeoutInSeconds:
+                                formState.getFieldValue("timeout"),
                             attacksPerTurn: formState.getFieldValue(
                                 "attacks",
                                 3

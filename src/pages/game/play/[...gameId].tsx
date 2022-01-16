@@ -26,9 +26,8 @@ function selector(state: IState) {
 }
 
 const Play: AppNextPage = () => {
-    const { game, sidebarOpen, error, overrideGameUiOptions } = useAppSelector(
-        selector
-    );
+    const { game, sidebarOpen, error, overrideGameUiOptions } =
+        useAppSelector(selector);
     const dispatch = useDispatch<AppDispatch>();
 
     React.useEffect(() => {

@@ -1,6 +1,5 @@
-import Head from "next/head";
-import Link from "next/link";
 import * as React from "react";
+
 import {
     Alert,
     Button,
@@ -8,17 +7,20 @@ import {
     Glyphicon,
     MenuItem,
 } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import { baseUri } from "../../configuration";
-import __ from "../../i18n/i18n";
-import { openClose } from "../../lib/domain/shared/general/general.slice";
-import { clearMessage } from "../../lib/domain/shared/message/message.slice";
-import { setLanguage } from "../../lib/domain/shared/session/session.slice";
-import { getStyleForMessage } from "../../lib/utils/message";
 import { AppDispatch, useAppSelector } from "../../store";
 import { Grid, GridColumn, GridContainer, GridRow } from "../layout";
+
+import Head from "next/head";
+import Link from "next/link";
 import { LinkString } from "../ui/strLink";
 import { Title } from "../ui/typography";
+import __ from "../../i18n/i18n";
+import { baseUri } from "../../configuration";
+import { clearMessage } from "../../lib/domain/shared/message/message.slice";
+import { getStyleForMessage } from "../../lib/utils/message";
+import { openClose } from "../../lib/domain/shared/general/general.slice";
+import { setLanguage } from "../../lib/domain/shared/session/session.slice";
+import { useDispatch } from "react-redux";
 
 interface ILanguageSelectorProps {
     selectedLanguage: string;
@@ -101,21 +103,15 @@ interface ILayoutProps {
 const Layout: React.FC<ILayoutProps> = (props) => {
     const dispatch = useDispatch<AppDispatch>();
 
-    const {
-        title,
-        message,
-        userInfo,
-        isNavOpen,
-        language,
-        token,
-    } = useAppSelector((s) => ({
-        title: s.general.title,
-        message: s.message.message,
-        userInfo: s.session.userInfo,
-        isNavOpen: s.general.isNavOpen,
-        language: s.session.language,
-        token: s.session.access_token,
-    }));
+    const { title, message, userInfo, isNavOpen, language, token } =
+        useAppSelector((s) => ({
+            title: s.general.title,
+            message: s.message.message,
+            userInfo: s.session.userInfo,
+            isNavOpen: s.general.isNavOpen,
+            language: s.session.language,
+            token: s.session.access_token,
+        }));
 
     const ref = React.useRef();
 
@@ -226,7 +222,11 @@ const Layout: React.FC<ILayoutProps> = (props) => {
                                 href="#"
                                 onClick={() => {
                                     // Move token to cookie
-                                    document.cookie = `bearer_token=${token};path=/;SameSite=Strict;Secure`;
+                                    if (baseUri.indexOf("localhost") !== -1) {
+                                        document.cookie = `bearer_token=${token};path=/`;
+                                    } else {
+                                        document.cookie = `bearer_token=${token};path=/;SameSite=Strict;Secure`;
+                                    }
 
                                     // Navigate to admin
                                     window.location.href =

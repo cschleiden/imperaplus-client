@@ -1,13 +1,24 @@
-import { AllianceSummary, throwException, AllianceCreationOptions, AllianceJoinRequest, Alliance, AllianceJoinRequestState } from "./imperaClients";
+import {
+    AllianceSummary,
+    throwException,
+    AllianceCreationOptions,
+    AllianceJoinRequest,
+    Alliance,
+    AllianceJoinRequestState,
+} from "./imperaClients";
 export class AllianceClient {
     private http: {
         fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
     };
     private baseUrl: string;
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-    constructor(baseUrl?: string, http?: {
-        fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
-    }) {
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined =
+        undefined;
+    constructor(
+        baseUrl?: string,
+        http?: {
+            fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
+        }
+    ) {
         this.http = http ? http : <any>window;
         this.baseUrl = baseUrl ? baseUrl : "http://localhost:57676";
     }
@@ -29,7 +40,9 @@ export class AllianceClient {
             return this.processGetAll(_response);
         });
     }
-    protected processGetAll(response: Response): Promise<AllianceSummary[] | null> {
+    protected processGetAll(
+        response: Response
+    ): Promise<AllianceSummary[] | null> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && response.headers.forEach) {
@@ -41,13 +54,19 @@ export class AllianceClient {
                 result200 =
                     _responseText === ""
                         ? null
-                        : <AllianceSummary[]>(JSON.parse(_responseText, this.jsonParseReviver));
+                        : <AllianceSummary[]>(
+                              JSON.parse(_responseText, this.jsonParseReviver)
+                          );
                 return result200;
             });
-        }
-        else if (status !== 200 && status !== 204) {
+        } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException(
+                    "An unexpected server error occurred.",
+                    status,
+                    _responseText,
+                    _headers
+                );
             });
         }
         return Promise.resolve<AllianceSummary[] | null>(<any>null);
@@ -57,7 +76,9 @@ export class AllianceClient {
      * @creationOptions Creation options
      * @return Summary of new alliance
      */
-    create(creationOptions: AllianceCreationOptions | null): Promise<AllianceSummary | null> {
+    create(
+        creationOptions: AllianceCreationOptions | null
+    ): Promise<AllianceSummary | null> {
         let url_ = this.baseUrl + "/api/alliances";
         url_ = url_.replace(/[?&]$/, "");
         const content_ = JSON.stringify(creationOptions);
@@ -73,7 +94,9 @@ export class AllianceClient {
             return this.processCreate(_response);
         });
     }
-    protected processCreate(response: Response): Promise<AllianceSummary | null> {
+    protected processCreate(
+        response: Response
+    ): Promise<AllianceSummary | null> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && response.headers.forEach) {
@@ -85,13 +108,19 @@ export class AllianceClient {
                 result200 =
                     _responseText === ""
                         ? null
-                        : <AllianceSummary>(JSON.parse(_responseText, this.jsonParseReviver));
+                        : <AllianceSummary>(
+                              JSON.parse(_responseText, this.jsonParseReviver)
+                          );
                 return result200;
             });
-        }
-        else if (status !== 200 && status !== 204) {
+        } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException(
+                    "An unexpected server error occurred.",
+                    status,
+                    _responseText,
+                    _headers
+                );
             });
         }
         return Promise.resolve<AllianceSummary | null>(<any>null);
@@ -114,7 +143,9 @@ export class AllianceClient {
             return this.processGetAllRequests(_response);
         });
     }
-    protected processGetAllRequests(response: Response): Promise<AllianceJoinRequest[] | null> {
+    protected processGetAllRequests(
+        response: Response
+    ): Promise<AllianceJoinRequest[] | null> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && response.headers.forEach) {
@@ -126,13 +157,19 @@ export class AllianceClient {
                 result200 =
                     _responseText === ""
                         ? null
-                        : <AllianceJoinRequest[]>(JSON.parse(_responseText, this.jsonParseReviver));
+                        : <AllianceJoinRequest[]>(
+                              JSON.parse(_responseText, this.jsonParseReviver)
+                          );
                 return result200;
             });
-        }
-        else if (status !== 200 && status !== 204) {
+        } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException(
+                    "An unexpected server error occurred.",
+                    status,
+                    _responseText,
+                    _headers
+                );
             });
         }
         return Promise.resolve<AllianceJoinRequest[] | null>(<any>null);
@@ -146,7 +183,10 @@ export class AllianceClient {
         let url_ = this.baseUrl + "/api/alliances/{allianceId}";
         if (allianceId === undefined || allianceId === null)
             throw new Error("The parameter 'allianceId' must be defined.");
-        url_ = url_.replace("{allianceId}", encodeURIComponent("" + allianceId));
+        url_ = url_.replace(
+            "{allianceId}",
+            encodeURIComponent("" + allianceId)
+        );
         url_ = url_.replace(/[?&]$/, "");
         let options_ = <RequestInit>{
             method: "GET",
@@ -171,13 +211,19 @@ export class AllianceClient {
                 result200 =
                     _responseText === ""
                         ? null
-                        : <Alliance>(JSON.parse(_responseText, this.jsonParseReviver));
+                        : <Alliance>(
+                              JSON.parse(_responseText, this.jsonParseReviver)
+                          );
                 return result200;
             });
-        }
-        else if (status !== 200 && status !== 204) {
+        } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException(
+                    "An unexpected server error occurred.",
+                    status,
+                    _responseText,
+                    _headers
+                );
             });
         }
         return Promise.resolve<Alliance | null>(<any>null);
@@ -191,7 +237,10 @@ export class AllianceClient {
         let url_ = this.baseUrl + "/api/alliances/{allianceId}";
         if (allianceId === undefined || allianceId === null)
             throw new Error("The parameter 'allianceId' must be defined.");
-        url_ = url_.replace("{allianceId}", encodeURIComponent("" + allianceId));
+        url_ = url_.replace(
+            "{allianceId}",
+            encodeURIComponent("" + allianceId)
+        );
         url_ = url_.replace(/[?&]$/, "");
         let options_ = <RequestInit>{
             method: "DELETE",
@@ -213,10 +262,14 @@ export class AllianceClient {
             return response.text().then((_responseText) => {
                 return;
             });
-        }
-        else if (status !== 200 && status !== 204) {
+        } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException(
+                    "An unexpected server error occurred.",
+                    status,
+                    _responseText,
+                    _headers
+                );
             });
         }
         return Promise.resolve<void>(<any>null);
@@ -228,10 +281,14 @@ export class AllianceClient {
      * @return Summary of new alliance
      */
     removeMember(allianceId: string, userId: string): Promise<void> {
-        let url_ = this.baseUrl + "/api/alliances/{allianceId}/members/{userId}";
+        let url_ =
+            this.baseUrl + "/api/alliances/{allianceId}/members/{userId}";
         if (allianceId === undefined || allianceId === null)
             throw new Error("The parameter 'allianceId' must be defined.");
-        url_ = url_.replace("{allianceId}", encodeURIComponent("" + allianceId));
+        url_ = url_.replace(
+            "{allianceId}",
+            encodeURIComponent("" + allianceId)
+        );
         if (userId === undefined || userId === null)
             throw new Error("The parameter 'userId' must be defined.");
         url_ = url_.replace("{userId}", encodeURIComponent("" + userId));
@@ -256,10 +313,14 @@ export class AllianceClient {
             return response.text().then((_responseText) => {
                 return;
             });
-        }
-        else if (status !== 200 && status !== 204) {
+        } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException(
+                    "An unexpected server error occurred.",
+                    status,
+                    _responseText,
+                    _headers
+                );
             });
         }
         return Promise.resolve<void>(<any>null);
@@ -270,11 +331,19 @@ export class AllianceClient {
      * @userId Id of user to make admin
      * @return Summary of new alliance
      */
-    changeAdmin(allianceId: string, userId: string, isAdmin: boolean): Promise<void> {
-        let url_ = this.baseUrl + "/api/alliances/{allianceId}/members/{userId}";
+    changeAdmin(
+        allianceId: string,
+        userId: string,
+        isAdmin: boolean
+    ): Promise<void> {
+        let url_ =
+            this.baseUrl + "/api/alliances/{allianceId}/members/{userId}";
         if (allianceId === undefined || allianceId === null)
             throw new Error("The parameter 'allianceId' must be defined.");
-        url_ = url_.replace("{allianceId}", encodeURIComponent("" + allianceId));
+        url_ = url_.replace(
+            "{allianceId}",
+            encodeURIComponent("" + allianceId)
+        );
         if (userId === undefined || userId === null)
             throw new Error("The parameter 'userId' must be defined.");
         url_ = url_.replace("{userId}", encodeURIComponent("" + userId));
@@ -301,10 +370,14 @@ export class AllianceClient {
             return response.text().then((_responseText) => {
                 return;
             });
-        }
-        else if (status !== 200 && status !== 204) {
+        } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException(
+                    "An unexpected server error occurred.",
+                    status,
+                    _responseText,
+                    _headers
+                );
             });
         }
         return Promise.resolve<void>(<any>null);
@@ -315,11 +388,17 @@ export class AllianceClient {
      * @reason Reason why user wants to join the alliance
      * @return Id of join request if created
      */
-    requestJoin(allianceId: string, reason: string | null): Promise<AllianceJoinRequest | null> {
+    requestJoin(
+        allianceId: string,
+        reason: string | null
+    ): Promise<AllianceJoinRequest | null> {
         let url_ = this.baseUrl + "/api/alliances/{allianceId}/requests";
         if (allianceId === undefined || allianceId === null)
             throw new Error("The parameter 'allianceId' must be defined.");
-        url_ = url_.replace("{allianceId}", encodeURIComponent("" + allianceId));
+        url_ = url_.replace(
+            "{allianceId}",
+            encodeURIComponent("" + allianceId)
+        );
         url_ = url_.replace(/[?&]$/, "");
         const content_ = JSON.stringify(reason);
         let options_ = <RequestInit>{
@@ -334,7 +413,9 @@ export class AllianceClient {
             return this.processRequestJoin(_response);
         });
     }
-    protected processRequestJoin(response: Response): Promise<AllianceJoinRequest | null> {
+    protected processRequestJoin(
+        response: Response
+    ): Promise<AllianceJoinRequest | null> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && response.headers.forEach) {
@@ -346,13 +427,19 @@ export class AllianceClient {
                 result200 =
                     _responseText === ""
                         ? null
-                        : <AllianceJoinRequest>(JSON.parse(_responseText, this.jsonParseReviver));
+                        : <AllianceJoinRequest>(
+                              JSON.parse(_responseText, this.jsonParseReviver)
+                          );
                 return result200;
             });
-        }
-        else if (status !== 200 && status !== 204) {
+        } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException(
+                    "An unexpected server error occurred.",
+                    status,
+                    _responseText,
+                    _headers
+                );
             });
         }
         return Promise.resolve<AllianceJoinRequest | null>(<any>null);
@@ -366,7 +453,10 @@ export class AllianceClient {
         let url_ = this.baseUrl + "/api/alliances/{allianceId}/requests";
         if (allianceId === undefined || allianceId === null)
             throw new Error("The parameter 'allianceId' must be defined.");
-        url_ = url_.replace("{allianceId}", encodeURIComponent("" + allianceId));
+        url_ = url_.replace(
+            "{allianceId}",
+            encodeURIComponent("" + allianceId)
+        );
         url_ = url_.replace(/[?&]$/, "");
         let options_ = <RequestInit>{
             method: "GET",
@@ -379,7 +469,9 @@ export class AllianceClient {
             return this.processGetRequests(_response);
         });
     }
-    protected processGetRequests(response: Response): Promise<AllianceJoinRequest[] | null> {
+    protected processGetRequests(
+        response: Response
+    ): Promise<AllianceJoinRequest[] | null> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && response.headers.forEach) {
@@ -391,13 +483,19 @@ export class AllianceClient {
                 result200 =
                     _responseText === ""
                         ? null
-                        : <AllianceJoinRequest[]>(JSON.parse(_responseText, this.jsonParseReviver));
+                        : <AllianceJoinRequest[]>(
+                              JSON.parse(_responseText, this.jsonParseReviver)
+                          );
                 return result200;
             });
-        }
-        else if (status !== 200 && status !== 204) {
+        } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException(
+                    "An unexpected server error occurred.",
+                    status,
+                    _responseText,
+                    _headers
+                );
             });
         }
         return Promise.resolve<AllianceJoinRequest[] | null>(<any>null);
@@ -408,11 +506,19 @@ export class AllianceClient {
      * @requestId Id of the request to change
      * @state New request state
      */
-    updateRequest(allianceId: string, requestId: string, state: AllianceJoinRequestState): Promise<AllianceJoinRequest | null> {
-        let url_ = this.baseUrl + "/api/alliances/{allianceId}/requests/{requestId}";
+    updateRequest(
+        allianceId: string,
+        requestId: string,
+        state: AllianceJoinRequestState
+    ): Promise<AllianceJoinRequest | null> {
+        let url_ =
+            this.baseUrl + "/api/alliances/{allianceId}/requests/{requestId}";
         if (allianceId === undefined || allianceId === null)
             throw new Error("The parameter 'allianceId' must be defined.");
-        url_ = url_.replace("{allianceId}", encodeURIComponent("" + allianceId));
+        url_ = url_.replace(
+            "{allianceId}",
+            encodeURIComponent("" + allianceId)
+        );
         if (requestId === undefined || requestId === null)
             throw new Error("The parameter 'requestId' must be defined.");
         url_ = url_.replace("{requestId}", encodeURIComponent("" + requestId));
@@ -430,7 +536,9 @@ export class AllianceClient {
             return this.processUpdateRequest(_response);
         });
     }
-    protected processUpdateRequest(response: Response): Promise<AllianceJoinRequest | null> {
+    protected processUpdateRequest(
+        response: Response
+    ): Promise<AllianceJoinRequest | null> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && response.headers.forEach) {
@@ -442,13 +550,19 @@ export class AllianceClient {
                 result200 =
                     _responseText === ""
                         ? null
-                        : <AllianceJoinRequest>(JSON.parse(_responseText, this.jsonParseReviver));
+                        : <AllianceJoinRequest>(
+                              JSON.parse(_responseText, this.jsonParseReviver)
+                          );
                 return result200;
             });
-        }
-        else if (status !== 200 && status !== 204) {
+        } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException(
+                    "An unexpected server error occurred.",
+                    status,
+                    _responseText,
+                    _headers
+                );
             });
         }
         return Promise.resolve<AllianceJoinRequest | null>(<any>null);

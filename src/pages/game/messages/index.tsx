@@ -38,11 +38,8 @@ export interface IMessagesProps {
 }
 
 const Messages: AppNextPage<IMessagesProps> = () => {
-    const {
-        folderInformation,
-        currentFolder,
-        currentMessages,
-    } = useAppSelector(selector);
+    const { folderInformation, currentFolder, currentMessages } =
+        useAppSelector(selector);
 
     const dispatch = useDispatch<AppDispatch>();
 

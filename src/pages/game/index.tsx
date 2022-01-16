@@ -43,9 +43,8 @@ function selector(state: IState) {
 }
 
 export const News: AppNextPage = (props) => {
-    const { news, language, openTournaments, activeTournaments } = useSelector(
-        selector
-    );
+    const { news, language, openTournaments, activeTournaments } =
+        useSelector(selector);
 
     const [quickGameActive, setQuickGameActive] = React.useState(false);
 

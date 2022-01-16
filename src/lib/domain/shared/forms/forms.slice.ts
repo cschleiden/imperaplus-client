@@ -43,43 +43,46 @@ export interface IFieldValue {
     value: string | number | boolean | any;
 }
 
-export const doSubmit = (
-    name: string,
-    formState: IFormState,
-    onSubmit: (
+export const doSubmit =
+    (
+        name: string,
         formState: IFormState,
-        dispatch: AppDispatch,
-        getState: () => IState,
-        extra: ThunkExtra
-    ) => Promise<void>
-): AppThunk => async (dispatch, getState, extra) => {
-    try {
-        dispatch(submitFormPending(name));
+        onSubmit: (
+            formState: IFormState,
+            dispatch: AppDispatch,
+            getState: () => IState,
+            extra: ThunkExtra
+        ) => Promise<void>
+    ): AppThunk =>
+    async (dispatch, getState, extra) => {
+        try {
+            dispatch(submitFormPending(name));
 
-        await onSubmit(formState, dispatch, getState, extra);
+            await onSubmit(formState, dispatch, getState, extra);
 
-        dispatch(submitFormSuccess(name));
-    } catch (error) {
-        // Dispatch generic message action
-        let message = getErrorMessage(error.error);
-        if (!message) {
-            message = getErrorMessage(error.error_Description);
+            dispatch(submitFormSuccess(name));
+        } catch (error) {
+            // Dispatch generic message action
+            let message = getErrorMessage(error.error);
+            if (!message) {
+                message = getErrorMessage(error.error_Description);
+            }
+
+            if (!message) {
+                message =
+                    error.error_Description || error.error || error.message;
+            }
+
+            dispatch(
+                showMessage({
+                    message,
+                    type: MessageType.error,
+                })
+            );
+
+            dispatch(submitFormFailure(name));
         }
-
-        if (!message) {
-            message = error.error_Description || error.error || error.message;
-        }
-
-        dispatch(
-            showMessage({
-                message,
-                type: MessageType.error,
-            })
-        );
-
-        dispatch(submitFormFailure(name));
-    }
-};
+    };
 
 function ensureFormInitialized(state: IForms, form: string) {
     if (!state.forms[form]) {

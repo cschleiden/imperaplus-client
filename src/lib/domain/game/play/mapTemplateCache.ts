@@ -71,9 +71,8 @@ function preprocessMapTemplate(mapTemplate: MapTemplate) {
         continent.id = continentId++;
 
         for (const country of continent.countries) {
-            mapTemplateEntry._continentsByCountryIdentifier[
-                country
-            ] = continent;
+            mapTemplateEntry._continentsByCountryIdentifier[country] =
+                continent;
         }
     }
 

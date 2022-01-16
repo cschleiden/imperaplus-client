@@ -1,13 +1,24 @@
-import { PlaceUnitsOptions, GameActionResult, throwException, AttackOptions, MoveOptions, Game } from "./imperaClients";
+import {
+    PlaceUnitsOptions,
+    GameActionResult,
+    throwException,
+    AttackOptions,
+    MoveOptions,
+    Game,
+} from "./imperaClients";
 export class PlayClient {
     private http: {
         fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
     };
     private baseUrl: string;
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-    constructor(baseUrl?: string, http?: {
-        fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
-    }) {
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined =
+        undefined;
+    constructor(
+        baseUrl?: string,
+        http?: {
+            fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
+        }
+    ) {
         this.http = http ? http : <any>window;
         this.baseUrl = baseUrl ? baseUrl : "http://localhost:57676";
     }
@@ -17,7 +28,10 @@ export class PlayClient {
      * @placeUnitsOptions List of country/unit count pairs
      * @return GameActionResult of action
      */
-    postPlace(gameId: number, placeUnitsOptions: PlaceUnitsOptions[] | null): Promise<GameActionResult | null> {
+    postPlace(
+        gameId: number,
+        placeUnitsOptions: PlaceUnitsOptions[] | null
+    ): Promise<GameActionResult | null> {
         let url_ = this.baseUrl + "/api/games/{gameId}/play/place";
         if (gameId === undefined || gameId === null)
             throw new Error("The parameter 'gameId' must be defined.");
@@ -36,7 +50,9 @@ export class PlayClient {
             return this.processPostPlace(_response);
         });
     }
-    protected processPostPlace(response: Response): Promise<GameActionResult | null> {
+    protected processPostPlace(
+        response: Response
+    ): Promise<GameActionResult | null> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && response.headers.forEach) {
@@ -48,13 +64,19 @@ export class PlayClient {
                 result200 =
                     _responseText === ""
                         ? null
-                        : <GameActionResult>(JSON.parse(_responseText, this.jsonParseReviver));
+                        : <GameActionResult>(
+                              JSON.parse(_responseText, this.jsonParseReviver)
+                          );
                 return result200;
             });
-        }
-        else if (status !== 200 && status !== 204) {
+        } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException(
+                    "An unexpected server error occurred.",
+                    status,
+                    _responseText,
+                    _headers
+                );
             });
         }
         return Promise.resolve<GameActionResult | null>(<any>null);
@@ -81,7 +103,9 @@ export class PlayClient {
             return this.processPostExchange(_response);
         });
     }
-    protected processPostExchange(response: Response): Promise<GameActionResult | null> {
+    protected processPostExchange(
+        response: Response
+    ): Promise<GameActionResult | null> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && response.headers.forEach) {
@@ -93,13 +117,19 @@ export class PlayClient {
                 result200 =
                     _responseText === ""
                         ? null
-                        : <GameActionResult>(JSON.parse(_responseText, this.jsonParseReviver));
+                        : <GameActionResult>(
+                              JSON.parse(_responseText, this.jsonParseReviver)
+                          );
                 return result200;
             });
-        }
-        else if (status !== 200 && status !== 204) {
+        } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException(
+                    "An unexpected server error occurred.",
+                    status,
+                    _responseText,
+                    _headers
+                );
             });
         }
         return Promise.resolve<GameActionResult | null>(<any>null);
@@ -110,7 +140,10 @@ export class PlayClient {
      * @options Options for the command
      * @return GameActionResult of action
      */
-    postAttack(gameId: number, options: AttackOptions | null): Promise<GameActionResult | null> {
+    postAttack(
+        gameId: number,
+        options: AttackOptions | null
+    ): Promise<GameActionResult | null> {
         let url_ = this.baseUrl + "/api/games/{gameId}/play/attack";
         if (gameId === undefined || gameId === null)
             throw new Error("The parameter 'gameId' must be defined.");
@@ -129,7 +162,9 @@ export class PlayClient {
             return this.processPostAttack(_response);
         });
     }
-    protected processPostAttack(response: Response): Promise<GameActionResult | null> {
+    protected processPostAttack(
+        response: Response
+    ): Promise<GameActionResult | null> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && response.headers.forEach) {
@@ -141,13 +176,19 @@ export class PlayClient {
                 result200 =
                     _responseText === ""
                         ? null
-                        : <GameActionResult>(JSON.parse(_responseText, this.jsonParseReviver));
+                        : <GameActionResult>(
+                              JSON.parse(_responseText, this.jsonParseReviver)
+                          );
                 return result200;
             });
-        }
-        else if (status !== 200 && status !== 204) {
+        } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException(
+                    "An unexpected server error occurred.",
+                    status,
+                    _responseText,
+                    _headers
+                );
             });
         }
         return Promise.resolve<GameActionResult | null>(<any>null);
@@ -174,7 +215,9 @@ export class PlayClient {
             return this.processPostEndAttack(_response);
         });
     }
-    protected processPostEndAttack(response: Response): Promise<GameActionResult | null> {
+    protected processPostEndAttack(
+        response: Response
+    ): Promise<GameActionResult | null> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && response.headers.forEach) {
@@ -186,13 +229,19 @@ export class PlayClient {
                 result200 =
                     _responseText === ""
                         ? null
-                        : <GameActionResult>(JSON.parse(_responseText, this.jsonParseReviver));
+                        : <GameActionResult>(
+                              JSON.parse(_responseText, this.jsonParseReviver)
+                          );
                 return result200;
             });
-        }
-        else if (status !== 200 && status !== 204) {
+        } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException(
+                    "An unexpected server error occurred.",
+                    status,
+                    _responseText,
+                    _headers
+                );
             });
         }
         return Promise.resolve<GameActionResult | null>(<any>null);
@@ -204,7 +253,10 @@ export class PlayClient {
      * @options Options for the command
      * @return GameActionResult of action
      */
-    postMove(gameId: number, options: MoveOptions | null): Promise<GameActionResult | null> {
+    postMove(
+        gameId: number,
+        options: MoveOptions | null
+    ): Promise<GameActionResult | null> {
         let url_ = this.baseUrl + "/api/games/{gameId}/play/move";
         if (gameId === undefined || gameId === null)
             throw new Error("The parameter 'gameId' must be defined.");
@@ -223,7 +275,9 @@ export class PlayClient {
             return this.processPostMove(_response);
         });
     }
-    protected processPostMove(response: Response): Promise<GameActionResult | null> {
+    protected processPostMove(
+        response: Response
+    ): Promise<GameActionResult | null> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && response.headers.forEach) {
@@ -235,13 +289,19 @@ export class PlayClient {
                 result200 =
                     _responseText === ""
                         ? null
-                        : <GameActionResult>(JSON.parse(_responseText, this.jsonParseReviver));
+                        : <GameActionResult>(
+                              JSON.parse(_responseText, this.jsonParseReviver)
+                          );
                 return result200;
             });
-        }
-        else if (status !== 200 && status !== 204) {
+        } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException(
+                    "An unexpected server error occurred.",
+                    status,
+                    _responseText,
+                    _headers
+                );
             });
         }
         return Promise.resolve<GameActionResult | null>(<any>null);
@@ -280,13 +340,19 @@ export class PlayClient {
                 result200 =
                     _responseText === ""
                         ? null
-                        : <Game>(JSON.parse(_responseText, this.jsonParseReviver));
+                        : <Game>(
+                              JSON.parse(_responseText, this.jsonParseReviver)
+                          );
                 return result200;
             });
-        }
-        else if (status !== 200 && status !== 204) {
+        } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException(
+                    "An unexpected server error occurred.",
+                    status,
+                    _responseText,
+                    _headers
+                );
             });
         }
         return Promise.resolve<Game | null>(<any>null);

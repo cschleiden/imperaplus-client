@@ -45,7 +45,8 @@ export const initNotifications = (): AppThunk => async (dispatch, getState) => {
         notificationService.attachHandler(
             NotificationType.GameChatMessage,
             (notification) => {
-                const gameChatNotification = notification as IGameChatMessageNotification;
+                const gameChatNotification =
+                    notification as IGameChatMessageNotification;
                 const message = gameChatNotification.message;
 
                 dispatch(gameChatMessage(message));
@@ -72,43 +73,42 @@ export const initNotifications = (): AppThunk => async (dispatch, getState) => {
 /**
  * Switch to a game, also used for displaying a game the first time
  */
-export const doSwitchGame = (
-    gameId: number,
-    turnNo?: number
-): AppThunk => async (dispatch, getState, extra) => {
-    await dispatch(initNotifications());
+export const doSwitchGame =
+    (gameId: number, turnNo?: number): AppThunk =>
+    async (dispatch, getState, extra) => {
+        await dispatch(initNotifications());
 
-    const game = await extra
-        .createClient(getToken(getState()), GameClient)
-        .get(gameId);
-    const mapTemplate = await fetchMapTemplate(
-        getToken(getState()),
-        game.mapTemplate
-    );
+        const game = await extra
+            .createClient(getToken(getState()), GameClient)
+            .get(gameId);
+        const mapTemplate = await fetchMapTemplate(
+            getToken(getState()),
+            game.mapTemplate
+        );
 
-    const oldGameId = getState().play.gameId;
-    await notificationService.switchGame(oldGameId || 0, gameId);
+        const oldGameId = getState().play.gameId;
+        await notificationService.switchGame(oldGameId || 0, gameId);
 
-    dispatch(
-        switchGame(
-            withUserId(getState(), {
-                game,
-                mapTemplate,
-            })
-        )
-    );
+        dispatch(
+            switchGame(
+                withUserId(getState(), {
+                    game,
+                    mapTemplate,
+                })
+            )
+        );
 
-    dispatch(setTitle(`${__("Play")}: ${game.id} - ${game.name}`));
+        dispatch(setTitle(`${__("Play")}: ${game.id} - ${game.name}`));
 
-    await dispatch(gameChatMessages());
+        await dispatch(gameChatMessages());
 
-    // Go to history, if requested
-    if (turnNo >= 0) {
-        await dispatch(historyTurn(turnNo));
-    }
+        // Go to history, if requested
+        if (turnNo >= 0) {
+            await dispatch(historyTurn(turnNo));
+        }
 
-    dispatch(refreshOtherGames());
-};
+        dispatch(refreshOtherGames());
+    };
 
 export const doLeave = (): AppThunk => async (dispatch, getState) => {
     // Stop notification hub
@@ -122,19 +122,21 @@ export const doLeave = (): AppThunk => async (dispatch, getState) => {
     Router.push("/game/games");
 };
 
-export const doSetGameOption = (
-    temporary: boolean,
-    name: keyof IGameUIOptions,
-    value: boolean
-): AppThunk => async (dispatch, getState) => {
-    dispatch(
-        setUIOption({
-            temporary,
-            name,
-            value,
-        })
-    );
+export const doSetGameOption =
+    (
+        temporary: boolean,
+        name: keyof IGameUIOptions,
+        value: boolean
+    ): AppThunk =>
+    async (dispatch, getState) => {
+        dispatch(
+            setUIOption({
+                temporary,
+                name,
+                value,
+            })
+        );
 
-    // TODO: Persist sttings
-    // localStorage.setItem("impera-options", JSON.stringify(getState().play.gameUiOptions));
-};
+        // TODO: Persist sttings
+        // localStorage.setItem("impera-options", JSON.stringify(getState().play.gameUiOptions));
+    };

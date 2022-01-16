@@ -49,15 +49,14 @@ const Profile: AppNextPage = () => {
                 onSubmit={async (formState: IFormState, dispatch) => {
                     await dispatch(
                         changePassword({
-                            oldPassword: formState.getFieldValue<string>(
-                                "oldPassword"
-                            ),
-                            password: formState.getFieldValue<string>(
-                                "password"
-                            ),
-                            passwordConfirmation: formState.getFieldValue<
-                                string
-                            >("passwordConfirmation"),
+                            oldPassword:
+                                formState.getFieldValue<string>("oldPassword"),
+                            password:
+                                formState.getFieldValue<string>("password"),
+                            passwordConfirmation:
+                                formState.getFieldValue<string>(
+                                    "passwordConfirmation"
+                                ),
                         })
                     );
                 }}

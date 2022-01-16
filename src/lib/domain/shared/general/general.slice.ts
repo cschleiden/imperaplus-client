@@ -22,7 +22,7 @@ const general = createSlice({
         ) => {
             state.lookup[action.payload.key] = action.payload.data;
         },
-        locationChange: state => {
+        locationChange: (state) => {
             state.isNavOpen = false;
         },
         setTitle: (state, action) => {
@@ -34,9 +34,5 @@ const general = createSlice({
 
 export default general.reducer;
 
-export const {
-    openClose,
-    lookupSet,
-    locationChange,
-    setTitle,
-} = general.actions;
+export const { openClose, lookupSet, locationChange, setTitle } =
+    general.actions;

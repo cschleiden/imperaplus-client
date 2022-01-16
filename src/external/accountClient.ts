@@ -24,9 +24,8 @@ export class AccountClient {
         fetch(url: RequestInfo, init?: RequestInit): Promise<Response>;
     };
     private baseUrl: string;
-    protected jsonParseReviver:
-        | ((key: string, value: any) => any)
-        | undefined = undefined;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined =
+        undefined;
     constructor(
         baseUrl?: string,
         http?: {
@@ -1014,7 +1013,6 @@ export class AccountClient {
     }
 }
 
-
 export class FixedAccountClient extends AccountClient {
     constructor(
         baseUrl?: string,
@@ -1028,13 +1026,8 @@ export class FixedAccountClient extends AccountClient {
         this.exchange = ((
             loginRequest: LoginRequest | null | undefined
         ): Promise<LoginResponseModel> => {
-            const {
-                grant_type,
-                password,
-                username,
-                scope,
-                refresh_token,
-            } = loginRequest;
+            const { grant_type, password, username, scope, refresh_token } =
+                loginRequest;
 
             let url_ = this["baseUrl"] + "/api/Account/token?";
             let content_ = "";

@@ -188,8 +188,8 @@ class Map extends React.Component<IMapProps, IMapState> {
                         key={countryTemplate.identifier}
                         className={css(style.country, {
                             // only show player color when country is visible
-                            ["player-" +
-                            (player ? player.playOrder + 1 : 0)]: !!country,
+                            ["player-" + (player ? player.playOrder + 1 : 0)]:
+                                !!country,
                             [style.countryHighlight]: isHighlighted,
                             ["country-team-" + (team ? team.playOrder + 1 : 0)]:
                                 isTeamGame && gameUiOptions.showTeamsOnMap,

@@ -115,4 +115,5 @@ export class NotificationService {
     };
 }
 
-export const notificationService: NotificationService = new NotificationService();
+export const notificationService: NotificationService =
+    new NotificationService();
