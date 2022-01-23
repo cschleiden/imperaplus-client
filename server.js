@@ -1,5 +1,5 @@
 const s = _interopRequireDefault(require("next/dist/server/lib/start-server"));
-s.default({ dir: "." }, process.env.PORT || 3000)
+s.startServer({ dir: "." }, process.env.PORT || 3000)
     .then(async (app) => {
         console.log("Ready!");
         await app.prepare();
