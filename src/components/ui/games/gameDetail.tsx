@@ -1,15 +1,15 @@
 import * as React from "react";
+
 import { Button, Glyphicon } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import { GridColumn, GridRow } from "../../../components/layout";
-import { HumanDate, HumanTime } from "../../../components/ui/humanDate";
+import Form, { IFormState } from "../../../lib/domain/shared/forms/form";
 import {
     GameState,
     GameSummary,
     PlayerState,
     PlayerSummary,
 } from "../../../external/imperaClients";
-import __ from "../../../i18n/i18n";
+import { GridColumn, GridRow } from "../../../components/layout";
+import { HumanDate, HumanTime } from "../../../components/ui/humanDate";
 import {
     hide,
     join,
@@ -17,14 +17,16 @@ import {
     remove,
     surrender,
 } from "../../../lib/domain/game/games.actions";
-import Form, { IFormState } from "../../../lib/domain/shared/forms/form";
+import { useDispatch, useSelector } from "react-redux";
+
+import { AppDispatch } from "../../../store";
 import { ControlledTextField } from "../../../lib/domain/shared/forms/inputs";
 import { IState } from "../../../reducers";
-import { AppDispatch } from "../../../store";
-import { UserName } from "../userReference";
-import style from "./gameDetail.module.scss";
 import { MapPreview } from "./mapPreview";
 import { PlayerOutcomeDisplay } from "./playerOutcome";
+import { UserName } from "../userReference";
+import __ from "../../../i18n/i18n";
+import style from "./gameDetail.module.scss";
 
 export interface IGameDetailsProps {
     game: GameSummary;
@@ -166,13 +168,9 @@ const GameDetails: React.FC<IGameDetailsProps> = ({ game }) => {
                                         {game.hasPassword && (
                                             <ControlledTextField
                                                 placeholder={__("Password")}
-                                                type="password"
                                                 fieldName="password"
                                                 required={false}
-                                                {...({
-                                                    autoComplete:
-                                                        "new-password",
-                                                } as any)}
+                                                autoComplete="off"
                                             />
                                         )}
 
