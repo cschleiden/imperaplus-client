@@ -1,0 +1,47 @@
+name: Build & Dev Deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    environment:
+      name: Dev
+
+    concurrency: dev
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Replace base uris in deployment
+        uses: cschleiden/replace-tokens@master
+        with:
+          files: '["./**/*.ts"]'
+        env:
+          BaseUri: https://dev.imperaonline.de
+          ImageBaseUri: https://static.imperaonline.de/maps/
+          SecureCookies: 'true'
+      - uses: docker/setup-buildx-action@v1
+        name: Set up Docker Buildx
+        id: buildx
+      - run: docker build -t impera-dev:latest,impera-dev:${{ github.sha }} .
+      - run: docker save impera-dev:latest -o impera-dev.tar
+      - name: Copy container to server
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          local: impera-dev.tar
+          remote: /images/impera-dev.tar
+          host: 217.160.244.154
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASS }}
+      # - name: Restart service
+      #   uses: garygrossgarten/github-action-ssh@2b10f41b5a33808f6d24eafd253296766308b7c4
+      #   with:
+      #     command: sudo /bin/systemctl restart impera
+      #     host: 217.160.244.154
+      #     username: ${{ secrets.SSH_USER }}
+      #     password: ${{ secrets.SSH_PASS }}
+
