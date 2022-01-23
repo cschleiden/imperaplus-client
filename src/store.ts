@@ -1,16 +1,17 @@
 import {
     Action,
-    configureStore,
     DeepPartial,
-    getDefaultMiddleware,
     ThunkAction,
+    configureStore,
+    getDefaultMiddleware,
 } from "@reduxjs/toolkit";
 import { NextComponentType, NextPageContext } from "next";
-import { useSelector } from "react-redux";
-import { loadingBarMiddleware } from "react-redux-loading-bar";
+import rootReducer, { IState } from "./reducers";
+
 import { createClient } from "./clients/clientFactory";
 import { getSignalRClient } from "./clients/signalrFactory";
-import rootReducer, { IState } from "./reducers";
+import { loadingBarMiddleware } from "react-redux-loading-bar";
+import { useSelector } from "react-redux";
 
 const extraArgument = {
     createClient: createClient,

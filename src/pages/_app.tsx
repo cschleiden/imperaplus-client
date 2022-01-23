@@ -37,6 +37,7 @@ function App({
     router,
     storeState,
 }: AppProps & { storeState: IState }) {
+    //@ts-ignore see https://github.com/reduxjs/redux/pull/4078
     const store = getOrCreateStore(() => storeState);
 
     React.useEffect(() => {
