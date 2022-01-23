@@ -1,6 +1,9 @@
 @import "../../styles/vars";
 
 .chatButton {
+    border-radius: 4px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
     border: 1px solid gray;
@@ -9,6 +12,12 @@
     right: 50px;
     bottom: 0;
     z-index: 100;
+
+    button {
+        border-radius: 4px;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
 }
 
 $windowHeightFull: 350px;
@@ -33,6 +42,10 @@ $usersWidth: 100px;
     height: $windowHeightFull;
     background: white;
 
+    button {
+        border-radius: 0;
+    }
+
     .chatHeader {
         height: $headerHeight;
         border-bottom: 2px solid $accent;
@@ -53,7 +66,7 @@ $usersWidth: 100px;
 
                 padding: 0 10px;
             }
-        
+
             &.selected {
                 a {
                     color: white;
@@ -61,7 +74,7 @@ $usersWidth: 100px;
 
                 background: $accent;
             }
-            
+
             &:hover {
                 background: $accent;
 
