@@ -27,7 +27,7 @@ jobs:
       - uses: docker/setup-buildx-action@v1
         name: Set up Docker Buildx
         id: buildx
-      - run: docker build -t impera-dev:latest -t impera-dev:${{ github.sha }} .
+      - run: docker build -t impera-dev-frontend:latest -t impera-dev-frontend:${{ github.sha }} .
       - run: docker save impera-dev-frontend:latest -o impera-dev-frontend.tar
       - name: Copy container to server
         uses: garygrossgarten/github-action-scp@dba89d858413133b6e35da91a3c989cc8cde3ad4
