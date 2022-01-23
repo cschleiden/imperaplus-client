@@ -1,11 +1,13 @@
-import Link from "next/link";
 import * as React from "react";
+
 import { Image, ImageProps } from "react-bootstrap";
-import { imageBaseUri } from "../../../configuration";
+
+import Link from "next/link";
 import { MapTemplate } from "../../../external/imperaClients";
-import { fetchMapTemplate } from "../../../lib/domain/game/play/mapTemplateCache";
-import { useAppSelector } from "../../../store";
 import { Spinner } from "../spinner";
+import { fetchMapTemplate } from "../../../lib/domain/game/play/mapTemplateCache";
+import { imageBaseUri } from "../../../configuration";
+import { useAppSelector } from "../../../store";
 
 export interface IMapPreviewProps extends ImageProps {
     mapTemplateName: string;
@@ -41,8 +43,8 @@ export const MapPreview: React.FC<IMapPreviewProps> = (props) => {
     if (mapTemplate) {
         return (
             <Link
-                href="/game/mapPreview/[map]"
-                as={`/game/mapPreview/${mapTemplate.name}`}
+                href="/game/mappreview/[map]"
+                as={`/game/mappreview/${mapTemplate.name}`}
             >
                 <Image
                     src={mapTemplate && `${imageBaseUri}${mapTemplate.image}`}
