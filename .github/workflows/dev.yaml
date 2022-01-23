@@ -30,7 +30,7 @@ jobs:
       - run: docker build -t impera-dev:latest,impera-dev:${{ github.sha }} .
       - run: docker save impera-dev:latest -o impera-dev.tar
       - name: Copy container to server
-        uses: garygrossgarten/github-action-scp@release
+        uses: garygrossgarten/github-action-scp@dba89d858413133b6e35da91a3c989cc8cde3ad4
         with:
           local: impera-dev.tar
           remote: /images/impera-dev.tar
