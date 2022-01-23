@@ -32,7 +32,7 @@ jobs:
       - name: Copy container to server
         uses: garygrossgarten/github-action-scp@dba89d858413133b6e35da91a3c989cc8cde3ad4
         with:
-          local: impera-dev.tar
+          local: impera-dev-frontend.tar
           remote: /images/impera-dev-frontend.tar
           host: 217.160.244.154
           username: ${{ secrets.SSH_USER }}
