@@ -1,18 +1,21 @@
-import Link from "next/link";
 import * as React from "react";
 import * as ReactMarkdown from "react-markdown";
-import { useDispatch, useSelector } from "react-redux";
-import { GridColumn, GridRow } from "../../components/layout";
-import { HumanDate } from "../../components/ui/humanDate";
-import { ProgressButton } from "../../components/ui/progressButton";
-import { Section, SubSection } from "../../components/ui/typography";
-import { NewsContent, TournamentState } from "../../external/imperaClients";
-import __ from "../../i18n/i18n";
-import { fetch } from "../../lib/domain/game/news.slice";
-import { doQuickGame } from "../../lib/domain/game/quickGame";
-import { fetchAll } from "../../lib/domain/game/tournaments.slice";
-import { IState } from "../../reducers";
+
 import { AppDispatch, AppNextPage } from "../../store";
+import { GridColumn, GridRow } from "../../components/layout";
+import { NewsContent, TournamentState } from "../../external/imperaClients";
+import { Section, SubSection } from "../../components/ui/typography";
+import { useDispatch, useSelector } from "react-redux";
+
+import { HumanDate } from "../../components/ui/humanDate";
+import { IState } from "../../reducers";
+import Link from "next/link";
+import { ProgressButton } from "../../components/ui/progressButton";
+import __ from "../../i18n/i18n";
+import { doQuickGame } from "../../lib/domain/game/quickGame";
+import { fetch } from "../../lib/domain/game/news.slice";
+import { fetchAll } from "../../lib/domain/game/tournaments.slice";
+import style from "./index.module.scss";
 
 function _getLanguageContent(
     language: string,
@@ -71,7 +74,11 @@ export const News: AppNextPage = (props) => {
                                     {HumanDate(n.dateTime)} - {n.postedBy}
                                 </h5>
 
-                                <ReactMarkdown source={content.text || ""} />
+                                <div className={style.newsContent}>
+                                    <ReactMarkdown
+                                        source={content.text || ""}
+                                    />
+                                </div>
                             </div>
                         );
                     })}

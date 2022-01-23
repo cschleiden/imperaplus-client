@@ -5,8 +5,7 @@
 @import "./vertical-boxes";
 
 * {
-    font-family: 'Open Sans', sans-serif; // no rounded corners
-    border-radius: 0 !important;
+    font-family: 'Open Sans', sans-serif;
 }
 
 html {
@@ -109,8 +108,6 @@ $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
 
 // Main button style
 button.btn {
-    border-radius: 0;
-
     border: none;
     transition: background linear .2s;
 }
