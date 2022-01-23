@@ -1,11 +1,13 @@
-import Link from "next/link";
 import * as React from "react";
-import { Image, ImageProps } from "react-bootstrap";
-import { imageBaseUri } from "../../../configuration";
+
+import Image, { ImageProps } from "react-bootstrap/Image";
+
+import Link from "next/link";
 import { MapTemplate } from "../../../external/imperaClients";
-import { fetchMapTemplate } from "../../../lib/domain/game/play/mapTemplateCache";
-import { useAppSelector } from "../../../store";
 import { Spinner } from "../spinner";
+import { fetchMapTemplate } from "../../../lib/domain/game/play/mapTemplateCache";
+import { imageBaseUri } from "../../../configuration";
+import { useAppSelector } from "../../../store";
 
 export interface IMapPreviewProps extends ImageProps {
     mapTemplateName: string;

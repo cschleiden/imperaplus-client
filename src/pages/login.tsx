@@ -1,13 +1,15 @@
 import * as React from "react";
-import { Grid, GridColumn, GridRow } from "../components/layout";
-import { ProgressButton } from "../components/ui/progressButton";
-import { LinkString } from "../components/ui/strLink";
-import { baseUri } from "../configuration";
-import __ from "../i18n/i18n";
+
 import Form, { IFormState } from "../lib/domain/shared/forms/form";
-import { ControlledTextField } from "../lib/domain/shared/forms/inputs";
-import { doLogin } from "../lib/domain/shared/session/session.actions";
+import { Grid, GridColumn, GridRow } from "../components/layout";
+
 import { AppNextPage } from "../store";
+import { ControlledTextField } from "../lib/domain/shared/forms/inputs";
+import { LinkString } from "../components/ui/strLink";
+import { ProgressButton } from "../components/ui/progressButton";
+import __ from "../i18n/i18n";
+import { baseUri } from "../configuration";
+import { doLogin } from "../lib/domain/shared/session/session.actions";
 
 const _formValid = (formState: IFormState): boolean => {
     return (
@@ -61,7 +63,7 @@ const Page: AppNextPage = () => (
                                     type="submit"
                                     disabled={!_formValid(formState)}
                                     isActive={isPending}
-                                    bsStyle="primary"
+                                    variant="primary"
                                 >
                                     {__("Login")}
                                 </ProgressButton>

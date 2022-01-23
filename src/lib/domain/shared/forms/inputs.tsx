@@ -1,17 +1,15 @@
 import * as React from "react";
-import {
-    Checkbox,
-    CheckboxProps,
-    ControlLabel,
-    FormControl,
-    FormControlProps,
-    FormGroup,
-    OverlayTrigger,
-    Tooltip,
-} from "react-bootstrap";
+
+import FormCheck, { FormCheckProps } from "react-bootstrap/FormCheck";
+import { FormContext, IFormContext, IFormState } from "./form";
+import FormControl, { FormControlProps } from "react-bootstrap/FormControl";
+import FormSelect, { FormSelectProps } from "react-bootstrap/FormSelect";
+
+import FormGroup from "react-bootstrap/FormGroup";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 import { UserPicker } from "../../../../components/misc/userPicker";
 import { UserReference } from "../../../../external/imperaClients";
-import { FormContext, IFormContext, IFormState } from "./form";
 
 function getId(fieldName: string): string {
     return `f-${fieldName}`;
@@ -23,10 +21,13 @@ interface IControlledFieldProps {
     validate?: (value: string, formState: IFormState) => string;
 
     helpText?: JSX.Element;
+
+    required?: boolean;
 }
 
 export class ControlledTextField extends React.Component<
-    FormControlProps & IControlledFieldProps & { initialValue?: string }
+    FormControlProps &
+        IControlledFieldProps & { label: string; initialValue?: string }
 > {
     static contextType = FormContext;
 
@@ -61,12 +62,12 @@ export class ControlledTextField extends React.Component<
         } = this.props;
 
         return (
-            <FormGroup controlId={this._id}>
+            <FormGroup controlId={this._id} className="form-group">
                 {label && (
-                    <ControlLabel htmlFor={this._id}>
+                    <label htmlFor={this._id}>
                         {label}
                         {!!helpText && <div>test</div>}
-                    </ControlLabel>
+                    </label>
                 )}
                 <FormControl
                     disabled={this.context.isPending()}
@@ -103,7 +104,8 @@ export class ControlledTextField extends React.Component<
 }
 
 export class ControlledUserPicker extends React.Component<
-    FormControlProps & IControlledFieldProps & { initialValue?: UserReference }
+    FormControlProps &
+        IControlledFieldProps & { label: string; initialValue?: UserReference }
 > {
     static contextType = FormContext;
 
@@ -132,7 +134,7 @@ export class ControlledUserPicker extends React.Component<
 
         return (
             <FormGroup controlId={this._id}>
-                {label && <ControlLabel>{label}</ControlLabel>}
+                {label && <label>{label}</label>}
                 <UserPicker
                     name={fieldName}
                     onChange={(value) => {
@@ -159,7 +161,7 @@ export class ControlledUserPicker extends React.Component<
 }
 
 export const ControlledCheckBox: React.FC<
-    CheckboxProps & IControlledFieldProps
+    FormCheckProps & IControlledFieldProps
 > = (props) => {
     const context = React.useContext(FormContext);
 
@@ -173,9 +175,9 @@ export const ControlledCheckBox: React.FC<
         false;
 
     return (
-        <Checkbox
+        <FormCheck
             {...remainingProps}
-            onChange={(ev: React.FormEvent<Checkbox>) => {
+            onChange={(ev: React.FormEvent<HTMLInputElement>) => {
                 const inputElement = ev.target as HTMLInputElement;
                 const updatedValue = inputElement.checked;
                 if (updatedValue !== currentValue()) {
@@ -185,12 +187,12 @@ export const ControlledCheckBox: React.FC<
             checked={currentValue()}
         >
             {label}
-        </Checkbox>
+        </FormCheck>
     );
 };
 
 export class ControlledDropdown extends React.Component<
-    FormControlProps & IControlledFieldProps
+    FormSelectProps & IControlledFieldProps & { label: string }
 > {
     private _id: string;
 
@@ -222,7 +224,7 @@ export class ControlledDropdown extends React.Component<
                 {label && (
                     <div className="flex">
                         <div className="flex-1">
-                            <ControlLabel>{label}</ControlLabel>
+                            <label>{label}</label>
                         </div>
                         {!!helpText && (
                             <div className="align-center">
@@ -236,8 +238,7 @@ export class ControlledDropdown extends React.Component<
                         )}
                     </div>
                 )}
-                <FormControl
-                    componentClass="select"
+                <FormSelect
                     {...remainingProps}
                     onChange={(ev) => {
                         const inputElement = ev.target as HTMLSelectElement;
@@ -248,7 +249,7 @@ export class ControlledDropdown extends React.Component<
                     value={this._currentValue()}
                 >
                     {children}
-                </FormControl>
+                </FormSelect>
             </FormGroup>
         );
     }

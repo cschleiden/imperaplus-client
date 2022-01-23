@@ -1,5 +1,7 @@
 import * as React from "react";
-import { Button, ButtonProps } from "react-bootstrap";
+
+import Button, { ButtonProps } from "react-bootstrap/Button";
+
 import { css } from "../../lib/utils/css";
 import style from "./progressButton.module.scss";
 

@@ -1,15 +1,13 @@
 import * as React from "react";
 
-import {
-    Alert,
-    Button,
-    DropdownButton,
-    Glyphicon,
-    MenuItem,
-} from "react-bootstrap";
 import { AppDispatch, useAppSelector } from "../../store";
 import { Grid, GridColumn, GridContainer, GridRow } from "../layout";
 
+import Alert from "react-bootstrap/Alert";
+import { BsMenuApp } from "react-icons/bs";
+import Button from "react-bootstrap/Button";
+import DropdownButton from "react-bootstrap/DropdownButton";
+import DropdownItem from "react-bootstrap/DropdownItem";
 import Head from "next/head";
 import Link from "next/link";
 import { LinkString } from "../ui/strLink";
@@ -35,20 +33,20 @@ class LanguageSelector extends React.Component<ILanguageSelectorProps> {
                     <DropdownButton
                         id="language"
                         title={__("LANGUAGE")}
-                        bsStyle="link"
+                        variant="link"
                     >
-                        <MenuItem
+                        <DropdownItem
                             onClick={() => this.props.onLanguageSelect("en")}
                             active={this.props.selectedLanguage === "en"}
                         >
                             {__("English")}
-                        </MenuItem>
-                        <MenuItem
+                        </DropdownItem>
+                        <DropdownItem
                             onClick={() => this.props.onLanguageSelect("de")}
                             active={this.props.selectedLanguage === "de"}
                         >
                             {__("German")}
-                        </MenuItem>
+                        </DropdownItem>
                     </DropdownButton>
                 </div>
             </div>
@@ -119,8 +117,9 @@ const Layout: React.FC<ILayoutProps> = (props) => {
     if (!!message) {
         msg = (
             <Alert
-                bsStyle={getStyleForMessage(message.type)}
-                onDismiss={() => dispatch(clearMessage())}
+                variant={getStyleForMessage(message.type)}
+                onClose={() => dispatch(clearMessage())}
+                dismissible
             >
                 <LinkString link={message.message} />
             </Alert>
@@ -156,7 +155,7 @@ const Layout: React.FC<ILayoutProps> = (props) => {
                                                 dispatch(openClose(false))
                                             }
                                         >
-                                            <Glyphicon glyph="menu-hamburger" />
+                                            <BsMenuApp />
                                         </Button>
                                     </GridRow>
 
@@ -175,7 +174,7 @@ const Layout: React.FC<ILayoutProps> = (props) => {
                         )}
 
                         <Button onClick={() => dispatch(openClose(true))}>
-                            <Glyphicon glyph="menu-hamburger" />
+                            <BsMenuApp />
                         </Button>
                     </GridColumn>
 

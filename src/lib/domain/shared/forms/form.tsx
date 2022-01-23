@@ -1,15 +1,17 @@
 import * as React from "react";
-import { FormGroup } from "react-bootstrap";
-import { connect } from "react-redux";
-import { IState } from "../../../../reducers";
+
 import { AppDispatch, ThunkExtra } from "../../../../store";
 import {
+    IForm,
     changeField,
     doSubmit,
-    IForm,
     initialValue,
     resetForm,
 } from "./forms.slice";
+
+import FormGroup from "react-bootstrap/FormGroup";
+import { IState } from "../../../../reducers";
+import { connect } from "react-redux";
 
 export interface IFormContext {
     formState: IForm;
@@ -74,7 +76,7 @@ class Form extends React.Component<IFormProps & IInternalFormProps> {
         return (
             <FormContext.Provider value={this.contextValue()}>
                 <form onSubmit={this._onSubmit} action="#">
-                    <FormGroup disabled={this.props.isPending}>
+                    <FormGroup>
                         {this.props.component({
                             isPending: this.props.isPending,
                             formState: formState,

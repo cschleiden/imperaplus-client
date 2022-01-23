@@ -1,9 +1,11 @@
 import * as React from "react";
-import { Title } from "react-bootstrap/lib/Modal";
+
 import { GridColumn, GridRow } from "../components/layout";
-import { Slider } from "../components/ui/slider/slider";
-import __ from "../i18n/i18n";
+
 import { AppNextPage } from "../store";
+import { Slider } from "../components/ui/slider/slider";
+import { Title } from "../components/ui/typography";
+import __ from "../i18n/i18n";
 
 const Home: AppNextPage = () => {
     const isIE11 =

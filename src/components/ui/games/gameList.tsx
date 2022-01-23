@@ -1,17 +1,21 @@
-import Link from "next/link";
 import * as React from "react";
-import { Button, Glyphicon, Table } from "react-bootstrap";
+
 import {
     GameState,
     GameSummary,
     PlayerSummary,
 } from "../../../external/imperaClients";
-import __ from "../../../i18n/i18n";
-import { css } from "../../../lib/utils/css";
-import { Timer } from "../timer";
+
+import { BsInfoCircleFill } from "react-icons/bs";
+import Button from "react-bootstrap/Button";
 import GameDetails from "./gameDetail";
 import { GameStateDisplay } from "./gameState";
+import Link from "next/link";
 import { PlayerOutcomeDisplay } from "./playerOutcome";
+import Table from "react-bootstrap/Table";
+import { Timer } from "../timer";
+import __ from "../../../i18n/i18n";
+import { css } from "../../../lib/utils/css";
 import style from "./gameList.module.scss";
 
 interface IGameListProps {
@@ -158,12 +162,12 @@ export class GameList extends React.Component<IGameListProps, IGameListState> {
                 ))}
                 <td>
                     <Button
-                        bsSize="xsmall"
-                        bsStyle="info"
+                        size="sm"
+                        variant="info"
                         title={__("Show details")}
                         onClick={() => this._toggle(game.id)}
                     >
-                        <Glyphicon glyph="info-sign" />
+                        <BsInfoCircleFill />
                     </Button>
                 </td>
             </tr>,

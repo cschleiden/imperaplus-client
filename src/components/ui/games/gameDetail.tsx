@@ -1,15 +1,15 @@
 import * as React from "react";
-import { Button, Glyphicon } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import { GridColumn, GridRow } from "../../../components/layout";
-import { HumanDate, HumanTime } from "../../../components/ui/humanDate";
+
+import { BsEyeFill, BsFillTrashFill, BsFlagFill } from "react-icons/bs";
+import Form, { IFormState } from "../../../lib/domain/shared/forms/form";
 import {
     GameState,
     GameSummary,
     PlayerState,
     PlayerSummary,
 } from "../../../external/imperaClients";
-import __ from "../../../i18n/i18n";
+import { GridColumn, GridRow } from "../../../components/layout";
+import { HumanDate, HumanTime } from "../../../components/ui/humanDate";
 import {
     hide,
     join,
@@ -17,14 +17,18 @@ import {
     remove,
     surrender,
 } from "../../../lib/domain/game/games.actions";
-import Form, { IFormState } from "../../../lib/domain/shared/forms/form";
-import { ControlledTextField } from "../../../lib/domain/shared/forms/inputs";
-import { IState } from "../../../reducers";
+import { useDispatch, useSelector } from "react-redux";
+
 import { AppDispatch } from "../../../store";
-import { UserName } from "../userReference";
-import style from "./gameDetail.module.scss";
+import Button from "react-bootstrap/esm/Button";
+import { ControlledTextField } from "../../../lib/domain/shared/forms/inputs";
+import { FaPlusCircle } from "react-icons/fa";
+import { IState } from "../../../reducers";
 import { MapPreview } from "./mapPreview";
 import { PlayerOutcomeDisplay } from "./playerOutcome";
+import { UserName } from "../userReference";
+import __ from "../../../i18n/i18n";
+import style from "./gameDetail.module.scss";
 
 export interface IGameDetailsProps {
     game: GameSummary;
@@ -102,10 +106,10 @@ const GameDetails: React.FC<IGameDetailsProps> = ({ game }) => {
                         {_canSurrender(game, player) && (
                             <Button
                                 onClick={() => dispatch(surrender(game.id))}
-                                bsStyle="warning"
-                                bsSize="small"
+                                variant="warning"
+                                size="sm"
                             >
-                                <Glyphicon glyph="flag" />
+                                <BsFlagFill />
                                 &nbsp;{__("Surrender")}
                             </Button>
                         )}
@@ -113,10 +117,10 @@ const GameDetails: React.FC<IGameDetailsProps> = ({ game }) => {
                         {_canLeave(game, player) && (
                             <Button
                                 onClick={() => dispatch(leave(game.id))}
-                                bsStyle="warning"
-                                bsSize="small"
+                                variant="warning"
+                                size="sm"
                             >
-                                <Glyphicon glyph="flag" />
+                                <BsFlagFill />
                                 &nbsp;{__("Leave game")}
                             </Button>
                         )}
@@ -124,10 +128,10 @@ const GameDetails: React.FC<IGameDetailsProps> = ({ game }) => {
                         {_canDelete(game, player) && (
                             <Button
                                 onClick={() => dispatch(remove(game.id))}
-                                bsStyle="danger"
-                                bsSize="small"
+                                variant="danger"
+                                size="sm"
                             >
-                                <Glyphicon glyph="remove" />
+                                <BsFillTrashFill />
                                 &nbsp;{__("Delete game")}
                             </Button>
                         )}
@@ -135,10 +139,10 @@ const GameDetails: React.FC<IGameDetailsProps> = ({ game }) => {
                         {_canHide(game, player) && (
                             <Button
                                 onClick={() => dispatch(hide(game.id))}
-                                bsStyle="info"
-                                bsSize="small"
+                                variant="info"
+                                size="sm"
                             >
-                                <Glyphicon glyph="eye-close" />
+                                <BsEyeFill />
                                 &nbsp;{__("Hide finished game")}
                             </Button>
                         )}
@@ -182,10 +186,10 @@ const GameDetails: React.FC<IGameDetailsProps> = ({ game }) => {
                                                 isPending
                                             }
                                             onClick={submit}
-                                            bsStyle="primary"
-                                            bsSize="small"
+                                            variant="primary"
+                                            size="sm"
                                         >
-                                            <Glyphicon glyph="plus-sign" />
+                                            <FaPlusCircle />
                                             &nbsp;{__("Join game")}
                                         </Button>
                                     </div>
@@ -197,7 +201,7 @@ const GameDetails: React.FC<IGameDetailsProps> = ({ game }) => {
             </GridColumn>
 
             <GridColumn className="col-md-6">
-                <MapPreview mapTemplateName={game.mapTemplate} responsive />
+                <MapPreview mapTemplateName={game.mapTemplate} fluid />
             </GridColumn>
         </GridRow>
     );

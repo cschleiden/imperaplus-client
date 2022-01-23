@@ -1,17 +1,20 @@
 import * as React from "react";
-import { Button, FormControl } from "react-bootstrap";
-import { connect } from "react-redux";
-import { ChannelInformation } from "../../external/chatModel";
-import __ from "../../i18n/i18n";
+
 import {
     close,
     message,
     showHide,
     switchChannel,
 } from "../../lib/domain/shared/chat/chat.slice";
-import { IState } from "../../reducers";
+
 import { AppDispatch } from "../../store";
+import Button from "react-bootstrap/Button";
+import { ChannelInformation } from "../../external/chatModel";
+import FormControl from "react-bootstrap/FormControl";
 import { HumanDate } from "../ui/humanDate";
+import { IState } from "../../reducers";
+import __ from "../../i18n/i18n";
+import { connect } from "react-redux";
 import style from "./chat.module.scss";
 
 interface IChatProps {

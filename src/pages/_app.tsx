@@ -115,7 +115,13 @@ App.getInitialProps = async (
     // Setup handler for 401 responses
     setOnUnauthorized(async () => {
         // Temporarily disable re-login
-        Router.push("/login");
+        if (isSSR) {
+            // This will only work if we hit it during the initial rendering. Need to rework the session management
+            redirectToLogin(appContext);
+        } else {
+            Router.push("/login");
+        }
+
         return Promise.reject("do not retry");
 
         // if (store) {
