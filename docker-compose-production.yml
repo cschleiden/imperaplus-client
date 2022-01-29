@@ -1,0 +1,7 @@
+version: "3"
+services:
+  frontend-production:
+    container_name: impera-frontend-production
+    image: impera-production-frontend
+    ports:
+      - "3000:3000"
