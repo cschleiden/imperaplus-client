@@ -20,7 +20,9 @@ jobs:
     environment:
       name: ${{ github.event.inputs.environment || 'dev' }}
 
-    concurrency: ${{ github.event.inputs.environment || 'dev' }}
+    concurrency:
+      group: ${{ github.event.inputs.environment || 'dev' }}
+      cancel-in-progress: true
 
     steps:
       - uses: actions/checkout@v2
