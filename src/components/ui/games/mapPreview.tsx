@@ -46,10 +46,14 @@ export const MapPreview: React.FC<IMapPreviewProps> = (props) => {
                 href="/game/mappreview/[map]"
                 as={`/game/mappreview/${mapTemplate.name}`}
             >
-                <Image
-                    src={mapTemplate && `${imageBaseUri}${mapTemplate.image}`}
-                    {...nativeProps}
-                />
+                <a>
+                    <Image
+                        src={
+                            mapTemplate && `${imageBaseUri}${mapTemplate.image}`
+                        }
+                        {...nativeProps}
+                    />
+                </a>
             </Link>
         );
     }
