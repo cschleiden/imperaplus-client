@@ -1,0 +1,47 @@
+name: Build & Deploy
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+    inputs:
+      environment:
+        required: true
+        default: 'dev'
+        options:
+          - dev
+          - production
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    environment:
+      name: ${{ github.event.inputs.environment || 'dev' }}
+
+    concurrency: ${{ github.event.inputs.environment || 'dev' }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: docker/setup-buildx-action@v1
+        name: Set up Docker Buildx
+        id: buildx
+      - run: docker build -t impera-${{ github.event.inputs.environment || 'dev' }}-frontend:latest -t impera-${{ github.event.inputs.environment || 'dev' }}-frontend:${{ github.sha }} .
+      - run: docker save impera-${{ github.event.inputs.environment || 'dev' }}-frontend:latest -o impera-${{ github.event.inputs.environment || 'dev' }}-frontend.tar
+      - name: Copy container to server
+        uses: garygrossgarten/github-action-scp@dba89d858413133b6e35da91a3c989cc8cde3ad4
+        with:
+          local: impera-${{ github.event.inputs.environment || 'dev' }}-frontend.tar
+          remote: /images/impera-${{ github.event.inputs.environment || 'dev' }}-frontend.tar
+          host: 217.160.244.154
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASS }}
+      - name: Import image
+        uses: garygrossgarten/github-action-ssh@2b10f41b5a33808f6d24eafd253296766308b7c4
+        with:
+          command: docker load -i /images/impera-${{ github.event.inputs.environment || 'dev' }}-frontend.tar
+          host: 217.160.244.154
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASS }}
+
