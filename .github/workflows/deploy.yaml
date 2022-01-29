@@ -45,7 +45,7 @@ jobs:
         with:
           command: |
             docker load -i /images/impera-${{ github.event.inputs.environment || 'dev' }}-frontend.tar
-            docker-compose -p ${{ github.event.inputs.environment || 'dev' }} -f /images/docker-compose-${{ github.event.inputs.environment || 'dev' }}.yml up -d --remove-orphans
+            docker-compose -p impera-frontend-${{ github.event.inputs.environment || 'dev' }} -f /images/docker-compose-impera-frontend-${{ github.event.inputs.environment || 'dev' }}.yml up -d --remove-orphans
           host: 217.160.244.154
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASS }}
