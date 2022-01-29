@@ -9,6 +9,7 @@ on:
       environment:
         required: true
         default: 'dev'
+        type: 'choice'
         options:
           - dev
           - production
