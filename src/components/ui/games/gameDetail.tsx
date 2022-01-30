@@ -167,7 +167,9 @@ const GameDetails: React.FC<IGameDetailsProps> = ({ game }) => {
                                     <div>
                                         {game.hasPassword && (
                                             <ControlledTextField
-                                                placeholder={__("Password")}
+                                                placeholder={__(
+                                                    "Password for this game"
+                                                )}
                                                 fieldName="password"
                                                 required={false}
                                                 autoComplete="off"
