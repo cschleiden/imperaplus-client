@@ -14,6 +14,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    name: Build & Deploy to dev
+
     environment:
       name: dev
       url: https://dev.imperaonline.de
@@ -53,7 +55,7 @@ jobs:
       url: https://www.imperaonline.de
 
     steps:
-      - name: Import image & use for dev
+      - name: Import image & use for prod
         uses: garygrossgarten/github-action-ssh@2b10f41b5a33808f6d24eafd253296766308b7c4
         with:
           command: |
