@@ -1,0 +1,13 @@
+version: "3.2"
+services:
+  frontend-dev:
+    container_name: impera-frontend-dev
+    image: impera-frontend:latest
+    ports:
+      - "3001:3000"
+
+  frontend-production:
+    container_name: impera-frontend-production
+    image: impera-frontend:production
+    ports:
+      - "3000:3000"

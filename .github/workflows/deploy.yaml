@@ -5,48 +5,60 @@ on:
     branches:
       - master
   workflow_dispatch:
-    inputs:
-      environment:
-        required: true
-        default: 'dev'
-        type: 'choice'
-        options:
-          - dev
-          - production
+
+concurrency:
+  group: deployment
+  cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     environment:
-      name: ${{ github.event.inputs.environment || 'dev' }}
-
-    concurrency:
-      group: ${{ github.event.inputs.environment || 'dev' }}
-      cancel-in-progress: true
+      name: dev
+      url: https://dev.imperaonline.de
 
     steps:
       - uses: actions/checkout@v2
       - uses: docker/setup-buildx-action@v1
         name: Set up Docker Buildx
         id: buildx
-      - run: docker build -t impera-${{ github.event.inputs.environment || 'dev' }}-frontend:latest -t impera-${{ github.event.inputs.environment || 'dev' }}-frontend:${{ github.sha }} .
-      - run: docker save impera-${{ github.event.inputs.environment || 'dev' }}-frontend:latest -o impera-${{ github.event.inputs.environment || 'dev' }}-frontend.tar
+      - run: docker build -t impera-frontend:latest -t impera-frontend:${{ github.sha }} .
+      - run: docker save impera-frontend:latest -o impera-frontend.tar
       - name: Copy container to server
         uses: garygrossgarten/github-action-scp@dba89d858413133b6e35da91a3c989cc8cde3ad4
         with:
-          local: impera-${{ github.event.inputs.environment || 'dev' }}-frontend.tar
-          remote: /images/impera-${{ github.event.inputs.environment || 'dev' }}-frontend.tar
+          local: impera-frontend.tar
+          remote: /images/impera-frontend.tar
           host: 217.160.244.154
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASS }}
-      - name: Import image
+      - name: Import image & use for dev
         uses: garygrossgarten/github-action-ssh@2b10f41b5a33808f6d24eafd253296766308b7c4
         with:
           command: |
-            docker load -i /images/impera-${{ github.event.inputs.environment || 'dev' }}-frontend.tar
-            docker-compose -p impera-frontend-${{ github.event.inputs.environment || 'dev' }} -f /images/docker-compose-impera-frontend-${{ github.event.inputs.environment || 'dev' }}.yml up -d --remove-orphans
+            docker load -i /images/impera-frontend.tar
+            docker-compose -p impera-frontend -f /images/docker-compose-impera-frontend.yml up -d --remove-orphans
           host: 217.160.244.154
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASS }}
+
+    prod:
+      runs-on: ubuntu-latest
+
+      environment:
+        name: production
+        url: https://www.imperaonline.de
+
+      steps:
+        - name: Import image & use for dev
+          uses: garygrossgarten/github-action-ssh@2b10f41b5a33808f6d24eafd253296766308b7c4
+          with:
+            command: |
+              docker tag impera-frontend:latest impera-frontend:production
+              docker-compose -p impera-frontend -f /images/docker-compose-impera-frontend.yml up -d --remove-orphans
+            host: 217.160.244.154
+            username: ${{ secrets.SSH_USER }}
+            password: ${{ secrets.SSH_PASS }}
+
 
