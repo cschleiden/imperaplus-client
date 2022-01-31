@@ -1,8 +1,10 @@
 import * as React from "react";
+
 import {
-    country,
     MapTemplateCacheEntry,
+    country,
 } from "../../lib/domain/game/play/mapTemplateCache";
+
 import { css } from "../../lib/utils/css";
 import style from "./mapSvgOverlay.module.scss";
 
@@ -132,6 +134,30 @@ export const MapSvgOverlay: React.FC<{
                         markerWidth="4"
                         markerHeight="4"
                         orient="auto"
+                    >
+                        <path d="M 0 0 L 10 5 L 0 10 z" />
+                    </marker>
+                    <marker
+                        id="arrowhead-move"
+                        viewBox="0 0 10 10"
+                        refX="5"
+                        refY="5"
+                        markerWidth="4"
+                        markerHeight="4"
+                        orient="auto"
+                        fill="blue"
+                    >
+                        <path d="M 0 0 L 10 5 L 0 10 z" />
+                    </marker>
+                    <marker
+                        id="arrowhead-attack"
+                        viewBox="0 0 10 10"
+                        refX="5"
+                        refY="5"
+                        markerWidth="4"
+                        markerHeight="4"
+                        orient="auto"
+                        fill="red"
                     >
                         <path d="M 0 0 L 10 5 L 0 10 z" />
                     </marker>
