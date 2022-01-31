@@ -77,32 +77,19 @@ $country-height: 24px;
 }
 
 .connection {
+    path {
+        stroke-width: 4px;
+        stroke-opacity: 0.8;
+    }
+
     &Attack {
         stroke: red;
+        marker-end: url(#arrowhead-attack);
     }
 
     &Move {
         stroke: blue;
-    }
-
-    &Hover path {
-        stroke: white !important;
-    }
-}
-
-.connection {
-    path {
-        stroke-width: 4px;
-        stroke-opacity: 0.8;
-        marker-end: url(#arrowhead);
-    }
-    &Attack path {
-        stroke: red;
-        marker-end: url(#arrowhead-attack);
-    }
-    &Move path {
-        stroke: blue;
-        marker-end: url(#arrowhead-blue);
+        marker-end: url(#arrowhead-move);
     }
 }
 
