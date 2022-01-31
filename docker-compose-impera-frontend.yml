@@ -5,9 +5,13 @@ services:
     image: impera-frontend:latest
     ports:
       - "3001:3000"
+    environment:
+      - BASE_URI=https://dev.imperaonline.de
 
   frontend-production:
     container_name: impera-frontend-production
     image: impera-frontend:production
     ports:
       - "3000:3000"
+    environment:
+      - BASE_URI=https://www.imperaonline.de

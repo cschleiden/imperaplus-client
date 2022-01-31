@@ -1,4 +1,5 @@
-export const baseUri = process.env.NEXT_PUBLIC_BASE_URI;
-export const imageBaseUri = process.env.NEXT_PUBLIC_IMAGE_BASE_URI;
-export const useSecureCookies: boolean =
-    process.env.NEXT_PUBLIC_USE_SECURE_COOKIES === "true";
+import getConfig from "next/config";
+const { publicRuntimeConfig } = getConfig();
+export const baseUri = publicRuntimeConfig.baseUri;
+export const imageBaseUri = "https://static.imperaonline.de/maps/";
+export const useSecureCookies: boolean = publicRuntimeConfig.useSecureCookies;

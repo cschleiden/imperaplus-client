@@ -37,9 +37,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 RUN npm install request
 
 USER nextjs
-
 EXPOSE 3000
-
 ENV PORT 3000
 
 # Next.js collects completely anonymous telemetry data about general usage.
