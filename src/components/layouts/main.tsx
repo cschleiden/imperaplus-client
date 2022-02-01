@@ -250,8 +250,12 @@ const Layout: React.FC<ILayoutProps> = (props) => {
                         <a>{__("Imprint")}</a>
                     </Link>{" "}
                     |{" "}
-                    <a href="http://forum.imperaonline.de/">
+                    <a href="https://forum.imperaonline.de/">
                         {__("Forum (external)")}
+                    </a>{" "}
+                    |{" "}
+                    <a href="https://discord.gg/FWarVXE">
+                        {__("Discord (external)")}
                     </a>{" "}
                     | <a href="https://www.imperaonline.de/api/swagger/">API</a>
                 </GridRow>
