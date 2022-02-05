@@ -1,4 +1,5 @@
 import Head from "next/head";
+import React from "react";
 import { baseUri } from "../../configuration";
 import { useAppSelector } from "../../store";
 
@@ -7,23 +8,48 @@ export default () => {
         s.session?.userInfo?.roles?.some((r) => r.toLowerCase() == "admin")
     );
 
-    if (isAdmin) {
+    const [attributes, setAttributes] = React.useState<
+        { [name: string]: string } | undefined
+    >(undefined);
+
+    React.useEffect(() => {
+        if (!isAdmin) {
+            return;
+        }
+
+        const x = async () => {
+            const resp = await fetch(`${baseUri}/api/mini-profiler-includes`);
+            const content = await resp.text();
+
+            var parser = new DOMParser();
+            var doc = parser.parseFromString(content, "text/html");
+            var scriptParsed = doc.querySelector("script");
+            if (!scriptParsed) {
+                return;
+            }
+
+            const a: { [name: string]: string } = {};
+            for (var i = 0; i < scriptParsed.attributes.length; i++) {
+                var attribute = scriptParsed.attributes[i];
+
+                if (attribute.name == "src" || attribute.name == "data-path") {
+                    a[attribute.name] = `${baseUri}${attribute.value}`;
+                } else {
+                    a[attribute.name] = attribute.value;
+                }
+            }
+            setAttributes(a);
+
+            console.log(a);
+        };
+
+        x();
+    }, [isAdmin]);
+
+    if (isAdmin && !!attributes) {
         return (
             <Head>
-                <script
-                    id="mini-profiler"
-                    src={`${baseUri}/api/admin/profiler/includes.min.js?version=`}
-                    {...{
-                        "data-path": baseUri + "/api/admin/profiler/",
-                        "data-position": "right",
-                        "data-authorized": "true",
-                        "data-controls": "true",
-                        "data-ids": "00000000-0000-0000-0000-000000000000",
-                        "data-max-traces": 10,
-                        "data-start-hidden": false,
-                        "data-toggle-shortcut": "Alt+P",
-                    }}
-                />
+                <script {...attributes} />
             </Head>
         );
     }
