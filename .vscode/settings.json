@@ -1,6 +1,6 @@
 // Place your settings in this file to overwrite default and user settings.
 {
-  "github-actions.workflows.pinned.workflows": [".github/workflows/build.yaml"],
+  "github-actions.workflows.pinned.workflows": [".github/workflows/deploy.yaml"],
   "github-actions.workflows.pinned.refresh.enabled": true,
   "github-actions.workflows.pinned.refresh.interval": 60,
   "typescript.tsdk": "node_modules/typescript/lib",
