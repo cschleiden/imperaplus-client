@@ -2,6 +2,7 @@ version: "3.2"
 services:
   frontend-dev:
     container_name: impera-frontend-dev
+    restart: always
     image: impera-frontend:latest
     ports:
       - "3001:3000"
@@ -10,6 +11,7 @@ services:
 
   frontend-production:
     container_name: impera-frontend-production
+    restart: always
     image: impera-frontend:production
     ports:
       - "3000:3000"
