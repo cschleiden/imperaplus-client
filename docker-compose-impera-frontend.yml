@@ -15,5 +15,3 @@ services:
     image: impera-frontend:production
     ports:
       - "3000:3000"
-    environment:
-      # - BASE_URI=https://www.imperaonline.de # this is the default
