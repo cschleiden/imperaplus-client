@@ -446,7 +446,7 @@ const CreateGameComponent: AppNextPage<{ maps: MapTemplateDescriptor[] }> = (
                                                         </dt>
                                                         <dd>
                                                             {__(
-                                                                "last player/team winds"
+                                                                "last player/team wins"
                                                             )}
                                                         </dd>
                                                         <dt>
