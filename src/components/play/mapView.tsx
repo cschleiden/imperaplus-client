@@ -1,14 +1,16 @@
 import * as React from "react";
-import { imageBaseUri } from "../../configuration";
+
 import {
+    MapTemplateCacheEntry,
     areConnected,
     connections,
     continent,
-    MapTemplateCacheEntry,
 } from "../../lib/domain/game/play/mapTemplateCache";
-import { css } from "../../lib/utils/css";
-import style from "./map.module.scss";
+
 import { MapSvgOverlay } from "./mapSvgOverlay";
+import { css } from "../../lib/utils/css";
+import { imageBaseUri } from "../../configuration";
+import style from "./map.module.scss";
 
 export interface IMapViewProps {
     mapTemplate: MapTemplateCacheEntry;
@@ -92,13 +94,11 @@ export class MapView extends React.Component<IMapViewProps, IMapViewState> {
                 <div
                     id={countryTemplate.identifier}
                     key={countryTemplate.identifier}
-                    className={css(
-                        style.country,
-                        `continent-${countryContinent.id}`,
-                        {
-                            [style.countryHighlight]: isHighlighted,
-                        }
-                    )}
+                    className={css(style.country, {
+                        [`continent-${countryContinent?.id}`]:
+                            !!countryContinent,
+                        [style.countryHighlight]: isHighlighted,
+                    })}
                     style={{
                         left: countryTemplate.x,
                         top: countryTemplate.y,
