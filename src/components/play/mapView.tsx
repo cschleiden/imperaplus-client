@@ -105,7 +105,7 @@ export class MapView extends React.Component<IMapViewProps, IMapViewState> {
                     }}
                     title={`${countryTemplate.identifier} - ${countryTemplate.name}`}
                 >
-                    {countryContinent.bonus}
+                    {countryContinent?.bonus || "-"}
                 </div>
             );
         });
