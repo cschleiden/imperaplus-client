@@ -1,5 +1,5 @@
 import * as React from "react";
-import { AsyncTypeahead, TypeaheadResult } from "react-bootstrap-typeahead";
+import { AsyncTypeahead } from "react-bootstrap-typeahead";
 import { ReactReduxContext } from "react-redux";
 import { createClient } from "../../clients/clientFactory";
 import { UserReference } from "../../external/imperaClients";
@@ -64,11 +64,7 @@ export class UserPicker extends React.Component<
         onChange(changedOptions[0]);
     };
 
-    private _renderUsers = (
-        option: TypeaheadResult<UserReference>,
-        props,
-        index
-    ) => {
+    private _renderUsers = (option: any, props, index) => {
         return <div key={option.id}>{option.name}</div>;
     };
 
