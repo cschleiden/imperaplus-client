@@ -1,9 +1,4 @@
-import {
-    Action,
-    configureStore,
-    DeepPartial,
-    ThunkAction,
-} from "@reduxjs/toolkit";
+import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
 import { NextComponentType, NextPageContext } from "next";
 import rootReducer, { IState } from "./reducers";
 
@@ -18,9 +13,7 @@ const extraArgument = {
 };
 
 let store: AppStore | undefined;
-export const getOrCreateStore = (
-    getInitialState?: () => DeepPartial<IState>
-) => {
+export const getOrCreateStore = (getInitialState?: () => IState) => {
     // Always create new store for server-rendered page
     if (typeof window == "undefined") {
         return createStore(getInitialState());
@@ -37,21 +30,17 @@ export interface InitialState {
     language: string;
 }
 
-function createStore(initialState?: DeepPartial<IState>) {
+function createStore(initialState: IState) {
     return configureStore({
         reducer: rootReducer,
         devTools: true,
-        //preloadedState: initialState,
+        preloadedState: initialState,
         middleware: (getDefaultMiddleware) => {
-            const middleware = [
-                ...getDefaultMiddleware({
-                    thunk: {
-                        extraArgument,
-                    },
-                }),
-            ];
-
-            middleware.push(
+            return getDefaultMiddleware({
+                thunk: {
+                    extraArgument,
+                },
+            }).concat(
                 loadingBarMiddleware({
                     promiseTypeSuffixes: [
                         "/pending",
@@ -60,8 +49,6 @@ function createStore(initialState?: DeepPartial<IState>) {
                     ],
                 })
             );
-
-            return middleware;
         },
     });
 }
