@@ -2,7 +2,7 @@
 FROM node:18-buster-slim AS deps
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm install
+RUN npm ci
 
 # Rebuild the source code only when needed
 FROM node:18-buster-slim AS builder
