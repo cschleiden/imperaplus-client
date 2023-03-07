@@ -34,7 +34,7 @@ function createStore(initialState: IState) {
     return configureStore({
         reducer: rootReducer,
         devTools: true,
-        preloadedState: initialState,
+        preloadedState: initialState as any, // Work around issue with latest types
         middleware: (getDefaultMiddleware) => {
             return getDefaultMiddleware({
                 thunk: {
