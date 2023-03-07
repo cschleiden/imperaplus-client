@@ -40,7 +40,7 @@
         "@types/react-redux": "^7.1.22",
         "bootstrap-sass": "^3.4.1",
         "cross-env": "^3.2.4",
-        "css-loader": "^0.25.0",
+        "css-loader": "^6.7.3",
         "d3": "^4.13.0",
         "es5-shim": "^4.6.4",
         "es6-promise": "^4.2.8",
