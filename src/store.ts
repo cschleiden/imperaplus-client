@@ -1,17 +1,16 @@
 import {
     Action,
+    configureStore,
     DeepPartial,
     ThunkAction,
-    configureStore,
-    getDefaultMiddleware,
 } from "@reduxjs/toolkit";
 import { NextComponentType, NextPageContext } from "next";
 import rootReducer, { IState } from "./reducers";
 
+import { useSelector } from "react-redux";
+import { loadingBarMiddleware } from "react-redux-loading-bar";
 import { createClient } from "./clients/clientFactory";
 import { getSignalRClient } from "./clients/signalrFactory";
-import { loadingBarMiddleware } from "react-redux-loading-bar";
-import { useSelector } from "react-redux";
 
 const extraArgument = {
     createClient: createClient,
@@ -39,25 +38,31 @@ export interface InitialState {
 }
 
 function createStore(initialState?: DeepPartial<IState>) {
-    const middleware = [
-        ...getDefaultMiddleware({
-            thunk: {
-                extraArgument,
-            },
-        }),
-    ];
-
-    middleware.push(
-        loadingBarMiddleware({
-            promiseTypeSuffixes: ["/pending", "/fulfilled", "/rejected"],
-        })
-    );
-
     return configureStore({
         reducer: rootReducer,
         devTools: true,
-        preloadedState: initialState,
-        middleware,
+        //preloadedState: initialState,
+        middleware: (getDefaultMiddleware) => {
+            const middleware = [
+                ...getDefaultMiddleware({
+                    thunk: {
+                        extraArgument,
+                    },
+                }),
+            ];
+
+            middleware.push(
+                loadingBarMiddleware({
+                    promiseTypeSuffixes: [
+                        "/pending",
+                        "/fulfilled",
+                        "/rejected",
+                    ],
+                })
+            );
+
+            return middleware;
+        },
     });
 }
 
