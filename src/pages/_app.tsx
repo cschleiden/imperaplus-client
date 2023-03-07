@@ -4,30 +4,30 @@ import "../styles/index.scss";
 
 import * as React from "react";
 
-import { AppNextPage, AppPageContext, getOrCreateStore } from "../store";
-import LoadingBar, { resetLoading } from "react-redux-loading-bar";
 import NextApp, { AppContext, AppInitialProps, AppProps } from "next/app";
+import LoadingBar, { resetLoading } from "react-redux-loading-bar";
 import {
     openClose,
     setTitle,
 } from "../lib/domain/shared/general/general.slice";
+import { AppNextPage, AppPageContext, getOrCreateStore } from "../store";
 
-import GameLayout from "../components/layouts/game";
-import GameNav from "../components/navigation/game";
-import { IState } from "../reducers";
-import MainLayout from "../components/layouts/main";
-import MiniProfiler from "../lib/admin/miniprofiler";
-import PlayLayout from "../components/layouts/play";
-import { Provider } from "react-redux";
-import PublicNav from "../components/navigation/public";
+import nextCookie from "next-cookies";
 import Router from "next/router";
+import { Provider } from "react-redux";
+import GameLayout from "../components/layouts/game";
+import MainLayout from "../components/layouts/main";
+import PlayLayout from "../components/layouts/play";
+import GameNav from "../components/navigation/game";
+import PublicNav from "../components/navigation/public";
+import { setLanguageProvider } from "../i18n/i18n";
+import MiniProfiler from "../lib/admin/miniprofiler";
 import { clearMessage } from "../lib/domain/shared/message/message.slice";
 import { doRestoreSession } from "../lib/domain/shared/session/session.actions";
 import { isLoggedIn } from "../lib/domain/shared/session/session.selectors";
-import nextCookie from "next-cookies";
-import { notificationService } from "../services/notificationService";
-import { setLanguageProvider } from "../i18n/i18n";
+import { IState } from "../reducers";
 import { setOnUnauthorized } from "../services/authProvider";
+import { notificationService } from "../services/notificationService";
 
 const isSSR = typeof window === "undefined";
 
@@ -110,7 +110,7 @@ App.getInitialProps = async (
             session: {
                 language: cookieState["lang"],
             },
-        };
+        } as any;
     });
 
     // Setup handler for 401 responses
