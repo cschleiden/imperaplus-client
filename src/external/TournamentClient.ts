@@ -128,14 +128,16 @@ export class TournamentClient {
      * Join tournament
      * @tournamentId Id of tournament
      */
-    postJoin(tournamentId: string): Promise<TournamentTeam | null> {
-        let url_ = this.baseUrl + "/api/tournaments/{tournamentId}";
+    postJoin(tournamentId: string, password?: string | null): Promise<TournamentTeam | null> {
+        let url_ = this.baseUrl + "/api/tournaments/{tournamentId}?";
         if (tournamentId === undefined || tournamentId === null)
             throw new Error("The parameter 'tournamentId' must be defined.");
         url_ = url_.replace(
             "{tournamentId}",
             encodeURIComponent("" + tournamentId)
         );
+        if (password !== undefined && password !== null)
+            url_ += "password=" + encodeURIComponent("" + password) + "&";
         url_ = url_.replace(/[?&]$/, "");
         let options_ = <RequestInit>{
             method: "POST",

@@ -38,23 +38,24 @@ export const fetch = createAsyncThunk<Tournament, string, AppThunkArg>(
     }
 );
 
-export const join = createAsyncThunk<void, string, AppThunkArg>(
-    "tournaments/join",
-    async (tournamentId, thunkAPI) => {
-        await thunkAPI.extra
-            .createClient(getToken(thunkAPI.getState()), TournamentClient)
-            .postJoin(tournamentId);
+export const join = createAsyncThunk<
+    void,
+    { tournamentId: string; password?: string },
+    AppThunkArg
+>("tournaments/join", async ({ tournamentId, password }, thunkAPI) => {
+    await thunkAPI.extra
+        .createClient(getToken(thunkAPI.getState()), TournamentClient)
+        .postJoin(tournamentId, password);
 
-        await thunkAPI.dispatch(fetch(tournamentId));
+    await thunkAPI.dispatch(fetch(tournamentId));
 
-        thunkAPI.dispatch(
-            showMessage({
-                message: __("You are now registered for this tournament."),
-                type: MessageType.success,
-            })
-        );
-    }
-);
+    thunkAPI.dispatch(
+        showMessage({
+            message: __("You are now registered for this tournament."),
+            type: MessageType.success,
+        })
+    );
+});
 
 export const leave = createAsyncThunk<void, string, AppThunkArg>(
     "tournaments/leave",

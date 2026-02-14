@@ -304,13 +304,51 @@ function _renderRegistration(tournament: Tournament, userId: string) {
                 {/* Single */}
                 {!isTeamTournament &&
                     !currentUserIsRegistered &&
-                    canJoinSingleTournament && (
+                    canJoinSingleTournament &&
+                    !tournament.hasPassword && (
                         <div>
                             <SimpleProgressButton
-                                onClick={() => dispatch(join(tournament.id))}
+                                onClick={() => dispatch(join({ tournamentId: tournament.id }))}
                             >
                                 {__("Join tournament")}
                             </SimpleProgressButton>
+                        </div>
+                    )}
+
+                {!isTeamTournament &&
+                    !currentUserIsRegistered &&
+                    canJoinSingleTournament &&
+                    tournament.hasPassword && (
+                        <div>
+                            <Form
+                                name="tournament-join"
+                                onSubmit={async (formState, dispatch) => {
+                                    await dispatch(
+                                        join({
+                                            tournamentId: tournament.id,
+                                            password: formState.getFieldValue("password"),
+                                        })
+                                    );
+                                }}
+                                component={({ isPending }) => (
+                                    <div className="form">
+                                        <ControlledTextField
+                                            type="password"
+                                            label={__("Password")}
+                                            placeholder={__("Enter tournament password")}
+                                            fieldName="password"
+                                            required={true}
+                                        />
+                                        <ProgressButton
+                                            type="submit"
+                                            isActive={isPending}
+                                            bsStyle="primary"
+                                        >
+                                            {__("Join tournament")}
+                                        </ProgressButton>
+                                    </div>
+                                )}
+                            />
                         </div>
                     )}
 

@@ -511,6 +511,7 @@ export interface TournamentSummary {
     startOfRegistration: string;
     startOfTournament: string;
     endOfTournament: string;
+    hasPassword?: boolean;
 }
 
 export enum TournamentState {
