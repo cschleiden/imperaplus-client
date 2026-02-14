@@ -427,3 +427,116 @@ SignalR message
 ### Testing
 
 There is currently no test infrastructure in this project.
+
+---
+
+## E2E Local Development
+
+This section covers running the complete ImperaPlus stack (frontend + backend + database) for local end-to-end development.
+
+### Prerequisites
+
+- Docker and Docker Compose
+- Git
+- Node.js 16+ (for running frontend in dev mode)
+
+### Quick Start
+
+```bash
+# Start the full stack
+docker-compose -f docker-compose.e2e.yml up --build
+
+# Access the application
+# Frontend: http://localhost:3000
+# Backend API: http://localhost:5000
+```
+
+### Setup Options
+
+#### Option A: Sibling Repository Setup (Default)
+
+This assumes both repos are checked out as siblings:
+
+```
+parent-directory/
+├── imperaplus-client/     # This repo
+└── imperaplus-backend/    # Backend repo
+```
+
+```bash
+# Clone both repos
+git clone https://github.com/cschleiden/imperaplus-client.git
+git clone https://github.com/cschleiden/imperaplus-backend.git
+
+# From the client directory
+cd imperaplus-client
+docker-compose -f docker-compose.e2e.yml up --build
+```
+
+#### Option B: Published Images
+
+Edit `docker-compose.e2e.yml` to use pre-built images instead of building from source. Comment out the sibling build section and uncomment the published image section for the backend.
+
+### Frontend Configuration
+
+The frontend connects to the backend via the `BASE_URI` environment variable. In the e2e docker-compose, this is set to `http://backend:5000` (using Docker networking).
+
+#### Running Frontend in Dev Mode (Hot Reload)
+
+For faster frontend iteration with hot reload:
+
+```bash
+# Start backend + database only (from backend repo)
+cd ../imperaplus-backend
+docker-compose -f docker-compose.e2e.yml up sql-server backend -d
+
+# Run frontend in dev mode
+cd ../imperaplus-client
+npm install
+npm run dev
+```
+
+The frontend dev server runs on port 8080 and defaults to the production API. To point to your local backend, the `baseUri` in `src/configuration.ts` needs to return the local backend URL. The simplest approach is to:
+
+1. Temporarily modify `src/configuration.ts`:
+```typescript
+export const baseUri = "http://localhost:5000";
+```
+
+2. Or set up a local environment override (not committed).
+
+### API Client Generation
+
+The REST API clients in `src/external/` are auto-generated from the backend's OpenAPI spec using NSwag. These clients have hardcoded default URLs (`localhost:57676`) but this is overridden at runtime by `baseUri` in `src/clients/clientFactory.ts`.
+
+To regenerate clients after backend API changes:
+
+1. Ensure backend is running
+2. Use NSwagStudio with settings from `imperaplus-backend/clientGenerationSettings typescript.nswag`
+3. Note: The `token` endpoint generation doesn't work correctly — undo changes to that section after regeneration
+
+### Verification
+
+After starting the stack, verify everything is working:
+
+1. **Frontend loads**: Open http://localhost:3000 (or http://localhost:8080 for dev mode)
+2. **Backend connectivity**: Check browser console for API calls to the backend
+3. **Login works**: Create an account or use test credentials
+4. **Real-time works**: SignalR connections should establish (check for `/signalr/game` and `/signalr/chat` in network tab)
+
+### Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| `CORS errors` | Ensure backend allows requests from frontend origin |
+| `API calls fail` | Verify `BASE_URI` points to running backend |
+| `SignalR disconnects` | Check backend logs for SignalR errors |
+| `SSL certificate errors` | Dev mode uses `NODE_TLS_REJECT_UNAUTHORIZED=0` |
+| `Port 8080 in use` | Change port in `npm run dev` or stop conflicting service |
+
+### Environment Variables
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `BASE_URI` | `https://www.imperaonline.de` | Backend API URL |
+| `NODE_TLS_REJECT_UNAUTHORIZED` | `0` (dev mode) | Allows self-signed certs |
