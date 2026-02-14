@@ -2,6 +2,24 @@
 
 This guide walks you through setting up a complete local development environment for end-to-end testing of ImperaPlus, including both the backend and frontend applications.
 
+## Quick Start
+
+For experienced developers who want to get started quickly:
+
+```bash
+# 1. Start backend (in imperaplus-backend directory)
+dotnet run
+
+# 2. Start frontend (in imperaplus-client directory)
+# First, edit src/configuration.ts to point to http://localhost:5000
+npm install
+npm run dev
+
+# 3. Open http://localhost:8080
+```
+
+For detailed step-by-step instructions, continue reading below.
+
 ## Overview
 
 ImperaPlus consists of two main components:
@@ -117,19 +135,27 @@ This may take a few minutes as it installs all required dependencies.
 
 The frontend needs to know where the backend API is located. The configuration is handled in `src/configuration.ts`.
 
-**For local development**, the default configuration points to production. To override this for local testing:
+**For local development**, the default configuration points to production (`https://www.imperaonline.de`). To override this for local testing, you have two options:
 
-**Option A: Modify configuration.ts temporarily**
+**Option A: Modify configuration.ts temporarily (Simplest for local dev)**
 
-Edit `src/configuration.ts` and change the default values:
+Edit `src/configuration.ts` and change the default value for `baseUri`:
 
 ```typescript
+// Change this line:
+export const baseUri = getToken("baseUri", "https://www.imperaonline.de");
+
+// To point to your local backend:
 export const baseUri = getToken("baseUri", "http://localhost:5000");
+// Or if using HTTPS:
+export const baseUri = getToken("baseUri", "https://localhost:5001");
 ```
 
-**Option B: Use environment-based configuration**
+**Important**: Don't commit this change! It's only for your local development. You can use `git stash` or `git checkout src/configuration.ts` to revert it before committing other changes.
 
-The application supports runtime configuration through the `BASE_URI` environment variable when using Docker. For local development, the configuration tokens in `src/configuration.ts` are used.
+**Option B: Use Docker with BASE_URI environment variable**
+
+When running in Docker, the `BASE_URI` environment variable is automatically substituted into the built application. See [Part 5: Docker-based Setup](#part-5-docker-based-setup-alternative) for details.
 
 ### 2.4 Handle SSL Certificate Issues
 
