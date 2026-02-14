@@ -10,6 +10,8 @@
 
 3. Open http://localhost:8080 in a browser
 
+**Note**: This will run the frontend only. By default, it connects to the production backend. For local end-to-end testing with a local backend instance, see [E2E_SETUP.md](./E2E_SETUP.md).
+
 ## Client Generation
 
 ### REST 
@@ -19,6 +21,17 @@ REST clients are generated using NSwagStudio, settings file is in the imperaplus
 ### SignalR
 
 SignalR clients (chat, game chat, notifications) are hand-rolled for now, same for the DTOs.
+
+## Local E2E Testing Setup
+
+For instructions on setting up a complete local development environment including the backend for end-to-end testing, see [E2E_SETUP.md](./E2E_SETUP.md).
+
+The guide covers:
+- Setting up the backend (imperaplus-backend)
+- Configuring the frontend to use a local backend
+- Running both services together
+- Docker-based setup options
+- Troubleshooting common issues
 
 ## Contributing
 
