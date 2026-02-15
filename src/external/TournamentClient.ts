@@ -246,7 +246,8 @@ export class TournamentClient {
     postCreateTeam(
         tournamentId: string,
         name: string | null,
-        password: string | null | undefined
+        password: string | null | undefined,
+        tournamentPassword?: string | null
     ): Promise<TournamentTeam | null> {
         let url_ = this.baseUrl + "/api/tournaments/{tournamentId}/teams?";
         if (tournamentId === undefined || tournamentId === null)
@@ -260,6 +261,8 @@ export class TournamentClient {
         else url_ += "name=" + encodeURIComponent("" + name) + "&";
         if (password !== undefined)
             url_ += "password=" + encodeURIComponent("" + password) + "&";
+        if (tournamentPassword !== undefined && tournamentPassword !== null)
+            url_ += "tournamentPassword=" + encodeURIComponent("" + tournamentPassword) + "&";
         url_ = url_.replace(/[?&]$/, "");
         let options_ = <RequestInit>{
             method: "POST",
@@ -364,7 +367,8 @@ export class TournamentClient {
     postJoinTeam(
         tournamentId: string,
         teamId: string,
-        password: string | null | undefined
+        password: string | null | undefined,
+        tournamentPassword?: string | null
     ): Promise<TournamentTeam | null> {
         let url_ =
             this.baseUrl + "/api/tournaments/{tournamentId}/teams/{teamId}?";
@@ -379,6 +383,8 @@ export class TournamentClient {
         url_ = url_.replace("{teamId}", encodeURIComponent("" + teamId));
         if (password !== undefined)
             url_ += "password=" + encodeURIComponent("" + password) + "&";
+        if (tournamentPassword !== undefined && tournamentPassword !== null)
+            url_ += "tournamentPassword=" + encodeURIComponent("" + tournamentPassword) + "&";
         url_ = url_.replace(/[?&]$/, "");
         let options_ = <RequestInit>{
             method: "POST",

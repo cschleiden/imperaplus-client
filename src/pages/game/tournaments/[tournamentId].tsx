@@ -383,6 +383,10 @@ function _renderRegistration(tournament: Tournament, userId: string) {
                                             formState.getFieldValue(
                                                 "teamPassword"
                                             ),
+                                        tournamentPassword:
+                                            formState.getFieldValue(
+                                                "tournamentPassword"
+                                            ),
                                     })
                                 );
                             }}
@@ -399,6 +403,15 @@ function _renderRegistration(tournament: Tournament, userId: string) {
                                         fieldName="teamPassword"
                                         required={false}
                                     />
+                                    {tournament.hasPassword && (
+                                        <ControlledTextField
+                                            type="password"
+                                            label={__("Tournament Password")}
+                                            placeholder={__("Enter tournament password")}
+                                            fieldName="tournamentPassword"
+                                            required={true}
+                                        />
+                                    )}
 
                                     <div>
                                         <ProgressButton
@@ -439,6 +452,10 @@ function _renderRegistration(tournament: Tournament, userId: string) {
                                             teamPassword:
                                                 formState.getFieldValue(
                                                     "password"
+                                                ),
+                                            tournamentPassword:
+                                                formState.getFieldValue(
+                                                    "tournamentPassword"
                                                 ),
                                         })
                                     );
@@ -482,6 +499,15 @@ function _renderRegistration(tournament: Tournament, userId: string) {
                                             fieldName="password"
                                             required={false}
                                         />
+                                        {tournament.hasPassword && (
+                                            <ControlledTextField
+                                                type="password"
+                                                label={__("Tournament Password")}
+                                                placeholder={__("Enter tournament password")}
+                                                fieldName="tournamentPassword"
+                                                required={true}
+                                            />
+                                        )}
 
                                         <div>
                                             <ProgressButton
