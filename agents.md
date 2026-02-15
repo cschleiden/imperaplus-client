@@ -427,3 +427,24 @@ SignalR message
 ### Testing
 
 There is currently no test infrastructure in this project.
+
+---
+
+## Documentation
+
+### E2E Testing Setup
+
+Complete instructions for setting up a local development environment with both the backend and frontend are available in [`docs/E2E_SETUP.md`](../docs/E2E_SETUP.md).
+
+Key points for local development:
+- **Backend**: The backend repository is [cschleiden/imperaplus-backend](https://github.com/cschleiden/imperaplus-backend) (.NET Core API)
+- **Configuration**: The frontend connects to the backend via `baseUri` in `src/configuration.ts` (defaults to production at `https://www.imperaonline.de`)
+- **Local setup**: For local development, temporarily modify `src/configuration.ts` to point to `http://localhost:5000` (or your local backend URL)
+- **Docker**: When running in Docker, use the `BASE_URI` environment variable which is substituted at runtime
+
+The E2E setup guide covers:
+- Backend and frontend installation and configuration
+- Database setup options
+- Running the complete stack locally
+- Docker-based development with docker-compose
+- Troubleshooting common issues (CORS, SSL, SignalR, port conflicts)

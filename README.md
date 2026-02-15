@@ -10,7 +10,7 @@
 
 3. Open http://localhost:8080 in a browser
 
-**Note**: This will run the frontend only. By default, it connects to the production backend. For local end-to-end testing with a local backend instance, see [E2E_SETUP.md](./E2E_SETUP.md).
+**Note**: This will run the frontend only. By default, it connects to the production backend. For local end-to-end testing with a local backend instance, see [E2E_SETUP.md](./docs/E2E_SETUP.md).
 
 ## Client Generation
 
@@ -24,7 +24,7 @@ SignalR clients (chat, game chat, notifications) are hand-rolled for now, same f
 
 ## Local E2E Testing Setup
 
-For instructions on setting up a complete local development environment including the backend for end-to-end testing, see [E2E_SETUP.md](./E2E_SETUP.md).
+For instructions on setting up a complete local development environment including the backend for end-to-end testing, see [E2E_SETUP.md](./docs/E2E_SETUP.md).
 
 The guide covers:
 - Setting up the backend (imperaplus-backend)
