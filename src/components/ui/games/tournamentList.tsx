@@ -53,6 +53,12 @@ export class TournamentList extends React.Component<
                     >
                         <a>{tournament.name}</a>
                     </Link>
+                    {tournament.hasPassword && (
+                        <span>{" "}<i
+                            className="fa fa-lock"
+                            aria-label={__("Password protected")}
+                        /></span>
+                    )}
                 </td>
                 <td className="hidden-xs">
                     {tournament.numberOfTeams} /{" "}

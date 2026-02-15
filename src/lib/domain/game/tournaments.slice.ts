@@ -38,23 +38,24 @@ export const fetch = createAsyncThunk<Tournament, string, AppThunkArg>(
     }
 );
 
-export const join = createAsyncThunk<void, string, AppThunkArg>(
-    "tournaments/join",
-    async (tournamentId, thunkAPI) => {
-        await thunkAPI.extra
-            .createClient(getToken(thunkAPI.getState()), TournamentClient)
-            .postJoin(tournamentId);
+export const join = createAsyncThunk<
+    void,
+    { tournamentId: string; password?: string },
+    AppThunkArg
+>("tournaments/join", async ({ tournamentId, password }, thunkAPI) => {
+    await thunkAPI.extra
+        .createClient(getToken(thunkAPI.getState()), TournamentClient)
+        .postJoin(tournamentId, password);
 
-        await thunkAPI.dispatch(fetch(tournamentId));
+    await thunkAPI.dispatch(fetch(tournamentId));
 
-        thunkAPI.dispatch(
-            showMessage({
-                message: __("You are now registered for this tournament."),
-                type: MessageType.success,
-            })
-        );
-    }
-);
+    thunkAPI.dispatch(
+        showMessage({
+            message: __("You are now registered for this tournament."),
+            type: MessageType.success,
+        })
+    );
+});
 
 export const leave = createAsyncThunk<void, string, AppThunkArg>(
     "tournaments/leave",
@@ -80,14 +81,15 @@ export const createTeam = createAsyncThunk<
         tournamentId: string;
         teamName: string;
         teamPassword?: string;
+        tournamentPassword?: string;
     },
     AppThunkArg
 >(
     "tournaments/create-team",
-    ({ tournamentId, teamName, teamPassword }, thunkAPI) => {
+    ({ tournamentId, teamName, teamPassword, tournamentPassword }, thunkAPI) => {
         return thunkAPI.extra
             .createClient(getToken(thunkAPI.getState()), TournamentClient)
-            .postCreateTeam(tournamentId, teamName, teamPassword);
+            .postCreateTeam(tournamentId, teamName, teamPassword, tournamentPassword);
     }
 );
 
@@ -97,14 +99,15 @@ export const joinTeam = createAsyncThunk<
         tournamentId: string;
         teamId: string;
         teamPassword?: string;
+        tournamentPassword?: string;
     },
     AppThunkArg
 >(
     "tournaments/join-team",
-    ({ tournamentId, teamId, teamPassword }, thunkAPI) => {
+    ({ tournamentId, teamId, teamPassword, tournamentPassword }, thunkAPI) => {
         return thunkAPI.extra
             .createClient(getToken(thunkAPI.getState()), TournamentClient)
-            .postJoinTeam(tournamentId, teamId, teamPassword);
+            .postJoinTeam(tournamentId, teamId, teamPassword, tournamentPassword);
     }
 );
 

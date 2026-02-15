@@ -304,13 +304,51 @@ function _renderRegistration(tournament: Tournament, userId: string) {
                 {/* Single */}
                 {!isTeamTournament &&
                     !currentUserIsRegistered &&
-                    canJoinSingleTournament && (
+                    canJoinSingleTournament &&
+                    !tournament.hasPassword && (
                         <div>
                             <SimpleProgressButton
-                                onClick={() => dispatch(join(tournament.id))}
+                                onClick={() => dispatch(join({ tournamentId: tournament.id }))}
                             >
                                 {__("Join tournament")}
                             </SimpleProgressButton>
+                        </div>
+                    )}
+
+                {!isTeamTournament &&
+                    !currentUserIsRegistered &&
+                    canJoinSingleTournament &&
+                    tournament.hasPassword && (
+                        <div>
+                            <Form
+                                name="tournament-join"
+                                onSubmit={async (formState, dispatch) => {
+                                    await dispatch(
+                                        join({
+                                            tournamentId: tournament.id,
+                                            password: formState.getFieldValue("password"),
+                                        })
+                                    );
+                                }}
+                                component={({ isPending }) => (
+                                    <div className="form">
+                                        <ControlledTextField
+                                            type="password"
+                                            label={__("Password")}
+                                            placeholder={__("Enter tournament password")}
+                                            fieldName="password"
+                                            required={true}
+                                        />
+                                        <ProgressButton
+                                            type="submit"
+                                            isActive={isPending}
+                                            bsStyle="primary"
+                                        >
+                                            {__("Join tournament")}
+                                        </ProgressButton>
+                                    </div>
+                                )}
+                            />
                         </div>
                     )}
 
@@ -345,6 +383,10 @@ function _renderRegistration(tournament: Tournament, userId: string) {
                                             formState.getFieldValue(
                                                 "teamPassword"
                                             ),
+                                        tournamentPassword:
+                                            formState.getFieldValue(
+                                                "tournamentPassword"
+                                            ),
                                     })
                                 );
                             }}
@@ -357,10 +399,20 @@ function _renderRegistration(tournament: Tournament, userId: string) {
                                         required={true}
                                     />
                                     <ControlledTextField
+                                        type="password"
                                         label={__("Password (Optional)")}
                                         fieldName="teamPassword"
                                         required={false}
                                     />
+                                    {tournament.hasPassword && (
+                                        <ControlledTextField
+                                            type="password"
+                                            label={__("Tournament Password")}
+                                            placeholder={__("Enter tournament password")}
+                                            fieldName="tournamentPassword"
+                                            required={true}
+                                        />
+                                    )}
 
                                     <div>
                                         <ProgressButton
@@ -401,6 +453,10 @@ function _renderRegistration(tournament: Tournament, userId: string) {
                                             teamPassword:
                                                 formState.getFieldValue(
                                                     "password"
+                                                ),
+                                            tournamentPassword:
+                                                formState.getFieldValue(
+                                                    "tournamentPassword"
                                                 ),
                                         })
                                     );
@@ -444,6 +500,15 @@ function _renderRegistration(tournament: Tournament, userId: string) {
                                             fieldName="password"
                                             required={false}
                                         />
+                                        {tournament.hasPassword && (
+                                            <ControlledTextField
+                                                type="password"
+                                                label={__("Tournament Password")}
+                                                placeholder={__("Enter tournament password")}
+                                                fieldName="tournamentPassword"
+                                                required={true}
+                                            />
+                                        )}
 
                                         <div>
                                             <ProgressButton

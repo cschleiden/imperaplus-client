@@ -511,6 +511,7 @@ export interface TournamentSummary {
     startOfRegistration: string;
     startOfTournament: string;
     endOfTournament: string;
+    hasPassword: boolean;
 }
 
 export enum TournamentState {
@@ -527,6 +528,7 @@ export interface Tournament extends TournamentSummary {
     mapTemplates?: string[] | undefined;
     winner?: TournamentTeam | undefined;
     phase: number;
+    password?: string | undefined;
 }
 
 export interface TournamentTeamSummary {
