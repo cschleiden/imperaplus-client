@@ -43,3 +43,7 @@ src/**/*.js
 src/**/*.js.map
 test/**/*.js
 test/**/*.js.map
+
+# Local environment configuration
+.env.local
+.env.*.local
