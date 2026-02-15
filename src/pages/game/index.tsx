@@ -30,7 +30,7 @@ function _renderPasswordIndicator(hasPassword: boolean) {
         return null;
     }
     return (
-        <span>&nbsp;<i className="fa fa-lock" aria-label={__("Password protected")} /></span>
+        <span role="img" aria-label={__("Password protected")}>&nbsp;<i className="fa fa-lock" aria-hidden="true" /></span>
     );
 }
 
