@@ -28,17 +28,18 @@ jobs:
       - run: docker build -t impera-frontend:latest -t impera-frontend:${{ github.sha }} .
       - run: docker save impera-frontend:latest -o impera-frontend.tar
       - name: Copy container to server
-        uses: garygrossgarten/github-action-scp@dba89d858413133b6e35da91a3c989cc8cde3ad4
+        uses: appleboy/scp-action@v0.1.7
         with:
-          local: impera-frontend.tar
-          remote: /images/impera-frontend.tar
+          source: impera-frontend.tar
+          target: /images
           host: 217.160.244.154
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASS }}
+          timeout: 10m
       - name: Import image & use for dev
-        uses: garygrossgarten/github-action-ssh@2b10f41b5a33808f6d24eafd253296766308b7c4
+        uses: appleboy/ssh-action@v1.2.0
         with:
-          command: |
+          script: |
             docker load -i /images/impera-frontend.tar
             docker-compose -p impera-frontend -f /images/docker-compose-impera-frontend.yml up -d --remove-orphans
           host: 217.160.244.154
@@ -56,9 +57,9 @@ jobs:
 
     steps:
       - name: Tag image and restart prod container
-        uses: garygrossgarten/github-action-ssh@2b10f41b5a33808f6d24eafd253296766308b7c4
+        uses: appleboy/ssh-action@v1.2.0
         with:
-          command: |
+          script: |
             docker tag impera-frontend:latest impera-frontend:production
             docker-compose -p impera-frontend -f /images/docker-compose-impera-frontend.yml up -d --remove-orphans
           host: 217.160.244.154
