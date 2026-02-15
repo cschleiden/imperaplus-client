@@ -399,6 +399,7 @@ function _renderRegistration(tournament: Tournament, userId: string) {
                                         required={true}
                                     />
                                     <ControlledTextField
+                                        type="password"
                                         label={__("Password (Optional)")}
                                         fieldName="teamPassword"
                                         required={false}
