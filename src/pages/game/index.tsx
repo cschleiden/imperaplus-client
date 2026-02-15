@@ -25,6 +25,15 @@ function _getLanguageContent(
     return matches && matches.length > 0 && matches[0];
 }
 
+function _renderPasswordIndicator(hasPassword: boolean) {
+    if (!hasPassword) {
+        return null;
+    }
+    return (
+        <span role="img" aria-label={__("Password protected")}>&nbsp;<i className="fa fa-lock" aria-hidden="true" /></span>
+    );
+}
+
 function selector(state: IState) {
     const tournaments = state.tournaments.tournaments || [];
     const openTournaments = tournaments.filter(
@@ -106,6 +115,7 @@ export const News: AppNextPage = (props) => {
                             >
                                 <a>{tournament.name}</a>
                             </Link>
+                            {_renderPasswordIndicator(tournament.hasPassword)}
                         </div>
                     );
                 })}
@@ -120,6 +130,7 @@ export const News: AppNextPage = (props) => {
                             >
                                 <a>{tournament.name}</a>
                             </Link>
+                            {_renderPasswordIndicator(tournament.hasPassword)}
                         </div>
                     );
                 })}

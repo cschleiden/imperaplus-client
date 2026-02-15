@@ -318,6 +318,85 @@ Forms are managed through a Redux-backed `Form` component and `ControlledTextFie
 
 The form slice (`src/lib/domain/shared/forms/forms.slice.ts`) tracks field values, pending state, and handles submission via a `doSubmit` thunk.
 
+#### Form Error Handling
+
+When a form submission fails (e.g., wrong password, validation error), the error is caught by the `doSubmit` thunk in `forms.slice.ts` and displayed as a dismissable alert banner at the top of the page via the `showMessage` action.
+
+The error flow works as follows:
+
+1. The `onSubmit` callback dispatches an async thunk with `.unwrap()` so that API rejections re-throw.
+2. The `doSubmit` wrapper catches the error and extracts a user-facing message using `getErrorMessage()` from `src/i18n/errorCodes.ts`.
+3. If no mapped message is found, it falls back to `error.error_Description`, `error.error`, or `error.message`.
+4. The message is dispatched via `showMessage({ message, type: MessageType.error })`.
+5. The `MainLayout` component (`src/components/layouts/main.tsx`) renders the message as a Bootstrap `Alert` with `bsStyle="danger"`.
+
+**Example — tournament join with wrong password:**
+
+```tsx
+<Form
+    name="tournament-join"
+    onSubmit={async (formState, dispatch) => {
+        await dispatch(
+            join({
+                tournamentId: tournament.id,
+                password: formState.getFieldValue("password"),
+            })
+        ).unwrap(); // .unwrap() re-throws on rejection so doSubmit can catch it
+    }}
+    component={({ isPending }) => (
+        <div className="form">
+            <ControlledTextField
+                type="password"
+                label={__("Password")}
+                fieldName="password"
+                required={true}
+            />
+            <ProgressButton type="submit" isActive={isPending} bsStyle="primary">
+                {__("Join tournament")}
+            </ProgressButton>
+        </div>
+    )}
+/>
+```
+
+When the API returns a 400 error (e.g., `TournamentIncorrectPassword`), the red error banner appears at the top of the page:
+
+![Tournament join error banner](docs/images/tournament-join-error.png)
+
+**Known limitation:** Redux Toolkit's default `serializeError` only preserves `name`, `message`, `stack`, and `code` from thrown errors. Custom API error properties like `error` and `error_Description` are stripped during serialization. To preserve these, thunks should use `thunkAPI.rejectWithValue(errorData)` instead of letting the error propagate naturally. Adding mappings to `src/i18n/errorCodes.ts` for known error codes (e.g., `TournamentIncorrectPassword`) is the recommended way to ensure user-friendly messages are shown.
+
+#### Adding New Error Code Mappings
+
+To add a user-facing message for a new API error code, add a `case` to the `switch` statement in `src/i18n/errorCodes.ts`:
+
+```typescript
+case "TournamentIncorrectPassword":
+    return __("The tournament password is incorrect.");
+```
+
+### UI Indicators for Protected Content
+
+Password-protected entities (tournaments, teams) display a **lock icon** (`fa fa-lock` from Font Awesome 4.7) next to their name. This pattern is used consistently across:
+
+- **Tournament list table** (`src/components/ui/games/tournamentList.tsx`) — lock icon in the Name column
+- **News page sidebar** (`src/pages/game/index.tsx`) — lock icon next to tournament links in the Open and In Progress lists
+
+The lock icon is conditionally rendered based on the `hasPassword` boolean from `TournamentSummary`:
+
+```tsx
+{tournament.hasPassword && (
+    <span role="img" aria-label={__("Password protected")}>
+        &nbsp;<i className="fa fa-lock" aria-hidden="true" />
+    </span>
+)}
+```
+
+**Accessibility:** The `<span>` wrapper uses `role="img"` and `aria-label` for screen readers, while the `<i>` icon element uses `aria-hidden="true"` since icon fonts are not semantically meaningful.
+
+The news page sidebar shows the lock icon inline with tournament names:
+
+![Lock icon on news page](docs/images/news-page-lock-icon.png)
+
 ### Layout Components
 
 Layout selection is driven by `_app.tsx`:
@@ -412,6 +491,8 @@ SignalR message
 1. Use the existing `Form` component from `src/lib/domain/shared/forms/form.tsx`.
 2. Use `ControlledTextField`, `ControlledDropdown`, etc. for inputs.
 3. Handle submission via the `onSubmit` callback which receives `(formState, dispatch)`.
+4. Call `.unwrap()` on dispatched async thunks so API errors propagate to the form's `doSubmit` error handler and are displayed to the user as an alert banner.
+5. Add error code mappings to `src/i18n/errorCodes.ts` for any new API error codes that need user-friendly messages.
 
 ### When Working with API Clients
 

@@ -328,7 +328,7 @@ function _renderRegistration(tournament: Tournament, userId: string) {
                                             tournamentId: tournament.id,
                                             password: formState.getFieldValue("password"),
                                         })
-                                    );
+                                    ).unwrap();
                                 }}
                                 component={({ isPending }) => (
                                     <div className="form">
@@ -388,7 +388,7 @@ function _renderRegistration(tournament: Tournament, userId: string) {
                                                 "tournamentPassword"
                                             ),
                                     })
-                                );
+                                ).unwrap();
                             }}
                             component={({ isPending, submit, formState }) => (
                                 <div className="form">
@@ -459,7 +459,7 @@ function _renderRegistration(tournament: Tournament, userId: string) {
                                                     "tournamentPassword"
                                                 ),
                                         })
-                                    );
+                                    ).unwrap();
                                 }}
                                 component={({
                                     isPending,

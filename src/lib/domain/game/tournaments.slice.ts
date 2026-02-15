@@ -12,6 +12,26 @@ import { AppThunkArg } from "../../../store";
 import { MessageType, showMessage } from "../shared/message/message.slice";
 import { getToken } from "../shared/session/session.selectors";
 
+/**
+ * SwaggerException stores the API JSON body in its `response` string property.
+ * RTK's serializeError strips this, so we parse it here and re-throw a plain
+ * object that doSubmit's catch-block can read (`error`, `error_Description`).
+ */
+function extractApiError(thrown: unknown): unknown {
+    const swaggerEx = thrown as { response?: string } | undefined;
+    if (swaggerEx?.response) {
+        try {
+            const body = JSON.parse(swaggerEx.response);
+            if (body.error || body.error_Description) {
+                return body;
+            }
+        } catch {
+            // not JSON – fall through
+        }
+    }
+    return thrown;
+}
+
 const initialState = {
     isLoading: false,
     tournaments: [] as TournamentSummary[],
@@ -41,11 +61,15 @@ export const fetch = createAsyncThunk<Tournament, string, AppThunkArg>(
 export const join = createAsyncThunk<
     void,
     { tournamentId: string; password?: string },
-    AppThunkArg
+    AppThunkArg<unknown>
 >("tournaments/join", async ({ tournamentId, password }, thunkAPI) => {
-    await thunkAPI.extra
-        .createClient(getToken(thunkAPI.getState()), TournamentClient)
-        .postJoin(tournamentId, password);
+    try {
+        await thunkAPI.extra
+            .createClient(getToken(thunkAPI.getState()), TournamentClient)
+            .postJoin(tournamentId, password);
+    } catch (e) {
+        return thunkAPI.rejectWithValue(extractApiError(e));
+    }
 
     await thunkAPI.dispatch(fetch(tournamentId));
 
@@ -83,13 +107,17 @@ export const createTeam = createAsyncThunk<
         teamPassword?: string;
         tournamentPassword?: string;
     },
-    AppThunkArg
+    AppThunkArg<unknown>
 >(
     "tournaments/create-team",
-    ({ tournamentId, teamName, teamPassword, tournamentPassword }, thunkAPI) => {
-        return thunkAPI.extra
-            .createClient(getToken(thunkAPI.getState()), TournamentClient)
-            .postCreateTeam(tournamentId, teamName, teamPassword, tournamentPassword);
+    async ({ tournamentId, teamName, teamPassword, tournamentPassword }, thunkAPI) => {
+        try {
+            return await thunkAPI.extra
+                .createClient(getToken(thunkAPI.getState()), TournamentClient)
+                .postCreateTeam(tournamentId, teamName, teamPassword, tournamentPassword);
+        } catch (e) {
+            return thunkAPI.rejectWithValue(extractApiError(e));
+        }
     }
 );
 
@@ -101,13 +129,17 @@ export const joinTeam = createAsyncThunk<
         teamPassword?: string;
         tournamentPassword?: string;
     },
-    AppThunkArg
+    AppThunkArg<unknown>
 >(
     "tournaments/join-team",
-    ({ tournamentId, teamId, teamPassword, tournamentPassword }, thunkAPI) => {
-        return thunkAPI.extra
-            .createClient(getToken(thunkAPI.getState()), TournamentClient)
-            .postJoinTeam(tournamentId, teamId, teamPassword, tournamentPassword);
+    async ({ tournamentId, teamId, teamPassword, tournamentPassword }, thunkAPI) => {
+        try {
+            return await thunkAPI.extra
+                .createClient(getToken(thunkAPI.getState()), TournamentClient)
+                .postJoinTeam(tournamentId, teamId, teamPassword, tournamentPassword);
+        } catch (e) {
+            return thunkAPI.rejectWithValue(extractApiError(e));
+        }
     }
 );
 
