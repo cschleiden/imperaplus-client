@@ -361,7 +361,7 @@ The error flow works as follows:
 
 When the API returns a 400 error (e.g., `TournamentIncorrectPassword`), the red error banner appears at the top of the page:
 
-![Tournament join error banner](https://github.com/user-attachments/assets/813dec7f-fa92-4861-8ba8-49bc624a3ce9)
+![Tournament join error banner](docs/images/tournament-join-error.png)
 
 **Known limitation:** Redux Toolkit's default `serializeError` only preserves `name`, `message`, `stack`, and `code` from thrown errors. Custom API error properties like `error` and `error_Description` are stripped during serialization. To preserve these, thunks should use `thunkAPI.rejectWithValue(errorData)` instead of letting the error propagate naturally. Adding mappings to `src/i18n/errorCodes.ts` for known error codes (e.g., `TournamentIncorrectPassword`) is the recommended way to ensure user-friendly messages are shown.
 
@@ -395,7 +395,7 @@ The lock icon is conditionally rendered based on the `hasPassword` boolean from 
 
 The news page sidebar shows the lock icon inline with tournament names:
 
-![Lock icon on news page](https://github.com/user-attachments/assets/8006c485-5bd8-432c-a7d0-efb62cda5793)
+![Lock icon on news page](docs/images/news-page-lock-icon.png)
 
 ### Layout Components
 
