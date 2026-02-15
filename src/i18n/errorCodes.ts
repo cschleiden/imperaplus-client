@@ -62,6 +62,8 @@ export const getErrorMessage = (errorCode: string): string | undefined => {
             return __(
                 "Game is password protected and the given password is not correct"
             );
+        case "TournamentIncorrectPassword":
+            return __("The tournament password is incorrect.");
     }
 
     return undefined;
